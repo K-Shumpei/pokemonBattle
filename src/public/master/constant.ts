@@ -47,3 +47,4 @@ const natureData: NatureDataType[] = [
   { name: 'むじゃき', plus: 'speed', minus: 'specialDefense', isOK: true },
   { name: 'まじめ', plus: 'speed', minus: 'speed', isOK: true },
 ]
+

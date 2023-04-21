@@ -1,4 +1,4 @@
-interface PokemonDataType {
+type PokemonDataType = {
   number: string;
   name: string;
   type1: string;
@@ -19,7 +19,7 @@ interface PokemonDataType {
   isOK: boolean
 }
 
-interface MoveDataType {
+type MoveDataType = {
   name: string;
   type: string;
   nature: '物理' | '特殊' | '変化';
@@ -33,7 +33,7 @@ interface MoveDataType {
   isOK: boolean
 }
 
-interface ParameterSixType {
+type ParameterSixType = {
   hitPoint: number;
   attack: number;
   defense: number;
@@ -43,7 +43,7 @@ interface ParameterSixType {
   [key: string]: number;
 }
 
-interface ParameterFiveType {
+type ParameterFiveType = {
   attack: number;
   defense: number;
   specialAttack: number;
@@ -52,22 +52,14 @@ interface ParameterFiveType {
   [key: string]: number;
 }
 
-interface TranslationDictionaryType { EN: string; JP: string }
+type TranslationDictionaryType = {
+  EN: string;
+  JP: string
+}
 
-interface NatureDataType {
+type NatureDataType = {
   name: string;
   plus: string;
   minus: string;
   isOK: boolean
 }
-
-class ParameterSix implements ParameterSixType {
-  hitPoint = 0;
-  attack = 0;
-  defense = 0;
-  specialAttack = 0;
-  specialDefense = 0;
-  speed = 0;
-
-  [keys: string]: number;
- }

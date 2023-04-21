@@ -62,6 +62,7 @@ function getNatureDataFalse(): NatureDataType {
 }
 
 
+// 翻訳
 function translateENintoJP( string: string ): string {
 
   for ( const dictionary of translationDictionary ) {

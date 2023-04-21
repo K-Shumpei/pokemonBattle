@@ -12,6 +12,8 @@ interface ClientToServerEvents {
 // please note that the types are reversed
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 
+// const socket = (0, io)();
+
 // パスワード送信
 function sendPassword(): void {
   const inputPassword: string = getHTMLInputElement( 'inputPassword' ).value;

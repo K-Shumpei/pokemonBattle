@@ -40,6 +40,7 @@ function getNatureDataFalse() {
     const sample = { name: '', plus: '', minus: '', isOK: false };
     return sample;
 }
+// 翻訳
 function translateENintoJP(string) {
     for (const dictionary of translationDictionary) {
         if (dictionary.EN === string) {
