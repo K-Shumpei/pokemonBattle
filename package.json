@@ -9,9 +9,10 @@
     "clean": "rimraf dist/*",
     "tsc": "tsc",
     "copy:html": "node -e \"require('fs').copyFileSync('src/public/index.html', 'dist/public/index.html')\"",
+    "copy:css": "node -e \"require('fs-extra').copySync('src/public/css', 'dist/public/css')\"",
     "build": "npm-run-all clean tsc copy:html",
     "connect": "node .",
-    "start": "npm-run-all clean tsc copy:html connect"
+    "start": "npm-run-all clean tsc copy:html copy:css connect"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "express": "^4.18.2",
+    "fs-extra": "^11.1.1",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1"
   }

@@ -126,7 +126,7 @@ class AvailableMove {
     constructor() {
         this._name = '';
         this._type = '';
-        this._nature = '';
+        this._category = '';
         this._power = 0;
         this._accuracy = 0;
         this._remainingPP = 0;
@@ -141,8 +141,8 @@ class AvailableMove {
     set type(type) {
         this._type = type;
     }
-    set nature(nature) {
-        this._nature = nature;
+    set category(category) {
+        this._category = category;
     }
     set power(power) {
         this._power = power;
@@ -171,8 +171,8 @@ class AvailableMove {
     get type() {
         return this._type;
     }
-    get nature() {
-        return this._nature;
+    get category() {
+        return this._category;
     }
     get power() {
         return this._power;
@@ -218,20 +218,27 @@ class Pokemon {
         this._partyNumber = number;
     }
 }
-// ポケモン
-const myParty = [
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon
-];
-const opponentParty = [
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon
-];
+class Field {
+    constructor() {
+        this._battleStyle = 1;
+        this._numberOfPokemon = 3;
+    }
+    get battleStyle() {
+        return this._battleStyle;
+    }
+    get numberOfPokemon() {
+        return this._numberOfPokemon;
+    }
+    setNumberOfPokemon(battleStyle) {
+        this._battleStyle = battleStyle;
+        if (battleStyle === 1) {
+            this._numberOfPokemon = 3;
+        }
+        else if (battleStyle === 2) {
+            this._numberOfPokemon = 4;
+        }
+        else if (battleStyle === 3) {
+            this._numberOfPokemon = 6;
+        }
+    }
+}

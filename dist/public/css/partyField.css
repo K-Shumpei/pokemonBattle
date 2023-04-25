@@ -1,0 +1,215 @@
+.display_flex {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* 1体目 */
+/* 実数値 */
+.party0_attack_CSS {
+  color: black;
+}
+.party0_defense_CSS {
+  color: black;
+}
+.party0_specialAttack_CSS {
+  color: black;
+}
+.party0_specialDefense_CSS {
+  color: black;
+}
+.party0_speed_CSS {
+  color: black;
+}
+/* 技 */
+.party0_move0_CSS {
+  color: black;
+  background: white;
+}
+.party0_move1_CSS {
+  color: black;
+  background: white;
+}
+.party0_move2_CSS {
+  color: black;
+  background: white;
+}
+.party0_move3_CSS {
+  color: black;
+  background: white;
+}
+
+
+/* 2体目 */
+/* 実数値 */
+.party1_attack_CSS {
+  color: black;
+}
+.party1_defense_CSS {
+  color: black;
+}
+.party1_specialAttack_CSS {
+  color: black;
+}
+.party1_specialDefense_CSS {
+  color: black;
+}
+.party1_speed_CSS {
+  color: black;
+}
+/* 技 */
+.party1_move0_CSS {
+  color: black;
+  background: white;
+}
+.party1_move1_CSS {
+  color: black;
+  background: white;
+}
+.party1_move2_CSS {
+  color: black;
+  background: white;
+}
+.party1_move3_CSS {
+  color: black;
+  background: white;
+}
+
+/* 3体目 */
+/* 実数値 */
+.party2_attack_CSS {
+  color: black;
+}
+.party2_defense_CSS {
+  color: black;
+}
+.party2_specialAttack_CSS {
+  color: black;
+}
+.party2_specialDefense_CSS {
+  color: black;
+}
+.party2_speed_CSS {
+  color: black;
+}
+/* 技 */
+.party2_move0_CSS {
+  color: black;
+  background: white;
+}
+.party2_move1_CSS {
+  color: black;
+  background: white;
+}
+.party2_move2_CSS {
+  color: black;
+  background: white;
+}
+.party2_move3_CSS {
+  color: black;
+  background: white;
+}
+
+/* 4体目 */
+/* 実数値 */
+.party3_attack_CSS {
+  color: black;
+}
+.party3_defense_CSS {
+  color: black;
+}
+.party3_specialAttack_CSS {
+  color: black;
+}
+.party3_specialDefense_CSS {
+  color: black;
+}
+.party3_speed_CSS {
+  color: black;
+}
+/* 技 */
+.party3_move0_CSS {
+  color: black;
+  background: white;
+}
+.party3_move1_CSS {
+  color: black;
+  background: white;
+}
+.party3_move2_CSS {
+  color: black;
+  background: white;
+}
+.party3_move3_CSS {
+  color: black;
+  background: white;
+}
+
+/* 5体目 */
+/* 実数値 */
+.party4_attack_CSS {
+  color: black;
+}
+.party4_defense_CSS {
+  color: black;
+}
+.party4_specialAttack_CSS {
+  color: black;
+}
+.party4_specialDefense_CSS {
+  color: black;
+}
+.party4_speed_CSS {
+  color: black;
+}
+/* 技 */
+.party4_move0_CSS {
+  color: black;
+  background: white;
+}
+.party4_move1_CSS {
+  color: black;
+  background: white;
+}
+.party4_move2_CSS {
+  color: black;
+  background: white;
+}
+.party4_move3_CSS {
+  color: black;
+  background: white;
+}
+
+/* 6体目 */
+/* 実数値 */
+.party5_attack_CSS {
+  color: black;
+}
+.party5_defense_CSS {
+  color: black;
+}
+.party5_specialAttack_CSS {
+  color: black;
+}
+.party5_specialDefense_CSS {
+  color: black;
+}
+.party5_speed_CSS {
+  color: black;
+}
+/* 技 */
+.party5_move0_CSS {
+  color: black;
+  background: white;
+}
+.party5_move1_CSS {
+  color: black;
+  background: white;
+}
+.party5_move2_CSS {
+  color: black;
+  background: white;
+}
+.party5_move3_CSS {
+  color: black;
+  background: white;
+}

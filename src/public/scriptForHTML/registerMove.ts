@@ -7,6 +7,5 @@ for ( let i = 0; i < 4; i++ ) {
   document.write( '<td =align="center" width="35"><span id="registerMovePowerPoint' + i + '"></span></td>' );
   document.write( '<td =align="center"><input type="button" value="▲" onclick="changePowerPoint(' + i + ', value)"></td>' );
   document.write( '<td =align="center"><input type="button" value="▼" onclick="changePowerPoint(' + i + ', value)"></td>' );
-  document.write( '<td =align="left"><span id="registerMoveDescription' + i + '"></span></td>' );
   document.write( '</tr>' );
 }

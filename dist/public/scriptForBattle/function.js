@@ -40,6 +40,19 @@ function getNatureDataFalse() {
     const sample = { name: '', plus: '', minus: '', isOK: false };
     return sample;
 }
+// タイプ検索
+function getTypeColorByName(name) {
+    for (const type of typeColor) {
+        if (type.name === name) {
+            return type;
+        }
+    }
+    return getTypeColorFalse();
+}
+function getTypeColorFalse() {
+    const sample = { name: '', light: '', normal: '', dark: '', isOK: false };
+    return sample;
+}
 // 翻訳
 function translateENintoJP(string) {
     for (const dictionary of translationDictionary) {

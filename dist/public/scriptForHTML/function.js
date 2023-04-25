@@ -4,6 +4,13 @@ function getHTMLInputElement(id) {
     const HTMLElement = document.getElementById(id);
     return HTMLElement;
 }
+// バトル形式の選択
+function decideBattleStyle(value) {
+    fieldStatus.setNumberOfPokemon(Number(value));
+    for (let i = 0; i < 6; i++) {
+        getHTMLInputElement('electedOrder' + i).textContent = '';
+    }
+}
 // 入力リセット
 function resetInputRegister() {
     const name = getHTMLInputElement('register_name').value;
@@ -50,6 +57,7 @@ function registrationPokemon() {
     if (pokemon.isOK === false) {
         return;
     }
+    // 現在の表示をリセット
     resetInputRegister();
     // タイプ表示
     type1HTML.textContent = pokemon.type1;
@@ -360,7 +368,7 @@ function registerParty(number) {
         }
         myParty[number].move[i].name = move.name;
         myParty[number].move[i].type = move.type;
-        myParty[number].move[i].nature = move.nature;
+        myParty[number].move[i].category = move.category;
         myParty[number].move[i].power = move.power;
         myParty[number].move[i].accuracy = move.accuracy;
         myParty[number].move[i].remainingPP = Number(powerPoint.value);
@@ -380,6 +388,10 @@ function editParty(number) {
     if (myParty[number].status.name === '') {
         return;
     }
+    // 登録画面リセット
+    getHTMLInputElement('register_name').value = '';
+    resetInputRegister();
+    // 編集するポケモンの名前をセット
     getHTMLInputElement('register_name').value = myParty[number].status.name;
     // 基本ステータス表示
     registrationPokemon();
@@ -431,9 +443,17 @@ function showPartyPokemon(number, pokemon) {
         item = pokemon.status.item;
     }
     getHTMLInputElement('party' + number + '_item').textContent = item;
+    // 実数値
     for (const parameter of Object.keys(pokemon.actualValue)) {
         getHTMLInputElement('party' + number + parameter).textContent = String(pokemon.actualValue[parameter]);
     }
+    // 実数値の性格による色
+    const nature = getNatureDataByName(pokemon.status.nature);
+    if (nature.plus !== nature.minus) {
+        getHTMLInputElement('party' + number + '_' + nature.plus).style.color = 'red';
+        getHTMLInputElement('party' + number + '_' + nature.minus).style.color = 'blue';
+    }
+    // 技
     for (let i = 0; i < 4; i++) {
         getHTMLInputElement('party' + number + '_move' + i).textContent = pokemon.move[i].name;
         getHTMLInputElement('party' + number + '_remainingPP' + i).textContent = String(pokemon.move[i].remainingPP);
@@ -455,6 +475,9 @@ function resetPartyPokemon(number) {
         getHTMLInputElement('party' + number + '_' + parameter).textContent = '';
     }
     getHTMLInputElement('party' + number + '_remainingHP').textContent = '';
+    for (const parameter of parameterFive) {
+        getHTMLInputElement('party' + number + '_' + parameter).style.color = 'black';
+    }
     for (let i = 0; i < 4; i++) {
         getHTMLInputElement('party' + number + '_move' + i).textContent = '技';
         getHTMLInputElement('party' + number + '_remainingPP' + i).textContent = '';
@@ -462,4 +485,63 @@ function resetPartyPokemon(number) {
     }
     // 内部情報リセット
     myParty[number] = new Pokemon;
+}
+// パーティランダムセット
+function registerAllRandom() {
+    for (let i = 0; i < 6; i++) {
+        // 登録欄
+        const name = pokemonData[Math.floor(Math.random() * pokemonData.length)].name;
+        getHTMLInputElement('register_name').value = name;
+        registrationPokemon();
+        for (let j = 0; j < 4; j++) {
+            const move = moveData[Math.floor(Math.random() * moveData.length)].name;
+            getHTMLInputElement('registerMoveName' + j).value = move;
+            reflectMoveNatureInHTML(j);
+        }
+        // パーティ登録
+        registerParty(i);
+    }
+}
+// 選出
+function electPokemon(number) {
+    const targetText = getHTMLInputElement('electedOrder' + number);
+    let electedCount = 0;
+    // 既に選択済みなら処理なし
+    if (targetText.textContent !== '') {
+        return;
+    }
+    // 選出済の数を数える
+    for (let i = 0; i < 6; i++) {
+        const elect = getHTMLInputElement('electedOrder' + i);
+        if (elect.textContent !== '') {
+            electedCount += 1;
+        }
+    }
+    // 既に規定数選出済みなら処理なし
+    if (electedCount === fieldStatus.numberOfPokemon) {
+        return;
+    }
+    targetText.value = String(electedCount);
+    targetText.textContent = String(electedCount + 1) + '番目';
+}
+// 選出取消
+function quitElection(number) {
+    var _a, _b;
+    const targetText = getHTMLInputElement('electedOrder' + number);
+    const targetOrder = Number((_a = targetText.textContent) === null || _a === void 0 ? void 0 : _a.charAt(0));
+    // 選択していないなら処理なし
+    if (targetText.textContent === '') {
+        return;
+    }
+    targetText.textContent = '';
+    for (let i = 0; i < 6; i++) {
+        const otherText = getHTMLInputElement('electedOrder' + i);
+        if (otherText.textContent === '') {
+            continue;
+        }
+        const otherOrder = Number((_b = otherText.textContent) === null || _b === void 0 ? void 0 : _b.charAt(0));
+        if (otherOrder > targetOrder) {
+            otherText.textContent = String(otherOrder - 1) + '番目';
+        }
+    }
 }

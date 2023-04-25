@@ -22,3 +22,20 @@ socket.on('correctPassword', () => {
 socket.on('incorrectPassword', () => {
     alert('パスワードが違います');
 });
+// 対戦相手を探す
+function findOpponent() {
+    getHTMLInputElement('register_allRandom').disabled = true;
+    getHTMLInputElement('find_opponent').disabled = true;
+    for (let i = 0; i < 6; i++) {
+        getHTMLInputElement('registerParty' + i).disabled = true;
+        getHTMLInputElement('editParty' + i).disabled = true;
+    }
+    // パーティ送信
+    socket.emit('findOpponent', myParty);
+}
+// 対戦相手が見つかり、戦うポケモンを選ぶ
+socket.on('selectPokemon', (party) => {
+    for (let i = 0; i < 6; i++) {
+        opponentParty[i] = party[i];
+    }
+});

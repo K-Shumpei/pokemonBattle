@@ -22,7 +22,7 @@ type PokemonDataType = {
 type MoveDataType = {
   name: string;
   type: string;
-  nature: '物理' | '特殊' | '変化';
+  category: '物理' | '特殊' | '変化';
   power: number;
   accuracy: number;
   powerPoint: number;
@@ -61,5 +61,13 @@ type NatureDataType = {
   name: string;
   plus: string;
   minus: string;
+  isOK: boolean
+}
+
+type TypeColorType = {
+  name: string;
+  light: string;
+  normal: string;
+  dark: string;
   isOK: boolean
 }

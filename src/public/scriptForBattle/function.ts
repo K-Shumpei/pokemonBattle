@@ -61,6 +61,25 @@ function getNatureDataFalse(): NatureDataType {
   return sample;
 }
 
+// タイプ検索
+function getTypeColorByName( name: string ): TypeColorType {
+
+  for ( const type of typeColor ) {
+    if ( type.name === name ) {
+      return type;
+    }
+  }
+
+  return getTypeColorFalse();
+}
+
+function getTypeColorFalse(): TypeColorType {
+
+  const sample: TypeColorType = { name: '', light: '', normal: '', dark: '', isOK: false };
+
+  return sample;
+}
+
 
 // 翻訳
 function translateENintoJP( string: string ): string {
