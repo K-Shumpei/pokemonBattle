@@ -332,30 +332,31 @@ function registerParty(number) {
     // 登録済みのポケモンを削除
     resetPartyPokemon(number);
     // 並び順
-    myParty[number].partyNumber = number;
+    myAllParty[number].order.party = number;
+    myAllParty[number].order.hand = number;
     // 基本ステータス
-    myParty[number].status.number = pokemon.number;
-    myParty[number].status.name = pokemon.name;
-    myParty[number].status.type1 = type1HTML.value;
-    myParty[number].status.type2 = type2HTML.value;
-    myParty[number].status.gender = genderHTML.value;
-    myParty[number].status.ability = abilityHTML.value;
-    myParty[number].status.level = Number(levelHTML.value);
-    myParty[number].status.item = itemHTML.value;
-    myParty[number].status.nature = natureHTML.value;
-    myParty[number].status.height = pokemon.height;
-    myParty[number].status.weight = pokemon.weight;
-    myParty[number].status.remainingHP = Number(actualValue_hitPoint.value);
+    myAllParty[number].status.number = pokemon.number;
+    myAllParty[number].status.name = pokemon.name;
+    myAllParty[number].status.type1 = type1HTML.value;
+    myAllParty[number].status.type2 = type2HTML.value;
+    myAllParty[number].status.gender = genderHTML.value;
+    myAllParty[number].status.ability = abilityHTML.value;
+    myAllParty[number].status.level = Number(levelHTML.value);
+    myAllParty[number].status.item = itemHTML.value;
+    myAllParty[number].status.nature = natureHTML.value;
+    myAllParty[number].status.height = pokemon.height;
+    myAllParty[number].status.weight = pokemon.weight;
+    myAllParty[number].status.remainingHP = Number(actualValue_hitPoint.value);
     // 実数値・種族値・個体値・努力値
-    for (const parameter of Object.keys(myParty[number].actualValue)) {
+    for (const parameter of Object.keys(myAllParty[number].actualValue)) {
         const actualValue = getHTMLInputElement('register' + parameter + 'ActualValue');
         const baseStatus = getHTMLInputElement('register' + parameter + 'BaseStatus');
         const individualValue = getHTMLInputElement('register' + parameter + 'IndividualValue');
         const effortValue = getHTMLInputElement('register' + parameter + 'EffortValue');
-        myParty[number].actualValue[parameter] = Number(actualValue.value);
-        myParty[number].baseStatus[parameter] = Number(baseStatus.value);
-        myParty[number].individualValue[parameter] = Number(individualValue.value);
-        myParty[number].effortValue[parameter] = Number(effortValue.value);
+        myAllParty[number].actualValue[parameter] = Number(actualValue.value);
+        myAllParty[number].baseStatus[parameter] = Number(baseStatus.value);
+        myAllParty[number].individualValue[parameter] = Number(individualValue.value);
+        myAllParty[number].effortValue[parameter] = Number(effortValue.value);
     }
     // 技
     for (let i = 0; i < 4; i++) {
@@ -366,125 +367,140 @@ function registerParty(number) {
         if (move.isOK === false) {
             continue;
         }
-        myParty[number].move[i].name = move.name;
-        myParty[number].move[i].type = move.type;
-        myParty[number].move[i].category = move.category;
-        myParty[number].move[i].power = move.power;
-        myParty[number].move[i].accuracy = move.accuracy;
-        myParty[number].move[i].remainingPP = Number(powerPoint.value);
-        myParty[number].move[i].powerPoint = Number(powerPoint.value);
-        myParty[number].move[i].isDirect = move.isDirect;
-        myParty[number].move[i].isProtect = move.isProtect;
-        myParty[number].move[i].target = move.target;
+        myAllParty[number].move[i].name = move.name;
+        myAllParty[number].move[i].type = move.type;
+        myAllParty[number].move[i].category = move.category;
+        myAllParty[number].move[i].power = move.power;
+        myAllParty[number].move[i].accuracy = move.accuracy;
+        myAllParty[number].move[i].remainingPP = Number(powerPoint.value);
+        myAllParty[number].move[i].powerPoint = Number(powerPoint.value);
+        myAllParty[number].move[i].isDirect = move.isDirect;
+        myAllParty[number].move[i].isProtect = move.isProtect;
+        myAllParty[number].move[i].target = move.target;
     }
     // 画面に表示
-    showPartyPokemon(number, myParty[number]);
+    showPartyPokemon(myAllParty[number]);
     // 登録画面リセット
     getHTMLInputElement('register_name').value = '';
     resetInputRegister();
 }
 // パーティ編集
 function editParty(number) {
-    if (myParty[number].status.name === '') {
+    if (myAllParty[number].status.name === '') {
         return;
     }
     // 登録画面リセット
     getHTMLInputElement('register_name').value = '';
     resetInputRegister();
     // 編集するポケモンの名前をセット
-    getHTMLInputElement('register_name').value = myParty[number].status.name;
+    getHTMLInputElement('register_name').value = myAllParty[number].status.name;
     // 基本ステータス表示
     registrationPokemon();
-    getHTMLInputElement('register_level').value = String(myParty[number].status.level);
-    getHTMLInputElement('register_type1').value = myParty[number].status.type1;
-    getHTMLInputElement('register_type1').textContent = myParty[number].status.type1;
-    getHTMLInputElement('register_type2').value = myParty[number].status.type2;
-    getHTMLInputElement('register_type2').textContent = myParty[number].status.type2;
-    getHTMLInputElement('register_gender').value = myParty[number].status.gender;
-    getHTMLInputElement('register_ability').value = myParty[number].status.ability;
-    getHTMLInputElement('register_item').value = myParty[number].status.item;
-    getHTMLInputElement('register_nature').value = myParty[number].status.nature;
+    getHTMLInputElement('register_level').value = String(myAllParty[number].status.level);
+    getHTMLInputElement('register_type1').value = myAllParty[number].status.type1;
+    getHTMLInputElement('register_type1').textContent = myAllParty[number].status.type1;
+    getHTMLInputElement('register_type2').value = myAllParty[number].status.type2;
+    getHTMLInputElement('register_type2').textContent = myAllParty[number].status.type2;
+    getHTMLInputElement('register_gender').value = myAllParty[number].status.gender;
+    getHTMLInputElement('register_ability').value = myAllParty[number].status.ability;
+    getHTMLInputElement('register_item').value = myAllParty[number].status.item;
+    getHTMLInputElement('register_nature').value = myAllParty[number].status.nature;
     // 性格　ラジオボタン
     natureTextToRadio();
     // 個体値・努力値
     let remainingEffortValue = 510;
-    for (const parameter of Object.keys(myParty[number].actualValue)) {
-        getHTMLInputElement('register' + parameter + 'IndividualValue').value = String(myParty[number].individualValue[parameter]);
-        getHTMLInputElement('register' + parameter + 'EffortValue').value = String(myParty[number].effortValue[parameter]);
-        remainingEffortValue -= myParty[number].effortValue[parameter];
+    for (const parameter of Object.keys(myAllParty[number].actualValue)) {
+        getHTMLInputElement('register' + parameter + 'IndividualValue').value = String(myAllParty[number].individualValue[parameter]);
+        getHTMLInputElement('register' + parameter + 'EffortValue').value = String(myAllParty[number].effortValue[parameter]);
+        remainingEffortValue -= myAllParty[number].effortValue[parameter];
     }
     getHTMLInputElement('remainingEffortValue').textContent = String(remainingEffortValue);
     // 実数値計算
     reflectActualValueInHTML();
     // 技
     for (let i = 0; i < 4; i++) {
-        if (myParty[number].move[i].name === '') {
+        if (myAllParty[number].move[i].name === '') {
             continue;
         }
-        getHTMLInputElement('registerMoveName' + i).value = myParty[number].move[i].name;
+        getHTMLInputElement('registerMoveName' + i).value = myAllParty[number].move[i].name;
         reflectMoveNatureInHTML(i);
-        getHTMLInputElement('registerMovePowerPoint' + i).textContent = String(myParty[number].move[i].powerPoint);
-        getHTMLInputElement('registerMovePowerPoint' + i).value = String(myParty[number].move[i].powerPoint);
+        getHTMLInputElement('registerMovePowerPoint' + i).textContent = String(myAllParty[number].move[i].powerPoint);
+        getHTMLInputElement('registerMovePowerPoint' + i).value = String(myAllParty[number].move[i].powerPoint);
     }
     // パーティ情報削除
     resetPartyPokemon(number);
 }
-function showPartyPokemon(number, pokemon) {
-    getHTMLInputElement('party' + number + '_name').textContent = pokemon.status.name;
-    getHTMLInputElement('party' + number + '_gender').textContent = pokemon.status.gender;
-    getHTMLInputElement('party' + number + '_level').textContent = String(pokemon.status.level);
-    getHTMLInputElement('party' + number + '_type1').textContent = pokemon.status.type1;
-    getHTMLInputElement('party' + number + '_type2').textContent = pokemon.status.type2;
-    getHTMLInputElement('party' + number + '_statusAilment').textContent = pokemon.status.statusAilment;
-    getHTMLInputElement('party' + number + '_ability').textContent = pokemon.status.ability;
-    getHTMLInputElement('party' + number + '_remainingHP').textContent = String(pokemon.status.remainingHP);
+function showPartyPokemon(pokemon) {
+    const partyOrder = pokemon.order.party;
+    const handOrder = pokemon.order.hand;
+    const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
+    getHTMLInputElement('party' + handOrder + '_name').textContent = pokemon.status.name;
+    getHTMLInputElement('party' + handOrder + '_gender').textContent = pokemon.status.gender;
+    getHTMLInputElement('party' + handOrder + '_level').textContent = String(pokemon.status.level);
+    getHTMLInputElement('party' + handOrder + '_type1').textContent = pokemon.status.type1;
+    getHTMLInputElement('party' + handOrder + '_type2').textContent = pokemon.status.type2;
+    getHTMLInputElement('party' + handOrder + '_statusAilment').textContent = pokemon.status.statusAilment;
+    getHTMLInputElement('party' + handOrder + '_ability').textContent = pokemon.status.ability;
+    getHTMLInputElement('party' + handOrder + '_remainingHP').textContent = String(pokemon.status.remainingHP);
     let item = '持ち物なし';
     if (pokemon.status.item !== '') {
         item = pokemon.status.item;
     }
-    getHTMLInputElement('party' + number + '_item').textContent = item;
+    getHTMLInputElement('party' + handOrder + '_item').textContent = item;
     // 実数値
     for (const parameter of Object.keys(pokemon.actualValue)) {
-        getHTMLInputElement('party' + number + parameter).textContent = String(pokemon.actualValue[parameter]);
+        getHTMLInputElement('party' + handOrder + parameter).textContent = String(pokemon.actualValue[parameter]);
     }
     // 実数値の性格による色
     const nature = getNatureDataByName(pokemon.status.nature);
     if (nature.plus !== nature.minus) {
-        getHTMLInputElement('party' + number + '_' + nature.plus).style.color = 'red';
-        getHTMLInputElement('party' + number + '_' + nature.minus).style.color = 'blue';
+        getHTMLInputElement('party' + handOrder + '_' + nature.plus).style.color = 'red';
+        getHTMLInputElement('party' + handOrder + '_' + nature.minus).style.color = 'blue';
     }
     // 技
     for (let i = 0; i < 4; i++) {
-        getHTMLInputElement('party' + number + '_move' + i).textContent = pokemon.move[i].name;
-        getHTMLInputElement('party' + number + '_remainingPP' + i).textContent = String(pokemon.move[i].remainingPP);
-        getHTMLInputElement('party' + number + '_powerPoint' + i).textContent = String(pokemon.move[i].powerPoint);
+        getHTMLInputElement('party' + handOrder + '_move' + i).textContent = pokemon.move[i].name;
+        getHTMLInputElement('party' + handOrder + '_remainingPP' + i).textContent = String(pokemon.move[i].remainingPP);
+        getHTMLInputElement('party' + handOrder + '_powerPoint' + i).textContent = String(pokemon.move[i].powerPoint);
     }
+    // パーティ画像
+    imageHTML.src = './pokemonImage/' + pokemon.status.number + '.png';
 }
 function resetPartyPokemon(number) {
-    // 表示のリセット
-    getHTMLInputElement('party' + number + '_name').textContent = '名前';
-    getHTMLInputElement('party' + number + '_gender').textContent = '性別';
-    getHTMLInputElement('party' + number + '_level').textContent = '';
-    getHTMLInputElement('party' + number + '_type1').textContent = 'タイプ';
-    getHTMLInputElement('party' + number + '_type2').textContent = '';
-    getHTMLInputElement('party' + number + '_statusAilment').textContent = '';
-    getHTMLInputElement('party' + number + '_ability').textContent = '特性';
-    getHTMLInputElement('party' + number + '_remainingHP').textContent = '';
-    getHTMLInputElement('party' + number + '_item').textContent = '持ち物';
-    for (const parameter of parameterSix) {
-        getHTMLInputElement('party' + number + '_' + parameter).textContent = '';
+    const partyOrder = myAllParty[number].order.party;
+    const handOrder = myAllParty[number].order.hand;
+    const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
+    if (myAllParty[partyOrder].status.name !== '') {
+        return;
     }
-    getHTMLInputElement('party' + number + '_remainingHP').textContent = '';
+    // 表示のリセット
+    getHTMLInputElement('party' + handOrder + '_name').textContent = '名前';
+    getHTMLInputElement('party' + handOrder + '_gender').textContent = '性別';
+    getHTMLInputElement('party' + handOrder + '_level').textContent = '';
+    getHTMLInputElement('party' + handOrder + '_type1').textContent = 'タイプ';
+    getHTMLInputElement('party' + handOrder + '_type2').textContent = '';
+    getHTMLInputElement('party' + handOrder + '_statusAilment').textContent = '';
+    getHTMLInputElement('party' + handOrder + '_ability').textContent = '特性';
+    getHTMLInputElement('party' + handOrder + '_remainingHP').textContent = '';
+    getHTMLInputElement('party' + handOrder + '_item').textContent = '持ち物';
+    for (const parameter of parameterSix) {
+        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = '';
+    }
+    getHTMLInputElement('party' + handOrder + '_remainingHP').textContent = '';
     for (const parameter of parameterFive) {
-        getHTMLInputElement('party' + number + '_' + parameter).style.color = 'black';
+        getHTMLInputElement('party' + handOrder + '_' + parameter).style.color = 'black';
     }
     for (let i = 0; i < 4; i++) {
-        getHTMLInputElement('party' + number + '_move' + i).textContent = '技';
-        getHTMLInputElement('party' + number + '_remainingPP' + i).textContent = '';
-        getHTMLInputElement('party' + number + '_powerPoint' + i).textContent = 'PP';
+        getHTMLInputElement('party' + handOrder + '_move' + i).textContent = '技';
+        getHTMLInputElement('party' + handOrder + '_remainingPP' + i).textContent = '';
+        getHTMLInputElement('party' + handOrder + '_powerPoint' + i).textContent = 'PP';
+    }
+    // パーティ画像
+    if (myAllParty[number].status.name !== '') {
+        imageHTML.src = './image/pokeBall.png';
     }
     // 内部情報リセット
-    myParty[number] = new Pokemon;
+    myAllParty[number] = new Pokemon;
 }
 // パーティランダムセット
 function registerAllRandom() {

@@ -70,7 +70,7 @@ const typeColor = [
     { name: '不明', light: '9DC1B7', normal: '68A090', dark: '44685E', isOK: true }
 ];
 // ポケモン
-const myParty = [
+const myAllParty = [
     new Pokemon,
     new Pokemon,
     new Pokemon,
@@ -78,7 +78,7 @@ const myParty = [
     new Pokemon,
     new Pokemon
 ];
-const opponentParty = [
+const opponentAllParty = [
     new Pokemon,
     new Pokemon,
     new Pokemon,
@@ -86,5 +86,7 @@ const opponentParty = [
     new Pokemon,
     new Pokemon
 ];
+const myParty = [];
+const opponentParty = [];
 // フィールド
 const fieldStatus = new Field;

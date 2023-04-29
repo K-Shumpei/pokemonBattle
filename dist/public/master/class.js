@@ -196,26 +196,80 @@ class AvailableMove {
         return this._target;
     }
 }
+class Order {
+    constructor() {
+        this._party = 0;
+        this._hand = 0;
+    }
+    set party(party) {
+        this._party = party;
+    }
+    set hand(hand) {
+        this._hand = hand;
+    }
+    get party() {
+        return this._party;
+    }
+    get hand() {
+        return this._hand;
+    }
+}
 class Pokemon {
     constructor() {
-        this._partyNumber = 0;
-        this.status = new Status;
-        this.actualValue = new ParameterSix;
-        this.baseStatus = new ParameterSix;
-        this.individualValue = new ParameterSix;
-        this.effortValue = new ParameterSix;
-        this.move = [
+        this._order = new Order;
+        this._status = new Status;
+        this._actualValue = new ParameterSix;
+        this._baseStatus = new ParameterSix;
+        this._individualValue = new ParameterSix;
+        this._effortValue = new ParameterSix;
+        this._move = [
             new AvailableMove,
             new AvailableMove,
             new AvailableMove,
             new AvailableMove
         ];
     }
-    get partyNumber() {
-        return this._partyNumber;
+    set order(order) {
+        this._order = order;
     }
-    set partyNumber(number) {
-        this._partyNumber = number;
+    set status(status) {
+        this.status = status;
+    }
+    set actualValue(actualValue) {
+        this._actualValue = actualValue;
+    }
+    set baseStatus(baseStatus) {
+        this._baseStatus = baseStatus;
+    }
+    set individualValue(individualValue) {
+        this._individualValue = individualValue;
+    }
+    set effortValue(effortValue) {
+        this._effortValue = effortValue;
+    }
+    set move(move) {
+        this._move = move;
+    }
+    get order() {
+        return this._order;
+    }
+    get status() {
+        return this._status;
+    }
+    get actualValue() {
+        return this._actualValue;
+    }
+    get baseStatus() {
+        return this._baseStatus;
+    }
+    get individualValue() {
+        return this._individualValue;
+    }
+    get effortValue() {
+        return this._effortValue;
+    }
+    get move() {
+        return this._move;
     }
 }
 class Field {

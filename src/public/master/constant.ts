@@ -73,7 +73,7 @@ const typeColor: TypeColorType[] = [
 ]
 
 // ポケモン
-const myParty = [
+const myAllParty = [
   new Pokemon,
   new Pokemon,
   new Pokemon,
@@ -81,7 +81,8 @@ const myParty = [
   new Pokemon,
   new Pokemon
 ];
-const opponentParty = [
+
+const opponentAllParty: Pokemon[] = [
   new Pokemon,
   new Pokemon,
   new Pokemon,
@@ -89,6 +90,9 @@ const opponentParty = [
   new Pokemon,
   new Pokemon
 ];
+
+const myParty: Pokemon[] = [];
+const opponentParty: Pokemon[] = [];
 
 // フィールド
 const fieldStatus = new Field;

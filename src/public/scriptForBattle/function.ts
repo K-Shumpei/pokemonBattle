@@ -106,3 +106,4 @@ function getBaseStatusList( pokemon: PokemonDataType ): ParameterSixType {
 
   return baseStatusList;
 }
+

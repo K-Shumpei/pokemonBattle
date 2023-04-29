@@ -21,3 +21,11 @@ for ( const pokemon of pokemonData ) {
 }
 document.write( '</datalist>');
 
+// 選出完了ボタン
+getHTMLInputElement( 'decideOrderField' ).style.display = 'none';
+
+// 選出・取消ボタン
+for ( let i = 0; i < 6; i++ ) {
+  getHTMLInputElement( 'electPokemon' + i ).style.display = 'none';
+  getHTMLInputElement( 'quitElection' + i ).style.display = 'none';
+}

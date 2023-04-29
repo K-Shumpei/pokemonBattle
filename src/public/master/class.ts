@@ -237,30 +237,54 @@ class AvailableMove {
   }
 }
 
-
-class Pokemon {
-  _partyNumber: number;
-
-  status: Status;
-
-  actualValue: ParameterSix;
-  baseStatus: ParameterSix;
-  individualValue: ParameterSix;
-  effortValue: ParameterSix;
-
-  move: AvailableMove[];
+class Order {
+  _party: number;
+  _hand: number;
 
   constructor() {
-    this._partyNumber = 0;
+    this._party = 0;
+    this._hand = 0;
+  }
 
-    this.status = new Status;
+  set party( party: number ) {
+    this._party = party;
+  }
+  set hand( hand:  number ) {
+    this._hand = hand;
+  }
 
-    this.actualValue = new ParameterSix;
-    this.baseStatus = new ParameterSix;
-    this.individualValue = new ParameterSix;
-    this.effortValue = new ParameterSix;
+  get party(): number {
+    return this._party;
+  }
+  get hand(): number {
+    return this._hand
+  }
+}
 
-    this.move = [
+
+class Pokemon {
+  _order: Order;
+
+  _status: Status;
+
+  _actualValue: ParameterSix;
+  _baseStatus: ParameterSix;
+  _individualValue: ParameterSix;
+  _effortValue: ParameterSix;
+
+  _move: AvailableMove[];
+
+  constructor() {
+    this._order = new Order
+
+    this._status = new Status;
+
+    this._actualValue = new ParameterSix;
+    this._baseStatus = new ParameterSix;
+    this._individualValue = new ParameterSix;
+    this._effortValue = new ParameterSix;
+
+    this._move = [
       new AvailableMove,
       new AvailableMove,
       new AvailableMove,
@@ -268,12 +292,48 @@ class Pokemon {
     ]
   }
 
-  get partyNumber(): number {
-    return this._partyNumber;
+  set order( order: Order ) {
+    this._order = order;
+  }
+  set status( status: Status ) {
+    this.status = status;
+  }
+  set actualValue( actualValue: ParameterSix ) {
+    this._actualValue = actualValue;
+  }
+  set baseStatus( baseStatus: ParameterSix ) {
+    this._baseStatus = baseStatus;
+  }
+  set individualValue ( individualValue: ParameterSix ) {
+    this._individualValue = individualValue;
+  }
+  set effortValue( effortValue: ParameterSix ) {
+    this._effortValue = effortValue;
+  }
+  set move( move: AvailableMove[] ) {
+    this._move = move;
   }
 
-  set partyNumber( number: number ) {
-    this._partyNumber = number;
+  get order(): Order {
+    return this._order;
+  }
+  get status(): Status {
+    return this._status
+  }
+  get actualValue(): ParameterSix {
+    return this._actualValue;
+  }
+  get baseStatus(): ParameterSix {
+    return this._baseStatus;
+  }
+  get individualValue(): ParameterSix {
+    return this._individualValue;
+  }
+  get effortValue(): ParameterSix {
+    return this._effortValue;
+  }
+  get move(): AvailableMove[] {
+    return this._move;
   }
 
 }
