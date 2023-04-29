@@ -1,6 +1,9 @@
 "use strict";
-
-const socket = (0, io)();
+Object.defineProperty(exports, "__esModule", { value: true });
+const socket_io_client_1 = require("socket.io-client");
+// please note that the types are reversed
+const socket = (0, socket_io_client_1.io)();
+// const socket = (0, io)();
 // パスワード送信
 function sendPassword() {
     const inputPassword = getHTMLInputElement('inputPassword').value;
@@ -102,6 +105,13 @@ function decideOrder() {
     }
     // 選出送信
     socket.emit('decideOrder', myOrder);
+    // 選出完了ボタン
+    getHTMLInputElement('decideOrderField').style.display = 'none';
+    // 選出・取消ボタン
+    for (let i = 0; i < 6; i++) {
+        getHTMLInputElement('electPokemon' + i).style.display = 'none';
+        getHTMLInputElement('quitElection' + i).style.display = 'none';
+    }
 }
 // 選出受信
 socket.on('sendOrder', (myOrder, opponentOrder) => {
