@@ -156,7 +156,16 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
     opponentParty.push( opponentAllParty[opponentOrder[i]] );
   }
 
-  console.log(myParty)
-  console.log(opponentParty)
+  for ( const pokemon of myParty ) {
+    showPartyPokemon( pokemon );
+  }
+
+  for ( let i = 5; i >= fieldStatus.numberOfPokemon; i-- ) {
+    getHTMLInputElement( 'myParty' + i ).style.display = 'none';
+  }
+
+  for ( let i = 0; i < 6; i++ ) {
+    getHTMLInputElement( 'electedOrder' + i ).textContent = '';
+  }
 });
 

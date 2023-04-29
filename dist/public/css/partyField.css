@@ -219,6 +219,6 @@
 /* パーティ画像欄 */
 .party_image_CSS {
   border: solid 1px black;
-  height: 120px;
-  width: 120px;
+  height: 100px;
+  width: 100px;
 }

@@ -20,7 +20,6 @@ class PlayerInfo {
     constructor() {
         this._socketID = '';
         this._party = [];
-        this._order = [];
     }
     set socketID(socketID) {
         this._socketID = socketID;
@@ -28,17 +27,29 @@ class PlayerInfo {
     set party(party) {
         this._party = party;
     }
-    set order(order) {
-        this._order = order;
-    }
     get socketID() {
         return this._socketID;
     }
     get party() {
         return this._party;
     }
-    get order() {
-        return this._order;
+}
+class BattlePlayerInfo {
+    constructor() {
+        this._socketID = '';
+        this._battleOrder = [];
+    }
+    set socketID(socketID) {
+        this._socketID = socketID;
+    }
+    set battleOrder(battleOrder) {
+        this._battleOrder = battleOrder;
+    }
+    get socketID() {
+        return this._socketID;
+    }
+    get battleOrder() {
+        return this._battleOrder;
     }
 }
 const waitingRoom = [
@@ -76,24 +87,28 @@ io.on("connection", (socket) => {
                 io.to(room.player1.socketID).emit('selectPokemon', room.player2.party);
                 io.to(room.player2.socketID).emit('selectPokemon', room.player1.party);
                 // バトル部屋へ移動
-                battleRoom.push(room);
-                room.player1 = new PlayerInfo;
-                room.player2 = new PlayerInfo;
+                const player1 = new BattlePlayerInfo;
+                const player2 = new BattlePlayerInfo;
+                player1.socketID = room.player1.socketID;
+                player2.socketID = room.player2.socketID;
+                battleRoom.push({ player1: player1, player2: player2 });
             }
         }
     });
     // 選出受信
     socket.on('decideOrder', (order) => {
+        // バトル部屋の情報を更新
         for (const room of battleRoom) {
             if (room.player1.socketID === socket.id) {
-                room.player1.order = order;
+                room.player1.battleOrder = order;
             }
             if (room.player2.socketID === socket.id) {
-                room.player2.order = order;
+                room.player2.battleOrder = order;
             }
-            if (room.player1.order.length !== 0 && room.player2.order.length !== 0) {
-                io.to(room.player1.socketID).emit('sendOrder', room.player1.order, room.player2.order);
-                io.to(room.player2.socketID).emit('sendOrder', room.player2.order, room.player1.order);
+            // 選出送信
+            if (room.player1.battleOrder.length !== 0 && room.player2.battleOrder.length !== 0) {
+                io.to(room.player1.socketID).emit('sendOrder', room.player1.battleOrder, room.player2.battleOrder);
+                io.to(room.player2.socketID).emit('sendOrder', room.player2.battleOrder, room.player1.battleOrder);
             }
         }
     });

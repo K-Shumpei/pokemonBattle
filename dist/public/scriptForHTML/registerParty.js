@@ -1,6 +1,6 @@
 "use strict";
 for (let i = 0; i < 6; i++) {
-    document.write('<td><table>');
+    document.write('<td id="myParty' + i + '"><table>');
     // 登録・編集ボタン
     document.write('<tr>');
     document.write('<td><input id="registerParty' + i + '" type="button" value="登録" onclick="registerParty(' + i + ')">');
