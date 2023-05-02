@@ -240,10 +240,12 @@ class AvailableMove {
 class Order {
   _party: number;
   _hand: number;
+  _battle: number | false;
 
   constructor() {
     this._party = 0;
     this._hand = 0;
+    this._battle = false;
   }
 
   set party( party: number ) {
@@ -252,12 +254,18 @@ class Order {
   set hand( hand:  number ) {
     this._hand = hand;
   }
+  set battle( battle: number | false ) {
+    this._battle = battle;
+  }
 
   get party(): number {
     return this._party;
   }
   get hand(): number {
     return this._hand
+  }
+  get battle(): number | false {
+    return this._battle;
   }
 }
 
@@ -273,6 +281,8 @@ class Pokemon {
   _effortValue: ParameterSix;
 
   _move: AvailableMove[];
+
+  _command: Command;
 
   constructor() {
     this._order = new Order
@@ -290,6 +300,8 @@ class Pokemon {
       new AvailableMove,
       new AvailableMove
     ]
+
+    this._command = new Command;
   }
 
   set order( order: Order ) {
@@ -313,6 +325,9 @@ class Pokemon {
   set move( move: AvailableMove[] ) {
     this._move = move;
   }
+  set command( command: Command ) {
+    this._command = command;
+  }
 
   get order(): Order {
     return this._order;
@@ -334,6 +349,9 @@ class Pokemon {
   }
   get move(): AvailableMove[] {
     return this._move;
+  }
+  get command(): Command {
+    return this._command;
   }
 
 }
@@ -364,5 +382,46 @@ class Field {
     } else if ( battleStyle === 3) {
       this._numberOfPokemon = 6;
     }
+  }
+}
+
+
+class Command {
+  _move: number | false;
+  _reserve: number | false;
+  _myTarget: number | false;
+  _opponentTarget: number | false;
+
+  constructor() {
+    this._move = false;
+    this._reserve = false;
+    this._myTarget = false;
+    this._opponentTarget = false;
+  }
+
+  set move( move: number | false ) {
+    this._move = move;
+  }
+  set reserve( reserve: number | false ) {
+    this._reserve = reserve;
+  }
+  set myTarget( myTarget: number | false ) {
+    this._myTarget = myTarget;
+  }
+  set opponentTarget( opponentTarget: number | false ) {
+    this._opponentTarget = opponentTarget;
+  }
+
+  get move(): number | false {
+    return this._move;
+  }
+  get reserve(): number | false {
+    return this._reserve;
+  }
+  get myTarget(): number | false {
+    return this._myTarget;
+  }
+  get opponentTarget(): number | false {
+    return this._opponentTarget;
   }
 }

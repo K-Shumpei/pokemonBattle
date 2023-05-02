@@ -29,3 +29,12 @@ for ( let i = 0; i < 6; i++ ) {
   getHTMLInputElement( 'electPokemon' + i ).style.display = 'none';
   getHTMLInputElement( 'quitElection' + i ).style.display = 'none';
 }
+
+// バトルフィールド
+for ( let i = 0; i < 3; i++ ) {
+  getHTMLInputElement( 'battleRow_' + i ).style.visibility = 'collapse';
+  // 技・控え
+  getHTMLInputElement( 'command1st_' + i ).style.visibility = 'collapse';
+  // 攻撃対象
+  getHTMLInputElement( 'command2nd_' + i ).style.visibility = 'collapse';
+}

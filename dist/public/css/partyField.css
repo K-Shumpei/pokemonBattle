@@ -3,6 +3,17 @@
   align-items: flex-start;
 }
 
+/* ポケモン登録欄 */
+.register_field_CSS {
+  background-color: white;
+  display: flex;
+  align-items: flex-start;
+}
+
+.party_field_CSS {
+  background-color: white;
+}
+
 /* 1体目 */
 /* 実数値 */
 .party0_attack_CSS {
@@ -221,4 +232,32 @@
   border: solid 1px black;
   height: 100px;
   width: 100px;
+}
+
+/* バトルフィールド */
+.command_CSS {
+  vertical-align:top
+}
+
+.command_1st_CSS {
+  vertical-align:top
+}
+
+.command_2nd_CSS {
+  vertical-align:top
+}
+
+.battle_image_CSS {
+  border: solid 1px black;
+  height: 200px;
+  width: 200px;
+}
+
+.textarea_CSS {
+  color:blue;
+  width:40%;
+  height:500px;
+  resize:none;
+  overflow-y: auto;
+  font-size:24px;
 }

@@ -49,7 +49,7 @@
   </div>
 
   <!-- ポケモン登録欄 -->
-  <div id="registerPokemonField" class="display_flex">
+  <div id="registerPokemonField" class="register_field_CSS">
     <!-- 基本項目 -->
     <table>
       <tr>
@@ -113,7 +113,7 @@
   <!-- パーティ表示欄 -->
   <div id="partyField" class="display_flex">
     <!-- 自分のパーティの情報 -->
-    <table>
+    <table class="party_field_CSS">
       <tr>
         <script type="text/javascript" src="scriptForHTML/registerParty.js"></script>
       </tr>
@@ -150,6 +150,16 @@
         <td><img src="./image/pokeBall.png" class="party_image_CSS" id="opponentParty_image5"></td>
       </tr>
     </table>
+  </div>
+
+  <!-- バトルフィールド -->
+  <div id="battleField" class="display_flex">
+    <!-- コマンド欄 -->
+    <script type="text/javascript" src="scriptForHTML/battleCommand.js"></script>
+    <!-- コマンド送信 -->
+    <input type="button" value="コマンド送信" onclick="sendCommand()">
+    <!-- バトルログ -->
+    <textarea class="textarea_CSS" readonly></textarea>
   </div>
 
 </body>

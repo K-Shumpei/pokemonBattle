@@ -100,6 +100,9 @@ function decideOrder() {
             }
         }
     }
+    if (myOrder.length < fieldStatus.battleStyle) {
+        return;
+    }
     // 選出送信
     socket.emit('decideOrder', myOrder);
     // 選出完了ボタン
@@ -112,19 +115,97 @@ function decideOrder() {
 }
 // 選出受信
 socket.on('sendOrder', (myOrder, opponentOrder) => {
+    // お互いの選出に反映させる
     for (let i = 0; i < fieldStatus.numberOfPokemon; i++) {
         myAllParty[myOrder[i]].order.hand = i;
+        myAllParty[myOrder[i]].order.battle = i;
         myParty.push(myAllParty[myOrder[i]]);
         opponentAllParty[opponentOrder[i]].order.hand = i;
+        opponentAllParty[opponentOrder[i]].order.battle = fieldStatus.battleStyle - i - 1;
         opponentParty.push(opponentAllParty[opponentOrder[i]]);
     }
+    // 選出されたポケモンの情報・表示
     for (const pokemon of myParty) {
         showPartyPokemon(pokemon);
     }
+    // 選出されなかったポケモンの情報・表示を削除
     for (let i = 5; i >= fieldStatus.numberOfPokemon; i--) {
         getHTMLInputElement('myParty' + i).style.display = 'none';
     }
+    // 選出・取消ボタンの非表示化
     for (let i = 0; i < 6; i++) {
         getHTMLInputElement('electedOrder' + i).textContent = '';
     }
+    // バトル形式に応じてバトルフィールドを表示
+    for (let i = 0; i < fieldStatus.battleStyle; i++) {
+        getHTMLInputElement('battleRow_' + i).style.visibility = 'visible';
+        getHTMLInputElement('command1st_' + i).style.visibility = 'visible';
+        getHTMLInputElement('battleMyImage_' + i).src = './pokemonImage/' + myParty[i].status.number + '.png';
+        getHTMLInputElement('battleOpponentImage_' + i).src = './pokemonImage/' + opponentParty[fieldStatus.battleStyle - i - 1].status.number + '.png';
+    }
+    // コマンド欄の表示
+    showCommand1stField();
+});
+// コマンド送信
+function sendCommand() {
+    const myCommand = [];
+    for (let i = 0; i < fieldStatus.battleStyle; i++) {
+        const command = new Command;
+        // 技
+        for (let j = 0; j < 4; j++) {
+            const moveRadio = getHTMLInputElement('moveRadio_' + i + '_' + j);
+            if (moveRadio.checked === true) {
+                command.move = j;
+            }
+        }
+        // 控え
+        for (let j = 0; j < 3; j++) {
+            const reserveRadio = getHTMLInputElement('reserveRadio_' + i + '_' + j);
+            if (reserveRadio.checked === true) {
+                command.reserve = j;
+            }
+        }
+        // 攻撃対象：相手の場
+        for (let j = 0; j < 3; j++) {
+            const opponentTargetRadio = getHTMLInputElement('opponentTargetRadio_' + i + '_' + j);
+            if (opponentTargetRadio.checked === true) {
+                command.opponentTarget = j;
+            }
+        }
+        // 攻撃対象：自分の場
+        for (let j = 0; j < 2; j++) {
+            const myTargetRadio = getHTMLInputElement('myTargetRadio_' + i + '_' + j);
+            if (myTargetRadio.checked === true) {
+                command.myTarget = j;
+            }
+        }
+        myCommand.push(command);
+    }
+    socket.emit('sendCommand', myCommand);
+}
+// コマンド返還
+socket.on('returnCommand', (myCommand, opponentCommand) => {
+    for (let i = 0; i < fieldStatus.battleStyle; i++) {
+        for (const pokemon of myParty) {
+            if (pokemon.order.battle !== i) {
+                continue;
+            }
+            pokemon.command.move = myCommand[i]._move;
+            pokemon.command.reserve = myCommand[i]._reserve;
+            pokemon.command.myTarget = myCommand[i]._myTarget;
+            pokemon.command.opponentTarget = myCommand[i]._opponentTarget;
+        }
+        for (const pokemon of opponentParty) {
+            if (pokemon.order.battle !== i) {
+                continue;
+            }
+            pokemon.command.move = opponentCommand[i]._move;
+            pokemon.command.reserve = opponentCommand[i]._reserve;
+            pokemon.command.myTarget = opponentCommand[i]._myTarget;
+            pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
+        }
+    }
+    console.log(myParty);
+    console.log(opponentParty);
+    // ターンの流れ　3.トレーナーの行動、ポケモンの行動順に関する行動
 });

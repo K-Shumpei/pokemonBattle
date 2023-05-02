@@ -412,9 +412,6 @@ function registerParty( number: number ): void {
     return;
   }
 
-  // 登録済みのポケモンを削除
-  resetPartyPokemon( number );
-
   // 並び順
   myAllParty[number].order.party = number;
   myAllParty[number].order.hand = number;
@@ -441,7 +438,7 @@ function registerParty( number: number ): void {
     const effortValue = getHTMLInputElement( 'register' + parameter + 'EffortValue' );
 
     myAllParty[number].actualValue[parameter] = Number( actualValue.value );
-    myAllParty[number].baseStatus[parameter] = Number( baseStatus.value );
+    myAllParty[number].baseStatus[parameter] = Number( baseStatus.textContent );
     myAllParty[number].individualValue[parameter] = Number( individualValue.value );
     myAllParty[number].effortValue[parameter] = Number( effortValue.value );
   }
@@ -588,10 +585,6 @@ function resetPartyPokemon( number: number ): void {
   const handOrder: number = myAllParty[number].order.hand;
   const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
 
-  if ( myAllParty[partyOrder].status.name !== '' ) {
-     return;
-  }
-
   // 表示のリセット
   getHTMLInputElement( 'party' + handOrder + '_name' ).textContent = '名前';
   getHTMLInputElement( 'party' + handOrder + '_gender' ).textContent = '性別';
@@ -697,6 +690,24 @@ function quitElection( number: number ): void {
     const otherOrder = Number( otherText.textContent?.charAt(0) )
     if ( otherOrder > targetOrder ) {
       otherText.textContent = String( otherOrder - 1 ) + '番目';
+    }
+  }
+}
+
+
+// コマンド欄の表示
+function showCommand1stField(): void {
+
+  for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
+
+    for ( const pokemon of myParty ) {
+      if ( pokemon.order.battle !== i + 1 ) {
+        continue;
+      }
+
+      for ( let j = 0; j < 4; j++ ) {
+        getHTMLInputElement( 'moveText_' + i + '_' + j ).textContent = pokemon.move[j].name;
+      }
     }
   }
 }

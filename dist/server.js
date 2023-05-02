@@ -38,6 +38,7 @@ class BattlePlayerInfo {
     constructor() {
         this._socketID = '';
         this._battleOrder = [];
+        this._command = [];
     }
     set socketID(socketID) {
         this._socketID = socketID;
@@ -45,11 +46,17 @@ class BattlePlayerInfo {
     set battleOrder(battleOrder) {
         this._battleOrder = battleOrder;
     }
+    set command(command) {
+        this._command = command;
+    }
     get socketID() {
         return this._socketID;
     }
     get battleOrder() {
         return this._battleOrder;
+    }
+    get command() {
+        return this._command;
     }
 }
 const waitingRoom = [
@@ -91,7 +98,10 @@ io.on("connection", (socket) => {
                 const player2 = new BattlePlayerInfo;
                 player1.socketID = room.player1.socketID;
                 player2.socketID = room.player2.socketID;
-                battleRoom.push({ player1: player1, player2: player2 });
+                battleRoom.push({ battleStyle: room.battleStyle, player1: player1, player2: player2 });
+                // 待機部屋の情報の削除
+                room.player1 = new PlayerInfo;
+                room.player2 = new PlayerInfo;
             }
         }
     });
@@ -109,6 +119,25 @@ io.on("connection", (socket) => {
             if (room.player1.battleOrder.length !== 0 && room.player2.battleOrder.length !== 0) {
                 io.to(room.player1.socketID).emit('sendOrder', room.player1.battleOrder, room.player2.battleOrder);
                 io.to(room.player2.socketID).emit('sendOrder', room.player2.battleOrder, room.player1.battleOrder);
+            }
+        }
+    });
+    // コマンド受信
+    socket.on('sendCommand', (command) => {
+        for (const room of battleRoom) {
+            if (room.player1.socketID === socket.id) {
+                room.player1.command = command;
+            }
+            if (room.player2.socketID === socket.id) {
+                room.player2.command = command;
+            }
+            // コマンド送信
+            if (room.player1.command.length !== 0 && room.player2.command.length !== 0) {
+                io.to(room.player1.socketID).emit('returnCommand', room.player1.command, room.player2.command);
+                io.to(room.player2.socketID).emit('returnCommand', room.player2.command, room.player1.command);
+                // コマンドリセット
+                room.player1.command = [];
+                room.player2.command = [];
             }
         }
     });

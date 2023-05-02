@@ -200,6 +200,7 @@ class Order {
     constructor() {
         this._party = 0;
         this._hand = 0;
+        this._battle = false;
     }
     set party(party) {
         this._party = party;
@@ -207,11 +208,17 @@ class Order {
     set hand(hand) {
         this._hand = hand;
     }
+    set battle(battle) {
+        this._battle = battle;
+    }
     get party() {
         return this._party;
     }
     get hand() {
         return this._hand;
+    }
+    get battle() {
+        return this._battle;
     }
 }
 class Pokemon {
@@ -228,6 +235,7 @@ class Pokemon {
             new AvailableMove,
             new AvailableMove
         ];
+        this._command = new Command;
     }
     set order(order) {
         this._order = order;
@@ -250,6 +258,9 @@ class Pokemon {
     set move(move) {
         this._move = move;
     }
+    set command(command) {
+        this._command = command;
+    }
     get order() {
         return this._order;
     }
@@ -270,6 +281,9 @@ class Pokemon {
     }
     get move() {
         return this._move;
+    }
+    get command() {
+        return this._command;
     }
 }
 class Field {
@@ -294,5 +308,37 @@ class Field {
         else if (battleStyle === 3) {
             this._numberOfPokemon = 6;
         }
+    }
+}
+class Command {
+    constructor() {
+        this._move = false;
+        this._reserve = false;
+        this._myTarget = false;
+        this._opponentTarget = false;
+    }
+    set move(move) {
+        this._move = move;
+    }
+    set reserve(reserve) {
+        this._reserve = reserve;
+    }
+    set myTarget(myTarget) {
+        this._myTarget = myTarget;
+    }
+    set opponentTarget(opponentTarget) {
+        this._opponentTarget = opponentTarget;
+    }
+    get move() {
+        return this._move;
+    }
+    get reserve() {
+        return this._reserve;
+    }
+    get myTarget() {
+        return this._myTarget;
+    }
+    get opponentTarget() {
+        return this._opponentTarget;
     }
 }
