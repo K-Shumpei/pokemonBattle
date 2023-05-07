@@ -1,5 +1,5 @@
 // ポケモン検索
-function getPokemonDataByName( name: string ): PokemonDataType {
+function getPokemonDataByName( name: string ): PokemonDataType | false {
 
   for ( const pokemon of pokemonData ) {
     if ( pokemon.name === name ) {
@@ -7,21 +7,12 @@ function getPokemonDataByName( name: string ): PokemonDataType {
     }
   }
 
-  return getPokemonDataFalse();
-}
-
-
-function getPokemonDataFalse(): PokemonDataType {
-
-  const sampleData = getPokemonDataByName( 'フシギダネ' );
-  sampleData.isOK = false;
-
-  return sampleData;
+  return false;
 }
 
 
 // 技検索
-function getMoveDataByName( name: string ): MoveDataType {
+function getMoveDataByName( name: string ): MoveDataType | false {
 
   for ( const move of moveData ) {
     if ( move.name === name ) {
@@ -29,17 +20,9 @@ function getMoveDataByName( name: string ): MoveDataType {
     }
   }
 
-  return getMoveDataFalse();
+  return false;
 }
 
-
-function getMoveDataFalse(): MoveDataType {
-
-  const sampleData = getMoveDataByName( 'アームハンマー' );
-  sampleData.isOK = false;
-
-  return sampleData;
-}
 
 // 性格検索
 function getNatureDataByName( name: string ): NatureDataType {
@@ -50,16 +33,11 @@ function getNatureDataByName( name: string ): NatureDataType {
     }
   }
 
-  return getNatureDataFalse();
-}
-
-
-function getNatureDataFalse(): NatureDataType {
-
   const sample: NatureDataType = { name: '', plus: '', minus: '', isOK: false };
 
   return sample;
 }
+
 
 // タイプ検索
 function getTypeColorByName( name: string ): TypeColorType {
@@ -69,11 +47,6 @@ function getTypeColorByName( name: string ): TypeColorType {
       return type;
     }
   }
-
-  return getTypeColorFalse();
-}
-
-function getTypeColorFalse(): TypeColorType {
 
   const sample: TypeColorType = { name: '', light: '', normal: '', dark: '', isOK: false };
 

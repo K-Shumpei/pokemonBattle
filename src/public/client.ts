@@ -5,7 +5,7 @@ interface ServerToClientEvents {
   incorrectPassword: () => void;
   selectPokemon: ( party: Pokemon[] ) => void;
   sendOrder: ( myOrder: number[], opponentOrder: number[] ) => void;
-  returnCommand: ( myCommand: Command[], opponentCommand: Command[] ) => void;
+  returnCommand: ( myCommand: Command[], opponentCommand: Command[], randomList: number[] ) => void;
 }
 
 interface ClientToServerEvents {
@@ -61,6 +61,9 @@ function findOpponent(): void {
 // 対戦相手が見つかり、戦うポケモンを選ぶ
 socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
   for ( let i = 0; i < 6; i++ ) {
+    // トレーナーネーム
+    opponentAllParty[i].trainer = 'opponent';
+
     // 並び順
     opponentAllParty[i].order.party = party[i]._order._party;
     opponentAllParty[i].order.hand = party[i]._order._hand;
@@ -155,12 +158,19 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
 
   // お互いの選出に反映させる
   for ( let i = 0; i < fieldStatus.numberOfPokemon; i++ ) {
+    // 手持ちの順番
     myAllParty[myOrder[i]].order.hand = i;
-    myAllParty[myOrder[i]].order.battle = i;
-    myParty.push( myAllParty[myOrder[i]] );
-
     opponentAllParty[opponentOrder[i]].order.hand = i;
-    opponentAllParty[opponentOrder[i]].order.battle = fieldStatus.battleStyle - i - 1;
+    // バトル場の順番
+    if ( i < fieldStatus.battleStyle ) {
+      myAllParty[myOrder[i]].order.battle = i;
+      opponentAllParty[opponentOrder[i]].order.battle = fieldStatus.battleStyle - i - 1;
+    } else {
+      myAllParty[myOrder[i]].order.battle = false;
+      opponentAllParty[opponentOrder[i]].order.battle = false;
+    }
+    // 手持ちにセット
+    myParty.push( myAllParty[myOrder[i]] );
     opponentParty.push( opponentAllParty[opponentOrder[i]] );
   }
 
@@ -237,7 +247,7 @@ function sendCommand(): void {
 
 
 // コマンド返還
-socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[] ) => {
+socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], random: number[] ) => {
 
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
     for ( const pokemon of myParty ) {
@@ -259,6 +269,9 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[] )
       pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
     }
   }
+
+  // 乱数リセット
+  randomList = random;
 
   // ターンの流れ　3.トレーナーの行動、ポケモンの行動順に関する行動
 

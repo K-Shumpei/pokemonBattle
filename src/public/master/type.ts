@@ -29,8 +29,7 @@ type MoveDataType = {
   isDirect: boolean;
   isProtect: boolean;
   target: string; // '全体の場' | '味方の場' | '相手の場'
-  discription: string;
-  isOK: boolean
+  discription: string
 }
 
 type ParameterSixType = {

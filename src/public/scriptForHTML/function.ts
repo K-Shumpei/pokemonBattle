@@ -60,7 +60,7 @@ function resetInputRegister(): void {
 function registrationPokemon(): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
-  const pokemon: PokemonDataType = getPokemonDataByName( name );
+  const pokemon: PokemonDataType | false = getPokemonDataByName( name );
 
   const type1HTML = getHTMLInputElement( 'register_type1' );
   const type2HTML = getHTMLInputElement( 'register_type2' );
@@ -68,7 +68,7 @@ function registrationPokemon(): void {
   const abilityHTML = getHTMLInputElement( 'register_ability' );
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemon.isOK === false ) {
+  if ( pokemon === false ) {
     return;
   }
 
@@ -141,10 +141,10 @@ function reflectActualValueInHTML(): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
   const level: number = Number( getHTMLInputElement( 'register_level' ).value );
-  const pokemon: PokemonDataType = getPokemonDataByName( name );
+  const pokemon: PokemonDataType | false = getPokemonDataByName( name );
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemon.isOK === false ) {
+  if ( pokemon === false ) {
     return;
   }
 
@@ -205,10 +205,10 @@ function calculateActualValue( pokemon: PokemonDataType, level: number, natureSt
 function reflectMoveNatureInHTML( number: number ): void {
 
   const name: string = getHTMLInputElement( 'registerMoveName' + number ).value
-  const move: MoveDataType = getMoveDataByName( name )
+  const move: MoveDataType | false = getMoveDataByName( name )
 
   // 存在しない技の場合、処理を終了
-  if ( move.isOK === false ) {
+  if ( move === false ) {
     return;
   }
 
@@ -268,7 +268,13 @@ function setEffortValue( parameter: string, number: number ): void {
 function reflectEffortValueInHTML( parameter: string ): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
-  const pokemon: PokemonDataType = getPokemonDataByName( name );
+  const pokemon: PokemonDataType | false = getPokemonDataByName( name );
+
+  // 存在しないポケモンの場合、処理を終了
+  if ( pokemon === false ) {
+    return;
+  }
+
   const level: number = Number( getHTMLInputElement( 'register_level' ).value );
   const nature: NatureDataType = getNatureDataByName( parameter );
   const baseStatusList: ParameterSixType = getBaseStatusList( pokemon );
@@ -279,10 +285,7 @@ function reflectEffortValueInHTML( parameter: string ): void {
   let effortValue: number = 0;
   let natureRate: number = 1.0;
 
-  // 存在しないポケモンの場合、処理を終了
-  if ( pokemon.isOK === false ) {
-    return;
-  }
+
 
   // ヌケニンのHP実数値は変更できない
   if ( pokemon.name === 'ヌケニン' && parameter === 'hitPoint' ) {
@@ -361,7 +364,13 @@ function natureRadioToText(): void {
 function changePowerPoint( number: number, direction: string ): void {
 
   const name: string = getHTMLInputElement( 'registerMoveName' + number ).value;
-  const move: MoveDataType = getMoveDataByName( name );
+  const move: MoveDataType | false = getMoveDataByName( name );
+
+  // 存在しない技の場合、処理を終了
+  if ( move === false ) {
+    return;
+  }
+
   const powerPoint = getHTMLInputElement( 'registerMovePowerPoint' + number );
   const step: number = move.powerPoint / 5;
   const max: number = move.powerPoint + step * 3;
@@ -369,10 +378,7 @@ function changePowerPoint( number: number, direction: string ): void {
   let result: number = Number( powerPoint.textContent );
 
 
-  // 存在しない技の場合、処理を終了
-  if ( move.isOK === false ) {
-    return;
-  }
+
 
   // PPが1の技はPPを変更できない
   if ( move.powerPoint === 1 ) {
@@ -397,7 +403,7 @@ function changePowerPoint( number: number, direction: string ): void {
 function registerParty( number: number ): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
-  const pokemon: PokemonDataType = getPokemonDataByName( name );
+  const pokemon: PokemonDataType | false = getPokemonDataByName( name );
   const type1HTML = getHTMLInputElement( 'register_type1' );
   const type2HTML = getHTMLInputElement( 'register_type2' );
   const genderHTML = getHTMLInputElement( 'register_gender' );
@@ -408,9 +414,12 @@ function registerParty( number: number ): void {
   const actualValue_hitPoint = getHTMLInputElement( 'register_hitPointActualValue' );
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemon.isOK === false ) {
+  if ( pokemon === false ) {
     return;
   }
+
+  // トレーナーネーム
+  myAllParty[number].trainer = 'me';
 
   // 並び順
   myAllParty[number].order.party = number;
@@ -446,11 +455,11 @@ function registerParty( number: number ): void {
   // 技
   for ( let i = 0; i < 4; i++ ) {
     const moveName: string = getHTMLInputElement( 'registerMoveName' + i ).value;
-    const move: MoveDataType = getMoveDataByName( moveName );
+    const move: MoveDataType | false = getMoveDataByName( moveName );
     const powerPoint = getHTMLInputElement( 'registerMovePowerPoint' + i );
 
     // 存在しない技の場合、処理を終了
-    if ( move.isOK === false ) {
+    if ( move === false ) {
       continue;
     }
 
@@ -537,8 +546,12 @@ function editParty( number: number ): void {
 function showPartyPokemon( pokemon: Pokemon ): void {
 
   const partyOrder: number = pokemon.order.party;
-  const handOrder: number = pokemon.order.hand;
+  const handOrder: number | false = pokemon.order.hand;
   const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
+
+  if ( handOrder === false ) {
+    return;
+  }
 
   getHTMLInputElement( 'party' + handOrder + '_name' ).textContent = pokemon.status.name;
   getHTMLInputElement( 'party' + handOrder + '_gender' ).textContent = pokemon.status.gender;
@@ -582,8 +595,12 @@ function showPartyPokemon( pokemon: Pokemon ): void {
 function resetPartyPokemon( number: number ): void {
 
   const partyOrder: number = myAllParty[number].order.party;
-  const handOrder: number = myAllParty[number].order.hand;
+  const handOrder: number | false = myAllParty[number].order.hand;
   const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
+
+  if ( handOrder === false ) {
+    return;
+  }
 
   // 表示のリセット
   getHTMLInputElement( 'party' + handOrder + '_name' ).textContent = '名前';

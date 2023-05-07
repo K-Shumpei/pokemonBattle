@@ -96,3 +96,6 @@ const opponentParty: Pokemon[] = [];
 
 // フィールド
 const fieldStatus = new Field;
+
+// 乱数
+let randomList: number[] = []

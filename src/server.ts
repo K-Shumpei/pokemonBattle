@@ -7,7 +7,7 @@ interface ServerToClientEvents {
   incorrectPassword: () => void;
   selectPokemon: ( party: Pokemon[] ) => void;
   sendOrder: ( myOrder: number[], opponentOrder: number[] ) => void;
-  returnCommand: ( myCommand: Command[], opponentCommand: Command[] ) => void;
+  returnCommand: ( myCommand: Command[], opponentCommand: Command[], randomList: number[] ) => void;
 }
 
 interface ClientToServerEvents {
@@ -193,8 +193,12 @@ io.on("connection", (socket) => {
 
       // コマンド送信
       if ( room.player1.command.length !== 0 && room.player2.command.length !== 0 ) {
-        io.to( room.player1.socketID ).emit( 'returnCommand', room.player1.command, room.player2.command );
-        io.to( room.player2.socketID ).emit( 'returnCommand', room.player2.command, room.player1.command );
+        const randomList: number[] = []
+        for ( let i = 0; i < 100; i++ ) {
+          randomList.push( Math.floor( Math.random() * 100 ) / 100 )
+        }
+        io.to( room.player1.socketID ).emit( 'returnCommand', room.player1.command, room.player2.command, randomList );
+        io.to( room.player2.socketID ).emit( 'returnCommand', room.player2.command, room.player1.command, randomList );
 
         // コマンドリセット
         room.player1.command = [];

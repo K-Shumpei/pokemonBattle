@@ -10,8 +10,9 @@ class Status {
   _nature: string;
   _height: number;
   _weight: number;
+  _happiness: number;
   _remainingHP: number;
-  _statusAilment: string;
+  _statusAilment: string | false;
 
   constructor() {
     this._number = '';
@@ -25,8 +26,9 @@ class Status {
     this._nature = '';
     this._height = 1.0;
     this._weight = 1.0;
+    this._happiness = 255;
     this._remainingHP = 0;
-    this._statusAilment = '';
+    this._statusAilment = false;
   }
 
   set number( number: string ) {
@@ -62,10 +64,13 @@ class Status {
   set weight( weight: number) {
     this._weight = weight;
   }
+  set happiness( happiness: number ) {
+    this._happiness = happiness;
+  }
   set remainingHP( remainingHP: number ) {
     this._remainingHP = remainingHP;
   }
-  set statusAilment( statusAilment: string ) {
+  set statusAilment( statusAilment: string | false ) {
     this._statusAilment = statusAilment;
   }
 
@@ -102,10 +107,13 @@ class Status {
   get weight(): number {
     return this._weight;
   }
+  get happiness(): number {
+    return this._happiness;
+  }
   get remainingHP(): number {
     return this._remainingHP;
   }
-  get statusAilment(): string {
+  get statusAilment(): string | false {
     return this._statusAilment;
   }
 }
@@ -146,6 +154,91 @@ class ParameterSix {
   }
   set speed( speed: number ) {
     this._speed = speed;
+  }
+
+  get hitPoint(): number {
+    return this.hitPoint;
+  }
+  get attack(): number {
+    return this.attack;
+  }
+  get defense(): number {
+    return this.defense;
+  }
+  get specialAttack(): number {
+    return this.specialAttack;
+  }
+  get specialDefense(): number {
+    return this.specialDefense;
+  }
+  get speed(): number {
+    return this.speed;
+  }
+}
+
+class ParameterRank {
+  [key: string]: number;
+
+  _attack: number;
+  _defense: number;
+  _specialAttack: number;
+  _specialDefense: number;
+  _speed: number;
+  _evasion: number;
+  _accuracy: number;
+
+  constructor() {
+    this._attack = 0;
+    this._defense = 0;
+    this._specialAttack = 0;
+    this._specialDefense = 0;
+    this._speed = 0;
+    this._evasion = 0;
+    this._accuracy = 0;
+  }
+
+  set attack( attack: number ) {
+    this._attack = attack;
+  }
+  set defense( defense: number ) {
+    this._defense = defense;
+  }
+  set specialAttack( specialAttack: number ) {
+    this._specialAttack = specialAttack;
+  }
+  set specialDefense( specialDefense: number ) {
+    this._specialDefense = specialDefense;
+  }
+  set speed( speed: number ) {
+    this._speed = speed;
+  }
+  set evasion( evasion: number ) {
+    this._evasion = evasion;
+  }
+  set accuracy( accuracy: number ) {
+    this._accuracy = accuracy;
+  }
+
+  get attack(): number {
+    return this.attack;
+  }
+  get defense(): number {
+    return this.defense;
+  }
+  get specialAttack(): number {
+    return this.specialAttack;
+  }
+  get specialDefense(): number {
+    return this.specialDefense;
+  }
+  get speed(): number {
+    return this.speed;
+  }
+  get evasion(): number {
+    return this.evasion;
+  }
+  get accuracy(): number {
+    return this.accuracy;
   }
 }
 
@@ -239,19 +332,19 @@ class AvailableMove {
 
 class Order {
   _party: number;
-  _hand: number;
+  _hand: number | false;
   _battle: number | false;
 
   constructor() {
     this._party = 0;
-    this._hand = 0;
+    this._hand = false;
     this._battle = false;
   }
 
   set party( party: number ) {
     this._party = party;
   }
-  set hand( hand:  number ) {
+  set hand( hand: number | false ) {
     this._hand = hand;
   }
   set battle( battle: number | false ) {
@@ -261,7 +354,7 @@ class Order {
   get party(): number {
     return this._party;
   }
-  get hand(): number {
+  get hand(): number | false {
     return this._hand
   }
   get battle(): number | false {
@@ -269,66 +362,133 @@ class Order {
   }
 }
 
+class Damage {
+  _damage: number;
+  _effective: number;
+  _critical: boolean;
+
+  constructor() {
+    this._damage = 0;
+    this._effective = 0;
+    this._critical = false;
+  }
+
+  set damage( damage: number ) {
+    this._damage = damage;
+  }
+  set effective( effective: number ) {
+    this._effective = effective;
+  }
+  set critical( critical: boolean ) {
+    this._critical = critical;
+  }
+
+  get damage(): number {
+    return this._damage;
+  }
+  get effective(): number {
+    return this._effective;
+  }
+  get critical(): boolean {
+    return this._critical;
+  }
+}
+
+class Target {
+  _trainer: string;
+  _battleNumber: number | false;
+  _success: boolean;
+
+  constructor() {
+    this._trainer = '';
+    this._battleNumber = false;
+    this._success = true;
+  }
+
+  set trainer( trainer: string ) {
+    this._trainer = trainer;
+  }
+  set battleNumber( battleNumber: number | false ) {
+    this._battleNumber = battleNumber;
+  }
+  set success( success: boolean ) {
+    this._success = success;
+  }
+
+  get trainer(): string {
+    return this._trainer;
+  }
+  get battleNumber(): number | false {
+    return this._battleNumber;
+  }
+  get success(): boolean {
+    return this._success;
+  }
+}
+
+
+
+
 
 class Pokemon {
+  _trainer: string;
   _order: Order;
-
   _status: Status;
-
   _actualValue: ParameterSix;
   _baseStatus: ParameterSix;
   _individualValue: ParameterSix;
   _effortValue: ParameterSix;
-
+  _rank: ParameterRank;
   _move: AvailableMove[];
-
+  _moveUsed: AvailableMove;
+  _damage: Damage;
+  _target: Target[];
   _command: Command;
 
   constructor() {
-    this._order = new Order
-
+    this._trainer = '';
+    this._order = new Order;
     this._status = new Status;
-
     this._actualValue = new ParameterSix;
     this._baseStatus = new ParameterSix;
     this._individualValue = new ParameterSix;
     this._effortValue = new ParameterSix;
-
+    this._rank = new ParameterRank;
     this._move = [
       new AvailableMove,
       new AvailableMove,
       new AvailableMove,
       new AvailableMove
     ]
-
+    this._moveUsed = new AvailableMove;
+    this._damage = new Damage;
+    this._target = [];
     this._command = new Command;
   }
 
-  set order( order: Order ) {
-    this._order = order;
+  set trainer( trainer: string ) {
+    this._trainer = trainer;
   }
-  set status( status: Status ) {
-    this.status = status;
+  set rank( rank: ParameterRank ) {
+    this._rank = rank;
   }
-  set actualValue( actualValue: ParameterSix ) {
-    this._actualValue = actualValue;
+  set moveUsed( moveUsed: AvailableMove ) {
+    this._moveUsed = moveUsed;
   }
-  set baseStatus( baseStatus: ParameterSix ) {
-    this._baseStatus = baseStatus;
+  set damage( damage: Damage ) {
+    this._damage = damage;
   }
-  set individualValue ( individualValue: ParameterSix ) {
-    this._individualValue = individualValue;
-  }
-  set effortValue( effortValue: ParameterSix ) {
-    this._effortValue = effortValue;
-  }
-  set move( move: AvailableMove[] ) {
-    this._move = move;
+  set target( target: Target[] ) {
+    this._target = target;
   }
   set command( command: Command ) {
     this._command = command;
   }
 
+
+  get trainer(): string {
+    return this._trainer;
+  }
   get order(): Order {
     return this._order;
   }
@@ -347,8 +507,20 @@ class Pokemon {
   get effortValue(): ParameterSix {
     return this._effortValue;
   }
+  get rank(): ParameterRank {
+    return this._rank;
+  }
   get move(): AvailableMove[] {
     return this._move;
+  }
+  get moveUsed(): AvailableMove {
+    return this._moveUsed;
+  }
+  get damage(): Damage {
+    return this._damage;
+  }
+  get target(): Target[] {
+    return this._target;
   }
   get command(): Command {
     return this._command;
@@ -357,33 +529,7 @@ class Pokemon {
 }
 
 
-class Field {
-  _battleStyle: number;
-  _numberOfPokemon: number;
 
-  constructor() {
-    this._battleStyle = 1;
-    this._numberOfPokemon = 3;
-  }
-
-  get battleStyle(): number {
-    return this._battleStyle;
-  }
-  get numberOfPokemon(): number {
-    return this._numberOfPokemon;
-  }
-
-  setNumberOfPokemon( battleStyle: number ): void {
-    this._battleStyle = battleStyle;
-    if ( battleStyle === 1 ) {
-      this._numberOfPokemon = 3;
-    } else if ( battleStyle === 2 ) {
-      this._numberOfPokemon = 4;
-    } else if ( battleStyle === 3) {
-      this._numberOfPokemon = 6;
-    }
-  }
-}
 
 
 class Command {
