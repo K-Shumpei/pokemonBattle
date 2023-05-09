@@ -6,12 +6,7 @@ function getPokemonDataByName(name) {
             return pokemon;
         }
     }
-    return getPokemonDataFalse();
-}
-function getPokemonDataFalse() {
-    const sampleData = getPokemonDataByName('フシギダネ');
-    sampleData.isOK = false;
-    return sampleData;
+    return false;
 }
 // 技検索
 function getMoveDataByName(name) {
@@ -20,12 +15,7 @@ function getMoveDataByName(name) {
             return move;
         }
     }
-    return getMoveDataFalse();
-}
-function getMoveDataFalse() {
-    const sampleData = getMoveDataByName('アームハンマー');
-    sampleData.isOK = false;
-    return sampleData;
+    return false;
 }
 // 性格検索
 function getNatureDataByName(name) {
@@ -34,9 +24,6 @@ function getNatureDataByName(name) {
             return nature;
         }
     }
-    return getNatureDataFalse();
-}
-function getNatureDataFalse() {
     const sample = { name: '', plus: '', minus: '', isOK: false };
     return sample;
 }
@@ -47,9 +34,6 @@ function getTypeColorByName(name) {
             return type;
         }
     }
-    return getTypeColorFalse();
-}
-function getTypeColorFalse() {
     const sample = { name: '', light: '', normal: '', dark: '', isOK: false };
     return sample;
 }

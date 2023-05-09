@@ -6,13 +6,18 @@
   <!-- CSS -->
   <link rel="stylesheet" type="text/css" href="./css/partyField.css">
 
-  <!-- マスタ -->
-  <script type="text/javascript" src="./master/type.js"></script>
+
+  <!-- クラス -->
   <script type="text/javascript" src="./class/class.js"></script>
+  <script type="text/javascript" src="./class/field.js"></script>
+  <script type="text/javascript" src="./class/orderOfBehavior.js"></script>
+
+  <!-- マスタ -->
   <script type="text/javascript" src="./master/constant.js"></script>
-  <script type="text/javascript" src="./master/pokemon.js"></script>
   <script type="text/javascript" src="./master/move.js"></script>
+  <script type="text/javascript" src="./master/pokemon.js"></script>
   <script type="text/javascript" src="./master/translate.js"></script>
+  <script type="text/javascript" src="./master/type.js"></script>
 
   <!-- HTML制御 -->
   <script src="/socket.io/socket.io.js"></script>
@@ -20,8 +25,16 @@
   <script type="text/javascript" src="./scriptForHTML/function.js"></script>
 
   <!-- バトル制御 -->
+  <script type="text/javascript" src="./scriptForBattle/function/actionOrder.js"></script>
+  <script type="text/javascript" src="./scriptForBattle/function/base.js"></script>
+  <script type="text/javascript" src="./scriptForBattle/function/calculateDamage.js"></script>
+  <script type="text/javascript" src="./scriptForBattle/function/isSuccess.js"></script>
+  <script type="text/javascript" src="./scriptForBattle/function/moveEffect.js"></script>
   <script type="text/javascript" src="./scriptForBattle/function/system.js"></script>
   <script type="text/javascript" src="./scriptForBattle/function.js"></script>
+  <script type="text/javascript" src="./scriptForBattle/mainProcess.js"></script>
+  <script type="text/javascript" src="./scriptForBattle/turnProcess3rd.js"></script>
+  <script type="text/javascript" src="./scriptForBattle/turnProcess4th.js"></script>
 </head>
 
 <body>
@@ -160,7 +173,7 @@
     <!-- コマンド送信 -->
     <input type="button" value="コマンド送信" onclick="sendCommand()">
     <!-- バトルログ -->
-    <textarea class="textarea_CSS" readonly></textarea>
+    <textarea class="textarea_CSS" id="battle_log" readonly></textarea>
   </div>
 
 </body>

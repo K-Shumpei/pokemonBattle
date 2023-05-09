@@ -1,5 +1,5 @@
 // 4. ポケモンの行動
-function pokemonBehavior(): void {
+function pokemonAction(): void {
 
   while ( getActionOrder().length > 0 ) {
     const order = getActionOrder()[0]
@@ -9,6 +9,7 @@ function pokemonBehavior(): void {
     }
 
     // 技の成功判定
+    isSuccess( pokemon );
 
 
     // コマンドの削除

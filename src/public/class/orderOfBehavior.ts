@@ -1,6 +1,6 @@
 class ActionOrderInfo {
   _trainer: string;
-  _battleNumber: number | false;
+  _battleNumber: number | null;
   _raise: number;
   _lower: number;
   _priority: number;
@@ -24,7 +24,7 @@ class ActionOrderInfo {
   set trainer( trainer: string ) {
     this._trainer = trainer;
   }
-  set battleNumber( battleNumber: number | false ) {
+  set battleNumber( battleNumber: number | null ) {
     this._battleNumber = battleNumber;
   }
   set raise( raise: number ) {
@@ -52,7 +52,7 @@ class ActionOrderInfo {
   get trainer(): string {
     return this._trainer;
   }
-  get battleNumber(): number | false {
+  get battleNumber(): number | null {
     return this._battleNumber;
   }
   get raise(): number {

@@ -1,3 +1,32 @@
+// ポケモン
+const myAllParty = [
+  new Pokemon,
+  new Pokemon,
+  new Pokemon,
+  new Pokemon,
+  new Pokemon,
+  new Pokemon
+];
+
+const opponentAllParty: Pokemon[] = [
+  new Pokemon,
+  new Pokemon,
+  new Pokemon,
+  new Pokemon,
+  new Pokemon,
+  new Pokemon
+];
+
+const myParty: Pokemon[] = [];
+const opponentParty: Pokemon[] = [];
+
+// フィールド
+const fieldStatus = new Field;
+
+// 乱数
+let randomList: number[] = []
+
+
 const parameterSix: string[] = [
   'hitPoint',
   'attack',
@@ -72,30 +101,46 @@ const typeColor: TypeColorType[] = [
   { name: '不明', light: '9DC1B7', normal: '68A090', dark: '44685E', isOK: true }
 ]
 
-// ポケモン
-const myAllParty = [
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon
-];
 
-const opponentAllParty: Pokemon[] = [
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon
-];
+// 音技
+const musicMoveList: string[] = [
+  'いにしえのうた',
+  'いびき',
+  'いやしのすず',
+  'いやなおと',
+  'うたう',
+  'うたかたのアリア',
+  'エコーボイス',
+  'オーバードライブ',
+  'おしゃべり',
+  'おたけび',
+  'きんぞくおん',
+  'くさぶえ',
+  'さわぐ',
+  'スケイルノイズ',
+  'すてゼリフ',
+  'ソウルビート',
+  'チャームボイス',
+  'ちょうおんぱ',
+  'とおぼえ',
+  'ないしょばなし',
+  'なきごえ',
+  'バークアウト',
+  'ハイパーボイス',
+  'ばくおんぱ',
+  'ぶきみなじゅもん',
+  'フレアソング',
+  'ブレイジングソウルビート',
+  'ほえる',
+  'ほろびのうた',
+  'むしのさざめき',
+  'りんしょう'
+]
 
-const myParty: Pokemon[] = [];
-const opponentParty: Pokemon[] = [];
-
-// フィールド
-const fieldStatus = new Field;
-
-// 乱数
-let randomList: number[] = []
+// 爆発技
+const explosionMoveList: string[] = [
+  'じばく',
+  'だいばくはつ',
+  'ビックリヘッド',
+  'ミストバースト'
+]

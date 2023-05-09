@@ -1,5 +1,5 @@
 // HTMLElementの取得
-function getHTMLInputElement( id: string ): HTMLInputElement {
+function getHTMLInputElement( id: string  ): HTMLInputElement {
   const HTMLElement = <HTMLInputElement>document.getElementById( id );
   return HTMLElement;
 }
@@ -426,18 +426,20 @@ function registerParty( number: number ): void {
   myAllParty[number].order.hand = number;
 
   // 基本ステータス
-  myAllParty[number].status.number = pokemon.number;
-  myAllParty[number].status.name = pokemon.name;
-  myAllParty[number].status.type1 = type1HTML.value;
-  myAllParty[number].status.type2 = type2HTML.value;
-  myAllParty[number].status.gender = genderHTML.value;
-  myAllParty[number].status.ability = abilityHTML.value;
-  myAllParty[number].status.level = Number( levelHTML.value );
-  myAllParty[number].status.item = itemHTML.value;
-  myAllParty[number].status.nature = natureHTML.value;
-  myAllParty[number].status.height = pokemon.height;
-  myAllParty[number].status.weight = pokemon.weight;
-  myAllParty[number].status.remainingHP = Number( actualValue_hitPoint.value );
+  myAllParty[number].statusOrg.number = pokemon.number;
+  myAllParty[number].statusOrg.name = pokemon.name;
+  myAllParty[number].statusOrg.type1 = type1HTML.value;
+  myAllParty[number].statusOrg.type2 = type2HTML.value;
+  myAllParty[number].statusOrg.gender = genderHTML.value;
+  myAllParty[number].statusOrg.ability = abilityHTML.value;
+  myAllParty[number].statusOrg.level = Number( levelHTML.value );
+  myAllParty[number].statusOrg.item = itemHTML.value;
+  myAllParty[number].statusOrg.nature = natureHTML.value;
+  myAllParty[number].statusOrg.height = pokemon.height;
+  myAllParty[number].statusOrg.weight = pokemon.weight;
+  myAllParty[number].statusOrg.remainingHP = Number( actualValue_hitPoint.value );
+
+  myAllParty[number].status = myAllParty[number].statusOrg;
 
   // 実数値・種族値・個体値・努力値
   for ( const parameter of Object.keys( myAllParty[number].actualValue ) ) {
@@ -473,6 +475,7 @@ function registerParty( number: number ): void {
     myAllParty[number].move[i].isDirect = move.isDirect;
     myAllParty[number].move[i].isProtect = move.isProtect;
     myAllParty[number].move[i].target = move.target;
+    myAllParty[number].move[i].number = i;
   }
 
   // 画面に表示
@@ -546,10 +549,10 @@ function editParty( number: number ): void {
 function showPartyPokemon( pokemon: Pokemon ): void {
 
   const partyOrder: number = pokemon.order.party;
-  const handOrder: number | false = pokemon.order.hand;
+  const handOrder: number | null = pokemon.order.hand;
   const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
 
-  if ( handOrder === false ) {
+  if ( handOrder === null ) {
     return;
   }
 
@@ -558,7 +561,6 @@ function showPartyPokemon( pokemon: Pokemon ): void {
   getHTMLInputElement( 'party' + handOrder + '_level' ).textContent = String( pokemon.status.level );
   getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = pokemon.status.type1;
   getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = pokemon.status.type2;
-  getHTMLInputElement( 'party' + handOrder + '_statusAilment' ).textContent = pokemon.status.statusAilment;
   getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = pokemon.status.ability;
   getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( pokemon.status.remainingHP );
 
@@ -595,10 +597,10 @@ function showPartyPokemon( pokemon: Pokemon ): void {
 function resetPartyPokemon( number: number ): void {
 
   const partyOrder: number = myAllParty[number].order.party;
-  const handOrder: number | false = myAllParty[number].order.hand;
+  const handOrder: number | null = myAllParty[number].order.hand;
   const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
 
-  if ( handOrder === false ) {
+  if ( handOrder === null ) {
     return;
   }
 
@@ -718,7 +720,7 @@ function showCommand1stField(): void {
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
 
     for ( const pokemon of myParty ) {
-      if ( pokemon.order.battle !== i + 1 ) {
+      if ( pokemon.order.battle !== i ) {
         continue;
       }
 

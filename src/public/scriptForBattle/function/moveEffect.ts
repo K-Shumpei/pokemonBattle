@@ -1,5 +1,7 @@
 function moveEffect( pokemon: Pokemon ): void {
 
+  console.log(pokemon.moveUsed)
+
   if ( pokemon.moveUsed.category !== '変化' ) {
     // 対象全員へのダメージ計算
     calculateDamageForAll( pokemon );
@@ -21,6 +23,8 @@ function calculateDamageForAll( pokemon: Pokemon ): void {
     }
 
     calculateDamage( pokemon, target );
+
+    console.log( `${target.damage.damage } のダメージ！`);
 
 
 

@@ -15,16 +15,18 @@ function calculateDamage( pokemon: Pokemon, target: Pokemon ): void {
   // 急所判定
   // getCritical(poke, tgt)
   // 攻撃と防御の実数値取得　
-  //const param = getStatus(poke, tgt)
+  // const param = getStatus(poke, tgt)
   // 最終攻撃
-  //const attack = attackCalculation(poke, tgt, param.atk)
+  //const attack = getAttack(poke, tgt, param.atk)
   // 最終防御
   //const defense = defenseCalculation(poke, tgt, param.def)
   // 最終ダメージ
-  //finalDamage(poke, tgt, power, attack, defense)
+  getDamage( pokemon, target, power )
 }
 
 function getPower( pokemon: Pokemon, target: Pokemon ): number {
+
+  // 威力 = 基礎威力 * 威力補正 / 4096
 
   const move: AvailableMove = pokemon.moveUsed;
 
@@ -152,8 +154,125 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
     if ( isWeather( pokemon, 'あめ' ) ) basicPower = 100;
     if ( isWeather( pokemon, 'すなあらし' ) ) basicPower = 100;
     if ( isWeather( pokemon, 'あられ' ) ) basicPower = 100;
-    if ( isWeather( pokemon, 'ゆき' ) ) basicPower = 100;
   }
 
+  if ( move.name === 'だいちのはどう' ) {
+    if ( isGrounded( pokemon ) === true ) {
+      if ( fieldStatus.terrain.name === 'エレキフィールド' ) basicPower = 100;
+      if ( fieldStatus.terrain.name === 'グラスフィールド' ) basicPower = 100;
+      if ( fieldStatus.terrain.name === 'サイコフィールド' ) basicPower = 100;
+      if ( fieldStatus.terrain.name === 'ミストフィールド' ) basicPower = 100;
+    }
+  }
+
+  if ( move.name === 'ライジングボルト' ) {
+    if ( isGrounded( target ) === true && fieldStatus.terrain.name === 'エレキフィールド' ) {
+      basicPower = 140;
+    }
+  }
+
+  if ( move.name === 'かぜおこし' || move.name === 'たつまき' ) {
+    ;
+  }
+
+  if ( move.name === 'アクロバット' ) {
+    if ( pokemon.status.item === '' ) {
+      basicPower = 110;
+    }
+  }
+
+  if ( move.name === 'しぜんのめぐみ' ) {
+    ;
+  }
+
+  if ( move.name === 'なげつける' ) {
+    ;
+  }
+
+  if ( move.name === 'アイスボール' || move.name === 'ころがる' ) {
+    ;
+  }
+
+  if ( move.name === 'エコーボイス' ) {
+    ;
+  }
+
+  if ( move.name === 'じだんだ' ) {
+    ;
+  }
+
+  if ( move.name === 'トリプルキック' ) {
+    ;
+  }
+
+  if ( move.name === 'トリプルアクセル' ) {
+    ;
+  }
+
+  if ( move.name === 'はきだす' ) {
+    ;
+  }
+
+  if ( move.name === 'りんしょう' ) {
+
+  }
+
+  if ( move.name === 'れんぞくぎり' ) {
+    ;
+  }
+
+  if ( move.name === 'くさのちかい' || move.name === 'ほのおのちかい' || move.name === 'みずのちかい' ) {
+    ;
+  }
+
+  if ( move.name === 'エラがみ' || move.name === 'でんげきくちばし' ) {
+    ;
+  }
+
+  if ( move.name === 'おいうち' ) {
+    ;
+  }
+
+  if ( move.name === 'しっぺがえし' ) {
+    ;
+  }
+
+  if ( move.name === 'ダメおし' ) {
+    ;
+  }
+
+  if ( move.name === 'ゆきなだれ' || move.name === 'リベンジ' ) {
+    ;
+  }
+
+  if ( move.name === 'プレゼント' ) {
+    const random: number = getRandom();
+    if ( random >= 0.0 ) basicPower = 40;
+    if ( random >= 0.4 ) basicPower = 80;
+    if ( random >= 0.7 ) basicPower = 120;
+    if ( random >= 0.8 ) basicPower = 0;
+  }
+
+  if ( move.name === 'マグニチュード' ) {
+    ;
+  }
+
+  if ( move.name === 'みずしゅりけん' ) {
+    ;
+  }
+
+
+  // 威力補正
+  let correction: number = 4096;
+
+
+
   return basicPower;
+}
+
+
+
+function getDamage( pokemon: Pokemon, target: Pokemon, power: number ): void {
+
+  target.damage.damage = power;
 }

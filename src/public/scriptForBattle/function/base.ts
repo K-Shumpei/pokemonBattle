@@ -1,3 +1,4 @@
+// 持ち物
 function isItem( pokemon: Pokemon, item: string ): boolean {
 
   if ( pokemon.status.item !== item ) {
@@ -7,6 +8,7 @@ function isItem( pokemon: Pokemon, item: string ): boolean {
   return true;
 }
 
+// 特性
 function isAbility( pokemon: Pokemon, ability: string ): boolean {
 
   if ( pokemon.status.ability !== ability ) {
@@ -33,7 +35,7 @@ function getValueWithRankCorrection( pokemon: Pokemon, parameter: string, critic
   }
 }
 
-// 天候が有効であるかどうか
+// 天気
 function isWeather( pokemon: Pokemon, weather: string ): boolean {
 
   for ( const pokemon of allPokemonInBattlefield() ) {
@@ -98,3 +100,29 @@ function isWeather( pokemon: Pokemon, weather: string ): boolean {
   return false;
 }
 
+
+// 接地判定
+function isGrounded( pokemon: Pokemon ): boolean {
+
+  return true;
+  /*
+  // 姿を隠しているポケモンは、地面にいない
+  if ( poke.myCondition.myHide ) return false
+
+  // 以下の状態のポケモンは、地面にいる
+  if ( poke.myCondition.myIngrain ) return true
+  if ( poke.myCondition.mySmack_down ) return true
+  if ( fieldStatus.myGravity > 0 ) return true
+  if ( poke.myItem == "くろいてっきゅう" && isItem(poke) ) return true
+
+  // 以下の状態のポケモンは、地面にいない
+  if ( poke.myType.includes("ひこう") ) return false
+  if ( poke.myAbility == "ふゆう" && isAbility(poke) ) return false
+  if ( poke.myItem == "ふうせん" && isItem(poke) ) return false
+  if ( poke.myCondition.myMagnet_rise > 0 ) return false
+  if ( poke.myCondition.myTelekinesis > 0 ) return false
+
+  // それ以外のポケモンは、地面にいる
+  return true
+  */
+}

@@ -69,18 +69,20 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
     opponentAllParty[i].order.hand = party[i]._order._hand;
 
     // 基本ステータス
-    opponentAllParty[i].status.number = party[i]._status._number;
-    opponentAllParty[i].status.name = party[i]._status._name;
-    opponentAllParty[i].status.type1 = party[i]._status._type1;
-    opponentAllParty[i].status.type2 = party[i]._status._type2;
-    opponentAllParty[i].status.gender = party[i]._status._gender;
-    opponentAllParty[i].status.ability = party[i]._status._ability;
-    opponentAllParty[i].status.level = party[i]._status._level;
-    opponentAllParty[i].status.item = party[i]._status._item;
-    opponentAllParty[i].status.nature = party[i]._status._nature;
-    opponentAllParty[i].status.height = party[i]._status._height;
-    opponentAllParty[i].status.weight = party[i]._status._weight;
-    opponentAllParty[i].status.remainingHP = party[i]._status._remainingHP;
+    opponentAllParty[i].statusOrg.number = party[i]._status._number;
+    opponentAllParty[i].statusOrg.name = party[i]._status._name;
+    opponentAllParty[i].statusOrg.type1 = party[i]._status._type1;
+    opponentAllParty[i].statusOrg.type2 = party[i]._status._type2;
+    opponentAllParty[i].statusOrg.gender = party[i]._status._gender;
+    opponentAllParty[i].statusOrg.ability = party[i]._status._ability;
+    opponentAllParty[i].statusOrg.level = party[i]._status._level;
+    opponentAllParty[i].statusOrg.item = party[i]._status._item;
+    opponentAllParty[i].statusOrg.nature = party[i]._status._nature;
+    opponentAllParty[i].statusOrg.height = party[i]._status._height;
+    opponentAllParty[i].statusOrg.weight = party[i]._status._weight;
+    opponentAllParty[i].statusOrg.remainingHP = party[i]._status._remainingHP;
+
+    opponentAllParty[i].status = opponentAllParty[i].statusOrg;
 
     // 実数値・種族値・個体値・努力値
     for ( const parameter of Object.keys( party[i]._actualValue ) ) {
@@ -102,6 +104,7 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
       opponentAllParty[i].move[j].isDirect = party[i]._move[j]._isDirect;
       opponentAllParty[i].move[j].isProtect = party[i]._move[j]._isProtect;
       opponentAllParty[i].move[j].target = party[i]._move[j]._target;
+      opponentAllParty[i].move[j].number = j;
     }
 
     // パーティ画像
@@ -166,8 +169,8 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
       myAllParty[myOrder[i]].order.battle = i;
       opponentAllParty[opponentOrder[i]].order.battle = fieldStatus.battleStyle - i - 1;
     } else {
-      myAllParty[myOrder[i]].order.battle = false;
-      opponentAllParty[opponentOrder[i]].order.battle = false;
+      myAllParty[myOrder[i]].order.battle = null;
+      opponentAllParty[opponentOrder[i]].order.battle = null;
     }
     // 手持ちにセット
     myParty.push( myAllParty[myOrder[i]] );
@@ -258,7 +261,13 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.reserve = myCommand[i]._reserve;
       pokemon.command.myTarget = myCommand[i]._myTarget;
       pokemon.command.opponentTarget = myCommand[i]._opponentTarget;
+
+      // 使用する技
+      if ( pokemon.command.move !== false ) {
+        pokemon.moveUsed = pokemon.move[pokemon.command.move];
+      }
     }
+
     for ( const pokemon of opponentParty ) {
       if ( pokemon.order.battle !== i ) {
         continue;
@@ -267,6 +276,11 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.reserve = opponentCommand[i]._reserve;
       pokemon.command.myTarget = opponentCommand[i]._myTarget;
       pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
+
+      // 使用する技
+      if ( pokemon.command.move !== false ) {
+        pokemon.moveUsed = pokemon.move[pokemon.command.move];
+      }
     }
   }
 
@@ -274,5 +288,5 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
   randomList = random;
 
   // ターンの流れ　3.トレーナーの行動、ポケモンの行動順に関する行動
-
+  pokemonAction();
 });
