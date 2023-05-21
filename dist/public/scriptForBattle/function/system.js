@@ -21,7 +21,7 @@ function getPokemonByID(trainer, battleNumber) {
             }
         }
     }
-    if (trainer === 'opponent') {
+    if (trainer === 'opp') {
         for (const pokemon of opponentParty) {
             if (pokemon.order.battle === battleNumber) {
                 return pokemon;
@@ -29,6 +29,14 @@ function getPokemonByID(trainer, battleNumber) {
         }
     }
     return false;
+}
+function getOpponentTrainer(trainer) {
+    if (trainer === 'me') {
+        return 'opp';
+    }
+    else {
+        return 'me';
+    }
 }
 function writeLog(text) {
     const battleLog = getHTMLInputElement('battle_log');

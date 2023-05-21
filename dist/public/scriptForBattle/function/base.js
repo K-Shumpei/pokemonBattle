@@ -13,6 +13,19 @@ function isAbility(pokemon, ability) {
     }
     return true;
 }
+// 状態異常
+function isStatusAilment(pokemon, statusAilment) {
+    if (pokemon.status.statusAilment === statusAilment) {
+        return true;
+    }
+    if (statusAilment === 'どく') {
+        if (pokemon.status.statusAilment === 'もうどく') {
+            return true;
+        }
+    }
+    return false;
+}
+// ランク補正
 function getValueWithRankCorrection(pokemon, parameter, critical) {
     const actualValue = pokemon.actualValue[parameter];
     const rank = pokemon.rank[parameter];
@@ -105,4 +118,18 @@ function isGrounded(pokemon) {
     // それ以外のポケモンは、地面にいる
     return true
     */
+}
+// ポケモンのタイプ
+function getPokemonType(pokemon) {
+    let result = [];
+    if (pokemon.status.type1 !== '') {
+        result.push(pokemon.status.type1);
+    }
+    if (pokemon.status.type2 !== '') {
+        result.push(pokemon.status.type2);
+    }
+    if (result.length === 0) {
+        result.push('');
+    }
+    return result;
 }

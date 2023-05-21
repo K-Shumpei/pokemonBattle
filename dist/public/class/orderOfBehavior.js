@@ -1,7 +1,7 @@
 "use strict";
 class ActionOrderInfo {
     constructor() {
-        this._trainer = '';
+        this._trainer = 'me';
         this._battleNumber = 0;
         this._raise = 0;
         this._lower = 0;

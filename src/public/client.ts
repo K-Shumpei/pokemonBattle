@@ -62,7 +62,7 @@ function findOpponent(): void {
 socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
   for ( let i = 0; i < 6; i++ ) {
     // トレーナーネーム
-    opponentAllParty[i].trainer = 'opponent';
+    opponentAllParty[i].trainer = 'opp';
 
     // 並び順
     opponentAllParty[i].order.party = party[i]._order._party;

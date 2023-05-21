@@ -101,6 +101,28 @@ const typeColor: TypeColorType[] = [
   { name: '不明', light: '9DC1B7', normal: '68A090', dark: '44685E', isOK: true }
 ]
 
+// タイプ相性
+const typeCompatibility: TypeCompatibilityType[] = [
+  { attackType: 'normal',   rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 0.5, ghost: 0.0, dragon: 1.0, dark: 1.0, steel: 0.5, fairy: 1.0 } },
+  { attackType: 'fire',     rate: { normal: 1.0, fire: 0.5, water: 0.5, electric: 1.0, grass: 2.0, ice: 2.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 2.0, rock: 0.5, ghost: 1.0, dragon: 0.5, dark: 1.0, steel: 2.0, fairy: 1.0 } },
+  { attackType: 'water',    rate: { normal: 1.0, fire: 2.0, water: 0.5, electric: 1.0, grass: 0.5, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 2.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 2.0, ghost: 1.0, dragon: 0.5, dark: 1.0, steel: 1.0, fairy: 1.0 } },
+  { attackType: 'electric', rate: { normal: 1.0, fire: 1.0, water: 2.0, electric: 0.5, grass: 0.5, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 0.0, flying: 2.0, psychic: 1.0, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 0.5, dark: 1.0, steel: 1.0, fairy: 1.0 } },
+  { attackType: 'grass',    rate: { normal: 1.0, fire: 0.5, water: 2.0, electric: 1.0, grass: 0.5, ice: 1.0, fighting: 1.0, poison: 0.5, ground: 2.0, flying: 0.5, psychic: 1.0, bug: 0.5, rock: 2.0, ghost: 1.0, dragon: 0.5, dark: 1.0, steel: 0.5, fairy: 1.0 } },
+  { attackType: 'ice',      rate: { normal: 1.0, fire: 0.5, water: 0.5, electric: 1.0, grass: 2.0, ice: 0.5, fighting: 1.0, poison: 1.0, ground: 2.0, flying: 2.0, psychic: 1.0, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 2.0, dark: 1.0, steel: 0.5, fairy: 1.0 } },
+  { attackType: 'fighting', rate: { normal: 2.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 2.0, fighting: 1.0, poison: 0.5, ground: 1.0, flying: 0.5, psychic: 0.5, bug: 0.5, rock: 2.0, ghost: 0.0, dragon: 1.0, dark: 2.0, steel: 2.0, fairy: 0.5 } },
+  { attackType: 'poison',   rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 2.0, ice: 1.0, fighting: 1.0, poison: 0.5, ground: 0.5, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 0.5, ghost: 0.5, dragon: 1.0, dark: 1.0, steel: 0.0, fairy: 2.0 } },
+  { attackType: 'ground',   rate: { normal: 1.0, fire: 2.0, water: 1.0, electric: 2.0, grass: 0.5, ice: 1.0, fighting: 1.0, poison: 2.0, ground: 1.0, flying: 0.0, psychic: 1.0, bug: 0.5, rock: 2.0, ghost: 1.0, dragon: 1.0, dark: 1.0, steel: 2.0, fairy: 1.0 } },
+  { attackType: 'flying',   rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 0.5, grass: 2.0, ice: 1.0, fighting: 2.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 2.0, rock: 0.5, ghost: 1.0, dragon: 1.0, dark: 1.0, steel: 0.5, fairy: 1.0 } },
+  { attackType: 'psychic',  rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 2.0, poison: 2.0, ground: 1.0, flying: 1.0, psychic: 0.5, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 1.0, dark: 0.0, steel: 0.5, fairy: 1.0 } },
+  { attackType: 'bug',      rate: { normal: 1.0, fire: 0.5, water: 1.0, electric: 1.0, grass: 2.0, ice: 1.0, fighting: 0.5, poison: 0.5, ground: 1.0, flying: 0.5, psychic: 2.0, bug: 1.0, rock: 1.0, ghost: 0.5, dragon: 1.0, dark: 2.0, steel: 0.5, fairy: 0.5 } },
+  { attackType: 'rock',     rate: { normal: 1.0, fire: 2.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 2.0, fighting: 0.5, poison: 1.0, ground: 0.5, flying: 2.0, psychic: 1.0, bug: 2.0, rock: 1.0, ghost: 1.0, dragon: 1.0, dark: 1.0, steel: 0.5, fairy: 1.0 } },
+  { attackType: 'ghost',    rate: { normal: 0.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 2.0, bug: 1.0, rock: 1.0, ghost: 2.0, dragon: 1.0, dark: 0.5, steel: 1.0, fairy: 1.0 } },
+  { attackType: 'dragon',   rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 2.0, dark: 1.0, steel: 0.5, fairy: 0.0 } },
+  { attackType: 'dark',     rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 0.5, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 2.0, bug: 1.0, rock: 1.0, ghost: 2.0, dragon: 1.0, dark: 0.5, steel: 1.0, fairy: 0.5 } },
+  { attackType: 'steel',    rate: { normal: 1.0, fire: 0.5, water: 0.5, electric: 0.5, grass: 1.0, ice: 2.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 2.0, ghost: 1.0, dragon: 1.0, dark: 1.0, steel: 0.5, fairy: 2.0 } },
+  { attackType: 'fairy',    rate: { normal: 1.0, fire: 0.5, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 2.0, poison: 0.5, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 2.0, dark: 2.0, steel: 0.5, fairy: 1.0 } },
+]
+
 
 // 音技
 const musicMoveList: string[] = [
@@ -143,4 +165,237 @@ const explosionMoveList: string[] = [
   'だいばくはつ',
   'ビックリヘッド',
   'ミストバースト'
+]
+
+// 粉技
+const powderMoveList: string[] = [
+  'いかりのこな',
+  'キノコのほうし',
+  'しびれごな',
+  'どくのこな',
+  'ねむりごな',
+  'ふんじん',
+  'まほうのこな',
+  'わたほうし'
+]
+
+// 弾技
+const ballMoveList: string[] = [
+  'アイスボール',
+  'アシッドボム',
+  'ウェザーボール',
+  'エナジーボール',
+  'エレキボール',
+  'オクタンほう',
+  'かえんだん',
+  'かえんボール',
+  'かふんだんご',
+  'がんせきほう',
+  'きあいだま',
+  'くちばしキャノン',
+  'ジャイロボール',
+  'シャドーボール',
+  'タネばくだん',
+  'タネマシンガン',
+  'タマゴばくだん',
+  'たまなげ',
+  'でんじほう',
+  'どろばくだん',
+  'はどうだん',
+  'ヘドロばくだん',
+  'マグネットボム',
+  'ミストボール',
+  'ロックブラスト'
+]
+
+// 一撃必殺技
+const oneShotMoveList: string[] = [
+  'じわれ',
+  'ぜったいれいど',
+  'つのドリル',
+  'ハサミギロチン'
+]
+
+// 踏付技(ちいさくなる状態に対して筆誅となる技)
+const stompMoveList: string[] = [
+  'ドラゴンダイブ',
+  'のしかかり',
+  'ハードローラー',
+  'ハイパーダーククラッシャー',
+  'ヒートスタンプ',
+  'ふみつけ',
+  'フライングプレス',
+  'ヘビーボンバー'
+]
+
+// 解氷技
+const meltMoveList: string[] = [
+  'かえんぐるま',
+  'かえんボール',
+  'クロスフレイム',
+  'スチームバースト',
+  'せいなるほのお',
+  'ねっさのだいち',
+  'ねっとう',
+  'ハイドロスチーム',
+  'めらめらバーン',
+  'もえつきる'
+]
+
+// ねむり状態でも使用可能な技
+const sleepingMoveList: string[] = [
+  'いびき',
+  'ねごと'
+]
+
+// 特性の変更可否
+const changeAbilityTable: changeAbilityType[] = [
+  { name: 'ARシステム', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'アイスフェイス', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'イリュージョン', exchange: 1, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 2 },
+  { name: 'うのミサイル', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'かがくのちから', exchange: 0, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 0 },
+  { name: 'かがくへんかガス', exchange: 1, overwrite: 0, noAbility: 0, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'かわりもの', exchange: 2, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 2 },
+  { name: 'きずなへんげ', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'ぎょぐん', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'クォークチャージ', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'こだいかっせい', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'しれいとう', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'じんばいったい', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 0 },
+  { name: 'スワームチェンジ', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'ぜったいねむり', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 0 },
+  { name: 'ダルマモード', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'てんきや', exchange: 2, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 2 },
+  { name: 'トレース', exchange: 0, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 0 },
+  { name: 'なまけ', exchange: 0, overwrite: 1, noAbility: 0, neutral: 0, copy: 0, copied: 0, transform: 0 },
+  { name: 'ばけのかわ', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'バトルスイッチ', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
+  { name: 'ハドロンエンジン', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'はらぺこスイッチ', exchange: 1, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 2 },
+  { name: 'ひひいろのこどう', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'ふしぎなまもり', exchange: 1, overwrite: 0, noAbility: 0, neutral: 0, copy: 0, copied: 1, transform: 0 },
+  { name: 'フラワーギフト', exchange: 2, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 2 },
+  { name: 'マイティチェンジ', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'マルチタイプ', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'リミットシールド', exchange: 1, overwrite: 1, noAbility: 1, neutral: 4, copy: 1, copied: 1, transform: 2 },
+  { name: 'レシーバー', exchange: 0, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 2 },
+]
+
+// プレート
+const plateTable = [
+  { name: 'あおぞらプレート', type: 'ひこう' },
+  { name: 'いかずちプレート', type: 'でんき' },
+  { name: 'がんせきプレート', type: 'いわ' },
+  { name: 'こうてつプレート', type: 'はがね' },
+  { name: 'こぶしのプレート', type: 'かくとう' },
+  { name: 'こわもてプレート', type: 'あく' },
+  { name: 'しずくプレート', type: 'みず' },
+  { name: 'せいれいプレート', type: 'フェアリー' },
+  { name: 'だいちのプレート', type: 'じめん' },
+  { name: 'たまむしプレート', type: 'むし' },
+  { name: 'つららのプレート', type: 'こおり' },
+  { name: 'ひのたまプレート', type: 'ほのお' },
+  { name: 'ふしぎのプレート', type: 'エスパー' },
+  { name: 'みどりのプレート', type: 'くさ' },
+  { name: 'もうどくプレート', type: 'どく' },
+  { name: 'もののけプレート', type: 'ゴースト' },
+  { name: 'りゅうのプレート', type: 'ドラゴン' }
+]
+
+// ジュエル
+const gemTable = [
+  { name: 'あくのジュエル', type: 'あく' },
+  { name: 'いわのジュエル', type: 'いわ' },
+  { name: 'エスパージュエル', type: 'エスパー' },
+  { name: 'かくとうジュエル', type: 'かくとう' },
+  { name: 'くさのジュエル', type: 'くさ' },
+  { name: 'ゴーストジュエル', type: 'ゴースト' },
+  { name: 'こおりのジュエル', type: 'こおり' },
+  { name: 'じめんのジュエル', type: 'じめん' },
+  { name: 'でんきのジュエル', type: 'でんき' },
+  { name: 'どくのジュエル', type: 'どく' },
+  { name: 'ドラゴンジュエル', type: 'ドラゴン' },
+  { name: 'ノーマルジュエル', type: 'ノーマル' },
+  { name: 'はがねのジュエル', type: 'はがね' },
+  { name: 'ひこうのジュエル', type: 'ひこう' },
+  { name: 'フェアリージュエル', type: 'フェアリー' },
+  { name: 'ほのおのジュエル', type: 'ほのお' },
+  { name: 'みずのジュエル', type: 'みず' },
+  { name: 'むしのジュエル', type: 'むし' }
+]
+
+// メモリ
+const memoryTable = [
+  { name: 'アイスメモリ', type: 'こおり' },
+  { name: 'ウオーターメモリ', type: 'みず' },
+  { name: 'エレクトロメモリ', type: 'でんき' },
+  { name: 'グラウンドメモリ', type: 'じめん' },
+  { name: 'グラスメモリ', type: 'くさ' },
+  { name: 'ゴーストメモリ', type: 'ゴースト' },
+  { name: 'サイキックメモリ', type: 'エスパー' },
+  { name: 'スチールメモリ', type: 'はがね' },
+  { name: 'ダークメモリ', type: 'あく' },
+  { name: 'ドラゴンメモリ', type: 'ドラゴン' },
+  { name: 'バグメモリ', type: 'むし' },
+  { name: 'ファイトメモリ', type: 'かくとう' },
+  { name: 'ファイヤーメモリ', type: 'ほのお' },
+  { name: 'フェアリーメモリ', type: 'フェアリー' },
+  { name: 'フライングメモリ', type: 'ひこう' },
+  { name: 'ポイズンメモリ', type: 'どく' },
+  { name: 'ロックメモリ', type: 'いわ' }
+]
+
+// カセット
+const driveTable = [
+  { name: 'アクアカセット', type: 'みず' },
+  { name: 'イナズマカセット', type: 'でんき' },
+  { name: 'フリーズカセット', type: 'こおり' },
+  { name: 'ブレイズカセット', type: 'ほのお' }
+]
+
+// Zクリスタル
+const zCrystalTable = [
+  { name: 'アクZ', type: 'あく', Zmove: 'ブラックホールイクリプス', move: '', pokemon: '' },
+  { name: 'アシレーヌZ', type: 'みず', Zmove: 'わだつみのシンフォニア', move: 'うたかたのアリア', pokemon: 'アシレーヌ' },
+  { name: 'アロライZ', type: 'でんき', Zmove: 'ライトニングサーフライド', move: '10まんボルト', pokemon: 'ライチュウ(アローラ)' },
+  { name: 'イーブイZ', type: 'ノーマル', Zmove: 'ナインエボルブースト', move: 'とっておき', pokemon: 'イーブイ' },
+  { name: 'イワZ', type: 'いわ', Zmove: 'ワールズエンドフォール', move: '', pokemon: '' },
+  { name: 'ウルトラネクロZ', type: 'エスパー', Zmove: 'てんこがすめつぼうのひかり', move: 'フォトンゲイザー', pokemon: 'ネクロズマ(ウルトラ)' },
+  { name: 'エスパーZ', type: 'エスパー', Zmove: 'マキシマムサイブレイカー', move: '', pokemon: '' },
+  { name: 'ガオガエンZ', type: 'あく', Zmove: 'ハイパーダーククラッシャー', move: 'DDラリアット', pokemon: 'ガオガエン' },
+  { name: 'カクトウZ', type: 'かくとう', Zmove: 'ぜんりょくむそうげきれつけん', move: '', pokemon: '' },
+  { name: 'カビゴンZ', type: 'ノーマル', Zmove: 'ほんきをだすこうげき', move: 'ギガインパクト', pokemon: 'カビゴン' },
+  { name: 'カプZ', type: 'フェアリー', Zmove: 'ガーディアン・デ・アローラ', move: 'しぜんのいかり', pokemon: 'カプ・コケコ' },
+  { name: 'カプZ', type: 'フェアリー', Zmove: 'ガーディアン・デ・アローラ', move: 'しぜんのいかり', pokemon: 'カプ・テテフ' },
+  { name: 'カプZ', type: 'フェアリー', Zmove: 'ガーディアン・デ・アローラ', move: 'しぜんのいかり', pokemon: 'カプ・ブルル' },
+  { name: 'カプZ', type: 'フェアリー', Zmove: 'ガーディアン・デ・アローラ', move: 'しぜんのいかり', pokemon: 'カプ・レヒレ' },
+  { name: 'クサZ', type: 'くさ', Zmove: 'ブルームシャインエクストラ', move: '', pokemon: '' },
+  { name: 'ゴーストZ', type: 'ゴースト', Zmove: 'むげんあんやへのいざない', move: '', pokemon: '' },
+  { name: 'コオリZ', type: 'こおり', Zmove: 'レイジングジオフリーズ', move: '', pokemon: '' },
+  { name: 'サトピカZ', type: '', Zmove: '', move: '', pokemon: '' },
+  { name: 'ジメンZ', type: 'じめん', Zmove: 'ライジングランドオーバー', move: '', pokemon: '' },
+  { name: 'ジャラランガZ', type: 'ドラゴン', Zmove: 'ブレイジングソウルビート', move: 'スケイルノイズ', pokemon: 'ジャラランガ' },
+  { name: 'ジュナイパーZ', type: 'ゴースト', Zmove: 'シャドーアローズストライク', move: 'かげぬい', pokemon: 'ジュナイパー' },
+  { name: 'ソルガレオZ', type: 'はがね', Zmove: 'サンシャインスマッシャー', move: 'メテオドライブ', pokemon: 'ソルガレオ' },
+  { name: 'ソルガレオZ', type: 'はがね', Zmove: 'サンシャインスマッシャー', move: 'メテオドライブ', pokemon: 'ネクロズマ(日食)' },
+  { name: 'デンキZ', type: 'でんき', Zmove: 'スパーキングギガボルト', move: '', pokemon: '' },
+  { name: 'ドクZ', type: 'どく', Zmove: 'アシッドポイズンデリート', move: '', pokemon: '' },
+  { name: 'ドラゴンZ', type: 'ドラゴン', Zmove: 'アルティメットドラゴンバーン', move: '', pokemon: '' },
+  { name: 'ノーマルZ', type: 'ノーマル', Zmove: 'ウルトラダッシュアタック', move: '', pokemon: '' },
+  { name: 'ハガネZ', type: 'はがね', Zmove: 'ちょうぜつらせんれんげき', move: '', pokemon: '' },
+  { name: 'ピカチュウZ', type: 'でんき', Zmove: 'ひっさつのピカチュート', move: 'ボルテッカー', pokemon: 'ピカチュウ' },
+  { name: 'ヒコウZ', type: 'ひこう', Zmove: 'ファイナルダイブクラッシュ', move: '', pokemon: '' },
+  { name: 'フェアリーZ', type: 'フェアリー', Zmove: 'ラブリースターインパクト', move: '', pokemon: '' },
+  { name: 'ホノオZ', type: 'ほのお', Zmove: 'ダイナミックフルフレイム', move: '', pokemon: '' },
+  { name: 'マーシャドーZ', type: 'ゴースト', Zmove: 'しちせいだっこんたい', move: 'シャドースチール', pokemon: 'マーシャドー' },
+  { name: 'ミズZ', type: 'みず', Zmove: 'スーパーアクアトルネード', move: '', pokemon: '' },
+  { name: 'ミミッキュZ', type: 'フェアリー', Zmove: 'ぽかぽかフレンドタイム', move: 'じゃれつく', pokemon: 'ミミッキュ' },
+  { name: 'ミュウZ', type: 'エスパー', Zmove: 'オリジンズスーパーノヴァ', move: 'サイコキネシス', pokemon: 'ミュウ' },
+  { name: 'ムシZ', type: 'むし', Zmove: 'ぜったいほしょくかいてんざん', move: '', pokemon: '' },
+  { name: 'ルガルガンZ', type: 'いわ', Zmove: 'ラジアルエッジストーム', move: 'ストーンエッジ', pokemon: 'ルガルガン(真昼)' },
+  { name: 'ルガルガンZ', type: 'いわ', Zmove: 'ラジアルエッジストーム', move: 'ストーンエッジ', pokemon: 'ルガルガン(真夜中)' },
+  { name: 'ルガルガンZ', type: 'いわ', Zmove: 'ラジアルエッジストーム', move: 'ストーンエッジ', pokemon: 'ルガルガン(黄昏)' },
+  { name: 'ルナアーラZ', type: 'ゴースト', Zmove: 'ムーンライトブラスター', move: 'シャドーレイ', pokemon: 'ルナアーラ' },
+  { name: 'ルナアーラZ', type: 'ゴースト', Zmove: 'ムーンライトブラスター', move: 'シャドーレイ', pokemon: 'ネクロズマ(月食)' }
 ]

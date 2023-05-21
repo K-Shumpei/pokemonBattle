@@ -20,7 +20,7 @@ interface ClientToServerEvents {
 
 const app = express();
 const httpServer = createServer( app );
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 2000;
 const io = new Server<ClientToServerEvents, ServerToClientEvents>( httpServer );
 
 // 公開フォルダの指定
@@ -195,7 +195,7 @@ io.on("connection", (socket) => {
       if ( room.player1.command.length !== 0 && room.player2.command.length !== 0 ) {
         const randomList: number[] = []
         for ( let i = 0; i < 100; i++ ) {
-          randomList.push( Math.floor( Math.random() * 100 ) / 100 )
+          randomList.push( Math.floor( Math.random() * 100 ) )
         }
         io.to( room.player1.socketID ).emit( 'returnCommand', room.player1.command, room.player2.command, randomList );
         io.to( room.player2.socketID ).emit( 'returnCommand', room.player2.command, room.player1.command, randomList );

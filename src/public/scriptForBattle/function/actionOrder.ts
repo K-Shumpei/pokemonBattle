@@ -48,6 +48,38 @@ function getActionOrder(): ActionOrderInfo[] {
   return actionOrder;
 }
 
+// 場のポケモンをすばやさ実数値順に並べる
+function getSpeedOrder(): ActionOrderInfo[] {
+
+  const speedOrder: ActionOrderInfo[] = [];
+
+  for ( const pokemon of allPokemonInBattlefield() ) {
+    if ( pokemon.command.move === false ) {
+      continue;
+    }
+
+    const info = new ActionOrderInfo;
+
+    info.trainer = pokemon.trainer;
+    info.battleNumber = pokemon.order.battle;
+    info.speed = getSpeedValue( pokemon, 'a' );
+    info.random = getRandom();
+
+    speedOrder.push( info );
+  }
+
+  speedOrder.sort( (a, b) => {
+    // 素早さ
+    if ( a.speed > b.speed ) return -1;
+    if ( a.speed < b.speed ) return 1;
+    // 乱数
+    if ( a.random > b.random ) return -1;
+    else return 1;
+  })
+
+  return speedOrder;
+}
+
 
 function getActionOrderRaise( pokemon: Pokemon ): number {
 
@@ -89,7 +121,7 @@ function getSpeedValue( pokemon: Pokemon, type: string ): number {
   speedTypeB = fiveRoundEntry( speedTypeB * correction / 4096 );
 
   // まひ補正
-  if ( pokemon.status.statusAilment === 'まひ' ) {
+  if ( pokemon.status.statusAilment.name === 'まひ' ) {
     speedTypeB = Math.floor( speedTypeB * 2048 / 4096 );
   }
 

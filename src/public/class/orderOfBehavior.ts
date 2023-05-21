@@ -1,5 +1,5 @@
 class ActionOrderInfo {
-  _trainer: string;
+  _trainer: 'me' | 'opp';
   _battleNumber: number | null;
   _raise: number;
   _lower: number;
@@ -10,7 +10,7 @@ class ActionOrderInfo {
   _random: number;
 
   constructor() {
-    this._trainer = '';
+    this._trainer = 'me';
     this._battleNumber = 0;
     this._raise = 0;
     this._lower = 0;
@@ -21,7 +21,7 @@ class ActionOrderInfo {
     this._random = 0;
   }
 
-  set trainer( trainer: string ) {
+  set trainer( trainer: 'me' | 'opp' ) {
     this._trainer = trainer;
   }
   set battleNumber( battleNumber: number | null ) {
@@ -49,7 +49,7 @@ class ActionOrderInfo {
     this._random = random;
   }
 
-  get trainer(): string {
+  get trainer(): 'me' | 'opp' {
     return this._trainer;
   }
   get battleNumber(): number | null {

@@ -150,7 +150,7 @@ function getPower(pokemon, target) {
         }
     }
     if (move.name === 'たたりめ') {
-        if (target.status.statusAilment !== false) {
+        if (target.status.statusAilment !== null) {
             basicPower = 130;
         }
     }

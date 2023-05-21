@@ -1,4 +1,7 @@
 // 参考：https://wiki.xn--rckteqa2e.com/wiki/%E3%82%8F%E3%81%96%E4%B8%80%E8%A6%A7_(%E7%AC%AC%E4%B9%9D%E4%B8%96%E4%BB%A3)
+// 威力が「0」のわざは、ダメージを与えないわざ。
+// 威力が「1」のわざは、条件によってダメージが変動するわざ、もしくはダメージ固定技。
+// 命中が「0」のわざは、必ず当たる。
 
 const moveData: MoveDataType[] = [
   { name: '10まんばりき', type: 'じめん', category: '物理', power: 95, accuracy: 95, powerPoint: 10, isDirect: true, isProtect: true, target: "", discription: "" },

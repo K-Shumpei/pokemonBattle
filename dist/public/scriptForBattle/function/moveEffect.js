@@ -1,6 +1,5 @@
 "use strict";
 function moveEffect(pokemon) {
-    console.log(pokemon.moveUsed);
     if (pokemon.moveUsed.category !== '変化') {
         // 対象全員へのダメージ計算
         calculateDamageForAll(pokemon);

@@ -39,7 +39,7 @@ class Status {
         this._weight = 1.0;
         this._happiness = 255;
         this._remainingHP = 0;
-        this._statusAilment = false;
+        this._statusAilment = null;
     }
     set number(number) {
         this._number = number;
@@ -130,7 +130,32 @@ class Status {
     }
     declareInvalid(info) {
         info.success = false;
-        writeLog(`${this._name} には 効果がないようだ...`);
+        writeLog(`${this._name}には 効果がないようだ...`);
+    }
+    declareNotHit(info) {
+        info.success = false;
+        writeLog(`${this._name}には 当たらなかった!`);
+    }
+    declareCannotMove() {
+        writeLog(`${this._name}は 攻撃の 反動で 動けない!`);
+    }
+    abilityInfo() {
+        for (const info of changeAbilityTable) {
+            if (info.name === this._ability) {
+                return info;
+            }
+        }
+        const sample = {
+            name: '',
+            exchange: 4,
+            overwrite: 4,
+            noAbility: 4,
+            neutral: 4,
+            copy: 4,
+            copied: 4,
+            transform: 4
+        };
+        return sample;
     }
 }
 class ParameterSix {
@@ -373,6 +398,10 @@ class Target {
     get success() {
         return this._success;
     }
+    failure() {
+        this._success === false;
+        writeLog(`しかし うまく決まらなかった...`);
+    }
 }
 class Command {
     constructor() {
@@ -409,9 +438,12 @@ class Command {
 class StateChange {
     constructor(name) {
         this._name = name;
-        this._isTrue = false;
+        this._isTrue = true;
         this._turn = 0;
         this._count = 0;
+    }
+    set name(name) {
+        this._name = name;
     }
     set isTrue(isTrue) {
         this._isTrue = isTrue;
@@ -421,6 +453,9 @@ class StateChange {
     }
     set count(count) {
         this._count = count;
+    }
+    get name() {
+        return this._name;
     }
     get isTrue() {
         return this._isTrue;
@@ -433,67 +468,215 @@ class StateChange {
     }
 }
 class StateChangeSummary {
-    /*
-    でんじふゆう
-    がまん
-    パワートリック
-    へんしん
-    そらをとぶ
-    あなをほる
-    ダイビング
-    シャドーダイブ
-    ボディパージ
-    ほろびのうた
-    こんらん
-    にげられない
-  
-    とくせいの効果で発生
-    メロメロ (メロメロボディ)
-    かなしばり (のろわれボディ)
-    へんしん (かわりもの)
-    マジックコート (マジックミラー)
-    ほろびのうた (ほろびのボディ)
-  
-    アイテムを使うと発生
-    きゅうしょアップ (クリティカット、サンのみ)
-    エフェクトガード (第二世代まで。第三世代以降は場の状態に)
-    ヨクアタール (第二世代まで。第三世代以降は命中率のランク補正に)
-    こんらん (第二世代のみはかいのいでんし。第三世代以降は嫌いな味の混乱きのみ)
-    */
     constructor() {
+        this._curse = new StateChange('のろい');
+        this._attract = new StateChange('メロメロ');
+        this._leechSeed = new StateChange('やどりぎのタネ');
+        this._yawn = new StateChange('ねむけ');
+        this._perishSong = new StateChange('ほろびのうた');
+        this._noAbility = new StateChange('とくせいなし');
+        this._embargo = new StateChange('さしおさえ');
+        this._encore = new StateChange('アンコール');
+        this._torment = new StateChange('いちゃもん');
+        this._taunt = new StateChange('ちょうはつ');
+        this._disable = new StateChange('かなしばり');
+        this._foresight = new StateChange('みやぶられている');
+        this._miracleEye = new StateChange('ミラクルアイ');
         this._smackDown = new StateChange('うちおとす');
+        this._telekinesis = new StateChange('テレキネシス');
         this._powder = new StateChange('ふんじん');
+        this._tarShot = new StateChange('タールショット');
+        this._focusEnergy = new StateChange('きゅうしょアップ');
+        this._substitute = new StateChange('みがわり');
+        this._lockOn = new StateChange('ロックオン');
+        this._minimize = new StateChange('ちいさくなる');
         this._ingrain = new StateChange('ねをはる');
+        this._aquaRing = new StateChange('アクアリング');
         this._stockpile = new StateChange('たくわえる');
+        this._magnetRise = new StateChange('でんじふゆう');
+        this._transform = new StateChange('へんしん');
+        this._confuse = new StateChange('こんらん');
+        this._cannotMove = new StateChange('反動で動けない');
+        this._dynamax = new StateChange('ダイマックス');
+    }
+    set curse(curse) {
+        this._curse = curse;
+    }
+    set attract(attract) {
+        this._attract = attract;
+    }
+    set leechSeed(leechSeed) {
+        this._leechSeed = leechSeed;
+    }
+    set yawn(yawn) {
+        this._yawn = yawn;
+    }
+    set perishSong(perishSong) {
+        this._perishSong = perishSong;
+    }
+    set noAbility(noAbility) {
+        this._noAbility = noAbility;
+    }
+    set embargo(embargo) {
+        this._embargo = embargo;
+    }
+    set encore(encore) {
+        this._encore = encore;
+    }
+    set torment(torment) {
+        this._torment = torment;
+    }
+    set taunt(taunt) {
+        this._taunt = taunt;
+    }
+    set disable(disable) {
+        this._disable = disable;
+    }
+    set foresight(foresight) {
+        this._foresight = foresight;
+    }
+    set miracleEye(miracleEye) {
+        this._miracleEye = miracleEye;
     }
     set smackDown(smackDown) {
         this._smackDown = smackDown;
     }
+    set telekinesis(telekinesis) {
+        this._telekinesis = telekinesis;
+    }
     set powder(powder) {
         this._powder = powder;
+    }
+    set tarShot(tarShot) {
+        this._tarShot = tarShot;
+    }
+    set focusEnergy(focusEnergy) {
+        this._focusEnergy = focusEnergy;
+    }
+    set substitute(substitute) {
+        this._substitute = substitute;
+    }
+    set lockOn(lockOn) {
+        this._lockOn = lockOn;
+    }
+    set minimize(minimize) {
+        this._minimize = minimize;
     }
     set ingrain(ingrain) {
         this._ingrain = ingrain;
     }
+    set aquaRing(aquaRing) {
+        this._aquaRing = aquaRing;
+    }
     set stockpile(stockpile) {
         this._stockpile = stockpile;
+    }
+    set magnetRise(magnetRise) {
+        this._magnetRise = magnetRise;
+    }
+    set transform(transform) {
+        this._transform = transform;
+    }
+    set confuse(confuse) {
+        this._confuse = confuse;
+    }
+    set cannotMove(cannotMove) {
+        this._cannotMove = cannotMove;
+    }
+    set dynamax(dynamax) {
+        this._dynamax = dynamax;
+    }
+    get curse() {
+        return this._curse;
+    }
+    get attract() {
+        return this._attract;
+    }
+    get leechSeed() {
+        return this._leechSeed;
+    }
+    get yawn() {
+        return this._yawn;
+    }
+    get perishSong() {
+        return this._perishSong;
+    }
+    get noAbility() {
+        return this._noAbility;
+    }
+    get embargo() {
+        return this._embargo;
+    }
+    get encore() {
+        return this._encore;
+    }
+    get torment() {
+        return this._torment;
+    }
+    get taunt() {
+        return this._taunt;
+    }
+    get disable() {
+        return this._disable;
+    }
+    get foresight() {
+        return this._foresight;
+    }
+    get miracleEye() {
+        return this._miracleEye;
     }
     get smackDown() {
         return this._smackDown;
     }
+    get telekinesis() {
+        return this._telekinesis;
+    }
     get powder() {
         return this._powder;
+    }
+    get tarShot() {
+        return this._tarShot;
+    }
+    get focusEnergy() {
+        return this._focusEnergy;
+    }
+    get substitute() {
+        return this._substitute;
+    }
+    get lockOn() {
+        return this._lockOn;
+    }
+    get minimize() {
+        return this._minimize;
     }
     get ingrain() {
         return this._ingrain;
     }
+    get aquaRing() {
+        return this._aquaRing;
+    }
     get stockpile() {
         return this._stockpile;
+    }
+    get magnetRise() {
+        return this._magnetRise;
+    }
+    get transform() {
+        return this._transform;
+    }
+    get confuse() {
+        return this._confuse;
+    }
+    get cannotMove() {
+        return this._cannotMove;
+    }
+    get dynamax() {
+        return this._dynamax;
     }
 }
 class Pokemon {
     constructor() {
-        this._trainer = '';
+        this._trainer = 'me';
         this._order = new Order;
         this._status = new Status;
         this._statusOrg = new Status;

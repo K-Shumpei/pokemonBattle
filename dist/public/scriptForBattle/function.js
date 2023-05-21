@@ -46,6 +46,14 @@ function translateENintoJP(string) {
     }
     return '';
 }
+function translateJPintoEN(string) {
+    for (const dictionary of translationDictionary) {
+        if (dictionary.JP === string) {
+            return dictionary.EN;
+        }
+    }
+    return '';
+}
 function getBaseStatusList(pokemon) {
     const baseStatusList = {
         hitPoint: pokemon.hitPoint,

@@ -66,6 +66,17 @@ function translateENintoJP( string: string ): string {
   return '';
 }
 
+function translateJPintoEN( string: string ): string {
+
+  for ( const dictionary of translationDictionary ) {
+    if ( dictionary.JP === string ) {
+      return dictionary.EN;
+    }
+  }
+
+  return '';
+}
+
 function getBaseStatusList( pokemon: PokemonDataType ): ParameterSixType {
 
   const baseStatusList: ParameterSixType = {

@@ -26,7 +26,7 @@ function getPokemonByID( trainer: string, battleNumber: number | null ): Pokemon
       }
     }
   }
-  if ( trainer === 'opponent' ) {
+  if ( trainer === 'opp' ) {
     for ( const pokemon of opponentParty ) {
       if ( pokemon.order.battle === battleNumber ) {
         return pokemon;
@@ -37,13 +37,22 @@ function getPokemonByID( trainer: string, battleNumber: number | null ): Pokemon
   return false;
 }
 
+function getOpponentTrainer( trainer: 'me' | 'opp' ): 'me' | 'opp' {
+
+  if ( trainer === 'me' ) {
+    return 'opp';
+  } else  {
+    return 'me';
+  }
+}
+
 function writeLog( text: string ): void {
 
   const battleLog = getHTMLInputElement( 'battle_log' );
   battleLog.value += text + "\n";
 }
 
-// 乱数 0以上1未満 0.00, 0.01, 0.02, 0.03, ・・・ , 0.98, 0.99 の 100種類
+// 乱数 0以上100未満の整数
 function getRandom(): number {
 
   const first = randomList[0];

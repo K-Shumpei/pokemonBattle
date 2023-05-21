@@ -44,7 +44,7 @@ class Status {
   _weight: number;
   _happiness: number;
   _remainingHP: number;
-  _statusAilment: string | false;
+  _statusAilment: StateChange;
 
   constructor() {
     this._number = '';
@@ -60,7 +60,7 @@ class Status {
     this._weight = 1.0;
     this._happiness = 255;
     this._remainingHP = 0;
-    this._statusAilment = false;
+    this._statusAilment = new StateChange( '' );
   }
 
   set number( number: string ) {
@@ -102,7 +102,7 @@ class Status {
   set remainingHP( remainingHP: number ) {
     this._remainingHP = remainingHP;
   }
-  set statusAilment( statusAilment: string | false ) {
+  set statusAilment( statusAilment: StateChange ) {
     this._statusAilment = statusAilment;
   }
 
@@ -145,12 +145,66 @@ class Status {
   get remainingHP(): number {
     return this._remainingHP;
   }
-  get statusAilment(): string | false {
+  get statusAilment(): StateChange {
     return this._statusAilment;
   }
 
   declareAbility(): void {
-    writeLog( `${this._name} の ${this._ability}` )
+    writeLog( `${this._name} の ${this._ability}` );
+  }
+
+  declareInvalid( info: Target ): void {
+    info.success = false;
+    writeLog( `${this._name}には 効果がないようだ...` );
+  }
+
+  declareNotHit( info: Target ): void {
+    info.success = false;
+    writeLog( `${this._name}には 当たらなかった!` );
+  }
+
+  declareCannotMove(): void {
+    writeLog( `${this._name}は 攻撃の 反動で 動けない!` );
+  }
+
+  declareSleeping(): void {
+    writeLog( `${this._name}は ぐうぐう 眠っている` );
+  }
+
+  declareFleezed(): void {
+    writeLog( `${this._name}は 凍って 動けない!` );
+  }
+
+  cureAilment(): void {
+
+    if ( this._statusAilment.name === 'ねむり' ) {
+      writeLog( `${this._name}は 目を 覚ました!` );
+    }
+    if ( this._statusAilment.name === 'こおり' ) {
+      writeLog( `${this._name}の こおりが 溶けた!` );
+    }
+
+    this._statusAilment = new StateChange( '' );
+  }
+
+  abilityInfo(): changeAbilityType {
+    for ( const info of changeAbilityTable ) {
+      if ( info.name === this._ability ) {
+        return info;
+      }
+    }
+
+    const sample = {
+      name: '',
+      exchange: 4,
+      overwrite: 4,
+      noAbility: 4,
+      neutral: 4,
+      copy: 4,
+      copied: 4,
+      transform: 4 };
+
+    return sample;
   }
 }
 
@@ -386,6 +440,9 @@ class AvailableMove {
     return false;
   }
 
+  runOutPP(): void {
+    writeLog( `しかし 技の ポイントが なかった!` );
+  }
 }
 
 
@@ -452,6 +509,11 @@ class Target {
   get success(): boolean {
     return this._success;
   }
+
+  failure(): void {
+    this._success === false;
+    writeLog( `しかし うまく決まらなかった...` );
+  }
 }
 
 class Command {
@@ -507,6 +569,9 @@ class StateChange {
     this._count = 0;
   }
 
+  set name ( name: string ) {
+    this._name = name;
+  }
   set isTrue( isTrue: boolean ) {
     this._isTrue = isTrue;
   }
@@ -517,6 +582,9 @@ class StateChange {
     this._count = count;
   }
 
+  get name(): string {
+    return this._name;
+  }
   get isTrue(): boolean {
     return this._isTrue;
   }
@@ -536,26 +604,36 @@ class StateChangeSummary {
   こんらん
   ひるみ
   バインド
-  のろい
-  あくむ
-  メロメロ
-  やどりぎのタネ
-  ねむけ
-  ほろびのうた
-  ロックオン (第四世代まで。第五世代以降は使ったポケモンに発生)
-  とくせいなし
-  かいふくふうじ
-  さしおさえ
-  はたきおとす (第四世代まで。第五世代以降は単にもちものが無くなる)
-  アンコール
-  いちゃもん
-  ちょうはつ
-  かなしばり
-  みやぶられている
-  ミラクルアイ
-  てだすけ
-  うちおとす
-  テレキネシス
+  */
+  _curse: StateChange; // のろい
+  // あくむ
+
+
+  _attract: StateChange; // メロメロ
+  _leechSeed: StateChange; // やどりぎのタネ
+
+
+  _yawn: StateChange; // ねむけ
+  _perishSong: StateChange; // ほろびのうた
+
+
+  _noAbility: StateChange; // とくせいなし
+  // かいふくふうじ
+
+  _embargo: StateChange; //さしおさえ
+  _encore: StateChange; // アンコール
+  _torment: StateChange; // いちゃもん
+  _taunt: StateChange; // ちょうはつ
+  _disable: StateChange; // かなしばり
+  _foresight: StateChange; // みやぶられている
+  _miracleEye: StateChange; // ミラクルアイ
+
+  // てだすけ
+
+  _smackDown: StateChange; // うちおとす
+  _telekinesis: StateChange; // テレキネシス
+
+  /*
   にげられない
   そうでん
   */
@@ -566,24 +644,34 @@ class StateChangeSummary {
   じごくづき
   ハロウィン
   もりののろい
-  きゅうしょアップ (サンのみをなげつける・おちゃかいで消費させられたとき)
   ちゅうもくのまと
-  タールショット
-  たこがため
+  */
 
-  わざを使ったポケモンに発生
-  リフレクター (第一世代のみ。第二世代以降は場の状態に)
-  ひかりのかべ (第一世代のみ。第二世代以降は場の状態に)
-  きゅうしょアップ
-  ちゅうもくのまと
-  みがわり
-  まもる
-  ロックオン (第五世代以降)
+  _tarShot: StateChange; // タールショット
+
+
+  // たこがため
+
+  // わざを使ったポケモンに発生
+
+  _focusEnergy: StateChange; // きゅうしょアップ
+
+
+  // ちゅうもくのまと
+  _substitute: StateChange; // みがわり
+  // まもる
+
+  _lockOn: StateChange; //ロックオン (第五世代以降)
+
+  /*
   キングシールド
   トーチカ
   ブロッキング
   しろいきり (第二世代まで。第三世代以降は場の状態に)
-  ちいさくなる
+  */
+  _minimize: StateChange; //ちいさくなる
+
+  /*
   まるくなる
   みちづれ
   おんねん
@@ -594,25 +682,32 @@ class StateChangeSummary {
   みずあそび (第五世代まで。第六世代以降は場の状態に)
   いかり
   マジックコート
-  ねをはる
-  アクアリング
-  じゅうでん
   */
 
+  _ingrain: StateChange; // ねをはる
+
+  _aquaRing: StateChange; //アクアリング
+  // じゅうでん
+
   _stockpile: StateChange; // たくわえる
+  _magnetRise: StateChange; // でんじふゆう
 
   /*
-  でんじふゆう
   がまん
   パワートリック
-  へんしん
+  */
+  _transform: StateChange; // へんしん
+
+  /*
   そらをとぶ
   あなをほる
   ダイビング
   シャドーダイブ
   ボディパージ
   ほろびのうた
-  こんらん
+  */
+  _confuse: StateChange; // こんらん
+  /*
   にげられない
 
   とくせいの効果で発生
@@ -621,31 +716,220 @@ class StateChangeSummary {
   へんしん (かわりもの)
   マジックコート (マジックミラー)
   ほろびのうた (ほろびのボディ)
-
-  アイテムを使うと発生
-  きゅうしょアップ (クリティカット、サンのみ)
-  エフェクトガード (第二世代まで。第三世代以降は場の状態に)
-  ヨクアタール (第二世代まで。第三世代以降は命中率のランク補正に)
-  こんらん (第二世代のみはかいのいでんし。第三世代以降は嫌いな味の混乱きのみ)
   */
 
+
+  _cannotMove: StateChange; // 反動で動けない（状態変化ではない）
+  _dynamax: StateChange; // ダイマックス（状態変化ではない）
+
   constructor() {
+    this._curse = new StateChange( 'のろい' );
+    this._attract = new StateChange( 'メロメロ' );
+    this._leechSeed = new StateChange( 'やどりぎのタネ' );
+    this._yawn = new StateChange( 'ねむけ' );
+    this._perishSong = new StateChange( 'ほろびのうた' );
+    this._noAbility = new StateChange( 'とくせいなし' );
+    this._embargo = new StateChange( 'さしおさえ' );
+    this._encore = new StateChange( 'アンコール' );
+    this._torment = new StateChange( 'いちゃもん' );
+    this._taunt = new StateChange( 'ちょうはつ' );
+    this._disable = new StateChange( 'かなしばり' );
+    this._foresight = new StateChange( 'みやぶられている' );
+    this._miracleEye = new StateChange( 'ミラクルアイ' );
+    this._smackDown = new StateChange( 'うちおとす' );
+    this._telekinesis = new StateChange( 'テレキネシス' );
     this._powder = new StateChange( 'ふんじん' );
+    this._tarShot = new StateChange( 'タールショット' );
+
+    this._focusEnergy = new StateChange( 'きゅうしょアップ' );
+    this._substitute = new StateChange( 'みがわり' );
+    this._lockOn = new StateChange( 'ロックオン' );
+    this._minimize = new StateChange( 'ちいさくなる' );
+    this._ingrain = new StateChange( 'ねをはる' );
+    this._aquaRing = new StateChange( 'アクアリング' );
     this._stockpile = new StateChange( 'たくわえる' );
+    this._magnetRise = new StateChange( 'でんじふゆう' );
+    this._transform = new StateChange( 'へんしん' );
+    this._confuse = new StateChange( 'こんらん' );
+
+    this._cannotMove = new StateChange( '反動で動けない' );
+    this._dynamax = new StateChange( 'ダイマックス' );
   }
 
+  set curse( curse: StateChange ) {
+    this._curse = curse;
+  }
+  set attract( attract: StateChange ) {
+    this._attract = attract;
+  }
+  set leechSeed( leechSeed: StateChange ) {
+    this._leechSeed = leechSeed;
+  }
+  set yawn( yawn: StateChange ) {
+    this._yawn = yawn;
+  }
+  set perishSong( perishSong: StateChange ) {
+    this._perishSong = perishSong;
+  }
+  set noAbility( noAbility: StateChange ) {
+    this._noAbility = noAbility;
+  }
+  set embargo( embargo: StateChange ) {
+    this._embargo = embargo;
+  }
+  set encore( encore: StateChange ) {
+    this._encore = encore;
+  }
+  set torment( torment: StateChange ) {
+    this._torment = torment;
+  }
+  set taunt( taunt: StateChange ) {
+    this._taunt = taunt;
+  }
+  set disable( disable: StateChange ) {
+    this._disable = disable;
+  }
+  set foresight( foresight: StateChange ) {
+    this._foresight = foresight;
+  }
+  set miracleEye( miracleEye: StateChange ) {
+    this._miracleEye = miracleEye;
+  }
+  set smackDown( smackDown: StateChange ) {
+    this._smackDown = smackDown;
+  }
+  set telekinesis( telekinesis: StateChange ) {
+    this._telekinesis = telekinesis;
+  }
   set powder( powder: StateChange ) {
     this._powder = powder;
+  }
+  set tarShot( tarShot: StateChange ) {
+    this._tarShot = tarShot;
+  }
+  set focusEnergy( focusEnergy: StateChange ) {
+    this._focusEnergy = focusEnergy;
+  }
+  set substitute( substitute: StateChange ) {
+    this._substitute = substitute;
+  }
+  set lockOn( lockOn: StateChange ) {
+    this._lockOn = lockOn;
+  }
+  set minimize( minimize: StateChange ) {
+    this._minimize = minimize;
+  }
+  set ingrain( ingrain: StateChange ) {
+    this._ingrain = ingrain;
+  }
+  set aquaRing( aquaRing: StateChange ) {
+    this._aquaRing = aquaRing;
   }
   set stockpile( stockpile: StateChange ) {
     this._stockpile = stockpile;
   }
+  set magnetRise( magnetRise: StateChange ) {
+    this._magnetRise = magnetRise;
+  }
+  set transform( transform: StateChange ) {
+    this._transform = transform;
+  }
+  set confuse( confuse: StateChange ) {
+    this._confuse = confuse;
+  }
+  set cannotMove( cannotMove: StateChange ) {
+    this._cannotMove = cannotMove;
+  }
+  set dynamax( dynamax: StateChange ) {
+    this._dynamax = dynamax;
+  }
 
+  get curse(): StateChange {
+    return this._curse;
+  }
+  get attract(): StateChange {
+    return this._attract;
+  }
+  get leechSeed(): StateChange {
+    return this._leechSeed;
+  }
+  get yawn(): StateChange {
+    return this._yawn;
+  }
+  get perishSong(): StateChange {
+    return this._perishSong;
+  }
+  get noAbility(): StateChange {
+    return this._noAbility;
+  }
+  get embargo(): StateChange {
+    return this._embargo;
+  }
+  get encore(): StateChange {
+    return this._encore;
+  }
+  get torment(): StateChange {
+    return this._torment;
+  }
+  get taunt(): StateChange {
+    return this._taunt;
+  }
+  get disable(): StateChange {
+    return this._disable;
+  }
+  get foresight(): StateChange {
+    return this._foresight;
+  }
+  get miracleEye(): StateChange {
+    return this._miracleEye;
+  }
+  get smackDown(): StateChange {
+    return this._smackDown;
+  }
+  get telekinesis(): StateChange {
+    return this._telekinesis;
+  }
   get powder(): StateChange {
     return this._powder;
   }
+  get tarShot(): StateChange {
+    return this._tarShot;
+  }
+  get focusEnergy(): StateChange {
+    return this._focusEnergy;
+  }
+  get substitute(): StateChange {
+    return this._substitute;
+  }
+  get lockOn(): StateChange {
+    return this._lockOn;
+  }
+  get minimize(): StateChange {
+    return this._minimize;
+  }
+  get ingrain(): StateChange {
+    return this._ingrain;
+  }
+  get aquaRing(): StateChange {
+    return this._aquaRing;
+  }
   get stockpile(): StateChange {
     return this._stockpile;
+  }
+  get magnetRise(): StateChange {
+    return this._magnetRise;
+  }
+  get transform(): StateChange {
+    return this._transform;
+  }
+  get confuse(): StateChange {
+    return this._confuse;
+  }
+  get cannotMove(): StateChange {
+    return this._cannotMove;
+  }
+  get dynamax(): StateChange {
+    return this._dynamax;
   }
 
 }
@@ -653,7 +937,7 @@ class StateChangeSummary {
 
 
 class Pokemon {
-  _trainer: string;
+  _trainer: 'me' | 'opp';
   _order: Order;
   _status: Status;
   _statusOrg: Status;
@@ -670,7 +954,7 @@ class Pokemon {
   _statusChange: StateChangeSummary;
 
   constructor() {
-    this._trainer = '';
+    this._trainer = 'me';
     this._order = new Order;
     this._status = new Status;
     this._statusOrg = new Status;
@@ -692,7 +976,7 @@ class Pokemon {
     this._statusChange = new StateChangeSummary;
   }
 
-  set trainer( trainer: string ) {
+  set trainer( trainer: 'me' | 'opp' ) {
     this._trainer = trainer;
   }
   set status( status: Status ) {
@@ -718,7 +1002,7 @@ class Pokemon {
   }
 
 
-  get trainer(): string {
+  get trainer(): 'me' | 'opp' {
     return this._trainer;
   }
   get order(): Order {

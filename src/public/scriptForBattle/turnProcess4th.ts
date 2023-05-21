@@ -18,8 +18,6 @@ function pokemonAction(): void {
     // 技の効果
     moveEffect( pokemon );
   }
-
-
 }
 
 

@@ -132,19 +132,19 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
   }
 
   if ( move.name === 'きつけ' ) {
-    if ( target.status.statusAilment === 'まひ' ) {
+    if ( target.status.statusAilment.name === 'まひ' ) {
       basicPower = 140;
     }
   }
 
   if ( move.name === 'めざましビンタ' ) {
-    if ( target.status.statusAilment === 'ねむり' ) {
+    if ( target.status.statusAilment.name === 'ねむり' ) {
       basicPower = 140;
     }
   }
 
   if ( move.name === 'たたりめ' ) {
-    if ( target.status.statusAilment !== false ) {
+    if ( target.status.statusAilment !== null ) {
       basicPower = 130;
     }
   }
@@ -247,10 +247,10 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
 
   if ( move.name === 'プレゼント' ) {
     const random: number = getRandom();
-    if ( random >= 0.0 ) basicPower = 40;
-    if ( random >= 0.4 ) basicPower = 80;
-    if ( random >= 0.7 ) basicPower = 120;
-    if ( random >= 0.8 ) basicPower = 0;
+    if ( random >= 0  ) basicPower = 40;
+    if ( random >= 40 ) basicPower = 80;
+    if ( random >= 70 ) basicPower = 120;
+    if ( random >= 88 ) basicPower = 0;
   }
 
   if ( move.name === 'マグニチュード' ) {
