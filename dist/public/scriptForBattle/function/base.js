@@ -15,11 +15,11 @@ function isAbility(pokemon, ability) {
 }
 // 状態異常
 function isStatusAilment(pokemon, statusAilment) {
-    if (pokemon.status.statusAilment === statusAilment) {
+    if (pokemon.status.statusAilment.name === statusAilment) {
         return true;
     }
     if (statusAilment === 'どく') {
-        if (pokemon.status.statusAilment === 'もうどく') {
+        if (pokemon.status.statusAilment.name === 'もうどく') {
             return true;
         }
     }
@@ -132,4 +132,13 @@ function getPokemonType(pokemon) {
         result.push('');
     }
     return result;
+}
+// バトル場の特性存在判定
+function isExistAbility(ability) {
+    for (const pokemon of allPokemonInBattlefield()) {
+        if (isAbility(pokemon, ability) === true) {
+            return true;
+        }
+    }
+    return false;
 }

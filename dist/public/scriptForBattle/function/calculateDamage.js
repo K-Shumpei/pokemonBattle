@@ -140,17 +140,17 @@ function getPower(pokemon, target) {
             basicPower = 120;
     }
     if (move.name === 'きつけ') {
-        if (target.status.statusAilment === 'まひ') {
+        if (target.status.statusAilment.name === 'まひ') {
             basicPower = 140;
         }
     }
     if (move.name === 'めざましビンタ') {
-        if (target.status.statusAilment === 'ねむり') {
+        if (target.status.statusAilment.name === 'ねむり') {
             basicPower = 140;
         }
     }
     if (move.name === 'たたりめ') {
-        if (target.status.statusAilment !== null) {
+        if (target.status.statusAilment.name !== null) {
             basicPower = 130;
         }
     }
@@ -238,13 +238,13 @@ function getPower(pokemon, target) {
     }
     if (move.name === 'プレゼント') {
         const random = getRandom();
-        if (random >= 0.0)
+        if (random >= 0)
             basicPower = 40;
-        if (random >= 0.4)
+        if (random >= 40)
             basicPower = 80;
-        if (random >= 0.7)
+        if (random >= 70)
             basicPower = 120;
-        if (random >= 0.8)
+        if (random >= 88)
             basicPower = 0;
     }
     if (move.name === 'マグニチュード') {
@@ -255,6 +255,70 @@ function getPower(pokemon, target) {
     }
     // 威力補正
     let correction = 4096;
+    if (isExistAbility('オーラブレイク')) {
+        if (isExistAbility('フェアリーオーラ') && move.type === 'フェアリー') {
+            correction = Math.round(correction * 3072 / 4096);
+        }
+        if (isExistAbility('ダークオーラ') && move.type === 'あく') {
+            correction = Math.round(correction * 3072 / 4096);
+        }
+    }
+    if (isAbility(pokemon, 'とうそうしん')) {
+        if (pokemon.status.gender !== target.status.gender && pokemon.status.gender !== '-' && target.status.gender !== '-') {
+            correction = Math.round(correction * 3072 / 4096);
+        }
+    }
+    if (isAbility(pokemon, 'エレキスキン') || isAbility(pokemon, 'スカイスキン') || isAbility(pokemon, 'ノーマルスキン') || isAbility(pokemon, 'フェアリースキン') || isAbility(pokemon, 'アイススキン')) {
+        if (pokemon.stateChange.skin.text === move.type) {
+            correction = Math.round(correction * 4915 / 4096);
+            pokemon.stateChange.skin.reset();
+        }
+    }
+    if (isAbility(pokemon, 'すてみ')) {
+        if (recklessMoveList.includes(move.name)) {
+            correction = Math.round(correction * 4915 / 4096);
+        }
+    }
+    if (isAbility(pokemon, 'てつのこぶし')) {
+        if (ironFistMoveList.includes(move.name)) {
+            correction = Math.round(correction * 4915 / 4096);
+        }
+    }
+    if (isAbility(pokemon, 'とうそうしん')) {
+        if (pokemon.status.gender === target.status.gender && pokemon.status.gender !== '-' && target.status.gender !== '-') {
+            correction = Math.round(correction * 5120 / 4096);
+        }
+    }
+    for (const poke of allPokemonInBattlefield()) {
+        if (move.category !== '特殊')
+            continue;
+        if (poke.trainer !== pokemon.trainer)
+            continue;
+        if (poke.order.battle === pokemon.order.battle)
+            continue;
+        if (isAbility(poke, 'バッテリー')) {
+            correction = Math.round(correction * 5325 / 4096);
+        }
+    }
+    for (const poke of allPokemonInBattlefield()) {
+        if (poke.trainer !== pokemon.trainer)
+            continue;
+        if (poke.order.battle === pokemon.order.battle)
+            continue;
+        if (isAbility(poke, 'パワースポット')) {
+            correction = Math.round(correction * 5325 / 4096);
+        }
+    }
+    if (isAbility(pokemon, 'かたいツメ')) {
+        if (move.isDirect === true) {
+            correction = Math.round(correction * 5325 / 4096);
+        }
+    }
+    if (isAbility(pokemon, 'すなのちから')) {
+        if (isWeather(pokemon, 'すなあらし') === true && (move.type === 'いわ' || move.type === 'じめん' || move.type === 'はがね')) {
+            correction = Math.round(correction * 5325 / 4096);
+        }
+    }
     return basicPower;
 }
 function getDamage(pokemon, target, power) {

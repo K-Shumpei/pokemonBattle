@@ -1,42 +1,197 @@
 "use strict";
 function isSuccess(pokemon) {
     // 行動の失敗
-    if (pokemon.statusChange.cannotMove.isTrue === true) {
+    // 反動で動けない
+    if (pokemon.stateChange.cannotMove.isTrue === true) {
         pokemon.status.declareCannotMove();
-        pokemon.statusChange.cannotMove = new StateChange(pokemon.statusChange.cannotMove.name);
-        console.log(pokemon.statusChange.cannotMove);
+        pokemon.stateChange.cannotMove.reset();
+        if (isAbility(pokemon, 'なまけ') === true) {
+            pokemon.stateChange.truant.count += 1;
+        }
         return false;
+    }
+    // ねむり状態
+    if (pokemon.status.statusAilment.name === 'ねむり') {
+        pokemon.status.statusAilment.count -= 1;
+        if (isAbility(pokemon, 'はやおき') === true) {
+            pokemon.status.statusAilment.count -= 1;
+        }
+        if (pokemon.status.statusAilment.count > 0) {
+            if (sleepingMoveList.includes(pokemon.moveUsed.name) === false) {
+                pokemon.status.declareSleeping();
+                return false;
+            }
+        }
+        else {
+            pokemon.status.cureAilment();
+        }
+    }
+    // こおり状態
+    if (pokemon.status.statusAilment.name === 'こおり') {
+        const random = getRandom();
+        if (random < 20) {
+            pokemon.status.cureAilment();
+        }
+        else {
+            if (pokemon.moveUsed.name === 'もえつきる' && getPokemonType(pokemon).includes('ほのお') === false) {
+                pokemon.status.declareFleezed();
+                return false;
+            }
+            if (meltMoveList.includes(pokemon.moveUsed.name)) {
+                pokemon.status.cureAilment();
+            }
+            else {
+                pokemon.status.declareFleezed();
+                return false;
+            }
+        }
+    }
+    // PPが残っていない
+    if (pokemon.moveUsed.remainingPP === 0) {
+        pokemon.moveUsed.runOutPP();
+        return false;
+    }
+    // なまけ
+    if (isAbility(pokemon, 'なまけ') === true) {
+        pokemon.stateChange.truant.count += 1;
+        if (pokemon.stateChange.truant.count % 2 === 0) {
+            pokemon.status.declareTruant();
+            return false;
+        }
+    }
+    // ひるみ
+    if (pokemon.stateChange.flinch.isTrue === true) {
+        if (pokemon.stateChange.dynamax.isTrue === false) {
+            pokemon.status.declareFlinch();
+            return false;
+        }
+    }
+    // かなしばり
+    if (pokemon.stateChange.disable.text === pokemon.moveUsed.name) {
+        pokemon.status.declareDisable();
+        return false;
+    }
+    // じゅうりょく
+    if (fieldStatus.whole.gravity.isTrue === true) {
+        if (flyingMoveList.includes(pokemon.moveUsed.name)) {
+            pokemon.status.declareGravity(pokemon.moveUsed.name);
+            return false;
+        }
+    }
+    // かいふくふうじ
+    if (pokemon.stateChange.healBlock.isTrue === true) {
+        if (healMoveList.includes(pokemon.moveUsed.name)) {
+            pokemon.status.declareHealBlock();
+            return false;
+        }
+    }
+    // じごくづき
+    if (pokemon.stateChange.throatChop.isTrue === true) {
+        if (soundMoveList.includes(pokemon.moveUsed.name)) {
+            pokemon.status.declareThroatChop();
+            return false;
+        }
+    }
+    // ちょうはつ
+    if (pokemon.stateChange.taunt.isTrue === true) {
+        if (pokemon.moveUsed.category === '変化') {
+            pokemon.status.declareTaunt();
+            return false;
+        }
+    }
+    // ふういん
+    for (const target of allPokemonInBattlefield()) {
+        if (target.trainer === pokemon.trainer)
+            continue;
+        if (target.stateChange.imprison.isTrue === true) {
+            for (const move of target.move) {
+                if (move.name === pokemon.moveUsed.name) {
+                    pokemon.status.declareImprison(pokemon.moveUsed.name);
+                    return false;
+                }
+            }
+        }
+    }
+    // こんらん
+    if (pokemon.stateChange.confuse.isTrue === true) {
+        const random = getRandom();
+        pokemon.stateChange.confuse.count -= 1;
+        pokemon.status.declareConfuse(pokemon.stateChange.confuse, random);
+        if (pokemon.stateChange.confuse.count === 0) {
+            pokemon.stateChange.confuse.reset();
+        }
+        else {
+            if (random < 1 / 3 * 100) {
+                return false;
+            }
+        }
+    }
+    // まひ
+    if (pokemon.status.statusAilment.name === 'まひ') {
+        const random = getRandom();
+        if (random < 1 / 4 * 100) {
+            pokemon.status.declareParalysis();
+            return false;
+        }
+    }
+    // メロメロ
+    if (pokemon.stateChange.attract.isTrue === true) {
+        const random = getRandom();
+        const target = pokemon.stateChange.attract.target;
+        const name = getPokemonByID(target.trainer, target.battleNumber);
+        if (name === false) {
+            ;
+        }
+        else {
+            pokemon.status.declareAttract(name.status.name, random);
+            if (random < 50)
+                return false;
+        }
+    }
+    // ねごと/いびき使用時「ぐうぐう 眠っている」メッセージ
+    if (sleepingMoveList.includes(pokemon.moveUsed.name)) {
+        pokemon.status.declareSleeping();
     }
     // 「<ポケモン>の <技>!」のメッセージ。PPが減少することが確約される
     pokemon.declareMove();
     // 技のタイプが変わる。
     // 1. 技のタイプを変える特性
     if (isAbility(pokemon, 'うるおいボイス') === true) {
-        if (musicMoveList.includes(pokemon.moveUsed.name) === true) {
+        if (soundMoveList.includes(pokemon.moveUsed.name) === true) {
             pokemon.moveUsed.type = 'みず';
         }
     }
     if (isAbility(pokemon, 'エレキスキン') === true) {
         if (pokemon.moveUsed.type === 'ノーマル') {
             pokemon.moveUsed.type = 'でんき';
+            pokemon.stateChange.skin.isTrue === true;
+            pokemon.stateChange.skin.text = pokemon.moveUsed.type;
         }
     }
     if (isAbility(pokemon, 'スカイスキン') === true) {
         if (pokemon.moveUsed.type === 'ノーマル') {
             pokemon.moveUsed.type = 'ひこう';
+            pokemon.stateChange.skin.isTrue === true;
+            pokemon.stateChange.skin.text = pokemon.moveUsed.type;
         }
     }
     if (isAbility(pokemon, 'ノーマルスキン') === true) {
         pokemon.moveUsed.type = 'ノーマル';
+        pokemon.stateChange.skin.isTrue === true;
+        pokemon.stateChange.skin.text = pokemon.moveUsed.type;
     }
     if (isAbility(pokemon, 'フェアリースキン') === true) {
         if (pokemon.moveUsed.type === 'ノーマル') {
             pokemon.moveUsed.type = 'フェアリー';
+            pokemon.stateChange.skin.isTrue === true;
+            pokemon.stateChange.skin.text = pokemon.moveUsed.type;
         }
     }
     if (isAbility(pokemon, 'フリーズスキン') === true) {
         if (pokemon.moveUsed.type === 'ノーマル') {
             pokemon.moveUsed.type = 'こおり';
+            pokemon.stateChange.skin.isTrue === true;
+            pokemon.stateChange.skin.text = pokemon.moveUsed.type;
         }
     }
     // 2. タイプが変わる技の効果
@@ -94,7 +249,7 @@ function isSuccess(pokemon) {
         }
     }
     // ふんじんによるほのお技の失敗とダメージ
-    if (pokemon.statusChange.powder.isTrue === true) {
+    if (pokemon.stateChange.powder.isTrue === true) {
         if (pokemon.moveUsed.type === 'ほのお') {
             return pokemon.moveUsed.failure();
         }
@@ -142,7 +297,7 @@ function isSuccess(pokemon) {
     }
     // たくわえる: たくわえるカウントがすでに3である
     if (pokemon.moveUsed.name === 'たくわえる') {
-        if (pokemon.statusChange.stockpile.count === 3) {
+        if (pokemon.stateChange.stockpile.count === 3) {
             return pokemon.moveUsed.failure();
         }
     }
@@ -157,23 +312,23 @@ function isSuccess(pokemon) {
     }
     // はきだす/のみこむ: たくわえるカウントが0である
     if (pokemon.moveUsed.name === 'はきだす') {
-        if (pokemon.statusChange.stockpile.count === 0) {
+        if (pokemon.stateChange.stockpile.count === 0) {
             return pokemon.moveUsed.failure();
         }
     }
     if (pokemon.moveUsed.name === 'のみこむ') {
-        if (pokemon.statusChange.stockpile.count === 0) {
+        if (pokemon.stateChange.stockpile.count === 0) {
             return pokemon.moveUsed.failure();
         }
     }
     // いびき/ねごと: 使用者がねむり状態でない
     if (pokemon.moveUsed.name === 'いびき') {
-        if (pokemon.status.statusAilment !== 'ねむり') {
+        if (pokemon.status.statusAilment.name !== 'ねむり') {
             return pokemon.moveUsed.failure();
         }
     }
     if (pokemon.moveUsed.name === 'ねごと') {
-        if (pokemon.status.statusAilment !== 'ねむり') {
+        if (pokemon.status.statusAilment.name !== 'ねむり') {
             return pokemon.moveUsed.failure();
         }
     }
@@ -182,7 +337,7 @@ function isSuccess(pokemon) {
         if (pokemon.status.remainingHP === pokemon.actualValue.hitPoint) {
             return pokemon.moveUsed.failure();
         }
-        if (pokemon.status.statusAilment === 'ねむり') {
+        if (pokemon.status.statusAilment.name === 'ねむり') {
             return pokemon.moveUsed.failure();
         }
         if (isAbility(pokemon, 'ふみん') === true) {
@@ -229,27 +384,27 @@ function isSuccess(pokemon) {
             magnitude = 4;
             pokemon.moveUsed.power = 10;
         }
-        if (random >= 0.05) {
+        if (random >= 5) {
             magnitude = 5;
             pokemon.moveUsed.power = 30;
         }
-        if (random >= 0.15) {
+        if (random >= 15) {
             magnitude = 6;
             pokemon.moveUsed.power = 50;
         }
-        if (random >= 0.35) {
+        if (random >= 35) {
             magnitude = 7;
             pokemon.moveUsed.power = 70;
         }
-        if (random >= 0.65) {
+        if (random >= 65) {
             magnitude = 8;
             pokemon.moveUsed.power = 90;
         }
-        if (random >= 0.85) {
+        if (random >= 85) {
             magnitude = 9;
             pokemon.moveUsed.power = 110;
         }
-        if (random >= 0.95) {
+        if (random >= 95) {
             magnitude = 10;
             pokemon.moveUsed.power = 150;
         }
@@ -271,9 +426,9 @@ function isSuccess(pokemon) {
                 return pokemon.moveUsed.failure();
             if (target.status.name === 'メガゲンガー')
                 return pokemon.moveUsed.failure();
-            if (target.statusChange.smackDown.isTrue === true)
+            if (target.stateChange.smackDown.isTrue === true)
                 return pokemon.moveUsed.failure();
-            if (target.statusChange.ingrain.isTrue === true)
+            if (target.stateChange.ingrain.isTrue === true)
                 return pokemon.moveUsed.failure();
         }
     }
@@ -336,7 +491,7 @@ function isSuccess(pokemon) {
         }
         // ぼうおん: 音技
         if (isAbility(target, 'ぼうおん') === true) {
-            if (musicMoveList.includes(pokemon.moveUsed.name)) {
+            if (soundMoveList.includes(pokemon.moveUsed.name)) {
                 target.status.declareAbility();
                 target.status.declareInvalid(info);
             }
@@ -391,11 +546,11 @@ function isSuccess(pokemon) {
             continue;
         if (pokemon.moveUsed.type !== 'じめん')
             continue;
-        if (target.statusChange.magnetRise.isTrue === true) {
+        if (target.stateChange.magnetRise.isTrue === true) {
             target.status.declareInvalid(info);
             continue;
         }
-        if (target.statusChange.telekinesis.isTrue === true) {
+        if (target.stateChange.telekinesis.isTrue === true) {
             target.status.declareInvalid(info);
             continue;
         }
@@ -508,30 +663,30 @@ function isSuccess(pokemon) {
         // 重複による無効化
         // あくび: 対象がすでにねむけ状態/状態異常である
         if (pokemon.moveUsed.name === 'あくび') {
-            if (target.statusChange.yawn.isTrue === true) {
+            if (target.stateChange.yawn.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
-            if (target.status.statusAilment !== '') {
+            if (target.status.statusAilment.name !== '') {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         // いちゃもん: 対象がすでにいちゃもん状態である
         if (pokemon.moveUsed.name === 'いちゃもん') {
-            if (target.statusChange.torment.isTrue === true) {
+            if (target.stateChange.torment.isTrue === true) {
                 target.status.declareInvalid(info);
             }
         }
         // さしおさえ: 対象がすでにさしおさえ状態である
         if (pokemon.moveUsed.name === 'さしおさえ') {
-            if (target.statusChange.embargo.isTrue === true) {
+            if (target.stateChange.embargo.isTrue === true) {
                 target.status.declareInvalid(info);
             }
         }
         // テレキネシス: 対象がすでにテレキネシス状態である
         if (pokemon.moveUsed.name === 'テレキネシス') {
-            if (target.statusChange.telekinesis.isTrue === true) {
+            if (target.stateChange.telekinesis.isTrue === true) {
                 target.status.declareInvalid(info);
             }
         }
@@ -548,36 +703,36 @@ function isSuccess(pokemon) {
         }
         // ねをはる: 自身がすでにねをはる状態である
         if (pokemon.moveUsed.name === 'ねをはる') {
-            if (pokemon.statusChange.ingrain.isTrue === true) {
+            if (pokemon.stateChange.ingrain.isTrue === true) {
                 target.status.declareInvalid(info);
             }
         }
         // ほろびのうた: 対象がすでにほろびのうた状態である
         if (pokemon.moveUsed.name === 'ほろびのうた') {
-            if (target.statusChange.perishSong.isTrue === true) {
+            if (target.stateChange.perishSong.isTrue === true) {
                 target.status.declareInvalid(info);
             }
         }
         // みやぶる/かぎわける/ミラクルアイ: 対象がすでにみやぶられている/ミラクルアイ状態である
         if (pokemon.moveUsed.name === 'みやぶる' || pokemon.moveUsed.name === 'かぎわける' || pokemon.moveUsed.name === 'ミラクルアイ') {
-            if (target.statusChange.foresight.isTrue === true) {
+            if (target.stateChange.foresight.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
-            if (target.statusChange.miracleEye.isTrue === true) {
+            if (target.stateChange.miracleEye.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         // メロメロ: 対象がすでにメロメロ状態である
         if (pokemon.moveUsed.name === 'メロメロ') {
-            if (target.statusChange.attract.isTrue === true) {
+            if (target.stateChange.attract.isTrue === true) {
                 target.status.declareInvalid(info);
             }
         }
         // やどりぎのタネ: 対象がすでにやどりぎのタネ状態である
         if (pokemon.moveUsed.name === 'やどりぎのタネ') {
-            if (target.statusChange.leechSeed.isTrue === true) {
+            if (target.stateChange.leechSeed.isTrue === true) {
                 target.status.declareInvalid(info);
             }
         }
@@ -667,14 +822,14 @@ function isSuccess(pokemon) {
                 continue;
         }
         if (stompMoveList.includes(pokemon.moveUsed.name)) {
-            if (target.statusChange.minimize.isTrue === true)
+            if (target.stateChange.minimize.isTrue === true)
                 continue;
         }
-        if (target.statusChange.telekinesis.isTrue === true) {
+        if (target.stateChange.telekinesis.isTrue === true) {
             if (oneShotMoveList.includes(pokemon.moveUsed.name) === false)
                 continue;
         }
-        if (pokemon.statusChange.lockOn.isTrue === true)
+        if (pokemon.stateChange.lockOn.isTrue === true)
             continue;
         if (isAbility(pokemon, 'ノーガード') === true)
             continue;
@@ -686,7 +841,7 @@ function isSuccess(pokemon) {
         }
         // A = 技の命中率 × 命中補正値M × ランク補正 × ミクルのみ - なかよし度効果
         // 乱数0~99がA未満なら命中
-        const random = getRandom() * 100;
+        const random = getRandom();
         let accuracy = pokemon.moveUsed.accuracy;
         let corrM = 4096;
         let corrRank = 1;
@@ -724,7 +879,7 @@ function isSuccess(pokemon) {
         }
         for (const order of getSpeedOrder()) {
             if (order.trainer === target.trainer && order.battleNumber === target.order.battle) {
-                if (isAbility(target, 'ちどりあし') && target.statusChange.confuse.isTrue) {
+                if (isAbility(target, 'ちどりあし') && target.stateChange.confuse.isTrue) {
                     corrM = Math.round(corrM * 2048 / 4096);
                 }
                 if (isAbility(target, 'すながくれ') && isWeather(target, 'すなあらし')) {
@@ -769,7 +924,7 @@ function isSuccess(pokemon) {
         }
         accuracy = fiveRoundEntry(accuracy * corrM / 4096);
         // ランク補正
-        if (target.statusChange.foresight.isTrue || target.statusChange.miracleEye.isTrue) {
+        if (target.stateChange.foresight.isTrue || target.stateChange.miracleEye.isTrue) {
             defRank = Math.max(defRank, 0);
         }
         if (isAbility(pokemon, 'てんねん') || isAbility(pokemon, 'するどいめ')) {
@@ -820,7 +975,7 @@ function isSuccess(pokemon) {
             }
         }
         if (pokemon.moveUsed.name === 'いえき') {
-            if (target.statusChange.noAbility.isTrue === true) {
+            if (target.stateChange.noAbility.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
@@ -1004,13 +1159,13 @@ function isSuccess(pokemon) {
             }
         }
         if (pokemon.moveUsed.name === 'いばる') {
-            if (target.rank.attack === 6 && target.statusChange.confuse.isTrue === true) {
+            if (target.rank.attack === 6 && target.stateChange.confuse.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'おだてる') {
-            if (target.rank.specialAttack === 6 && target.statusChange.confuse.isTrue === true) {
+            if (target.rank.specialAttack === 6 && target.stateChange.confuse.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
@@ -1028,7 +1183,7 @@ function isSuccess(pokemon) {
             }
         }
         if (pokemon.moveUsed.name === 'タールショット') {
-            if (target.rank.speed === -6 && target.statusChange.tarShot.isTrue === true) {
+            if (target.rank.speed === -6 && target.stateChange.tarShot.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
@@ -1258,43 +1413,43 @@ function isSuccess(pokemon) {
         if (target === false)
             continue;
         if (pokemon.moveUsed.name === 'アクアリング') {
-            if (pokemon.statusChange.aquaRing.isTrue === true) {
+            if (pokemon.stateChange.aquaRing.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'きあいだめ') {
-            if (pokemon.statusChange.focusEnergy.isTrue === true) {
+            if (pokemon.stateChange.focusEnergy.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'ちょうはつ') {
-            if (target.statusChange.taunt.isTrue === true) {
+            if (target.stateChange.taunt.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'でんじふゆう') {
-            if (pokemon.statusChange.magnetRise.isTrue === true) {
+            if (pokemon.stateChange.magnetRise.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'のろい' && getPokemonType(pokemon).includes('ゴースト')) {
-            if (target.statusChange.curse.isTrue === true) {
+            if (target.stateChange.curse.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'ロックオン' || pokemon.moveUsed.name === 'こころのめ') {
-            if (pokemon.statusChange.lockOn.isTrue === true) {
+            if (pokemon.stateChange.lockOn.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'みがわり') {
-            if (pokemon.statusChange.substitute.isTrue === true) {
+            if (pokemon.stateChange.substitute.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
@@ -1304,28 +1459,28 @@ function isSuccess(pokemon) {
             }
         }
         if (pokemon.moveUsed.name === 'へんしん') {
-            if (pokemon.statusChange.transform.isTrue === true) {
+            if (pokemon.stateChange.transform.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
-            if (target.statusChange.transform.isTrue === true) {
+            if (target.stateChange.transform.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         // 行動に関する無効化
         if (pokemon.moveUsed.name === 'アンコール') {
-            if (target.statusChange.dynamax.isTrue === true) {
+            if (target.stateChange.dynamax.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
-            if (target.statusChange.encore.isTrue === true) {
+            if (target.stateChange.encore.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'かなしばり') {
-            if (target.statusChange.disable.isTrue === true) {
+            if (target.stateChange.disable.isTrue === true) {
                 target.status.declareInvalid(info);
                 continue;
             }
@@ -1350,7 +1505,7 @@ function isSuccess(pokemon) {
             }
         }
         if (pokemon.moveUsed.name === 'サイコシフト') {
-            if (pokemon.status.statusAilment === null) {
+            if (pokemon.status.statusAilment.name === null) {
                 target.status.declareInvalid(info);
                 continue;
             }
@@ -1366,7 +1521,7 @@ function isSuccess(pokemon) {
             }
         }
         if (pokemon.moveUsed.name === 'リフレッシュ') {
-            if (pokemon.status.statusAilment === null) {
+            if (pokemon.status.statusAilment.name === null) {
                 target.status.declareInvalid(info);
                 continue;
             }

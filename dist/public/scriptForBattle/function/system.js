@@ -42,7 +42,7 @@ function writeLog(text) {
     const battleLog = getHTMLInputElement('battle_log');
     battleLog.value += text + "\n";
 }
-// 乱数 0以上1未満 0.00, 0.01, 0.02, 0.03, ・・・ , 0.98, 0.99 の 100種類
+// 乱数 0以上100未満の整数
 function getRandom() {
     const first = randomList[0];
     randomList.shift();

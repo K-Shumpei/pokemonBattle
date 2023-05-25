@@ -60,7 +60,7 @@ class Status {
     this._weight = 1.0;
     this._happiness = 255;
     this._remainingHP = 0;
-    this._statusAilment = new StateChange( '' );
+    this._statusAilment = new StateChange( null );
   }
 
   set number( number: string ) {
@@ -175,6 +175,61 @@ class Status {
     writeLog( `${this._name}は 凍って 動けない!` );
   }
 
+  declareTruant(): void {
+    writeLog( `${this._name}は なまけている` );
+  }
+
+  declareFlinch(): void {
+    writeLog( `${this._name}は ひるんで 技が 出せない!`);
+  }
+
+  declareDisable(): void {
+    writeLog( `${this._name}は かなしばりで 技が 出せない!` );
+  }
+
+  declareGravity( move: string ): void {
+    writeLog( `${this._name}は じゅうりょくが 強くて ${move}が 出せない!` );
+  }
+
+  declareHealBlock(): void {
+    writeLog( `${this._name}は かいふくふうじで 技が 出せない!` );
+  }
+
+  declareThroatChop(): void {
+    writeLog( `${this._name}は じごくづきの 効果で 技が 出せない!` );
+  }
+
+  declareTaunt(): void {
+    writeLog( `${this._name}は ちょうはつされて 技が 出せない!` );
+  }
+
+  declareImprison( move: string ): void {
+    writeLog( `${this._name}は ふういんで ${move}が だせない!` );
+  }
+
+  declareConfuse( confuse: StateChange, random: number ): void {
+
+    if ( confuse.count === 0 ) {
+      writeLog( `混乱が 解けた!` );
+    } else {
+      writeLog( `${this._name}は 混乱している!` );
+      if ( random < 1/3 * 100 ) {
+        writeLog( `わけも わからず 自分を 攻撃した!` );
+      }
+    }
+  }
+
+  declareParalysis(): void {
+    writeLog( `${this._name}は 体がしびれて 動けない!` );
+  }
+
+  declareAttract( name: string, random: number ): void {
+    writeLog( `${this._name}は ${name}に メロメロだ!` );
+    if ( random < 50 ) {
+      writeLog( `${this._name}は メロメロで 技が だせなかった!` );
+    }
+  }
+
   cureAilment(): void {
 
     if ( this._statusAilment.name === 'ねむり' ) {
@@ -184,7 +239,7 @@ class Status {
       writeLog( `${this._name}の こおりが 溶けた!` );
     }
 
-    this._statusAilment = new StateChange( '' );
+    this._statusAilment = new StateChange( null );
   }
 
   abilityInfo(): changeAbilityType {
@@ -557,19 +612,23 @@ class Command {
 }
 
 class StateChange {
-  _name: string;
+  _name: string | null;
   _isTrue: boolean;
   _turn: number;
   _count: number;
+  _text: string;
+  _target: Target;
 
-  constructor( name: string) {
+  constructor( name: string | null ) {
     this._name = name;
     this._isTrue = false;
     this._turn = 0;
     this._count = 0;
+    this._text = '';
+    this._target = new Target;
   }
 
-  set name ( name: string ) {
+  set name( name: string | null ) {
     this._name = name;
   }
   set isTrue( isTrue: boolean ) {
@@ -581,8 +640,14 @@ class StateChange {
   set count( count: number ) {
     this._count = count;
   }
+  set text( text: string ) {
+    this._text = text;
+  }
+  set target( target: Target ) {
+    this._target = target;
+  }
 
-  get name(): string {
+  get name(): string | null {
     return this._name;
   }
   get isTrue(): boolean {
@@ -594,17 +659,27 @@ class StateChange {
   get count(): number {
     return this._count;
   }
+  get text(): string {
+    return this._text;
+  }
+  get target(): Target {
+    return this._target;
+  }
+
+  reset(): void {
+    this._isTrue = false;
+    this._turn = 0;
+    this._count = 0;
+    this._text = '';
+    this._target = new Target;
+  }
 }
 
 
 class StateChangeSummary {
-  /*
-  わざを使われたポケモンに発生
-  もうどく (第二世代まで。第三世代以降は状態異常に)
-  こんらん
-  ひるみ
-  バインド
-  */
+
+  _flinch: StateChange; // ひるみ
+  // バインド
   _curse: StateChange; // のろい
   // あくむ
 
@@ -618,7 +693,7 @@ class StateChangeSummary {
 
 
   _noAbility: StateChange; // とくせいなし
-  // かいふくふうじ
+  _healBlock: StateChange; // かいふくふうじ
 
   _embargo: StateChange; //さしおさえ
   _encore: StateChange; // アンコール
@@ -639,9 +714,8 @@ class StateChangeSummary {
   */
 
   _powder: StateChange; // ふんじん
-
+  _throatChop: StateChange; // じごくづき
   /*
-  じごくづき
   ハロウィン
   もりののろい
   ちゅうもくのまと
@@ -677,9 +751,9 @@ class StateChangeSummary {
   おんねん
   さわぐ
   あばれる
-  ふういん
-  どろあそび (第五世代まで。第六世代以降は場の状態に)
-  みずあそび (第五世代まで。第六世代以降は場の状態に)
+  */
+  _imprison: StateChange;// ふういん
+  /*
   いかり
   マジックコート
   */
@@ -719,16 +793,23 @@ class StateChangeSummary {
   */
 
 
-  _cannotMove: StateChange; // 反動で動けない（状態変化ではない）
-  _dynamax: StateChange; // ダイマックス（状態変化ではない）
+  // 以下、状態変化ではない
+  _truant: StateChange; // なまけ
+  _disguise: StateChange; // ばけのかわ
+  _iceFace: StateChange; // アイスフェイス
+  _skin: StateChange; // スキン系特性
+  _cannotMove: StateChange; // 反動で動けない
+  _dynamax: StateChange; // ダイマックス
 
   constructor() {
+    this._flinch = new StateChange( 'ひるみ');
     this._curse = new StateChange( 'のろい' );
     this._attract = new StateChange( 'メロメロ' );
     this._leechSeed = new StateChange( 'やどりぎのタネ' );
     this._yawn = new StateChange( 'ねむけ' );
     this._perishSong = new StateChange( 'ほろびのうた' );
     this._noAbility = new StateChange( 'とくせいなし' );
+    this._healBlock = new StateChange( 'かいふくふうじ' );
     this._embargo = new StateChange( 'さしおさえ' );
     this._encore = new StateChange( 'アンコール' );
     this._torment = new StateChange( 'いちゃもん' );
@@ -739,12 +820,14 @@ class StateChangeSummary {
     this._smackDown = new StateChange( 'うちおとす' );
     this._telekinesis = new StateChange( 'テレキネシス' );
     this._powder = new StateChange( 'ふんじん' );
+    this._throatChop = new StateChange( 'じごくづき' );
     this._tarShot = new StateChange( 'タールショット' );
 
     this._focusEnergy = new StateChange( 'きゅうしょアップ' );
     this._substitute = new StateChange( 'みがわり' );
     this._lockOn = new StateChange( 'ロックオン' );
     this._minimize = new StateChange( 'ちいさくなる' );
+    this._imprison = new StateChange( 'ふういん' );
     this._ingrain = new StateChange( 'ねをはる' );
     this._aquaRing = new StateChange( 'アクアリング' );
     this._stockpile = new StateChange( 'たくわえる' );
@@ -752,10 +835,17 @@ class StateChangeSummary {
     this._transform = new StateChange( 'へんしん' );
     this._confuse = new StateChange( 'こんらん' );
 
+    this._truant = new StateChange( 'なまけ' );
+    this._disguise = new StateChange( 'ばけのかわ' );
+    this._iceFace = new StateChange( 'アイスフェイス' );
+    this._skin = new StateChange( 'スキン系特性' );
     this._cannotMove = new StateChange( '反動で動けない' );
     this._dynamax = new StateChange( 'ダイマックス' );
   }
 
+  set flinch( flinch: StateChange ) {
+    this._flinch = flinch;
+  }
   set curse( curse: StateChange ) {
     this._curse = curse;
   }
@@ -773,6 +863,9 @@ class StateChangeSummary {
   }
   set noAbility( noAbility: StateChange ) {
     this._noAbility = noAbility;
+  }
+  set healBlock( healBlock: StateChange ) {
+    this._healBlock = healBlock;
   }
   set embargo( embargo: StateChange ) {
     this._embargo = embargo;
@@ -804,6 +897,9 @@ class StateChangeSummary {
   set powder( powder: StateChange ) {
     this._powder = powder;
   }
+  set throatChop( throatChop: StateChange ) {
+    this._throatChop = throatChop;
+  }
   set tarShot( tarShot: StateChange ) {
     this._tarShot = tarShot;
   }
@@ -818,6 +914,9 @@ class StateChangeSummary {
   }
   set minimize( minimize: StateChange ) {
     this._minimize = minimize;
+  }
+  set imprison( imprison: StateChange ) {
+    this._imprison = imprison;
   }
   set ingrain( ingrain: StateChange ) {
     this._ingrain = ingrain;
@@ -837,6 +936,18 @@ class StateChangeSummary {
   set confuse( confuse: StateChange ) {
     this._confuse = confuse;
   }
+  set truant( truant: StateChange ) {
+    this._truant = truant;
+  }
+  set disguise( disguise: StateChange ) {
+    this._disguise = disguise;
+  }
+  set iceFace( iceFace: StateChange ) {
+    this._iceFace = iceFace;
+  }
+  set skin( skin: StateChange ) {
+    this._skin = skin;
+  }
   set cannotMove( cannotMove: StateChange ) {
     this._cannotMove = cannotMove;
   }
@@ -844,6 +955,9 @@ class StateChangeSummary {
     this._dynamax = dynamax;
   }
 
+  get flinch(): StateChange {
+    return this._flinch;
+  }
   get curse(): StateChange {
     return this._curse;
   }
@@ -861,6 +975,9 @@ class StateChangeSummary {
   }
   get noAbility(): StateChange {
     return this._noAbility;
+  }
+  get healBlock(): StateChange {
+    return this._healBlock;
   }
   get embargo(): StateChange {
     return this._embargo;
@@ -892,6 +1009,9 @@ class StateChangeSummary {
   get powder(): StateChange {
     return this._powder;
   }
+  get throatChop(): StateChange {
+    return this._throatChop;
+  }
   get tarShot(): StateChange {
     return this._tarShot;
   }
@@ -906,6 +1026,9 @@ class StateChangeSummary {
   }
   get minimize(): StateChange {
     return this._minimize;
+  }
+  get imprison(): StateChange {
+    return this._imprison;
   }
   get ingrain(): StateChange {
     return this._ingrain;
@@ -924,6 +1047,18 @@ class StateChangeSummary {
   }
   get confuse(): StateChange {
     return this._confuse;
+  }
+  get truant(): StateChange {
+    return this._truant;
+  }
+  get disguise(): StateChange {
+    return this._disguise;
+  }
+  get iceFace(): StateChange {
+    return this._iceFace;
+  }
+  get skin(): StateChange {
+    return this._skin;
   }
   get cannotMove(): StateChange {
     return this._cannotMove;
@@ -951,7 +1086,7 @@ class Pokemon {
   _damage: Damage;
   _target: Target[];
   _command: Command;
-  _statusChange: StateChangeSummary;
+  _stateChange: StateChangeSummary;
 
   constructor() {
     this._trainer = 'me';
@@ -973,7 +1108,7 @@ class Pokemon {
     this._damage = new Damage;
     this._target = [];
     this._command = new Command;
-    this._statusChange = new StateChangeSummary;
+    this._stateChange = new StateChangeSummary;
   }
 
   set trainer( trainer: 'me' | 'opp' ) {
@@ -997,8 +1132,8 @@ class Pokemon {
   set command( command: Command ) {
     this._command = command;
   }
-  set statusChange( statusChange: StateChangeSummary ) {
-    this._statusChange = statusChange;
+  set stateChange( stateChange: StateChangeSummary ) {
+    this._stateChange = stateChange;
   }
 
 
@@ -1044,8 +1179,8 @@ class Pokemon {
   get command(): Command {
     return this._command;
   }
-  get statusChange(): StateChangeSummary {
-    return this._statusChange;
+  get stateChange(): StateChangeSummary {
+    return this._stateChange;
   }
 
   declareMove(): void {

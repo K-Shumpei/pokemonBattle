@@ -14,6 +14,18 @@ function calculateDamageForAll(pokemon) {
         if (target === false) {
             continue;
         }
+        // ばけのかわ/アイスフェイス
+        if (isAbility(target, 'ばけのかわ') === true) {
+            if (target.stateChange.disguise.isTrue === true) {
+                continue;
+            }
+        }
+        if (isAbility(target, 'アイスフェイス') === true) {
+            if (target.stateChange.iceFace.isTrue === true && pokemon.moveUsed.category === '物理') {
+                continue;
+            }
+        }
+        // ダメージ計算
         calculateDamage(pokemon, target);
         console.log(`${target.damage.damage} のダメージ！`);
     }
