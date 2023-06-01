@@ -1,8 +1,12 @@
+type MoveCategoryType = '物理' | '特殊' | '変化';
+type MoveTypeType = 'ノーマル' | 'ほのお' | 'みず' | 'でんき' | 'くさ' | 'こおり' | 'かくとう' | 'どく' | 'じめん' | 'ひこう' | 'エスパー' | 'むし' | 'いわ' | 'ゴースト' | 'ドラゴン' | 'あく' | 'はがね' | 'フェアリー' | null;
+type MoveTargetType = '自分' | '1体選択' | '味方1体' | '自分か味方' | 'ランダム1体' | '味方全体' | '相手全体' | '自分以外' | '全体' | '味方の場' | '相手の場' | '全体の場' | '不定' ;
+
 type PokemonDataType = {
   number: string;
   name: string;
-  type1: string;
-  type2: string;
+  type1: MoveTypeType;
+  type2: MoveTypeType;
   gender1: '♂' | '♀' | '-';
   gender2: '♀' | '';
   ability1: string;
@@ -21,14 +25,14 @@ type PokemonDataType = {
 
 type MoveDataType = {
   name: string;
-  type: string;
-  category: '物理' | '特殊' | '変化';
+  type: MoveTypeType;
+  category: MoveCategoryType;
   power: number;
   accuracy: number;
   powerPoint: number;
   isDirect: boolean;
   isProtect: boolean;
-  target: string; // '全体の場' | '味方の場' | '相手の場'
+  target: MoveTargetType;
   discription: string;
 }
 
@@ -77,24 +81,24 @@ type TypeCompatibilityType = {
 }
 
 type TypeCompatibilityRateType = {
-  normal: number;
-  fire: number;
-  water: number;
-  grass: number;
-  electric: number;
-  ice: number;
-  fighting: number;
-  poison: number;
-  ground: number;
-  flying: number;
-  psychic: number;
-  bug: number;
-  rock: number;
-  ghost: number;
-  dragon: number;
-  dark: number;
-  steel: number;
-  fairy: number;
+  ノーマル: number;
+  ほのお: number;
+  みず: number;
+  くさ: number;
+  でんき: number;
+  こおり: number;
+  かくとう: number;
+  どく: number;
+  じめん: number;
+  ひこう: number;
+  エスパー: number;
+  むし: number;
+  いわ: number;
+  ゴースト: number;
+  ドラゴン: number;
+  あく: number;
+  はがね: number;
+  フェアリー: number;
   [key: string]: number;
 }
 

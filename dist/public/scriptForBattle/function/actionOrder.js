@@ -105,7 +105,7 @@ function getSpeedValue(pokemon, type) {
         return speedTypeA;
     }
     // b. 各種補正
-    let speedTypeB = getValueWithRankCorrection(pokemon, 'speed', false);
+    let speedTypeB = getValueWithRankCorrection(pokemon.actualValue.speed, pokemon.rank.speed, false);
     let correction = 4096;
     speedTypeB = fiveRoundEntry(speedTypeB * correction / 4096);
     // まひ補正

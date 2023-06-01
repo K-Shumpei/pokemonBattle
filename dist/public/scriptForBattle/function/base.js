@@ -26,9 +26,7 @@ function isStatusAilment(pokemon, statusAilment) {
     return false;
 }
 // ランク補正
-function getValueWithRankCorrection(pokemon, parameter, critical) {
-    const actualValue = pokemon.actualValue[parameter];
-    const rank = pokemon.rank[parameter];
+function getValueWithRankCorrection(actualValue, rank, critical) {
     if (critical === true) {
         const thisRank = Math.max(rank, 0);
         return Math.floor((actualValue * (2 + thisRank)) / 2);
@@ -122,14 +120,14 @@ function isGrounded(pokemon) {
 // ポケモンのタイプ
 function getPokemonType(pokemon) {
     let result = [];
-    if (pokemon.status.type1 !== '') {
+    if (pokemon.status.type1 !== null) {
         result.push(pokemon.status.type1);
     }
-    if (pokemon.status.type2 !== '') {
+    if (pokemon.status.type2 !== null) {
         result.push(pokemon.status.type2);
     }
     if (result.length === 0) {
-        result.push('');
+        result.push(null);
     }
     return result;
 }

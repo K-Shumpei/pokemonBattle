@@ -153,6 +153,7 @@ function isSuccess(pokemon) {
         pokemon.status.declareSleeping();
     }
     // 「<ポケモン>の <技>!」のメッセージ。PPが減少することが確約される
+    console.log(pokemon.moveUsed.name);
     pokemon.declareMove();
     // 技のタイプが変わる。
     // 1. 技のタイプを変える特性
@@ -365,7 +366,7 @@ function isSuccess(pokemon) {
         if (myType.length !== 1 || myType[0] !== pokemon.moveUsed.type) {
             pokemon.status.declareAbility();
             pokemon.status.type1 = pokemon.moveUsed.type;
-            pokemon.status.type2 = '';
+            pokemon.status.type2 = null;
         }
     }
     if (isAbility(pokemon, 'リベロ') === true) {
@@ -373,7 +374,7 @@ function isSuccess(pokemon) {
         if (myType.length !== 1 || myType[0] !== pokemon.moveUsed.type) {
             pokemon.status.declareAbility();
             pokemon.status.type1 = pokemon.moveUsed.type;
-            pokemon.status.type2 = '';
+            pokemon.status.type2 = null;
         }
     }
     // マグニチュードの大きさ(威力)が決定
@@ -511,7 +512,9 @@ function isSuccess(pokemon) {
     }
     // 相性による無効化
     for (const info of pokemon.target) {
+        console.log(info);
         const target = getPokemonByID(info.trainer, info.battleNumber);
+        console.log(target);
         if (target === false)
             continue;
         if (isItem(target, 'ねらいのまと') === true)
@@ -519,7 +522,9 @@ function isSuccess(pokemon) {
         if (pokemon.moveUsed.category === '変化' && pokemon.moveUsed.name === 'でんじは')
             continue;
         const compatibility = getCompatibility(pokemon, target);
+        console.log(compatibility);
         if (compatibility === 0) {
+            console.log("YY");
             target.status.declareInvalid(info);
         }
     }
@@ -777,7 +782,7 @@ function isSuccess(pokemon) {
             const defType = getPokemonType(target);
             const compare = atkType.concat(defType);
             const set = new Set(compare);
-            if (atkType.length === 1 && atkType[0] === '') {
+            if (atkType.length === 1 && atkType[0] === null) {
                 target.status.declareInvalid(info);
                 continue;
             }
@@ -1549,41 +1554,59 @@ function decideTarget(pokemon) {
         return;
     // 技を選択した対象
     if (fieldStatus.battleStyle === 1) {
-        const target = new Target;
         if (pokemon.moveUsed.target === '全体の場' || pokemon.moveUsed.target === '味方の場' || pokemon.moveUsed.target === '相手の場') {
-            target.trainer = 'field';
-            target.battleNumber = 0;
+            const target = new Target;
             pokemon.target.push(target);
-            return;
         }
-        if (pokemon.moveUsed.target === '自分') {
+        else if (pokemon.moveUsed.target === '自分' || pokemon.moveUsed.target === '味方1体' || pokemon.moveUsed.target === '自分か味方' || pokemon.moveUsed.target === '味方全体') {
+            // 自分
+            const target = new Target;
             target.trainer = pokemon.trainer;
             target.battleNumber = 0;
             pokemon.target.push(target);
-            return;
         }
-        target.trainer = getOpponentTrainer(pokemon.trainer);
-        target.battleNumber = 0;
-        pokemon.target.push(target);
+        else if (pokemon.moveUsed.target === '1体選択' || pokemon.moveUsed.target === 'ランダム1体' || pokemon.moveUsed.target === '相手全体' || pokemon.moveUsed.target === '自分以外') {
+            // 相手
+            const target = new Target;
+            target.trainer = getOpponentTrainer(pokemon.trainer);
+            target.battleNumber = 0;
+            pokemon.target.push(target);
+        }
+        else if (pokemon.moveUsed.target === '全体') {
+            // 相手
+            const target1 = new Target;
+            target1.trainer = pokemon.trainer;
+            target1.battleNumber = 0;
+            pokemon.target.push(target1);
+            // 自分
+            const target2 = new Target;
+            target2.trainer = getOpponentTrainer(pokemon.trainer);
+            target2.battleNumber = 0;
+            pokemon.target.push(target2);
+        }
+        else if (pokemon.moveUsed.target === '不定') {
+        }
     }
 }
 // 相性計算
 function getCompatibility(pokemon, target) {
-    const atkType = translateJPintoEN(pokemon.moveUsed.type);
+    const atkType = pokemon.moveUsed.type;
     const defType = getPokemonType(target);
     let result = 1.0;
+    console.log(atkType);
+    console.log(defType);
     for (const record of typeCompatibility) {
-        if (record.attackType !== atkType) {
-            continue;
-        }
-        for (const type of defType) {
-            if (type === '')
-                continue;
-            let rate = record.rate[type];
-            if (rate === 0.0 && isItem(target, 'ねらいのまと') === true) {
-                rate = 1.0;
+        if (record.attackType === atkType) {
+            for (const type of defType) {
+                if (type === null)
+                    continue;
+                let rate = record.rate[type];
+                console.log(rate);
+                if (rate === 0.0 && isItem(target, 'ねらいのまと') === true) {
+                    rate = 1.0;
+                }
+                result = result * rate;
             }
-            result = result * rate;
         }
     }
     return result;

@@ -148,6 +148,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
   }
 
   // 「<ポケモン>の <技>!」のメッセージ。PPが減少することが確約される
+  console.log(pokemon.moveUsed.name)
   pokemon.declareMove();
 
   // 技のタイプが変わる。
@@ -356,19 +357,19 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // へんげんじざい/リベロの発動
   if ( isAbility( pokemon, 'へんげんじざい' ) === true ) {
-    const myType: string[] = getPokemonType( pokemon );
+    const myType: MoveTypeType[] = getPokemonType( pokemon );
     if ( myType.length !== 1 || myType[0] !== pokemon.moveUsed.type ) {
       pokemon.status.declareAbility();
       pokemon.status.type1 = pokemon.moveUsed.type;
-      pokemon.status.type2 = '';
+      pokemon.status.type2 = null;
     }
   }
   if ( isAbility( pokemon, 'リベロ' ) === true ) {
-    const myType: string[] = getPokemonType( pokemon );
+    const myType: MoveTypeType[] = getPokemonType( pokemon );
     if ( myType.length !== 1 || myType[0] !== pokemon.moveUsed.type ) {
       pokemon.status.declareAbility();
       pokemon.status.type1 = pokemon.moveUsed.type;
-      pokemon.status.type2 = '';
+      pokemon.status.type2 = null;
     }
   }
 
@@ -508,8 +509,8 @@ function isSuccess( pokemon: Pokemon ): boolean {
     if ( isItem( target, 'ねらいのまと' ) === true ) continue;
     if ( pokemon.moveUsed.category === '変化' && pokemon.moveUsed.name === 'でんじは' ) continue;
 
-    const compatibility = getCompatibility( pokemon, target );
-    if ( compatibility === 0 ) {
+    target.damage.effective = getCompatibility( pokemon, target );
+    if ( target.damage.effective === 0 ) {
       target.status.declareInvalid( info );
     }
   }
@@ -768,11 +769,11 @@ function isSuccess( pokemon: Pokemon ): boolean {
     }
     // シンクロノイズ: タイプが合致していない
     if ( pokemon.moveUsed.name === 'シンクロノイズ' ) {
-      const atkType: string[] = getPokemonType( pokemon );
-      const defType: string[] = getPokemonType( target );
-      const compare: string[] = atkType.concat( defType );
+      const atkType: MoveTypeType[] = getPokemonType( pokemon );
+      const defType: MoveTypeType[] = getPokemonType( target );
+      const compare: MoveTypeType[] = atkType.concat( defType );
       const set = new Set( compare );
-      if ( atkType.length === 1 && atkType[0] === '' ) {
+      if ( atkType.length === 1 && atkType[0] === null ) {
         target.status.declareInvalid( info );
         continue;
       }
@@ -1556,44 +1557,82 @@ function decideTarget( pokemon: Pokemon ): void {
 
   // 技を選択した対象
   if ( fieldStatus.battleStyle === 1 ) {
-    const target = new Target;
     if ( pokemon.moveUsed.target === '全体の場' || pokemon.moveUsed.target === '味方の場' || pokemon.moveUsed.target === '相手の場' ) {
-      target.trainer = 'field';
-      target.battleNumber = 0;
+      const target = new Target;
       pokemon.target.push( target );
-      return;
-    }
-    if ( pokemon.moveUsed.target === '自分' ) {
+    } else if ( pokemon.moveUsed.target === '自分' || pokemon.moveUsed.target === '味方1体' || pokemon.moveUsed.target === '自分か味方' || pokemon.moveUsed.target === '味方全体' ) {
+      // 自分
+      const target = new Target;
       target.trainer = pokemon.trainer;
       target.battleNumber = 0;
       pokemon.target.push( target );
-      return;
+    } else if ( pokemon.moveUsed.target === '1体選択' || pokemon.moveUsed.target === 'ランダム1体' || pokemon.moveUsed.target === '相手全体' || pokemon.moveUsed.target === '自分以外' ) {
+      // 相手
+      const target = new Target;
+      target.trainer = getOpponentTrainer( pokemon.trainer );
+      target.battleNumber = 0;
+      pokemon.target.push( target );
+    } else if ( pokemon.moveUsed.target === '全体' ) {
+      // 相手
+      const target1 = new Target;
+      target1.trainer = pokemon.trainer;
+      target1.battleNumber = 0;
+      pokemon.target.push( target1 );
+      // 自分
+      const target2 = new Target;
+      target2.trainer = getOpponentTrainer( pokemon.trainer );
+      target2.battleNumber = 0;
+      pokemon.target.push( target2 );
+    } else if ( pokemon.moveUsed.target === '不定' ) {
+
     }
-    target.trainer = getOpponentTrainer( pokemon.trainer );
-    target.battleNumber = 0;
-    pokemon.target.push( target );
+
   }
 }
 
 // 相性計算
 function getCompatibility( pokemon: Pokemon, target: Pokemon ): number {
 
-  const atkType: string = translateJPintoEN( pokemon.moveUsed.type );
-  const defType: string[] = getPokemonType( target );
+  const atkType: MoveTypeType = pokemon.moveUsed.type;
+  const defType: MoveTypeType[] = getPokemonType( target );
   let result: number = 1.0;
 
   for ( const record of typeCompatibility ) {
-    if ( record.attackType !== atkType ) {
-      continue;
-    }
-    for ( const type of defType ) {
-      if ( type === '' ) continue;
-      let rate: number = record.rate[type];
-      if ( rate === 0.0 && isItem( target, 'ねらいのまと' ) === true ) {
-        rate = 1.0;
+    if ( record.attackType === atkType ) {
+      for ( const type of defType ) {
+        if ( type === null ) continue;
+
+        let rate: number = record.rate[type];
+        if ( rate === 0.0 && isItem( target, 'ねらいのまと' ) === true ) {
+          rate = 1.0;
+        }
+        if ( pokemon.moveUsed.name === 'フリーズドライ' && type === 'みず' ) {
+          rate = 2.0;
+        }
+        result = result * rate;
       }
-      result = result * rate;
     }
+  }
+
+  if ( pokemon.moveUsed.name === 'フライングプレス' ) {
+    for ( const record of typeCompatibility ) {
+      if ( record.attackType === 'ひこう' ) {
+        for ( const type of defType ) {
+          if ( type === null ) continue;
+
+          let rate: number = record.rate[type];
+          if ( rate === 0.0 && isItem( target, 'ねらいのまと' ) === true ) {
+            rate = 1.0;
+          }
+
+          result = result * rate;
+        }
+      }
+    }
+  }
+
+  if ( target.stateChange.tarShot.isTrue === true && atkType === 'ほのお' ) {
+   result = result * 2.0
   }
 
   return result;

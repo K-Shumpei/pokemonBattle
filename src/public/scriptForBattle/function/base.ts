@@ -35,10 +35,7 @@ function isStatusAilment( pokemon: Pokemon, statusAilment: string ): boolean {
 }
 
 // ランク補正
-function getValueWithRankCorrection( pokemon: Pokemon, parameter: string, critical: boolean ): number {
-
-  const actualValue: number = pokemon.actualValue[parameter];
-  const rank: number = pokemon.rank[parameter];
+function getValueWithRankCorrection( actualValue: number, rank: number, critical: boolean ): number {
 
   if ( critical === true ) {
     const thisRank: number = Math.max( rank, 0 );
@@ -145,19 +142,19 @@ function isGrounded( pokemon: Pokemon ): boolean {
 }
 
 // ポケモンのタイプ
-function getPokemonType( pokemon: Pokemon ): string[] {
+function getPokemonType( pokemon: Pokemon ): MoveTypeType[] {
 
-  let result: string[] = [];
+  let result: MoveTypeType[] = [];
 
-  if ( pokemon.status.type1 !== '' ) {
+  if ( pokemon.status.type1 !== null ) {
     result.push( pokemon.status.type1 );
   }
-  if ( pokemon.status.type2 !== '' ) {
+  if ( pokemon.status.type2 !== null ) {
     result.push( pokemon.status.type2 );
   }
 
   if ( result.length === 0 ) {
-    result.push( '' );
+    result.push( null );
   }
 
   return result;

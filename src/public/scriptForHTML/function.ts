@@ -78,8 +78,8 @@ function registrationPokemon(): void {
   // タイプ表示
   type1HTML.textContent = pokemon.type1;
   type2HTML.textContent = pokemon.type2;
-  type1HTML.value = pokemon.type1;
-  type2HTML.value = pokemon.type2;
+  type1HTML.value = String( pokemon.type1 );
+  type2HTML.value = String( pokemon.type2 );
 
   // 性別表示
   genderHTML.innerHTML = '';
@@ -428,8 +428,6 @@ function registerParty( number: number ): void {
   // 基本ステータス
   myAllParty[number].statusOrg.number = pokemon.number;
   myAllParty[number].statusOrg.name = pokemon.name;
-  myAllParty[number].statusOrg.type1 = type1HTML.value;
-  myAllParty[number].statusOrg.type2 = type2HTML.value;
   myAllParty[number].statusOrg.gender = genderHTML.value;
   myAllParty[number].statusOrg.ability = abilityHTML.value;
   myAllParty[number].statusOrg.level = Number( levelHTML.value );
@@ -438,6 +436,19 @@ function registerParty( number: number ): void {
   myAllParty[number].statusOrg.height = pokemon.height;
   myAllParty[number].statusOrg.weight = pokemon.weight;
   myAllParty[number].statusOrg.remainingHP = Number( actualValue_hitPoint.value );
+
+  for ( const type of typeList ) {
+    if ( type === type1HTML.value ) {
+      myAllParty[number].statusOrg.type1 = type1HTML.value;
+    } else {
+      myAllParty[number].statusOrg.type1 = null;
+    }
+    if ( type === type2HTML.value ) {
+      myAllParty[number].statusOrg.type2 = type2HTML.value;
+    } else {
+      myAllParty[number].statusOrg.type2 = null;
+    }
+  }
 
   myAllParty[number].status = myAllParty[number].statusOrg;
 
@@ -506,14 +517,25 @@ function editParty( number: number ): void {
   registrationPokemon()
 
   getHTMLInputElement( 'register_level' ).value = String( myAllParty[number].status.level );
-  getHTMLInputElement( 'register_type1' ).value = myAllParty[number].status.type1;
-  getHTMLInputElement( 'register_type1' ).textContent = myAllParty[number].status.type1;
-  getHTMLInputElement( 'register_type2' ).value = myAllParty[number].status.type2;
-  getHTMLInputElement( 'register_type2' ).textContent = myAllParty[number].status.type2;
   getHTMLInputElement( 'register_gender' ).value = myAllParty[number].status.gender;
   getHTMLInputElement( 'register_ability' ).value = myAllParty[number].status.ability;
   getHTMLInputElement( 'register_item' ).value = myAllParty[number].status.item;
   getHTMLInputElement( 'register_nature' ).value = myAllParty[number].status.nature;
+
+  if ( myAllParty[number].status.type1 === null ) {
+    getHTMLInputElement( 'register_type1' ).value = '';
+    getHTMLInputElement( 'register_type1' ).textContent = '';
+  } else {
+    getHTMLInputElement( 'register_type1' ).value = String( myAllParty[number].status.type1 );
+    getHTMLInputElement( 'register_type1' ).textContent = myAllParty[number].status.type1;
+  }
+  if ( myAllParty[number].status.type2 === null ) {
+    getHTMLInputElement( 'register_type2' ).value = '';
+    getHTMLInputElement( 'register_type2' ).textContent = '';
+  } else {
+    getHTMLInputElement( 'register_type2' ).value = String( myAllParty[number].status.type2 );
+    getHTMLInputElement( 'register_type2' ).textContent = myAllParty[number].status.type2;
+  }
 
   // 性格　ラジオボタン
   natureTextToRadio()

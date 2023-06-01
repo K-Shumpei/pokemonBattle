@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+
+  <!-- マスタ -->
+  <script type="text/javascript" src="./master/move.js"></script>
+  <script type="text/javascript" src="./master/pokemon.js"></script>
+  <script type="text/javascript" src="./master/type.js"></script>
+</head>
+
+<bode>
+  <h2>技一覧</h2>
+  <script type="text/javascript">
+    document.write(`<table>`);
+    document.write('<tr align=right>');
+    document.write('<td align=left>名前</td>');
+    document.write('<td align=left>タイプ</td>');
+    document.write('<td>分類</td>');
+    document.write('<td>威力</td>');
+    document.write('<td>命中率</td>');
+    document.write('<td>PP</td>');
+    document.write('<td>対象</td>');
+    document.write('</tr>');
+    for ( const move of moveData ) {
+      document.write(`<tr align=right>`);
+      document.write(`<td align=left>${move.name}</td>`);
+      document.write(`<td align=left>${move.type}</td>`);
+      document.write(`<td width='60'>${move.category}</td>`);
+      document.write(`<td width='60'>${move.power}</td>`);
+      document.write(`<td width='60'>${move.accuracy}</td>`);
+      document.write(`<td width='60'>${move.powerPoint}</td>`);
+      document.write(`<td width=100>${move.target}</td>`);
+      document.write(`</tr>`);
+    }
+    document.write(`</table>`);
+  </script>
+</bode>
+
+</html>

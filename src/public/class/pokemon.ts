@@ -33,8 +33,8 @@ class Order {
 class Status {
   _number: string;
   _name: string;
-  _type1: string;
-  _type2: string;
+  _type1: MoveTypeType;
+  _type2: MoveTypeType;
   _gender: string;
   _ability: string;
   _level: number;
@@ -49,8 +49,8 @@ class Status {
   constructor() {
     this._number = '';
     this._name = '';
-    this._type1 = '';
-    this._type2 = '';
+    this._type1 = null;
+    this._type2 = null;
     this._gender = '';
     this._ability = '';
     this._level = 50;
@@ -69,10 +69,10 @@ class Status {
   set name( name: string ) {
     this._name = name;
   }
-  set type1( type: string ) {
+  set type1( type: MoveTypeType ) {
     this._type1 = type;
   }
-  set type2( type: string ) {
+  set type2( type: MoveTypeType ) {
     this._type2 = type;
   }
   set gender( gender: string ) {
@@ -112,10 +112,10 @@ class Status {
   get name(): string {
     return this._name;
   }
-  get type1(): string {
+  get type1(): MoveTypeType {
     return this._type1;
   }
-  get type2(): string {
+  get type2(): MoveTypeType {
     return this._type2;
   }
   get gender(): string {
@@ -389,29 +389,29 @@ class ParameterRank {
 
 class AvailableMove {
   _name: string;
-  _type: string;
-  _category: string;
+  _type: MoveTypeType;
+  _category: MoveCategoryType;
   _power: number;
   _accuracy: number;
   _remainingPP: number;
   _powerPoint: number;
   _isDirect: boolean;
   _isProtect: boolean;
-  _target: string;
+  _target: MoveTargetType;
   _number: number;
   _priority: number;
 
   constructor() {
     this._name = '';
-    this._type = '';
-    this._category = '';
+    this._type = null;
+    this._category = '物理';
     this._power = 0;
     this._accuracy = 0;
     this._remainingPP = 0;
     this._powerPoint = 0;
     this._isDirect = true;
     this._isProtect = true;
-    this._target = '';
+    this._target = '自分';
     this._number = 0;
     this._priority = 0;
   }
@@ -419,10 +419,10 @@ class AvailableMove {
   set name( name: string ) {
     this._name = name;
   }
-  set type( type: string ) {
+  set type( type: MoveTypeType ) {
     this._type = type;
   }
-  set category( category: string ) {
+  set category( category: MoveCategoryType ) {
     this._category = category;
   }
   set power( power: number ) {
@@ -443,7 +443,7 @@ class AvailableMove {
   set isProtect( isProtect: boolean ) {
     this._isProtect = isProtect;
   }
-  set target( target: string ) {
+  set target( target: MoveTargetType ) {
     this._target = target;
   }
   set number( number: number ) {
@@ -456,10 +456,10 @@ class AvailableMove {
   get name(): string {
     return this._name;
   }
-  get type(): string {
+  get type(): MoveTypeType {
     return this._type;
   }
-  get category(): string {
+  get category(): MoveCategoryType {
     return this._category;
   }
   get power(): number {
@@ -480,7 +480,7 @@ class AvailableMove {
   get isProtect(): boolean {
     return this._isProtect;
   }
-  get target(): string {
+  get target(): MoveTargetType {
     return this._target;
   }
   get number(): number {
@@ -535,17 +535,17 @@ class Damage {
 }
 
 class Target {
-  _trainer: string;
+  _trainer: 'me' | 'opp' | 'field';
   _battleNumber: number | null;
   _success: boolean;
 
   constructor() {
-    this._trainer = '';
+    this._trainer = 'field';
     this._battleNumber = null;
     this._success = true;
   }
 
-  set trainer( trainer: string ) {
+  set trainer( trainer: 'me' | 'opp' | 'field' ) {
     this._trainer = trainer;
   }
   set battleNumber( battleNumber: number | null ) {
@@ -555,7 +555,7 @@ class Target {
     this._success = success;
   }
 
-  get trainer(): string {
+  get trainer(): 'me' | 'opp' | 'field' {
     return this._trainer;
   }
   get battleNumber(): number | null {
@@ -682,19 +682,12 @@ class StateChangeSummary {
   // バインド
   _curse: StateChange; // のろい
   // あくむ
-
-
   _attract: StateChange; // メロメロ
   _leechSeed: StateChange; // やどりぎのタネ
-
-
   _yawn: StateChange; // ねむけ
   _perishSong: StateChange; // ほろびのうた
-
-
   _noAbility: StateChange; // とくせいなし
   _healBlock: StateChange; // かいふくふうじ
-
   _embargo: StateChange; //さしおさえ
   _encore: StateChange; // アンコール
   _torment: StateChange; // いちゃもん
@@ -702,9 +695,7 @@ class StateChangeSummary {
   _disable: StateChange; // かなしばり
   _foresight: StateChange; // みやぶられている
   _miracleEye: StateChange; // ミラクルアイ
-
-  // てだすけ
-
+  _helpingHand: StateChange; // てだすけ
   _smackDown: StateChange; // うちおとす
   _telekinesis: StateChange; // テレキネシス
 
@@ -727,14 +718,10 @@ class StateChangeSummary {
   // たこがため
 
   // わざを使ったポケモンに発生
-
   _focusEnergy: StateChange; // きゅうしょアップ
-
-
   // ちゅうもくのまと
   _substitute: StateChange; // みがわり
   // まもる
-
   _lockOn: StateChange; //ロックオン (第五世代以降)
 
   /*
@@ -759,10 +746,8 @@ class StateChangeSummary {
   */
 
   _ingrain: StateChange; // ねをはる
-
   _aquaRing: StateChange; //アクアリング
-  // じゅうでん
-
+  _charge: StateChange; // じゅうでん
   _stockpile: StateChange; // たくわえる
   _magnetRise: StateChange; // でんじふゆう
 
@@ -772,14 +757,16 @@ class StateChangeSummary {
   */
   _transform: StateChange; // へんしん
 
-  /*
-  そらをとぶ
-  あなをほる
-  ダイビング
-  シャドーダイブ
-  ボディパージ
-  ほろびのうた
-  */
+
+  _fly: StateChange; // そらをとぶ
+  _dig: StateChange; // あなをほる
+  _dive: StateChange; // ダイビング
+  _shadowForce: StateChange;// シャドーダイブ
+
+
+  // ボディパージ
+  // ほろびのうた
+
   _confuse: StateChange; // こんらん
   /*
   にげられない
@@ -795,9 +782,14 @@ class StateChangeSummary {
 
   // 以下、状態変化ではない
   _truant: StateChange; // なまけ
+  _slowStart: StateChange; // スロースタート
   _disguise: StateChange; // ばけのかわ
   _iceFace: StateChange; // アイスフェイス
+  _quarkDrive: StateChange; // クォークチャージ
+  _protosynthesis: StateChange; // こだいかっせい
+  _flashFire: StateChange; // もらいび
   _skin: StateChange; // スキン系特性
+  _gem: StateChange; // ジュエル
   _cannotMove: StateChange; // 反動で動けない
   _dynamax: StateChange; // ダイマックス
 
@@ -817,6 +809,7 @@ class StateChangeSummary {
     this._disable = new StateChange( 'かなしばり' );
     this._foresight = new StateChange( 'みやぶられている' );
     this._miracleEye = new StateChange( 'ミラクルアイ' );
+    this._helpingHand = new StateChange( 'てだすけ' );
     this._smackDown = new StateChange( 'うちおとす' );
     this._telekinesis = new StateChange( 'テレキネシス' );
     this._powder = new StateChange( 'ふんじん' );
@@ -830,15 +823,25 @@ class StateChangeSummary {
     this._imprison = new StateChange( 'ふういん' );
     this._ingrain = new StateChange( 'ねをはる' );
     this._aquaRing = new StateChange( 'アクアリング' );
+    this._charge = new StateChange( 'じゅうでん' );
     this._stockpile = new StateChange( 'たくわえる' );
     this._magnetRise = new StateChange( 'でんじふゆう' );
     this._transform = new StateChange( 'へんしん' );
+    this._fly = new StateChange( 'そらを飛ぶ' );
+    this._dig = new StateChange( 'あなをほる' );
+    this._dive = new StateChange( 'ダイビング' );
+    this._shadowForce = new StateChange( 'シャドーダイブ' );
     this._confuse = new StateChange( 'こんらん' );
 
     this._truant = new StateChange( 'なまけ' );
+    this._slowStart = new StateChange( 'スロースタート' );
     this._disguise = new StateChange( 'ばけのかわ' );
     this._iceFace = new StateChange( 'アイスフェイス' );
+    this._quarkDrive = new StateChange( 'クォークチャージ' );
+    this._protosynthesis = new StateChange( 'こだいかっせい' );
+    this._flashFire = new StateChange( 'もらいび' );
     this._skin = new StateChange( 'スキン系特性' );
+    this._gem = new StateChange( 'ジュエル' );
     this._cannotMove = new StateChange( '反動で動けない' );
     this._dynamax = new StateChange( 'ダイマックス' );
   }
@@ -888,6 +891,9 @@ class StateChangeSummary {
   set miracleEye( miracleEye: StateChange ) {
     this._miracleEye = miracleEye;
   }
+  set helpingHand( helpingHand: StateChange ) {
+    this._helpingHand = helpingHand;
+  }
   set smackDown( smackDown: StateChange ) {
     this._smackDown = smackDown;
   }
@@ -924,6 +930,9 @@ class StateChangeSummary {
   set aquaRing( aquaRing: StateChange ) {
     this._aquaRing = aquaRing;
   }
+  set charge( charge: StateChange ) {
+    this._charge = charge;
+  }
   set stockpile( stockpile: StateChange ) {
     this._stockpile = stockpile;
   }
@@ -933,11 +942,26 @@ class StateChangeSummary {
   set transform( transform: StateChange ) {
     this._transform = transform;
   }
+  set fly( fly: StateChange ) {
+    this._fly = fly;
+  }
+  set dig( dig: StateChange ) {
+    this._dig = dig;
+  }
+  set dive( dive: StateChange ) {
+    this._dive = dive;
+  }
+  set shadowForce( shadowForce: StateChange ) {
+    this._shadowForce = shadowForce;
+  }
   set confuse( confuse: StateChange ) {
     this._confuse = confuse;
   }
   set truant( truant: StateChange ) {
     this._truant = truant;
+  }
+  set slowStart( slowStart: StateChange ) {
+    this._slowStart = slowStart;
   }
   set disguise( disguise: StateChange ) {
     this._disguise = disguise;
@@ -945,8 +969,20 @@ class StateChangeSummary {
   set iceFace( iceFace: StateChange ) {
     this._iceFace = iceFace;
   }
+  set quarkDrive( quarkDrive: StateChange ) {
+    this._quarkDrive = quarkDrive;
+  }
+  set protosynthesis( protosynthesis: StateChange ) {
+    this._protosynthesis = protosynthesis;
+  }
+  set flashFire( flashFire: StateChange ) {
+    this._flashFire = flashFire;
+  }
   set skin( skin: StateChange ) {
     this._skin = skin;
+  }
+  set gem( gem: StateChange ) {
+    this._gem = gem;
   }
   set cannotMove( cannotMove: StateChange ) {
     this._cannotMove = cannotMove;
@@ -1000,6 +1036,9 @@ class StateChangeSummary {
   get miracleEye(): StateChange {
     return this._miracleEye;
   }
+  get helpingHand(): StateChange {
+    return this._helpingHand;
+  }
   get smackDown(): StateChange {
     return this._smackDown;
   }
@@ -1036,6 +1075,9 @@ class StateChangeSummary {
   get aquaRing(): StateChange {
     return this._aquaRing;
   }
+  get charge(): StateChange {
+    return this._charge;
+  }
   get stockpile(): StateChange {
     return this._stockpile;
   }
@@ -1045,11 +1087,26 @@ class StateChangeSummary {
   get transform(): StateChange {
     return this._transform;
   }
+  get fly(): StateChange {
+    return this._fly;
+  }
+  get dig(): StateChange {
+    return this._dig;
+  }
+  get dive(): StateChange {
+    return this._dive;
+  }
+  get shadowForce(): StateChange {
+    return this._shadowForce;
+  }
   get confuse(): StateChange {
     return this._confuse;
   }
   get truant(): StateChange {
     return this._truant;
+  }
+  get slowStart(): StateChange {
+    return this._slowStart;
   }
   get disguise(): StateChange {
     return this._disguise;
@@ -1057,8 +1114,20 @@ class StateChangeSummary {
   get iceFace(): StateChange {
     return this._iceFace;
   }
+  get quarkDrive(): StateChange {
+    return this._quarkDrive;
+  }
+  get protosynthesis(): StateChange {
+    return this._protosynthesis;
+  }
+  get flashFire(): StateChange {
+    return this._flashFire;
+  }
   get skin(): StateChange {
     return this._skin;
+  }
+  get gem(): StateChange {
+    return this._gem;
   }
   get cannotMove(): StateChange {
     return this._cannotMove;

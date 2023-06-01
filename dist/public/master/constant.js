@@ -94,24 +94,24 @@ const typeColor = [
 ];
 // タイプ相性
 const typeCompatibility = [
-    { attackType: 'normal', rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 0.5, ghost: 0.0, dragon: 1.0, dark: 1.0, steel: 0.5, fairy: 1.0 } },
-    { attackType: 'fire', rate: { normal: 1.0, fire: 0.5, water: 0.5, electric: 1.0, grass: 2.0, ice: 2.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 2.0, rock: 0.5, ghost: 1.0, dragon: 0.5, dark: 1.0, steel: 2.0, fairy: 1.0 } },
-    { attackType: 'water', rate: { normal: 1.0, fire: 2.0, water: 0.5, electric: 1.0, grass: 0.5, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 2.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 2.0, ghost: 1.0, dragon: 0.5, dark: 1.0, steel: 1.0, fairy: 1.0 } },
-    { attackType: 'electric', rate: { normal: 1.0, fire: 1.0, water: 2.0, electric: 0.5, grass: 0.5, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 0.0, flying: 2.0, psychic: 1.0, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 0.5, dark: 1.0, steel: 1.0, fairy: 1.0 } },
-    { attackType: 'grass', rate: { normal: 1.0, fire: 0.5, water: 2.0, electric: 1.0, grass: 0.5, ice: 1.0, fighting: 1.0, poison: 0.5, ground: 2.0, flying: 0.5, psychic: 1.0, bug: 0.5, rock: 2.0, ghost: 1.0, dragon: 0.5, dark: 1.0, steel: 0.5, fairy: 1.0 } },
-    { attackType: 'ice', rate: { normal: 1.0, fire: 0.5, water: 0.5, electric: 1.0, grass: 2.0, ice: 0.5, fighting: 1.0, poison: 1.0, ground: 2.0, flying: 2.0, psychic: 1.0, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 2.0, dark: 1.0, steel: 0.5, fairy: 1.0 } },
-    { attackType: 'fighting', rate: { normal: 2.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 2.0, fighting: 1.0, poison: 0.5, ground: 1.0, flying: 0.5, psychic: 0.5, bug: 0.5, rock: 2.0, ghost: 0.0, dragon: 1.0, dark: 2.0, steel: 2.0, fairy: 0.5 } },
-    { attackType: 'poison', rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 2.0, ice: 1.0, fighting: 1.0, poison: 0.5, ground: 0.5, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 0.5, ghost: 0.5, dragon: 1.0, dark: 1.0, steel: 0.0, fairy: 2.0 } },
-    { attackType: 'ground', rate: { normal: 1.0, fire: 2.0, water: 1.0, electric: 2.0, grass: 0.5, ice: 1.0, fighting: 1.0, poison: 2.0, ground: 1.0, flying: 0.0, psychic: 1.0, bug: 0.5, rock: 2.0, ghost: 1.0, dragon: 1.0, dark: 1.0, steel: 2.0, fairy: 1.0 } },
-    { attackType: 'flying', rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 0.5, grass: 2.0, ice: 1.0, fighting: 2.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 2.0, rock: 0.5, ghost: 1.0, dragon: 1.0, dark: 1.0, steel: 0.5, fairy: 1.0 } },
-    { attackType: 'psychic', rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 2.0, poison: 2.0, ground: 1.0, flying: 1.0, psychic: 0.5, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 1.0, dark: 0.0, steel: 0.5, fairy: 1.0 } },
-    { attackType: 'bug', rate: { normal: 1.0, fire: 0.5, water: 1.0, electric: 1.0, grass: 2.0, ice: 1.0, fighting: 0.5, poison: 0.5, ground: 1.0, flying: 0.5, psychic: 2.0, bug: 1.0, rock: 1.0, ghost: 0.5, dragon: 1.0, dark: 2.0, steel: 0.5, fairy: 0.5 } },
-    { attackType: 'rock', rate: { normal: 1.0, fire: 2.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 2.0, fighting: 0.5, poison: 1.0, ground: 0.5, flying: 2.0, psychic: 1.0, bug: 2.0, rock: 1.0, ghost: 1.0, dragon: 1.0, dark: 1.0, steel: 0.5, fairy: 1.0 } },
-    { attackType: 'ghost', rate: { normal: 0.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 2.0, bug: 1.0, rock: 1.0, ghost: 2.0, dragon: 1.0, dark: 0.5, steel: 1.0, fairy: 1.0 } },
-    { attackType: 'dragon', rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 2.0, dark: 1.0, steel: 0.5, fairy: 0.0 } },
-    { attackType: 'dark', rate: { normal: 1.0, fire: 1.0, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 0.5, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 2.0, bug: 1.0, rock: 1.0, ghost: 2.0, dragon: 1.0, dark: 0.5, steel: 1.0, fairy: 0.5 } },
-    { attackType: 'steel', rate: { normal: 1.0, fire: 0.5, water: 0.5, electric: 0.5, grass: 1.0, ice: 2.0, fighting: 1.0, poison: 1.0, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 2.0, ghost: 1.0, dragon: 1.0, dark: 1.0, steel: 0.5, fairy: 2.0 } },
-    { attackType: 'fairy', rate: { normal: 1.0, fire: 0.5, water: 1.0, electric: 1.0, grass: 1.0, ice: 1.0, fighting: 2.0, poison: 0.5, ground: 1.0, flying: 1.0, psychic: 1.0, bug: 1.0, rock: 1.0, ghost: 1.0, dragon: 2.0, dark: 2.0, steel: 0.5, fairy: 1.0 } },
+    { attackType: 'ノーマル', rate: { ノーマル: 1.0, ほのお: 1.0, みず: 1.0, でんき: 1.0, くさ: 1.0, こおり: 1.0, かくとう: 1.0, どく: 1.0, じめん: 1.0, ひこう: 1.0, エスパー: 1.0, むし: 1.0, いわ: 0.5, ゴースト: 0.0, ドラゴン: 1.0, あく: 1.0, はがね: 0.5, フェアリー: 1.0 } },
+    { attackType: 'ほのお', rate: { ノーマル: 1.0, ほのお: 0.5, みず: 0.5, でんき: 1.0, くさ: 2.0, こおり: 2.0, かくとう: 1.0, どく: 1.0, じめん: 1.0, ひこう: 1.0, エスパー: 1.0, むし: 2.0, いわ: 0.5, ゴースト: 1.0, ドラゴン: 0.5, あく: 1.0, はがね: 2.0, フェアリー: 1.0 } },
+    { attackType: 'みず', rate: { ノーマル: 1.0, ほのお: 2.0, みず: 0.5, でんき: 1.0, くさ: 0.5, こおり: 1.0, かくとう: 1.0, どく: 1.0, じめん: 2.0, ひこう: 1.0, エスパー: 1.0, むし: 1.0, いわ: 2.0, ゴースト: 1.0, ドラゴン: 0.5, あく: 1.0, はがね: 1.0, フェアリー: 1.0 } },
+    { attackType: 'でんき', rate: { ノーマル: 1.0, ほのお: 1.0, みず: 2.0, でんき: 0.5, くさ: 0.5, こおり: 1.0, かくとう: 1.0, どく: 1.0, じめん: 0.0, ひこう: 2.0, エスパー: 1.0, むし: 1.0, いわ: 1.0, ゴースト: 1.0, ドラゴン: 0.5, あく: 1.0, はがね: 1.0, フェアリー: 1.0 } },
+    { attackType: 'くさ', rate: { ノーマル: 1.0, ほのお: 0.5, みず: 2.0, でんき: 1.0, くさ: 0.5, こおり: 1.0, かくとう: 1.0, どく: 0.5, じめん: 2.0, ひこう: 0.5, エスパー: 1.0, むし: 0.5, いわ: 2.0, ゴースト: 1.0, ドラゴン: 0.5, あく: 1.0, はがね: 0.5, フェアリー: 1.0 } },
+    { attackType: 'こおり', rate: { ノーマル: 1.0, ほのお: 0.5, みず: 0.5, でんき: 1.0, くさ: 2.0, こおり: 0.5, かくとう: 1.0, どく: 1.0, じめん: 2.0, ひこう: 2.0, エスパー: 1.0, むし: 1.0, いわ: 1.0, ゴースト: 1.0, ドラゴン: 2.0, あく: 1.0, はがね: 0.5, フェアリー: 1.0 } },
+    { attackType: 'かくとう', rate: { ノーマル: 2.0, ほのお: 1.0, みず: 1.0, でんき: 1.0, くさ: 1.0, こおり: 2.0, かくとう: 1.0, どく: 0.5, じめん: 1.0, ひこう: 0.5, エスパー: 0.5, むし: 0.5, いわ: 2.0, ゴースト: 0.0, ドラゴン: 1.0, あく: 2.0, はがね: 2.0, フェアリー: 0.5 } },
+    { attackType: 'どく', rate: { ノーマル: 1.0, ほのお: 1.0, みず: 1.0, でんき: 1.0, くさ: 2.0, こおり: 1.0, かくとう: 1.0, どく: 0.5, じめん: 0.5, ひこう: 1.0, エスパー: 1.0, むし: 1.0, いわ: 0.5, ゴースト: 0.5, ドラゴン: 1.0, あく: 1.0, はがね: 0.0, フェアリー: 2.0 } },
+    { attackType: 'じめん', rate: { ノーマル: 1.0, ほのお: 2.0, みず: 1.0, でんき: 2.0, くさ: 0.5, こおり: 1.0, かくとう: 1.0, どく: 2.0, じめん: 1.0, ひこう: 0.0, エスパー: 1.0, むし: 0.5, いわ: 2.0, ゴースト: 1.0, ドラゴン: 1.0, あく: 1.0, はがね: 2.0, フェアリー: 1.0 } },
+    { attackType: 'ひこう', rate: { ノーマル: 1.0, ほのお: 1.0, みず: 1.0, でんき: 0.5, くさ: 2.0, こおり: 1.0, かくとう: 2.0, どく: 1.0, じめん: 1.0, ひこう: 1.0, エスパー: 1.0, むし: 2.0, いわ: 0.5, ゴースト: 1.0, ドラゴン: 1.0, あく: 1.0, はがね: 0.5, フェアリー: 1.0 } },
+    { attackType: 'エスパー', rate: { ノーマル: 1.0, ほのお: 1.0, みず: 1.0, でんき: 1.0, くさ: 1.0, こおり: 1.0, かくとう: 2.0, どく: 2.0, じめん: 1.0, ひこう: 1.0, エスパー: 0.5, むし: 1.0, いわ: 1.0, ゴースト: 1.0, ドラゴン: 1.0, あく: 0.0, はがね: 0.5, フェアリー: 1.0 } },
+    { attackType: 'むし', rate: { ノーマル: 1.0, ほのお: 0.5, みず: 1.0, でんき: 1.0, くさ: 2.0, こおり: 1.0, かくとう: 0.5, どく: 0.5, じめん: 1.0, ひこう: 0.5, エスパー: 2.0, むし: 1.0, いわ: 1.0, ゴースト: 0.5, ドラゴン: 1.0, あく: 2.0, はがね: 0.5, フェアリー: 0.5 } },
+    { attackType: 'いわ', rate: { ノーマル: 1.0, ほのお: 2.0, みず: 1.0, でんき: 1.0, くさ: 1.0, こおり: 2.0, かくとう: 0.5, どく: 1.0, じめん: 0.5, ひこう: 2.0, エスパー: 1.0, むし: 2.0, いわ: 1.0, ゴースト: 1.0, ドラゴン: 1.0, あく: 1.0, はがね: 0.5, フェアリー: 1.0 } },
+    { attackType: 'ゴースト', rate: { ノーマル: 0.0, ほのお: 1.0, みず: 1.0, でんき: 1.0, くさ: 1.0, こおり: 1.0, かくとう: 1.0, どく: 1.0, じめん: 1.0, ひこう: 1.0, エスパー: 2.0, むし: 1.0, いわ: 1.0, ゴースト: 2.0, ドラゴン: 1.0, あく: 0.5, はがね: 1.0, フェアリー: 1.0 } },
+    { attackType: 'ドラゴン', rate: { ノーマル: 1.0, ほのお: 1.0, みず: 1.0, でんき: 1.0, くさ: 1.0, こおり: 1.0, かくとう: 1.0, どく: 1.0, じめん: 1.0, ひこう: 1.0, エスパー: 1.0, むし: 1.0, いわ: 1.0, ゴースト: 1.0, ドラゴン: 2.0, あく: 1.0, はがね: 0.5, フェアリー: 0.0 } },
+    { attackType: 'あく', rate: { ノーマル: 1.0, ほのお: 1.0, みず: 1.0, でんき: 1.0, くさ: 1.0, こおり: 1.0, かくとう: 0.5, どく: 1.0, じめん: 1.0, ひこう: 1.0, エスパー: 2.0, むし: 1.0, いわ: 1.0, ゴースト: 2.0, ドラゴン: 1.0, あく: 0.5, はがね: 1.0, フェアリー: 0.5 } },
+    { attackType: 'はがね', rate: { ノーマル: 1.0, ほのお: 0.5, みず: 0.5, でんき: 0.5, くさ: 1.0, こおり: 2.0, かくとう: 1.0, どく: 1.0, じめん: 1.0, ひこう: 1.0, エスパー: 1.0, むし: 1.0, いわ: 2.0, ゴースト: 1.0, ドラゴン: 1.0, あく: 1.0, はがね: 0.5, フェアリー: 2.0 } },
+    { attackType: 'フェアリー', rate: { ノーマル: 1.0, ほのお: 0.5, みず: 1.0, でんき: 1.0, くさ: 1.0, こおり: 1.0, かくとう: 2.0, どく: 0.5, じめん: 1.0, ひこう: 1.0, エスパー: 1.0, むし: 1.0, いわ: 1.0, ゴースト: 1.0, ドラゴン: 2.0, あく: 2.0, はがね: 0.5, フェアリー: 1.0 } },
 ];
 // 音技
 const soundMoveList = [
@@ -308,7 +308,31 @@ const ironFistMoveList = [
     'れいとうパンチ',
     'れんぞくパンチ'
 ];
+// 噛付技　がんじょうあご
+const biteMoveList = [
+    'エラがみ',
+    'かみくだく',
+    'かみつく',
+    'かみなりのキバ',
+    'くらいつく',
+    'こおりのキバ',
+    'サイコファング',
+    'どくどくのキバ',
+    'ひっさつまえば',
+    'ほのおのキバ'
+];
+// 波動技　メガランチャー
+const waveMoveList = [
+    'あくのはどう',
+    'いやしのはどう',
+    'こんげんのはどう',
+    'だいちのはどう',
+    'はどうだん',
+    'みずのはどう',
+    'りゅうのはどう'
+];
 // 特性の変更可否
+// https://wiki.xn--rckteqa2e.com/wiki/%E3%81%A8%E3%81%8F%E3%81%9B%E3%81%84
 const changeAbilityTable = [
     { name: 'ARシステム', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
     { name: 'アイスフェイス', exchange: 1, overwrite: 1, noAbility: 1, neutral: 1, copy: 1, copied: 1, transform: 2 },
@@ -409,6 +433,31 @@ const driveTable = [
     { name: 'フリーズカセット', type: 'こおり' },
     { name: 'ブレイズカセット', type: 'ほのお' }
 ];
+// シルクのスカーフ、おこう
+const incenseTable = [
+    { name: 'あやしいおこう', type: 'エスパー' },
+    { name: 'うしおのおこう', type: 'みず' },
+    { name: 'おはなのおこう', type: 'くさ' },
+    { name: 'かたいいし', type: 'いわ' },
+    { name: 'がんせきおこう', type: 'いわ' },
+    { name: 'きせきのタネ', type: 'くさ' },
+    { name: 'ぎんのこな', type: 'むし' },
+    { name: 'くろいメガネ', type: 'あく' },
+    { name: 'くろおび', type: 'かくとう' },
+    { name: 'さざなみのおこう', type: 'みず' },
+    { name: 'じしゃく', type: 'でんき' },
+    { name: 'シルクのスカーフ', type: 'ノーマル' },
+    { name: 'しんぴのしずく', type: 'みず' },
+    { name: 'するどいくちばし', type: 'ひこう' },
+    { name: 'どくバリ', type: 'どく' },
+    { name: 'とけないこおり', type: 'こおり' },
+    { name: 'のろいのおふだ', type: 'ゴースト' },
+    { name: 'まがったスプーン', type: 'エスパー' },
+    { name: 'メタルコート', type: 'はがね' },
+    { name: 'もくたん', type: 'ほのお' },
+    { name: 'やわらかいすな', type: 'じめん' },
+    { name: 'りゅうのキバ', type: 'ドラゴン' }
+];
 // Zクリスタル
 const zCrystalTable = [
     { name: 'アクZ', type: 'あく', Zmove: 'ブラックホールイクリプス', move: '', pokemon: '' },
@@ -453,4 +502,74 @@ const zCrystalTable = [
     { name: 'ルガルガンZ', type: 'いわ', Zmove: 'ラジアルエッジストーム', move: 'ストーンエッジ', pokemon: 'ルガルガン(黄昏)' },
     { name: 'ルナアーラZ', type: 'ゴースト', Zmove: 'ムーンライトブラスター', move: 'シャドーレイ', pokemon: 'ルナアーラ' },
     { name: 'ルナアーラZ', type: 'ゴースト', Zmove: 'ムーンライトブラスター', move: 'シャドーレイ', pokemon: 'ネクロズマ(月食)' }
+];
+// メガストーン
+const megaStoneTable = [
+    { name: 'アブソルナイト', pokemon: 'アブソル', mega: 'メガアブソル' },
+    { name: 'エルレイドナイト', pokemon: 'エルレイド', mega: 'メガエルレイド' },
+    { name: 'オニゴーリナイト', pokemon: 'オニゴーリ', mega: 'メガオニゴーリ' },
+    { name: 'カイロスナイト', pokemon: 'カイロス', mega: 'メガカイロス' },
+    { name: 'ガブリアスナイト', pokemon: 'ガブリアス', mega: 'メガガブリアス' },
+    { name: 'カメックスナイト', pokemon: 'カメックス', mega: 'メガカメックス' },
+    { name: 'ガルーラナイト', pokemon: 'ガルーラ', mega: 'メガガルーラ' },
+    { name: 'ギャラドスナイト', pokemon: 'ギャラドス', mega: 'メガギャラドス' },
+    { name: 'クチートナイト', pokemon: 'クチート', mega: 'メガクチート' },
+    { name: 'ゲンガナイト', pokemon: 'ゲンガー', mega: 'メガゲンガー' },
+    { name: 'サーナイトナイト', pokemon: 'サーナイト', mega: 'メガサーナイト' },
+    { name: 'サメハダナイト', pokemon: 'サメハダー', mega: 'メガサメハダー' },
+    { name: 'ジュカインナイト', pokemon: 'ジュカイン', mega: 'メガジュカイン' },
+    { name: 'ジュペッタナイト', pokemon: 'ジュペッタ', mega: 'メガジュペッタ' },
+    { name: 'スピアナイト', pokemon: 'スピアー', mega: 'メガスピアー' },
+    { name: 'タブンネナイト', pokemon: 'タブンネ', mega: 'メガタブンネ' },
+    { name: 'チャーレムナイト', pokemon: 'チャーレム', mega: 'メガチャーレム' },
+    { name: 'チルタリスナイト', pokemon: 'チルタリス', mega: 'メガチルタリス' },
+    { name: 'ディアンシナイト', pokemon: 'ディアンシー', mega: 'メガディアンシー' },
+    { name: 'デンリュウナイト', pokemon: 'デンリュウ', mega: 'メガデンリュウ' },
+    { name: 'ハガネールナイト', pokemon: 'ハガネール', mega: 'メガハガネール' },
+    { name: 'バクーダナイト', pokemon: 'バクーダ', mega: 'メガバクーダ' },
+    { name: 'バシャーモナイト', pokemon: 'バシャーモ', mega: 'メガバシャーモ' },
+    { name: 'ハッサムナイト', pokemon: 'ハッサム', mega: 'メガハッサム' },
+    { name: 'バンギラスナイト', pokemon: 'バンギラス', mega: 'メガバンギラス' },
+    { name: 'ピジョットナイト', pokemon: 'ピジョット', mega: 'メガピジョット' },
+    { name: 'フーディナイト', pokemon: 'フーディン', mega: 'メガフーディン' },
+    { name: 'フシギバナイト', pokemon: 'フシギバナ', mega: 'メガフシギバナ' },
+    { name: 'プテラナイト', pokemon: 'プテラ', mega: 'メガプテラ' },
+    { name: 'ヘラクロスナイト', pokemon: 'ヘラクロス', mega: 'メガヘラクロス' },
+    { name: 'ヘルガナイト', pokemon: 'ヘルガー', mega: 'メガヘルガー' },
+    { name: 'ボーマンダナイト', pokemon: 'ボーマンダ', mega: 'メガボーマンダ' },
+    { name: 'ボスゴドラナイト', pokemon: 'ボスゴドラ', mega: 'メガボスゴドラ' },
+    { name: 'ミミロップナイト', pokemon: 'ミミロップ', mega: 'メガミミロップ' },
+    { name: 'ミュウツナイトX', pokemon: 'ミュウツー', mega: 'メガミュウーツーX' },
+    { name: 'ミュウツナイトY', pokemon: 'ミュウツー', mega: 'メガミュウツーY' },
+    { name: 'メタグロスナイト', pokemon: 'メタグロス', mega: 'メガメタグロス' },
+    { name: 'ヤドランナイト', pokemon: 'ヤドラン', mega: 'メガヤドラン' },
+    { name: 'ヤミラミナイト', pokemon: 'ヤミラミ', mega: 'メガヤミラミ' },
+    { name: 'ユキノオナイト', pokemon: 'ユキノオー', mega: 'メガユキノオー' },
+    { name: 'ライボルトナイト', pokemon: 'ライボルト', mega: 'メガライボルト' },
+    { name: 'ラグラージナイト', pokemon: 'ラグラージ', mega: 'メガラグラージ' },
+    { name: 'ラティアスナイト', pokemon: 'ラティアス', mega: 'メガラティアス' },
+    { name: 'ラティオスナイト', pokemon: 'ラティオス', mega: 'メガラティオス' },
+    { name: 'リザードナイトX', pokemon: 'リザードンX', mega: 'メガリザードンX' },
+    { name: 'リザードナイトY', pokemon: 'リザードンY', mega: 'メガリザードンY' },
+    { name: 'ルカリオナイト', pokemon: 'ルカリオ', mega: 'メガルカリオ' },
+];
+const typeList = [
+    'ノーマル',
+    'ほのお',
+    'みず',
+    'くさ',
+    'でんき',
+    'こおり',
+    'かくとう',
+    'どく',
+    'じめん',
+    'ひこう',
+    'エスパー',
+    'むし',
+    'いわ',
+    'ゴースト',
+    'ドラゴン',
+    'あく',
+    'はがね',
+    'フェアリー'
 ];
