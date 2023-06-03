@@ -1,7 +1,7 @@
 "use strict";
 class Weather {
     constructor() {
-        this._name = false;
+        this._name = null;
     }
     set name(name) {
         this._name = name;

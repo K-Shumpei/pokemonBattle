@@ -33,7 +33,7 @@ class Status {
         this._gender = '';
         this._ability = '';
         this._level = 50;
-        this._item = '';
+        this._item = null;
         this._nature = '';
         this._height = 1.0;
         this._weight = 1.0;
@@ -503,6 +503,7 @@ class StateChange {
         this._isTrue = false;
         this._turn = 0;
         this._count = 0;
+        this._number = 0;
         this._text = '';
         this._target = new Target;
     }
@@ -517,6 +518,9 @@ class StateChange {
     }
     set count(count) {
         this._count = count;
+    }
+    set number(number) {
+        this._number = number;
     }
     set text(text) {
         this._text = text;
@@ -536,6 +540,9 @@ class StateChange {
     get count() {
         return this._count;
     }
+    get number() {
+        return this._number;
+    }
     get text() {
         return this._text;
     }
@@ -546,6 +553,7 @@ class StateChange {
         this._isTrue = false;
         this._turn = 0;
         this._count = 0;
+        this._number = 0;
         this._text = '';
         this._target = new Target;
     }
@@ -584,6 +592,10 @@ class StateChangeSummary {
         this._stockpile = new StateChange('たくわえる');
         this._magnetRise = new StateChange('でんじふゆう');
         this._transform = new StateChange('へんしん');
+        this._fly = new StateChange('そらを飛ぶ');
+        this._dig = new StateChange('あなをほる');
+        this._dive = new StateChange('ダイビング');
+        this._shadowForce = new StateChange('シャドーダイブ');
         this._confuse = new StateChange('こんらん');
         this._truant = new StateChange('なまけ');
         this._slowStart = new StateChange('スロースタート');
@@ -595,6 +607,9 @@ class StateChangeSummary {
         this._skin = new StateChange('スキン系特性');
         this._gem = new StateChange('ジュエル');
         this._cannotMove = new StateChange('反動で動けない');
+        this._endure = new StateChange('こらえる');
+        this._endureMsg = new StateChange('HP1で耐える効果');
+        this._recycle = new StateChange('リサイクル');
         this._dynamax = new StateChange('ダイマックス');
     }
     set flinch(flinch) {
@@ -693,6 +708,18 @@ class StateChangeSummary {
     set transform(transform) {
         this._transform = transform;
     }
+    set fly(fly) {
+        this._fly = fly;
+    }
+    set dig(dig) {
+        this._dig = dig;
+    }
+    set dive(dive) {
+        this._dive = dive;
+    }
+    set shadowForce(shadowForce) {
+        this._shadowForce = shadowForce;
+    }
     set confuse(confuse) {
         this._confuse = confuse;
     }
@@ -725,6 +752,15 @@ class StateChangeSummary {
     }
     set cannotMove(cannotMove) {
         this._cannotMove = cannotMove;
+    }
+    set endure(endure) {
+        this._endure = endure;
+    }
+    set endureMsg(endureMsg) {
+        this._endureMsg = endureMsg;
+    }
+    set recycle(recycle) {
+        this._recycle = recycle;
     }
     set dynamax(dynamax) {
         this._dynamax = dynamax;
@@ -825,6 +861,18 @@ class StateChangeSummary {
     get transform() {
         return this._transform;
     }
+    get fly() {
+        return this._fly;
+    }
+    get dig() {
+        return this._dig;
+    }
+    get dive() {
+        return this._dive;
+    }
+    get shadowForce() {
+        return this._shadowForce;
+    }
     get confuse() {
         return this._confuse;
     }
@@ -857,6 +905,15 @@ class StateChangeSummary {
     }
     get cannotMove() {
         return this._cannotMove;
+    }
+    get endure() {
+        return this._endure;
+    }
+    get endureMsg() {
+        return this._endureMsg;
+    }
+    get recycle() {
+        return this._recycle;
     }
     get dynamax() {
         return this._dynamax;

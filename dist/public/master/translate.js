@@ -7,6 +7,7 @@ const translationDictionary = [
     { EN: 'specialDefense', JP: '特防' },
     { EN: 'speed', JP: '素早さ' },
     { EN: 'accuracy', JP: '命中率' },
+    { EN: 'evasion', JP: '回避率' },
     { EN: 'normal', JP: 'ノーマル' },
     { EN: 'fire', JP: 'ほのお' },
     { EN: 'water', JP: 'みず' },

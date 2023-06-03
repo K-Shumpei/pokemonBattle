@@ -1076,10 +1076,21 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
       corrM = Math.round( corrM * 2 );
     }
   }
+  if ( target.stateChange.minimize.isTrue === true ) {
+    if ( stompMoveList.includes( pokemon.moveUsed.name ) ) {
+      corrM = Math.round( corrM * 2 );
+    }
+  }
+  if ( target.stateChange.dynamax.isTrue === true ) {
+    if ( pokemon.moveUsed.name === 'きょじゅうざん' || pokemon.moveUsed.name === 'きょじゅうだん' || pokemon.moveUsed.name === 'ダイマックスほう' ) {
+      corrM = Math.round( corrM * 2 );
+    }
+  }
+
+  damage = fiveRoundEntry( damage * corrM );
 
 
-
-
+  // 最終ダメージ
   target.damage.damage = damage;
 }
 
@@ -1087,7 +1098,7 @@ function isReleasableItem( pokemon: Pokemon, target: Pokemon ): boolean {
 
   const atkName: string = pokemon.status.name;
   const defName: string = target.status.name;
-  const item: string = target.status.item;
+  const item: string | null = target.status.item;
 
   if ( atkName.includes( 'ギラティナ' ) || defName.includes( 'ギラティナ' ) ) {
     if ( item === 'はっきんだま' ) {

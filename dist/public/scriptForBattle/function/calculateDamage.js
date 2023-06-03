@@ -832,6 +832,145 @@ function getDamage(pokemon, target, power, status) {
             damage = fiveRoundEntry(damage * 1.5);
         }
     }
+    // 急所補正
+    if (target.damage.critical === true) {
+        damage = fiveRoundEntry(damage * 1.5);
+    }
+    // 乱数補正
+    const randomCorrection = Math.floor(getRandom() * 16) + 85;
+    damage = Math.floor(damage * randomCorrection / 100);
+    // タイプ一致補正
+    if (getPokemonType(pokemon).includes(pokemon.moveUsed.type)) {
+        if (isAbility(pokemon, 'てきおうりょく')) {
+            damage = fiveRoundEntry(damage * 2.0);
+        }
+        else {
+            damage = fiveRoundEntry(damage * 1.5);
+        }
+    }
+    // 相性補正
+    damage = Math.floor(damage * target.damage.effective);
+    // やけど補正
+    if (isStatusAilment(pokemon, 'やけど')) {
+        if (pokemon.moveUsed.name !== 'からげんき' && pokemon.moveUsed.category === '物理') {
+            damage = fiveRoundEntry(damage * 0.5);
+        }
+    }
+    // M補正
+    let corrM = 1.0;
+    // 壁補正
+    if (isAbility(pokemon, 'すりぬけ') && pokemon.trainer !== target.trainer) {
+        ;
+    }
+    else {
+        let rate = 0.5;
+        if (fieldStatus.battleStyle === 2 || fieldStatus.battleStyle === 3) {
+            rate = 2732 / 4096;
+        }
+        if (fieldStatus.getSide(target.trainer).auroraVeil.isTrue === true) {
+            corrM = Math.round(corrM * rate);
+        }
+        else if (fieldStatus.getSide(target.trainer).reflect.isTrue === true && pokemon.moveUsed.category === '物理') {
+            corrM = Math.round(corrM * rate);
+        }
+        else if (fieldStatus.getSide(target.trainer).lightScreen.isTrue === true && pokemon.moveUsed.category === '特殊') {
+            corrM = Math.round(corrM * rate);
+        }
+    }
+    // ブレインフォース補正
+    if (isAbility(pokemon, 'ブレインフォース')) {
+        if (target.damage.effective > 1) {
+            corrM = Math.round(corrM * 1.25);
+        }
+    }
+    // スナイパー補正
+    if (isAbility(pokemon, 'スナイパー')) {
+        if (target.damage.critical === true) {
+            corrM = Math.round(corrM * 1.5);
+        }
+    }
+    // いろめがね補正
+    if (isAbility(pokemon, 'いろめがね')) {
+        if (target.damage.effective < 1) {
+            corrM = Math.round(corrM * 2);
+        }
+    }
+    // もふもふほのお補正
+    if (isAbility(target, 'もふもふ')) {
+        if (pokemon.moveUsed.type === 'ほのお') {
+            corrM = Math.round(corrM * 2);
+        }
+    }
+    // Mhalf
+    if (isAbility(target, 'こおりのりんぷん')) {
+        if (pokemon.moveUsed.category === '特殊') {
+            corrM = Math.round(corrM * 0.5);
+        }
+    }
+    if (isAbility(target, 'パンクロック')) {
+        if (soundMoveList.includes(pokemon.moveUsed.name)) {
+            corrM = Math.round(corrM * 0.5);
+        }
+    }
+    if (isAbility(target, 'ファントムガード') || isAbility(target, 'マルチスケイル ')) {
+        if (target.status.remainingHP === target.actualValue.hitPoint) {
+            corrM = Math.round(corrM * 0.5);
+        }
+    }
+    if (isAbility(target, 'もふもふ')) {
+        if (pokemon.moveUsed.isDirect === true) {
+            corrM = Math.round(corrM * 0.5);
+        }
+    }
+    // Mfikter
+    if (isAbility(target, 'ハードロック') || isAbility(target, 'フィルター') || isAbility(target, 'プリズムアーマー')) {
+        if (target.damage.effective > 1) {
+            corrM = Math.round(corrM * 0.75);
+        }
+    }
+    // フレンドガード補正
+    for (const _pokemon of allPokemonInBattlefield()) {
+        if (_pokemon.trainer !== target.trainer)
+            continue;
+        if (_pokemon.order.battle === target.order.battle)
+            continue;
+        if (isAbility(_pokemon, 'フレンドガード')) {
+            corrM = Math.round(corrM * 0.75);
+        }
+    }
+    // たつじんのおび補正
+    if (isItem(pokemon, 'たつじんのおび')) {
+        if (target.damage.effective > 1) {
+            corrM = Math.round(corrM * 4915 / 4096);
+        }
+    }
+    // いのちのたま補正
+    if (isItem(pokemon, 'いのちのたま')) {
+        corrM = Math.round(corrM * 5324 / 4096);
+    }
+    // Mtwice
+    if (target.stateChange.dig.isTrue === true) {
+        if (pokemon.moveUsed.name === 'じしん' || pokemon.moveUsed.name === 'マグニチュード') {
+            corrM = Math.round(corrM * 2);
+        }
+    }
+    if (target.stateChange.dive.isTrue === true) {
+        if (pokemon.moveUsed.name === 'なみのり') {
+            corrM = Math.round(corrM * 2);
+        }
+    }
+    if (target.stateChange.minimize.isTrue === true) {
+        if (stompMoveList.includes(pokemon.moveUsed.name)) {
+            corrM = Math.round(corrM * 2);
+        }
+    }
+    if (target.stateChange.dynamax.isTrue === true) {
+        if (pokemon.moveUsed.name === 'きょじゅうざん' || pokemon.moveUsed.name === 'きょじゅうだん' || pokemon.moveUsed.name === 'ダイマックスほう') {
+            corrM = Math.round(corrM * 2);
+        }
+    }
+    damage = fiveRoundEntry(damage * corrM);
+    // 最終ダメージ
     target.damage.damage = damage;
 }
 function isReleasableItem(pokemon, target) {

@@ -512,19 +512,15 @@ function isSuccess(pokemon) {
     }
     // 相性による無効化
     for (const info of pokemon.target) {
-        console.log(info);
         const target = getPokemonByID(info.trainer, info.battleNumber);
-        console.log(target);
         if (target === false)
             continue;
         if (isItem(target, 'ねらいのまと') === true)
             continue;
         if (pokemon.moveUsed.category === '変化' && pokemon.moveUsed.name === 'でんじは')
             continue;
-        const compatibility = getCompatibility(pokemon, target);
-        console.log(compatibility);
-        if (compatibility === 0) {
-            console.log("YY");
+        target.damage.effective = getCompatibility(pokemon, target);
+        if (target.damage.effective === 0) {
             target.status.declareInvalid(info);
         }
     }
@@ -1504,7 +1500,7 @@ function isSuccess(pokemon) {
                 target.status.declareInvalid(info);
                 continue;
             }
-            if (fieldStatus.weather.name === 'デルタストリーム') {
+            if (fieldStatus.weather.name === 'らんきりゅう') {
                 target.status.declareInvalid(info);
                 continue;
             }
@@ -1573,16 +1569,16 @@ function decideTarget(pokemon) {
             pokemon.target.push(target);
         }
         else if (pokemon.moveUsed.target === '全体') {
-            // 相手
-            const target1 = new Target;
-            target1.trainer = pokemon.trainer;
-            target1.battleNumber = 0;
-            pokemon.target.push(target1);
             // 自分
             const target2 = new Target;
             target2.trainer = getOpponentTrainer(pokemon.trainer);
             target2.battleNumber = 0;
             pokemon.target.push(target2);
+            // 相手
+            const target1 = new Target;
+            target1.trainer = pokemon.trainer;
+            target1.battleNumber = 0;
+            pokemon.target.push(target1);
         }
         else if (pokemon.moveUsed.target === '不定') {
         }
@@ -1593,21 +1589,39 @@ function getCompatibility(pokemon, target) {
     const atkType = pokemon.moveUsed.type;
     const defType = getPokemonType(target);
     let result = 1.0;
-    console.log(atkType);
-    console.log(defType);
     for (const record of typeCompatibility) {
         if (record.attackType === atkType) {
             for (const type of defType) {
                 if (type === null)
                     continue;
                 let rate = record.rate[type];
-                console.log(rate);
                 if (rate === 0.0 && isItem(target, 'ねらいのまと') === true) {
                     rate = 1.0;
+                }
+                if (pokemon.moveUsed.name === 'フリーズドライ' && type === 'みず') {
+                    rate = 2.0;
                 }
                 result = result * rate;
             }
         }
+    }
+    if (pokemon.moveUsed.name === 'フライングプレス') {
+        for (const record of typeCompatibility) {
+            if (record.attackType === 'ひこう') {
+                for (const type of defType) {
+                    if (type === null)
+                        continue;
+                    let rate = record.rate[type];
+                    if (rate === 0.0 && isItem(target, 'ねらいのまと') === true) {
+                        rate = 1.0;
+                    }
+                    result = result * rate;
+                }
+            }
+        }
+    }
+    if (target.stateChange.tarShot.isTrue === true && atkType === 'ほのお') {
+        result = result * 2.0;
     }
     return result;
 }

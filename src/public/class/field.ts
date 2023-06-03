@@ -1,31 +1,31 @@
 class Weather {
-  _name: string | false;
-
-  constructor() {
-    this._name = false;
-  }
-
-  set name( name: string | false ) {
-    this._name = name;
-  }
-
-  get name(): string | false {
-    return this._name;
-  }
-}
-
-class Terrain {
-  _name: string | null;
+  _name: WeatherType;
 
   constructor() {
     this._name = null;
   }
 
-  set name( name: string | null ) {
+  set name( name: WeatherType ) {
     this._name = name;
   }
 
-  get name(): string | null {
+  get name(): WeatherType {
+    return this._name;
+  }
+}
+
+class Terrain {
+  _name: TerrainType;
+
+  constructor() {
+    this._name = null;
+  }
+
+  set name( name: TerrainType ) {
+    this._name = name;
+  }
+
+  get name(): TerrainType {
     return this._name;
   }
 }

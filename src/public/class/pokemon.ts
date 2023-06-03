@@ -38,7 +38,7 @@ class Status {
   _gender: string;
   _ability: string;
   _level: number;
-  _item: string;
+  _item: string | null;
   _nature: string;
   _height: number;
   _weight: number;
@@ -54,7 +54,7 @@ class Status {
     this._gender = '';
     this._ability = '';
     this._level = 50;
-    this._item = '';
+    this._item = null;
     this._nature = '';
     this._height = 1.0;
     this._weight = 1.0;
@@ -84,7 +84,7 @@ class Status {
   set level( level: number ) {
     this._level = level;
   }
-  set item( item: string ) {
+  set item( item: string | null ) {
     this._item = item;
   }
   set nature( nature: string ) {
@@ -127,7 +127,7 @@ class Status {
   get level(): number {
     return this._level;
   }
-  get item(): string {
+  get item(): string | null {
     return this._item;
   }
   get nature(): string {
@@ -150,7 +150,7 @@ class Status {
   }
 
   declareAbility(): void {
-    writeLog( `${this._name} の ${this._ability}` );
+    writeLog( `${this._name}の ${this._ability}` );
   }
 
   declareInvalid( info: Target ): void {
@@ -616,6 +616,7 @@ class StateChange {
   _isTrue: boolean;
   _turn: number;
   _count: number;
+  _number: number;
   _text: string;
   _target: Target;
 
@@ -624,6 +625,7 @@ class StateChange {
     this._isTrue = false;
     this._turn = 0;
     this._count = 0;
+    this._number = 0;
     this._text = '';
     this._target = new Target;
   }
@@ -639,6 +641,9 @@ class StateChange {
   }
   set count( count: number ) {
     this._count = count;
+  }
+  set number( number: number ) {
+    this._number = number;
   }
   set text( text: string ) {
     this._text = text;
@@ -659,6 +664,9 @@ class StateChange {
   get count(): number {
     return this._count;
   }
+  get number(): number {
+    return this._number;
+  }
   get text(): string {
     return this._text;
   }
@@ -670,6 +678,7 @@ class StateChange {
     this._isTrue = false;
     this._turn = 0;
     this._count = 0;
+    this._number = 0;
     this._text = '';
     this._target = new Target;
   }
@@ -736,9 +745,9 @@ class StateChangeSummary {
   まるくなる
   みちづれ
   おんねん
-  さわぐ
-  あばれる
   */
+  _uproar: StateChange; // さわぐ
+  // あばれる
   _imprison: StateChange;// ふういん
   /*
   いかり
@@ -791,6 +800,9 @@ class StateChangeSummary {
   _skin: StateChange; // スキン系特性
   _gem: StateChange; // ジュエル
   _cannotMove: StateChange; // 反動で動けない
+  _endure: StateChange; // こらえる
+  _endureMsg: StateChange; // HP1で耐える効果の保存
+  _recycle: StateChange; // リサイクル
   _dynamax: StateChange; // ダイマックス
 
   constructor() {
@@ -820,6 +832,7 @@ class StateChangeSummary {
     this._substitute = new StateChange( 'みがわり' );
     this._lockOn = new StateChange( 'ロックオン' );
     this._minimize = new StateChange( 'ちいさくなる' );
+    this._uproar = new StateChange( 'さわぐ' );
     this._imprison = new StateChange( 'ふういん' );
     this._ingrain = new StateChange( 'ねをはる' );
     this._aquaRing = new StateChange( 'アクアリング' );
@@ -843,6 +856,9 @@ class StateChangeSummary {
     this._skin = new StateChange( 'スキン系特性' );
     this._gem = new StateChange( 'ジュエル' );
     this._cannotMove = new StateChange( '反動で動けない' );
+    this._endure = new StateChange( 'こらえる' );
+    this._endureMsg = new StateChange( 'HP1で耐える効果' );
+    this._recycle = new StateChange( 'リサイクル' );
     this._dynamax = new StateChange( 'ダイマックス' );
   }
 
@@ -921,6 +937,9 @@ class StateChangeSummary {
   set minimize( minimize: StateChange ) {
     this._minimize = minimize;
   }
+  set uproar( uproar: StateChange ) {
+    this._uproar = uproar;
+  }
   set imprison( imprison: StateChange ) {
     this._imprison = imprison;
   }
@@ -986,6 +1005,15 @@ class StateChangeSummary {
   }
   set cannotMove( cannotMove: StateChange ) {
     this._cannotMove = cannotMove;
+  }
+  set endure( endure: StateChange ) {
+    this._endure = endure;
+  }
+  set endureMsg( endureMsg: StateChange ) {
+    this._endureMsg = endureMsg;
+  }
+  set recycle( recycle: StateChange ) {
+    this._recycle = recycle;
   }
   set dynamax( dynamax: StateChange ) {
     this._dynamax = dynamax;
@@ -1066,6 +1094,9 @@ class StateChangeSummary {
   get minimize(): StateChange {
     return this._minimize;
   }
+  get uproar(): StateChange {
+    return this._uproar;
+  }
   get imprison(): StateChange {
     return this._imprison;
   }
@@ -1131,6 +1162,15 @@ class StateChangeSummary {
   }
   get cannotMove(): StateChange {
     return this._cannotMove;
+  }
+  get endure(): StateChange {
+    return this._endure;
+  }
+  get endureMsg(): StateChange {
+    return this._endureMsg;
+  }
+  get recycle(): StateChange {
+    return this._recycle;
   }
   get dynamax(): StateChange {
     return this._dynamax;

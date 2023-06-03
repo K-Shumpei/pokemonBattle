@@ -1494,7 +1494,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
         target.status.declareInvalid( info );
         continue;
       }
-      if ( fieldStatus.weather.name === 'デルタストリーム' ) {
+      if ( fieldStatus.weather.name === 'らんきりゅう' ) {
         target.status.declareInvalid( info );
         continue;
       }
@@ -1573,16 +1573,16 @@ function decideTarget( pokemon: Pokemon ): void {
       target.battleNumber = 0;
       pokemon.target.push( target );
     } else if ( pokemon.moveUsed.target === '全体' ) {
-      // 相手
-      const target1 = new Target;
-      target1.trainer = pokemon.trainer;
-      target1.battleNumber = 0;
-      pokemon.target.push( target1 );
       // 自分
       const target2 = new Target;
       target2.trainer = getOpponentTrainer( pokemon.trainer );
       target2.battleNumber = 0;
       pokemon.target.push( target2 );
+      // 相手
+      const target1 = new Target;
+      target1.trainer = pokemon.trainer;
+      target1.battleNumber = 0;
+      pokemon.target.push( target1 );
     } else if ( pokemon.moveUsed.target === '不定' ) {
 
     }

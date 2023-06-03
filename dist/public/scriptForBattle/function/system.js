@@ -13,6 +13,25 @@ function allPokemonInBattlefield() {
     }
     return result;
 }
+function allPokemonInSide(trainer) {
+    const result = [];
+    if (trainer === 'me') {
+        for (const pokemon of myParty) {
+            if (pokemon.order.battle !== null) {
+                result.push(pokemon);
+            }
+        }
+        return result;
+    }
+    else {
+        for (const pokemon of opponentParty) {
+            if (pokemon.order.battle !== null) {
+                result.push(pokemon);
+            }
+        }
+        return result;
+    }
+}
 function getPokemonByID(trainer, battleNumber) {
     if (trainer === 'me') {
         for (const pokemon of myParty) {

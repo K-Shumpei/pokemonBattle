@@ -1,6 +1,8 @@
 type MoveCategoryType = '物理' | '特殊' | '変化';
 type MoveTypeType = 'ノーマル' | 'ほのお' | 'みず' | 'でんき' | 'くさ' | 'こおり' | 'かくとう' | 'どく' | 'じめん' | 'ひこう' | 'エスパー' | 'むし' | 'いわ' | 'ゴースト' | 'ドラゴン' | 'あく' | 'はがね' | 'フェアリー' | null;
 type MoveTargetType = '自分' | '1体選択' | '味方1体' | '自分か味方' | 'ランダム1体' | '味方全体' | '相手全体' | '自分以外' | '全体' | '味方の場' | '相手の場' | '全体の場' | '不定' ;
+type WeatherType = 'にほんばれ' | 'あめ' | 'すなあらし' | 'あられ' | 'ゆき' | 'おおあめ' | 'おおひでり' | 'らんきりゅう' | null;
+type TerrainType = 'エレキフィールド' | 'グラスフィールド' | 'サイコフィールド' | 'ミストフィールド' | null;
 
 type PokemonDataType = {
   number: string;
@@ -53,6 +55,23 @@ type ParameterFiveType = {
   specialDefense: number;
   speed: number;
   [key: string]: number;
+}
+
+type ParameterSevenType = {
+  attack: number;
+  defense: number;
+  specialAttack: number;
+  specialDefense: number;
+  speed: number;
+  accuracy: number;
+  evasion: number;
+  [key: string]: number;
+}
+
+type additionalEffectRank = {
+  name: string;
+  rate: number;
+  change: ParameterSevenType;
 }
 
 type TranslationDictionaryType = {

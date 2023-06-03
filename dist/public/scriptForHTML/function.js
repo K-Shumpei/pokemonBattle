@@ -413,7 +413,6 @@ function editParty(number) {
     getHTMLInputElement('register_level').value = String(myAllParty[number].status.level);
     getHTMLInputElement('register_gender').value = myAllParty[number].status.gender;
     getHTMLInputElement('register_ability').value = myAllParty[number].status.ability;
-    getHTMLInputElement('register_item').value = myAllParty[number].status.item;
     getHTMLInputElement('register_nature').value = myAllParty[number].status.nature;
     if (myAllParty[number].status.type1 === null) {
         getHTMLInputElement('register_type1').value = '';
@@ -430,6 +429,12 @@ function editParty(number) {
     else {
         getHTMLInputElement('register_type2').value = String(myAllParty[number].status.type2);
         getHTMLInputElement('register_type2').textContent = myAllParty[number].status.type2;
+    }
+    if (myAllParty[number].status.item === null) {
+        getHTMLInputElement('register_item').value = '';
+    }
+    else {
+        getHTMLInputElement('register_item').value = String(myAllParty[number].status.item);
     }
     // 性格　ラジオボタン
     natureTextToRadio();
@@ -471,7 +476,7 @@ function showPartyPokemon(pokemon) {
     getHTMLInputElement('party' + handOrder + '_ability').textContent = pokemon.status.ability;
     getHTMLInputElement('party' + handOrder + '_remainingHP').textContent = String(pokemon.status.remainingHP);
     let item = '持ち物なし';
-    if (pokemon.status.item !== '') {
+    if (pokemon.status.item !== null) {
         item = pokemon.status.item;
     }
     getHTMLInputElement('party' + handOrder + '_item').textContent = item;
