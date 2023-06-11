@@ -1,0 +1,75 @@
+function eatBerry( pokemon: Pokemon, berry: string ): void {
+
+  if ( berry === 'クラボのみ' ) {
+    pokemon.status.statusAilment.cureByberry( pokemon, 'まひ', berry );
+  }
+  if ( berry === 'カゴのみ' ) {
+    pokemon.status.statusAilment.cureByberry( pokemon, 'ねむり', berry );
+  }
+  if ( berry === 'モモンのみ' ) {
+    pokemon.status.statusAilment.cureByberry( pokemon, 'どく', berry );
+    pokemon.status.statusAilment.cureByberry( pokemon, 'もうどく', berry );
+  }
+  if ( berry === 'チーゴのみ' ) {
+    pokemon.status.statusAilment.cureByberry( pokemon, 'やけど', berry );
+  }
+  if ( berry === 'ナナシのみ' ) {
+    pokemon.status.statusAilment.cureByberry( pokemon, 'こおり', berry );
+  }
+  if ( berry === 'ヒメリのみ' ) {
+    for ( let i = 0; i < 4; i++ ) {
+      if ( pokemon.move[i].remainingPP < pokemon.move[i].powerPoint ) {
+        pokemon.move[i].curePPByLeppaBerry( pokemon, 10 * ripen );
+        break;
+      }
+    }
+  }
+  if ( berry === 'オレンのみ' ) {
+    changeHPByberry( pokemon, berry );
+  }
+  if ( berry === 'キーのみ' ) {
+    cureConfuseByberry( pokemon, berry);
+  }
+  if ( berry === 'ラムのみ' ) {
+    pokemon.status.statusAilment.cureByberry( pokemon, null, berry );
+    cureConfuseByberry( pokemon, berry );
+  }
+  if ( berry === 'オボンのみ' ) {
+    changeHPByberry( pokemon, berry );
+  }
+  if ( berry === 'フィラのみ' ) {
+    changeHPByberry( pokemon, berry );
+    giveConfuseByberry( pokemon, berry );
+  }
+  if ( berry === 'ウイのみ' ) {
+    changeHPByberry( pokemon, berry );
+    giveConfuseByberry( pokemon, berry );
+  }
+  if ( berry === 'マゴのみ' ) {
+    changeHPByberry( pokemon, berry );
+    giveConfuseByberry( pokemon, berry );
+  }
+  if ( berry === 'バンジのみ' ) {
+    changeHPByberry( pokemon, berry );
+    giveConfuseByberry( pokemon, berry );
+  }
+  if ( berry === 'イアのみ' ) {
+    changeHPByberry( pokemon, berry );
+    giveConfuseByberry( pokemon, berry );
+  }
+  if ( berry === 'チイラのみ' ) {
+    changeRank( pokemon, pokemon, 'attack', 1, 'berry', berry );
+  }
+  if ( berry === 'リュがのみ' ) {
+    changeRank( pokemon, pokemon, 'defense', 1, 'berry', berry );
+  }
+  if ( berry === 'カムラのみ' ) {
+    changeRank( pokemon, pokemon, 'speed', 1, 'berry', berry );
+  }
+  if ( berry === 'ヤタピのみ' ) {
+    changeRank( pokemon, pokemon, 'specialAttack', 1, 'berry', berry );
+  }
+  if ( berry === 'ズアのみ' ) {
+    changeRank( pokemon, pokemon, 'specialDefense', 1, 'berry', berry );
+  }
+}

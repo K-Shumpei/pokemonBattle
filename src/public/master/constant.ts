@@ -44,37 +44,65 @@ const parameterFive: string[] = [
   'speed'
 ]
 
+const natureList: NatureType[] = [
+  'てれや',
+  'さみしがり',
+  'いじっぱり',
+  'やんちゃ',
+  'ゆうかん',
+  'ずぶとい',
+  'がんばりや',
+  'わんぱく',
+  'のうてんき',
+  'のんき',
+  'ひかえめ',
+  'おっとり',
+  'すなお',
+  'うっかりや',
+  'れいせい',
+  'おだやか',
+  'おとなしい',
+  'しんちょう',
+  'きまぐれ',
+  'なまいき',
+  'おくびょう',
+  'せっかち',
+  'ようき',
+  'むじゃき',
+  'まじめ'
+]
+
 const natureData: NatureDataType[] = [
   // 攻撃上昇補正
-  { name: 'てれや', plus: 'attack', minus: 'attack', isOK: true },
-  { name: 'さみしがり', plus: 'attack', minus: 'defense', isOK: true },
-  { name: 'いじっぱり', plus: 'attack', minus: 'specialAttack', isOK: true },
-  { name: 'やんちゃ', plus: 'attack', minus: 'specialDefense', isOK: true },
-  { name: 'ゆうかん', plus: 'attack', minus: 'speed', isOK: true },
+  { name: 'てれや', plus: 'attack', minus: 'attack' },
+  { name: 'さみしがり', plus: 'attack', minus: 'defense' },
+  { name: 'いじっぱり', plus: 'attack', minus: 'specialAttack' },
+  { name: 'やんちゃ', plus: 'attack', minus: 'specialDefense' },
+  { name: 'ゆうかん', plus: 'attack', minus: 'speed' },
   // 防御上昇補正
-  { name: 'ずぶとい', plus: 'defense', minus: 'attack', isOK: true },
-  { name: 'がんばりや', plus: 'defense', minus: 'defense', isOK: true },
-  { name: 'わんぱく', plus: 'defense', minus: 'specialAttack', isOK: true },
-  { name: 'のうてんき', plus: 'defense', minus: 'specialDefense', isOK: true },
-  { name: 'のんき', plus: 'defense', minus: 'speed', isOK: true },
+  { name: 'ずぶとい', plus: 'defense', minus: 'attack' },
+  { name: 'がんばりや', plus: 'defense', minus: 'defense' },
+  { name: 'わんぱく', plus: 'defense', minus: 'specialAttack' },
+  { name: 'のうてんき', plus: 'defense', minus: 'specialDefense' },
+  { name: 'のんき', plus: 'defense', minus: 'speed' },
   // 特攻上昇補正
-  { name: 'ひかえめ', plus: 'specialAttack', minus: 'attack', isOK: true },
-  { name: 'おっとり', plus: 'specialAttack', minus: 'defense', isOK: true },
-  { name: 'すなお', plus: 'specialAttack', minus: 'specialAttack', isOK: true },
-  { name: 'うっかりや', plus: 'specialAttack', minus: 'specialDefense', isOK: true },
-  { name: 'れいせい', plus: 'specialAttack', minus: 'speed', isOK: true },
+  { name: 'ひかえめ', plus: 'specialAttack', minus: 'attack' },
+  { name: 'おっとり', plus: 'specialAttack', minus: 'defense' },
+  { name: 'すなお', plus: 'specialAttack', minus: 'specialAttack' },
+  { name: 'うっかりや', plus: 'specialAttack', minus: 'specialDefense' },
+  { name: 'れいせい', plus: 'specialAttack', minus: 'speed' },
   // 特防上昇補正
-  { name: 'おだやか', plus: 'specialDefense', minus: 'attack', isOK: true },
-  { name: 'おとなしい', plus: 'specialDefense', minus: 'defense', isOK: true },
-  { name: 'しんちょう', plus: 'specialDefense', minus: 'specialAttack', isOK: true },
-  { name: 'きまぐれ', plus: 'specialDefense', minus: 'specialDefense', isOK: true },
-  { name: 'なまいき', plus: 'specialDefense', minus: 'speed', isOK: true },
+  { name: 'おだやか', plus: 'specialDefense', minus: 'attack' },
+  { name: 'おとなしい', plus: 'specialDefense', minus: 'defense' },
+  { name: 'しんちょう', plus: 'specialDefense', minus: 'specialAttack' },
+  { name: 'きまぐれ', plus: 'specialDefense', minus: 'specialDefense' },
+  { name: 'なまいき', plus: 'specialDefense', minus: 'speed' },
   // 素早さ上昇補正
-  { name: 'おくびょう', plus: 'speed', minus: 'attack', isOK: true },
-  { name: 'せっかち', plus: 'speed', minus: 'defense', isOK: true },
-  { name: 'ようき', plus: 'speed', minus: 'specialAttack', isOK: true },
-  { name: 'むじゃき', plus: 'speed', minus: 'specialDefense', isOK: true },
-  { name: 'まじめ', plus: 'speed', minus: 'speed', isOK: true },
+  { name: 'おくびょう', plus: 'speed', minus: 'attack' },
+  { name: 'せっかち', plus: 'speed', minus: 'defense' },
+  { name: 'ようき', plus: 'speed', minus: 'specialAttack' },
+  { name: 'むじゃき', plus: 'speed', minus: 'specialDefense' },
+  { name: 'まじめ', plus: 'speed', minus: 'speed' },
 ]
 
 // タイプのカラーコード
@@ -356,6 +384,23 @@ const waveMoveList: string[] = [
   'りゅうのはどう'
 ]
 
+// 吸収技
+const absorbingMoveList = [
+  { name: 'いきいきバブル', rate: 0.5 },
+  { name: 'ウッドホーン', rate: 0.5 },
+  { name: 'ギガドレイン', rate: 0.5 },
+  { name: 'きゅうけつ', rate: 0.5 },
+  { name: 'すいとる', rate: 0.5 },
+  { name: 'デスウィング', rate: 0.75 },
+  { name: 'ドレインキッス', rate: 0.75 },
+  { name: 'ドレインパンチ', rate: 0.5 },
+  { name: 'パラボラチャージ', rate: 0.5 },
+  { name: 'むねんのつるぎ', rate: 0.5 },
+  { name: 'メガドレイン', rate: 0.5 },
+  { name: 'やどりぎのタネ', rate: 0.5 },
+  { name: 'ゆめくい', rate: 0.5 },
+]
+
 // 特性の変更可否
 // https://wiki.xn--rckteqa2e.com/wiki/%E3%81%A8%E3%81%8F%E3%81%9B%E3%81%84
 const changeAbilityTable: changeAbilityType[] = [
@@ -605,10 +650,12 @@ const typeList: MoveTypeType[] = [
   'あく',
   'はがね',
   'フェアリー'
-]
+];
+
+const genderList: GenderType[] = [ '♂', '♀', '-' ];
 
 // 追加効果のある技（対象のランクを変化させる）
-const additionalEffectTargetRank: additionalEffectRank[] = [
+const additionalEffectTargetRank: AdditionalEffectRank[] = [
   { name: 'オーロラビーム', rate: 10, change: { attack: -1, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
   { name: 'じゃれつく', rate: 10, change: { attack: -1, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
   { name: 'はるのあらし', rate: 30, change: { attack: -1, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
@@ -671,7 +718,7 @@ const additionalEffectTargetRank: additionalEffectRank[] = [
 ]
 
 // 追加効果のある技（自分のランクを変化させる）
-const additionalEffectMyRank: additionalEffectRank[] = [
+const additionalEffectMyRank: AdditionalEffectRank[] = [
   { name: 'メタルクロー', rate: 10, change: { attack: 1, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
   { name: 'コメットパンチ', rate: 20, change: { attack: 1, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
   { name: 'グロウパンチ', rate: 100, change: { attack: 1, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
@@ -732,7 +779,7 @@ const additionalEffectFlinch = [
 ]
 
 // 追加効果のある技（対象を状態異常にさせる）
-const additionalEffectAilment = [
+const additionalEffectAilment: AdditionalEffectAilment[] = [
   { name: '10まんボルト', rate: 10, ailment: 'まひ' },
   { name: 'かみなり', rate: 30, ailment: 'まひ' },
   { name: 'かみなりあらし', rate: 20, ailment: 'まひ' },
@@ -812,4 +859,114 @@ const additionalEffectConfuse = [
   { name: 'みずのはどう', rate: 20 },
   { name: 'ロッククライム', rate: 20 },
   { name: 'ワンダースチーム', rate: 20 },
+]
+
+const additionalEffectOthers = [
+  'アンカーショット',
+  'いっちょうあがり',
+  'うたかたのアリア',
+  'オリジンズスーパーノヴァ',
+  'かげぬい',
+  'がんせきアックス',
+  'ジェットパンチ',
+  'しおづけ',
+  'じごくづき',
+  'しっとのほのお',
+  'トライアタック',
+  'ひけん・ちえなみ',
+  'ひみつのちから',
+  'フェイタルクロー',
+  'ぶきみなじゅもん',
+]
+
+const berryTable = [
+  { number: 1, name: 'クラボのみ' },
+  { number: 2, name: 'カゴのみ' },
+  { number: 3, name: 'モモンのみ' },
+  { number: 4, name: 'チーゴのみ' },
+  { number: 5, name: 'ナナシのみ' },
+  { number: 6, name: 'ヒメリのみ' },
+  { number: 7, name: 'オレンのみ' },
+  { number: 8, name: 'キーのみ' },
+  { number: 9, name: 'ラムのみ' },
+  { number: 10, name: 'オボンのみ' },
+  { number: 11, name: 'フィラのみ' },
+  { number: 12, name: 'ウイのみ' },
+  { number: 13, name: 'マゴのみ' },
+  { number: 14, name: 'バンジのみ' },
+  { number: 15, name: 'イアのみ' },
+  { number: 16, name: 'ズリのみ' },
+  { number: 17, name: 'ブリーのみ' },
+  { number: 18, name: 'ナナのみ' },
+  { number: 19, name: 'セシナのみ' },
+  { number: 20, name: 'パイルのみ' },
+  { number: 21, name: 'ザロクのみ' },
+  { number: 22, name: 'ネコブのみ' },
+  { number: 23, name: 'タポルのみ' },
+  { number: 24, name: 'ロメのみ' },
+  { number: 25, name: 'ウブのみ' },
+  { number: 26, name: 'マトマのみ' },
+  { number: 27, name: 'モコシのみ' },
+  { number: 28, name: 'ゴスのみ' },
+  { number: 29, name: 'ラブタのみ' },
+  { number: 30, name: 'ノメルのみ' },
+  { number: 31, name: 'ノワキのみ' },
+  { number: 32, name: 'シーヤのみ' },
+  { number: 33, name: 'カイスのみ' },
+  { number: 34, name: 'ドリのみ' },
+  { number: 35, name: 'ベリブのみ' },
+  { number: 36, name: 'オッカのみ' },
+  { number: 37, name: 'イトケのみ' },
+  { number: 38, name: 'ソクノのみ' },
+  { number: 39, name: 'リンドのみ' },
+  { number: 40, name: 'ヤチェのみ' },
+  { number: 41, name: 'ヨプのみ' },
+  { number: 42, name: 'ビアーのみ' },
+  { number: 43, name: 'シュカのみ' },
+  { number: 44, name: 'バコウのみ' },
+  { number: 45, name: 'ウタンのみ' },
+  { number: 46, name: 'タンガのみ' },
+  { number: 47, name: 'ヨロギのみ' },
+  { number: 48, name: 'カシブのみ' },
+  { number: 49, name: 'ハバンのみ' },
+  { number: 50, name: 'ナモのみ' },
+  { number: 51, name: 'リリバのみ' },
+  { number: 52, name: 'ホズのみ' },
+  { number: 53, name: 'チイラのみ' },
+  { number: 54, name: 'リュガのみ' },
+  { number: 55, name: 'カムラのみ' },
+  { number: 56, name: 'ヤタピのみ' },
+  { number: 57, name: 'ズアのみ' },
+  { number: 58, name: 'サンのみ' },
+  { number: 59, name: 'スターのみ' },
+  { number: 60, name: 'ナゾのみ' },
+  { number: 61, name: 'ミクルのみ' },
+  { number: 62, name: 'イバンのみ' },
+  { number: 63, name: 'ジャポのみ' },
+  { number: 64, name: 'レンブのみ' },
+  { number: 65, name: 'ロゼルのみ' },
+  { number: 66, name: 'アッキのみ' },
+  { number: 67, name: 'タラプのみ' },
+  { number: 68, name: 'ポフのみ' },
+]
+
+const moveEffectMyRank: MoveEffectRank[] = [
+  { name: 'アーマーキャノン', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: -1, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'アームハンマー', change: { attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: -1, accuracy: 0, evasion: 0 } },
+  { name: 'アイスハンマー', change: { attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: -1, accuracy: 0, evasion: 0 } },
+  { name: 'いじげんラッシュ', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'インファイト', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: -1, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'オーバーヒート', change: { attack: 0, defense: 0, specialAttack: -2, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'ガリョウテンセイ', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: -1, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'ゴールドラッシュ', change: { attack: 0, defense: 0, specialAttack: -1, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'サイコブースト', change: { attack: 0, defense: 0, specialAttack: -2, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'スケイルショット', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: 0, speed: 1, accuracy: 0, evasion: 0 } },
+  { name: 'スケイルノイズ', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'ばかぢから', change: { attack: -1, defense: -1, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'Vジェネレート', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: -1, speed: -1, accuracy: 0, evasion: 0 } },
+  { name: 'ぶちかまし', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: -1, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'フルールカノン', change: { attack: 0, defense: 0, specialAttack: -2, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'ホイールスピン', change: { attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: -2, accuracy: 0, evasion: 0 } },
+  { name: 'リーフストーム', change: { attack: 0, defense: 0, specialAttack: -2, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+  { name: 'りゅうせいぐん', change: { attack: 0, defense: 0, specialAttack: -2, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
 ]

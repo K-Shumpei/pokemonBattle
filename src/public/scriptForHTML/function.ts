@@ -84,7 +84,7 @@ function registrationPokemon(): void {
   // 性別表示
   genderHTML.innerHTML = '';
   for ( const gender of [ pokemon.gender1, pokemon.gender2 ] ) {
-    if ( gender === '' ) {
+    if ( gender === '-' ) {
       continue;
     }
     const option = document.createElement( 'option' );
@@ -149,16 +149,59 @@ function reflectActualValueInHTML(): void {
   }
 
   const nature: string = getHTMLInputElement( 'register_nature' ).value;
-  const actualValueList: ParameterSixType = calculateActualValue( pokemon, level, nature );
+  const actualValueList: ParameterSixType = calculateActualValue( pokemon, level, getNatureType( nature ) );
 
   for ( const parameter of Object.keys( actualValueList ) ) {
     getHTMLInputElement( 'register_' + parameter + 'ActualValue' ).value = String( actualValueList[parameter] );
   }
 }
 
+//
+function getNatureType( nature: string ): NatureType {
+
+  for ( const _nature of natureList ) {
+    if ( _nature === nature ) {
+      return _nature;
+    }
+  }
+
+  return 'てれや';
+}
+
+function getTypeType( type: string ): MoveTypeType {
+
+  for ( const _type of typeList ) {
+    if ( _type === type ) {
+      return _type;
+    }
+  }
+
+  return null;
+}
+
+function getTypeString( type: MoveTypeType ): string {
+
+  if ( type === null ) {
+    return '';
+  } else {
+    return String( type );
+  }
+}
+
+function getGenderType( gender: string ): GenderType {
+
+  for ( const _gender of genderList ) {
+    if ( _gender === gender ) {
+      return _gender;
+    }
+  }
+
+  return '-';
+}
+
 
 // 実数値計算
-function calculateActualValue( pokemon: PokemonDataType, level: number, natureString: string ): ParameterSixType {
+function calculateActualValue( pokemon: PokemonDataType, level: number, natureString: NatureType ): ParameterSixType {
 
   const baseStatusList: ParameterSixType = getBaseStatusList( pokemon );
   const nature: NatureDataType = getNatureDataByName( natureString );
@@ -269,6 +312,7 @@ function reflectEffortValueInHTML( parameter: string ): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
   const pokemon: PokemonDataType | false = getPokemonDataByName( name );
+  const natureString: string = getHTMLInputElement( 'register_nature' ).value;
 
   // 存在しないポケモンの場合、処理を終了
   if ( pokemon === false ) {
@@ -276,7 +320,7 @@ function reflectEffortValueInHTML( parameter: string ): void {
   }
 
   const level: number = Number( getHTMLInputElement( 'register_level' ).value );
-  const nature: NatureDataType = getNatureDataByName( parameter );
+  const nature: NatureDataType = getNatureDataByName( getNatureType( natureString ) );
   const baseStatusList: ParameterSixType = getBaseStatusList( pokemon );
   const individualValue: number = Number( getHTMLInputElement( 'register_' + parameter + 'IndividualValue' ).value );
   const actualValue: number = Number( getHTMLInputElement( 'register_' + parameter + 'ActualValue' ).value );
@@ -333,12 +377,8 @@ function reflectEffortValueInHTML( parameter: string ): void {
 // 性格：テキスト->ラジオボタン
 function natureTextToRadio(): void {
 
-  const natureString: string = getHTMLInputElement( 'register_nature' ).value
-  const nature: NatureDataType = getNatureDataByName( natureString )
-
-  if ( nature.isOK === false ) {
-    return;
-  }
+  const natureString: string = getHTMLInputElement( 'register_nature' ).value;
+  const nature: NatureDataType = getNatureDataByName( getNatureType( natureString ) );
 
   getHTMLInputElement( 'register_' + nature.plus + 'NaturePlus' ).checked = true;
   getHTMLInputElement( 'register_' + nature.minus + 'NatureMinus' ).checked = true;
@@ -354,7 +394,7 @@ function natureRadioToText(): void {
     const natureString = getHTMLInputElement( 'register_nature' )
 
     if ( plus.checked === true && minus.checked === true ) {
-      natureString.value = nature.name
+      natureString.value = nature.name;
     }
   }
 }
@@ -428,27 +468,16 @@ function registerParty( number: number ): void {
   // 基本ステータス
   myAllParty[number].statusOrg.number = pokemon.number;
   myAllParty[number].statusOrg.name = pokemon.name;
-  myAllParty[number].statusOrg.gender = genderHTML.value;
+  myAllParty[number].statusOrg.type1 = getTypeType( type1HTML.value );
+  myAllParty[number].statusOrg.type2 = getTypeType( type2HTML.value );
+  myAllParty[number].statusOrg.gender = getGenderType( genderHTML.value );
   myAllParty[number].statusOrg.ability = abilityHTML.value;
   myAllParty[number].statusOrg.level = Number( levelHTML.value );
   myAllParty[number].statusOrg.item = itemHTML.value;
-  myAllParty[number].statusOrg.nature = natureHTML.value;
+  myAllParty[number].statusOrg.nature = getNatureType( natureHTML.value );
   myAllParty[number].statusOrg.height = pokemon.height;
   myAllParty[number].statusOrg.weight = pokemon.weight;
   myAllParty[number].statusOrg.remainingHP = Number( actualValue_hitPoint.value );
-
-  for ( const type of typeList ) {
-    if ( type === type1HTML.value ) {
-      myAllParty[number].statusOrg.type1 = type1HTML.value;
-    } else {
-      myAllParty[number].statusOrg.type1 = null;
-    }
-    if ( type === type2HTML.value ) {
-      myAllParty[number].statusOrg.type2 = type2HTML.value;
-    } else {
-      myAllParty[number].statusOrg.type2 = null;
-    }
-  }
 
   myAllParty[number].status = myAllParty[number].statusOrg;
 
@@ -518,23 +547,13 @@ function editParty( number: number ): void {
 
   getHTMLInputElement( 'register_level' ).value = String( myAllParty[number].status.level );
   getHTMLInputElement( 'register_gender' ).value = myAllParty[number].status.gender;
+  getHTMLInputElement( 'register_type1' ).value = getTypeString( myAllParty[number].status.type1 );
+  getHTMLInputElement( 'register_type1' ).textContent = getTypeString( myAllParty[number].status.type1 );
+  getHTMLInputElement( 'register_type2' ).value = getTypeString( myAllParty[number].status.type2 );
+  getHTMLInputElement( 'register_type2' ).textContent = getTypeString( myAllParty[number].status.type2 );
   getHTMLInputElement( 'register_ability' ).value = myAllParty[number].status.ability;
   getHTMLInputElement( 'register_nature' ).value = myAllParty[number].status.nature;
 
-  if ( myAllParty[number].status.type1 === null ) {
-    getHTMLInputElement( 'register_type1' ).value = '';
-    getHTMLInputElement( 'register_type1' ).textContent = '';
-  } else {
-    getHTMLInputElement( 'register_type1' ).value = String( myAllParty[number].status.type1 );
-    getHTMLInputElement( 'register_type1' ).textContent = myAllParty[number].status.type1;
-  }
-  if ( myAllParty[number].status.type2 === null ) {
-    getHTMLInputElement( 'register_type2' ).value = '';
-    getHTMLInputElement( 'register_type2' ).textContent = '';
-  } else {
-    getHTMLInputElement( 'register_type2' ).value = String( myAllParty[number].status.type2 );
-    getHTMLInputElement( 'register_type2' ).textContent = myAllParty[number].status.type2;
-  }
   if ( myAllParty[number].status.item === null ) {
     getHTMLInputElement( 'register_item' ).value = '';
   } else {

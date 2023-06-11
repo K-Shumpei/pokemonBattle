@@ -304,12 +304,47 @@ function getPower(pokemon, target) {
         }
     }
     if (isAbility(pokemon, 'かたいツメ')) {
-        if (move.isDirect === true) {
+        if (isDirect(pokemon) === true) {
             correction = Math.round(correction * 5325 / 4096);
         }
     }
     if (isAbility(pokemon, 'すなのちから')) {
         if (isWeather(pokemon, 'すなあらし') === true && (move.type === 'いわ' || move.type === 'じめん' || move.type === 'はがね')) {
+            correction = Math.round(correction * 5325 / 4096);
+        }
+    }
+    if (isAbility(pokemon, 'ちからずく')) {
+        let isTrue = false;
+        for (const move of additionalEffectTargetRank) {
+            if (move.name === pokemon.moveUsed.name) {
+                isTrue = true;
+            }
+        }
+        for (const move of additionalEffectMyRank) {
+            if (move.name === pokemon.moveUsed.name) {
+                isTrue = true;
+            }
+        }
+        for (const move of additionalEffectAilment) {
+            if (move.name === pokemon.moveUsed.name) {
+                isTrue = true;
+            }
+        }
+        for (const move of additionalEffectConfuse) {
+            if (move.name === pokemon.moveUsed.name) {
+                isTrue = true;
+            }
+        }
+        for (const move of additionalEffectFlinch) {
+            if (move.name === pokemon.moveUsed.name) {
+                isTrue = true;
+            }
+        }
+        if (additionalEffectOthers.includes(pokemon.moveUsed.name)) {
+            isTrue = true;
+        }
+        if (isTrue === true) {
+            pokemon.stateChange.sheerForce.isTrue = true;
             correction = Math.round(correction * 5325 / 4096);
         }
     }
@@ -447,6 +482,7 @@ function getPower(pokemon, target) {
     if (pokemon.stateChange.charge.isTrue === true) {
         if (move.type === 'でんき') {
             correction = Math.round(correction * 8192 / 4096);
+            pokemon.stateChange.charge.reset();
         }
     }
     if (move.name === 'からげんき') {
@@ -918,7 +954,7 @@ function getDamage(pokemon, target, power, status) {
         }
     }
     if (isAbility(target, 'もふもふ')) {
-        if (pokemon.moveUsed.isDirect === true) {
+        if (isDirect(pokemon) === true) {
             corrM = Math.round(corrM * 0.5);
         }
     }

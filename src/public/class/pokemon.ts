@@ -35,32 +35,32 @@ class Status {
   _name: string;
   _type1: MoveTypeType;
   _type2: MoveTypeType;
-  _gender: string;
+  _gender: GenderType;
   _ability: string;
   _level: number;
   _item: string | null;
-  _nature: string;
+  _nature: NatureType;
   _height: number;
   _weight: number;
   _happiness: number;
   _remainingHP: number;
-  _statusAilment: StateChange;
+  _statusAilment: StatusAilment;
 
   constructor() {
     this._number = '';
     this._name = '';
     this._type1 = null;
     this._type2 = null;
-    this._gender = '';
+    this._gender = '-';
     this._ability = '';
     this._level = 50;
     this._item = null;
-    this._nature = '';
+    this._nature = 'てれや';
     this._height = 1.0;
     this._weight = 1.0;
     this._happiness = 255;
     this._remainingHP = 0;
-    this._statusAilment = new StateChange( null );
+    this._statusAilment = new StatusAilment( null );
   }
 
   set number( number: string ) {
@@ -75,7 +75,7 @@ class Status {
   set type2( type: MoveTypeType ) {
     this._type2 = type;
   }
-  set gender( gender: string ) {
+  set gender( gender: GenderType ) {
     this._gender = gender;
   }
   set ability( ability: string ) {
@@ -87,7 +87,7 @@ class Status {
   set item( item: string | null ) {
     this._item = item;
   }
-  set nature( nature: string ) {
+  set nature( nature: NatureType) {
     this._nature = nature;
   }
   set height( height: number ) {
@@ -102,7 +102,7 @@ class Status {
   set remainingHP( remainingHP: number ) {
     this._remainingHP = remainingHP;
   }
-  set statusAilment( statusAilment: StateChange ) {
+  set statusAilment( statusAilment: StatusAilment ) {
     this._statusAilment = statusAilment;
   }
 
@@ -118,7 +118,7 @@ class Status {
   get type2(): MoveTypeType {
     return this._type2;
   }
-  get gender(): string {
+  get gender(): GenderType {
     return this._gender;
   }
   get ability(): string {
@@ -130,7 +130,7 @@ class Status {
   get item(): string | null {
     return this._item;
   }
-  get nature(): string {
+  get nature(): NatureType {
     return this._nature;
   }
   get height(): number {
@@ -145,7 +145,7 @@ class Status {
   get remainingHP(): number {
     return this._remainingHP;
   }
-  get statusAilment(): StateChange {
+  get statusAilment(): StatusAilment {
     return this._statusAilment;
   }
 
@@ -239,7 +239,7 @@ class Status {
       writeLog( `${this._name}の こおりが 溶けた!` );
     }
 
-    this._statusAilment = new StateChange( null );
+    this._statusAilment = new StatusAilment( null );
   }
 
   abilityInfo(): changeAbilityType {
@@ -260,6 +260,64 @@ class Status {
       transform: 4 };
 
     return sample;
+  }
+}
+
+class StatusAilment {
+  _name: StatusAilmentType;
+  _turn: number;
+
+  constructor( name: StatusAilmentType ) {
+    this._name = name;
+    this._turn = 0;
+  }
+
+  set name( name: StatusAilmentType ) {
+    this._name = name;
+  }
+  set turn( turn: number ) {
+    this._turn = turn;
+  }
+
+  get name(): StatusAilmentType {
+    return this._name;
+  }
+  get turn(): number {
+    return this._turn;
+  }
+
+  cureByItem( pokemon: Pokemon, ailment: StatusAilmentType, item: string ): void {
+
+    if ( item === 'ラムのみ' ) {
+      if ( this._name === null ) {
+        return;
+      }
+    } else {
+      if ( ailment !== this._name ) {
+        return;
+      }
+    }
+
+    // 状態異常回復
+    this._name = null;
+    this._turn = 0;
+
+    // メッセージ
+    if ( ailment === 'まひ' ) {
+      writeLog( `${getArticle( pokemon )}は ${item}で まひが 治った!` );
+    }
+    if ( ailment === 'ねむり' ) {
+      writeLog( `${getArticle( pokemon )}は ${item}で 目を 覚ました!` );
+    }
+    if ( ailment === 'どく' || ailment === 'もうどく' ) {
+      writeLog( `${getArticle( pokemon )}は ${item}で 毒が 治った!` );
+    }
+    if ( ailment === 'やけど' ) {
+      writeLog( `${getArticle( pokemon )}は ${item}で やけどが 治った!` );
+    }
+    if ( ailment === 'こおり' ) {
+      writeLog( `${getArticle( pokemon )}は ${item}で こおり状態が 治った!` );
+    }
   }
 }
 
@@ -498,6 +556,13 @@ class AvailableMove {
   runOutPP(): void {
     writeLog( `しかし 技の ポイントが なかった!` );
   }
+
+  curePPByLeppaBerry( pokemon: Pokemon, value: number ): void {
+    // PP回復
+    this._remainingPP = Math.min( this._remainingPP + value, this._powerPoint );
+    // メッセージ
+    writeLog( `${getArticle( pokemon )}は ヒメリのみで ${this._name}のPPを 回復した!` );
+  }
 }
 
 
@@ -506,11 +571,13 @@ class Damage {
   _damage: number;
   _effective: number;
   _critical: boolean;
+  _substitute: boolean;
 
   constructor() {
     this._damage = 0;
     this._effective = 0;
     this._critical = false;
+    this._substitute = false;
   }
 
   set damage( damage: number ) {
@@ -522,6 +589,9 @@ class Damage {
   set critical( critical: boolean ) {
     this._critical = critical;
   }
+  set substitute( substitute: boolean ) {
+    this._substitute = substitute;
+  }
 
   get damage(): number {
     return this._damage;
@@ -532,24 +602,32 @@ class Damage {
   get critical(): boolean {
     return this._critical;
   }
+  get substitute(): boolean {
+    return this._substitute;
+  }
 }
 
 class Target {
   _trainer: 'me' | 'opp' | 'field';
-  _battleNumber: number | null;
+  _battle: number | null;
+  _party: number;
   _success: boolean;
 
   constructor() {
     this._trainer = 'field';
-    this._battleNumber = null;
+    this._battle = null;
+    this._party = 0;
     this._success = true;
   }
 
   set trainer( trainer: 'me' | 'opp' | 'field' ) {
     this._trainer = trainer;
   }
-  set battleNumber( battleNumber: number | null ) {
-    this._battleNumber = battleNumber;
+  set battle( battle: number | null ) {
+    this._battle = battle;
+  }
+  set party( party: number ) {
+    this._party = party;
   }
   set success( success: boolean ) {
     this._success = success;
@@ -558,8 +636,11 @@ class Target {
   get trainer(): 'me' | 'opp' | 'field' {
     return this._trainer;
   }
-  get battleNumber(): number | null {
-    return this._battleNumber;
+  get battle(): number | null {
+    return this._battle;
+  }
+  get party(): number {
+    return this._party;
   }
   get success(): boolean {
     return this._success;
@@ -616,7 +697,6 @@ class StateChange {
   _isTrue: boolean;
   _turn: number;
   _count: number;
-  _number: number;
   _text: string;
   _target: Target;
 
@@ -625,7 +705,6 @@ class StateChange {
     this._isTrue = false;
     this._turn = 0;
     this._count = 0;
-    this._number = 0;
     this._text = '';
     this._target = new Target;
   }
@@ -641,9 +720,6 @@ class StateChange {
   }
   set count( count: number ) {
     this._count = count;
-  }
-  set number( number: number ) {
-    this._number = number;
   }
   set text( text: string ) {
     this._text = text;
@@ -664,9 +740,6 @@ class StateChange {
   get count(): number {
     return this._count;
   }
-  get number(): number {
-    return this._number;
-  }
   get text(): string {
     return this._text;
   }
@@ -678,7 +751,6 @@ class StateChange {
     this._isTrue = false;
     this._turn = 0;
     this._count = 0;
-    this._number = 0;
     this._text = '';
     this._target = new Target;
   }
@@ -708,10 +780,9 @@ class StateChangeSummary {
   _smackDown: StateChange; // うちおとす
   _telekinesis: StateChange; // テレキネシス
 
-  /*
-  にげられない
-  そうでん
-  */
+
+  _cannotEscape: StateChange; // にげられない
+  // そうでん
 
   _powder: StateChange; // ふんじん
   _throatChop: StateChange; // じごくづき
@@ -725,6 +796,7 @@ class StateChangeSummary {
 
 
   // たこがため
+  _saltCure: StateChange; // しおづけ
 
   // わざを使ったポケモンに発生
   _focusEnergy: StateChange; // きゅうしょアップ
@@ -737,22 +809,19 @@ class StateChangeSummary {
   キングシールド
   トーチカ
   ブロッキング
-  しろいきり (第二世代まで。第三世代以降は場の状態に)
   */
   _minimize: StateChange; //ちいさくなる
 
-  /*
-  まるくなる
-  みちづれ
-  おんねん
-  */
+
+  // まるくなる
+  // みちづれ
+  _grudge: StateChange; // おんねん
+
   _uproar: StateChange; // さわぐ
   // あばれる
   _imprison: StateChange;// ふういん
-  /*
-  いかり
-  マジックコート
-  */
+  _rage: StateChange; // いかり
+  // マジックコート
 
   _ingrain: StateChange; // ねをはる
   _aquaRing: StateChange; //アクアリング
@@ -765,8 +834,6 @@ class StateChangeSummary {
   パワートリック
   */
   _transform: StateChange; // へんしん
-
-
   _fly: StateChange; // そらをとぶ
   _dig: StateChange; // あなをほる
   _dive: StateChange; // ダイビング
@@ -797,13 +864,20 @@ class StateChangeSummary {
   _quarkDrive: StateChange; // クォークチャージ
   _protosynthesis: StateChange; // こだいかっせい
   _flashFire: StateChange; // もらいび
+  _sheerForce: StateChange; // ちからずく
+  _synchronize: StateChange; // シンクロ
+  _gulpMissile: StateChange; // うのミサイル
   _skin: StateChange; // スキン系特性
   _gem: StateChange; // ジュエル
+  _micleBerry: StateChange; // ミクルのみ
   _cannotMove: StateChange; // 反動で動けない
   _endure: StateChange; // こらえる
+  _beakBlast: StateChange; // くちばしキャノン
   _endureMsg: StateChange; // HP1で耐える効果の保存
   _recycle: StateChange; // リサイクル
+  _fling: StateChange; // なげつける
   _dynamax: StateChange; // ダイマックス
+  _memo: StateChange; // メモ
 
   constructor() {
     this._flinch = new StateChange( 'ひるみ');
@@ -824,16 +898,20 @@ class StateChangeSummary {
     this._helpingHand = new StateChange( 'てだすけ' );
     this._smackDown = new StateChange( 'うちおとす' );
     this._telekinesis = new StateChange( 'テレキネシス' );
+    this._cannotEscape = new StateChange( 'にげられない' ) ;
     this._powder = new StateChange( 'ふんじん' );
     this._throatChop = new StateChange( 'じごくづき' );
     this._tarShot = new StateChange( 'タールショット' );
+    this._saltCure = new StateChange( 'しおづけ' );
 
     this._focusEnergy = new StateChange( 'きゅうしょアップ' );
     this._substitute = new StateChange( 'みがわり' );
     this._lockOn = new StateChange( 'ロックオン' );
     this._minimize = new StateChange( 'ちいさくなる' );
+    this._grudge = new StateChange( 'おんねん' );
     this._uproar = new StateChange( 'さわぐ' );
     this._imprison = new StateChange( 'ふういん' );
+    this._rage = new StateChange( 'いかり' );
     this._ingrain = new StateChange( 'ねをはる' );
     this._aquaRing = new StateChange( 'アクアリング' );
     this._charge = new StateChange( 'じゅうでん' );
@@ -853,13 +931,20 @@ class StateChangeSummary {
     this._quarkDrive = new StateChange( 'クォークチャージ' );
     this._protosynthesis = new StateChange( 'こだいかっせい' );
     this._flashFire = new StateChange( 'もらいび' );
+    this._sheerForce = new StateChange( 'ちからずく' );
+    this._synchronize = new StateChange( 'シンクロ' );
+    this._gulpMissile = new StateChange( 'うのミサイル' );
     this._skin = new StateChange( 'スキン系特性' );
     this._gem = new StateChange( 'ジュエル' );
+    this._micleBerry = new StateChange( 'ミクルのみ' );
     this._cannotMove = new StateChange( '反動で動けない' );
     this._endure = new StateChange( 'こらえる' );
+    this._beakBlast = new StateChange( 'くちばしキャノン' );
     this._endureMsg = new StateChange( 'HP1で耐える効果' );
     this._recycle = new StateChange( 'リサイクル' );
+    this._fling = new StateChange( 'なげつける' );
     this._dynamax = new StateChange( 'ダイマックス' );
+    this._memo = new StateChange( 'メモ' );
   }
 
   set flinch( flinch: StateChange ) {
@@ -916,6 +1001,9 @@ class StateChangeSummary {
   set telekinesis( telekinesis: StateChange ) {
     this._telekinesis = telekinesis;
   }
+  set cannotEscape( cannotEscape: StateChange ) {
+    this._cannotEscape = cannotEscape;
+  }
   set powder( powder: StateChange ) {
     this._powder = powder;
   }
@@ -924,6 +1012,9 @@ class StateChangeSummary {
   }
   set tarShot( tarShot: StateChange ) {
     this._tarShot = tarShot;
+  }
+  set saltCure( saltCure: StateChange ) {
+    this._saltCure = saltCure;
   }
   set focusEnergy( focusEnergy: StateChange ) {
     this._focusEnergy = focusEnergy;
@@ -937,11 +1028,17 @@ class StateChangeSummary {
   set minimize( minimize: StateChange ) {
     this._minimize = minimize;
   }
+  set grudge( grudge: StateChange ) {
+    this._grudge = grudge;
+  }
   set uproar( uproar: StateChange ) {
     this._uproar = uproar;
   }
   set imprison( imprison: StateChange ) {
     this._imprison = imprison;
+  }
+  set rage( rage: StateChange ) {
+    this._rage = rage;
   }
   set ingrain( ingrain: StateChange ) {
     this._ingrain = ingrain;
@@ -997,11 +1094,23 @@ class StateChangeSummary {
   set flashFire( flashFire: StateChange ) {
     this._flashFire = flashFire;
   }
+  set sheerForce( sheerForce: StateChange ) {
+    this._sheerForce = sheerForce;
+  }
+  set synchronize( synchronize: StateChange ) {
+    this._synchronize = synchronize;
+  }
+  set gulpMissile( gulpMissile: StateChange ) {
+    this._gulpMissile = gulpMissile;
+  }
   set skin( skin: StateChange ) {
     this._skin = skin;
   }
   set gem( gem: StateChange ) {
     this._gem = gem;
+  }
+  set micleBerry( micleBerry: StateChange ) {
+    this._micleBerry = micleBerry;
   }
   set cannotMove( cannotMove: StateChange ) {
     this._cannotMove = cannotMove;
@@ -1009,14 +1118,23 @@ class StateChangeSummary {
   set endure( endure: StateChange ) {
     this._endure = endure;
   }
+  set beakBlast( beakBlast: StateChange ) {
+    this._beakBlast = beakBlast;
+  }
   set endureMsg( endureMsg: StateChange ) {
     this._endureMsg = endureMsg;
   }
   set recycle( recycle: StateChange ) {
     this._recycle = recycle;
   }
+  set fling( fling: StateChange ) {
+    this._fling = fling;
+  }
   set dynamax( dynamax: StateChange ) {
     this._dynamax = dynamax;
+  }
+  set memo( memo: StateChange ) {
+    this._memo = memo;
   }
 
   get flinch(): StateChange {
@@ -1073,6 +1191,9 @@ class StateChangeSummary {
   get telekinesis(): StateChange {
     return this._telekinesis;
   }
+  get cannotEscape(): StateChange {
+    return this._cannotEscape;
+  }
   get powder(): StateChange {
     return this._powder;
   }
@@ -1081,6 +1202,9 @@ class StateChangeSummary {
   }
   get tarShot(): StateChange {
     return this._tarShot;
+  }
+  get saltCure(): StateChange {
+    return this._saltCure;
   }
   get focusEnergy(): StateChange {
     return this._focusEnergy;
@@ -1094,11 +1218,17 @@ class StateChangeSummary {
   get minimize(): StateChange {
     return this._minimize;
   }
+  get grudge(): StateChange {
+    return this._grudge;
+  }
   get uproar(): StateChange {
     return this._uproar;
   }
   get imprison(): StateChange {
     return this._imprison;
+  }
+  get rage(): StateChange {
+    return this._rage;
   }
   get ingrain(): StateChange {
     return this._ingrain;
@@ -1154,11 +1284,23 @@ class StateChangeSummary {
   get flashFire(): StateChange {
     return this._flashFire;
   }
+  get sheerForce(): StateChange {
+    return this._sheerForce;
+  }
+  get synchronize(): StateChange {
+    return this._synchronize;
+  }
+  get gulpMissile(): StateChange {
+    return this._gulpMissile;
+  }
   get skin(): StateChange {
     return this._skin;
   }
   get gem(): StateChange {
     return this._gem;
+  }
+  get micleBerry(): StateChange {
+    return this._micleBerry;
   }
   get cannotMove(): StateChange {
     return this._cannotMove;
@@ -1166,14 +1308,23 @@ class StateChangeSummary {
   get endure(): StateChange {
     return this._endure;
   }
+  get beakBlast(): StateChange {
+    return this._beakBlast;
+  }
   get endureMsg(): StateChange {
     return this._endureMsg;
   }
   get recycle(): StateChange {
     return this._recycle;
   }
+  get fling(): StateChange {
+    return this._fling;
+  }
   get dynamax(): StateChange {
     return this._dynamax;
+  }
+  get memo(): StateChange {
+    return this._memo;
   }
 
 }
@@ -1225,6 +1376,9 @@ class Pokemon {
   }
   set status( status: Status ) {
     this._status = status;
+  }
+  set statusOrg( statusOrg: Status ) {
+    this._statusOrg = statusOrg;
   }
   set rank( rank: ParameterRank ) {
     this._rank = rank;

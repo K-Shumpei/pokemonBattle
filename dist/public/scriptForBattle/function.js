@@ -24,8 +24,7 @@ function getNatureDataByName(name) {
             return nature;
         }
     }
-    const sample = { name: '', plus: '', minus: '', isOK: false };
-    return sample;
+    return natureData[0];
 }
 // タイプ検索
 function getTypeColorByName(name) {

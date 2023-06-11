@@ -2,23 +2,61 @@
 class Weather {
     constructor() {
         this._name = null;
+        this._turn = 0;
+        this._extend = false;
     }
     set name(name) {
         this._name = name;
     }
+    set turn(turn) {
+        this._turn = turn;
+    }
+    set extend(extend) {
+        this._extend = extend;
+    }
     get name() {
         return this._name;
+    }
+    get turn() {
+        return this._turn;
+    }
+    get extend() {
+        return this._extend;
+    }
+    reset() {
+        this._name = null;
+        this._turn = 0;
+        this._extend = false;
     }
 }
 class Terrain {
     constructor() {
         this._name = null;
+        this._turn = 0;
+        this._extend = false;
     }
     set name(name) {
         this._name = name;
     }
+    set turn(turn) {
+        this._turn = turn;
+    }
+    set extend(extend) {
+        this._extend = extend;
+    }
     get name() {
         return this._name;
+    }
+    get turn() {
+        return this._turn;
+    }
+    get extend() {
+        return this._extend;
+    }
+    reset() {
+        this._name = null;
+        this._turn = 0;
+        this._extend = false;
     }
 }
 class WholeField {

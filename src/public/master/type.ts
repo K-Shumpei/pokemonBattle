@@ -3,14 +3,19 @@ type MoveTypeType = 'ノーマル' | 'ほのお' | 'みず' | 'でんき' | 'く
 type MoveTargetType = '自分' | '1体選択' | '味方1体' | '自分か味方' | 'ランダム1体' | '味方全体' | '相手全体' | '自分以外' | '全体' | '味方の場' | '相手の場' | '全体の場' | '不定' ;
 type WeatherType = 'にほんばれ' | 'あめ' | 'すなあらし' | 'あられ' | 'ゆき' | 'おおあめ' | 'おおひでり' | 'らんきりゅう' | null;
 type TerrainType = 'エレキフィールド' | 'グラスフィールド' | 'サイコフィールド' | 'ミストフィールド' | null;
+type StatusAilmentType = 'まひ' | 'ねむり' | 'どく' | 'もうどく' | 'やけど' | 'こおり' | null;
+type ParameterStringType = 'attack' | 'defense' | 'specialAttack' | 'specialDefense' | 'speed' | 'accuracy' | 'evasion';
+type NatureType = 'てれや' | 'さみしがり' | 'いじっぱり' | 'やんちゃ' | 'ゆうかん' | 'ずぶとい' | 'がんばりや' | 'わんぱく' | 'のうてんき' | 'のんき' | 'ひかえめ' | 'おっとり' | 'すなお' | 'うっかりや' | 'れいせい' | 'おだやか' | 'おとなしい' | 'しんちょう' | 'きまぐれ' | 'なまいき' | 'おくびょう' | 'せっかち' | 'ようき' | 'むじゃき' | 'まじめ';
+type SignType = '+' | '-';
+type GenderType = '♂' | '♀' | '-';
 
 type PokemonDataType = {
   number: string;
   name: string;
   type1: MoveTypeType;
   type2: MoveTypeType;
-  gender1: '♂' | '♀' | '-';
-  gender2: '♀' | '';
+  gender1: GenderType;
+  gender2: GenderType;
   ability1: string;
   ability2: string;
   ability3: string;
@@ -68,10 +73,21 @@ type ParameterSevenType = {
   [key: string]: number;
 }
 
-type additionalEffectRank = {
+type AdditionalEffectRank = {
   name: string;
   rate: number;
   change: ParameterSevenType;
+}
+
+type MoveEffectRank = {
+  name: string;
+  change: ParameterSevenType;
+}
+
+type AdditionalEffectAilment = {
+  name: string;
+  rate: number;
+  ailment: StatusAilmentType;
 }
 
 type TranslationDictionaryType = {
@@ -80,10 +96,9 @@ type TranslationDictionaryType = {
 }
 
 type NatureDataType = {
-  name: string;
-  plus: string;
-  minus: string;
-  isOK: boolean;
+  name: NatureType;
+  plus: ParameterStringType;
+  minus: ParameterStringType;
 }
 
 type TypeColorType = {

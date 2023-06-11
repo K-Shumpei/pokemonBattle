@@ -12,11 +12,11 @@ function isSuccess( pokemon: Pokemon ): boolean {
   }
   // ねむり状態
   if ( pokemon.status.statusAilment.name === 'ねむり' ) {
-    pokemon.status.statusAilment.count -= 1;
+    pokemon.status.statusAilment.turn -= 1;
     if ( isAbility( pokemon, 'はやおき' ) === true ) {
-      pokemon.status.statusAilment.count -= 1;
+      pokemon.status.statusAilment.turn -= 1;
     }
-    if ( pokemon.status.statusAilment.count > 0 ) {
+    if ( pokemon.status.statusAilment.turn > 0 ) {
       if ( sleepingMoveList.includes( pokemon.moveUsed.name ) === false ) {
         pokemon.status.declareSleeping();
         return false;
@@ -133,7 +133,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
   if ( pokemon.stateChange.attract.isTrue === true ) {
     const random: number = getRandom();
     const target: Target = pokemon.stateChange.attract.target;
-    const name = getPokemonByID( target.trainer, target.battleNumber );
+    const name = getPokemonByBattle( target.trainer, target.battle );
     if ( name === false ) {
       ;
     } else {
@@ -312,6 +312,13 @@ function isSuccess( pokemon: Pokemon ): boolean {
       return pokemon.moveUsed.failure();
     }
   }
+  // なげつける/しぜんのめぐみ: 持ち物が無い/特性ぶきよう/さしおさえ/マジックルーム状態である/不適格な持ち物である
+  if ( pokemon.moveUsed.name === 'なげつける' || pokemon.moveUsed.name === 'ぶきよう' ) {
+    if ( pokemon.status.item === null ) return pokemon.moveUsed.failure();
+    if ( isAbility( pokemon, 'ぶきよう' ) ) return pokemon.moveUsed.failure();
+    if ( pokemon.stateChange.embargo.isTrue === true ) return pokemon.moveUsed.failure();
+    if ( fieldStatus.whole.magicRoom.isTrue === true ) return pokemon.moveUsed.failure();
+  }
   // いびき/ねごと: 使用者がねむり状態でない
   if ( pokemon.moveUsed.name === 'いびき' ) {
     if ( pokemon.status.statusAilment.name !== 'ねむり' ) {
@@ -411,7 +418,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
   // テレキネシスの、対象がディグダ/ダグトリオ/スナバァ/シロデスナ/メガゲンガー/うちおとす状態/ねをはる状態であることによる失敗
   if ( pokemon.moveUsed.name === 'テレキネシス' ) {
     for ( const info of pokemon.target ) {
-      const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+      const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
       if ( target === false ) continue;
       if ( target.status.name === 'ディグダ' ) return pokemon.moveUsed.failure();
       if ( target.status.name === 'ダグトリオ' ) return pokemon.moveUsed.failure();
@@ -425,7 +432,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 特性による無効化(その1)
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
     // そうしょく: くさタイプ
     if ( isAbility( target, 'そうしょく' ) === true ) {
@@ -504,7 +511,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 相性による無効化
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
     if ( isItem( target, 'ねらいのまと' ) === true ) continue;
     if ( pokemon.moveUsed.category === '変化' && pokemon.moveUsed.name === 'でんじは' ) continue;
@@ -520,7 +527,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // ふゆうによるじめん技の無効化
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
     if ( pokemon.moveUsed.type === 'じめん' ) {
       target.status.declareAbility();
@@ -533,7 +540,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // でんじふゆう/テレキネシス/ふうせんによるじめん技の無効化
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
     if ( pokemon.moveUsed.type !== 'じめん' ) continue;
 
@@ -556,7 +563,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // ぼうじんゴーグルによる粉技の無効化
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
     if ( powderMoveList.includes( pokemon.moveUsed.name ) === false ) continue;
 
@@ -571,7 +578,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 特性による無効化(その2)
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
 
     // ぼうだん: 弾の技
@@ -595,7 +602,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // タイプによる技の無効化(その1)
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
 
     // くさタイプ: 粉技の無効化
@@ -625,7 +632,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 技の仕様による無効化(その1)
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
 
     // メロメロ: 対象と性別が同じ/対象が性別不明
@@ -653,7 +660,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 技の仕様による無効化(その2
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
 
     // 重複による無効化
@@ -663,7 +670,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
         target.status.declareInvalid( info );
         continue;
       }
-      if ( target.status.statusAilment.name !== '' ) {
+      if ( target.status.statusAilment.name !== null ) {
         target.status.declareInvalid( info );
         continue;
       }
@@ -800,9 +807,19 @@ function isSuccess( pokemon: Pokemon ): boolean {
     return false;
   }
 
+  // みがわり状態によるランク補正を下げる技/デコレーションの無効化
+  for ( const info of pokemon.target ) {
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
+    if ( target === false ) continue;
+
+    if ( isSubstitute( pokemon, target ) === true ) {
+
+    }
+  }
+
   // 命中判定による技の無効化
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
 
     // 必中技は命中判定を行わない
@@ -888,7 +905,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
         }
       }
       if ( order.trainer === pokemon.trainer ) {
-        const one: Pokemon | false = getPokemonByID( order.trainer, order.battleNumber );
+        const one: Pokemon | false = getPokemonByBattle( order.trainer, order.battleNumber );
         if ( one !== false && isAbility( one, 'しょうりのほし' ) ) {
           corrM = Math.round( corrM * 4506 / 4096 );
         }
@@ -937,6 +954,12 @@ function isSuccess( pokemon: Pokemon ): boolean {
     accuracy = Math.floor( accuracy * corrRank );
     accuracy = Math.min( accuracy , 100 );
 
+    // ミクルのみ
+    if ( pokemon.stateChange.micleBerry.isTrue === true ) {
+      accuracy = fiveRoundEntry( accuracy * 4915 / 4096 );
+      accuracy = Math.min( accuracy , 100 );
+    }
+
     // 命中判定
     if ( random >= accuracy ) {
       target.status.declareNotHit( info );
@@ -948,7 +971,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 技の仕様による無効化(その3)
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
 
     // 特性に関する無効化
@@ -1404,7 +1427,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
   }
 
   for ( const info of pokemon.target ) {
-    const target: Pokemon | false = getPokemonByID( info.trainer, info.battleNumber );
+    const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
     if ( target === false ) continue;
 
     if ( pokemon.moveUsed.name === 'アクアリング' ) {
@@ -1548,7 +1571,7 @@ function decideTarget( pokemon: Pokemon ): void {
     if ( fieldStatus.battleStyle === 1 ) {
       const target = new Target;
       target.trainer = getOpponentTrainer( pokemon.trainer );
-      target.battleNumber = 0;
+      target.battle = 0;
       pokemon.target.push( target );
     }
   }
@@ -1562,32 +1585,37 @@ function decideTarget( pokemon: Pokemon ): void {
       pokemon.target.push( target );
     } else if ( pokemon.moveUsed.target === '自分' || pokemon.moveUsed.target === '味方1体' || pokemon.moveUsed.target === '自分か味方' || pokemon.moveUsed.target === '味方全体' ) {
       // 自分
-      const target = new Target;
-      target.trainer = pokemon.trainer;
-      target.battleNumber = 0;
+      const target = setTargetInfo( pokemon.trainer, 0 );
       pokemon.target.push( target );
     } else if ( pokemon.moveUsed.target === '1体選択' || pokemon.moveUsed.target === 'ランダム1体' || pokemon.moveUsed.target === '相手全体' || pokemon.moveUsed.target === '自分以外' ) {
       // 相手
-      const target = new Target;
-      target.trainer = getOpponentTrainer( pokemon.trainer );
-      target.battleNumber = 0;
+      const target = setTargetInfo( getOpponentTrainer( pokemon.trainer ), 0 );
       pokemon.target.push( target );
     } else if ( pokemon.moveUsed.target === '全体' ) {
       // 自分
-      const target2 = new Target;
-      target2.trainer = getOpponentTrainer( pokemon.trainer );
-      target2.battleNumber = 0;
-      pokemon.target.push( target2 );
-      // 相手
-      const target1 = new Target;
-      target1.trainer = pokemon.trainer;
-      target1.battleNumber = 0;
+      const target1 = setTargetInfo( pokemon.trainer, 0 );
       pokemon.target.push( target1 );
+      // 相手
+      const target2 = setTargetInfo( getOpponentTrainer( pokemon.trainer ), 0 );
+      pokemon.target.push( target2 );
     } else if ( pokemon.moveUsed.target === '不定' ) {
 
     }
-
   }
+}
+
+function setTargetInfo( trainer: 'me' | 'opp', battle: number ): Target {
+
+  const target = new Target;
+  target.trainer = trainer;
+  target.battle = battle;
+
+  const pokemon = getPokemonByBattle( trainer, battle );
+  if ( pokemon !== false ) {
+    target.party = pokemon.order.party;
+  }
+
+  return target;
 }
 
 // 相性計算

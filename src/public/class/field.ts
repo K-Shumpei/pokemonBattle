@@ -1,32 +1,76 @@
 class Weather {
   _name: WeatherType;
+  _turn: number;
+  _extend: boolean;
 
   constructor() {
     this._name = null;
+    this._turn = 0;
+    this._extend = false;
   }
 
   set name( name: WeatherType ) {
     this._name = name;
   }
+  set turn( turn: number ) {
+    this._turn = turn;
+  }
+  set extend( extend: boolean ) {
+    this._extend = extend;
+  }
 
   get name(): WeatherType {
     return this._name;
+  }
+  get turn(): number {
+    return this._turn;
+  }
+  get extend(): boolean {
+    return this._extend;
+  }
+
+  reset(): void {
+    this._name = null;
+    this._turn = 0;
+    this._extend = false;
   }
 }
 
 class Terrain {
   _name: TerrainType;
+  _turn: number;
+  _extend: boolean;
 
   constructor() {
     this._name = null;
+    this._turn = 0;
+    this._extend = false;
   }
 
   set name( name: TerrainType ) {
     this._name = name;
   }
+  set turn( turn: number ) {
+    this._turn = turn;
+  }
+  set extend( extend: boolean ) {
+    this._extend = extend;
+  }
 
   get name(): TerrainType {
     return this._name;
+  }
+  get turn(): number {
+    return this._turn;
+  }
+  get extend(): boolean {
+    return this._extend;
+  }
+
+  reset(): void {
+    this._name = null;
+    this._turn = 0;
+    this._extend = false;
   }
 }
 

@@ -32,17 +32,53 @@ function allPokemonInSide(trainer) {
         return result;
     }
 }
-function getPokemonByID(trainer, battleNumber) {
+// わたげの対象ポケモン
+function pokemonForCottonDown(pokemon) {
+    const result = [];
+    for (let i = fieldStatus.battleStyle - 1; i >= 0; i--) {
+        const target = getPokemonByBattle(getOpponentTrainer(pokemon.trainer), i);
+        if (target === false)
+            continue;
+        result.push(target);
+    }
+    for (let i = 0; i < fieldStatus.battleStyle; i++) {
+        const target = getPokemonByBattle(pokemon.trainer, i);
+        if (target === false)
+            continue;
+        if (isSame(target, pokemon) === true)
+            continue;
+        result.push(target);
+    }
+    return result;
+}
+function getPokemonByParty(trainer, party) {
     if (trainer === 'me') {
         for (const pokemon of myParty) {
-            if (pokemon.order.battle === battleNumber) {
+            if (pokemon.order.party === party) {
                 return pokemon;
             }
         }
     }
     if (trainer === 'opp') {
         for (const pokemon of opponentParty) {
-            if (pokemon.order.battle === battleNumber) {
+            if (pokemon.order.party === party) {
+                return pokemon;
+            }
+        }
+    }
+    return false;
+}
+function getPokemonByBattle(trainer, battle) {
+    if (trainer === 'me') {
+        for (const pokemon of myParty) {
+            if (pokemon.order.battle === battle) {
+                return pokemon;
+            }
+        }
+    }
+    if (trainer === 'opp') {
+        for (const pokemon of opponentParty) {
+            if (pokemon.order.battle === battle) {
                 return pokemon;
             }
         }
@@ -74,5 +110,30 @@ function fiveRoundEntry(number) {
     }
     else {
         return Math.floor(number);
+    }
+}
+// トレーナー判断
+function getArticle(pokemon) {
+    if (pokemon.trainer === 'me') {
+        return pokemon.status.name;
+    }
+    else {
+        return '相手の ' + pokemon.status.name;
+    }
+}
+function isSame(pokemon, target) {
+    if (pokemon.trainer === target.trainer && pokemon.order.party === target.order.party) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+function isFriend(pokemon, target) {
+    if (pokemon.trainer === target.trainer && pokemon.order.party !== target.order.party) {
+        return true;
+    }
+    else {
+        return false;
     }
 }

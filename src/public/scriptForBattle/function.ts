@@ -25,7 +25,7 @@ function getMoveDataByName( name: string ): MoveDataType | false {
 
 
 // 性格検索
-function getNatureDataByName( name: string ): NatureDataType {
+function getNatureDataByName( name: NatureType ): NatureDataType {
 
   for ( const nature of natureData ) {
     if ( nature.name === name ) {
@@ -33,9 +33,7 @@ function getNatureDataByName( name: string ): NatureDataType {
     }
   }
 
-  const sample: NatureDataType = { name: '', plus: '', minus: '', isOK: false };
-
-  return sample;
+  return natureData[0];
 }
 
 
