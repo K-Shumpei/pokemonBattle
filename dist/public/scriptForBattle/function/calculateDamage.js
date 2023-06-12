@@ -984,6 +984,21 @@ function getDamage(pokemon, target, power, status) {
     if (isItem(pokemon, 'いのちのたま')) {
         corrM = Math.round(corrM * 5324 / 4096);
     }
+    // 半減の実補正
+    let isHalfBerry = false;
+    if (isItem(target, 'ホズのみ') === true && pokemon.moveUsed.type === 'ノーマル') {
+        isHalfBerry = true;
+    }
+    for (const berry of berryTable) {
+        if (isItem(target, berry.name) === true && berry.half === pokemon.moveUsed.type && target.damage.effective > 1) {
+            isHalfBerry = true;
+        }
+    }
+    if (isHalfBerry === true) {
+        const ripen = (isAbility(target, 'じゅくせい')) ? 1 / 2 : 1;
+        corrM = Math.round(corrM * 2048 * ripen / 4096);
+        eatBerry(target, target.status.name);
+    }
     // Mtwice
     if (target.stateChange.dig.isTrue === true) {
         if (pokemon.moveUsed.name === 'じしん' || pokemon.moveUsed.name === 'マグニチュード') {

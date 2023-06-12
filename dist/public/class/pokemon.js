@@ -234,37 +234,6 @@ class StatusAilment {
     get turn() {
         return this._turn;
     }
-    cureByItem(pokemon, ailment, item) {
-        if (item === 'ラムのみ') {
-            if (this._name === null) {
-                return;
-            }
-        }
-        else {
-            if (ailment !== this._name) {
-                return;
-            }
-        }
-        // 状態異常回復
-        this._name = null;
-        this._turn = 0;
-        // メッセージ
-        if (ailment === 'まひ') {
-            writeLog(`${getArticle(pokemon)}は ${item}で まひが 治った!`);
-        }
-        if (ailment === 'ねむり') {
-            writeLog(`${getArticle(pokemon)}は ${item}で 目を 覚ました!`);
-        }
-        if (ailment === 'どく' || ailment === 'もうどく') {
-            writeLog(`${getArticle(pokemon)}は ${item}で 毒が 治った!`);
-        }
-        if (ailment === 'やけど') {
-            writeLog(`${getArticle(pokemon)}は ${item}で やけどが 治った!`);
-        }
-        if (ailment === 'こおり') {
-            writeLog(`${getArticle(pokemon)}は ${item}で こおり状態が 治った!`);
-        }
-    }
 }
 class ParameterSix {
     constructor() {
@@ -464,6 +433,10 @@ class AvailableMove {
         this._remainingPP = Math.min(this._remainingPP + value, this._powerPoint);
         // メッセージ
         writeLog(`${getArticle(pokemon)}は ヒメリのみで ${this._name}のPPを 回復した!`);
+        // なげつける
+        if (pokemon.stateChange.memo.isTrue === true) {
+            pokemon.stateChange.memo.count += 1;
+        }
     }
 }
 class Damage {
@@ -676,12 +649,14 @@ class StateChangeSummary {
         this._skin = new StateChange('スキン系特性');
         this._gem = new StateChange('ジュエル');
         this._micleBerry = new StateChange('ミクルのみ');
+        this._halfBerry = new StateChange('半減きのみ');
         this._cannotMove = new StateChange('反動で動けない');
         this._endure = new StateChange('こらえる');
         this._beakBlast = new StateChange('くちばしキャノン');
         this._endureMsg = new StateChange('HP1で耐える効果');
         this._recycle = new StateChange('リサイクル');
         this._fling = new StateChange('なげつける');
+        this._belch = new StateChange('ゲップ');
         this._dynamax = new StateChange('ダイマックス');
         this._memo = new StateChange('メモ');
     }
@@ -850,6 +825,9 @@ class StateChangeSummary {
     set micleBerry(micleBerry) {
         this._micleBerry = micleBerry;
     }
+    set halfBerry(halfBerry) {
+        this._halfBerry = halfBerry;
+    }
     set cannotMove(cannotMove) {
         this._cannotMove = cannotMove;
     }
@@ -867,6 +845,9 @@ class StateChangeSummary {
     }
     set fling(fling) {
         this._fling = fling;
+    }
+    set belch(belch) {
+        this._belch = belch;
     }
     set dynamax(dynamax) {
         this._dynamax = dynamax;
@@ -1039,6 +1020,9 @@ class StateChangeSummary {
     get micleBerry() {
         return this._micleBerry;
     }
+    get halfBerry() {
+        return this._halfBerry;
+    }
     get cannotMove() {
         return this._cannotMove;
     }
@@ -1056,6 +1040,9 @@ class StateChangeSummary {
     }
     get fling() {
         return this._fling;
+    }
+    get belch() {
+        return this._belch;
     }
     get dynamax() {
         return this._dynamax;

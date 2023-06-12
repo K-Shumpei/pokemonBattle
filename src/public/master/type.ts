@@ -151,3 +151,10 @@ type changeAbilityType = {
   copied: number;
   transform: number;
 }
+
+type BerryTableType = {
+  number: number;
+  name: string;
+  half: MoveTypeType;
+  fling: boolean;
+}
