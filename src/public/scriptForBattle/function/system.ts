@@ -61,7 +61,7 @@ function pokemonForCottonDown( pokemon: Pokemon ): Pokemon[] {
   return result;
 }
 
-function getPokemonByParty( trainer: string, party: number ): Pokemon | false {
+function getPokemonByParty( trainer: string, party: number ): Pokemon {
 
   if ( trainer === 'me' ) {
     for ( const pokemon of myParty ) {
@@ -69,8 +69,7 @@ function getPokemonByParty( trainer: string, party: number ): Pokemon | false {
         return pokemon;
       }
     }
-  }
-  if ( trainer === 'opp' ) {
+  } else {
     for ( const pokemon of opponentParty ) {
       if ( pokemon.order.party === party ) {
         return pokemon;
@@ -78,7 +77,7 @@ function getPokemonByParty( trainer: string, party: number ): Pokemon | false {
     }
   }
 
-  return false;
+  return myParty[0];
 }
 
 function getPokemonByBattle( trainer: string, battle: number | null ): Pokemon | false {
@@ -161,4 +160,19 @@ function isFriend( pokemon: Pokemon, target: Pokemon ): boolean {
   } else {
     return false;
   }
+}
+
+function getTargetList( pokemon: Pokemon ): TargetDataType[] {
+
+  const result: TargetDataType[] = []
+
+  for ( const damage of pokemon.damage ) {
+    if ( damage.success === false ) {
+      continue;
+    }
+    const target: Pokemon = getPokemonByParty( damage.trainer, damage.party );
+    result.push( { target: target, damage: damage } );
+  }
+
+  return result;
 }

@@ -2,7 +2,7 @@
 class Order {
     constructor() {
         this._party = 0;
-        this._hand = null;
+        this._hand = 0;
         this._battle = null;
     }
     set party(party) {
@@ -433,50 +433,88 @@ class AvailableMove {
         this._remainingPP = Math.min(this._remainingPP + value, this._powerPoint);
         // メッセージ
         writeLog(`${getArticle(pokemon)}は ヒメリのみで ${this._name}のPPを 回復した!`);
-        // なげつける
+        // なげつける・むしくい・ついばむ
         if (pokemon.stateChange.memo.isTrue === true) {
             pokemon.stateChange.memo.count += 1;
         }
     }
 }
+/*
 class Damage {
-    constructor() {
-        this._damage = 0;
-        this._effective = 0;
-        this._critical = false;
-        this._substitute = false;
-    }
-    set damage(damage) {
-        this._damage = damage;
-    }
-    set effective(effective) {
-        this._effective = effective;
-    }
-    set critical(critical) {
-        this._critical = critical;
-    }
-    set substitute(substitute) {
-        this._substitute = substitute;
-    }
-    get damage() {
-        return this._damage;
-    }
-    get effective() {
-        return this._effective;
-    }
-    get critical() {
-        return this._critical;
-    }
-    get substitute() {
-        return this._substitute;
-    }
+  _damage: number;
+  _effective: number;
+  _critical: boolean;
+  _substitute: boolean;
+
+  constructor() {
+    this._damage = 0;
+    this._effective = 0;
+    this._critical = false;
+    this._substitute = false;
+  }
+
+  set damage( damage: number ) {
+    this._damage = damage;
+  }
+  set effective( effective: number ) {
+    this._effective = effective;
+  }
+  set critical( critical: boolean ) {
+    this._critical = critical;
+  }
+  set substitute( substitute: boolean ) {
+    this._substitute = substitute;
+  }
+
+  get damage(): number {
+    return this._damage;
+  }
+  get effective(): number {
+    return this._effective;
+  }
+  get critical(): boolean {
+    return this._critical;
+  }
+  get substitute(): boolean {
+    return this._substitute;
+  }
 }
+*/
 class Target {
     constructor() {
         this._trainer = 'field';
         this._battle = null;
         this._party = 0;
+    }
+    set trainer(trainer) {
+        this._trainer = trainer;
+    }
+    set battle(battle) {
+        this._battle = battle;
+    }
+    set party(party) {
+        this._party = party;
+    }
+    get trainer() {
+        return this._trainer;
+    }
+    get battle() {
+        return this._battle;
+    }
+    get party() {
+        return this._party;
+    }
+}
+class Damage {
+    constructor() {
+        this._trainer = 'field';
+        this._battle = null;
+        this._party = 0;
         this._success = true;
+        this._damage = 0;
+        this._effective = 0;
+        this._critical = false;
+        this._substitute = false;
     }
     set trainer(trainer) {
         this._trainer = trainer;
@@ -490,6 +528,18 @@ class Target {
     set success(success) {
         this._success = success;
     }
+    set damage(damage) {
+        this._damage = damage;
+    }
+    set effective(effective) {
+        this._effective = effective;
+    }
+    set critical(critical) {
+        this._critical = critical;
+    }
+    set substitute(substitute) {
+        this._substitute = substitute;
+    }
     get trainer() {
         return this._trainer;
     }
@@ -501,6 +551,18 @@ class Target {
     }
     get success() {
         return this._success;
+    }
+    get damage() {
+        return this._damage;
+    }
+    get effective() {
+        return this._effective;
+    }
+    get critical() {
+        return this._critical;
+    }
+    get substitute() {
+        return this._substitute;
     }
     failure() {
         this._success === false;
@@ -595,6 +657,7 @@ class StateChange {
 class StateChangeSummary {
     constructor() {
         this._flinch = new StateChange('ひるみ');
+        this._bind = new StateChange('バインド');
         this._curse = new StateChange('のろい');
         this._attract = new StateChange('メロメロ');
         this._leechSeed = new StateChange('やどりぎのタネ');
@@ -621,6 +684,7 @@ class StateChangeSummary {
         this._substitute = new StateChange('みがわり');
         this._lockOn = new StateChange('ロックオン');
         this._minimize = new StateChange('ちいさくなる');
+        this._destinyBond = new StateChange('みちづれ');
         this._grudge = new StateChange('おんねん');
         this._uproar = new StateChange('さわぐ');
         this._imprison = new StateChange('ふういん');
@@ -662,6 +726,9 @@ class StateChangeSummary {
     }
     set flinch(flinch) {
         this._flinch = flinch;
+    }
+    set bind(bind) {
+        this._bind = bind;
     }
     set curse(curse) {
         this._curse = curse;
@@ -740,6 +807,9 @@ class StateChangeSummary {
     }
     set minimize(minimize) {
         this._minimize = minimize;
+    }
+    set destinyBond(destinyBond) {
+        this._destinyBond = destinyBond;
     }
     set grudge(grudge) {
         this._grudge = grudge;
@@ -858,6 +928,9 @@ class StateChangeSummary {
     get flinch() {
         return this._flinch;
     }
+    get bind() {
+        return this._bind;
+    }
     get curse() {
         return this._curse;
     }
@@ -935,6 +1008,9 @@ class StateChangeSummary {
     }
     get minimize() {
         return this._minimize;
+    }
+    get destinyBond() {
+        return this._destinyBond;
     }
     get grudge() {
         return this._grudge;
@@ -1069,8 +1145,7 @@ class Pokemon {
             new AvailableMove
         ];
         this._moveUsed = new AvailableMove;
-        this._damage = new Damage;
-        this._target = [];
+        this._damage = [];
         this._command = new Command;
         this._stateChange = new StateChangeSummary;
     }
@@ -1091,9 +1166,6 @@ class Pokemon {
     }
     set damage(damage) {
         this._damage = damage;
-    }
-    set target(target) {
-        this._target = target;
     }
     set command(command) {
         this._command = command;
@@ -1136,9 +1208,6 @@ class Pokemon {
     }
     get damage() {
         return this._damage;
-    }
-    get target() {
-        return this._target;
     }
     get command() {
         return this._command;

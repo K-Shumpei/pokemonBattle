@@ -258,8 +258,31 @@ function cureAilmentByItem(pokemon, ailment, item) {
     if (ailment === 'こおり') {
         writeLog(`${getArticle(pokemon)}は ${item}で こおり状態が 治った!`);
     }
-    // なげつける
+    // なげつける・むしくい・ついばむ
     if (pokemon.stateChange.memo.isTrue === true) {
         pokemon.stateChange.memo.count += 1;
+    }
+}
+function cureAilment(pokemon, ailment) {
+    if (pokemon.status.statusAilment.name !== ailment)
+        return;
+    // 状態異常回復
+    pokemon.status.statusAilment.name = null;
+    pokemon.status.statusAilment.turn = 0;
+    // メッセージ
+    if (ailment === 'まひ') {
+        writeLog(`${getArticle(pokemon)}は まひが 治った!`);
+    }
+    if (ailment === 'ねむり') {
+        writeLog(`${getArticle(pokemon)}は 目を 覚ました!`);
+    }
+    if (ailment === 'どく' || ailment === 'もうどく') {
+        writeLog(`${getArticle(pokemon)}は 毒が 治った!`);
+    }
+    if (ailment === 'やけど') {
+        writeLog(`${getArticle(pokemon)}は やけどが 治った!`);
+    }
+    if (ailment === 'こおり') {
+        writeLog(`${getArticle(pokemon)}は こおり状態が 治った!`);
     }
 }

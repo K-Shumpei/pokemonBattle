@@ -3,6 +3,7 @@ class ActionOrderInfo {
     constructor() {
         this._trainer = 'me';
         this._battleNumber = 0;
+        this._party = 0;
         this._raise = 0;
         this._lower = 0;
         this._priority = 0;
@@ -16,6 +17,9 @@ class ActionOrderInfo {
     }
     set battleNumber(battleNumber) {
         this._battleNumber = battleNumber;
+    }
+    set party(party) {
+        this._party = party;
     }
     set raise(raise) {
         this._raise = raise;
@@ -43,6 +47,9 @@ class ActionOrderInfo {
     }
     get battleNumber() {
         return this._battleNumber;
+    }
+    get party() {
+        return this._party;
     }
     get raise() {
         return this._raise;

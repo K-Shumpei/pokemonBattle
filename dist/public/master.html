@@ -21,6 +21,8 @@
     document.write('<td>命中率</td>');
     document.write('<td>PP</td>');
     document.write('<td>対象</td>');
+    document.write('<td>直接</td>');
+    document.write('<td>可守</td>');
     document.write('</tr>');
     for ( const move of moveData ) {
       document.write(`<tr align=right>`);
@@ -31,6 +33,8 @@
       document.write(`<td width='60'>${move.accuracy}</td>`);
       document.write(`<td width='60'>${move.powerPoint}</td>`);
       document.write(`<td width=100>${move.target}</td>`);
+      document.write(`<td>${move.isDirect}</td>`);
+      document.write(`<td>${move.isProtect}</td>`);
       document.write(`</tr>`);
     }
     document.write(`</table>`);

@@ -393,6 +393,21 @@ const windMoveList = [
     'ぼうふう',
     'ようせいのかぜ'
 ];
+// 縛技
+const bindMoveList = [
+    'うずしお',
+    'からではさむ',
+    'キョダイサジン',
+    'キョダイヒャッカ',
+    'サンダープリズン',
+    'しめつける',
+    'すなじごく',
+    'トラバサミ',
+    'ほのおのうず',
+    'まきつく',
+    'マグマストーム',
+    'まとわりつく'
+];
 // 特性の変更可否
 // https://wiki.xn--rckteqa2e.com/wiki/%E3%81%A8%E3%81%8F%E3%81%9B%E3%81%84
 const changeAbilityTable = [
@@ -944,4 +959,58 @@ const moveEffectMyRank = [
     { name: 'ホイールスピン', change: { attack: 0, defense: 0, specialAttack: 0, specialDefense: 0, speed: -2, accuracy: 0, evasion: 0 } },
     { name: 'リーフストーム', change: { attack: 0, defense: 0, specialAttack: -2, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
     { name: 'りゅうせいぐん', change: { attack: 0, defense: 0, specialAttack: -2, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },
+];
+// 連続攻撃技
+const continuousAttackMoveList = [
+    { name: 'ギアソーサー', count: 2 },
+    { name: 'ダブルアタック', count: 2 },
+    { name: 'ダブルウィング', count: 2 },
+    { name: 'ダブルチョップ', count: 2 },
+    { name: 'ダブルニードル', count: 2 },
+    { name: 'ダブルパンツァー', count: 2 },
+    { name: 'ツインビーム', count: 2 },
+    { name: 'ドラゴンアロー', count: 2 },
+    { name: 'にどげり', count: 2 },
+    { name: 'ホネブーメラン', count: 2 },
+    { name: 'すいりゅうれんだ', count: 3 },
+    { name: 'トリプルダイブ', count: 3 },
+    { name: 'おうふくビンタ', count: 5 },
+    { name: 'スイープビンタ', count: 5 },
+    { name: 'スケイルショット', count: 5 },
+    { name: 'タネマシンガン', count: 5 },
+    { name: 'たまなげ', count: 5 },
+    { name: 'つっぱり', count: 5 },
+    { name: 'つららばり', count: 5 },
+    { name: 'とげキャノン', count: 5 },
+    { name: 'ボーンラッシュ', count: 5 },
+    { name: 'ミサイルばり', count: 5 },
+    { name: 'みずしゅりけん', count: 5 },
+    { name: 'みだれづき', count: 5 },
+    { name: 'みだれひっかき', count: 5 },
+    { name: 'れんぞくパンチ', count: 5 },
+    { name: 'ロックブラスト', count: 5 },
+    { name: 'トリプルキック', count: 1 },
+    { name: 'トリプルアクセル', count: 1 },
+    { name: 'ネズミざん', count: 10 },
+    { name: 'ふくろだたき', count: 0 },
+];
+// 与ダメージ依存反動技
+const dependentRecoilMoveList = [
+    { name: 'アフロブレイク', rate: 0.25 },
+    { name: 'ウェーブタックル', rate: 0.33 },
+    { name: 'ウッドハンマー', rate: 0.33 },
+    { name: 'じごくぐるま', rate: 0.25 },
+    { name: 'すてみタックル', rate: 0.33 },
+    { name: 'とっしん', rate: 0.25 },
+    { name: 'はめつのひかり', rate: 0.50 },
+    { name: 'フレアドライブ', rate: 0.33 },
+    { name: 'ブレイブバード', rate: 0.33 },
+    { name: 'ボルテッカー', rate: 0.33 },
+    { name: 'もろはのずつき', rate: 0.50 },
+    { name: 'ワイルドボルト', rate: 0.25 },
+];
+// 与ダメージ非依存反動技
+const independentRecoilMoveList = [
+    { name: 'クロロブラスト', rate: 0.50 },
+    { name: 'わるあがき', rate: 0.25 }
 ];

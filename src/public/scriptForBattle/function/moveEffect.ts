@@ -3,74 +3,91 @@ function moveEffect( pokemon: Pokemon ): void {
   if ( pokemon.moveUsed.category !== '変化' ) {
     // シングルバトルの場合
     if ( fieldStatus.battleStyle === 1 ) {
-      const info: Target = pokemon.target[0];
-      const target: Pokemon | false = getPokemonByBattle( info.trainer, info.battle );
+      const damage: Damage = pokemon.damage[0];
+      const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
       if ( target === false ) return;
 
       // 対象全員へのダメージ計算
-      calculateDamageForAll( pokemon, target );
+      calculateDamageForAll( pokemon, target, damage );
+      // みがわり状態に攻撃技が防がれたときの効果: 本体がダメージを受けたとき(4)~(10)などより優先して処理される
       // じばく/だいばくはつ/ミストバースト/ビックリヘッド/てっていこうせん使用時のダメージ: ひんしになるときは使用者のひんし判定
       // ダメージを本体に与える
-      damageToBody( target );
+      damageToBody( target, damage );
       // バツグンの相性判定のメッセージ
-      goodCompatibilityMessage( pokemon, target );
+      goodCompatibilityMessage( pokemon, target, damage );
       // 今ひとつの相性判定のメッセージ
-      badCompatibilityMessage( pokemon, target );
+      badCompatibilityMessage( pokemon, target, damage );
       // ダメージの判定に関するメッセージ
-      damageDeterminationMessage( pokemon, target );
+      damageDeterminationMessage( pokemon, target, damage );
       // ダメージをHP1で耐える効果のメッセージなど
       enduringEffectsMessage( target );
       // 追加効果などの発動
-      activateAdditionalEffects( pokemon, target );
+      activateAdditionalEffects( pokemon, target, damage );
       // ダメージが発生したときの効果
-      effectsWhenDamageOccurs( pokemon, target );
+      effectsWhenDamageOccurs( pokemon, target, damage );
+      // ひんし判定
+      faintingJudgment( pokemon, target, 1 );
+      faintingJudgment( pokemon, target, 2 );
+      faintingJudgment( pokemon, target, 3 );
+      faintingJudgment( pokemon, target, 4 );
+      // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
+      activateSealedEffects( target );
+      activateSealedEffects( pokemon );
     }
   }
+
+  // 技の効果
+  activateMoveEffect( pokemon );
+  // 特性の効果（その1）
+  activateAbilityEffect1st( pokemon );
+
+  // 防御側の持ち物の効果 (その4)
+  targetItemEffectPart4();
 
 
 }
 
 // 対象全員へのダメージ計算
-function calculateDamageForAll( pokemon: Pokemon, target: Pokemon ): void {
+function calculateDamageForAll( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
 
   // ばけのかわ/アイスフェイス
-  if ( isAbility( target, 'ばけのかわ' ) === true ) {
-    if ( target.stateChange.disguise.isTrue === true ) {
+  if ( isSubstitute( pokemon, target ) === false ) {
+    if ( pokemon.status.name === 'ミミッキュ(化けた姿)' && isAbility( target, 'ばけのかわ' ) === true ) {
+      target.stateChange.disguise.isTrue = true;
       return;
     }
-  }
-  if ( isAbility( target, 'アイスフェイス' ) === true ) {
-    if ( target.stateChange.iceFace.isTrue === true && pokemon.moveUsed.category === '物理' ) {
+    if ( pokemon.status.name === 'コオリッポ(アイス)' && isAbility( target, 'アイスフェイス' ) === true && pokemon.moveUsed.category === '物理'  ) {
+      target.stateChange.iceFace.isTrue = true;
       return;
     }
   }
 
   // ダメージ計算
-  calculateDamage( pokemon, target );
+  calculateDamage( pokemon, target, damage );
 
   // ダメージ計算後の処理
-  target.damage.damage = Math.max( target.damage.damage, 1 );
-  target.damage.damage = target.damage.damage % 65536;
-  target.damage.damage = Math.min( target.damage.damage, target.status.remainingHP );
+  damage.damage = Math.max( damage.damage, 1 );
+  damage.damage = damage.damage % 65536;
+  damage.damage = Math.min( damage.damage, target.status.remainingHP );
   if ( isSubstitute( pokemon, target ) === true ) {
-    target.damage.damage = Math.min( target.damage.damage, target.stateChange.substitute._count );
+    damage.damage = Math.min( damage.damage, target.stateChange.substitute._count );
   }
-  if ( isSubstitute( pokemon, target ) === false && target.damage.damage === target.status.remainingHP ) {
+  if ( isSubstitute( pokemon, target ) === false && damage.damage === target.status.remainingHP ) {
     if ( target.stateChange.endure.isTrue === true ) {
-      target.damage.damage -= 1;
+      damage.damage -= 1;
       target.stateChange.endureMsg.isTrue === true;
       target.stateChange.endureMsg.text === 'こらえる';
       return;
     }
     if ( pokemon.moveUsed.name === 'みねうち' || pokemon.moveUsed.name === 'てかげん' ) {
-      target.damage.damage -= 1;
+      damage.damage -= 1;
       target.stateChange.endureMsg.isTrue === true;
       target.stateChange.endureMsg.text === pokemon.moveUsed.name;
       return;
     }
     if ( isAbility( target, 'がんじょう' ) === true ) {
       if ( target.status.remainingHP === target.actualValue.hitPoint ) {
-        target.damage.damage -= 1;
+        damage.damage -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'がんじょう';
         return;
@@ -78,7 +95,7 @@ function calculateDamageForAll( pokemon: Pokemon, target: Pokemon ): void {
     }
     if ( isItem( target, 'きあいのタスキ' ) === true ) {
       if ( target.status.remainingHP === target.actualValue.hitPoint ) {
-        target.damage.damage -= 1;
+        damage.damage -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'きあいのタスキ';
         return;
@@ -86,7 +103,7 @@ function calculateDamageForAll( pokemon: Pokemon, target: Pokemon ): void {
     }
     if ( isItem( target, 'きあいのタスキ' ) === true ) {
       if ( getRandom() < 10 ) {
-        target.damage.damage -= 1;
+        damage.damage -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'きあいのハチマキ';
         return;
@@ -96,17 +113,18 @@ function calculateDamageForAll( pokemon: Pokemon, target: Pokemon ): void {
 }
 
 // ダメージを本体に与える
-function damageToBody( target: Pokemon ): void {
+function damageToBody( target: Pokemon, damage: Damage ): void {
 
-  target.status.remainingHP -= target.damage.damage;
+  target.status.remainingHP -= damage.damage;
+  writeLog( `${damage.damage}の ダメージ!` );
 }
 
 // バツグンの相性判定のメッセージ
-function goodCompatibilityMessage( pokemon: Pokemon, target: Pokemon ): void {
+function goodCompatibilityMessage( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
 
-  if ( target.damage.effective <= 1 ) return;
+  if ( damage.effective <= 1 ) return;
 
-  if ( pokemon.target.length === 1 ) {
+  if ( pokemon.damage.length === 1 ) {
     writeLog( `効果は バツグンだ!` );
   } else {
     writeLog( `${target.status.name}に 効果は バツグンだ!` );
@@ -114,11 +132,11 @@ function goodCompatibilityMessage( pokemon: Pokemon, target: Pokemon ): void {
 }
 
 // 今ひとつの相性判定のメッセージ
-function badCompatibilityMessage( pokemon: Pokemon, target: Pokemon ): void {
+function badCompatibilityMessage( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
 
-  if ( target.damage.effective >= 1 ) return;
+  if ( damage.effective >= 1 ) return;
 
-  if ( pokemon.target.length === 1 ) {
+  if ( pokemon.damage.length === 1 ) {
     writeLog( `${target.status.name}に 効果は 今ひとつのようだ......` );
   } else {
     writeLog( `${target.status.name}に 効果は いまひとつだ` );
@@ -126,10 +144,10 @@ function badCompatibilityMessage( pokemon: Pokemon, target: Pokemon ): void {
 }
 
 // ダメージの判定に関するメッセージ
-function damageDeterminationMessage( pokemon: Pokemon, target: Pokemon ): void {
+function damageDeterminationMessage( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
 
-  if ( target.damage.critical === true ) {
-    if ( pokemon.target.length === 1 ) {
+  if ( damage.critical === true ) {
+    if ( pokemon.damage.length === 1 ) {
       writeLog( `急所に 当たった!` );
     } else {
       writeLog( `${target.status.name}の 急所に 当たった!` );
@@ -161,7 +179,7 @@ function enduringEffectsMessage( target: Pokemon ): void {
 }
 
 // 追加効果などの発動
-function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon ): void {
+function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
 
   if ( pokemon.moveUsed.name === 'なげつける' ) {
     pokemon.stateChange.fling.isTrue = true;
@@ -176,8 +194,7 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon ): void {
   // 対象のランク変化
   for ( const move of additionalEffectTargetRank ) {
     if ( move.name === pokemon.moveUsed.name ) {
-      if ( pokemon.stateChange.sheerForce.isTrue === true ) break;
-      if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) break;
+      if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break;
       if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
 
       let isTrue: boolean = false;
@@ -216,8 +233,7 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon ): void {
   }
   for ( const move of additionalEffectAilment ) {
     if ( move.name === pokemon.moveUsed.name ) {
-      if ( pokemon.stateChange.sheerForce.isTrue === true ) break;
-      if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) break;
+      if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break;
       if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
 
       giveAilment( pokemon, target, move.ailment );
@@ -225,8 +241,7 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon ): void {
   }
   for ( const move of additionalEffectConfuse ) {
     if ( move.name === pokemon.moveUsed.name ) {
-      if ( pokemon.stateChange.sheerForce.isTrue === true ) break;
-      if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) break;
+      if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break;
       if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
 
       giveConfuse( pokemon, target, 'additional' );
@@ -234,14 +249,123 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon ): void {
   }
   for ( const move of additionalEffectFlinch ) {
     if ( move.name === pokemon.moveUsed.name ) {
-      if ( pokemon.stateChange.sheerForce.isTrue === true ) break;
-      if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) break;
+      if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break;
       if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
 
       target.stateChange.flinch.isTrue = true;
     }
   }
-  activateOtherAdditionalEffect( pokemon, target );
+
+  // その他の追加効果
+  anchorShot:
+  if ( pokemon.moveUsed.name === 'アンカーショット' || pokemon.moveUsed.name === 'かげぬい' ) {
+    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break anchorShot;
+    if ( getPokemonType( target ).includes( 'ゴースト' ) === true ) break anchorShot;
+    if ( target.stateChange.cannotEscape.isTrue === true ) break anchorShot;
+
+    giveCannotEscape( pokemon, target, pokemon.moveUsed.name );
+  }
+
+  saltCure:
+  if ( pokemon.moveUsed.name === 'しおづけ' ) {
+    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break saltCure;
+    if ( target.stateChange.saltCure.isTrue === true ) break saltCure;
+
+    target.stateChange.saltCure.isTrue = true;
+    writeLog( `${getArticle( target )}は しおづけに なった!` );
+  }
+
+  throatChop:
+  if ( pokemon.moveUsed.name === 'じごくづき' ) {
+    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break throatChop;
+    if ( target.stateChange.throatChop.isTrue === true ) break throatChop;
+
+    target.stateChange.throatChop.isTrue = true;
+    target.stateChange.throatChop.turn = 2;
+  }
+
+  triAttack:
+  if ( pokemon.moveUsed.name === 'トライアタック' ) {
+    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break triAttack;
+    if ( isValidProbabilityAdditionalEffect( pokemon, 20 ) === false ) break triAttack;
+
+    const rate: number = getRandom();
+    if ( rate < 100 / 3 ) {
+      giveAilment( pokemon, target, 'まひ' );
+    } else if ( rate < 200 / 3 ) {
+      giveAilment( pokemon, target, 'やけど');
+    } else {
+      giveAilment( pokemon, target, 'こおり' );
+    }
+  }
+
+  fling:
+  if ( pokemon.moveUsed.name === 'なげつける' ) {
+    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) {
+      pokemon.stateChange.fling.reset();
+      break fling;
+    }
+
+    if ( pokemon.stateChange.fling.text === 'でんきだま' ) {
+      giveAilment( pokemon, target, 'まひ' );
+    }
+    if ( pokemon.stateChange.fling.text === 'かえんだま' ) {
+      giveAilment( pokemon, target, 'やけど' );
+    }
+    if ( pokemon.stateChange.fling.text === 'どくバリ' ) {
+      giveAilment( pokemon, target, 'どく' );
+    }
+    if ( pokemon.stateChange.fling.text === 'どくどくだま' ) {
+      giveAilment( pokemon, target, 'もうどく' );
+    }
+    if ( pokemon.stateChange.fling.text === 'おうじゃのしるし' || pokemon.stateChange.fling.text === 'するどいキバ' ) {
+      target.stateChange.flinch.isTrue = true;
+    }
+    if ( pokemon.stateChange.fling.text === 'しろいハーブ' ) {
+      let isTrue = false;
+      for ( const parameter of Object.keys( target.rank ) ) {
+        if ( target.rank[parameter] < 0 ) {
+          isTrue = true;
+          target.rank[parameter] = 0;
+        }
+      }
+      if ( isTrue === true ) {
+        writeLog( `${getArticle( target )}は しろいハーブで ステータスを 元に戻した!` );
+      }
+    }
+    for ( const berry of berryTable ) {
+      if ( berry.name === pokemon.stateChange.fling.text && berry.fling === true ) {
+        target.stateChange.memo.isTrue = true;
+        target.stateChange.memo.text = 'なげつける';
+        eatBerry( target, pokemon.stateChange.fling.text );
+        // ゲップ
+        target.stateChange.belch.isTrue = true;
+        // ほおぶくろ
+        if ( target.stateChange.memo.count > 0 ) {
+          activateCheekPouch( target );
+        }
+        target.stateChange.memo.reset();
+      }
+    }
+
+    // なげつけたアイテムのデータを削除
+    pokemon.stateChange.fling.reset();
+  }
+
+  direClaw:
+  if ( pokemon.moveUsed.name === 'フェイタルクロー' ) {
+    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break direClaw;
+    if ( isValidProbabilityAdditionalEffect( pokemon, 50 ) === false ) break direClaw;
+
+    const rate: number = getRandom();
+    if ( rate < 100 / 3 ) {
+      giveAilment( pokemon, target, 'どく' );
+    } else if ( rate < 200 / 3 ) {
+      giveAilment( pokemon, target, 'まひ' );
+    } else {
+      giveAilment( pokemon, target, 'ねむり' );
+    }
+  }
 
   // 自分のランクが下がる技の効果
   for ( const move of moveEffectMyRank ) {
@@ -263,25 +387,25 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon ): void {
   // HP吸収技
   for ( const move of absorbingMoveList ) {
     if ( move.name === pokemon.moveUsed.name ) {
-      const value = Math.round( target.damage.damage * move.rate )
+      const value = Math.round( damage.damage * move.rate )
       changeHPByMove( pokemon, target, value );
     }
   }
 }
 
 // ダメージが発生したときの効果
-function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
+function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Damage ) {
 
   rage:
   if ( target.stateChange.rage.isTrue === true ) {
-    if ( target.damage.substitute === true ) break rage;
+    if ( damage.substitute === true ) break rage;
     if ( getRankVariation( target, 'attack', 1 ) === 0 ) break rage;
     changeMyRankByRage( target, 'attack', 1 );
   }
 
   clearSmog:
   if ( pokemon.moveUsed.name === 'クリアスモッグ' ) {
-    if ( target.damage.substitute === true ) break clearSmog;
+    if ( damage.substitute === true ) break clearSmog;
     for ( const parameter of Object.keys( target.rank ) ) {
       target.rank[parameter] = 0;
     }
@@ -301,14 +425,14 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   if ( target.stateChange.beakBlast.isTrue === true ) {
     if ( isDirect( pokemon ) === false ) break beakBlast;
     if ( pokemon.moveUsed.name === 'フリーフォール' ) break beakBlast;
-    if ( target.damage.substitute === true ) break beakBlast;
+    if ( damage.substitute === true ) break beakBlast;
     giveAilmentByBeakBlast( target, pokemon );
   }
 
   poisonTouch:
   if ( isAbility( pokemon, 'どくしゅ' ) === true ) {
     if ( isDirect( pokemon ) === false ) break poisonTouch;
-    if ( target.damage.substitute === true ) break poisonTouch;
+    if ( damage.substitute === true ) break poisonTouch;
     if ( isAbility( target, 'りんぷん' ) === true ) break poisonTouch;
     if ( getRandom() >= 30 ) break poisonTouch;
     if ( giveAilment( pokemon, target, 'どく', true ) ) {
@@ -329,7 +453,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   }
 
   // 直接攻撃を受けた時
-  if ( isDirect( pokemon ) === true && target.damage.substitute === false ) {
+  if ( isDirect( pokemon ) === true && damage.substitute === false ) {
 
     roughSkin:
     if ( isAbility( target, 'さめはだ' ) === true || isAbility( target, 'てつのトゲ' ) === true ) {
@@ -496,7 +620,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   }
 
   // 攻撃技を受けた時
-  if ( target.damage.substitute === false ) {
+  if ( damage.substitute === false ) {
 
     cursedBody:
     if ( isAbility( target, 'のろわれボディ' ) === true ) {
@@ -596,7 +720,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   }
 
   // 物理技を受けた時
-  if ( pokemon.moveUsed.category === '物理' && target.damage.substitute === false ) {
+  if ( pokemon.moveUsed.category === '物理' && damage.substitute === false ) {
 
     weakArmor:
     if ( isAbility( target, 'くだけるよろい' ) === true ) {
@@ -612,12 +736,12 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
       if ( fieldStatus.getSide( getOpponentTrainer( target.trainer ) ).toxicSpikes.count === 2 ) break toxicDebris;
 
       target.status.declareAbility();
-      changeOpponentField( target, 'どくびし' );
+      changeOpponentField( getOpponentTrainer( target.trainer ), 'どくびし', '+' );
     }
   }
 
   // 特定のタイプの攻撃技を受けた時
-  if ( target.damage.substitute === false ) {
+  if ( damage.substitute === false ) {
 
     waterCompaction:
     if ( isAbility( target, 'みずがため' ) === true ) {
@@ -657,7 +781,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   }
 
   // 風技を受けた時
-  if ( windMoveList.includes( pokemon.moveUsed.name ) === true && target.damage.substitute === false ) {
+  if ( windMoveList.includes( pokemon.moveUsed.name ) === true && damage.substitute === false ) {
 
     windPower:
     if ( isAbility( target, 'ふうりょくでんき' ) === true ) {
@@ -667,7 +791,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   }
 
   // 急所に当たった時
-  if ( target.damage.critical === true && target.damage.substitute === false ) {
+  if ( damage.critical === true && damage.substitute === false ) {
 
     angerPoint:
     if ( isAbility( target, 'いかりのつぼ' ) === true ) {
@@ -687,10 +811,10 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
 
   // 効果バツグンの技を受けた時
   effective:
-  if ( target.damage.effective > 1 ) {
+  if ( damage.effective > 1 ) {
     if ( target.status.remainingHP === 0 ) break effective;
-    if ( target.damage.substitute === true ) break effective;
-    if ( target.damage.damage === 0 ) break effective;
+    if ( damage.substitute === true ) break effective;
+    if ( damage.damage === 0 ) break effective;
 
     if ( isItem( target, 'ナゾのみ' ) === true ) {
       eatBerry( target, 'ナゾのみ' );
@@ -712,7 +836,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   // 特定のタイプの技を受けた時
   cellBattery:
   if ( isItem( target, 'じゅうでんち' ) === true ) {
-    if ( target.damage.substitute === true ) break cellBattery;
+    if ( damage.substitute === true ) break cellBattery;
     if ( pokemon.moveUsed.type !== 'でんき' ) break cellBattery;
     if ( getRankVariation( target, 'attack', 1 ) === 0 ) break cellBattery;
 
@@ -722,7 +846,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
 
   snowball:
   if ( isItem( target, 'ゆきだま' ) === true ) {
-    if ( target.damage.substitute === true ) break snowball;
+    if ( damage.substitute === true ) break snowball;
     if ( pokemon.moveUsed.type !== 'こおり' ) break snowball;
     if ( getRankVariation( target, 'attack', 1 ) === 0 ) break snowball;
 
@@ -732,7 +856,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
 
   absorbBulb:
   if ( isItem( target, 'きゅうこん' ) === true ) {
-    if ( target.damage.substitute === true ) break absorbBulb;
+    if ( damage.substitute === true ) break absorbBulb;
     if ( pokemon.moveUsed.type !== 'みず' ) break absorbBulb;
     if ( getRankVariation( target, 'specialAttack', 1 ) === 0 ) break absorbBulb;
 
@@ -742,7 +866,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
 
   luminousMoss:
   if ( isItem( target, 'ひかりごけ' ) === true ) {
-    if ( target.damage.substitute === true ) break luminousMoss;
+    if ( damage.substitute === true ) break luminousMoss;
     if ( pokemon.moveUsed.type !== 'みず' ) break luminousMoss;
     if ( getRankVariation( target, 'specialDefense', 1 ) === 0 ) break luminousMoss;
 
@@ -753,7 +877,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   rockyHelmet:
   if ( isItem( target, 'ゴツゴツメット' ) === true ) {
     if ( isDirect( pokemon ) === false ) break rockyHelmet;
-    if ( target.damage.substitute === true ) break rockyHelmet;
+    if ( damage.substitute === true ) break rockyHelmet;
     if ( isItem( pokemon, 'ぼうごパット' ) === true ) break rockyHelmet;
     if ( isAbility( pokemon, 'マジックガード' ) === true ) break rockyHelmet;
 
@@ -766,7 +890,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   stickyBarb:
   if ( isItem( target, 'くっつきバリ' ) === true ) {
     if ( isDirect( pokemon ) === false ) break stickyBarb;
-    if ( target.damage.substitute === true ) break stickyBarb;
+    if ( damage.substitute === true ) break stickyBarb;
     if ( pokemon.status.item !== null ) break stickyBarb;
 
     [ pokemon.status.item, target.status.item ] = [ target.status.item, pokemon.status.item ];
@@ -780,7 +904,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
 
   incinerate:
   if ( pokemon.moveUsed.name === 'やきつくす' ) {
-    if ( target.damage.substitute === true ) break incinerate;
+    if ( damage.substitute === true ) break incinerate;
     if ( isAbility( target, 'ねんちゃく' ) === true ) break incinerate;
 
     let item: null | string = null;
@@ -804,7 +928,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
   // 防御側の持ち物の効果（その２）
   jabocaBerry:
   if ( isItem( target, 'ジャポのみ' ) === true ) {
-    if ( target.damage.substitute === true ) break jabocaBerry;
+    if ( damage.substitute === true ) break jabocaBerry;
     if ( pokemon.moveUsed.category !== '物理' ) break jabocaBerry;
     if ( isAbility( pokemon, 'マジックガード' ) === true ) break jabocaBerry;
     if ( pokemon.status.remainingHP === 0 ) break jabocaBerry;
@@ -817,7 +941,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
 
   rowapBerry:
   if ( isItem( target, 'レンブのみ' ) === true ) {
-    if ( target.damage.substitute === true ) break rowapBerry;
+    if ( damage.substitute === true ) break rowapBerry;
     if ( pokemon.moveUsed.category !== '特殊' ) break rowapBerry;
     if ( isAbility( pokemon, 'マジックガード' ) === true ) break rowapBerry;
     if ( pokemon.status.remainingHP === 0 ) break rowapBerry;
@@ -828,174 +952,513 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon ) {
     writeLog( `${getArticle( target )}は ${getArticle( pokemon )}の レンブのみで ダメージを 受けた!` );
   }
 
+  // 防御側のばけのかわ/アイスフェイス
+  if ( target.stateChange.disguise.isTrue === true ) {
+    target.stateChange.disguise.reset();
+    target.status.declareAbility();
+    formChange( target );
+    writeLog( `${getArticle( target )}の ばけのかわが はがれた!` );
+
+    const dynamax: number = ( pokemon.stateChange.dynamax.isTrue )? 0.5 : 1;
+    const value: number = Math.floor( pokemon.actualValue.hitPoint * dynamax / 8 );
+    pokemon.status.remainingHP = Math.max( pokemon.status.remainingHP - value, 0 );
+  }
+  if ( target.stateChange.iceFace.isTrue === true ) {
+    target.stateChange.iceFace.reset();
+    target.status.declareAbility();
+    formChange( target );
+    writeLog( `${getArticle( target )}の 姿が 変化した!` );
+  }
 }
 
-function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number ): boolean {
+// ひんし判定
+function faintingJudgment( pokemon: Pokemon, target: Pokemon, number: number ): void {
 
-  let rate: number = moveRate;
-
-  if ( isAbility( pokemon, 'てんのめぐみ' ) ) {
-    rate = rate * 2;
-  }
-  if ( fieldStatus.getSide( pokemon.trainer ).rainbow.isTrue === true ) {
-    if ( pokemon.moveUsed.name !== 'ひみつのちから' ) {
-      rate = rate * 2;
-    }
-  }
-  for ( const move of additionalEffectFlinch ) {
-    if ( move.name === pokemon.moveUsed.name ) {
-      rate = Math.min( rate, moveRate * 2 );
+  if ( number === 1 ) {
+    if ( pokemon.moveUsed.name === 'いのちがけ' ) {
+      pokemon.status.remainingHP = 0;
+      faintingProcess( pokemon );
     }
   }
 
-  if ( getRandom() >= rate ) return false;
+  if ( number === 2 ) {
+    if ( target.status.remainingHP === 0 ) {
+      faintingProcess( target );
+    }
+  }
 
-  return true;
+  if ( number === 3 ) {
+    if ( pokemon.status.remainingHP === 0 ) {
+      faintingProcess( pokemon );
+    }
+  }
+
+  if ( number === 4 ) {
+    destinyBond:
+    if ( target.stateChange.destinyBond.isTrue === true ) {
+      if ( target.status.remainingHP > 0 ) break destinyBond;
+      if ( isFriend( pokemon, target ) === true ) break destinyBond;
+      if ( pokemon.stateChange.dynamax.isTrue === true ) break destinyBond;
+
+      writeLog( `${getArticle( target )}は 相手を 道連れに した!` );
+      // writeLog( `${getArticle( target )}は 相手を 道連れに しようとしている!` );
+
+      pokemon.status.remainingHP = 0;
+      faintingProcess( pokemon );
+    }
+  }
 }
 
-function isValidToTargetAdditionalEffect( pokemon: Pokemon, target: Pokemon ): boolean {
+// ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
+function activateSealedEffects( pokemon: Pokemon ): void {
 
-  if ( target.status.remainingHP === 0 ) return false;
-  if ( target.damage.substitute === true ) return false ;
-  if ( isAbility( target, 'りんぷん' ) ) return false;
-  if ( isItem( target, 'おんみつマント' ) ) return false;
+  if ( pokemon.status.remainingHP > 0 ) return;
 
-  return true;
-}
-
-function activateOtherAdditionalEffect( pokemon: Pokemon, target: Pokemon ): void {
-
-  if ( pokemon.moveUsed.name === 'アンカーショット' || pokemon.moveUsed.name === 'かげぬい' ) {
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) return;
-    if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) return;
-    if ( getPokemonType( target ).includes( 'ゴースト' ) === false ) return;
-    if ( target.stateChange.cannotEscape.isTrue === false ) return;
-
-    target.stateChange.cannotEscape.isTrue = true;
-    target.stateChange.cannotEscape.target.trainer = pokemon.trainer;
-    target.stateChange.cannotEscape.target.party = pokemon.order.party;
-    writeLog( `${getArticle( target )}は もう 逃げられない!` );
-
-    return;
-  }
-
-  if ( pokemon.moveUsed.name === 'うたかたのアリア' ) {
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) return;
-    if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) return;
-    if ( target.status.statusAilment.name !== 'やけど' ) return;
-
-    target.status.statusAilment = new StatusAilment( null );
-    writeLog( `${getArticle( target )}の やけどが 治った!` );
-
-    return;
-  }
-
-  if ( pokemon.moveUsed.name === 'しおづけ' ) {
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) return;
-    if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) return;
-    if ( target.stateChange.saltCure.isTrue === true ) return;
-
-    target.stateChange.saltCure.isTrue = true;
-    writeLog( `${getArticle( target )}は しおづけに なった!` );
-
-    return;
-  }
-
-  if ( pokemon.moveUsed.name === 'じごくづき' ) {
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) return;
-    if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) return;
-    if ( target.stateChange.throatChop.isTrue === true ) return;
-
-    target.stateChange.throatChop.isTrue = true;
-    target.stateChange.throatChop.turn = 2;
-
-    return;
-  }
-
-  if ( pokemon.moveUsed.name === 'トライアタック' ) {
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) return;
-    if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) return;
-    if ( isValidProbabilityAdditionalEffect( pokemon, 20 ) === false ) return;
-
-    const rate: number = getRandom();
-    if ( rate < 100 / 3 ) {
-      giveAilment( pokemon, target, 'まひ' );
-    } else if ( rate < 200 / 3 ) {
-      giveAilment( pokemon, target, 'やけど');
-    } else {
-      giveAilment( pokemon, target, 'こおり' );
-    }
-
-    return;
-  }
-
-  if ( pokemon.moveUsed.name === 'なげつける' ) {
-    if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) {
-      pokemon.stateChange.fling.reset();
-      return;
-    }
-
-    if ( pokemon.stateChange.fling.text === 'でんきだま' ) {
-      giveAilment( pokemon, target, 'まひ' );
-    }
-    if ( pokemon.stateChange.fling.text === 'かえんだま' ) {
-      giveAilment( pokemon, target, 'やけど' );
-    }
-    if ( pokemon.stateChange.fling.text === 'どくバリ' ) {
-      giveAilment( pokemon, target, 'どく' );
-    }
-    if ( pokemon.stateChange.fling.text === 'どくどくだま' ) {
-      giveAilment( pokemon, target, 'もうどく' );
-    }
-    if ( pokemon.stateChange.fling.text === 'おうじゃのしるし' || pokemon.stateChange.fling.text === 'するどいキバ' ) {
-      target.stateChange.flinch.isTrue = true;
-    }
-    if ( pokemon.stateChange.fling.text === 'しろいハーブ' ) {
-      let isTrue = false;
-      for ( const parameter of Object.keys( target.rank ) ) {
-        if ( target.rank[parameter] < 0 ) {
-          isTrue = true;
-          target.rank[parameter] = 0;
-        }
-      }
-      if ( isTrue === true ) {
-        writeLog( `${getArticle( target )}は しろいハーブで ステータスを 元に戻した!` );
+  if ( pokemon.status.ability === 'きんちょうかん' ) {
+    for ( const order of getSpeedOrder() ) {
+      const target: Pokemon | false = getPokemonByBattle( order.trainer, order.battleNumber );
+      if ( target === false ) continue;
+      if ( isEnableEatBerry( target ) === true ) {
+        eatBerry( target, target.status.item );
       }
     }
+  }
+  if ( pokemon.status.ability === 'かがくへんかガス' ) {
+
+  }
+
+}
+
+// 技の効果
+function activateMoveEffect( pokemon: Pokemon ): void {
+
+  const targetList: TargetDataType[] = getTargetList( pokemon );
+  const one: TargetDataType = targetList[0];
+
+  fire:
+  if ( pokemon.moveUsed.type === 'ほのお' ) {
+    if ( pokemon.moveUsed.category === '変化' ) break fire;
+    for ( const data of targetList ) {
+      if ( data.target.status.remainingHP === 0 ) continue;
+      cureAilment( data.target, 'こおり' );
+    }
+  }
+
+  if ( pokemon.order.battle === null ) return;
+
+  // 反動技による反動ダメージ
+  recoil:
+  if ( true ) {
+    if ( pokemon.moveUsed.name !== 'わるあがき' ) {
+      if ( isAbility( pokemon, 'マジックガード' ) === true ) break recoil;
+      if ( isAbility( pokemon, 'いしあたま' ) === true ) break recoil;
+    }
+
+    // 与ダメージ依存の反動技
+    for ( const move of dependentRecoilMoveList ) {
+      if ( move.name === pokemon.moveUsed.name ) {
+        if ( one.damage.damage === 0 ) break recoil;
+
+        const value: number = Math.max( 1, Math.round( one.damage.damage * move.rate ) );
+        pokemon.status.remainingHP = Math.max( 0, pokemon.status.remainingHP - value );
+        writeLog( `${getArticle( pokemon )}は 反動による ダメージを 受けた!` );
+      }
+    }
+    // 与ダメージ非依存の反動技
+    for ( const move of independentRecoilMoveList ) {
+      if ( move.name === pokemon.moveUsed.name ) {
+        const damage: number = Math.max( 1, Math.round( pokemon.actualValue.hitPoint * move.rate ) );
+        pokemon.status.remainingHP = Math.max( 0, pokemon.status.remainingHP - damage );
+        writeLog( `${getArticle( pokemon )}は 反動による ダメージを 受けた!` );
+      }
+    }
+
+    if ( pokemon.status.remainingHP === 0 ) {
+      faintingProcess( pokemon );
+      activateSealedEffects( pokemon );
+    }
+  }
+
+  // バインド状態
+  bind:
+  if ( bindMoveList.includes( pokemon.moveUsed.name ) ) {
+    let turn: number = 4;
+    if ( getRandom() < 50 ) turn = 5;
+    if ( isItem( pokemon, 'ねばりのかぎづめ' ) === true ) turn = 7;
+
+    for ( const data of targetList ) {
+      if ( data.target.status.remainingHP === 0 ) continue;
+
+      substitute:
+      if ( data.damage.substitute === true ) {
+        if ( pokemon.moveUsed.name === 'キョダイサジン' ) break substitute;
+        if ( pokemon.moveUsed.name === 'キョダイヒャッカ' ) break substitute;
+        continue;
+      }
+
+      if ( data.target.stateChange.bind.isTrue === true ) continue;
+
+      data.target.stateChange.bind.isTrue = true;
+      data.target.stateChange.bind.turn = turn;
+      if ( isItem( pokemon, 'しめつけバンド' ) === true ) {
+        data.target.stateChange.bind.text = 'しめつけバンド';
+      }
+
+      if ( pokemon.moveUsed.name === 'うずしお' ) {
+        writeLog( `${getArticle( data.target )}は 渦の中に 閉じこめられた!` );
+      }
+      if ( pokemon.moveUsed.name === 'からではさむ' ) {
+        writeLog( `${getArticle( data.target )}は ${getArticle( pokemon )}の からに はさまれた!` );
+      }
+      if ( pokemon.moveUsed.name === 'サンダープリズン' ) {
+        writeLog( `${getArticle( data.target )}は ${getArticle( pokemon )}に 閉じこめられた!` );
+      }
+      if ( pokemon.moveUsed.name === 'しめつける' ) {
+        writeLog( `${getArticle( data.target )}は ${getArticle( pokemon )}に しめつけられた!` );
+      }
+      if ( pokemon.moveUsed.name === 'すなじごく' ) {
+        writeLog( `${getArticle( data.target )}は 砂じごくに 捕らわれた!` );
+      }
+      if ( pokemon.moveUsed.name === 'トラバサミ' ) {
+        writeLog( `${getArticle( data.target )}は トラバサミに 捕らわれた!` );
+      }
+      if ( pokemon.moveUsed.name === 'ほのおのうず' ) {
+        writeLog( `${getArticle( data.target )}は 炎の渦に 閉じこめられた!` );
+      }
+      if ( pokemon.moveUsed.name === 'まきつく' ) {
+        writeLog( `${getArticle( data.target )}は ${getArticle( pokemon )}に 巻きつかれた!` );
+      }
+      if ( pokemon.moveUsed.name === 'マグマストーム' ) {
+        writeLog( `${getArticle( data.target )}は マグマの渦に 閉じこめられた!` );
+      }
+      if ( pokemon.moveUsed.name === 'まとわりつく' ) {
+        writeLog( `${getArticle( data.target )}は ${getArticle( pokemon )}に まとわりつかれた!` );
+      }
+      // キョダイサジン・キョダイヒャッカのテキストは表示されない
+    }
+  }
+
+  // ひみつのちからの追加効果
+  secretPower:
+  if ( pokemon.moveUsed.name === 'ひみつのちから' ) {
+    if ( one.target.status.remainingHP === 0 ) break secretPower;
+    if ( isValidToTargetAdditionalEffect( pokemon, one.target, one.damage ) === false ) break secretPower;
+    if ( isValidProbabilityAdditionalEffect( pokemon, 30 ) === false ) break secretPower;
+
+    if ( fieldStatus.terrain.name === 'エレキフィールド' ) {
+      giveAilment( pokemon, one.target, 'まひ' );
+    }
+    if ( fieldStatus.terrain.name === 'グラスフィールド' ) {
+      giveAilment( pokemon, one.target, 'ねむり' );
+    }
+    if ( fieldStatus.terrain.name === 'サイコフィールド' ) {
+      if ( getRankVariation( one.target, 'speed', -1 ) !== 0 ) {
+        changeTargetRank( one.target, pokemon, 'speed', -1 );
+      }
+    }
+    if ( fieldStatus.terrain.name === 'ミストフィールド' ) {
+      if ( getRankVariation( one.target, 'specialAttack', -1 ) !== 0 ) {
+        changeTargetRank( one.target, pokemon, 'specialAttack', -1 );
+      }
+    }
+    if ( fieldStatus.terrain.name === null ) {
+      giveAilment( pokemon, one.target, 'まひ' );
+    }
+  }
+
+  fellStinger:
+  if ( pokemon.moveUsed.name === 'とどめばり' ) {
+    if ( one.target.status.remainingHP > 0 ) break fellStinger;
+    if ( getRankVariation( pokemon, 'attack', 3 ) === 0 ) break fellStinger;
+
+    pokemon.status.declareAbility();
+    changeMyRank( pokemon, 'attack', 3 );
+  }
+
+  knockOff:
+  if ( pokemon.moveUsed.name === 'はたきおとす' ) {
+    if ( one.target.status.item === null ) break knockOff;
+    if ( isAbility( one.target, 'ねんちゃく' ) === true ) break knockOff;
+    if ( one.damage.substitute === true ) break knockOff;
+
+    writeLog( `${getArticle( pokemon )}は ${getArticle( one.target )}の ${one.target.status.item}を はたき落とした!` );
+    one.target.status.item = null;
+  }
+
+  thief:
+  if ( pokemon.moveUsed.name === 'どろぼう' || pokemon.moveUsed.name === 'ほしがる' ) {
+    if ( pokemon.status.item !== null ) break thief;
+    if ( one.target.status.item === null ) break thief;
+    if ( one.damage.substitute === true ) break thief;
+    if ( isAbility( one.target, 'ねんちゃく' ) === true ) {
+      one.target.status.declareAbility();
+      writeLog( `${getArticle( one.target )}の 道具を 奪えない!` );
+      break thief;
+    }
+
+    [ pokemon.status.item, one.target.status.item ] = [ one.target.status.item, pokemon.status.item ];
+    writeLog( `${getArticle( pokemon )}は ${getArticle( one.target )}から ${pokemon.status.item}を 奪い取った!` );
+
+    if ( isEnableEatBerry( pokemon ) === true ) {
+      eatBerry( pokemon, pokemon.status.item );
+    }
+  }
+
+  bugBite:
+  if ( pokemon.moveUsed.name === 'むしくい' || pokemon.moveUsed.name === 'ついばむ' ) {
+    if ( pokemon.status.item !== null ) break bugBite;
+    if ( one.target.status.item === null ) break bugBite;
+    if ( one.damage.substitute === true ) break bugBite;
+    if ( isAbility( one.target, 'ねんちゃく' ) === true ) break bugBite;
+
     for ( const berry of berryTable ) {
-      if ( berry.name === pokemon.stateChange.fling.text && berry.fling === true ) {
-        target.stateChange.memo.isTrue = true;
-        eatBerry( target, pokemon.stateChange.fling.text );
+      if ( berry.name === one.target.status.item ) {
+        pokemon.stateChange.memo.isTrue = true;
+        pokemon.stateChange.memo.text = 'むしくい';
+        one.target.status.item = null;
+        writeLog( `${getArticle( pokemon )}は ${berry.name}を 奪って 食べた!` );
+        eatBerry( pokemon, berry.name );
         // ゲップ
-        target.stateChange.belch.isTrue = true;
+        pokemon.stateChange.belch.isTrue = true;
         // ほおぶくろ
-        if ( target.stateChange.memo.count > 0 ) {
-          activateCheekPouch( target );
+        if ( pokemon.stateChange.memo.count > 0 ) {
+          activateCheekPouch( pokemon );
         }
-        target.stateChange.memo.reset();
+        pokemon.stateChange.memo.reset();
+      }
+    }
+  }
+
+  smackDown:
+  if ( pokemon.moveUsed.name === 'うちおとす' || pokemon.moveUsed.name === 'サウザンアロー' ) {
+    for ( const data of targetList ) {
+      if ( data.target.status.remainingHP === 0 ) continue;
+      if ( data.damage.substitute === true ) continue;
+      if ( isGrounded( data.target ) === true ) continue;
+
+      one.target.stateChange.magnetRise.reset();
+      one.target.stateChange.telekinesis.reset();
+      writeLog( `${getArticle( one.target )}は 撃ち落とされて 地面に 落ちた!` );
+      one.target.stateChange.smackDown.isTrue = true;
+    }
+  }
+
+  thousandWaves:
+  if ( pokemon.moveUsed.name === 'サウザンウェーブ' ) {
+    for ( const data of targetList ) {
+      if ( data.target.status.remainingHP === 0 ) continue;
+      if ( getPokemonType( data.target ).includes( 'ゴースト' ) === true ) continue;
+      if ( data.target.stateChange.cannotEscape.isTrue === true ) continue;
+
+      giveCannotEscape( pokemon, data.target, pokemon.moveUsed.name );
+    }
+  }
+
+  jawLock:
+  if ( pokemon.moveUsed.name === 'くらいつく' ) {
+    if ( one.target.status.remainingHP === 0 ) break jawLock;
+    if ( one.damage.substitute === true ) break jawLock;
+    if ( pokemon.stateChange.cannotEscape.isTrue === true ) break jawLock;
+    if ( one.target.stateChange.cannotEscape.isTrue === true ) break jawLock;
+    if ( getPokemonType( pokemon ).includes( 'ゴースト' ) === true ) break jawLock;
+    if ( getPokemonType( one.target ).includes( 'ゴースト' ) === true ) break jawLock;
+
+    giveCannotEscape( pokemon, one.target, pokemon.moveUsed.name );
+  }
+
+  plasmaFists:
+  if ( pokemon.moveUsed.name === 'プラズマフィスト' ) {
+    if ( pokemon.status.remainingHP === 0 ) break plasmaFists;
+
+    fieldStatus.whole.ionDeluge.isTrue = true;
+    writeLog( `電子のシャワーが 降りそそいだ!` );
+  }
+
+  genesisSupernova:
+  if ( pokemon.moveUsed.name === 'オリジンズスーパーノヴァ' ) {
+    if ( pokemon.stateChange.shadowForce.isTrue === true ) break genesisSupernova;
+    if ( fieldStatus.terrain.name === 'サイコフィールド' ) break genesisSupernova;
+
+    changeTerrain( pokemon, 'サイコフィールド' );
+  }
+
+  rapidSpin:
+  if ( pokemon.moveUsed.name === 'こうそくスピン' || pokemon.moveUsed.name === 'キラースピン' ) {
+    if ( pokemon.stateChange.shadowForce.isTrue === true ) break rapidSpin;
+
+    if ( pokemon.stateChange.ingrain.isTrue === true ) {
+      pokemon.stateChange.ingrain.reset();
+      writeLog( `` );
+    }
+
+    changeOpponentField( pokemon.trainer, 'まきびし', '-' );
+    changeOpponentField( pokemon.trainer, 'どくびし', '-' );
+    changeOpponentField( pokemon.trainer, 'ステルスロック', '-' );
+    changeOpponentField( pokemon.trainer, 'ねばねばネット', '-' );
+  }
+
+  splinteredStormshards:
+  if ( pokemon.moveUsed.name === 'ラジアルエッジストーム' ) {
+    vanishTerrian();
+  }
+
+  scald:
+  if ( pokemon.moveUsed.name === 'ねっとう' || pokemon.moveUsed.name === 'スチームバースト' ) {
+    if ( one.damage.substitute === true ) break scald;
+    if ( pokemon.stateChange.sheerForce.isTrue === true ) break scald;
+
+    cureAilment( one.target, 'こおり' );
+  }
+
+  hydroSteam:
+  if ( pokemon.moveUsed.name === 'ハイドロスチーム' ) {
+    if ( one.damage.substitute === true ) break hydroSteam;
+
+    cureAilment( one.target, 'こおり' );
+  }
+
+  smellingSalts:
+  if ( pokemon.moveUsed.name === 'きつけ' ) {
+    if ( one.damage.substitute === true ) break smellingSalts;
+
+    cureAilment( one.target, 'まひ' );
+  }
+
+  wakeUpSlap:
+  if ( pokemon.moveUsed.name === 'めざましビンタ' ) {
+    if ( one.damage.substitute === true ) break wakeUpSlap;
+
+    cureAilment( one.target, 'ねむり' );
+  }
+
+  sparklingAria:
+  if ( pokemon.moveUsed.name === 'うたかたのアリア' ) {
+    if ( pokemon.stateChange.sheerForce.isTrue === true ) break sparklingAria;
+
+    for ( const data of targetList ) {
+      if ( isItem( data.target, 'おんみつマント' ) === true ) continue;
+      if ( isAbility( data.target, 'りんぷん' ) === true && targetList.length === 1 ) continue;
+
+      cureAilment( data.target, 'ねむり' );
+    }
+  }
+
+	eerieSpell:
+  if ( pokemon.moveUsed.name === 'ぶきみなじゅもん' ) {
+
+    if ( isValidToTargetAdditionalEffect( pokemon, one.target, one.damage ) === false ) break eerieSpell;
+
+    // writeLog( `${getArticle( one.target)}の ${}を ${}削った!` );
+  }
+}
+
+// 特性の効果（その1）
+function activateAbilityEffect1st( pokemon: Pokemon ): void {
+
+  const targetList: TargetDataType[] = getTargetList( pokemon );
+  const pokemonList: Pokemon[] = [ pokemon ];
+  for ( const data of targetList ) pokemonList.push( data.target );
+
+  for ( const info of getSpeedOrderForSome( pokemonList ) ) {
+    const target: Pokemon = getPokemonByParty( info.trainer, info.party );
+
+    // 攻撃側
+    if ( isSame( target, pokemon ) === true ) {
+
+      magician:
+      if ( isAbility( pokemon, 'マジシャン' ) === true ) {
+        if ( pokemon.status.item !== null ) break magician;
+        if ( pokemon.moveUsed.category === '変化' ) break magician;
+        if ( pokemon.moveUsed.name === 'なげつける' ) break magician;
+        if ( pokemon.moveUsed.name === 'しぜんのめぐみ' ) break magician;
+        if ( pokemon.moveUsed.name === 'みらいよち' ) break magician;
+        if ( pokemon.moveUsed.name === 'はめつのねがい' ) break magician;
+
+        for ( const data of targetList ) {
+          if ( data.damage.substitute === true ) continue;
+          if ( isReleasableItem( pokemon, data.target ) === false ) continue;
+
+          let isZcrystal: boolean = false;
+          for ( const zCrystal of zCrystalTable ) {
+            if ( zCrystal.name === data.target.status.item ) {
+              isZcrystal = true;
+            }
+          }
+          if ( isZcrystal === true ) continue;
+
+          if ( isAbility( data.target, 'ねんちゃく' ) === true && data.target.order.battle !== null ) continue;
+        }
+      }
+
+      moxie:
+      if ( isAbility( pokemon, 'じしんかじょう' ) === true ) {
+        const count: number = targetList.filter( data => data.target.status.remainingHP === 0 ).length;
+        if ( getRankVariation( pokemon, 'attack', count ) === 0 ) break moxie;
+
+        pokemon.status.declareAbility();
+        changeMyRank( pokemon, 'attack', count );
+      }
+
+      beastBoost:
+      if ( isAbility( pokemon, 'ビーストブースト' ) === true ) {
+        const count: number = targetList.filter( data => data.target.status.remainingHP === 0 ).length;
+
+        let record = { parameter: 'attack', value: 0 };
+        for ( const parameter of Object.keys( pokemon.actualValue ) ) {
+          if ( parameter === 'hitPoint' ) continue;
+          if ( pokemon.actualValue[parameter] > record.value ) {
+            record.parameter = parameter;
+            record.value = pokemon.actualValue[parameter];
+          }
+        }
+
+        if ( getRankVariation( pokemon, record.parameter, count ) === 0 ) break beastBoost;
+
+        pokemon.status.declareAbility();
+        changeMyRank( pokemon, record.parameter, count );
+      }
+
+      grimNeigh:
+      if ( isAbility( pokemon, 'くろのいななき' ) === true ) {
+        const count: number = targetList.filter( data => data.target.status.remainingHP === 0 ).length;
+        if ( getRankVariation( pokemon, 'specialAttack', count ) === 0 ) break grimNeigh;
+
+        pokemon.status.declareAbility();
+        changeMyRank( pokemon, 'specialAttack', count );
+      }
+
+      chillingNeigh:
+      if ( isAbility( pokemon, 'しろのいななき' ) === true ) {
+        const count: number = targetList.filter( data => data.target.status.remainingHP === 0 ).length;
+        if ( getRankVariation( pokemon, 'attack', count ) === 0 ) break chillingNeigh;
+
+        pokemon.status.declareAbility();
+        changeMyRank( pokemon, 'attack', count );
       }
     }
 
-    // なげつけたアイテムのデータを削除
-    pokemon.stateChange.fling.reset();
+    // 防御側
+    if ( isSame( target, pokemon ) === false ) {
 
-    return;
-  }
+      colorChange:
+      if ( isAbility( target, 'へんしょく' ) === true ) {
+        if ( pokemon.moveUsed.category === '変化' ) break colorChange;
+        if ( getPokemonType( target ).includes( pokemon.moveUsed.type ) ) break colorChange;
+        if ( pokemon.moveUsed.name === 'わるあがき' ) break colorChange;
+        if ( pokemon.moveUsed.type === null ) break colorChange;
+        if ( pokemon.stateChange.sheerForce.isTrue === true ) break colorChange;
 
-  if ( pokemon.moveUsed.name === 'フェイタルクロー' ) {
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) return;
-    if ( isValidToTargetAdditionalEffect( pokemon, target ) === false ) return;
-    if ( isValidProbabilityAdditionalEffect( pokemon, 50 ) === false ) return;
 
-    const rate: number = getRandom();
-    if ( rate < 100 / 3 ) {
-      giveAilment( pokemon, target, 'どく' );
-    } else if ( rate < 200 / 3 ) {
-      giveAilment( pokemon, target, 'まひ' );
-    } else {
-      giveAilment( pokemon, target, 'ねむり' );
+        target.status.declareAbility();
+        writeLog( `${getArticle( target )}は ${pokemon.moveUsed.type}タイプに なった!` );
+      }
     }
-
-    return;
   }
+
+
+}
+
+// 防御側の持ち物の効果 (その4)
+function targetItemEffectPart4(): void {
+
 }

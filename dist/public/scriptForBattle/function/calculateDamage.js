@@ -1,5 +1,5 @@
 "use strict";
-function calculateDamage(pokemon, target) {
+function calculateDamage(pokemon, target, damage) {
     /*
     // ダメージ固定技の時
       if ( fixedDamage.includes(poke.myMove.name) ) {
@@ -12,9 +12,9 @@ function calculateDamage(pokemon, target) {
     // 最終威力
     const power = getPower(pokemon, target);
     // 攻撃と防御の実数値取得　A/D
-    const status = getStatus(pokemon, target);
+    const status = getStatus(pokemon, target, damage);
     // 最終ダメージ
-    getDamage(pokemon, target, power, status);
+    getDamage(pokemon, target, power, status, damage);
 }
 // 威力計算
 function getPower(pokemon, target) {
@@ -540,10 +540,10 @@ function getPower(pokemon, target) {
     return Math.max(result, 1);
 }
 // 急所判定
-function getStatus(pokemon, target) {
+function getStatus(pokemon, target, damage) {
     // 急所判定
     let critical = false;
-    target.damage.critical = critical;
+    damage.critical = critical;
     // 実数値・ランク
     let attackValue = pokemon.actualValue.attack;
     let attackRank = pokemon.rank.attack;
@@ -555,8 +555,8 @@ function getStatus(pokemon, target) {
         defenseValue = target.actualValue.specialDefense;
         defenseRank = target.rank.specialDefense;
     }
-    let finalAttack = getValueWithRankCorrection(attackValue, attackRank, target.damage.critical);
-    let finalDefense = getValueWithRankCorrection(defenseValue, defenseRank, target.damage.critical);
+    let finalAttack = getValueWithRankCorrection(attackValue, attackRank, damage.critical);
+    let finalDefense = getValueWithRankCorrection(defenseValue, defenseRank, damage.critical);
     // はりきり
     if (isAbility(pokemon, 'はりきり')) {
         if (pokemon.moveUsed.category === '物理') {
@@ -848,7 +848,7 @@ function getStatus(pokemon, target) {
     finalDefense = Math.max(finalDefense, 1);
     return finalAttack / finalDefense;
 }
-function getDamage(pokemon, target, power, status) {
+function getDamage(pokemon, target, power, status, damageInfo) {
     // 最終ダメージ
     let damage = Math.floor(Math.floor(Math.floor(pokemon.status.level * 2 / 5 + 2) * power * status) / 50 + 2);
     // 天気補正
@@ -869,12 +869,12 @@ function getDamage(pokemon, target, power, status) {
         }
     }
     // 急所補正
-    if (target.damage.critical === true) {
+    if (damageInfo.critical === true) {
         damage = fiveRoundEntry(damage * 1.5);
     }
     // 乱数補正
-    const randomCorrection = Math.floor(getRandom() * 16) + 85;
-    damage = Math.floor(damage * randomCorrection / 100);
+    const randomCorrection = Math.floor(getRandom() * 16) + 8500;
+    damage = Math.floor(damage * randomCorrection / 10000);
     // タイプ一致補正
     if (getPokemonType(pokemon).includes(pokemon.moveUsed.type)) {
         if (isAbility(pokemon, 'てきおうりょく')) {
@@ -885,7 +885,7 @@ function getDamage(pokemon, target, power, status) {
         }
     }
     // 相性補正
-    damage = Math.floor(damage * target.damage.effective);
+    damage = Math.floor(damage * damageInfo.effective);
     // やけど補正
     if (isStatusAilment(pokemon, 'やけど')) {
         if (pokemon.moveUsed.name !== 'からげんき' && pokemon.moveUsed.category === '物理') {
@@ -915,19 +915,19 @@ function getDamage(pokemon, target, power, status) {
     }
     // ブレインフォース補正
     if (isAbility(pokemon, 'ブレインフォース')) {
-        if (target.damage.effective > 1) {
+        if (damageInfo.effective > 1) {
             corrM = Math.round(corrM * 1.25);
         }
     }
     // スナイパー補正
     if (isAbility(pokemon, 'スナイパー')) {
-        if (target.damage.critical === true) {
+        if (damageInfo.critical === true) {
             corrM = Math.round(corrM * 1.5);
         }
     }
     // いろめがね補正
     if (isAbility(pokemon, 'いろめがね')) {
-        if (target.damage.effective < 1) {
+        if (damageInfo.effective < 1) {
             corrM = Math.round(corrM * 2);
         }
     }
@@ -960,7 +960,7 @@ function getDamage(pokemon, target, power, status) {
     }
     // Mfikter
     if (isAbility(target, 'ハードロック') || isAbility(target, 'フィルター') || isAbility(target, 'プリズムアーマー')) {
-        if (target.damage.effective > 1) {
+        if (damageInfo.effective > 1) {
             corrM = Math.round(corrM * 0.75);
         }
     }
@@ -976,7 +976,7 @@ function getDamage(pokemon, target, power, status) {
     }
     // たつじんのおび補正
     if (isItem(pokemon, 'たつじんのおび')) {
-        if (target.damage.effective > 1) {
+        if (damageInfo.effective > 1) {
             corrM = Math.round(corrM * 4915 / 4096);
         }
     }
@@ -990,7 +990,7 @@ function getDamage(pokemon, target, power, status) {
         isHalfBerry = true;
     }
     for (const berry of berryTable) {
-        if (isItem(target, berry.name) === true && berry.half === pokemon.moveUsed.type && target.damage.effective > 1) {
+        if (isItem(target, berry.name) === true && berry.half === pokemon.moveUsed.type && damageInfo.effective > 1) {
             isHalfBerry = true;
         }
     }
@@ -1022,79 +1022,5 @@ function getDamage(pokemon, target, power, status) {
     }
     damage = fiveRoundEntry(damage * corrM);
     // 最終ダメージ
-    target.damage.damage = damage;
-}
-function isReleasableItem(pokemon, target) {
-    const atkName = pokemon.status.name;
-    const defName = target.status.name;
-    const item = target.status.item;
-    if (atkName.includes('ギラティナ') || defName.includes('ギラティナ')) {
-        if (item === 'はっきんだま') {
-            return false;
-        }
-    }
-    if (atkName === 'アルセウス' || defName === 'アルセウス') {
-        for (const plate of plateTable) {
-            if (plate.name === item) {
-                return false;
-            }
-        }
-    }
-    if (atkName === 'ゲノセクト' || defName === 'ゲノセクト') {
-        for (const drive of driveTable) {
-            if (drive.name === item) {
-                return false;
-            }
-        }
-    }
-    if (atkName === 'シルヴァディ' || defName === 'シルヴァディ') {
-        for (const memory of memoryTable) {
-            if (memory.name === item) {
-                return false;
-            }
-        }
-    }
-    if (atkName.includes('ザシアン') || defName.includes('ザシアン')) {
-        if (item === 'くちたけん') {
-            return false;
-        }
-    }
-    if (atkName.includes('ザマゼンタ') || defName.includes('マゼンタ')) {
-        if (item === 'くちたたて') {
-            return false;
-        }
-    }
-    for (const mega of megaStoneTable) {
-        if (mega.pokemon === atkName || mega.pokemon === defName || mega.mega === atkName || mega.mega === defName) {
-            if (mega.name === item) {
-                return false;
-            }
-        }
-    }
-    if (atkName.includes('カイオーガ') || defName.includes('カイオーガ')) {
-        if (item === 'あいいろのたま') {
-            return false;
-        }
-    }
-    if (atkName.includes('グラードン') || defName.includes('グラードン')) {
-        if (item === 'べにいろのたま') {
-            return false;
-        }
-    }
-    if (pokemon.status.ability === 'こだいかっせい' || target.status.ability === 'こだいかっせい') {
-        if (item === 'ブーストエナジー') {
-            return false;
-        }
-    }
-    if (pokemon.status.ability === 'クォークチャージ' || target.status.ability === 'クォークチャージ') {
-        if (item === 'ブーストエナジー') {
-            return false;
-        }
-    }
-    for (const zCrystal of zCrystalTable) {
-        if (zCrystal.name === item) {
-            return false;
-        }
-    }
-    return true;
+    damageInfo.damage = damage;
 }

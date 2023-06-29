@@ -130,7 +130,7 @@ function changeMyRankByItem(pokemon, parameter, change, item) {
         writeLog(`${getArticle(pokemon)}は ${item}で ${parameterJP}が がくっと下がった!`);
     if (value <= -3)
         writeLog(`${getArticle(pokemon)}は ${item}で ${parameterJP}が がくーんと下がった!`);
-    // なげつける
+    // なげつける・むしくい・ついばむ
     if (pokemon.stateChange.memo.isTrue === true) {
         pokemon.stateChange.memo.count += 1;
     }
@@ -145,12 +145,12 @@ function changeMyRankByRage(pokemon, parameter, change) {
     writeLog(`${pokemon}の いかりのボルテージが 上がっていく!`);
 }
 function getRankVariation(pokemon, parameter, value) {
-    let result = 0;
+    let result = value;
     if (isAbility(pokemon, 'たんじゅん') === true) {
-        result = value * 2;
+        result = result * 2;
     }
     if (isAbility(pokemon, 'あまのじゃく') === true) {
-        result = 0 - value;
+        result = 0 - result;
     }
     if (result > 0) {
         result = Math.min(result, 6 - pokemon.rank[parameter]);

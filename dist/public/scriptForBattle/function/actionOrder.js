@@ -59,13 +59,36 @@ function getActionOrder() {
 function getSpeedOrder() {
     const speedOrder = [];
     for (const pokemon of allPokemonInBattlefield()) {
-        if (pokemon.command.move === false) {
-            continue;
-        }
         const info = new ActionOrderInfo;
         info.trainer = pokemon.trainer;
         info.battleNumber = pokemon.order.battle;
         info.speed = getSpeedValue(pokemon, 'a');
+        info.random = getRandom();
+        speedOrder.push(info);
+    }
+    speedOrder.sort((a, b) => {
+        // 素早さ
+        if (a.speed > b.speed)
+            return -1;
+        if (a.speed < b.speed)
+            return 1;
+        // 乱数
+        if (a.random > b.random)
+            return -1;
+        else
+            return 1;
+    });
+    return speedOrder;
+}
+// 特定のポケモンを素早さ順に並べる
+function getSpeedOrderForSome(pokemonList) {
+    const speedOrder = [];
+    for (const pokemon of pokemonList) {
+        const info = new ActionOrderInfo;
+        info.trainer = pokemon.trainer;
+        info.battleNumber = pokemon.order.battle;
+        info.party = pokemon.order.party;
+        info.speed = getSpeedValue(pokemon, 'e');
         info.random = getRandom();
         speedOrder.push(info);
     }

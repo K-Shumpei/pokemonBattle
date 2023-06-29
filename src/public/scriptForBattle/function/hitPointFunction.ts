@@ -57,7 +57,7 @@ function changeHPByItem( pokemon: Pokemon, item: string ): void {
   // メッセージ
   writeLog( `${getArticle( pokemon )}は ${item}で 体力を 回復した!` );
 
-  // なげつける
+  // なげつける・むしくい・ついばむ
   if ( pokemon.stateChange.memo.isTrue === true ) {
     pokemon.stateChange.memo.count += 1;
   }

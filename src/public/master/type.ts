@@ -158,3 +158,8 @@ type BerryTableType = {
   half: MoveTypeType;
   fling: boolean;
 }
+
+type TargetDataType = {
+  target: Pokemon;
+  damage: Damage;
+}

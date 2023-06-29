@@ -1,4 +1,4 @@
-function calculateDamage( pokemon: Pokemon, target: Pokemon ): void {
+function calculateDamage( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
 
   /*
   // ダメージ固定技の時
@@ -13,9 +13,9 @@ function calculateDamage( pokemon: Pokemon, target: Pokemon ): void {
   // 最終威力
   const power = getPower( pokemon, target );
   // 攻撃と防御の実数値取得　A/D
-  const status = getStatus( pokemon, target );
+  const status = getStatus( pokemon, target, damage );
   // 最終ダメージ
-  getDamage( pokemon, target, power, status )
+  getDamage( pokemon, target, power, status, damage )
 }
 
 // 威力計算
@@ -595,12 +595,12 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
 }
 
 // 急所判定
-function getStatus( pokemon: Pokemon, target: Pokemon ): number {
+function getStatus( pokemon: Pokemon, target: Pokemon, damage: Damage ): number {
 
   // 急所判定
   let critical: boolean = false;
 
-  target.damage.critical = critical;
+  damage.critical = critical;
 
   // 実数値・ランク
   let attackValue = pokemon.actualValue.attack;
@@ -615,8 +615,8 @@ function getStatus( pokemon: Pokemon, target: Pokemon ): number {
     defenseRank = target.rank.specialDefense
   }
 
-  let finalAttack = getValueWithRankCorrection( attackValue, attackRank, target.damage.critical );
-  let finalDefense = getValueWithRankCorrection( defenseValue, defenseRank, target.damage.critical );
+  let finalAttack = getValueWithRankCorrection( attackValue, attackRank, damage.critical );
+  let finalDefense = getValueWithRankCorrection( defenseValue, defenseRank, damage.critical );
 
   // はりきり
   if ( isAbility( pokemon, 'はりきり' ) ) {
@@ -953,7 +953,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon ): number {
 
 
 
-function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: number ): void {
+function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: number, damageInfo: Damage ): void {
 
   // 最終ダメージ
   let damage = Math.floor( Math.floor( Math.floor( pokemon.status.level * 2 / 5 + 2 ) * power * status ) / 50 + 2 );
@@ -978,13 +978,13 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
   }
 
   // 急所補正
-  if ( target.damage.critical === true ) {
+  if ( damageInfo.critical === true ) {
     damage = fiveRoundEntry( damage * 1.5 );
   }
 
   // 乱数補正
-  const randomCorrection = Math.floor( getRandom() * 16 ) + 85;
-  damage = Math.floor( damage * randomCorrection / 100 );
+  const randomCorrection = Math.floor( getRandom() * 16 ) + 8500;
+  damage = Math.floor( damage * randomCorrection / 10000 );
 
   // タイプ一致補正
   if ( getPokemonType( pokemon ).includes( pokemon.moveUsed.type ) ) {
@@ -996,7 +996,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
   }
 
   // 相性補正
-  damage = Math.floor( damage * target.damage.effective );
+  damage = Math.floor( damage * damageInfo.effective );
 
   // やけど補正
   if ( isStatusAilment( pokemon, 'やけど' ) ) {
@@ -1027,21 +1027,21 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
 
   // ブレインフォース補正
   if ( isAbility( pokemon, 'ブレインフォース' ) ) {
-    if ( target.damage.effective > 1 ) {
+    if ( damageInfo.effective > 1 ) {
       corrM = Math.round( corrM * 1.25 );
     }
   }
 
   // スナイパー補正
   if ( isAbility( pokemon, 'スナイパー' ) ) {
-    if ( target.damage.critical === true ) {
+    if ( damageInfo.critical === true ) {
       corrM = Math.round( corrM * 1.5 );
     }
   }
 
   // いろめがね補正
   if ( isAbility( pokemon, 'いろめがね' ) ) {
-    if ( target.damage.effective < 1 ) {
+    if ( damageInfo.effective < 1 ) {
       corrM = Math.round( corrM * 2 );
     }
   }
@@ -1077,7 +1077,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
 
   // Mfikter
   if ( isAbility( target, 'ハードロック' ) || isAbility( target, 'フィルター' ) || isAbility( target, 'プリズムアーマー' ) ) {
-    if ( target.damage.effective > 1 ) {
+    if ( damageInfo.effective > 1 ) {
       corrM = Math.round( corrM * 0.75 );
     }
   }
@@ -1093,7 +1093,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
 
   // たつじんのおび補正
   if ( isItem( pokemon, 'たつじんのおび' ) ) {
-    if ( target.damage.effective > 1 ) {
+    if ( damageInfo.effective > 1 ) {
       corrM = Math.round( corrM * 4915 / 4096 );
     }
   }
@@ -1109,7 +1109,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
     isHalfBerry = true;
   }
   for ( const berry of berryTable ) {
-    if ( isItem( target, berry.name ) === true && berry.half === pokemon.moveUsed.type && target.damage.effective > 1 ) {
+    if ( isItem( target, berry.name ) === true && berry.half === pokemon.moveUsed.type && damageInfo.effective > 1 ) {
       isHalfBerry = true;
     }
   }
@@ -1145,82 +1145,5 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
 
 
   // 最終ダメージ
-  target.damage.damage = damage;
-}
-
-function isReleasableItem( pokemon: Pokemon, target: Pokemon ): boolean {
-
-  const atkName: string = pokemon.status.name;
-  const defName: string = target.status.name;
-  const item: string | null = target.status.item;
-
-  if ( atkName.includes( 'ギラティナ' ) || defName.includes( 'ギラティナ' ) ) {
-    if ( item === 'はっきんだま' ) {
-      return false;
-    }
-  }
-  if ( atkName === 'アルセウス' || defName === 'アルセウス' ) {
-    for ( const plate of plateTable ) {
-      if ( plate.name === item ) {
-        return false;
-      }
-    }
-  }
-  if ( atkName === 'ゲノセクト' || defName === 'ゲノセクト' ) {
-    for ( const drive of driveTable ) {
-      if ( drive.name === item ) {
-        return false;
-      }
-    }
-  }
-  if ( atkName === 'シルヴァディ' || defName === 'シルヴァディ' ) {
-    for ( const memory of memoryTable ) {
-      if ( memory.name === item ) {
-        return false;
-      }
-    }
-  }
-  if ( atkName.includes( 'ザシアン' ) || defName.includes( 'ザシアン' ) ) {
-    if ( item === 'くちたけん' ) {
-      return false;
-    }
-  }
-  if ( atkName.includes( 'ザマゼンタ' ) || defName.includes( 'マゼンタ' ) ) {
-    if ( item === 'くちたたて' ) {
-      return false;
-    }
-  }
-  for ( const mega of megaStoneTable ) {
-    if ( mega.pokemon === atkName || mega.pokemon === defName || mega.mega === atkName || mega.mega === defName ) {
-      if ( mega.name === item ) {
-        return false;
-      }
-    }
-  }
-  if ( atkName.includes( 'カイオーガ' ) || defName.includes( 'カイオーガ' ) ) {
-    if ( item === 'あいいろのたま' ) {
-      return false;
-    }
-  }
-  if ( atkName.includes( 'グラードン' ) || defName.includes( 'グラードン' ) ) {
-    if ( item === 'べにいろのたま' ) {
-      return false;
-    }
-  }
-  if ( pokemon.status.ability === 'こだいかっせい' || target.status.ability === 'こだいかっせい' ) {
-    if ( item === 'ブーストエナジー' ) {
-      return false;
-    }
-  }
-  if ( pokemon.status.ability === 'クォークチャージ' || target.status.ability === 'クォークチャージ' ) {
-    if ( item === 'ブーストエナジー' ) {
-      return false;
-    }
-  }
-  for ( const zCrystal of zCrystalTable ) {
-    if ( zCrystal.name === item ) {
-      return false;
-    }
-  }
-  return true;
+  damageInfo.damage = damage;
 }

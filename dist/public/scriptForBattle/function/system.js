@@ -59,14 +59,14 @@ function getPokemonByParty(trainer, party) {
             }
         }
     }
-    if (trainer === 'opp') {
+    else {
         for (const pokemon of opponentParty) {
             if (pokemon.order.party === party) {
                 return pokemon;
             }
         }
     }
-    return false;
+    return myParty[0];
 }
 function getPokemonByBattle(trainer, battle) {
     if (trainer === 'me') {
@@ -136,4 +136,15 @@ function isFriend(pokemon, target) {
     else {
         return false;
     }
+}
+function getTargetList(pokemon) {
+    const result = [];
+    for (const damage of pokemon.damage) {
+        if (damage.success === false) {
+            continue;
+        }
+        const target = getPokemonByParty(damage.trainer, damage.party);
+        result.push({ target: target, damage: damage });
+    }
+    return result;
 }
