@@ -109,6 +109,12 @@ function getOpponentTrainer( trainer: 'me' | 'opp' ): 'me' | 'opp' {
   }
 }
 
+function getParty( trainer: 'me' | 'opp' ): Pokemon[] {
+
+  if ( trainer === 'me' ) return myParty;
+  else return opponentParty;
+}
+
 function writeLog( text: string ): void {
 
   const battleLog = getHTMLInputElement( 'battle_log' );

@@ -194,7 +194,7 @@ io.on("connection", (socket) => {
       // コマンド送信
       if ( room.player1.command.length !== 0 && room.player2.command.length !== 0 ) {
         const randomList: number[] = []
-        for ( let i = 0; i < 100; i++ ) {
+        for ( let i = 0; i < 1000; i++ ) {
           randomList.push( Math.floor( Math.random() * 100 ) )
         }
         io.to( room.player1.socketID ).emit( 'returnCommand', room.player1.command, room.player2.command, randomList );

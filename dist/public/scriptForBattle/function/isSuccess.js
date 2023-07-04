@@ -543,6 +543,8 @@ function isSuccess(pokemon) {
         const target = getPokemonByBattle(damage.trainer, damage.battle);
         if (target === false)
             continue;
+        if (isAbility(target, 'ふゆう') === false)
+            continue;
         if (pokemon.moveUsed.type === 'じめん') {
             target.status.declareAbility();
             target.status.declareInvalid(damage);

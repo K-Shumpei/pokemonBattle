@@ -3,7 +3,7 @@ function getActionOrder(): ActionOrderInfo[] {
   const actionOrder: ActionOrderInfo[] = [];
 
   for ( const pokemon of allPokemonInBattlefield() ) {
-    if ( pokemon.command.move === false ) {
+    if ( pokemon.command.move === null ) {
       continue;
     }
 
@@ -108,6 +108,10 @@ function getSpeedOrderForSome( pokemonList: Pokemon[] ): ActionOrderInfo[] {
 
 function getActionOrderRaise( pokemon: Pokemon ): number {
 
+  if ( pokemon.stateChange.orderRaise.isTrue === true ) {
+    return 1;
+  }
+
   return 0;
 }
 
@@ -151,7 +155,7 @@ function getSpeedValue( pokemon: Pokemon, type: string ): number {
   }
 
   // c. 上限は10000
-  const speedTypeC = Math.min( speedTypeB, 10000 );
+  const speedTypeC: number = Math.min( speedTypeB, 10000 );
   if ( type === 'c' ) {
     return speedTypeC;
   }

@@ -93,6 +93,12 @@ function getOpponentTrainer(trainer) {
         return 'me';
     }
 }
+function getParty(trainer) {
+    if (trainer === 'me')
+        return myParty;
+    else
+        return opponentParty;
+}
 function writeLog(text) {
     const battleLog = getHTMLInputElement('battle_log');
     battleLog.value += text + "\n";

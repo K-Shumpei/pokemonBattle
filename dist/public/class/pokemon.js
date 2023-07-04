@@ -571,10 +571,10 @@ class Damage {
 }
 class Command {
     constructor() {
-        this._move = false;
-        this._reserve = false;
-        this._myTarget = false;
-        this._opponentTarget = false;
+        this._move = null;
+        this._reserve = null;
+        this._myTarget = null;
+        this._opponentTarget = null;
     }
     set move(move) {
         this._move = move;
@@ -710,6 +710,7 @@ class StateChangeSummary {
         this._sheerForce = new StateChange('ちからずく');
         this._synchronize = new StateChange('シンクロ');
         this._gulpMissile = new StateChange('うのミサイル');
+        this._orderRaise = new StateChange('行動順繰り上げ');
         this._skin = new StateChange('スキン系特性');
         this._gem = new StateChange('ジュエル');
         this._micleBerry = new StateChange('ミクルのみ');
@@ -885,6 +886,9 @@ class StateChangeSummary {
     }
     set gulpMissile(gulpMissile) {
         this._gulpMissile = gulpMissile;
+    }
+    set orderRaise(orderRaise) {
+        this._orderRaise = orderRaise;
     }
     set skin(skin) {
         this._skin = skin;
@@ -1086,6 +1090,9 @@ class StateChangeSummary {
     }
     get gulpMissile() {
         return this._gulpMissile;
+    }
+    get orderRaise() {
+        return this._orderRaise;
     }
     get skin() {
         return this._skin;

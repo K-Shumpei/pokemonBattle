@@ -1,3 +1,4 @@
+import { METHODS } from "http";
 import { io, Socket } from "socket.io-client";
 
 interface ServerToClientEvents {
@@ -196,8 +197,22 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
     getHTMLInputElement( 'battleRow_' + i ).style.visibility = 'visible';
     getHTMLInputElement( 'command1st_' + i ).style.visibility = 'visible';
-    getHTMLInputElement( 'battleMyImage_' + i ).src = './pokemonImage/' + myParty[i].status.number + '.png';
-    getHTMLInputElement( 'battleOpponentImage_' + i ).src = './pokemonImage/' + opponentParty[fieldStatus.battleStyle - i -1].status.number + '.png';
+  }
+
+  // 最初のポケモンを出す
+  for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
+    for ( const pokemon of opponentParty ) {
+      if ( pokemon.order.battle === i ) {
+        toBattleField( pokemon, i );
+      }
+    }
+  }
+  for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
+    for ( const pokemon of myParty ) {
+      if ( pokemon.order.battle === i ) {
+        toBattleField( pokemon, i );
+      }
+    }
   }
 
   // コマンド欄の表示
@@ -224,7 +239,7 @@ function sendCommand(): void {
     for ( let j = 0; j < 3; j++ ) {
       const reserveRadio = getHTMLInputElement( 'reserveRadio_' + i + '_' + j );
       if ( reserveRadio.checked === true ) {
-        command.reserve = j;
+        command.reserve = Number( getHTMLInputElement( 'reserveText_' + i + '_' + j ).value );
       }
     }
     // 攻撃対象：相手の場
@@ -245,7 +260,44 @@ function sendCommand(): void {
     myCommand.push( command );
   }
 
+  // 送信
   socket.emit( 'sendCommand', myCommand );
+
+  // 送信ボタンの非活性化
+  getHTMLInputElement( 'sendCommandButton' ).disabled = true;
+  // コマンドボタンの非活性化
+  for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
+    // 技
+    for ( let j = 0; j < 4; j++ ) {
+      getHTMLInputElement( 'moveRadio_' + i + '_' + j ).checked = false;
+      getHTMLInputElement( 'moveRadio_' + i + '_' + j ).disabled = true;
+      getHTMLInputElement( 'moveText_' + i + '_' + j ).textContent = null;
+    }
+    // 控え
+    for ( let j = 0; j < 3; j++ ) {
+      getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).checked = false;
+      getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).disabled = true;
+      getHTMLInputElement( 'reserveText_' + i + '_' + j ).textContent = null;
+      getHTMLInputElement( 'reserveText_' + i + '_' + j ).value = "";
+    }
+    // 攻撃対象：相手の場
+    for ( let j = 0; j < 3; j++ ) {
+      getHTMLInputElement( 'opponentTargetRadio_' + i + '_' + j ).checked = false;
+      getHTMLInputElement( 'opponentTargetRadio_' + i + '_' + j ).disabled = true;
+      getHTMLInputElement( 'opponentTargetText_' + i + '_' + j ).textContent = null;
+    }
+    // 攻撃対象：自分の場
+    for ( let j = 0; j < 2; j++ ) {
+      getHTMLInputElement( 'myTargetRadio_' + i + '_' + j ).checked = false;
+      getHTMLInputElement( 'myTargetRadio_' + i + '_' + j ).disabled = true;
+      getHTMLInputElement( 'myTargetText_' + i + '_' + j ).textContent = null;
+    }
+
+    // 技・控え
+    getHTMLInputElement( 'command1st_' + i ).style.visibility = 'collapse';
+    // 攻撃対象
+    getHTMLInputElement( 'command2nd_' + i ).style.visibility = 'collapse';
+  }
 }
 
 
@@ -263,7 +315,7 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.opponentTarget = myCommand[i]._opponentTarget;
 
       // 使用する技
-      if ( pokemon.command.move !== false ) {
+      if ( pokemon.command.move !== null ) {
         pokemon.moveUsed = pokemon.move[pokemon.command.move];
       }
     }
@@ -278,15 +330,32 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
 
       // 使用する技
-      if ( pokemon.command.move !== false ) {
+      if ( pokemon.command.move !== null ) {
         pokemon.moveUsed = pokemon.move[pokemon.command.move];
       }
     }
   }
 
   // 乱数リセット
-  randomList = random;
+  randomList = [];
+  for ( const number of random ) {
+    randomList.push( number );
+  }
 
-  // ターンの流れ　3.トレーナーの行動、ポケモンの行動順に関する行動
+  // ターンの流れ
+  // 3. トレーナーの行動、ポケモンの行動順に関する行動
+  preliminaryAction();
+  // 4. ポケモンの行動
   pokemonAction();
+  // 5. ターン終了時の効果
+  endProcess();
+
+  // 画面表示
+  // 選出されたポケモンの情報・表示
+  for ( const pokemon of myParty ) {
+    showPartyPokemon( pokemon );
+  }
+  // コマンド欄の表示
+  showCommand1stField();
+
 });

@@ -37,6 +37,7 @@
   <script type="text/javascript" src="./scriptForBattle/mainProcess.js"></script>
   <script type="text/javascript" src="./scriptForBattle/turnProcess3rd.js"></script>
   <script type="text/javascript" src="./scriptForBattle/turnProcess4th.js"></script>
+  <script type="text/javascript" src="./scriptForBattle/turnProcess5th.js"></script>
 </head>
 
 <body>
@@ -173,7 +174,7 @@
     <!-- コマンド欄 -->
     <script type="text/javascript" src="scriptForHTML/battleCommand.js"></script>
     <!-- コマンド送信 -->
-    <input type="button" value="コマンド送信" onclick="sendCommand()">
+    <input type="button" id="sendCommandButton" value="コマンド送信" onclick="sendCommand()">
     <!-- バトルログ -->
     <textarea class="textarea_CSS" id="battle_log" readonly></textarea>
   </div>

@@ -688,41 +688,41 @@ class Damage {
 }
 
 class Command {
-  _move: number | false;
-  _reserve: number | false;
-  _myTarget: number | false;
-  _opponentTarget: number | false;
+  _move: number | null;
+  _reserve: number | null;
+  _myTarget: number | null;
+  _opponentTarget: number | null;
 
   constructor() {
-    this._move = false;
-    this._reserve = false;
-    this._myTarget = false;
-    this._opponentTarget = false;
+    this._move = null;
+    this._reserve = null;
+    this._myTarget = null;
+    this._opponentTarget = null;
   }
 
-  set move( move: number | false ) {
+  set move( move: number | null ) {
     this._move = move;
   }
-  set reserve( reserve: number | false ) {
+  set reserve( reserve: number | null ) {
     this._reserve = reserve;
   }
-  set myTarget( myTarget: number | false ) {
+  set myTarget( myTarget: number | null ) {
     this._myTarget = myTarget;
   }
-  set opponentTarget( opponentTarget: number | false ) {
+  set opponentTarget( opponentTarget: number | null ) {
     this._opponentTarget = opponentTarget;
   }
 
-  get move(): number | false {
+  get move(): number | null {
     return this._move;
   }
-  get reserve(): number | false {
+  get reserve(): number | null {
     return this._reserve;
   }
-  get myTarget(): number | false {
+  get myTarget(): number | null {
     return this._myTarget;
   }
-  get opponentTarget(): number | false {
+  get opponentTarget(): number | null {
     return this._opponentTarget;
   }
 }
@@ -902,6 +902,7 @@ class StateChangeSummary {
   _sheerForce: StateChange; // ちからずく
   _synchronize: StateChange; // シンクロ
   _gulpMissile: StateChange; // うのミサイル
+  _orderRaise: StateChange; // 行動順繰り上げ
   _skin: StateChange; // スキン系特性
   _gem: StateChange; // ジュエル
   _micleBerry: StateChange; // ミクルのみ
@@ -973,6 +974,7 @@ class StateChangeSummary {
     this._sheerForce = new StateChange( 'ちからずく' );
     this._synchronize = new StateChange( 'シンクロ' );
     this._gulpMissile = new StateChange( 'うのミサイル' );
+    this._orderRaise = new StateChange( '行動順繰り上げ' );
     this._skin = new StateChange( 'スキン系特性' );
     this._gem = new StateChange( 'ジュエル' );
     this._micleBerry = new StateChange( 'ミクルのみ' );
@@ -1149,6 +1151,9 @@ class StateChangeSummary {
   }
   set gulpMissile( gulpMissile: StateChange ) {
     this._gulpMissile = gulpMissile;
+  }
+  set orderRaise( orderRaise: StateChange ) {
+    this._orderRaise = orderRaise;
   }
   set skin( skin: StateChange ) {
     this._skin = skin;
@@ -1351,6 +1356,9 @@ class StateChangeSummary {
   }
   get gulpMissile(): StateChange {
     return this._gulpMissile;
+  }
+  get orderRaise(): StateChange {
+    return this._orderRaise;
   }
   get skin(): StateChange {
     return this._skin;

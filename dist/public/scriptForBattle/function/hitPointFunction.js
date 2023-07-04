@@ -25,8 +25,8 @@ function changeHPByMove(pokemon, target, change) {
         writeLog(`${getArticle(target)}から 体力を 吸い取った!`);
     }
 }
-// HP変化
-function changeHPByItem(pokemon, item) {
+// きのみを食べることによるHP回復
+function changeHPByBerry(pokemon, item) {
     if (pokemon.status.remainingHP === pokemon.actualValue.hitPoint)
         return;
     if (pokemon.stateChange.healBlock.isTrue === true)
@@ -53,6 +53,27 @@ function changeHPByItem(pokemon, item) {
     // なげつける・むしくい・ついばむ
     if (pokemon.stateChange.memo.isTrue === true) {
         pokemon.stateChange.memo.count += 1;
+    }
+}
+// アイテムによるHP変化
+function changeHPByItem(pokemon, item, damage) {
+    if (item === 'いのちのたま') {
+        // ダメージ
+        pokemon.status.remainingHP = Math.max(pokemon.status.remainingHP - damage, 0);
+        // メッセージ
+        writeLog(`${getArticle(pokemon)}は 命が 少し削られた!`);
+    }
+    if (item === 'かいがらのすず') {
+        // HP回復
+        pokemon.status.remainingHP = Math.min(pokemon.status.remainingHP + damage, pokemon.actualValue.hitPoint);
+        // メッセージ
+        writeLog(`${getArticle(pokemon)}は かいがらのすずで 少し 回復`);
+    }
+    if (item === 'きのみジュース') {
+        // HP回復
+        pokemon.status.remainingHP = Math.min(pokemon.status.remainingHP + damage, pokemon.actualValue.hitPoint);
+        // メッセージ
+        writeLog(`${getArticle(pokemon)}は ${item}で 体力を 回復した!`);
     }
 }
 // HP変化

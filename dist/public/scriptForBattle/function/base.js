@@ -199,14 +199,6 @@ function recycleAvailable(pokemon) {
         return;
     pokemon.stateChange.recycle.isTrue = true;
     pokemon.stateChange.recycle.text = item;
-    for (const berry of berryTable) {
-        if (berry.name === item) {
-            // ゲップ
-            pokemon.stateChange.belch.isTrue = true;
-            // ほおぶくろ
-            activateCheekPouch(pokemon);
-        }
-    }
 }
 // きのみを食べる
 function eatBerry(pokemon, berry) {
@@ -238,7 +230,7 @@ function eatBerry(pokemon, berry) {
         }
     }
     if (berry === 'オレンのみ') {
-        changeHPByItem(pokemon, berry);
+        changeHPByBerry(pokemon, berry);
     }
     if (berry === 'キーのみ') {
         cureConfuseByItem(pokemon, berry);
@@ -248,26 +240,26 @@ function eatBerry(pokemon, berry) {
         cureConfuseByItem(pokemon, berry);
     }
     if (berry === 'オボンのみ') {
-        changeHPByItem(pokemon, berry);
+        changeHPByBerry(pokemon, berry);
     }
     if (berry === 'フィラのみ') {
-        changeHPByItem(pokemon, berry);
+        changeHPByBerry(pokemon, berry);
         giveConfuseByItem(pokemon, berry);
     }
     if (berry === 'ウイのみ') {
-        changeHPByItem(pokemon, berry);
+        changeHPByBerry(pokemon, berry);
         giveConfuseByItem(pokemon, berry);
     }
     if (berry === 'マゴのみ') {
-        changeHPByItem(pokemon, berry);
+        changeHPByBerry(pokemon, berry);
         giveConfuseByItem(pokemon, berry);
     }
     if (berry === 'バンジのみ') {
-        changeHPByItem(pokemon, berry);
+        changeHPByBerry(pokemon, berry);
         giveConfuseByItem(pokemon, berry);
     }
     if (berry === 'イアのみ') {
-        changeHPByItem(pokemon, berry);
+        changeHPByBerry(pokemon, berry);
         giveConfuseByItem(pokemon, berry);
     }
     if (berry === 'チイラのみ') {
@@ -297,19 +289,15 @@ function eatBerry(pokemon, berry) {
     }
     if (berry === 'スターのみ') {
         const targetParameter = [];
-        for (const parameter of Object.keys(pokemon.rank)) {
-            if (parameter === 'accuracy')
-                continue;
-            if (parameter === 'evasion')
-                continue;
-            if (pokemon.rank[parameter] < 6) {
+        for (const parameter of parameterFive) {
+            if (getRankVariation(pokemon, parameter, 2) !== 0) {
                 targetParameter.push(parameter);
             }
         }
-        if (targetParameter.length > 0) {
-            const index = Math.floor(getRandom() * targetParameter.length / 100);
-            changeMyRankByItem(pokemon, targetParameter[index], 2 * ripen, berry);
-        }
+        if (targetParameter.length === 0)
+            return;
+        targetParameter.sort((a, b) => 50 - getRandom());
+        changeMyRankByItem(pokemon, targetParameter[0], 2 * ripen, berry);
     }
     if (berry === 'ミクルのみ') {
         if (pokemon.stateChange.micleBerry.isTrue === false) {
@@ -331,7 +319,7 @@ function eatBerry(pokemon, berry) {
     if (pokemon.stateChange.memo.text === 'なげつける')
         return;
     if (berry === 'ナゾのみ') {
-        changeHPByItem(pokemon, berry);
+        changeHPByBerry(pokemon, berry);
     }
     // むしくい・ついばむ
     if (pokemon.stateChange.memo.text === 'むしくい')
@@ -343,7 +331,16 @@ function eatBerry(pokemon, berry) {
             pokemon.stateChange.halfBerry.text = berry;
         }
     }
+    // リサイクル
     recycleAvailable(pokemon);
+    for (const _berry of berryTable) {
+        if (_berry.name === berry) {
+            // ゲップ
+            pokemon.stateChange.belch.isTrue = true;
+            // ほおぶくろ
+            activateCheekPouch(pokemon);
+        }
+    }
 }
 // メロメロ
 function attractTarget(pokemon, target, type) {
@@ -504,31 +501,11 @@ function vanishTerrian() {
 // フォルムチェンジ
 function formChange(pokemon) {
     let nextFrom = '';
-    if (pokemon.status.name === 'ミミッキュ(化けた姿)')
-        nextFrom = 'ミミッキュ(ばれた姿)';
-    if (pokemon.status.name === 'コオリッポ(アイス)')
-        nextFrom = 'コオリッポ(ナイス)';
-    if (pokemon.status.name === 'ウッウ(鵜呑み)')
-        nextFrom = 'ウッウ';
-    if (pokemon.status.name === 'ウッウ(丸呑み)')
-        nextFrom = 'ウッウ';
-    /*
-    ポワルン (通常の姿⇔たいようのすがた⇔あまみずのすがた⇔ゆきぐものすがた | てんき)
-    チェリム (ネガフォルム⇔ポジフォルム | ひざしがつよい・特性フラワーギフト[1])
-    シェイミ (スカイフォルム⇒ランドフォルム | こおり状態)
-    ヒヒダルマ (ノーマルモード⇔ダルマモード | 特性ダルマモード)
-    メロエッタ (ボイスフォルム⇔ステップフォルム | 技いにしえのうたの成功)
-    ゲッコウガ (通常の姿⇒サトシゲッコウガ | 特性きずなへんげ)
-    ギルガルド (シールドフォルム⇔ブレードフォルム | 特性バトルスイッチ)
-    ジガルデ (10%フォルム/50%フォルム⇒パーフェクトフォルム | 特性スワームチェンジ)[2]
-    ヨワシ (たんどくのすがた⇔むれたすがた | 特性ぎょぐん)
-    メテノ (コアのすがた⇔りゅうせいのすがた | 特性リミットシールド)
-    ミミッキュ (ばけたすがた⇒ばれたすがた | 特性ばけのかわ)
-    モルペコ (まんぷくもよう⇔はらぺこもよう | 特性はらぺこスイッチ)
-    ウッウ (通常の姿⇔うのみのすがた | 技なみのり・ダイビング)
-    コオリッポ (アイスフェイス⇔ナイスフェイス | 特性アイスフェイス)
-    イルカマン (ナイーブフォルム⇔マイティフォルム | 特性マイティチェンジ)
-    */
+    for (const form of formChangeTable) {
+        if (form.name === pokemon.status.name) {
+            nextFrom = form.next;
+        }
+    }
     const nextPokemon = getPokemonDataByName(nextFrom);
     const nature = getNatureDataByName(pokemon.status.nature);
     if (nextPokemon === false) {
@@ -642,17 +619,49 @@ function activateCharge(pokemon, move) {
     pokemon.stateChange.charge.isTrue = true;
     writeLog(`${getArticle(pokemon)}は ${move}を 受けて 充電した!`);
 }
-// ひんし処理
-function faintingProcess(pokemon) {
+// バトル場に出す
+function toBattleField(pokemon, battle) {
+    pokemon.order.battle = battle;
+    const hand = pokemon.order.hand;
+    for (const _pokemon of getParty(pokemon.trainer)) {
+        if (_pokemon.order.hand < hand) {
+            _pokemon.order.hand += 1;
+        }
+    }
+    pokemon.order.hand = 0;
+    for (const _pokemon of getParty(pokemon.trainer)) {
+        console.log(_pokemon.order);
+    }
+    if (pokemon.trainer === 'me') {
+        getHTMLInputElement('battleMyImage_' + battle).src = './pokemonImage/' + pokemon.status.number + '.png';
+    }
+    else {
+        getHTMLInputElement('battleOpponentImage_' + battle).src = './pokemonImage/' + pokemon.status.number + '.png';
+    }
+    writeLog(`${translateENintoJP(pokemon.trainer)}は ${pokemon.status.name}を くりだした!`);
+}
+// 手持ちに戻る
+function toReserve(pokemon) {
     pokemon.order.battle = null;
     const hand = pokemon.order.hand;
     pokemon.order.hand = fieldStatus.numberOfPokemon;
-    for (const _pokemon of myParty) {
+    for (const _pokemon of getParty(pokemon.trainer)) {
         if (_pokemon.order.hand > hand) {
             _pokemon.order.hand -= 1;
         }
     }
-    writeLog(`${getArticle(pokemon)}は たおれた!`);
+    for (const _pokemon of getParty(pokemon.trainer)) {
+        console.log(_pokemon.order);
+    }
+    // 情報のリセット
+    pokemon.command = new Command;
+    pokemon.damage = [];
+    pokemon.moveUsed = new AvailableMove;
+    pokemon.rank = new ParameterRank;
+    // ひんし処理
+    if (pokemon.status.remainingHP === 0) {
+        writeLog(`${getArticle(pokemon)}は たおれた!`);
+    }
 }
 // きのみを食べるかどうか
 function isEnableEatBerry(pokemon) {
@@ -846,4 +855,32 @@ function isReleasableItem(pokemon, target) {
         }
     }
     return true;
+}
+function activateSeed(pokemon) {
+    const seedTable = [
+        { item: 'エレキシード', terrain: 'エレキフィールド', parameter: 'defense' },
+        { item: 'グラスシード', terrain: 'グラスフィールド', parameter: 'defense' },
+        { item: 'サイコシード', terrain: 'サイコフィールド', parameter: 'specialDefense' },
+        { item: 'ミストシード', terrain: 'ミストフィールド', parameter: 'specialDefense' },
+    ];
+    for (const seed of seedTable) {
+        if (isItem(pokemon, seed.item) === false)
+            continue;
+        if (fieldStatus.terrain.name !== seed.terrain)
+            continue;
+        if (getRankVariation(pokemon, seed.parameter, 1) === 0)
+            continue;
+        changeMyRankByItem(pokemon, seed.parameter, 1, seed.item);
+        recycleAvailable(pokemon);
+    }
+}
+function activateRoomService(pokemon) {
+    if (isItem(pokemon, 'ルームサービス') === false)
+        return;
+    if (fieldStatus.whole.trickRoom.isTrue === false)
+        return;
+    if (getRankVariation(pokemon, 'speed', -1) === 0)
+        return;
+    changeMyRankByItem(pokemon, 'speed', -1, 'ルームサービス');
+    recycleAvailable(pokemon);
 }

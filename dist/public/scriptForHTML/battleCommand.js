@@ -13,7 +13,7 @@ for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
         document.write('<tr id="reserveRow_' + i + '_' + j + '"><td>控' + (j + 1) + '</td>');
         document.write('<td><input id="reserveRadio_' + i + '_' + j + '" type="radio" name="command_1st_' + i + '"></td>');
-        document.write('<td width="170"><span id="reserveTExt_' + i + '_' + j + '"></span></td></tr>');
+        document.write('<td width="170"><span id="reserveText_' + i + '_' + j + '" value=""></span></td></tr>');
     }
     document.write('</table>');
     document.write('</td>');
@@ -23,7 +23,7 @@ for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
         document.write('<tr id="opponentTargetRow_' + i + '_' + j + '"><td>相手</td>');
         document.write('<td><input id="opponentTargetRadio_' + i + '_' + j + '" type="radio" name="command_2nd_' + i + '"></td>');
-        document.write('<td width="170"><span id="opponentTargetText' + i + '_' + j + '"></span></td></tr>');
+        document.write('<td width="170"><span id="opponentTargetText_' + i + '_' + j + '"></span></td></tr>');
     }
     for (let j = 0; j < 2; j++) {
         document.write('<tr id="myTargetRow_' + i + '_' + j + '"><td>自分</td>');

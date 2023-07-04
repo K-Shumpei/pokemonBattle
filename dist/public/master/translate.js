@@ -1,5 +1,7 @@
 "use strict";
 const translationDictionary = [
+    { EN: 'me', JP: '自分' },
+    { EN: 'opp', JP: '相手' },
     { EN: 'hitPoint', JP: 'HP' },
     { EN: 'attack', JP: '攻撃' },
     { EN: 'defense', JP: '防御' },

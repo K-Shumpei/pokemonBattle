@@ -1,4 +1,7 @@
 const translationDictionary: TranslationDictionaryType[] = [
+  { EN: 'me', JP: '自分' },
+  { EN: 'opp', JP: '相手' },
+
   { EN: 'hitPoint', JP: 'HP' },
   { EN: 'attack', JP: '攻撃' },
   { EN: 'defense', JP: '防御' },
@@ -7,6 +10,7 @@ const translationDictionary: TranslationDictionaryType[] = [
   { EN: 'speed', JP: '素早さ' },
   { EN: 'accuracy', JP: '命中率' },
   { EN: 'evasion', JP: '回避率' },
+
   { EN: 'normal', JP: 'ノーマル' },
   { EN: 'fire', JP: 'ほのお' },
   { EN: 'water', JP: 'みず' },

@@ -147,6 +147,8 @@ function giveAilmentByBeakBlast(pokemon, target) {
 }
 // こんらん
 function giveConfuse(pokemon, target, type) {
+    if (pokemon.stateChange.confuse.isTrue === true)
+        return;
     // 追加効果で状態異常になる場合
     if (type === 'additional') {
         // しんぴのまもり

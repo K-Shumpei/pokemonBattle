@@ -603,14 +603,25 @@ function quitElection(number) {
 }
 // コマンド欄の表示
 function showCommand1stField() {
+    // 送信ボタンの非活性化
+    getHTMLInputElement('sendCommandButton').disabled = false;
     for (let i = 0; i < fieldStatus.battleStyle; i++) {
-        for (const pokemon of myParty) {
-            if (pokemon.order.battle !== i) {
-                continue;
-            }
-            for (let j = 0; j < 4; j++) {
-                getHTMLInputElement('moveText_' + i + '_' + j).textContent = pokemon.move[j].name;
-            }
+        if (myParty.filter(poke => poke.order.battle === i).length === 0)
+            continue;
+        const pokemon = myParty.filter(poke => poke.order.battle === i)[0];
+        // 技・控え
+        getHTMLInputElement('command1st_' + i).style.visibility = 'visible';
+        // 技
+        for (let j = 0; j < 4; j++) {
+            getHTMLInputElement('moveText_' + i + '_' + j).textContent = pokemon.move[j].name;
+            getHTMLInputElement('moveRadio_' + i + '_' + j).disabled = false;
+        }
+        // 控え
+        const reserve = myParty.filter(poke => poke.order.battle === null && poke.status.remainingHP > 0);
+        for (let j = 0; j < reserve.length; j++) {
+            getHTMLInputElement('reserveRadio_' + i + '_' + j).disabled = false;
+            getHTMLInputElement('reserveText_' + i + '_' + j).textContent = reserve[j].status.name;
+            getHTMLInputElement('reserveText_' + i + '_' + j).value = String(reserve[j].order.party);
         }
     }
 }

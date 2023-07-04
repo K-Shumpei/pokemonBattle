@@ -2,7 +2,7 @@
 function getActionOrder() {
     const actionOrder = [];
     for (const pokemon of allPokemonInBattlefield()) {
-        if (pokemon.command.move === false) {
+        if (pokemon.command.move === null) {
             continue;
         }
         const info = new ActionOrderInfo;
@@ -107,6 +107,9 @@ function getSpeedOrderForSome(pokemonList) {
     return speedOrder;
 }
 function getActionOrderRaise(pokemon) {
+    if (pokemon.stateChange.orderRaise.isTrue === true) {
+        return 1;
+    }
     return 0;
 }
 function getActionOrderLower(pokemon) {
