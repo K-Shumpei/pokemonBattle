@@ -255,11 +255,22 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
   if ( berry === 'ナナシのみ' ) {
     cureAilmentByItem( pokemon, 'こおり', berry );
   }
+  leppaBerry:
   if ( berry === 'ヒメリのみ' ) {
-    for ( let i = 0; i < 4; i++ ) {
-      if ( pokemon.move[i].remainingPP < pokemon.move[i].powerPoint ) {
-        pokemon.move[i].curePPByLeppaBerry( pokemon, 10 * ripen );
-        break;
+    // 自分で食べるとき
+    if ( pokemon.stateChange.memo.text === 'ヒメリのみ' ) {
+      for ( let i = 0; i < 4; i++ ) {
+        if ( pokemon.move[i].remainingPP === 0 ) {
+          pokemon.move[i].curePPByLeppaBerry( pokemon, 10 * ripen );
+          break leppaBerry;
+        }
+      }
+    } else {
+      for ( let i = 0; i < 4; i++ ) {
+        if ( pokemon.move[i].remainingPP < pokemon.move[i].powerPoint ) {
+          pokemon.move[i].curePPByLeppaBerry( pokemon, 10 * ripen );
+          break leppaBerry;
+        }
       }
     }
   }

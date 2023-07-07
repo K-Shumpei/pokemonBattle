@@ -52,6 +52,8 @@ function moveEffect( pokemon: Pokemon ): void {
   activatePickpocket( pokemon );
   // 技の効果
   otherEffect( pokemon );
+  // 攻撃側の持ち物の効果
+  myItemEffect( pokemon );
 
 }
 
@@ -1502,7 +1504,7 @@ function targetItemEffectPart3( pokemon: Pokemon ): void {
       if ( getRankVariation( data.target, 'defense', 1 ) === 0 ) break keeBerry;
       if ( pokemon.stateChange.sheerForce.isTrue === true ) break keeBerry;
 
-      changeMyRankByItem( data.target, 'defense', 1, 'アッキのみ' );
+      eatBerry( data.target, 'アッキのみ' );
     }
 
     marangaBerry:
@@ -1512,7 +1514,7 @@ function targetItemEffectPart3( pokemon: Pokemon ): void {
       if ( getRankVariation( data.target, 'specialDefense', 1 ) === 0 ) break marangaBerry;
       if ( pokemon.stateChange.sheerForce.isTrue === true ) break marangaBerry;
 
-      changeMyRankByItem( data.target, 'specialDefense', 1, 'タラプのみ' );
+      eatBerry( data.target, 'タラプのみ' );
     }
 
     ejectButton:
@@ -1755,5 +1757,29 @@ function otherEffect( pokemon: Pokemon ): void {
     if ( pokemon.order.battle === null ) break iceSpinner;
 
     vanishTerrian();
+  }
+}
+
+// 攻撃側の持ち物の効果
+function myItemEffect( pokemon: Pokemon ): void {
+
+  leppaBerry:
+  if ( isItem( pokemon, 'ヒメリのみ' ) === true ) {
+    if ( pokemon.moveUsed.remainingPP > 0 ) break leppaBerry;
+
+    pokemon.stateChange.memo.isTrue = true;
+    pokemon.stateChange.memo.text = 'ヒメリのみ';
+    eatBerry( pokemon, 'ヒメリのみ' );
+    pokemon.stateChange.memo.reset();
+  }
+
+  throatSpray:
+  if ( isItem( pokemon, 'のどスプレー' ) === true ) {
+    if ( getRankVariation( pokemon, 's@ecialAttack', 1 ) === 0 ) break throatSpray;
+    if ( pokemon.damage.filter( damage => damage.success === true ).length === 0 ) break throatSpray;
+    if ( pokemon.order.battle === null ) break throatSpray;
+
+    changeMyRankByItem( pokemon, 'specialAttack', 1, 'のどスプレー' );
+    recycleAvailable( pokemon );
   }
 }
