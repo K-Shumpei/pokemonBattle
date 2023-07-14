@@ -157,6 +157,7 @@ type BerryTableType = {
   name: string;
   half: MoveTypeType;
   fling: boolean;
+  naturalGift: { type: MoveTypeType, power: number };
 }
 
 type TargetDataType = {

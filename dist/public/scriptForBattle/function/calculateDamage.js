@@ -14,7 +14,8 @@ function calculateDamage(pokemon, target, damage) {
     // 攻撃と防御の実数値取得　A/D
     const status = getStatus(pokemon, target, damage);
     // 最終ダメージ
-    getDamage(pokemon, target, power, status, damage);
+    const finalDamage = getDamage(pokemon, target, power, status, damage);
+    return finalDamage;
 }
 // 威力計算
 function getPower(pokemon, target) {
@@ -1022,5 +1023,5 @@ function getDamage(pokemon, target, power, status, damageInfo) {
     }
     damage = fiveRoundEntry(damage * corrM);
     // 最終ダメージ
-    damageInfo.damage = damage;
+    return damage;
 }

@@ -945,3 +945,74 @@ function activateRoomService( pokemon: Pokemon ): void {
   changeMyRankByItem( pokemon, 'speed', -1, 'ルームサービス' );
   recycleAvailable( pokemon );
 }
+
+// ダメージ計算後の処理
+function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage: number, damage: Damage ): number {
+
+  let result: number = finalDamage;
+
+  result = Math.max( result, 1 );
+  result = result % 65536;
+  result = Math.min( result, target.status.remainingHP );
+
+  if ( damage.substitute === true ) {
+    result = Math.min( result, target.stateChange.substitute.count );
+  }
+
+  if ( damage.substitute === false && result === target.status.remainingHP ) {
+    if ( target.stateChange.endure.isTrue === true ) {
+      result -= 1;
+      target.stateChange.endureMsg.isTrue === true;
+      target.stateChange.endureMsg.text === 'こらえる';
+      return result;
+    }
+    if ( pokemon.moveUsed.name === 'みねうち' || pokemon.moveUsed.name === 'てかげん' ) {
+      result -= 1;
+      target.stateChange.endureMsg.isTrue === true;
+      target.stateChange.endureMsg.text === pokemon.moveUsed.name;
+      return result;
+    }
+    if ( isAbility( target, 'がんじょう' ) === true ) {
+      if ( target.status.remainingHP === target.actualValue.hitPoint ) {
+        result -= 1;
+        target.stateChange.endureMsg.isTrue === true;
+        target.stateChange.endureMsg.text === 'がんじょう';
+        return result;
+      }
+    }
+    if ( isItem( target, 'きあいのタスキ' ) === true ) {
+      if ( target.status.remainingHP === target.actualValue.hitPoint ) {
+        result -= 1;
+        target.stateChange.endureMsg.isTrue === true;
+        target.stateChange.endureMsg.text === 'きあいのタスキ';
+        return result;
+      }
+    }
+    if ( isItem( target, 'きあいのタスキ' ) === true ) {
+      if ( getRandom() < 10 ) {
+        result -= 1;
+        target.stateChange.endureMsg.isTrue === true;
+        target.stateChange.endureMsg.text === 'きあいのハチマキ';
+        return result;
+      }
+    }
+  }
+
+  return result;
+}
+
+function isActivateSkinAbikity( pokemon: Pokemon, type: MoveTypeType ): boolean {
+
+  if ( changeTypeMoveList.includes( pokemon.moveUsed.name ) === true ) return false;
+  if ( pokemon.moveUsed.name === 'わるあがき' ) return false;
+  if ( pokemon.moveUsed.type === type ) return false;
+
+  return true;
+}
+
+function activateSkin( pokemon: Pokemon, type: MoveTypeType ): void {
+
+  pokemon.moveUsed.type = type;
+  pokemon.stateChange.skin.isTrue === true;
+  pokemon.stateChange.skin.text = String( pokemon.moveUsed.type );
+}

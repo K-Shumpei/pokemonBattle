@@ -153,6 +153,10 @@ class Status {
     writeLog( `${this._name}の ${this._ability}` );
   }
 
+  declareFailure(): void {
+    writeLog( `しかし うまく決まらなかった....` );
+  }
+
   declareInvalid( info: Damage ): void {
     info.success = false;
     writeLog( `${this._name}には 効果がないようだ...` );
@@ -161,85 +165,6 @@ class Status {
   declareNotHit( info: Damage ): void {
     info.success = false;
     writeLog( `${this._name}には 当たらなかった!` );
-  }
-
-  declareCannotMove(): void {
-    writeLog( `${this._name}は 攻撃の 反動で 動けない!` );
-  }
-
-  declareSleeping(): void {
-    writeLog( `${this._name}は ぐうぐう 眠っている` );
-  }
-
-  declareFleezed(): void {
-    writeLog( `${this._name}は 凍って 動けない!` );
-  }
-
-  declareTruant(): void {
-    writeLog( `${this._name}は なまけている` );
-  }
-
-  declareFlinch(): void {
-    writeLog( `${this._name}は ひるんで 技が 出せない!`);
-  }
-
-  declareDisable(): void {
-    writeLog( `${this._name}は かなしばりで 技が 出せない!` );
-  }
-
-  declareGravity( move: string ): void {
-    writeLog( `${this._name}は じゅうりょくが 強くて ${move}が 出せない!` );
-  }
-
-  declareHealBlock(): void {
-    writeLog( `${this._name}は かいふくふうじで 技が 出せない!` );
-  }
-
-  declareThroatChop(): void {
-    writeLog( `${this._name}は じごくづきの 効果で 技が 出せない!` );
-  }
-
-  declareTaunt(): void {
-    writeLog( `${this._name}は ちょうはつされて 技が 出せない!` );
-  }
-
-  declareImprison( move: string ): void {
-    writeLog( `${this._name}は ふういんで ${move}が だせない!` );
-  }
-
-  declareConfuse( confuse: StateChange, random: number ): void {
-
-    if ( confuse.count === 0 ) {
-      writeLog( `混乱が 解けた!` );
-    } else {
-      writeLog( `${this._name}は 混乱している!` );
-      if ( random < 1/3 * 100 ) {
-        writeLog( `わけも わからず 自分を 攻撃した!` );
-      }
-    }
-  }
-
-  declareParalysis(): void {
-    writeLog( `${this._name}は 体がしびれて 動けない!` );
-  }
-
-  declareAttract( name: string, random: number ): void {
-    writeLog( `${this._name}は ${name}に メロメロだ!` );
-    if ( random < 50 ) {
-      writeLog( `${this._name}は メロメロで 技が だせなかった!` );
-    }
-  }
-
-  cureAilment(): void {
-
-    if ( this._statusAilment.name === 'ねむり' ) {
-      writeLog( `${this._name}は 目を 覚ました!` );
-    }
-    if ( this._statusAilment.name === 'こおり' ) {
-      writeLog( `${this._name}の こおりが 溶けた!` );
-    }
-
-    this._statusAilment = new StatusAilment( null );
   }
 
   abilityInfo(): changeAbilityType {
@@ -817,7 +742,7 @@ class StateChangeSummary {
 
 
   _cannotEscape: StateChange; // にげられない
-  // そうでん
+  _electrify: StateChange; // そうでん
 
   _powder: StateChange; // ふんじん
   _throatChop: StateChange; // じごくづき
@@ -916,6 +841,7 @@ class StateChangeSummary {
   _fling: StateChange; // なげつける
   _belch: StateChange; // ゲップ
   _dynamax: StateChange; // ダイマックス
+  _rangeCorr: StateChange; // 範囲補正
   _memo: StateChange; // メモ
 
   constructor() {
@@ -939,6 +865,7 @@ class StateChangeSummary {
     this._smackDown = new StateChange( 'うちおとす' );
     this._telekinesis = new StateChange( 'テレキネシス' );
     this._cannotEscape = new StateChange( 'にげられない' ) ;
+    this._electrify = new StateChange( 'そうでん' );
     this._powder = new StateChange( 'ふんじん' );
     this._throatChop = new StateChange( 'じごくづき' );
     this._tarShot = new StateChange( 'タールショット' );
@@ -989,6 +916,7 @@ class StateChangeSummary {
     this._fling = new StateChange( 'なげつける' );
     this._belch = new StateChange( 'ゲップ' );
     this._dynamax = new StateChange( 'ダイマックス' );
+    this._rangeCorr = new StateChange( '範囲補正' );
     this._memo = new StateChange( 'メモ' );
   }
 
@@ -1051,6 +979,9 @@ class StateChangeSummary {
   }
   set cannotEscape( cannotEscape: StateChange ) {
     this._cannotEscape = cannotEscape;
+  }
+  set electrify( electrify: StateChange ) {
+    this._electrify = electrify;
   }
   set powder( powder: StateChange ) {
     this._powder = powder;
@@ -1196,6 +1127,9 @@ class StateChangeSummary {
   set dynamax( dynamax: StateChange ) {
     this._dynamax = dynamax;
   }
+  set rangeCorr( rangeCorr: StateChange ) {
+    this._rangeCorr = rangeCorr;
+  }
   set memo( memo: StateChange ) {
     this._memo = memo;
   }
@@ -1259,6 +1193,9 @@ class StateChangeSummary {
   }
   get cannotEscape(): StateChange {
     return this._cannotEscape;
+  }
+  get electrify(): StateChange {
+    return this._electrify;
   }
   get powder(): StateChange {
     return this._powder;
@@ -1403,6 +1340,9 @@ class StateChangeSummary {
   }
   get dynamax(): StateChange {
     return this._dynamax;
+  }
+  get rangeCorr(): StateChange {
+    return this._rangeCorr;
   }
   get memo(): StateChange {
     return this._memo;

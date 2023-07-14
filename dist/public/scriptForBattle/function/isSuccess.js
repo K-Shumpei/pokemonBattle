@@ -1,153 +1,12 @@
 "use strict";
 function isSuccess(pokemon) {
+    // フリーフォールで行動順を飛ばされる
+    skipBySkyDrop();
+    // 自身のおんねん/いかり状態の解除
+    liftingMyStatus();
     // 行動の失敗
-    // 反動で動けない
-    if (pokemon.stateChange.cannotMove.isTrue === true) {
-        pokemon.status.declareCannotMove();
-        pokemon.stateChange.cannotMove.reset();
-        if (isAbility(pokemon, 'なまけ') === true) {
-            pokemon.stateChange.truant.count += 1;
-        }
+    if (isActionFailure(pokemon) === true)
         return false;
-    }
-    // ねむり状態
-    if (pokemon.status.statusAilment.name === 'ねむり') {
-        pokemon.status.statusAilment.turn -= 1;
-        if (isAbility(pokemon, 'はやおき') === true) {
-            pokemon.status.statusAilment.turn -= 1;
-        }
-        if (pokemon.status.statusAilment.turn > 0) {
-            if (sleepingMoveList.includes(pokemon.moveUsed.name) === false) {
-                pokemon.status.declareSleeping();
-                return false;
-            }
-        }
-        else {
-            pokemon.status.cureAilment();
-        }
-    }
-    // こおり状態
-    if (pokemon.status.statusAilment.name === 'こおり') {
-        const random = getRandom();
-        if (random < 20) {
-            pokemon.status.cureAilment();
-        }
-        else {
-            if (pokemon.moveUsed.name === 'もえつきる' && getPokemonType(pokemon).includes('ほのお') === false) {
-                pokemon.status.declareFleezed();
-                return false;
-            }
-            if (meltMoveList.includes(pokemon.moveUsed.name)) {
-                pokemon.status.cureAilment();
-            }
-            else {
-                pokemon.status.declareFleezed();
-                return false;
-            }
-        }
-    }
-    // PPが残っていない
-    if (pokemon.moveUsed.remainingPP === 0) {
-        pokemon.moveUsed.runOutPP();
-        return false;
-    }
-    // なまけ
-    if (isAbility(pokemon, 'なまけ') === true) {
-        pokemon.stateChange.truant.count += 1;
-        if (pokemon.stateChange.truant.count % 2 === 0) {
-            pokemon.status.declareTruant();
-            return false;
-        }
-    }
-    // ひるみ
-    if (pokemon.stateChange.flinch.isTrue === true) {
-        if (pokemon.stateChange.dynamax.isTrue === false) {
-            pokemon.status.declareFlinch();
-            return false;
-        }
-    }
-    // かなしばり
-    if (pokemon.stateChange.disable.text === pokemon.moveUsed.name) {
-        pokemon.status.declareDisable();
-        return false;
-    }
-    // じゅうりょく
-    if (fieldStatus.whole.gravity.isTrue === true) {
-        if (flyingMoveList.includes(pokemon.moveUsed.name)) {
-            pokemon.status.declareGravity(pokemon.moveUsed.name);
-            return false;
-        }
-    }
-    // かいふくふうじ
-    if (pokemon.stateChange.healBlock.isTrue === true) {
-        if (healMoveList.includes(pokemon.moveUsed.name)) {
-            pokemon.status.declareHealBlock();
-            return false;
-        }
-    }
-    // じごくづき
-    if (pokemon.stateChange.throatChop.isTrue === true) {
-        if (soundMoveList.includes(pokemon.moveUsed.name)) {
-            pokemon.status.declareThroatChop();
-            return false;
-        }
-    }
-    // ちょうはつ
-    if (pokemon.stateChange.taunt.isTrue === true) {
-        if (pokemon.moveUsed.category === '変化') {
-            pokemon.status.declareTaunt();
-            return false;
-        }
-    }
-    // ふういん
-    for (const target of allPokemonInBattlefield()) {
-        if (target.trainer === pokemon.trainer)
-            continue;
-        if (target.stateChange.imprison.isTrue === true) {
-            for (const move of target.move) {
-                if (move.name === pokemon.moveUsed.name) {
-                    pokemon.status.declareImprison(pokemon.moveUsed.name);
-                    return false;
-                }
-            }
-        }
-    }
-    // こんらん
-    if (pokemon.stateChange.confuse.isTrue === true) {
-        const random = getRandom();
-        pokemon.stateChange.confuse.count -= 1;
-        pokemon.status.declareConfuse(pokemon.stateChange.confuse, random);
-        if (pokemon.stateChange.confuse.count === 0) {
-            pokemon.stateChange.confuse.reset();
-        }
-        else {
-            if (random < 1 / 3 * 100) {
-                return false;
-            }
-        }
-    }
-    // まひ
-    if (pokemon.status.statusAilment.name === 'まひ') {
-        const random = getRandom();
-        if (random < 1 / 4 * 100) {
-            pokemon.status.declareParalysis();
-            return false;
-        }
-    }
-    // メロメロ
-    if (pokemon.stateChange.attract.isTrue === true) {
-        const random = getRandom();
-        const target = pokemon.stateChange.attract.target;
-        const name = getPokemonByBattle(target.trainer, target.battle);
-        if (name === false) {
-            ;
-        }
-        else {
-            pokemon.status.declareAttract(name.status.name, random);
-            if (random < 50)
-                return false;
-        }
-    }
     // ねごと/いびき使用時「ぐうぐう 眠っている」メッセージ
     if (sleepingMoveList.includes(pokemon.moveUsed.name)) {
         pokemon.status.declareSleeping();
@@ -1661,4 +1520,176 @@ function isInvalid(damage) {
         }
     }
     return true;
+}
+// フリーフォールで行動順を飛ばされる
+function skipBySkyDrop() {
+}
+// 自身のおんねん/いかり状態の解除
+function liftingMyStatus() {
+}
+// 行動の失敗
+function isActionFailure(pokemon) {
+    cannotMove: if (pokemon.stateChange.cannotMove.isTrue === true) {
+        writeLog(`${getArticle(pokemon)}は 攻撃の 反動で 動けない!`);
+        pokemon.stateChange.cannotMove.reset();
+        if (isAbility(pokemon, 'なまけ') === true) {
+            pokemon.stateChange.truant.count += 1;
+        }
+        return true;
+    }
+    sleep: if (pokemon.status.statusAilment.name === 'ねむり') {
+        const turn = (isAbility(pokemon, 'はやおき') === true) ? 2 : 1;
+        pokemon.status.statusAilment.turn -= turn;
+        if (pokemon.status.statusAilment.turn > 0) {
+            writeLog(`${getArticle(pokemon)}は ぐうぐう 眠っている`);
+            if (sleepingMoveList.includes(pokemon.moveUsed.name) === true)
+                break sleep;
+            return true;
+        }
+        else {
+            cureAilment(pokemon, 'ねむり');
+        }
+    }
+    frozen: if (pokemon.status.statusAilment.name === 'こおり') {
+        if (getRandom() < 20) {
+            cureAilment(pokemon, 'こおり');
+        }
+        else {
+            if (meltMoveList.includes(pokemon.moveUsed.name) === true) {
+                if (pokemon.moveUsed.name !== 'もえつきる')
+                    break frozen;
+                if (getPokemonType(pokemon).includes('ほのお') === true)
+                    break frozen;
+            }
+            writeLog(`${getArticle(pokemon)}は 凍ってしまって 動けない!`);
+            return true;
+        }
+    }
+    remainingPP: if (pokemon.moveUsed.remainingPP === 0) {
+        writeLog(`${getArticle(pokemon)}の ${pokemon.moveUsed.name}!`);
+        writeLog(`しかし 技の 残りポイントが なかった!`);
+        return true;
+    }
+    truant: if (isAbility(pokemon, 'なまけ') === true) {
+        pokemon.stateChange.truant.count += 1;
+        if (pokemon.stateChange.truant.count % 2 === 1)
+            break truant;
+        pokemon.status.declareAbility();
+        writeLog(`${getArticle(pokemon)}は なまけている`);
+        return true;
+    }
+    focusPunch: if (pokemon.moveUsed.name === 'きあいパンチ') {
+        if (pokemon.stateChange.focusPunch.isTrue === false)
+            break focusPunch;
+        const judge = (pokemon.stateChange.focusPunch.text === '集中') ? true : false;
+        pokemon.stateChange.focusPunch.reset();
+        if (judge === false) {
+            writeLog(`${getArticle(pokemon)}は 集中が 途切れて 技が 出せない!`);
+            return true;
+        }
+    }
+    flinch: if (pokemon.stateChange.flinch.isTrue === true) {
+        writeLog(`${getArticle(pokemon)}は ひるんで 技が 出せない!`);
+        steadfast: if (isAbility(pokemon, 'ふくつのこころ') === true) {
+            if (getRankVariation(pokemon, 'speed', 1) === 0)
+                break steadfast;
+            pokemon.status.declareAbility();
+            changeMyRank(pokemon, 'speed', 1);
+        }
+        return true;
+    }
+    disable: if (pokemon.stateChange.disable.isTrue === true) {
+        if (pokemon.stateChange.disable.text !== pokemon.moveUsed.name)
+            break disable;
+        writeLog(`${getArticle(pokemon)}は かなしばりで 技が 出せない!`);
+        return true;
+    }
+    gravity: if (fieldStatus.whole.gravity.isTrue === true) {
+        if (flyingMoveList.includes(pokemon.moveUsed.name) === false)
+            break gravity;
+        writeLog(`${getArticle(pokemon)}は じゅうりょくが 強くて ${pokemon.moveUsed.name}が 出せない!`);
+        return true;
+    }
+    healBlock: if (pokemon.stateChange.healBlock.isTrue === true) {
+        if (healMoveList.includes(pokemon.moveUsed.name) === false)
+            break healBlock;
+        if (pokemon.moveUsed.name === 'かふんだんご' && pokemon.damage[0].trainer !== pokemon.trainer)
+            break healBlock;
+        writeLog(`${getArticle(pokemon)}は かいふくふうじで 技が 出せない!`);
+        return true;
+    }
+    throatChop: if (pokemon.stateChange.throatChop.isTrue === true) {
+        if (soundMoveList.includes(pokemon.moveUsed.name) === false)
+            break throatChop;
+        writeLog(`${getArticle(pokemon)}は じごくづきの効果で 技が 出せない!`);
+        return true;
+    }
+    taunt: if (pokemon.stateChange.taunt.isTrue === true) {
+        if (pokemon.moveUsed.name === 'さきどり')
+            break taunt;
+        if (pokemon.moveUsed.category !== '変化')
+            break taunt;
+        writeLog(`${getArticle(pokemon)}は ちょうはつされて 技が 出せない!`);
+        return true;
+    }
+    imprison: for (const target of allPokemonInSide(getOpponentTrainer(pokemon.trainer))) {
+        if (target.stateChange.imprison.isTrue === false)
+            continue;
+        for (const move of target.move) {
+            if (move.name === pokemon.moveUsed.name) {
+                writeLog(`${getArticle(pokemon)}は ふういんで 技が 出せない!`);
+                return true;
+            }
+        }
+    }
+    confuse: if (pokemon.stateChange.confuse.isTrue === true) {
+        pokemon.stateChange.confuse.count -= 1;
+        if (pokemon.stateChange.confuse.count === 0) {
+            writeLog(`${getArticle(pokemon)}の 混乱が 解けた!`);
+            pokemon.stateChange.confuse.reset();
+            break confuse;
+        }
+        writeLog(`${getArticle(pokemon)}は 混乱している!`);
+        if (getRandom() < 1 / 3 * 100) {
+            writeLog(`わけも わからず 自分を 攻撃した!`);
+            const power = 40;
+            const attack = getValueWithRankCorrection(pokemon.actualValue.attack, pokemon.rank.attack, false);
+            const defense = getValueWithRankCorrection(pokemon.actualValue.defense, pokemon.rank.defense, false);
+            // 最終ダメージ
+            const damage = Math.floor(Math.floor(Math.floor(pokemon.status.level * 2 / 5 + 2) * power * attack / defense) / 50 + 2);
+            // 乱数補正
+            const randomCorrection = Math.floor(getRandom() * 16) + 8500;
+            const finalDamage = Math.floor(damage * randomCorrection / 10000);
+            // 本体にダメージを与える
+            const damageType = new Damage;
+            damageType.damage = processAfterCalculation(pokemon, pokemon, finalDamage, damageType);
+            damageToBody(pokemon, damageType);
+            // ダメージをHP1で耐える効果のメッセージなど
+            enduringEffectsMessage(pokemon);
+            return true;
+        }
+    }
+    // まひ
+    if (pokemon.status.statusAilment.name === 'まひ') {
+        const random = getRandom();
+        if (random < 1 / 4 * 100) {
+            pokemon.status.declareParalysis();
+            return false;
+        }
+    }
+    // メロメロ
+    if (pokemon.stateChange.attract.isTrue === true) {
+        const random = getRandom();
+        const target = pokemon.stateChange.attract.target;
+        const name = getPokemonByBattle(target.trainer, target.battle);
+        if (name === false) {
+            ;
+        }
+        else {
+            pokemon.status.declareAttract(name.status.name, random);
+            if (random < 50)
+                return false;
+        }
+    }
+    return false;
 }

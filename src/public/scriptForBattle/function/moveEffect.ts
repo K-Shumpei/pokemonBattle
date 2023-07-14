@@ -60,8 +60,12 @@ function moveEffect( pokemon: Pokemon ): void {
 // 対象全員へのダメージ計算
 function calculateDamageForAll( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
 
+  if ( isSubstitute( pokemon, target ) === true ) {
+    damage.substitute = true;
+  }
+
   // ばけのかわ/アイスフェイス
-  if ( isSubstitute( pokemon, target ) === false ) {
+  if ( damage.substitute === false ) {
     if ( pokemon.status.name === 'ミミッキュ(化けた姿)' && isAbility( target, 'ばけのかわ' ) === true ) {
       target.stateChange.disguise.isTrue = true;
       return;
@@ -73,53 +77,10 @@ function calculateDamageForAll( pokemon: Pokemon, target: Pokemon, damage: Damag
   }
 
   // ダメージ計算
-  calculateDamage( pokemon, target, damage );
+  const finalDamage: number = calculateDamage( pokemon, target, damage );
 
   // ダメージ計算後の処理
-  damage.damage = Math.max( damage.damage, 1 );
-  damage.damage = damage.damage % 65536;
-  damage.damage = Math.min( damage.damage, target.status.remainingHP );
-  if ( isSubstitute( pokemon, target ) === true ) {
-    damage.damage = Math.min( damage.damage, target.stateChange.substitute._count );
-  }
-  if ( isSubstitute( pokemon, target ) === false && damage.damage === target.status.remainingHP ) {
-    if ( target.stateChange.endure.isTrue === true ) {
-      damage.damage -= 1;
-      target.stateChange.endureMsg.isTrue === true;
-      target.stateChange.endureMsg.text === 'こらえる';
-      return;
-    }
-    if ( pokemon.moveUsed.name === 'みねうち' || pokemon.moveUsed.name === 'てかげん' ) {
-      damage.damage -= 1;
-      target.stateChange.endureMsg.isTrue === true;
-      target.stateChange.endureMsg.text === pokemon.moveUsed.name;
-      return;
-    }
-    if ( isAbility( target, 'がんじょう' ) === true ) {
-      if ( target.status.remainingHP === target.actualValue.hitPoint ) {
-        damage.damage -= 1;
-        target.stateChange.endureMsg.isTrue === true;
-        target.stateChange.endureMsg.text === 'がんじょう';
-        return;
-      }
-    }
-    if ( isItem( target, 'きあいのタスキ' ) === true ) {
-      if ( target.status.remainingHP === target.actualValue.hitPoint ) {
-        damage.damage -= 1;
-        target.stateChange.endureMsg.isTrue === true;
-        target.stateChange.endureMsg.text === 'きあいのタスキ';
-        return;
-      }
-    }
-    if ( isItem( target, 'きあいのタスキ' ) === true ) {
-      if ( getRandom() < 10 ) {
-        damage.damage -= 1;
-        target.stateChange.endureMsg.isTrue === true;
-        target.stateChange.endureMsg.text === 'きあいのハチマキ';
-        return;
-      }
-    }
-  }
+  damage.damage = processAfterCalculation( pokemon, target, finalDamage, damage )
 }
 
 // ダメージを本体に与える
@@ -170,18 +131,18 @@ function enduringEffectsMessage( target: Pokemon ): void {
 
   if ( target.stateChange.endureMsg.isTrue === false ) return;
 
-  if ( target.stateChange.encore.text === 'こらえる' ) {
+  if ( target.stateChange.endureMsg.text === 'こらえる' ) {
     writeLog( `${target.status.name}は 攻撃を こらえた!` );
   }
-  if ( target.stateChange.encore.text === 'がんじょう' ) {
+  if ( target.stateChange.endureMsg.text === 'がんじょう' ) {
     target.status.declareAbility();
     writeLog( `${target.status.name}は 攻撃を こらえた!` );
   }
-  if ( target.stateChange.encore.text === 'きあいのタスキ' ) {
+  if ( target.stateChange.endureMsg.text === 'きあいのタスキ' ) {
     recycleAvailable( target );
     writeLog( `${target.status.name}は きあいのタスキで 持ちこたえた!` );
   }
-  if ( target.stateChange.encore.text === 'きあいのハチマキ' ) {
+  if ( target.stateChange.endureMsg.text === 'きあいのハチマキ' ) {
     writeLog( `${target.status.name}は きあいのハチマキで 持ちこたえた!` );
   }
 

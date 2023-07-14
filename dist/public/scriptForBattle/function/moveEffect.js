@@ -47,11 +47,20 @@ function moveEffect(pokemon) {
     lifeOrbShellBell(pokemon);
     // 防御側の持ち物の効果 (その4)
     targetItemEffectPart4(pokemon);
+    // わるいてぐせ
+    activatePickpocket(pokemon);
+    // 技の効果
+    otherEffect(pokemon);
+    // 攻撃側の持ち物の効果
+    myItemEffect(pokemon);
 }
 // 対象全員へのダメージ計算
 function calculateDamageForAll(pokemon, target, damage) {
+    if (isSubstitute(pokemon, target) === true) {
+        damage.substitute = true;
+    }
     // ばけのかわ/アイスフェイス
-    if (isSubstitute(pokemon, target) === false) {
+    if (damage.substitute === false) {
         if (pokemon.status.name === 'ミミッキュ(化けた姿)' && isAbility(target, 'ばけのかわ') === true) {
             target.stateChange.disguise.isTrue = true;
             return;
@@ -62,52 +71,9 @@ function calculateDamageForAll(pokemon, target, damage) {
         }
     }
     // ダメージ計算
-    calculateDamage(pokemon, target, damage);
+    const finalDamage = calculateDamage(pokemon, target, damage);
     // ダメージ計算後の処理
-    damage.damage = Math.max(damage.damage, 1);
-    damage.damage = damage.damage % 65536;
-    damage.damage = Math.min(damage.damage, target.status.remainingHP);
-    if (isSubstitute(pokemon, target) === true) {
-        damage.damage = Math.min(damage.damage, target.stateChange.substitute._count);
-    }
-    if (isSubstitute(pokemon, target) === false && damage.damage === target.status.remainingHP) {
-        if (target.stateChange.endure.isTrue === true) {
-            damage.damage -= 1;
-            target.stateChange.endureMsg.isTrue === true;
-            target.stateChange.endureMsg.text === 'こらえる';
-            return;
-        }
-        if (pokemon.moveUsed.name === 'みねうち' || pokemon.moveUsed.name === 'てかげん') {
-            damage.damage -= 1;
-            target.stateChange.endureMsg.isTrue === true;
-            target.stateChange.endureMsg.text === pokemon.moveUsed.name;
-            return;
-        }
-        if (isAbility(target, 'がんじょう') === true) {
-            if (target.status.remainingHP === target.actualValue.hitPoint) {
-                damage.damage -= 1;
-                target.stateChange.endureMsg.isTrue === true;
-                target.stateChange.endureMsg.text === 'がんじょう';
-                return;
-            }
-        }
-        if (isItem(target, 'きあいのタスキ') === true) {
-            if (target.status.remainingHP === target.actualValue.hitPoint) {
-                damage.damage -= 1;
-                target.stateChange.endureMsg.isTrue === true;
-                target.stateChange.endureMsg.text === 'きあいのタスキ';
-                return;
-            }
-        }
-        if (isItem(target, 'きあいのタスキ') === true) {
-            if (getRandom() < 10) {
-                damage.damage -= 1;
-                target.stateChange.endureMsg.isTrue === true;
-                target.stateChange.endureMsg.text === 'きあいのハチマキ';
-                return;
-            }
-        }
-    }
+    damage.damage = processAfterCalculation(pokemon, target, finalDamage, damage);
 }
 // ダメージを本体に与える
 function damageToBody(target, damage) {
@@ -151,18 +117,18 @@ function damageDeterminationMessage(pokemon, target, damage) {
 function enduringEffectsMessage(target) {
     if (target.stateChange.endureMsg.isTrue === false)
         return;
-    if (target.stateChange.encore.text === 'こらえる') {
+    if (target.stateChange.endureMsg.text === 'こらえる') {
         writeLog(`${target.status.name}は 攻撃を こらえた!`);
     }
-    if (target.stateChange.encore.text === 'がんじょう') {
+    if (target.stateChange.endureMsg.text === 'がんじょう') {
         target.status.declareAbility();
         writeLog(`${target.status.name}は 攻撃を こらえた!`);
     }
-    if (target.stateChange.encore.text === 'きあいのタスキ') {
+    if (target.stateChange.endureMsg.text === 'きあいのタスキ') {
         recycleAvailable(target);
         writeLog(`${target.status.name}は きあいのタスキで 持ちこたえた!`);
     }
-    if (target.stateChange.encore.text === 'きあいのハチマキ') {
+    if (target.stateChange.endureMsg.text === 'きあいのハチマキ') {
         writeLog(`${target.status.name}は きあいのハチマキで 持ちこたえた!`);
     }
     target.stateChange.endureMsg.reset();
@@ -1369,8 +1335,7 @@ function activateAbilityEffectPart1(pokemon) {
 }
 // 防御側の持ち物の効果 (その4)
 function targetItemEffectPart3(pokemon) {
-    const targetList = getTargetList(pokemon);
-    targetList.sort((a, b) => {
+    const targetList = getTargetList(pokemon).sort((a, b) => {
         // 素早さ
         if (getSpeedValue(b.target, 'e') > getSpeedValue(a.target, 'e'))
             return 1;
@@ -1392,7 +1357,7 @@ function targetItemEffectPart3(pokemon) {
                 break keeBerry;
             if (pokemon.stateChange.sheerForce.isTrue === true)
                 break keeBerry;
-            changeMyRankByItem(data.target, 'defense', 1, 'アッキのみ');
+            eatBerry(data.target, 'アッキのみ');
         }
         marangaBerry: if (isItem(data.target, 'タラプのみ') === true) {
             if (pokemon.moveUsed.category !== '特殊')
@@ -1403,7 +1368,7 @@ function targetItemEffectPart3(pokemon) {
                 break marangaBerry;
             if (pokemon.stateChange.sheerForce.isTrue === true)
                 break marangaBerry;
-            changeMyRankByItem(data.target, 'specialDefense', 1, 'タラプのみ');
+            eatBerry(data.target, 'タラプのみ');
         }
         ejectButton: if (isItem(data.target, 'だっしゅつボタン') === true) {
         }
@@ -1486,8 +1451,7 @@ function lifeOrbShellBell(pokemon) {
 }
 // 防御側の持ち物の効果 (その4)
 function targetItemEffectPart4(pokemon) {
-    const targetList = getTargetList(pokemon);
-    targetList.sort((a, b) => {
+    const targetList = getTargetList(pokemon).sort((a, b) => {
         // 素早さ
         if (getSpeedValue(b.target, 'e') > getSpeedValue(a.target, 'e'))
             return 1;
@@ -1574,5 +1538,85 @@ function targetItemEffectPart4(pokemon) {
             activateSeed(data.target);
             activateRoomService(data.target);
         }
+    }
+}
+// わるいてぐせ
+function activatePickpocket(pokemon) {
+    const targetList = getTargetList(pokemon).sort((a, b) => {
+        // 素早さ
+        if (getSpeedValue(b.target, 'e') > getSpeedValue(a.target, 'e'))
+            return 1;
+        if (getSpeedValue(b.target, 'e') < getSpeedValue(a.target, 'e'))
+            return -1;
+        // 乱数
+        if (getRandom() > 50)
+            return 1;
+        else
+            return -1;
+    });
+    for (const data of targetList) {
+        if (isAbility(data.target, 'わるいてぐせ') === false)
+            continue;
+        if (pokemon.moveUsed.isDirect === false)
+            continue;
+        if (data.target.status.item !== null)
+            continue;
+        if (pokemon.status.item === null)
+            continue;
+        if (isReleasableItem(pokemon, data.target) === false)
+            continue;
+        if (pokemon.stateChange.sheerForce.isTrue === true)
+            continue;
+        if (isAbility(pokemon, 'ねんちゃく') === true)
+            continue;
+        if (data.damage.substitute === true)
+            continue;
+        [pokemon.status.item, data.target.status.item] = [data.target.status.item, pokemon.status.item];
+        data.target.status.declareAbility();
+        writeLog(`${getArticle(pokemon)}の ${data.target.status.item}を 奪った!`);
+    }
+}
+// 技の効果
+function otherEffect(pokemon) {
+    if (pokemon.moveUsed.name === 'もえつきる') {
+        if (pokemon.status.type1 === 'ほのお')
+            pokemon.status.type1 = null;
+        if (pokemon.status.type2 === 'ほのお')
+            pokemon.status.type2 = null;
+        writeLog(`${getArticle(pokemon)}の 炎は 燃え尽きた!`);
+    }
+    naturalGift: if (pokemon.moveUsed.name === 'しぜんのめぐみ') {
+        if (pokemon.order.battle === null)
+            break naturalGift;
+        recycleAvailable(pokemon);
+    }
+    if (pokemon.moveUsed.name === 'アイアンローラー') {
+        vanishTerrian();
+    }
+    iceSpinner: if (pokemon.moveUsed.name === 'アイススピナー') {
+        if (pokemon.order.battle === null)
+            break iceSpinner;
+        vanishTerrian();
+    }
+}
+// 攻撃側の持ち物の効果
+function myItemEffect(pokemon) {
+    leppaBerry: if (isItem(pokemon, 'ヒメリのみ') === true) {
+        if (pokemon.moveUsed.remainingPP > 0)
+            break leppaBerry;
+        pokemon.stateChange.memo.isTrue = true;
+        pokemon.stateChange.memo.text = 'ヒメリのみ';
+        eatBerry(pokemon, 'ヒメリのみ');
+        pokemon.stateChange.memo.reset();
+    }
+    throatSpray: if (isItem(pokemon, 'のどスプレー') === true) {
+        if (getRankVariation(pokemon, 's@ecialAttack', 1) === 0)
+            break throatSpray;
+        if (pokemon.damage.filter(damage => damage.success === true).length === 0)
+            break throatSpray;
+        if (pokemon.order.battle === null)
+            break throatSpray;
+        changeMyRankByItem(pokemon, 'specialAttack', 1, 'のどスプレー');
+        recycleAvailable(pokemon);
     }
 }

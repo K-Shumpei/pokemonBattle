@@ -1,4 +1,4 @@
-function calculateDamage( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
+function calculateDamage( pokemon: Pokemon, target: Pokemon, damage: Damage ): number {
 
   /*
   // ダメージ固定技の時
@@ -15,7 +15,9 @@ function calculateDamage( pokemon: Pokemon, target: Pokemon, damage: Damage ): v
   // 攻撃と防御の実数値取得　A/D
   const status = getStatus( pokemon, target, damage );
   // 最終ダメージ
-  getDamage( pokemon, target, power, status, damage )
+  const finalDamage = getDamage( pokemon, target, power, status, damage )
+
+  return finalDamage;
 }
 
 // 威力計算
@@ -175,7 +177,11 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
   }
 
   if ( move.name === 'しぜんのめぐみ' ) {
-    ;
+    for ( const berry of berryTable ) {
+      if ( isItem( pokemon, berry.name ) === true ) {
+        basicPower = berry.naturalGift.power;
+      }
+    }
   }
 
   if ( move.name === 'なげつける' ) {
@@ -953,11 +959,15 @@ function getStatus( pokemon: Pokemon, target: Pokemon, damage: Damage ): number 
 
 
 
-function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: number, damageInfo: Damage ): void {
+function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: number, damageInfo: Damage ): number {
 
   // 最終ダメージ
   let damage = Math.floor( Math.floor( Math.floor( pokemon.status.level * 2 / 5 + 2 ) * power * status ) / 50 + 2 );
 
+  // 範囲補正
+  if ( pokemon.stateChange.rangeCorr.isTrue === true ) {
+    damage = fiveRoundEntry( damage * 3072 / 4096 );
+  }
 
   // 天気補正
   if ( isWeather( target, 'あめ' ) ) {
@@ -1145,5 +1155,5 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
 
 
   // 最終ダメージ
-  damageInfo.damage = damage;
+  return damage;
 }

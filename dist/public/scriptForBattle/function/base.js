@@ -221,11 +221,22 @@ function eatBerry(pokemon, berry) {
     if (berry === 'ナナシのみ') {
         cureAilmentByItem(pokemon, 'こおり', berry);
     }
-    if (berry === 'ヒメリのみ') {
-        for (let i = 0; i < 4; i++) {
-            if (pokemon.move[i].remainingPP < pokemon.move[i].powerPoint) {
-                pokemon.move[i].curePPByLeppaBerry(pokemon, 10 * ripen);
-                break;
+    leppaBerry: if (berry === 'ヒメリのみ') {
+        // 自分で食べるとき
+        if (pokemon.stateChange.memo.text === 'ヒメリのみ') {
+            for (let i = 0; i < 4; i++) {
+                if (pokemon.move[i].remainingPP === 0) {
+                    pokemon.move[i].curePPByLeppaBerry(pokemon, 10 * ripen);
+                    break leppaBerry;
+                }
+            }
+        }
+        else {
+            for (let i = 0; i < 4; i++) {
+                if (pokemon.move[i].remainingPP < pokemon.move[i].powerPoint) {
+                    pokemon.move[i].curePPByLeppaBerry(pokemon, 10 * ripen);
+                    break leppaBerry;
+                }
             }
         }
     }
@@ -629,9 +640,6 @@ function toBattleField(pokemon, battle) {
         }
     }
     pokemon.order.hand = 0;
-    for (const _pokemon of getParty(pokemon.trainer)) {
-        console.log(_pokemon.order);
-    }
     if (pokemon.trainer === 'me') {
         getHTMLInputElement('battleMyImage_' + battle).src = './pokemonImage/' + pokemon.status.number + '.png';
     }
@@ -650,18 +658,26 @@ function toReserve(pokemon) {
             _pokemon.order.hand -= 1;
         }
     }
-    for (const _pokemon of getParty(pokemon.trainer)) {
-        console.log(_pokemon.order);
-    }
-    // 情報のリセット
-    pokemon.command = new Command;
-    pokemon.damage = [];
-    pokemon.moveUsed = new AvailableMove;
-    pokemon.rank = new ParameterRank;
     // ひんし処理
     if (pokemon.status.remainingHP === 0) {
         writeLog(`${getArticle(pokemon)}は たおれた!`);
     }
+    naturalCure: if (isAbility(pokemon, 'しぜんかいふく') === true) {
+        pokemon.status.statusAilment.name = null;
+        pokemon.status.statusAilment.turn = 0;
+    }
+    regenerator: if (isAbility(pokemon, 'さいせいりょく') === true) {
+        const value = Math.floor(pokemon.actualValue.hitPoint / 3);
+        pokemon.status.remainingHP = Math.min(pokemon.status.remainingHP + value, pokemon.actualValue.hitPoint);
+    }
+    // 情報のリセット
+    pokemon.status.ability = pokemon.statusOrg.ability;
+    pokemon.status.type1 = pokemon.statusOrg.type1;
+    pokemon.status.type2 = pokemon.statusOrg.type2;
+    pokemon.command = new Command;
+    // pokemon.damage = [];
+    // pokemon.moveUsed = new AvailableMove;
+    pokemon.rank = new ParameterRank;
 }
 // きのみを食べるかどうか
 function isEnableEatBerry(pokemon) {
@@ -883,4 +899,53 @@ function activateRoomService(pokemon) {
         return;
     changeMyRankByItem(pokemon, 'speed', -1, 'ルームサービス');
     recycleAvailable(pokemon);
+}
+// ダメージ計算後の処理
+function processAfterCalculation(pokemon, target, finalDamage, damage) {
+    let result = finalDamage;
+    result = Math.max(result, 1);
+    result = result % 65536;
+    result = Math.min(result, target.status.remainingHP);
+    if (damage.substitute === true) {
+        result = Math.min(result, target.stateChange.substitute.count);
+    }
+    if (damage.substitute === false && result === target.status.remainingHP) {
+        if (target.stateChange.endure.isTrue === true) {
+            result -= 1;
+            target.stateChange.endureMsg.isTrue === true;
+            target.stateChange.endureMsg.text === 'こらえる';
+            return result;
+        }
+        if (pokemon.moveUsed.name === 'みねうち' || pokemon.moveUsed.name === 'てかげん') {
+            result -= 1;
+            target.stateChange.endureMsg.isTrue === true;
+            target.stateChange.endureMsg.text === pokemon.moveUsed.name;
+            return result;
+        }
+        if (isAbility(target, 'がんじょう') === true) {
+            if (target.status.remainingHP === target.actualValue.hitPoint) {
+                result -= 1;
+                target.stateChange.endureMsg.isTrue === true;
+                target.stateChange.endureMsg.text === 'がんじょう';
+                return result;
+            }
+        }
+        if (isItem(target, 'きあいのタスキ') === true) {
+            if (target.status.remainingHP === target.actualValue.hitPoint) {
+                result -= 1;
+                target.stateChange.endureMsg.isTrue === true;
+                target.stateChange.endureMsg.text === 'きあいのタスキ';
+                return result;
+            }
+        }
+        if (isItem(target, 'きあいのタスキ') === true) {
+            if (getRandom() < 10) {
+                result -= 1;
+                target.stateChange.endureMsg.isTrue === true;
+                target.stateChange.endureMsg.text === 'きあいのハチマキ';
+                return result;
+            }
+        }
+    }
+    return result;
 }

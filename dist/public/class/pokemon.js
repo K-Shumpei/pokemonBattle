@@ -718,6 +718,7 @@ class StateChangeSummary {
         this._cannotMove = new StateChange('反動で動けない');
         this._endure = new StateChange('こらえる');
         this._beakBlast = new StateChange('くちばしキャノン');
+        this._focusPunch = new StateChange('きあいパンチ');
         this._endureMsg = new StateChange('HP1で耐える効果');
         this._recycle = new StateChange('リサイクル');
         this._fling = new StateChange('なげつける');
@@ -910,6 +911,9 @@ class StateChangeSummary {
     }
     set beakBlast(beakBlast) {
         this._beakBlast = beakBlast;
+    }
+    set focusPunch(focusPunch) {
+        this._focusPunch = focusPunch;
     }
     set endureMsg(endureMsg) {
         this._endureMsg = endureMsg;
@@ -1114,6 +1118,9 @@ class StateChangeSummary {
     }
     get beakBlast() {
         return this._beakBlast;
+    }
+    get focusPunch() {
+        return this._focusPunch;
     }
     get endureMsg() {
         return this._endureMsg;

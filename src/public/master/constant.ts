@@ -438,6 +438,21 @@ const bindMoveList = [
   'まとわりつく'
 ]
 
+// タイプ変化技
+const changeTypeMoveList = [
+  'ウェザーボール',
+  'オーラぐるま',
+  'さばきのつぶて',
+  'しぜんのめぐみ',
+  'だいちのはどう',
+  'テクノバスター',
+  'テラバースト',
+  'マルチアタック',
+  'めざめるダンス',
+  'めざめるパワー',
+  'レイジングブル'
+]
+
 // 特性の変更可否
 // https://wiki.xn--rckteqa2e.com/wiki/%E3%81%A8%E3%81%8F%E3%81%9B%E3%81%84
 const changeAbilityTable: changeAbilityType[] = [
@@ -474,7 +489,7 @@ const changeAbilityTable: changeAbilityType[] = [
 ]
 
 // プレート
-const plateTable = [
+const plateTable: { name: string, type: MoveTypeType }[] = [
   { name: 'あおぞらプレート', type: 'ひこう' },
   { name: 'いかずちプレート', type: 'でんき' },
   { name: 'がんせきプレート', type: 'いわ' },
@@ -495,7 +510,7 @@ const plateTable = [
 ]
 
 // ジュエル
-const gemTable = [
+const gemTable: { name: string, type: MoveTypeType }[] = [
   { name: 'あくのジュエル', type: 'あく' },
   { name: 'いわのジュエル', type: 'いわ' },
   { name: 'エスパージュエル', type: 'エスパー' },
@@ -517,7 +532,7 @@ const gemTable = [
 ]
 
 // メモリ
-const memoryTable = [
+const memoryTable: { name: string, type: MoveTypeType }[] = [
   { name: 'アイスメモリ', type: 'こおり' },
   { name: 'ウオーターメモリ', type: 'みず' },
   { name: 'エレクトロメモリ', type: 'でんき' },
@@ -538,7 +553,7 @@ const memoryTable = [
 ]
 
 // カセット
-const driveTable = [
+const driveTable: { name: string, type: MoveTypeType }[] = [
   { name: 'アクアカセット', type: 'みず' },
   { name: 'イナズマカセット', type: 'でんき' },
   { name: 'フリーズカセット', type: 'こおり' },
@@ -546,7 +561,7 @@ const driveTable = [
 ]
 
 // シルクのスカーフ、おこう
-const incenseTable = [
+const incenseTable: { name: string, type: MoveTypeType }[] = [
   { name: 'あやしいおこう', type: 'エスパー' },
   { name: 'うしおのおこう', type: 'みず' },
   { name: 'おはなのおこう', type: 'くさ' },
@@ -917,74 +932,74 @@ const additionalEffectOthers = [
 ]
 
 const berryTable: BerryTableType[] = [
-  { number: 1, name: 'クラボのみ', half: null, fling: true },
-  { number: 2, name: 'カゴのみ', half: null, fling: true },
-  { number: 3, name: 'モモンのみ', half: null, fling: true },
-  { number: 4, name: 'チーゴのみ', half: null, fling: true },
-  { number: 5, name: 'ナナシのみ', half: null, fling: true },
-  { number: 6, name: 'ヒメリのみ', half: null, fling: true },
-  { number: 7, name: 'オレンのみ', half: null, fling: true },
-  { number: 8, name: 'キーのみ', half: null, fling: true },
-  { number: 9, name: 'ラムのみ', half: null, fling: true },
-  { number: 10, name: 'オボンのみ', half: null, fling: true },
-  { number: 11, name: 'フィラのみ', half: null, fling: true },
-  { number: 12, name: 'ウイのみ', half: null, fling: true },
-  { number: 13, name: 'マゴのみ', half: null, fling: true },
-  { number: 14, name: 'バンジのみ', half: null, fling: true },
-  { number: 15, name: 'イアのみ', half: null, fling: true },
-  { number: 16, name: 'ズリのみ', half: null, fling: false },
-  { number: 17, name: 'ブリーのみ', half: null, fling: false },
-  { number: 18, name: 'ナナのみ', half: null, fling: false },
-  { number: 19, name: 'セシナのみ', half: null, fling: false },
-  { number: 20, name: 'パイルのみ', half: null, fling: false },
-  { number: 21, name: 'ザロクのみ', half: null, fling: false },
-  { number: 22, name: 'ネコブのみ', half: null, fling: false },
-  { number: 23, name: 'タポルのみ', half: null, fling: false },
-  { number: 24, name: 'ロメのみ', half: null, fling: false },
-  { number: 25, name: 'ウブのみ', half: null, fling: false },
-  { number: 26, name: 'マトマのみ', half: null, fling: false },
-  { number: 27, name: 'モコシのみ', half: null, fling: false },
-  { number: 28, name: 'ゴスのみ', half: null, fling: false },
-  { number: 29, name: 'ラブタのみ', half: null, fling: false },
-  { number: 30, name: 'ノメルのみ', half: null, fling: false },
-  { number: 31, name: 'ノワキのみ', half: null, fling: false },
-  { number: 32, name: 'シーヤのみ', half: null, fling: false },
-  { number: 33, name: 'カイスのみ', half: null, fling: false },
-  { number: 34, name: 'ドリのみ', half: null, fling: false },
-  { number: 35, name: 'ベリブのみ', half: null, fling: false },
-  { number: 36, name: 'オッカのみ', half: 'ほのお', fling: false },
-  { number: 37, name: 'イトケのみ', half: 'みず', fling: false },
-  { number: 38, name: 'ソクノのみ', half: 'でんき', fling: false },
-  { number: 39, name: 'リンドのみ', half: 'くさ', fling: false },
-  { number: 40, name: 'ヤチェのみ', half: 'こおり', fling: false },
-  { number: 41, name: 'ヨプのみ', half: 'かくとう', fling: false },
-  { number: 42, name: 'ビアーのみ', half: 'どく', fling: false },
-  { number: 43, name: 'シュカのみ', half: 'じめん', fling: false },
-  { number: 44, name: 'バコウのみ', half: 'ひこう', fling: false },
-  { number: 45, name: 'ウタンのみ', half: 'エスパー', fling: false },
-  { number: 46, name: 'タンガのみ', half: 'むし', fling: false },
-  { number: 47, name: 'ヨロギのみ', half: 'いわ', fling: false },
-  { number: 48, name: 'カシブのみ', half: 'ゴースト', fling: false },
-  { number: 49, name: 'ハバンのみ', half: 'ドラゴン', fling: false },
-  { number: 50, name: 'ナモのみ', half: 'あく', fling: false },
-  { number: 51, name: 'リリバのみ', half: 'はがね', fling: false },
-  { number: 52, name: 'ホズのみ', half: 'ノーマル', fling: false },
-  { number: 53, name: 'チイラのみ', half: null, fling: true },
-  { number: 54, name: 'リュガのみ', half: null, fling: true },
-  { number: 55, name: 'カムラのみ', half: null, fling: true },
-  { number: 56, name: 'ヤタピのみ', half: null, fling: true },
-  { number: 57, name: 'ズアのみ', half: null, fling: true },
-  { number: 58, name: 'サンのみ', half: null, fling: true },
-  { number: 59, name: 'スターのみ', half: null, fling: true },
-  { number: 60, name: 'ナゾのみ', half: null, fling: false },
-  { number: 61, name: 'ミクルのみ', half: null, fling: true },
-  { number: 62, name: 'イバンのみ', half: null, fling: false },
-  { number: 63, name: 'ジャポのみ', half: null, fling: false },
-  { number: 64, name: 'レンブのみ', half: null, fling: false },
-  { number: 65, name: 'ロゼルのみ', half: 'フェアリー', fling: false },
-  { number: 66, name: 'アッキのみ', half: null, fling: true },
-  { number: 67, name: 'タラプのみ', half: null, fling: true },
-  { number: 68, name: 'ポフのみ', half: null, fling: false },
+  { number: 1, name: 'クラボのみ', half: null, fling: true, naturalGift: { type: 'ほのお', power: 80 } },
+  { number: 2, name: 'カゴのみ', half: null, fling: true, naturalGift: { type: 'みず', power: 80 } },
+  { number: 3, name: 'モモンのみ', half: null, fling: true, naturalGift: { type: 'でんき', power: 80 } },
+  { number: 4, name: 'チーゴのみ', half: null, fling: true, naturalGift: { type: 'くさ', power: 80 } },
+  { number: 5, name: 'ナナシのみ', half: null, fling: true, naturalGift: { type: 'こおり', power: 80 } },
+  { number: 6, name: 'ヒメリのみ', half: null, fling: true, naturalGift: { type: 'かくとう', power: 80 } },
+  { number: 7, name: 'オレンのみ', half: null, fling: true, naturalGift: { type: 'どく', power: 80 } },
+  { number: 8, name: 'キーのみ', half: null, fling: true, naturalGift: { type: 'じめん', power: 80 } },
+  { number: 9, name: 'ラムのみ', half: null, fling: true, naturalGift: { type: 'ひこう', power: 80 } },
+  { number: 10, name: 'オボンのみ', half: null, fling: true, naturalGift: { type: 'エスパー', power: 80 } },
+  { number: 11, name: 'フィラのみ', half: null, fling: true, naturalGift: { type: 'ほのお', power: 80 } },
+  { number: 12, name: 'ウイのみ', half: null, fling: true, naturalGift: { type: 'いわ', power: 80 } },
+  { number: 13, name: 'マゴのみ', half: null, fling: true, naturalGift: { type: 'ゴースト', power: 80 } },
+  { number: 14, name: 'バンジのみ', half: null, fling: true, naturalGift: { type: 'ドラゴン', power: 80 } },
+  { number: 15, name: 'イアのみ', half: null, fling: true, naturalGift: { type: 'あく', power: 80 } },
+  { number: 16, name: 'ズリのみ', half: null, fling: false, naturalGift: { type: 'はがね', power: 80 } },
+  { number: 17, name: 'ブリーのみ', half: null, fling: false, naturalGift: { type: 'ほのお', power: 90 } },
+  { number: 18, name: 'ナナのみ', half: null, fling: false, naturalGift: { type: 'みず', power: 90 } },
+  { number: 19, name: 'セシナのみ', half: null, fling: false, naturalGift: { type: 'でんき', power: 90 } },
+  { number: 20, name: 'パイルのみ', half: null, fling: false, naturalGift: { type: 'くさ', power: 90 } },
+  { number: 21, name: 'ザロクのみ', half: null, fling: false, naturalGift: { type: 'こおり', power: 90 } },
+  { number: 22, name: 'ネコブのみ', half: null, fling: false, naturalGift: { type: 'かくとう', power: 90 } },
+  { number: 23, name: 'タポルのみ', half: null, fling: false, naturalGift: { type: 'どく', power: 90 } },
+  { number: 24, name: 'ロメのみ', half: null, fling: false, naturalGift: { type: 'じめん', power: 90 } },
+  { number: 25, name: 'ウブのみ', half: null, fling: false, naturalGift: { type: 'ひこう', power: 90 } },
+  { number: 26, name: 'マトマのみ', half: null, fling: false, naturalGift: { type: 'エスパー', power: 90 } },
+  { number: 27, name: 'モコシのみ', half: null, fling: false, naturalGift: { type: 'むし', power: 90 } },
+  { number: 28, name: 'ゴスのみ', half: null, fling: false, naturalGift: { type: 'いわ', power: 90 } },
+  { number: 29, name: 'ラブタのみ', half: null, fling: false, naturalGift: { type: 'ゴースト', power: 90 } },
+  { number: 30, name: 'ノメルのみ', half: null, fling: false, naturalGift: { type: 'ドラゴン', power: 90 } },
+  { number: 31, name: 'ノワキのみ', half: null, fling: false, naturalGift: { type: 'あく', power: 90 } },
+  { number: 32, name: 'シーヤのみ', half: null, fling: false, naturalGift: { type: 'はがね', power: 90 } },
+  { number: 33, name: 'カイスのみ', half: null, fling: false, naturalGift: { type: 'ほのお', power: 100 } },
+  { number: 34, name: 'ドリのみ', half: null, fling: false, naturalGift: { type: 'みず', power: 100 } },
+  { number: 35, name: 'ベリブのみ', half: null, fling: false, naturalGift: { type: 'でんき', power: 100 } },
+  { number: 36, name: 'オッカのみ', half: 'ほのお', fling: false, naturalGift: { type: 'ほのお', power: 80 } },
+  { number: 37, name: 'イトケのみ', half: 'みず', fling: false, naturalGift: { type: 'みず', power: 80 } },
+  { number: 38, name: 'ソクノのみ', half: 'でんき', fling: false, naturalGift: { type: 'でんき', power: 80 } },
+  { number: 39, name: 'リンドのみ', half: 'くさ', fling: false, naturalGift: { type: 'くさ', power: 80 } },
+  { number: 40, name: 'ヤチェのみ', half: 'こおり', fling: false, naturalGift: { type: 'こおり', power: 80 } },
+  { number: 41, name: 'ヨプのみ', half: 'かくとう', fling: false, naturalGift: { type: 'かくとう', power: 80 } },
+  { number: 42, name: 'ビアーのみ', half: 'どく', fling: false, naturalGift: { type: 'どく', power: 80 } },
+  { number: 43, name: 'シュカのみ', half: 'じめん', fling: false, naturalGift: { type: 'じめん', power: 80 } },
+  { number: 44, name: 'バコウのみ', half: 'ひこう', fling: false, naturalGift: { type: 'ひこう', power: 80 } },
+  { number: 45, name: 'ウタンのみ', half: 'エスパー', fling: false, naturalGift: { type: 'エスパー', power: 80 } },
+  { number: 46, name: 'タンガのみ', half: 'むし', fling: false, naturalGift: { type: 'むし', power: 80 } },
+  { number: 47, name: 'ヨロギのみ', half: 'いわ', fling: false, naturalGift: { type: 'いわ', power: 80 } },
+  { number: 48, name: 'カシブのみ', half: 'ゴースト', fling: false, naturalGift: { type: 'ゴースト', power: 80 } },
+  { number: 49, name: 'ハバンのみ', half: 'ドラゴン', fling: false, naturalGift: { type: 'ドラゴン', power: 80 } },
+  { number: 50, name: 'ナモのみ', half: 'あく', fling: false, naturalGift: { type: 'あく', power: 80 } },
+  { number: 51, name: 'リリバのみ', half: 'はがね', fling: false, naturalGift: { type: 'はがね', power: 80 } },
+  { number: 52, name: 'ホズのみ', half: 'ノーマル', fling: false, naturalGift: { type: 'ノーマル', power: 80 } },
+  { number: 53, name: 'チイラのみ', half: null, fling: true, naturalGift: { type: 'くさ', power: 100 } },
+  { number: 54, name: 'リュガのみ', half: null, fling: true, naturalGift: { type: 'こおり', power: 100 } },
+  { number: 55, name: 'カムラのみ', half: null, fling: true, naturalGift: { type: 'かくとう', power: 100 } },
+  { number: 56, name: 'ヤタピのみ', half: null, fling: true, naturalGift: { type: 'どく', power: 100 } },
+  { number: 57, name: 'ズアのみ', half: null, fling: true, naturalGift: { type: 'じめん', power: 100 } },
+  { number: 58, name: 'サンのみ', half: null, fling: true, naturalGift: { type: 'ひこう', power: 100 } },
+  { number: 59, name: 'スターのみ', half: null, fling: true, naturalGift: { type: 'エスパー', power: 100 } },
+  { number: 60, name: 'ナゾのみ', half: null, fling: false, naturalGift: { type: 'むし', power: 100 } },
+  { number: 61, name: 'ミクルのみ', half: null, fling: true, naturalGift: { type: 'いわ', power: 100 } },
+  { number: 62, name: 'イバンのみ', half: null, fling: false, naturalGift: { type: 'ゴースト', power: 100 } },
+  { number: 63, name: 'ジャポのみ', half: null, fling: false, naturalGift: { type: 'ドラゴン', power: 100 } },
+  { number: 64, name: 'レンブのみ', half: null, fling: false, naturalGift: { type: 'あく', power: 100 } },
+  { number: 65, name: 'ロゼルのみ', half: 'フェアリー', fling: false, naturalGift: { type: 'フェアリー', power: 80 } },
+  { number: 66, name: 'アッキのみ', half: null, fling: true, naturalGift: { type: 'フェアリー', power: 100 } },
+  { number: 67, name: 'タラプのみ', half: null, fling: true, naturalGift: { type: 'あく', power: 100 } },
+  { number: 68, name: 'ポフのみ', half: null, fling: false, naturalGift: { type: null, power: 0 } },
 ]
 
 const moveEffectMyRank: MoveEffectRank[] = [
@@ -1073,6 +1088,10 @@ const formChangeTable = [
   { name: 'ウッウ(丸呑み)', next: 'ウッウ' },
   { name: 'メロエッタ(ボイス)', next: 'メロエッタ(ステップ)' },
   { name: 'メロエッタ(ステップ)', next: 'メロエッタ(ボイス)' },
+  { name: 'ギルガルド(盾)', next: 'ギルガルド(剣)' },
+  { name: 'ギルガルド(剣)', next: 'ギルガルド(盾)' },
+  { name: 'モルペコ(満腹)', next: 'モルペコ(空腹)' },
+  { name: 'モルペコ(空腹)', next: 'モルペコ(満腹)' },
 ]
   /*
   ポワルン (通常の姿⇔たいようのすがた⇔あまみずのすがた⇔ゆきぐものすがた | てんき)
