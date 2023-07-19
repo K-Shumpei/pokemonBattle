@@ -1864,69 +1864,141 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
     return true;
   }
 
+  hyperspaceFury:
+  if ( pokemon.moveUsed.name === 'いじげんラッシュ' ) {
+    if ( pokemon.status.name === 'フーパ(解放)' ) break hyperspaceFury;
+    if ( pokemon.stateChange.transform.isTrue === true && pokemon.stateChange.transform.name === 'フーパ(解放)' ) break hyperspaceFury;
+
+    pokemon.damage = [];
+    writeLog( `しかし ${getArticle( pokemon )}には 使うことが できなかった!` );
+    return true;
+  }
+
+  darkVoid:
   if ( pokemon.moveUsed.name === 'ダークホール' ) {
-    if ( pokemon.status.name !== 'ダークライ' ) {
-      pokemon.damage = [];
-      pokemon.status.declareFailure();
-      return true;
-    }
+    if ( pokemon.status.name === 'ダークライ' ) break darkVoid;
+    if ( pokemon.stateChange.transform.isTrue === true && pokemon.stateChange.transform.name === 'ダークライ' ) break darkVoid;
+
+    pokemon.damage = [];
+    writeLog( `しかし ${getArticle( pokemon )}には 使うことが できなかった!` );
+    return true;
   }
+
+  auraWheel:
   if ( pokemon.moveUsed.name === 'オーラぐるま' ) {
-    if ( pokemon.status.name !== 'モルペコ(満腹)'  ) {
-      pokemon.damage = [];
-      pokemon.status.declareFailure();
-      return true;
-    }
+    if ( pokemon.status.name === 'モルペコ(満腹)'  ) break auraWheel;
+    if ( pokemon.status.name === 'モルペコ(空腹)'  ) break auraWheel;
+    if ( pokemon.stateChange.transform.isTrue === true && pokemon.stateChange.transform.name === 'モルペコ(満腹)' ) break auraWheel;
+    if ( pokemon.stateChange.transform.isTrue === true && pokemon.stateChange.transform.name === 'モルペコ(満腹)' ) break auraWheel;
+
+    pokemon.damage = [];
+    writeLog( `しかし ${getArticle( pokemon )}には 使うことが できなかった!` );
+    return true;
   }
-  // オーロラベール: あられ状態でない
+
+  auroraVeil:
   if ( pokemon.moveUsed.name === 'オーロラベール' ) {
-    if ( isWeather( pokemon, 'あられ' ) === false && isWeather( pokemon, 'ゆき' ) === false ) {
-      return pokemon.moveUsed.failure();
-    }
+    if ( isWeather( pokemon, 'あられ' ) === true ) break auroraVeil;
+    if ( isWeather( pokemon, 'ゆき' ) === true ) break auroraVeil;
+
+    pokemon.damage = [];
+    pokemon.status.declareFailure();
+    return true;
   }
-  // このゆびとまれ/いかりのこな: シングルバトルである
-  if ( pokemon.moveUsed.name === 'このゆびとまれ' ) {
-    if ( fieldStatus.battleStyle === 1 ) {
-      return pokemon.moveUsed.failure();
-    }
-  }
-  if ( pokemon.moveUsed.name === 'いかりのこな' ) {
-    if ( fieldStatus.battleStyle === 1 ) {
-      return pokemon.moveUsed.failure();
-    }
-  }
-  // ソウルビート: 使用者のHPが足りない
+
+  clangorousSoul:
   if ( pokemon.moveUsed.name === 'ソウルビート' ) {
-    if ( pokemon.status.remainingHP <= Math.floor( pokemon.actualValue.hitPoint / 3 ) ) {
-      return pokemon.moveUsed.failure();
-    }
+    if ( pokemon.status.remainingHP > Math.floor( pokemon.actualValue.hitPoint / 3 ) ) break clangorousSoul;
+
+    pokemon.damage = [];
+    pokemon.status.declareFailure();
+    return true;
   }
-  // たくわえる: たくわえるカウントがすでに3である
+
+  stockpile:
   if ( pokemon.moveUsed.name === 'たくわえる' ) {
-    if ( pokemon.stateChange.stockpile.count === 3 ) {
-      return pokemon.moveUsed.failure();
-    }
+    if ( pokemon.stateChange.stockpile.count !== 3 ) break stockpile;
+
+    pokemon.damage = [];
+    pokemon.status.declareFailure();
+    return true;
   }
-  // とっておき: 使用されてない技がある/覚えているわざにとっておきがない
+
+  teleport:
+  if ( pokemon.moveUsed.name === 'テレポート' ) {
+    const bench: Pokemon[] = getParty( pokemon.trainer ).filter( poke => poke.order.battle === null && poke.status.remainingHP > 0 );
+    if ( bench.length > 0 ) break teleport;
+
+    pokemon.damage = [];
+    pokemon.status.declareFailure();
+    return true;
+  }
+
+  lastResort:
   if ( pokemon.moveUsed.name === 'とっておき' ) {
-    if ( pokemon.move[0].name !== 'とっておき' &&
-      pokemon.move[1].name !== 'とっておき' &&
-      pokemon.move[2].name !== 'とっておき' &&
-      pokemon.move[3].name !== 'とっておき' ) {
-      return pokemon.moveUsed.failure();
-    }
+    let isFailure: boolean = false;
+    // 「とっておき」を覚えていない
+    if ( pokemon.move.filter( move => move.name === 'とっておき' ).length === 0 ) isFailure = true;
+    // 「とっておき以外の技」を覚えていない
+    if ( pokemon.move.filter( move => move.name !== 'とっておき' && move.name !== null ).length === 0 ) isFailure = true;
+    // 使用していない「とっておき以外の技」がある
+    if ( pokemon.move.filter( move => move.name !== 'とっておき' && move.name !== null && move.isUsed === false ).length > 0 ) isFailure = true;
+
+    if ( isFailure === false ) break lastResort;
+
+    pokemon.damage = [];
+    pokemon.status.declareFailure();
+    return true;
   }
-  // はきだす/のみこむ: たくわえるカウントが0である
-  if ( pokemon.moveUsed.name === 'はきだす' ) {
-    if ( pokemon.stateChange.stockpile.count === 0 ) {
-      return pokemon.moveUsed.failure();
-    }
+
+  spitUp:
+  if ( pokemon.moveUsed.name === 'はきだす' || pokemon.moveUsed.name === 'のみこむ' ) {
+    if ( pokemon.stateChange.stockpile.count > 0 ) break spitUp;
+
+    pokemon.damage = [];
+    pokemon.status.declareFailure();
+    return true;
   }
-  if ( pokemon.moveUsed.name === 'のみこむ' ) {
-    if ( pokemon.stateChange.stockpile.count === 0 ) {
-      return pokemon.moveUsed.failure();
+
+  stuffCheeks:
+  if ( pokemon.moveUsed.name === 'ほおばる' ) {
+    for ( const berry of berryTable ) {
+      if ( berry.name === pokemon.status.item ) break stuffCheeks;
     }
+
+    pokemon.damage = [];
+    pokemon.status.declareFailure();
+    return true;
   }
+
+  fling:
+  if ( pokemon.moveUsed.name === 'なげつける' ) {
+    let isFailure: boolean = false;
+    if ( gemTable.filter( gem => gem.name === pokemon.status.item ).length === 1 ) isFailure = true;
+    if ( pokemon.status.item === 'べにいろのたま' ) isFailure = true;
+    if ( pokemon.status.item === 'あいいろのたま' ) isFailure = true;
+    if ( pokemon.status.item === 'くちたけん' ) isFailure = true;
+    if ( pokemon.status.item === 'くちたたて' ) isFailure = true;
+    if ( pokemon.status.item === 'だいこんごうだま' ) isFailure = true;
+    if ( pokemon.status.item === 'だいしらたま' ) isFailure = true;
+    if ( pokemon.status.item === 'だいはっきんだま' ) isFailure = true;
+    if ( zCrystalTable.filter( zCrystal => zCrystal.name === pokemon.status.item ).length === 1 ) isFailure = true;
+    if ( pokemon.status.name === 'アルセウス' && plateTable.filter( plate => plate.name === pokemon.status.name ).length === 1 ) isFailure = true;
+    if ( pokemon.status.name === 'ギラティナ(アナザー)' && pokemon.status.item === 'はっきんだま' ) isFailure = true;
+    if ( pokemon.status.name === 'ギラティナ(オリジン)' && pokemon.status.item === 'はっきんだま' ) isFailure = true;
+    if ( pokemon.status.name === 'ゲノセクト' && driveTable.filter( drive => drive.name === pokemon.status.item ).length === 1 ) isFailure = true;
+    if ( paradoxPokemonList.includes( pokemon.status.name ) && pokemon.status.item === 'ブーストエナジー' ) isFailure = true;
+
+
+
+
+
+
+    pokemon.damage = [];
+    pokemon.status.declareFailure();
+    return true;
+  }
+
   // なげつける/しぜんのめぐみ: 持ち物が無い/特性ぶきよう/さしおさえ/マジックルーム状態である/不適格な持ち物である
   if ( pokemon.moveUsed.name === 'なげつける' || pokemon.moveUsed.name === 'ぶきよう' ) {
     if ( pokemon.status.item === null ) return pokemon.moveUsed.failure();

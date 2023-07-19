@@ -349,6 +349,7 @@ class AvailableMove {
   _target: MoveTargetType;
   _number: number;
   _priority: number;
+  _isUsed: boolean;
 
   constructor() {
     this._name = '';
@@ -363,6 +364,7 @@ class AvailableMove {
     this._target = '自分';
     this._number = 0;
     this._priority = 0;
+    this._isUsed = false;
   }
 
   set name( name: string ) {
@@ -401,6 +403,9 @@ class AvailableMove {
   set priority( priority: number ) {
     this._priority = priority;
   }
+  set isUsed( isUsed: boolean ) {
+    this._isUsed = isUsed;
+  }
 
   get name(): string {
     return this._name;
@@ -437,6 +442,9 @@ class AvailableMove {
   }
   get priority(): number {
     return this._priority;
+  }
+  get isUsed(): boolean {
+    return this._isUsed;
   }
 
   failure(): false {
