@@ -69,6 +69,7 @@ class WholeField {
         this._fairyLock = new StateChange('フェアリーロック');
         this._ionDeluge = new StateChange('プラズマシャワー');
         this._waterSport = new StateChange('みずあそび');
+        this._futureSight = [];
     }
     set trickRoom(trickRoom) {
         this._trickRoom = trickRoom;
@@ -94,6 +95,9 @@ class WholeField {
     set waterSport(waterSport) {
         this._waterSport = waterSport;
     }
+    set futureSight(futureSight) {
+        this._futureSight = futureSight;
+    }
     get trickRoom() {
         return this._trickRoom;
     }
@@ -117,6 +121,9 @@ class WholeField {
     }
     get waterSport() {
         return this._waterSport;
+    }
+    get futureSight() {
+        return this._futureSight;
     }
 }
 class SideField {

@@ -281,7 +281,7 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
     }
     // ターンの流れ
     // 3. トレーナーの行動、ポケモンの行動順に関する行動
-    preliminaryAction();
+    actionBeforeTurn();
     // 4. ポケモンの行動
     pokemonAction();
     // 5. ターン終了時の効果

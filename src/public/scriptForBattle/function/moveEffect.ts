@@ -597,7 +597,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
     if ( isAbility( target, 'のろわれボディ' ) === true ) {
       if ( pokemon.stateChange.disable.isTrue === true ) break cursedBody;
       if ( pokemon.stateChange.dynamax.isTrue === true ) break cursedBody;
-      if ( isExistAbilityOneSide( pokemon.trainer, 'アロマベール' ) === true ) break cursedBody;
+      if ( isExistAbilityOneSide( pokemon.trainer, 'アロマベール' ) !== false ) break cursedBody;
       if ( getRandom() >= 30 ) break cursedBody;
 
       target.status.declareAbility();

@@ -1,5 +1,5 @@
 // 3.トレーナーの行動、ポケモンの行動順に関する行動
-function preliminaryAction(): void {
+function actionBeforeTurn(): void {
 
   for ( const pokemon of allPokemonInBattlefield() ) {
 

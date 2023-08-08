@@ -265,10 +265,10 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
   let correction: number = 4096;
 
   if ( isExistAbility( 'オーラブレイク' ) ) {
-    if ( isExistAbility( 'フェアリーオーラ' ) === true && move.type === 'フェアリー' ) {
+    if ( isExistAbility( 'フェアリーオーラ' ) && move.type === 'フェアリー' ) {
       correction = Math.round( correction * 3072 / 4096 );
     }
-    if ( isExistAbility( 'ダークオーラ' ) === true && move.type === 'あく' ) {
+    if ( isExistAbility( 'ダークオーラ' ) && move.type === 'あく' ) {
       correction = Math.round( correction * 3072 / 4096 );
     }
   }
@@ -646,13 +646,13 @@ function getStatus( pokemon: Pokemon, target: Pokemon, damage: Damage ): number 
     }
   }
 
-  if ( isExistAbility( 'わざわいのうつわ' ) === true && isAbility( pokemon, 'わざわいのうつわ' ) === false ) {
+  if ( isExistAbility( 'わざわいのうつわ' ) && isAbility( target, 'わざわいのうつわ' ) === false ) {
     if ( pokemon.moveUsed.category === '特殊' ) {
       attackCorrection = Math.round( attackCorrection * 3072 / 4096 );
     }
   }
 
-  if ( isExistAbility( 'わざわいのおふだ' ) === true && isAbility( pokemon, 'わざわいのおふだ' ) === false ) {
+  if ( isExistAbility( 'わざわいのおふだ' ) && isAbility( target, 'わざわいのおふだ' ) === false ) {
     if ( pokemon.moveUsed.category === '物理' ) {
       attackCorrection = Math.round( attackCorrection * 3072 / 4096 );
     }
@@ -871,13 +871,13 @@ function getStatus( pokemon: Pokemon, target: Pokemon, damage: Damage ): number 
   // 防御補正
   let defenseCorrection = 4096;
 
-  if ( isExistAbility( 'わざわいのたま' ) === true && isAbility( target, 'わざわいのたま' ) === false ) {
+  if ( isExistAbility( 'わざわいのたま' ) && isAbility( target, 'わざわいのたま' ) === false ) {
     if ( pokemon.moveUsed.category === '特殊' ) {
       defenseCorrection = Math.round( defenseCorrection * 3072 / 4096 );
     }
   }
 
-  if ( isExistAbility( 'わざわいのつるぎ' ) === true && isAbility( target, 'わざわいのつるぎ' ) === false ) {
+  if ( isExistAbility( 'わざわいのつるぎ' ) && isAbility( target, 'わざわいのつるぎ' ) === false ) {
     if ( pokemon.moveUsed.category === '物理' ) {
       defenseCorrection = Math.round( defenseCorrection * 3072 / 4096 );
     }

@@ -75,26 +75,38 @@ function isWeather(pokemon, weather) {
 }
 // 接地判定
 function isGrounded(pokemon) {
+    if (pokemon.stateChange.ingrain.isTrue === true)
+        return true;
+    if (pokemon.stateChange.smackDown.isTrue === true)
+        return true;
+    if (fieldStatus.whole.gravity.isTrue === true)
+        return true;
+    if (isItem(pokemon, 'くろいてっきゅう') === true)
+        return true;
+    if (getPokemonType(pokemon).includes('ひこう'))
+        return false;
+    if (isAbility(pokemon, 'ふゆう') === true)
+        return false;
+    if (isItem(pokemon, 'ふうせん') === true)
+        return false;
+    if (pokemon.stateChange.magnetRise.isTrue === true)
+        return false;
+    if (pokemon.stateChange.telekinesis.isTrue === true)
+        return false;
     return true;
     /*
-    // 姿を隠しているポケモンは、地面にいない
-    if ( poke.myCondition.myHide ) return false
+    以下のポケモンは地面にいないことになる。
   
-    // 以下の状態のポケモンは、地面にいる
-    if ( poke.myCondition.myIngrain ) return true
-    if ( poke.myCondition.mySmack_down ) return true
-    if ( fieldStatus.myGravity > 0 ) return true
-    if ( poke.myItem == "くろいてっきゅう" && isItem(poke) ) return true
+    ひこうタイプのポケモン
+    特性がふゆうのポケモン
+    ふうせんを持っているポケモン
+    でんじふゆう状態・テレキネシス状態のポケモン
+    これらに当てはまらない、もしくはこれらをわざや特性で無効化された場合、そのポケモンは地面にいることになる。
   
-    // 以下の状態のポケモンは、地面にいない
-    if ( poke.myType.includes("ひこう") ) return false
-    if ( poke.myAbility == "ふゆう" && isAbility(poke) ) return false
-    if ( poke.myItem == "ふうせん" && isItem(poke) ) return false
-    if ( poke.myCondition.myMagnet_rise > 0 ) return false
-    if ( poke.myCondition.myTelekinesis > 0 ) return false
+    地面にいない状態を打ち消す効果を持つわざやアイテムとして以下のものがある。
   
-    // それ以外のポケモンは、地面にいる
-    return true
+    ねをはる状態・うちおとす状態・じゅうりょく状態
+    くろいてっきゅう
     */
 }
 // ポケモンのタイプ
@@ -115,7 +127,7 @@ function getPokemonType(pokemon) {
 function isExistAbility(ability) {
     for (const pokemon of allPokemonInBattlefield()) {
         if (isAbility(pokemon, ability) === true) {
-            return true;
+            return pokemon;
         }
     }
     return false;
@@ -124,7 +136,7 @@ function isExistAbility(ability) {
 function isExistAbilityOneSide(trainer, ability) {
     for (const pokemon of allPokemonInSide(trainer)) {
         if (isAbility(pokemon, ability) === true) {
-            return true;
+            return pokemon;
         }
     }
     return false;
@@ -367,7 +379,7 @@ function attractTarget(pokemon, target, type) {
         return;
     if (isAbility(target, 'どんかん') === true)
         return;
-    if (isExistAbilityOneSide(target.trainer, 'アロマベール') === true)
+    if (isExistAbilityOneSide(target.trainer, 'アロマベール') !== false)
         return;
     // メロメロ状態にする
     target.stateChange.attract.isTrue = true;
@@ -516,6 +528,12 @@ function formChange(pokemon) {
         if (form.name === pokemon.status.name) {
             nextFrom = form.next;
         }
+    }
+    if (pokemon.status.name === 'ウッウ') {
+        if (pokemon.status.remainingHP > pokemon.actualValue.hitPoint / 2)
+            nextFrom = 'ウッウ(鵜呑み)';
+        else
+            nextFrom = 'ウッウ(丸呑み)';
     }
     const nextPokemon = getPokemonDataByName(nextFrom);
     const nature = getNatureDataByName(pokemon.status.nature);
@@ -948,4 +966,40 @@ function processAfterCalculation(pokemon, target, finalDamage, damage) {
         }
     }
     return result;
+}
+function isActivateSkinAbikity(pokemon, type) {
+    if (changeTypeMoveList.includes(pokemon.moveUsed.name) === true)
+        return false;
+    if (pokemon.moveUsed.name === 'わるあがき')
+        return false;
+    if (pokemon.moveUsed.type === type)
+        return false;
+    return true;
+}
+function activateSkin(pokemon, type) {
+    pokemon.moveUsed.type = type;
+    pokemon.stateChange.skin.isTrue === true;
+    pokemon.stateChange.skin.text = String(pokemon.moveUsed.type);
+}
+function isWeight(pokemon) {
+    let weight = pokemon.status.weight;
+    // ボディパージ
+    if (isAbility(pokemon, 'ライトメタル') === true) {
+        weight = weight / 2;
+    }
+    if (isAbility(pokemon, 'ヘヴィメタル') === true) {
+        weight = weight * 2;
+    }
+    if (isItem(pokemon, 'かるいし') === true) {
+        weight = weight - 100;
+    }
+    return Math.max(0.1, weight);
+}
+// 技の成功判定
+function isMoveFailure(pokemon) {
+    const targetList = getTargetList(pokemon);
+    if (targetList.filter(target => target.damage.success === true).length === 0) {
+        return true;
+    }
+    return false;
 }

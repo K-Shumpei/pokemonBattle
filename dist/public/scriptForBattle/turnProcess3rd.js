@@ -1,6 +1,6 @@
 "use strict";
 // 3.トレーナーの行動、ポケモンの行動順に関する行動
-function preliminaryAction() {
+function actionBeforeTurn() {
     for (const pokemon of allPokemonInBattlefield()) {
         quickDraw: if (isAbility(pokemon, 'クイックドロウ') === true) {
             if (pokemon.moveUsed.category === '変化')

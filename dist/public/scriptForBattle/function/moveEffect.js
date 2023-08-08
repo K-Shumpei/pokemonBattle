@@ -564,7 +564,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
                 break cursedBody;
             if (pokemon.stateChange.dynamax.isTrue === true)
                 break cursedBody;
-            if (isExistAbilityOneSide(pokemon.trainer, 'アロマベール') === true)
+            if (isExistAbilityOneSide(pokemon.trainer, 'アロマベール') !== false)
                 break cursedBody;
             if (getRandom() >= 30)
                 break cursedBody;

@@ -128,6 +128,9 @@ class Status {
     declareAbility() {
         writeLog(`${this._name}の ${this._ability}`);
     }
+    declareFailure() {
+        writeLog(`しかし うまく決まらなかった....`);
+    }
     declareInvalid(info) {
         info.success = false;
         writeLog(`${this._name}には 効果がないようだ...`);
@@ -135,68 +138,6 @@ class Status {
     declareNotHit(info) {
         info.success = false;
         writeLog(`${this._name}には 当たらなかった!`);
-    }
-    declareCannotMove() {
-        writeLog(`${this._name}は 攻撃の 反動で 動けない!`);
-    }
-    declareSleeping() {
-        writeLog(`${this._name}は ぐうぐう 眠っている`);
-    }
-    declareFleezed() {
-        writeLog(`${this._name}は 凍って 動けない!`);
-    }
-    declareTruant() {
-        writeLog(`${this._name}は なまけている`);
-    }
-    declareFlinch() {
-        writeLog(`${this._name}は ひるんで 技が 出せない!`);
-    }
-    declareDisable() {
-        writeLog(`${this._name}は かなしばりで 技が 出せない!`);
-    }
-    declareGravity(move) {
-        writeLog(`${this._name}は じゅうりょくが 強くて ${move}が 出せない!`);
-    }
-    declareHealBlock() {
-        writeLog(`${this._name}は かいふくふうじで 技が 出せない!`);
-    }
-    declareThroatChop() {
-        writeLog(`${this._name}は じごくづきの 効果で 技が 出せない!`);
-    }
-    declareTaunt() {
-        writeLog(`${this._name}は ちょうはつされて 技が 出せない!`);
-    }
-    declareImprison(move) {
-        writeLog(`${this._name}は ふういんで ${move}が だせない!`);
-    }
-    declareConfuse(confuse, random) {
-        if (confuse.count === 0) {
-            writeLog(`混乱が 解けた!`);
-        }
-        else {
-            writeLog(`${this._name}は 混乱している!`);
-            if (random < 1 / 3 * 100) {
-                writeLog(`わけも わからず 自分を 攻撃した!`);
-            }
-        }
-    }
-    declareParalysis() {
-        writeLog(`${this._name}は 体がしびれて 動けない!`);
-    }
-    declareAttract(name, random) {
-        writeLog(`${this._name}は ${name}に メロメロだ!`);
-        if (random < 50) {
-            writeLog(`${this._name}は メロメロで 技が だせなかった!`);
-        }
-    }
-    cureAilment() {
-        if (this._statusAilment.name === 'ねむり') {
-            writeLog(`${this._name}は 目を 覚ました!`);
-        }
-        if (this._statusAilment.name === 'こおり') {
-            writeLog(`${this._name}の こおりが 溶けた!`);
-        }
-        this._statusAilment = new StatusAilment(null);
     }
     abilityInfo() {
         for (const info of changeAbilityTable) {
@@ -348,6 +289,7 @@ class AvailableMove {
         this._target = '自分';
         this._number = 0;
         this._priority = 0;
+        this._isUsed = false;
     }
     set name(name) {
         this._name = name;
@@ -385,6 +327,9 @@ class AvailableMove {
     set priority(priority) {
         this._priority = priority;
     }
+    set isUsed(isUsed) {
+        this._isUsed = isUsed;
+    }
     get name() {
         return this._name;
     }
@@ -420,6 +365,9 @@ class AvailableMove {
     }
     get priority() {
         return this._priority;
+    }
+    get isUsed() {
+        return this._isUsed;
     }
     failure() {
         writeLog(`しかし うまく決まらなかった...`);
@@ -676,6 +624,7 @@ class StateChangeSummary {
         this._smackDown = new StateChange('うちおとす');
         this._telekinesis = new StateChange('テレキネシス');
         this._cannotEscape = new StateChange('にげられない');
+        this._electrify = new StateChange('そうでん');
         this._powder = new StateChange('ふんじん');
         this._throatChop = new StateChange('じごくづき');
         this._tarShot = new StateChange('タールショット');
@@ -704,6 +653,7 @@ class StateChangeSummary {
         this._slowStart = new StateChange('スロースタート');
         this._disguise = new StateChange('ばけのかわ');
         this._iceFace = new StateChange('アイスフェイス');
+        this._protean = new StateChange('へんげんじざい');
         this._quarkDrive = new StateChange('クォークチャージ');
         this._protosynthesis = new StateChange('こだいかっせい');
         this._flashFire = new StateChange('もらいび');
@@ -719,11 +669,15 @@ class StateChangeSummary {
         this._endure = new StateChange('こらえる');
         this._beakBlast = new StateChange('くちばしキャノン');
         this._focusPunch = new StateChange('きあいパンチ');
+        this._noRetreat = new StateChange('はいすいのじん');
+        this._protect = new StateChange('まもる');
         this._endureMsg = new StateChange('HP1で耐える効果');
         this._recycle = new StateChange('リサイクル');
         this._fling = new StateChange('なげつける');
+        this._store = new StateChange('ため技');
         this._belch = new StateChange('ゲップ');
         this._dynamax = new StateChange('ダイマックス');
+        this._rangeCorr = new StateChange('範囲補正');
         this._memo = new StateChange('メモ');
     }
     set flinch(flinch) {
@@ -785,6 +739,9 @@ class StateChangeSummary {
     }
     set cannotEscape(cannotEscape) {
         this._cannotEscape = cannotEscape;
+    }
+    set electrify(electrify) {
+        this._electrify = electrify;
     }
     set powder(powder) {
         this._powder = powder;
@@ -870,6 +827,9 @@ class StateChangeSummary {
     set iceFace(iceFace) {
         this._iceFace = iceFace;
     }
+    set protean(protean) {
+        this._protean = protean;
+    }
     set quarkDrive(quarkDrive) {
         this._quarkDrive = quarkDrive;
     }
@@ -915,6 +875,12 @@ class StateChangeSummary {
     set focusPunch(focusPunch) {
         this._focusPunch = focusPunch;
     }
+    set noRetreat(noRetreat) {
+        this._noRetreat = noRetreat;
+    }
+    set protect(protect) {
+        this._protect = protect;
+    }
     set endureMsg(endureMsg) {
         this._endureMsg = endureMsg;
     }
@@ -924,11 +890,17 @@ class StateChangeSummary {
     set fling(fling) {
         this._fling = fling;
     }
+    set store(store) {
+        this._store = store;
+    }
     set belch(belch) {
         this._belch = belch;
     }
     set dynamax(dynamax) {
         this._dynamax = dynamax;
+    }
+    set rangeCorr(rangeCorr) {
+        this._rangeCorr = rangeCorr;
     }
     set memo(memo) {
         this._memo = memo;
@@ -992,6 +964,9 @@ class StateChangeSummary {
     }
     get cannotEscape() {
         return this._cannotEscape;
+    }
+    get electrify() {
+        return this._electrify;
     }
     get powder() {
         return this._powder;
@@ -1077,6 +1052,9 @@ class StateChangeSummary {
     get iceFace() {
         return this._iceFace;
     }
+    get protean() {
+        return this._protean;
+    }
     get quarkDrive() {
         return this._quarkDrive;
     }
@@ -1122,6 +1100,12 @@ class StateChangeSummary {
     get focusPunch() {
         return this._focusPunch;
     }
+    get noRetreat() {
+        return this._noRetreat;
+    }
+    get protect() {
+        return this._protect;
+    }
     get endureMsg() {
         return this._endureMsg;
     }
@@ -1131,11 +1115,17 @@ class StateChangeSummary {
     get fling() {
         return this._fling;
     }
+    get store() {
+        return this._store;
+    }
     get belch() {
         return this._belch;
     }
     get dynamax() {
         return this._dynamax;
+    }
+    get rangeCorr() {
+        return this._rangeCorr;
     }
     get memo() {
         return this._memo;

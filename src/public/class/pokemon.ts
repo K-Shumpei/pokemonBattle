@@ -829,6 +829,7 @@ class StateChangeSummary {
   _slowStart: StateChange; // スロースタート
   _disguise: StateChange; // ばけのかわ
   _iceFace: StateChange; // アイスフェイス
+  _protean: StateChange; // へんげんじざい
   _quarkDrive: StateChange; // クォークチャージ
   _protosynthesis: StateChange; // こだいかっせい
   _flashFire: StateChange; // もらいび
@@ -844,9 +845,12 @@ class StateChangeSummary {
   _endure: StateChange; // こらえる
   _beakBlast: StateChange; // くちばしキャノン
   _focusPunch: StateChange; // きあいパンチ
+  _noRetreat: StateChange; // はいすいのじん
+  _protect: StateChange // まもる
   _endureMsg: StateChange; // HP1で耐える効果の保存
   _recycle: StateChange; // リサイクル
   _fling: StateChange; // なげつける
+  _store: StateChange; // ため技
   _belch: StateChange; // ゲップ
   _dynamax: StateChange; // ダイマックス
   _rangeCorr: StateChange; // 範囲補正
@@ -904,6 +908,7 @@ class StateChangeSummary {
     this._slowStart = new StateChange( 'スロースタート' );
     this._disguise = new StateChange( 'ばけのかわ' );
     this._iceFace = new StateChange( 'アイスフェイス' );
+    this._protean = new StateChange( 'へんげんじざい' );
     this._quarkDrive = new StateChange( 'クォークチャージ' );
     this._protosynthesis = new StateChange( 'こだいかっせい' );
     this._flashFire = new StateChange( 'もらいび' );
@@ -919,9 +924,12 @@ class StateChangeSummary {
     this._endure = new StateChange( 'こらえる' );
     this._beakBlast = new StateChange( 'くちばしキャノン' );
     this._focusPunch = new StateChange( 'きあいパンチ' );
+    this._noRetreat = new StateChange( 'はいすいのじん' );
+    this._protect = new StateChange( 'まもる' );
     this._endureMsg = new StateChange( 'HP1で耐える効果' );
     this._recycle = new StateChange( 'リサイクル' );
     this._fling = new StateChange( 'なげつける' );
+    this._store = new StateChange( 'ため技' );
     this._belch = new StateChange( 'ゲップ' );
     this._dynamax = new StateChange( 'ダイマックス' );
     this._rangeCorr = new StateChange( '範囲補正' );
@@ -1075,6 +1083,9 @@ class StateChangeSummary {
   set iceFace( iceFace: StateChange ) {
     this._iceFace = iceFace;
   }
+  set protean( protean: StateChange ) {
+    this._protean = protean;
+  }
   set quarkDrive( quarkDrive: StateChange ) {
     this._quarkDrive = quarkDrive;
   }
@@ -1120,6 +1131,12 @@ class StateChangeSummary {
   set focusPunch( focusPunch: StateChange ) {
     this._focusPunch = focusPunch;
   }
+  set noRetreat( noRetreat: StateChange ) {
+    this._noRetreat = noRetreat;
+  }
+  set protect( protect: StateChange ) {
+    this._protect = protect;
+  }
   set endureMsg( endureMsg: StateChange ) {
     this._endureMsg = endureMsg;
   }
@@ -1128,6 +1145,9 @@ class StateChangeSummary {
   }
   set fling( fling: StateChange ) {
     this._fling = fling;
+  }
+  set store( store: StateChange ) {
+    this._store = store;
   }
   set belch( belch: StateChange ) {
     this._belch = belch;
@@ -1289,6 +1309,9 @@ class StateChangeSummary {
   get iceFace(): StateChange {
     return this._iceFace;
   }
+  get protean(): StateChange {
+    return this._protean;
+  }
   get quarkDrive(): StateChange {
     return this._quarkDrive;
   }
@@ -1334,6 +1357,12 @@ class StateChangeSummary {
   get focusPunch(): StateChange {
     return this._focusPunch;
   }
+  get noRetreat(): StateChange {
+    return this._noRetreat;
+  }
+  get protect(): StateChange {
+    return this._protect;
+  }
   get endureMsg(): StateChange {
     return this._endureMsg;
   }
@@ -1342,6 +1371,9 @@ class StateChangeSummary {
   }
   get fling(): StateChange {
     return this._fling;
+  }
+  get store(): StateChange {
+    return this._store;
   }
   get belch(): StateChange {
     return this._belch;

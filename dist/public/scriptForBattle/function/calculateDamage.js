@@ -185,7 +185,11 @@ function getPower(pokemon, target) {
         }
     }
     if (move.name === 'しぜんのめぐみ') {
-        ;
+        for (const berry of berryTable) {
+            if (isItem(pokemon, berry.name) === true) {
+                basicPower = berry.naturalGift.power;
+            }
+        }
     }
     if (move.name === 'なげつける') {
         ;
@@ -251,10 +255,10 @@ function getPower(pokemon, target) {
     // 威力補正
     let correction = 4096;
     if (isExistAbility('オーラブレイク')) {
-        if (isExistAbility('フェアリーオーラ') === true && move.type === 'フェアリー') {
+        if (isExistAbility('フェアリーオーラ') && move.type === 'フェアリー') {
             correction = Math.round(correction * 3072 / 4096);
         }
-        if (isExistAbility('ダークオーラ') === true && move.type === 'あく') {
+        if (isExistAbility('ダークオーラ') && move.type === 'あく') {
             correction = Math.round(correction * 3072 / 4096);
         }
     }
@@ -576,12 +580,12 @@ function getStatus(pokemon, target, damage) {
             attackCorrection = Math.round(attackCorrection * 2048 / 4096);
         }
     }
-    if (isExistAbility('わざわいのうつわ') === true && isAbility(pokemon, 'わざわいのうつわ') === false) {
+    if (isExistAbility('わざわいのうつわ') && isAbility(target, 'わざわいのうつわ') === false) {
         if (pokemon.moveUsed.category === '特殊') {
             attackCorrection = Math.round(attackCorrection * 3072 / 4096);
         }
     }
-    if (isExistAbility('わざわいのおふだ') === true && isAbility(pokemon, 'わざわいのおふだ') === false) {
+    if (isExistAbility('わざわいのおふだ') && isAbility(target, 'わざわいのおふだ') === false) {
         if (pokemon.moveUsed.category === '物理') {
             attackCorrection = Math.round(attackCorrection * 3072 / 4096);
         }
@@ -773,12 +777,12 @@ function getStatus(pokemon, target, damage) {
     }
     // 防御補正
     let defenseCorrection = 4096;
-    if (isExistAbility('わざわいのたま') === true && isAbility(target, 'わざわいのたま') === false) {
+    if (isExistAbility('わざわいのたま') && isAbility(target, 'わざわいのたま') === false) {
         if (pokemon.moveUsed.category === '特殊') {
             defenseCorrection = Math.round(defenseCorrection * 3072 / 4096);
         }
     }
-    if (isExistAbility('わざわいのつるぎ') === true && isAbility(target, 'わざわいのつるぎ') === false) {
+    if (isExistAbility('わざわいのつるぎ') && isAbility(target, 'わざわいのつるぎ') === false) {
         if (pokemon.moveUsed.category === '物理') {
             defenseCorrection = Math.round(defenseCorrection * 3072 / 4096);
         }
@@ -852,6 +856,10 @@ function getStatus(pokemon, target, damage) {
 function getDamage(pokemon, target, power, status, damageInfo) {
     // 最終ダメージ
     let damage = Math.floor(Math.floor(Math.floor(pokemon.status.level * 2 / 5 + 2) * power * status) / 50 + 2);
+    // 範囲補正
+    if (pokemon.stateChange.rangeCorr.isTrue === true) {
+        damage = fiveRoundEntry(damage * 3072 / 4096);
+    }
     // 天気補正
     if (isWeather(target, 'あめ')) {
         if (pokemon.moveUsed.type === 'みず') {
