@@ -59,106 +59,23 @@ function isSuccess(pokemon) {
     if (disableByPsychofield(pokemon) === true)
         return false;
     // ファストガード/ワイドガード/トリックガードによる無効化
-    disableByOtherProtect(pokemon);
-    // テレキネシスの、対象がディグダ/ダグトリオ/スナバァ/シロデスナ/メガゲンガー/うちおとす状態/ねをはる状態であることによる失敗
-    if (pokemon.moveUsed.name === 'テレキネシス') {
-        for (const damage of pokemon.damage) {
-            const target = getPokemonByBattle(damage.trainer, damage.battle);
-            if (target === false)
-                continue;
-            if (target.status.name === 'ディグダ')
-                return pokemon.moveUsed.failure();
-            if (target.status.name === 'ダグトリオ')
-                return pokemon.moveUsed.failure();
-            if (target.status.name === 'スナバァ')
-                return pokemon.moveUsed.failure();
-            if (target.status.name === 'シロデスナ')
-                return pokemon.moveUsed.failure();
-            if (target.status.name === 'メガゲンガー')
-                return pokemon.moveUsed.failure();
-            if (target.stateChange.smackDown.isTrue === true)
-                return pokemon.moveUsed.failure();
-            if (target.stateChange.ingrain.isTrue === true)
-                return pokemon.moveUsed.failure();
-        }
-    }
-    // 特性による無効化(その1)
-    for (const damage of pokemon.damage) {
-        const target = getPokemonByBattle(damage.trainer, damage.battle);
-        if (target === false)
-            continue;
-        // そうしょく: くさタイプ
-        if (isAbility(target, 'そうしょく') === true) {
-            if (pokemon.moveUsed.type === 'くさ') {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        // もらいび: ほのおタイプ
-        if (isAbility(target, 'もらいび') === true) {
-            if (pokemon.moveUsed.type === 'ほのお') {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        // かんそうはだ/よびみず/ちょすい: みずタイプ
-        if (isAbility(target, 'かんそうはだ') === true) {
-            if (pokemon.moveUsed.type === 'みず') {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        if (isAbility(target, 'よびみず') === true) {
-            if (pokemon.moveUsed.type === 'みず') {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        if (isAbility(target, 'ちょすい') === true) {
-            if (pokemon.moveUsed.type === 'みず') {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        // ひらいしん/でんきエンジン/ちくでん: でんきタイプ
-        if (isAbility(target, 'ひらいしん') === true) {
-            if (pokemon.moveUsed.type === 'でんき') {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        if (isAbility(target, 'でんきエンジン') === true) {
-            if (pokemon.moveUsed.type === 'でんき') {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        if (isAbility(target, 'ちくでん') === true) {
-            if (pokemon.moveUsed.type === 'でんき') {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        // ぼうおん: 音技
-        if (isAbility(target, 'ぼうおん') === true) {
-            if (soundMoveList.includes(pokemon.moveUsed.name)) {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-        // テレパシー:　味方による攻撃技
-        // ふしぎなまもり: 効果抜群でない技
-        // ぼうじん: 粉技
-        if (isAbility(target, 'ぼうじん') === true) {
-            if (powderMoveList.includes(pokemon.moveUsed.name)) {
-                target.status.declareAbility();
-                target.status.declareInvalid(damage);
-            }
-        }
-    }
-    if (isInvalid(pokemon.damage) === true) {
+    if (disableByOtherProtect(pokemon) === true)
         return false;
-    }
+    // まもる/キングシールド/ブロッキング/ニードルガード/トーチカによる無効化
+    if (disableByProtect(pokemon) === true)
+        return false;
+    // たたみがえしによる無効化
+    if (disableByMatBlock(pokemon) === true)
+        return false;
+    // ダイウォールによる無効化
+    if (disableByMaxGuard(pokemon) === true)
+        return false;
+    // テレキネシスの、対象がディグダ/ダグトリオ/スナバァ/シロデスナ/メガゲンガー/うちおとす状態/ねをはる状態であることによる失敗
+    if (failureByTelekinesis(pokemon) === true)
+        return false;
+    // 特性による無効化(その1)
+    if (disableByAbility1st(pokemon) === true)
+        return false;
     // 相性による無効化
     for (const damage of pokemon.damage) {
         const target = getPokemonByBattle(damage.trainer, damage.battle);
@@ -1884,9 +1801,9 @@ function failureByMoveSpec(pokemon) {
         return true;
     }
     protect: if (protectMoveList.includes(pokemon.moveUsed.name)) {
-        if (pokemon.stateChange.protect.isTrue === false)
+        if (pokemon.stateChange.someProtect.isTrue === false)
             break protect;
-        if (getRandom() < Math.pow(1 / 3, pokemon.stateChange.protect.count))
+        if (getRandom() < Math.pow(1 / 3, pokemon.stateChange.someProtect.count))
             break protect;
         pokemon.damage = [];
         pokemon.status.declareFailure();
@@ -2260,6 +2177,198 @@ function disableByOtherProtect(pokemon) {
             writeLog(`${getArticle(target.target)}は トリックガードで 守られた!`);
             continue;
         }
+    }
+    return isMoveFailure(pokemon);
+}
+// まもる/キングシールド/ブロッキング/ニードルガード/トーチカによる無効化
+function disableByProtect(pokemon) {
+    const targetList = getTargetList(pokemon);
+    for (const target of targetList) {
+        if (target.target.stateChange.protect.isTrue === false)
+            continue;
+        if (pokemon.moveUsed.isProtect === false)
+            continue;
+        if (isAbility(pokemon, 'ふかしのこぶし') === true && pokemon.moveUsed.isDirect === true)
+            continue;
+        if (target.target.stateChange.protect.text === 'キングシールド' && pokemon.moveUsed.category === '変化')
+            continue;
+        if (target.target.stateChange.protect.text === 'ブロッキング' && pokemon.moveUsed.category === '変化')
+            continue;
+        target.damage.success = false;
+        writeLog(`${getArticle(target.target)}は 攻撃から 身を守った!`);
+        spikyShield: if (target.target.stateChange.protect.text === 'ニードルガード') {
+            if (pokemon.moveUsed.isDirect === false)
+                break spikyShield;
+            if (pokemon.moveUsed.name === 'フリーフォール')
+                break spikyShield;
+            if (isAbility(target.target, 'マジックガード') === true)
+                break spikyShield;
+            if (isItem(target.target, 'ぼうごパット') === true)
+                break spikyShield;
+            const dynamax = (pokemon.stateChange.dynamax.isTrue === true) ? 0.5 : 1;
+            const damage = Math.max(1, Math.floor(pokemon.actualValue.hitPoint * dynamax / 8));
+            changeHPByAbility(pokemon, damage, '-');
+            writeLog(`${getArticle(pokemon)}は 傷ついた!`);
+        }
+        banefulBunker: if (target.target.stateChange.protect.text === 'トーチカ') {
+            if (pokemon.moveUsed.isDirect === false)
+                break banefulBunker;
+            if (pokemon.moveUsed.name === 'フリーフォール')
+                break banefulBunker;
+            giveAilment(target.target, pokemon, 'どく');
+        }
+        kingsShield: if (target.target.stateChange.protect.text === 'キングシールド') {
+            if (pokemon.moveUsed.isDirect === false)
+                break kingsShield;
+            if (getRankVariation(pokemon, 'attack', -1) === 0)
+                break kingsShield;
+            changeTargetRank(target.target, pokemon, 'attack', -1);
+        }
+        obstruct: if (target.target.stateChange.protect.text === 'ブロッキング') {
+            if (pokemon.moveUsed.isDirect === false)
+                break obstruct;
+            if (getRankVariation(pokemon, 'defense', -2) === 0)
+                break obstruct;
+            changeTargetRank(target.target, pokemon, 'defense', -2);
+        }
+    }
+    return isMoveFailure(pokemon);
+}
+// たたみがえしによる無効化
+function disableByMatBlock(pokemon) {
+    const targetList = getTargetList(pokemon);
+    for (const target of targetList) {
+        if (fieldStatus.getSide(target.target.trainer).matBlock.isTrue === false)
+            continue;
+        if (pokemon.moveUsed.category === '変化')
+            continue;
+        if (isAbility(pokemon, 'ふかしのこぶし') === true && pokemon.moveUsed.isDirect === true)
+            continue;
+        target.damage.success = false;
+        writeLog(`${pokemon.moveUsed.name}は たたみがえしで 防がれた!`);
+    }
+    return isMoveFailure(pokemon);
+}
+// ダイウォールによる無効化
+function disableByMaxGuard(pokemon) {
+    const targetList = getTargetList(pokemon);
+    for (const target of targetList) {
+        if (target.target.stateChange.protect.text !== 'ダイウォール')
+            continue;
+        if (notMaxGuardMoveList.includes(pokemon.moveUsed.name) === false && pokemon.moveUsed.isProtect === false)
+            continue;
+        target.damage.success = false;
+        writeLog(`${getArticle(target.target)}は 攻撃から 身を守った!`);
+    }
+    return isMoveFailure(pokemon);
+}
+// テレキネシスの、対象がディグダ/ダグトリオ/スナバァ/シロデスナ/メガゲンガー/うちおとす状態/ねをはる状態であることによる失敗
+function failureByTelekinesis(pokemon) {
+    const targetList = getTargetList(pokemon);
+    const one = targetList[0];
+    let isFailure = false;
+    if (pokemon.moveUsed.name !== 'テレキネシス')
+        return false;
+    if (one.target.status.name === 'ディグダ')
+        isFailure = true;
+    if (one.target.status.name === 'ダグトリオ')
+        isFailure = true;
+    if (one.target.status.name === 'スナバァ')
+        isFailure = true;
+    if (one.target.status.name === 'シロデスナ')
+        isFailure = true;
+    if (one.target.status.name === 'メガゲンガー')
+        isFailure = true;
+    if (one.target.stateChange.smackDown.isTrue === true)
+        isFailure = true;
+    if (one.target.stateChange.ingrain.isTrue === true)
+        isFailure = true;
+    if (isFailure === true) {
+        pokemon.damage = [];
+        pokemon.status.declareFailure();
+        return true;
+    }
+    return false;
+}
+// 特性による無効化(その1)
+function disableByAbility1st(pokemon) {
+    const targetList = getTargetList(pokemon);
+    const one = targetList[0];
+    for (const damage of pokemon.damage) {
+        const target = getPokemonByBattle(damage.trainer, damage.battle);
+        if (target === false)
+            continue;
+        // そうしょく: くさタイプ
+        if (isAbility(target, 'そうしょく') === true) {
+            if (pokemon.moveUsed.type === 'くさ') {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        // もらいび: ほのおタイプ
+        if (isAbility(target, 'もらいび') === true) {
+            if (pokemon.moveUsed.type === 'ほのお') {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        // かんそうはだ/よびみず/ちょすい: みずタイプ
+        if (isAbility(target, 'かんそうはだ') === true) {
+            if (pokemon.moveUsed.type === 'みず') {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        if (isAbility(target, 'よびみず') === true) {
+            if (pokemon.moveUsed.type === 'みず') {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        if (isAbility(target, 'ちょすい') === true) {
+            if (pokemon.moveUsed.type === 'みず') {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        // ひらいしん/でんきエンジン/ちくでん: でんきタイプ
+        if (isAbility(target, 'ひらいしん') === true) {
+            if (pokemon.moveUsed.type === 'でんき') {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        if (isAbility(target, 'でんきエンジン') === true) {
+            if (pokemon.moveUsed.type === 'でんき') {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        if (isAbility(target, 'ちくでん') === true) {
+            if (pokemon.moveUsed.type === 'でんき') {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        // ぼうおん: 音技
+        if (isAbility(target, 'ぼうおん') === true) {
+            if (soundMoveList.includes(pokemon.moveUsed.name)) {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+        // テレパシー:　味方による攻撃技
+        // ふしぎなまもり: 効果抜群でない技
+        // ぼうじん: 粉技
+        if (isAbility(target, 'ぼうじん') === true) {
+            if (powderMoveList.includes(pokemon.moveUsed.name)) {
+                target.status.declareAbility();
+                target.status.declareInvalid(damage);
+            }
+        }
+    }
+    if (isInvalid(pokemon.damage) === true) {
+        return false;
     }
     return isMoveFailure(pokemon);
 }

@@ -1,5 +1,5 @@
 "use strict";
-// HP変化
+// 技の追加効果によるHP変化
 function changeHPByMove(pokemon, target, change) {
     let value = change;
     if (isItem(pokemon, 'おおきなねっこ') === true) {

@@ -171,7 +171,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
   }
 
   if ( move.name === 'アクロバット' ) {
-    if ( pokemon.status.item === '' ) {
+    if ( pokemon.status.item === null ) {
       basicPower = 110;
     }
   }
@@ -279,7 +279,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
     }
   }
 
-  if ( isAbility( pokemon, 'エレキスキン' ) || isAbility( pokemon, 'スカイスキン' ) || isAbility( pokemon, 'ノーマルスキン' ) || isAbility( pokemon, 'フェアリースキン' ) || isAbility( pokemon, 'アイススキン' ) ) {
+  if ( isAbility( pokemon, 'エレキスキン' ) || isAbility( pokemon, 'スカイスキン' ) || isAbility( pokemon, 'ノーマルスキン' ) || isAbility( pokemon, 'フェアリースキン' ) || isAbility( pokemon, 'フリーズスキン' ) ) {
     if ( pokemon.stateChange.skin.text === move.type ) {
       correction = Math.round( correction * 4915 / 4096 );
       pokemon.stateChange.skin.reset();
@@ -1074,7 +1074,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
       corrM = Math.round( corrM * 0.5 );
     }
   }
-  if ( isAbility( target, 'ファントムガード' ) || isAbility( target, 'マルチスケイル ' ) ) {
+  if ( isAbility( target, 'ファントムガード' ) || isAbility( target, 'マルチスケイル' ) ) {
     if ( target.status.remainingHP === target.actualValue.hitPoint ) {
       corrM = Math.round( corrM * 0.5 );
     }

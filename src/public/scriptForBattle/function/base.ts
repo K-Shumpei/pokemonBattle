@@ -1,5 +1,5 @@
 // 持ち物
-function isItem( pokemon: Pokemon, item: string ): boolean {
+function isItem( pokemon: Pokemon, item: ItemNameJA ): boolean {
 
   if ( pokemon.status.item !== item ) {
     return false;
@@ -9,7 +9,7 @@ function isItem( pokemon: Pokemon, item: string ): boolean {
 }
 
 // 特性
-function isAbility( pokemon: Pokemon, ability: string ): boolean {
+function isAbility( pokemon: Pokemon, ability: AbilityNameJA ): boolean {
 
   if ( pokemon.status.remainingHP === 0 ) {
     return false;
@@ -145,7 +145,7 @@ function getPokemonType( pokemon: Pokemon ): MoveTypeType[] {
 }
 
 // バトル場の特性存在判定
-function isExistAbility( ability: string ): Pokemon | false {
+function isExistAbility( ability: AbilityNameJA ): Pokemon | false {
 
   for ( const pokemon of allPokemonInBattlefield() ) {
     if ( isAbility( pokemon, ability ) === true ) {
@@ -156,7 +156,7 @@ function isExistAbility( ability: string ): Pokemon | false {
 }
 
 // 片側の場の特性存在判定
- function isExistAbilityOneSide( trainer: 'me' | 'opp' , ability: string ): Pokemon | false {
+ function isExistAbilityOneSide( trainer: 'me' | 'opp' , ability: AbilityNameJA ): Pokemon | false {
 
   for ( const pokemon of allPokemonInSide( trainer ) ) {
     if ( isAbility( pokemon, ability ) === true ) {
@@ -929,7 +929,11 @@ function isReleasableItem( pokemon: Pokemon, target: Pokemon ): boolean {
 
 function activateSeed( pokemon: Pokemon ): void {
 
-  const seedTable = [
+  const seedTable: {
+    item: ItemNameJA;
+    terrain: string;
+    parameter: ParameterStringType
+  }[] = [
     { item: 'エレキシード', terrain: 'エレキフィールド', parameter: 'defense' },
     { item: 'グラスシード', terrain: 'グラスフィールド', parameter: 'defense' },
     { item: 'サイコシード', terrain: 'サイコフィールド', parameter: 'specialDefense' },

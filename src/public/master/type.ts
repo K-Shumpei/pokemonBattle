@@ -43,6 +43,21 @@ type MoveDataType = {
   discription: string;
 }
 
+type ItemDataType = {
+  id: number;
+  nameJA: ItemNameJA;
+  nameEN: string;
+  category: string;
+  flingPower: number | null;
+  flingEffect: string | null;
+}
+
+type AbilityDataType = {
+  id: number;
+  nameJA: AbilityNameJA;
+  nameEN: string;
+}
+
 type ParameterSixType = {
   hitPoint: number;
   attack: number;
@@ -154,7 +169,7 @@ type changeAbilityType = {
 
 type BerryTableType = {
   number: number;
-  name: string;
+  name: ItemNameJA;
   half: MoveTypeType;
   fling: boolean;
   naturalGift: { type: MoveTypeType, power: number };

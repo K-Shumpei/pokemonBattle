@@ -1,4 +1,4 @@
-// HP変化
+// 技の追加効果によるHP変化
 function changeHPByMove( pokemon: Pokemon, target: Pokemon, change: number ): void {
 
   let value: number = change;

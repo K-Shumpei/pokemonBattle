@@ -631,6 +631,7 @@ class StateChangeSummary {
         this._saltCure = new StateChange('しおづけ');
         this._focusEnergy = new StateChange('きゅうしょアップ');
         this._substitute = new StateChange('みがわり');
+        this._protect = new StateChange('まもる');
         this._lockOn = new StateChange('ロックオン');
         this._minimize = new StateChange('ちいさくなる');
         this._destinyBond = new StateChange('みちづれ');
@@ -670,7 +671,7 @@ class StateChangeSummary {
         this._beakBlast = new StateChange('くちばしキャノン');
         this._focusPunch = new StateChange('きあいパンチ');
         this._noRetreat = new StateChange('はいすいのじん');
-        this._protect = new StateChange('まもる');
+        this._someProtect = new StateChange('まもる連続使用');
         this._endureMsg = new StateChange('HP1で耐える効果');
         this._recycle = new StateChange('リサイクル');
         this._fling = new StateChange('なげつける');
@@ -760,6 +761,9 @@ class StateChangeSummary {
     }
     set substitute(substitute) {
         this._substitute = substitute;
+    }
+    set protect(protect) {
+        this._protect = protect;
     }
     set lockOn(lockOn) {
         this._lockOn = lockOn;
@@ -878,8 +882,8 @@ class StateChangeSummary {
     set noRetreat(noRetreat) {
         this._noRetreat = noRetreat;
     }
-    set protect(protect) {
-        this._protect = protect;
+    set someProtect(someProtect) {
+        this._someProtect = someProtect;
     }
     set endureMsg(endureMsg) {
         this._endureMsg = endureMsg;
@@ -985,6 +989,9 @@ class StateChangeSummary {
     }
     get substitute() {
         return this._substitute;
+    }
+    get protect() {
+        return this._protect;
     }
     get lockOn() {
         return this._lockOn;
@@ -1103,8 +1110,8 @@ class StateChangeSummary {
     get noRetreat() {
         return this._noRetreat;
     }
-    get protect() {
-        return this._protect;
+    get someProtect() {
+        return this._someProtect;
     }
     get endureMsg() {
         return this._endureMsg;

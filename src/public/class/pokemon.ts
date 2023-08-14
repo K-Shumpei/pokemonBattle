@@ -36,9 +36,9 @@ class Status {
   _type1: MoveTypeType;
   _type2: MoveTypeType;
   _gender: GenderType;
-  _ability: string;
+  _ability: AbilityNameJA | null;
   _level: number;
-  _item: string | null;
+  _item: ItemNameJA | null;
   _nature: NatureType;
   _height: number;
   _weight: number;
@@ -52,7 +52,7 @@ class Status {
     this._type1 = null;
     this._type2 = null;
     this._gender = '-';
-    this._ability = '';
+    this._ability = null;
     this._level = 50;
     this._item = null;
     this._nature = 'てれや';
@@ -78,13 +78,13 @@ class Status {
   set gender( gender: GenderType ) {
     this._gender = gender;
   }
-  set ability( ability: string ) {
+  set ability( ability: AbilityNameJA | null ) {
     this._ability = ability;
   }
   set level( level: number ) {
     this._level = level;
   }
-  set item( item: string | null ) {
+  set item( item: ItemNameJA | null ) {
     this._item = item;
   }
   set nature( nature: NatureType) {
@@ -121,13 +121,13 @@ class Status {
   get gender(): GenderType {
     return this._gender;
   }
-  get ability(): string {
+  get ability(): AbilityNameJA | null {
     return this._ability;
   }
   get level(): number {
     return this._level;
   }
-  get item(): string | null {
+  get item(): ItemNameJA | null {
     return this._item;
   }
   get nature(): NatureType {
@@ -770,7 +770,7 @@ class StateChangeSummary {
   _focusEnergy: StateChange; // きゅうしょアップ
   // ちゅうもくのまと
   _substitute: StateChange; // みがわり
-  // まもる
+  _protect: StateChange; // まもる
   _lockOn: StateChange; //ロックオン (第五世代以降)
 
   /*
@@ -846,7 +846,7 @@ class StateChangeSummary {
   _beakBlast: StateChange; // くちばしキャノン
   _focusPunch: StateChange; // きあいパンチ
   _noRetreat: StateChange; // はいすいのじん
-  _protect: StateChange // まもる
+  _someProtect: StateChange // まもる連続使用
   _endureMsg: StateChange; // HP1で耐える効果の保存
   _recycle: StateChange; // リサイクル
   _fling: StateChange; // なげつける
@@ -885,6 +885,7 @@ class StateChangeSummary {
 
     this._focusEnergy = new StateChange( 'きゅうしょアップ' );
     this._substitute = new StateChange( 'みがわり' );
+    this._protect = new StateChange( 'まもる' );
     this._lockOn = new StateChange( 'ロックオン' );
     this._minimize = new StateChange( 'ちいさくなる' );
     this._destinyBond = new StateChange( 'みちづれ' );
@@ -925,7 +926,7 @@ class StateChangeSummary {
     this._beakBlast = new StateChange( 'くちばしキャノン' );
     this._focusPunch = new StateChange( 'きあいパンチ' );
     this._noRetreat = new StateChange( 'はいすいのじん' );
-    this._protect = new StateChange( 'まもる' );
+    this._someProtect = new StateChange( 'まもる連続使用' );
     this._endureMsg = new StateChange( 'HP1で耐える効果' );
     this._recycle = new StateChange( 'リサイクル' );
     this._fling = new StateChange( 'なげつける' );
@@ -1016,6 +1017,9 @@ class StateChangeSummary {
   }
   set substitute( substitute: StateChange ) {
     this._substitute = substitute;
+  }
+  set protect( protect: StateChange ) {
+    this._protect = protect;
   }
   set lockOn( lockOn: StateChange ) {
     this._lockOn = lockOn;
@@ -1134,8 +1138,8 @@ class StateChangeSummary {
   set noRetreat( noRetreat: StateChange ) {
     this._noRetreat = noRetreat;
   }
-  set protect( protect: StateChange ) {
-    this._protect = protect;
+  set someProtect( someProtect: StateChange ) {
+    this._someProtect = someProtect;
   }
   set endureMsg( endureMsg: StateChange ) {
     this._endureMsg = endureMsg;
@@ -1242,6 +1246,9 @@ class StateChangeSummary {
   }
   get substitute(): StateChange {
     return this._substitute;
+  }
+  get protect(): StateChange {
+    return this._protect;
   }
   get lockOn(): StateChange {
     return this._lockOn;
@@ -1360,8 +1367,8 @@ class StateChangeSummary {
   get noRetreat(): StateChange {
     return this._noRetreat;
   }
-  get protect(): StateChange {
-    return this._protect;
+  get someProtect(): StateChange {
+    return this._someProtect;
   }
   get endureMsg(): StateChange {
     return this._endureMsg;

@@ -1599,7 +1599,10 @@ function targetItemEffectPart4( pokemon: Pokemon ): void {
         eatBerry( data.target, data.target.status.item );
     }
 
-    const rankBerryTable = [
+    const rankBerryTable: {
+      name: ItemNameJA;
+      parameter: ParameterStringType;
+    }[] = [
       { name: 'チイラのみ', parameter: 'attack' },
       { name: 'リュガのみ', parameter: 'defense' },
       { name: 'ヤタピのみ', parameter: 'specialAttack' },

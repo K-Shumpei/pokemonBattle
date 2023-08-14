@@ -489,7 +489,7 @@ const changeAbilityTable: changeAbilityType[] = [
 ]
 
 // プレート
-const plateTable: { name: string, type: MoveTypeType }[] = [
+const plateTable: { name: ItemNameJA, type: MoveTypeType }[] = [
   { name: 'あおぞらプレート', type: 'ひこう' },
   { name: 'いかずちプレート', type: 'でんき' },
   { name: 'がんせきプレート', type: 'いわ' },
@@ -510,7 +510,7 @@ const plateTable: { name: string, type: MoveTypeType }[] = [
 ]
 
 // ジュエル
-const gemTable: { name: string, type: MoveTypeType }[] = [
+const gemTable: { name: ItemNameJA, type: MoveTypeType }[] = [
   { name: 'あくのジュエル', type: 'あく' },
   { name: 'いわのジュエル', type: 'いわ' },
   { name: 'エスパージュエル', type: 'エスパー' },
@@ -525,14 +525,14 @@ const gemTable: { name: string, type: MoveTypeType }[] = [
   { name: 'ノーマルジュエル', type: 'ノーマル' },
   { name: 'はがねのジュエル', type: 'はがね' },
   { name: 'ひこうのジュエル', type: 'ひこう' },
-  { name: 'フェアリージュエル', type: 'フェアリー' },
+  { name: 'ようせいジュエル', type: 'フェアリー' },
   { name: 'ほのおのジュエル', type: 'ほのお' },
   { name: 'みずのジュエル', type: 'みず' },
   { name: 'むしのジュエル', type: 'むし' }
 ]
 
 // メモリ
-const memoryTable: { name: string, type: MoveTypeType }[] = [
+const memoryTable: { name: ItemNameJA, type: MoveTypeType }[] = [
   { name: 'アイスメモリ', type: 'こおり' },
   { name: 'ウオーターメモリ', type: 'みず' },
   { name: 'エレクトロメモリ', type: 'でんき' },
@@ -553,7 +553,7 @@ const memoryTable: { name: string, type: MoveTypeType }[] = [
 ]
 
 // カセット
-const driveTable: { name: string, type: MoveTypeType }[] = [
+const driveTable: { name: ItemNameJA, type: MoveTypeType }[] = [
   { name: 'アクアカセット', type: 'みず' },
   { name: 'イナズマカセット', type: 'でんき' },
   { name: 'フリーズカセット', type: 'こおり' },
@@ -561,7 +561,7 @@ const driveTable: { name: string, type: MoveTypeType }[] = [
 ]
 
 // シルクのスカーフ、おこう
-const incenseTable: { name: string, type: MoveTypeType }[] = [
+const incenseTable: { name: ItemNameJA, type: MoveTypeType }[] = [
   { name: 'あやしいおこう', type: 'エスパー' },
   { name: 'うしおのおこう', type: 'みず' },
   { name: 'おはなのおこう', type: 'くさ' },
@@ -999,7 +999,6 @@ const berryTable: BerryTableType[] = [
   { number: 65, name: 'ロゼルのみ', half: 'フェアリー', fling: false, naturalGift: { type: 'フェアリー', power: 80 } },
   { number: 66, name: 'アッキのみ', half: null, fling: true, naturalGift: { type: 'フェアリー', power: 100 } },
   { number: 67, name: 'タラプのみ', half: null, fling: true, naturalGift: { type: 'あく', power: 100 } },
-  { number: 68, name: 'ポフのみ', half: null, fling: false, naturalGift: { type: null, power: 0 } },
 ]
 
 const moveEffectMyRank: MoveEffectRank[] = [
@@ -1157,6 +1156,19 @@ const storeMoveList: string[] = [
   'とびはねる',
   'フリーフォール',
   'ダイビング',
+  'ゴーストダイブ',
+  'シャドーダイブ'
+]
+
+const notMaxGuardMoveList: string[] = [
+  'アシストギア',
+  'おちゃかい',
+  'じこあんじ',
+  'じばそうさ',
+  'テクスチャー2',
+  'とおせんぼう',
+  'フラワーガード',
+  'へんしん',
   'ゴーストダイブ',
   'シャドーダイブ'
 ]

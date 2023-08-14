@@ -1,15 +1,14 @@
-const test = [
-  { num: 0, text: 'A' },
-  { num: 10, text: 'B' },
-  { num: 20, text: 'C' },
-  { num: 30, text: 'D' },
-]
+if ( true ) {
 
-const test2 = test.filter( num => num.num > 10 );
+  const array = []
+  for ( const item of itemAPIdata ) {
+    array.push( item.nameJA )
+  }
 
-for ( const num of test2 ) {
-  num.text = 'AA'
+  const collator = new Intl.Collator("ja");
+  array.sort(collator.compare);
+
+  for ( const item of array ) {
+    console.log("'" + item + "',")
+  }
 }
-
-console.log(test)
-console.log(test2)
