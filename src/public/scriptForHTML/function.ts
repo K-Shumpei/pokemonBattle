@@ -60,45 +60,66 @@ function resetInputRegister(): void {
 function registrationPokemon(): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
-  const pokemon: PokemonDataType | false = getPokemonDataByName( name );
 
+  // 存在しないポケモンの場合、処理を終了
+  if ( pokemonNameListJA.includes( name ) === false ) {
+    return;
+  }
+
+  const pokemon: PokemonData = getPokemonDataByName( name );
   const type1HTML = getHTMLInputElement( 'register_type1' );
   const type2HTML = getHTMLInputElement( 'register_type2' );
   const genderHTML = getHTMLInputElement( 'register_gender' );
   const abilityHTML = getHTMLInputElement( 'register_ability' );
 
-  // 存在しないポケモンの場合、処理を終了
-  if ( pokemon === false ) {
-    return;
-  }
-
   // 現在の表示をリセット
   resetInputRegister();
 
   // タイプ表示
-  type1HTML.textContent = pokemon.type1;
-  type2HTML.textContent = pokemon.type2;
-  type1HTML.value = String( pokemon.type1 );
-  type2HTML.value = String( pokemon.type2 );
+  type1HTML.textContent = pokemon.type[0];
+  type1HTML.value = String( pokemon.type[0] );
+  if ( pokemon.type.length === 2 ) {
+    type2HTML.textContent = pokemon.type[1];
+    type2HTML.value = String( pokemon.type[1] );
+  }
 
   // 性別表示
   genderHTML.innerHTML = '';
-  for ( const gender of [ pokemon.gender1, pokemon.gender2 ] ) {
-    if ( gender === '-' ) {
-      continue;
-    }
-    const option = document.createElement( 'option' );
-    option.value = gender;
-    option.textContent = gender;
-    genderHTML.appendChild( option );
+
+  const optionMale = document.createElement( 'option' );
+  optionMale.value = '♂';
+  optionMale.textContent = '♂';
+
+  const optionFemale = document.createElement( 'option' );
+  optionFemale.value = '♀';
+  optionFemale.textContent = '♀';
+
+  const optionLess = document.createElement( 'option' );
+  optionLess.value = '-';
+  optionLess.textContent = '-';
+
+  switch ( pokemon.gender ) {
+    case 'both':
+      genderHTML.appendChild( optionMale );
+      genderHTML.appendChild( optionFemale );
+      break;
+
+    case 'male':
+      genderHTML.appendChild( optionMale );
+      break;
+
+    case 'female':
+      genderHTML.appendChild( optionFemale );
+      break;
+
+    case 'genderless':
+      genderHTML.appendChild( optionLess );
+      break;
   }
 
   // 特性表示
   abilityHTML.innerHTML = '';
-  for ( const ability of [ pokemon.ability1, pokemon.ability2, pokemon.ability3 ] ) {
-    if ( ability === '' ) {
-      continue;
-    }
+  for ( const ability of pokemon.ability ) {
     const option = document.createElement( 'option' );
     option.value = ability;
     option.textContent = ability;
@@ -126,11 +147,19 @@ function registrationPokemon(): void {
     moveHTML.appendChild(blunk);
 
     // ポケモンが覚える技
-    for ( const move of moveData ) {
-      const option = document.createElement( 'option' );
-      option.value = move.name;
-      option.textContent = move.name;
-      moveHTML.appendChild(option);
+    for ( const learn of moveLearnedByPomeon ) {
+      if ( learn.nameEN === pokemon.nameEN ) {
+        for ( const move of learn.move ) {
+          for ( const master of moveMaster ) {
+            if ( move === master.nameEN ) {
+              const option = document.createElement( 'option' );
+              option.value = master.nameJA;
+              option.textContent = master.nameJA;
+              moveHTML.appendChild(option);
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -141,13 +170,13 @@ function reflectActualValueInHTML(): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
   const level: number = Number( getHTMLInputElement( 'register_level' ).value );
-  const pokemon: PokemonDataType | false = getPokemonDataByName( name );
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemon === false ) {
+  if ( pokemonNameListJA.includes( name ) === false ) {
     return;
   }
 
+  const pokemon: PokemonData = getPokemonDataByName( name );
   const nature: string = getHTMLInputElement( 'register_nature' ).value;
   const actualValueList: ParameterSixType = calculateActualValue( pokemon, level, getNatureType( nature ) );
 
@@ -201,7 +230,7 @@ function getGenderType( gender: string ): GenderType {
 
 
 // 実数値計算
-function calculateActualValue( pokemon: PokemonDataType, level: number, natureString: NatureType ): ParameterSixType {
+function calculateActualValue( pokemon: PokemonData, level: number, natureString: NatureType ): ParameterSixType {
 
   const baseStatusList: ParameterSixType = getBaseStatusList( pokemon );
   const nature: NatureDataType = getNatureDataByName( natureString );
@@ -219,7 +248,7 @@ function calculateActualValue( pokemon: PokemonDataType, level: number, natureSt
     actualValue = Math.floor( step2 / 100 );
 
     if ( parameter === 'hitPoint' ) {
-      if ( pokemon.name === 'ヌケニン' ) {
+      if ( pokemon.nameJA === 'ヌケニン' ) {
         actualValue = 1;
       } else {
         actualValue += level + 10;
@@ -311,14 +340,14 @@ function setEffortValue( parameter: string, number: number ): void {
 function reflectEffortValueInHTML( parameter: string ): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
-  const pokemon: PokemonDataType | false = getPokemonDataByName( name );
-  const natureString: string = getHTMLInputElement( 'register_nature' ).value;
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemon === false ) {
+  if ( pokemonNameListJA.includes( name ) === false ) {
     return;
   }
 
+  const pokemon: PokemonData = getPokemonDataByName( name );
+  const natureString: string = getHTMLInputElement( 'register_nature' ).value;
   const level: number = Number( getHTMLInputElement( 'register_level' ).value );
   const nature: NatureDataType = getNatureDataByName( getNatureType( natureString ) );
   const baseStatusList: ParameterSixType = getBaseStatusList( pokemon );
@@ -332,7 +361,7 @@ function reflectEffortValueInHTML( parameter: string ): void {
 
 
   // ヌケニンのHP実数値は変更できない
-  if ( pokemon.name === 'ヌケニン' && parameter === 'hitPoint' ) {
+  if ( pokemon.nameJA === 'ヌケニン' && parameter === 'hitPoint' ) {
     reflectActualValueInHTML();
     return;
   }
@@ -443,7 +472,13 @@ function changePowerPoint( number: number, direction: string ): void {
 function registerParty( number: number ): void {
 
   const name: string = getHTMLInputElement( 'register_name' ).value;
-  const pokemon: PokemonDataType | false = getPokemonDataByName( name );
+
+  // 存在しないポケモンの場合、処理を終了
+  if ( pokemonNameListJA.includes( name ) === false ) {
+    return;
+  }
+
+  const pokemon: PokemonData = getPokemonDataByName( name );
   const type1HTML = getHTMLInputElement( 'register_type1' );
   const type2HTML = getHTMLInputElement( 'register_type2' );
   const genderHTML = getHTMLInputElement( 'register_gender' );
@@ -453,11 +488,6 @@ function registerParty( number: number ): void {
   const natureHTML = getHTMLInputElement( 'register_nature' );
   const actualValue_hitPoint = getHTMLInputElement( 'register_hitPointActualValue' );
 
-  // 存在しないポケモンの場合、処理を終了
-  if ( pokemon === false ) {
-    return;
-  }
-
   // トレーナーネーム
   myAllParty[number].trainer = 'me';
 
@@ -466,8 +496,11 @@ function registerParty( number: number ): void {
   myAllParty[number].order.hand = number;
 
   // 基本ステータス
-  myAllParty[number].statusOrg.number = pokemon.number;
-  myAllParty[number].statusOrg.name = pokemon.name;
+  myAllParty[number].statusOrg.id = pokemon.id;
+  myAllParty[number].statusOrg.order = pokemon.order;
+  myAllParty[number].statusOrg.index = pokemon.index;
+  myAllParty[number].statusOrg.name = pokemon.nameJA;
+  myAllParty[number].statusOrg.nameEN = pokemon.nameEN;
   myAllParty[number].statusOrg.type1 = getTypeType( type1HTML.value );
   myAllParty[number].statusOrg.type2 = getTypeType( type2HTML.value );
   myAllParty[number].statusOrg.gender = getGenderType( genderHTML.value );
@@ -635,7 +668,7 @@ function showPartyPokemon( pokemon: Pokemon ): void {
   }
 
   // パーティ画像
-  imageHTML.src = './pokemonImage/' + pokemon.status.number + '.png';
+  imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.index + '.png';
 }
 
 
@@ -689,13 +722,15 @@ function registerAllRandom(): void {
 
   for ( let i = 0; i < 6; i++ ) {
     // 登録欄
-    const name: string = pokemonData[ Math.floor( Math.random() * pokemonData.length ) ].name;
+    const pokemon: PokemonData = pokemonMaster[ Math.floor( Math.random() * pokemonMaster.length ) ]
+    const name: string = pokemon.nameJA;
     getHTMLInputElement( 'register_name' ).value = name;
     registrationPokemon();
 
     for ( let j = 0; j < 4; j++ ) {
-      const move: string = moveData[ Math.floor( Math.random() * moveData.length ) ].name;
-      getHTMLInputElement( 'registerMoveName' + j ).value = move;
+      const learned = moveLearnedByPomeon.filter( _move => _move.nameEN === pokemon.nameEN )[0].move
+      const move = learned[ Math.floor( Math.random() * learned.length ) ];
+      getHTMLInputElement( 'registerMoveName' + j ).value = moveMaster.filter(  _move => _move.nameEN === move )[0].nameJA;
       reflectMoveNatureInHTML( j );
     }
 

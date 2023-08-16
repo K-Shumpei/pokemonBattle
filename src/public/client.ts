@@ -70,7 +70,9 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
     opponentAllParty[i].order.hand = party[i]._order._hand;
 
     // 基本ステータス
-    opponentAllParty[i].statusOrg.number = party[i]._status._number;
+    opponentAllParty[i].statusOrg.id = party[i]._status._id;
+    opponentAllParty[i].statusOrg.order = party[i]._status._order;
+    opponentAllParty[i].statusOrg.index = party[i]._status._index;
     opponentAllParty[i].statusOrg.name = party[i]._status._name;
     opponentAllParty[i].statusOrg.type1 = party[i]._status._type1;
     opponentAllParty[i].statusOrg.type2 = party[i]._status._type2;
@@ -110,7 +112,7 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
 
     // パーティ画像
     const imageHTML = getHTMLInputElement( 'opponentParty_image' + i );
-    imageHTML.src = './pokemonImage/' + opponentAllParty[i].status.number + '.png';
+    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + opponentAllParty[i].status.index + '.png';
   }
 
   // 選出完了ボタン

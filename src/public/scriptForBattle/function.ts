@@ -1,13 +1,9 @@
 // ポケモン検索
-function getPokemonDataByName( name: string ): PokemonDataType | false {
+function getPokemonDataByName( name: string ): PokemonData {
 
-  for ( const pokemon of pokemonData ) {
-    if ( pokemon.name === name ) {
-      return pokemon;
-    }
-  }
+  const result = pokemonMaster.filter( pokemon => pokemon.nameJA === name );
 
-  return false;
+  return result[0]
 }
 
 
@@ -75,15 +71,15 @@ function translateJPintoEN( string: string ): string {
   return '';
 }
 
-function getBaseStatusList( pokemon: PokemonDataType ): ParameterSixType {
+function getBaseStatusList( pokemon: PokemonData ): ParameterSixType {
 
   const baseStatusList: ParameterSixType = {
-    hitPoint: pokemon.hitPoint,
-    attack: pokemon.attack,
-    defense: pokemon.defense,
-    specialAttack: pokemon.specialAttack,
-    specialDefense: pokemon.specialDefense,
-    speed: pokemon.speed
+    hitPoint: pokemon.stats.hitPoint,
+    attack: pokemon.stats.attack,
+    defense: pokemon.stats.defense,
+    specialAttack: pokemon.stats.specialAttack,
+    specialDefense: pokemon.stats.specialDefense,
+    speed: pokemon.stats.speed
   }
 
   return baseStatusList;

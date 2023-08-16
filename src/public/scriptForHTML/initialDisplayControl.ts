@@ -16,8 +16,8 @@ for ( const nature of natureData ) {
 
 // ポケモンの名前候補
 document.write( '<datalist id="registerPokemonNameList">' );
-for ( const pokemon of pokemonData ) {
-  document.write( '<option value="' + pokemon.name + '">');
+for ( const pokemon of pokemonMaster ) {
+  document.write( '<option value="' + pokemon.nameJA + '">');
 }
 document.write( '</datalist>');
 

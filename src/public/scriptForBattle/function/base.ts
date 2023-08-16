@@ -1,5 +1,5 @@
 // 持ち物
-function isItem( pokemon: Pokemon, item: ItemNameJA ): boolean {
+function isItem( pokemon: Pokemon, item: string ): boolean {
 
   if ( pokemon.status.item !== item ) {
     return false;
@@ -9,7 +9,7 @@ function isItem( pokemon: Pokemon, item: ItemNameJA ): boolean {
 }
 
 // 特性
-function isAbility( pokemon: Pokemon, ability: AbilityNameJA ): boolean {
+function isAbility( pokemon: Pokemon, ability: string ): boolean {
 
   if ( pokemon.status.remainingHP === 0 ) {
     return false;
@@ -145,7 +145,7 @@ function getPokemonType( pokemon: Pokemon ): MoveTypeType[] {
 }
 
 // バトル場の特性存在判定
-function isExistAbility( ability: AbilityNameJA ): Pokemon | false {
+function isExistAbility( ability: string ): Pokemon | false {
 
   for ( const pokemon of allPokemonInBattlefield() ) {
     if ( isAbility( pokemon, ability ) === true ) {
@@ -156,7 +156,7 @@ function isExistAbility( ability: AbilityNameJA ): Pokemon | false {
 }
 
 // 片側の場の特性存在判定
- function isExistAbilityOneSide( trainer: 'me' | 'opp' , ability: AbilityNameJA ): Pokemon | false {
+ function isExistAbilityOneSide( trainer: 'me' | 'opp' , ability: string ): Pokemon | false {
 
   for ( const pokemon of allPokemonInSide( trainer ) ) {
     if ( isAbility( pokemon, ability ) === true ) {
@@ -565,19 +565,18 @@ function formChange( pokemon: Pokemon ): void {
     else nextFrom = 'ウッウ(丸呑み)'
   }
 
-  const nextPokemon: PokemonDataType | false = getPokemonDataByName( nextFrom );
+  const nextPokemon: PokemonData = getPokemonDataByName( nextFrom );
   const nature: NatureDataType = getNatureDataByName( pokemon.status.nature );
 
-  if ( nextPokemon === false ) {
-    return;
-  }
-
   // 基本ステータスの更新
-  pokemon.status.number = nextPokemon.number;
-  pokemon.status.name = nextPokemon.name;
-  pokemon.status.type1 = nextPokemon.type1;
-  pokemon.status.type2 = nextPokemon.type2;
-  pokemon.status.ability = nextPokemon.ability1;
+  pokemon.status.id = nextPokemon.id;
+  pokemon.status.order = nextPokemon.order;
+  pokemon.status.index = nextPokemon.index;
+  pokemon.status.name = nextPokemon.nameJA;
+  pokemon.status.nameEN = nextPokemon.nameEN;
+  pokemon.status.type1 = nextPokemon.type[0];
+  if ( nextPokemon.type.length === 2 ) pokemon.status.type2 = nextPokemon.type[1];
+  pokemon.status.ability = nextPokemon.ability[0];
   pokemon.status.height = nextPokemon.height;
   pokemon.status.weight = nextPokemon.weight;
 
@@ -696,9 +695,9 @@ function toBattleField( pokemon: Pokemon, battle: number ): void {
   pokemon.order.hand = 0;
 
   if ( pokemon.trainer === 'me' ) {
-    getHTMLInputElement( 'battleMyImage_' + battle ).src = './pokemonImage/' + pokemon.status.number + '.png';
+    getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.index + '.png';
   } else {
-    getHTMLInputElement( 'battleOpponentImage_' + battle ).src = './pokemonImage/' + pokemon.status.number + '.png';
+    getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.index + '.png';
   }
 
   writeLog( `${translateENintoJP( pokemon.trainer )}は ${pokemon.status.name}を くりだした!` );

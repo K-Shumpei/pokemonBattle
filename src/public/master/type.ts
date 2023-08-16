@@ -1,3 +1,27 @@
+type PokemonData = {
+  id: number;
+  order: number;
+  index: number;
+  nameEN: string;
+  nameJA: string;
+  gender: GenderText;
+  type: MoveTypeType[];
+  ability: string[];
+  stats: {
+    hitPoint: number;
+    attack: number;
+    defense: number;
+    specialAttack: number;
+    specialDefense: number;
+    speed: number;
+  };
+  height: number;
+  weight: number;
+  isEvolve: string;
+}
+
+
+
 type MoveCategoryType = '物理' | '特殊' | '変化';
 type MoveTypeType = 'ノーマル' | 'ほのお' | 'みず' | 'でんき' | 'くさ' | 'こおり' | 'かくとう' | 'どく' | 'じめん' | 'ひこう' | 'エスパー' | 'むし' | 'いわ' | 'ゴースト' | 'ドラゴン' | 'あく' | 'はがね' | 'フェアリー' | null;
 type MoveTargetType = '自分' | '1体選択' | '味方1体' | '自分か味方' | 'ランダム1体' | '味方全体' | '相手全体' | '自分以外' | '全体' | '味方の場' | '相手の場' | '全体の場' | '不定' ;
@@ -45,17 +69,18 @@ type MoveDataType = {
 
 type ItemDataType = {
   id: number;
-  nameJA: ItemNameJA;
+  nameJA: string;
   nameEN: string;
   category: string;
   flingPower: number | null;
   flingEffect: string | null;
 }
 
-type AbilityDataType = {
+type AbilityMasterType = {
   id: number;
-  nameJA: AbilityNameJA;
+  nameJA: string;
   nameEN: string;
+  text: string;
 }
 
 type ParameterSixType = {

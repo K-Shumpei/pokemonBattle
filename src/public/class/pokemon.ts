@@ -31,14 +31,17 @@ class Order {
 }
 
 class Status {
-  _number: string;
+  _id: number;
+  _order: number;
+  _index: number;
   _name: string;
+  _nameEN: string;
   _type1: MoveTypeType;
   _type2: MoveTypeType;
   _gender: GenderType;
-  _ability: AbilityNameJA | null;
+  _ability: string;
   _level: number;
-  _item: ItemNameJA | null;
+  _item: string | null;
   _nature: NatureType;
   _height: number;
   _weight: number;
@@ -47,12 +50,15 @@ class Status {
   _statusAilment: StatusAilment;
 
   constructor() {
-    this._number = '';
+    this._id = 0;
+    this._order = 0;
+    this._index = 0;
     this._name = '';
+    this._nameEN = '';
     this._type1 = null;
     this._type2 = null;
     this._gender = '-';
-    this._ability = null;
+    this._ability = '';
     this._level = 50;
     this._item = null;
     this._nature = 'てれや';
@@ -63,11 +69,20 @@ class Status {
     this._statusAilment = new StatusAilment( null );
   }
 
-  set number( number: string ) {
-    this._number = number;
+  set id( id: number ) {
+    this._id = id;
+  }
+  set order( order: number ) {
+    this._order = order;
+  }
+  set index( index: number ) {
+    this._index = index;
   }
   set name( name: string ) {
     this._name = name;
+  }
+  set nameEN( nameEN: string ) {
+    this._nameEN = nameEN;
   }
   set type1( type: MoveTypeType ) {
     this._type1 = type;
@@ -78,13 +93,13 @@ class Status {
   set gender( gender: GenderType ) {
     this._gender = gender;
   }
-  set ability( ability: AbilityNameJA | null ) {
+  set ability( ability: string ) {
     this._ability = ability;
   }
   set level( level: number ) {
     this._level = level;
   }
-  set item( item: ItemNameJA | null ) {
+  set item( item: string | null ) {
     this._item = item;
   }
   set nature( nature: NatureType) {
@@ -106,11 +121,20 @@ class Status {
     this._statusAilment = statusAilment;
   }
 
-  get number(): string {
-    return this._number;
+  get id(): number {
+    return this._id;
+  }
+  get order(): number {
+    return this._order;
+  }
+  get index(): number {
+    return this._index;
   }
   get name(): string {
     return this._name;
+  }
+  get nameEN(): string {
+    return this._nameEN;
   }
   get type1(): MoveTypeType {
     return this._type1;
@@ -121,13 +145,13 @@ class Status {
   get gender(): GenderType {
     return this._gender;
   }
-  get ability(): AbilityNameJA | null {
+  get ability(): string {
     return this._ability;
   }
   get level(): number {
     return this._level;
   }
-  get item(): ItemNameJA | null {
+  get item(): string | null {
     return this._item;
   }
   get nature(): NatureType {
