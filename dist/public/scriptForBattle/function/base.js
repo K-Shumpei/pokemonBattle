@@ -537,15 +537,16 @@ function formChange(pokemon) {
     }
     const nextPokemon = getPokemonDataByName(nextFrom);
     const nature = getNatureDataByName(pokemon.status.nature);
-    if (nextPokemon === false) {
-        return;
-    }
     // 基本ステータスの更新
-    pokemon.status.number = nextPokemon.number;
-    pokemon.status.name = nextPokemon.name;
-    pokemon.status.type1 = nextPokemon.type1;
-    pokemon.status.type2 = nextPokemon.type2;
-    pokemon.status.ability = nextPokemon.ability1;
+    pokemon.status.id = nextPokemon.id;
+    pokemon.status.order = nextPokemon.order;
+    pokemon.status.index = nextPokemon.index;
+    pokemon.status.name = nextPokemon.nameJA;
+    pokemon.status.nameEN = nextPokemon.nameEN;
+    pokemon.status.type1 = nextPokemon.type[0];
+    if (nextPokemon.type.length === 2)
+        pokemon.status.type2 = nextPokemon.type[1];
+    pokemon.status.ability = nextPokemon.ability[0];
     pokemon.status.height = nextPokemon.height;
     pokemon.status.weight = nextPokemon.weight;
     pokemon.statusOrg = pokemon.status;
@@ -659,10 +660,10 @@ function toBattleField(pokemon, battle) {
     }
     pokemon.order.hand = 0;
     if (pokemon.trainer === 'me') {
-        getHTMLInputElement('battleMyImage_' + battle).src = './pokemonImage/' + pokemon.status.number + '.png';
+        getHTMLInputElement('battleMyImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.index + '.png';
     }
     else {
-        getHTMLInputElement('battleOpponentImage_' + battle).src = './pokemonImage/' + pokemon.status.number + '.png';
+        getHTMLInputElement('battleOpponentImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.index + '.png';
     }
     writeLog(`${translateENintoJP(pokemon.trainer)}は ${pokemon.status.name}を くりだした!`);
 }

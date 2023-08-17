@@ -26,8 +26,11 @@ class Order {
 }
 class Status {
     constructor() {
-        this._number = '';
+        this._id = 0;
+        this._order = 0;
+        this._index = 0;
         this._name = '';
+        this._nameEN = '';
         this._type1 = null;
         this._type2 = null;
         this._gender = '-';
@@ -41,11 +44,20 @@ class Status {
         this._remainingHP = 0;
         this._statusAilment = new StatusAilment(null);
     }
-    set number(number) {
-        this._number = number;
+    set id(id) {
+        this._id = id;
+    }
+    set order(order) {
+        this._order = order;
+    }
+    set index(index) {
+        this._index = index;
     }
     set name(name) {
         this._name = name;
+    }
+    set nameEN(nameEN) {
+        this._nameEN = nameEN;
     }
     set type1(type) {
         this._type1 = type;
@@ -83,11 +95,20 @@ class Status {
     set statusAilment(statusAilment) {
         this._statusAilment = statusAilment;
     }
-    get number() {
-        return this._number;
+    get id() {
+        return this._id;
+    }
+    get order() {
+        return this._order;
+    }
+    get index() {
+        return this._index;
     }
     get name() {
         return this._name;
+    }
+    get nameEN() {
+        return this._nameEN;
     }
     get type1() {
         return this._type1;

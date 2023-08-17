@@ -493,7 +493,7 @@ const gemTable = [
     { name: 'ノーマルジュエル', type: 'ノーマル' },
     { name: 'はがねのジュエル', type: 'はがね' },
     { name: 'ひこうのジュエル', type: 'ひこう' },
-    { name: 'フェアリージュエル', type: 'フェアリー' },
+    { name: 'ようせいジュエル', type: 'フェアリー' },
     { name: 'ほのおのジュエル', type: 'ほのお' },
     { name: 'みずのジュエル', type: 'みず' },
     { name: 'むしのジュエル', type: 'むし' }
@@ -953,7 +953,6 @@ const berryTable = [
     { number: 65, name: 'ロゼルのみ', half: 'フェアリー', fling: false, naturalGift: { type: 'フェアリー', power: 80 } },
     { number: 66, name: 'アッキのみ', half: null, fling: true, naturalGift: { type: 'フェアリー', power: 100 } },
     { number: 67, name: 'タラプのみ', half: null, fling: true, naturalGift: { type: 'あく', power: 100 } },
-    { number: 68, name: 'ポフのみ', half: null, fling: false, naturalGift: { type: null, power: 0 } },
 ];
 const moveEffectMyRank = [
     { name: 'アーマーキャノン', change: { attack: 0, defense: -1, specialAttack: 0, specialDefense: -1, speed: 0, accuracy: 0, evasion: 0 } },

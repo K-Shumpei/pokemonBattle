@@ -608,7 +608,7 @@ function isSuccess(pokemon) {
         }
         // 持ち物による無効化
         if (pokemon.moveUsed.name === 'トリック' || pokemon.moveUsed.name === 'すりかえ') {
-            if (pokemon.status.item === '' && target.status.item === '') {
+            if (pokemon.status.item === null && target.status.item === null) {
                 target.status.declareInvalid(damage);
                 continue;
             }
@@ -656,17 +656,17 @@ function isSuccess(pokemon) {
             }
         }
         if (pokemon.moveUsed.name === 'リサイクル') {
-            if (pokemon.status.item !== '') {
+            if (pokemon.status.item !== null) {
                 target.status.declareInvalid(damage);
                 continue;
             }
         }
         if (pokemon.moveUsed.name === 'ギフトパス') {
-            if (pokemon.status.item === '') {
+            if (pokemon.status.item === null) {
                 target.status.declareInvalid(damage);
                 continue;
             }
-            if (target.status.item !== '') {
+            if (target.status.item !== null) {
                 target.status.declareInvalid(damage);
                 continue;
             }
@@ -1857,7 +1857,7 @@ function failureByAbility(pokemon) {
         return true;
     }
     queenlyMajesty: if (pokemon.moveUsed.priority > 0) {
-        const queenlyMajestyPokemon = isExistAbilityOneSide(getOpponentTrainer(pokemon.trainer), 'じょうおうのいげん');
+        const queenlyMajestyPokemon = isExistAbilityOneSide(getOpponentTrainer(pokemon.trainer), 'じょおうのいげん');
         const dazzlingPokemon = isExistAbilityOneSide(getOpponentTrainer(pokemon.trainer), 'ビビッドボディ');
         if (targetList.filter(target => target.target.trainer !== pokemon.trainer).length === 0)
             break queenlyMajesty;

@@ -1,12 +1,8 @@
 "use strict";
 // ポケモン検索
 function getPokemonDataByName(name) {
-    for (const pokemon of pokemonData) {
-        if (pokemon.name === name) {
-            return pokemon;
-        }
-    }
-    return false;
+    const result = pokemonMaster.filter(pokemon => pokemon.nameJA === name);
+    return result[0];
 }
 // 技検索
 function getMoveDataByName(name) {
@@ -55,12 +51,12 @@ function translateJPintoEN(string) {
 }
 function getBaseStatusList(pokemon) {
     const baseStatusList = {
-        hitPoint: pokemon.hitPoint,
-        attack: pokemon.attack,
-        defense: pokemon.defense,
-        specialAttack: pokemon.specialAttack,
-        specialDefense: pokemon.specialDefense,
-        speed: pokemon.speed
+        hitPoint: pokemon.stats.hitPoint,
+        attack: pokemon.stats.attack,
+        defense: pokemon.stats.defense,
+        specialAttack: pokemon.stats.specialAttack,
+        specialDefense: pokemon.stats.specialDefense,
+        speed: pokemon.stats.speed
     };
     return baseStatusList;
 }
