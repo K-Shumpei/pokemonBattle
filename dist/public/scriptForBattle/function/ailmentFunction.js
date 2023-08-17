@@ -27,15 +27,15 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
         return false;
     if (isAbility(target, 'リミットシールド') === true && target.status.name === 'メテノ(流星)')
         return false;
-    if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('くさ'))
+    if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('grass'))
         return false;
     // 個別の無効化
     if (ailment === 'まひ') {
-        if (getPokemonType(target).includes('でんき'))
+        if (getPokemonType(target).includes('electric'))
             return false;
     }
     if (ailment === 'こおり') {
-        if (getPokemonType(target).includes('こおり'))
+        if (getPokemonType(target).includes('ice'))
             return false;
         if (isWeather(target, 'にほんばれ'))
             return false;
@@ -43,7 +43,7 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
             return false;
     }
     if (ailment === 'やけど') {
-        if (getPokemonType(target).includes('ほのお'))
+        if (getPokemonType(target).includes('fire'))
             return false;
         if (isAbility(target, 'みずのベール'))
             return false;
@@ -55,9 +55,9 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
             return false;
         if (isExistAbilityOneSide(target.trainer, 'パステルベール'))
             return false;
-        if (getPokemonType(target).includes('どく'))
+        if (getPokemonType(target).includes('poison'))
             return false;
-        if (getPokemonType(target).includes('はがね'))
+        if (getPokemonType(target).includes('steel'))
             return false;
     }
     if (ailment === 'ねむり') {
@@ -132,9 +132,9 @@ function giveAilmentByBeakBlast(pokemon, target) {
         return;
     if (isAbility(target, 'リミットシールド') === true && target.status.name === 'メテノ(流星)')
         return;
-    if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('くさ'))
+    if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('grass'))
         return;
-    if (getPokemonType(target).includes('ほのお'))
+    if (getPokemonType(target).includes('fire'))
         return;
     if (isAbility(target, 'みずのベール'))
         return;

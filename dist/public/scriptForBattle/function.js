@@ -6,12 +6,8 @@ function getPokemonDataByName(name) {
 }
 // 技検索
 function getMoveDataByName(name) {
-    for (const move of moveData) {
-        if (move.name === name) {
-            return move;
-        }
-    }
-    return false;
+    const result = moveMaster.filter(move => move.nameJA === name);
+    return result[0];
 }
 // 性格検索
 function getNatureDataByName(name) {

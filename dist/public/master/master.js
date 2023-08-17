@@ -3397,6 +3397,7 @@ const typeTextList = [
     'dragon',
     'dark',
     'fairy',
+    null,
 ];
 const genderTextList = [
     'both',

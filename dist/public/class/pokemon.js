@@ -296,118 +296,6 @@ class ParameterRank {
         return this._accuracy;
     }
 }
-class AvailableMove {
-    constructor() {
-        this._name = '';
-        this._type = null;
-        this._category = '物理';
-        this._power = 0;
-        this._accuracy = 0;
-        this._remainingPP = 0;
-        this._powerPoint = 0;
-        this._isDirect = true;
-        this._isProtect = true;
-        this._target = '自分';
-        this._number = 0;
-        this._priority = 0;
-        this._isUsed = false;
-    }
-    set name(name) {
-        this._name = name;
-    }
-    set type(type) {
-        this._type = type;
-    }
-    set category(category) {
-        this._category = category;
-    }
-    set power(power) {
-        this._power = power;
-    }
-    set accuracy(accuracy) {
-        this._accuracy = accuracy;
-    }
-    set remainingPP(remainingPP) {
-        this._remainingPP = remainingPP;
-    }
-    set powerPoint(powerPoint) {
-        this._powerPoint = powerPoint;
-    }
-    set isDirect(isDirect) {
-        this._isDirect = isDirect;
-    }
-    set isProtect(isProtect) {
-        this._isProtect = isProtect;
-    }
-    set target(target) {
-        this._target = target;
-    }
-    set number(number) {
-        this._number = number;
-    }
-    set priority(priority) {
-        this._priority = priority;
-    }
-    set isUsed(isUsed) {
-        this._isUsed = isUsed;
-    }
-    get name() {
-        return this._name;
-    }
-    get type() {
-        return this._type;
-    }
-    get category() {
-        return this._category;
-    }
-    get power() {
-        return this._power;
-    }
-    get accuracy() {
-        return this._accuracy;
-    }
-    get remainingPP() {
-        return this._remainingPP;
-    }
-    get powerPoint() {
-        return this._powerPoint;
-    }
-    get isDirect() {
-        return this._isDirect;
-    }
-    get isProtect() {
-        return this._isProtect;
-    }
-    get target() {
-        return this._target;
-    }
-    get number() {
-        return this._number;
-    }
-    get priority() {
-        return this._priority;
-    }
-    get isUsed() {
-        return this._isUsed;
-    }
-    failure() {
-        writeLog(`しかし うまく決まらなかった...`);
-        return false;
-    }
-    runOutPP() {
-        writeLog(`しかし 技の ポイントが なかった!`);
-    }
-    curePPByLeppaBerry(pokemon, value) {
-        // PP回復
-        this._remainingPP = Math.min(this._remainingPP + value, this._powerPoint);
-        // メッセージ
-        writeLog(`${getArticle(pokemon)}は ヒメリのみで ${this._name}のPPを 回復した!`);
-        // なげつける・むしくい・ついばむ
-        if (pokemon.stateChange.memo.isTrue === true) {
-            pokemon.stateChange.memo.count += 1;
-        }
-    }
-}
 /*
 class Damage {
   _damage: number;
@@ -1159,6 +1047,329 @@ class StateChangeSummary {
         return this._memo;
     }
 }
+class LearnedMove {
+    constructor() {
+        this._slot = 0;
+        this._name = null;
+        this._powerPoint = 0;
+        this._remainingPP = 0;
+    }
+    set slot(slot) {
+        this._slot = slot;
+    }
+    set name(name) {
+        this._name = name;
+    }
+    set powerPoint(powerPoint) {
+        this._powerPoint = powerPoint;
+    }
+    set remainingPP(remainingPP) {
+        this._remainingPP = remainingPP;
+    }
+    get slot() {
+        return this._slot;
+    }
+    get name() {
+        return this._name;
+    }
+    get powerPoint() {
+        return this._powerPoint;
+    }
+    get remainingPP() {
+        return this._remainingPP;
+    }
+    curePPByLeppaBerry(pokemon, value) {
+        // PP回復
+        this._remainingPP = Math.min(this._remainingPP + value, this._powerPoint);
+        // メッセージ
+        writeLog(`${getArticle(pokemon)}は ヒメリのみで ${this._name}のPPを 回復した!`);
+        // なげつける・むしくい・ついばむ
+        if (pokemon.stateChange.memo.isTrue === true) {
+            pokemon.stateChange.memo.count += 1;
+        }
+    }
+}
+class MoveFlag {
+    constructor() {
+        this._contact = false;
+        this._charge = false;
+        this._recharge = false;
+        this._protect = false;
+        this._reflectable = false;
+        this._snatch = false;
+        this._mirror = false;
+        this._punch = false;
+        this._sound = false;
+        this._gravity = false;
+        this._defrost = false;
+        this._distance = false;
+        this._heal = false;
+        this._authentic = false;
+        this._powder = false;
+        this._bite = false;
+        this._pulse = false;
+        this._ballistics = false;
+        this._mental = false;
+        this._nonSkyBattle = false;
+        this._dance = false;
+    }
+    set contact(contact) {
+        this._contact = contact;
+    }
+    set charge(charge) {
+        this._charge = charge;
+    }
+    set recharge(recharge) {
+        this._recharge = recharge;
+    }
+    set protect(protect) {
+        this._protect = protect;
+    }
+    set reflectable(reflectable) {
+        this._reflectable = reflectable;
+    }
+    set snatch(snatch) {
+        this._snatch = snatch;
+    }
+    set mirror(mirror) {
+        this._mirror = mirror;
+    }
+    set punch(punch) {
+        this._punch = punch;
+    }
+    set sound(sound) {
+        this._sound = sound;
+    }
+    set gravity(gravity) {
+        this._gravity = gravity;
+    }
+    set defrost(defrost) {
+        this._defrost = defrost;
+    }
+    set distance(distance) {
+        this._distance = distance;
+    }
+    set heal(heal) {
+        this._heal = heal;
+    }
+    set authentic(authentic) {
+        this._authentic = authentic;
+    }
+    set powder(powder) {
+        this._powder = powder;
+    }
+    set bite(bite) {
+        this._bite = bite;
+    }
+    set pulse(pulse) {
+        this._pulse = pulse;
+    }
+    set ballistics(ballistics) {
+        this._ballistics = ballistics;
+    }
+    set mental(mental) {
+        this._mental = mental;
+    }
+    set nonSkyBattle(nonSkyBattle) {
+        this._nonSkyBattle = nonSkyBattle;
+    }
+    set dance(dance) {
+        this._dance = dance;
+    }
+    get contact() {
+        return this._contact;
+    }
+    get charge() {
+        return this._charge;
+    }
+    get recharge() {
+        return this._recharge;
+    }
+    get protect() {
+        return this._protect;
+    }
+    get reflectable() {
+        return this._reflectable;
+    }
+    get snatch() {
+        return this._snatch;
+    }
+    get mirror() {
+        return this._mirror;
+    }
+    get punch() {
+        return this._punch;
+    }
+    get sound() {
+        return this._sound;
+    }
+    get gravity() {
+        return this._gravity;
+    }
+    get defrost() {
+        return this._defrost;
+    }
+    get distance() {
+        return this._distance;
+    }
+    get heal() {
+        return this._heal;
+    }
+    get authentic() {
+        return this._authentic;
+    }
+    get powder() {
+        return this._powder;
+    }
+    get bite() {
+        return this._bite;
+    }
+    get pulse() {
+        return this._pulse;
+    }
+    get ballistics() {
+        return this._ballistics;
+    }
+    get mental() {
+        return this._mental;
+    }
+    get nonSkyBattle() {
+        return this._nonSkyBattle;
+    }
+    get dance() {
+        return this._dance;
+    }
+}
+class SelectedMove {
+    constructor() {
+        this._slot = 0;
+        this._name = '';
+        this._type = null;
+        this._damageClass = '';
+        this._target = '';
+        this._category = '';
+        this._power = 0;
+        this._accuracy = 0;
+        this._priority = 0;
+        this._critical = 0;
+        this._drain = 0;
+        this._flinch = 0;
+        this._healing = 0;
+        this._hits = { max: null, min: null };
+        this._turns = { max: null, min: null };
+        this._ailment = { chance: 0, name: '' };
+        this._stat = { chance: 0, changes: [] };
+        this._flag = new MoveFlag;
+    }
+    set slot(slot) {
+        this._slot = slot;
+    }
+    set name(name) {
+        this._name = name;
+    }
+    set type(type) {
+        this._type = type;
+    }
+    set damageClass(damageClass) {
+        this._damageClass = damageClass;
+    }
+    set target(target) {
+        this._target = target;
+    }
+    set category(category) {
+        this._category = category;
+    }
+    set power(power) {
+        this._power = power;
+    }
+    set accuracy(accuracy) {
+        this._accuracy = accuracy;
+    }
+    set priority(priority) {
+        this._priority = priority;
+    }
+    set critical(critical) {
+        this._critical = critical;
+    }
+    set drain(drain) {
+        this._drain = drain;
+    }
+    set flinch(flinch) {
+        this._flinch = flinch;
+    }
+    set healing(healing) {
+        this._healing = healing;
+    }
+    set hits(hits) {
+        this._hits = hits;
+    }
+    set turns(turns) {
+        this._turns = turns;
+    }
+    set ailment(ailment) {
+        this._ailment = ailment;
+    }
+    set stat(stat) {
+        this._stat = stat;
+    }
+    set flag(flag) {
+        this._flag = flag;
+    }
+    get slot() {
+        return this._slot;
+    }
+    get name() {
+        return this._name;
+    }
+    get type() {
+        return this._type;
+    }
+    get damageClass() {
+        return this._damageClass;
+    }
+    get target() {
+        return this._target;
+    }
+    get category() {
+        return this._category;
+    }
+    get power() {
+        return this._power;
+    }
+    get accuracy() {
+        return this._accuracy;
+    }
+    get priority() {
+        return this._priority;
+    }
+    get critical() {
+        return this._critical;
+    }
+    get drain() {
+        return this._drain;
+    }
+    get flinch() {
+        return this._flinch;
+    }
+    get healing() {
+        return this._healing;
+    }
+    get hits() {
+        return this._hits;
+    }
+    get turns() {
+        return this._turns;
+    }
+    get ailment() {
+        return this._ailment;
+    }
+    get stat() {
+        return this._stat;
+    }
+    get flag() {
+        return this._flag;
+    }
+}
 class Pokemon {
     constructor() {
         this._trainer = 'me';
@@ -1170,13 +1381,13 @@ class Pokemon {
         this._individualValue = new ParameterSix;
         this._effortValue = new ParameterSix;
         this._rank = new ParameterRank;
-        this._move = [
-            new AvailableMove,
-            new AvailableMove,
-            new AvailableMove,
-            new AvailableMove
+        this._learnedMove = [
+            new LearnedMove,
+            new LearnedMove,
+            new LearnedMove,
+            new LearnedMove,
         ];
-        this._moveUsed = new AvailableMove;
+        this._selectedMove = new SelectedMove;
         this._damage = [];
         this._command = new Command;
         this._stateChange = new StateChangeSummary;
@@ -1193,8 +1404,11 @@ class Pokemon {
     set rank(rank) {
         this._rank = rank;
     }
-    set moveUsed(moveUsed) {
-        this._moveUsed = moveUsed;
+    set learnedMove(learnedMove) {
+        this._learnedMove = learnedMove;
+    }
+    set selectedMove(selectedMove) {
+        this._selectedMove = selectedMove;
     }
     set damage(damage) {
         this._damage = damage;
@@ -1232,11 +1446,11 @@ class Pokemon {
     get rank() {
         return this._rank;
     }
-    get move() {
-        return this._move;
+    get learnedMove() {
+        return this._learnedMove;
     }
-    get moveUsed() {
-        return this._moveUsed;
+    get selectedMove() {
+        return this._selectedMove;
     }
     get damage() {
         return this._damage;
@@ -1246,8 +1460,5 @@ class Pokemon {
     }
     get stateChange() {
         return this._stateChange;
-    }
-    declareMove() {
-        writeLog(`${this._status.name}の ${this._moveUsed.name}!`);
     }
 }
