@@ -62,7 +62,7 @@ function registrationPokemon(): void {
   const name: string = getHTMLInputElement( 'register_name' ).value;
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemonNameListJA.includes( name ) === false ) {
+  if ( pokemonNameListJA.some( _poke => _poke === name ) === false ) {
     return;
   }
 
@@ -76,11 +76,11 @@ function registrationPokemon(): void {
   resetInputRegister();
 
   // タイプ表示
-  type1HTML.textContent = pokemon.type[0];
-  type1HTML.value = String( pokemon.type[0] );
+  type1HTML.textContent = translateTypeIntoJapanese( pokemon.type[0] );
+  type1HTML.value = translateTypeIntoJapanese( pokemon.type[0] );
   if ( pokemon.type.length === 2 ) {
-    type2HTML.textContent = pokemon.type[1];
-    type2HTML.value = String( pokemon.type[1] );
+    type2HTML.textContent = translateTypeIntoJapanese( pokemon.type[1] );
+    type2HTML.value = translateTypeIntoJapanese( pokemon.type[1] );
   }
 
   // 性別表示
@@ -121,8 +121,8 @@ function registrationPokemon(): void {
   abilityHTML.innerHTML = '';
   for ( const ability of pokemon.ability ) {
     const option = document.createElement( 'option' );
-    option.value = ability;
-    option.textContent = ability;
+    option.value = translateAbility( ability );
+    option.textContent = translateAbility( ability );
     abilityHTML.appendChild( option );
   }
 
@@ -136,6 +136,7 @@ function registrationPokemon(): void {
   reflectActualValueInHTML();
 
   // 技表示
+  const learn = moveLearnedByPomeon.filter( data => data.nameEN === pokemon.nameEN )[0].move
   for ( let i = 0; i < 4; i++ ) {
     const moveHTML = getHTMLInputElement( 'registerMoveName' + i );
     moveHTML.innerHTML = '';
@@ -147,19 +148,11 @@ function registrationPokemon(): void {
     moveHTML.appendChild(blunk);
 
     // ポケモンが覚える技
-    for ( const learn of moveLearnedByPomeon ) {
-      if ( learn.nameEN === pokemon.nameEN ) {
-        for ( const move of learn.move ) {
-          for ( const master of moveMaster ) {
-            if ( move === master.nameEN ) {
-              const option = document.createElement( 'option' );
-              option.value = master.nameJA;
-              option.textContent = master.nameJA;
-              moveHTML.appendChild(option);
-            }
-          }
-        }
-      }
+    for ( const move of learn ) {
+      const option = document.createElement( 'option' );
+      option.value = translateMove( move );
+      option.textContent = translateMove( move );
+      moveHTML.appendChild(option);
     }
   }
 }
@@ -172,7 +165,7 @@ function reflectActualValueInHTML(): void {
   const level: number = Number( getHTMLInputElement( 'register_level' ).value );
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemonNameListJA.includes( name ) === false ) {
+  if ( pokemonNameListJA.some( _poke => _poke === name ) === false ) {
     return;
   }
 
@@ -197,24 +190,46 @@ function getNatureType( nature: string ): NatureType {
   return 'てれや';
 }
 
-function getTypeType( type: string ): MoveTypeType {
+function translateTypeIntoEnglish( type: string ): Type {
 
-  for ( const _type of typeList ) {
-    if ( _type === type ) {
-      return _type;
+  const result = typeTextMaster.filter( text => text.nameJA === type )[0]
+
+  return result.nameEN;
+}
+
+function translateTypeIntoJapanese( type: Type ): string {
+
+  const result = typeTextMaster.filter( text => text.nameEN === type )[0]
+
+  return result.nameJA;
+}
+
+function translateAbility( ability: string ): string {
+
+  for ( const data of abilityMaster ) {
+    if ( data.nameEN === ability ) {
+      return data.nameJA;
+    }
+    if ( data.nameJA === ability ) {
+      return data.nameEN;
     }
   }
 
-  return null;
+  return ability;
 }
 
-function getTypeString( type: MoveTypeType ): string {
+function translateMove( move: string ): string {
 
-  if ( type === null ) {
-    return '';
-  } else {
-    return String( type );
+  for ( const data of moveMaster ) {
+    if ( data.nameEN === move ) {
+      return data.nameJA;
+    }
+    if ( data.nameJA === move ) {
+      return data.nameEN;
+    }
   }
+
+  return move;
 }
 
 function getGenderType( gender: string ): GenderType {
@@ -277,14 +292,15 @@ function calculateActualValue( pokemon: PokemonData, level: number, natureString
 function reflectMoveNatureInHTML( number: number ): void {
 
   const name: string = getHTMLInputElement( 'registerMoveName' + number ).value
-  const move: MoveDataType | false = getMoveDataByName( name )
 
   // 存在しない技の場合、処理を終了
-  if ( move === false ) {
+  if ( moveMaster.some( _move => _move.nameJA === name ) === false ) {
     return;
   }
 
-  getHTMLInputElement( 'registerMoveType' + number ).textContent = move.type;
+  const move: MoveData = getMoveDataByName( name )
+
+  getHTMLInputElement( 'registerMoveType' + number ).textContent = translateTypeIntoJapanese( move.type );
   getHTMLInputElement( 'registerMovePower' + number ).textContent = String( move.power );
   getHTMLInputElement( 'registerMoveAccuracy' + number ).textContent = String( move.accuracy );
   getHTMLInputElement( 'registerMovePowerPoint' + number ).textContent = String( move.powerPoint );
@@ -342,7 +358,7 @@ function reflectEffortValueInHTML( parameter: string ): void {
   const name: string = getHTMLInputElement( 'register_name' ).value;
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemonNameListJA.includes( name ) === false ) {
+  if ( pokemonNameListJA.some( _poke => _poke === name ) === false ) {
     return;
   }
 
@@ -433,13 +449,13 @@ function natureRadioToText(): void {
 function changePowerPoint( number: number, direction: string ): void {
 
   const name: string = getHTMLInputElement( 'registerMoveName' + number ).value;
-  const move: MoveDataType | false = getMoveDataByName( name );
 
   // 存在しない技の場合、処理を終了
-  if ( move === false ) {
+  if ( moveMaster.some( _move => _move.nameJA === name ) === false ) {
     return;
   }
 
+  const move: MoveData = getMoveDataByName( name );
   const powerPoint = getHTMLInputElement( 'registerMovePowerPoint' + number );
   const step: number = move.powerPoint / 5;
   const max: number = move.powerPoint + step * 3;
@@ -474,7 +490,7 @@ function registerParty( number: number ): void {
   const name: string = getHTMLInputElement( 'register_name' ).value;
 
   // 存在しないポケモンの場合、処理を終了
-  if ( pokemonNameListJA.includes( name ) === false ) {
+  if ( pokemonNameListJA.some( _poke => _poke === name ) === false ) {
     return;
   }
 
@@ -501,10 +517,10 @@ function registerParty( number: number ): void {
   myAllParty[number].statusOrg.index = pokemon.index;
   myAllParty[number].statusOrg.name = pokemon.nameJA;
   myAllParty[number].statusOrg.nameEN = pokemon.nameEN;
-  myAllParty[number].statusOrg.type1 = getTypeType( type1HTML.value );
-  myAllParty[number].statusOrg.type2 = getTypeType( type2HTML.value );
+  myAllParty[number].statusOrg.type1 = translateTypeIntoEnglish( type1HTML.value );
+  myAllParty[number].statusOrg.type2 = translateTypeIntoEnglish( type2HTML.value );
   myAllParty[number].statusOrg.gender = getGenderType( genderHTML.value );
-  myAllParty[number].statusOrg.ability = abilityHTML.value;
+  myAllParty[number].statusOrg.ability = translateAbility( abilityHTML.value );
   myAllParty[number].statusOrg.level = Number( levelHTML.value );
   myAllParty[number].statusOrg.item = itemHTML.value;
   myAllParty[number].statusOrg.nature = getNatureType( natureHTML.value );
@@ -530,25 +546,19 @@ function registerParty( number: number ): void {
   // 技
   for ( let i = 0; i < 4; i++ ) {
     const moveName: string = getHTMLInputElement( 'registerMoveName' + i ).value;
-    const move: MoveDataType | false = getMoveDataByName( moveName );
     const powerPoint = getHTMLInputElement( 'registerMovePowerPoint' + i );
 
     // 存在しない技の場合、処理を終了
-    if ( move === false ) {
+    if ( moveMaster.some( _move => _move.nameJA === moveName ) === false ) {
       continue;
     }
 
-    myAllParty[number].move[i].name = move.name;
-    myAllParty[number].move[i].type = move.type;
-    myAllParty[number].move[i].category = move.category;
-    myAllParty[number].move[i].power = move.power;
-    myAllParty[number].move[i].accuracy = move.accuracy;
-    myAllParty[number].move[i].remainingPP = Number( powerPoint.value );
-    myAllParty[number].move[i].powerPoint = Number( powerPoint.value );
-    myAllParty[number].move[i].isDirect = move.isDirect;
-    myAllParty[number].move[i].isProtect = move.isProtect;
-    myAllParty[number].move[i].target = move.target;
-    myAllParty[number].move[i].number = i;
+    const move: MoveData = getMoveDataByName( moveName );
+
+    myAllParty[number].learnedMove[i].slot = i;
+    myAllParty[number].learnedMove[i].name = move.nameJA;
+    myAllParty[number].learnedMove[i].remainingPP = Number( powerPoint.value );
+    myAllParty[number].learnedMove[i].powerPoint = Number( powerPoint.value );
   }
 
   // 画面に表示
@@ -580,10 +590,10 @@ function editParty( number: number ): void {
 
   getHTMLInputElement( 'register_level' ).value = String( myAllParty[number].status.level );
   getHTMLInputElement( 'register_gender' ).value = myAllParty[number].status.gender;
-  getHTMLInputElement( 'register_type1' ).value = getTypeString( myAllParty[number].status.type1 );
-  getHTMLInputElement( 'register_type1' ).textContent = getTypeString( myAllParty[number].status.type1 );
-  getHTMLInputElement( 'register_type2' ).value = getTypeString( myAllParty[number].status.type2 );
-  getHTMLInputElement( 'register_type2' ).textContent = getTypeString( myAllParty[number].status.type2 );
+  getHTMLInputElement( 'register_type1' ).value = translateTypeIntoJapanese( myAllParty[number].status.type1 );
+  getHTMLInputElement( 'register_type1' ).textContent = translateTypeIntoJapanese( myAllParty[number].status.type1 );
+  getHTMLInputElement( 'register_type2' ).value = translateTypeIntoJapanese( myAllParty[number].status.type2 );
+  getHTMLInputElement( 'register_type2' ).textContent = translateTypeIntoJapanese( myAllParty[number].status.type2 );
   getHTMLInputElement( 'register_ability' ).value = myAllParty[number].status.ability;
   getHTMLInputElement( 'register_nature' ).value = myAllParty[number].status.nature;
 
@@ -610,13 +620,14 @@ function editParty( number: number ): void {
 
   // 技
   for ( let i = 0; i < 4; i++ ) {
-    if ( myAllParty[number].move[i].name === '' ) {
+    if ( myAllParty[number].learnedMove[i].name === null ) {
       continue;
     }
-    getHTMLInputElement( 'registerMoveName' + i ).value = myAllParty[number].move[i].name;
+
+    getHTMLInputElement( 'registerMoveName' + i ).value = String( myAllParty[number].learnedMove[i].name );
     reflectMoveNatureInHTML( i );
-    getHTMLInputElement( 'registerMovePowerPoint' + i ).textContent = String( myAllParty[number].move[i].powerPoint );
-    getHTMLInputElement( 'registerMovePowerPoint' + i ).value = String( myAllParty[number].move[i].powerPoint );
+    getHTMLInputElement( 'registerMovePowerPoint' + i ).textContent = String( myAllParty[number].learnedMove[i].powerPoint );
+    getHTMLInputElement( 'registerMovePowerPoint' + i ).value = String( myAllParty[number].learnedMove[i].powerPoint );
   }
 
   // パーティ情報削除
@@ -637,9 +648,9 @@ function showPartyPokemon( pokemon: Pokemon ): void {
   getHTMLInputElement( 'party' + handOrder + '_name' ).textContent = pokemon.status.name;
   getHTMLInputElement( 'party' + handOrder + '_gender' ).textContent = pokemon.status.gender;
   getHTMLInputElement( 'party' + handOrder + '_level' ).textContent = String( pokemon.status.level );
-  getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = pokemon.status.type1;
-  getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = pokemon.status.type2;
-  getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = pokemon.status.ability;
+  getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = translateTypeIntoJapanese( pokemon.status.type1 );
+  getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = translateTypeIntoJapanese( pokemon.status.type2 );
+  getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = translateAbility( pokemon.status.ability );
   getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( pokemon.status.remainingHP );
 
   let item: string = '持ち物なし';
@@ -662,9 +673,9 @@ function showPartyPokemon( pokemon: Pokemon ): void {
 
   // 技
   for ( let i = 0; i < 4; i++ ) {
-    getHTMLInputElement( 'party' + handOrder + '_move' + i ).textContent = pokemon.move[i].name;
-    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + i ).textContent = String( pokemon.move[i].remainingPP );
-    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + i ).textContent = String( pokemon.move[i].powerPoint );
+    getHTMLInputElement( 'party' + handOrder + '_move' + i ).textContent = pokemon.learnedMove[i].name;
+    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + i ).textContent = String( pokemon.learnedMove[i].remainingPP );
+    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + i ).textContent = String( pokemon.learnedMove[i].powerPoint );
   }
 
   // パーティ画像
@@ -728,8 +739,13 @@ function registerAllRandom(): void {
     registrationPokemon();
 
     for ( let j = 0; j < 4; j++ ) {
+      if ( moveLearnedByPomeon.some( _move => _move.nameEN === pokemon.nameEN ) === false ) continue;
+
       const learned = moveLearnedByPomeon.filter( _move => _move.nameEN === pokemon.nameEN )[0].move
       const move = learned[ Math.floor( Math.random() * learned.length ) ];
+
+      if ( moveMaster.some(  _move => _move.nameEN === move ) == false ) continue;
+
       getHTMLInputElement( 'registerMoveName' + j ).value = moveMaster.filter(  _move => _move.nameEN === move )[0].nameJA;
       reflectMoveNatureInHTML( j );
     }
@@ -810,7 +826,7 @@ function showCommand1stField(): void {
 
     // 技
     for ( let j = 0; j < 4; j++ ) {
-      getHTMLInputElement( 'moveText_' + i + '_' + j ).textContent = pokemon.move[j].name;
+      getHTMLInputElement( 'moveText_' + i + '_' + j ).textContent = pokemon.learnedMove[j].name;
       getHTMLInputElement( 'moveRadio_' + i + '_' + j ).disabled = false;
     }
     // 控え
@@ -821,4 +837,54 @@ function showCommand1stField(): void {
       getHTMLInputElement( 'reserveText_' + i + '_' + j ).value = String( reserve[j].order.party );
     }
   }
+}
+
+// 受信したコマンドの記録
+function setSelectedMove( pokemon: Pokemon ): void {
+
+  if ( pokemon.command.move === null ) return;
+
+  const number: number = pokemon.command.move;
+  const move = moveMaster.filter( _move => _move.nameEN === pokemon.learnedMove[number].name )[0];
+  const flag = moveFlagMaster.filter( _move => _move.nameEN === pokemon.learnedMove[number].name )[0];
+
+  pokemon.selectedMove.slot = pokemon.learnedMove[number].slot;
+  pokemon.selectedMove.name = move.nameEN;
+  pokemon.selectedMove.type = move.type;
+  pokemon.selectedMove.damageClass = move.class;
+  pokemon.selectedMove.target = move.target;
+  pokemon.selectedMove.category = move.category;
+  pokemon.selectedMove.power = move.power;
+  pokemon.selectedMove.accuracy = move.accuracy;
+  pokemon.selectedMove.priority = move.priority;
+  pokemon.selectedMove.critical = move.critical;
+  pokemon.selectedMove.drain = move.drain;
+  pokemon.selectedMove.flinch = move.flinch;
+  pokemon.selectedMove.healing = move.healing;
+  pokemon.selectedMove.hits = move.hits;
+  pokemon.selectedMove.turns = move.turns;
+  pokemon.selectedMove.ailment = move.ailment;
+  pokemon.selectedMove.stat = move.stat;
+
+  pokemon.selectedMove.flag.contact = flag.contact;
+  pokemon.selectedMove.flag.charge = flag.charge;
+  pokemon.selectedMove.flag.recharge = flag.recharge;
+  pokemon.selectedMove.flag.protect = flag.protect;
+  pokemon.selectedMove.flag.reflectable = flag.reflectable;
+  pokemon.selectedMove.flag.snatch = flag.snatch;
+  pokemon.selectedMove.flag.mirror = flag.mirror;
+  pokemon.selectedMove.flag.punch = flag.punch;
+  pokemon.selectedMove.flag.sound = flag.sound;
+  pokemon.selectedMove.flag.gravity = flag.gravity;
+  pokemon.selectedMove.flag.defrost = flag.defrost;
+  pokemon.selectedMove.flag.distance = flag.distance;
+  pokemon.selectedMove.flag.heal = flag.heal;
+  pokemon.selectedMove.flag.authentic = flag.authentic;
+  pokemon.selectedMove.flag.powder = flag.powder;
+  pokemon.selectedMove.flag.bite = flag.bite;
+  pokemon.selectedMove.flag.pulse = flag.pulse;
+  pokemon.selectedMove.flag.ballistics = flag.ballistics;
+  pokemon.selectedMove.flag.mental = flag.mental;
+  pokemon.selectedMove.flag.nonSkyBattle = flag.nonSkyBattle;
+  pokemon.selectedMove.flag.dance = flag.dance;
 }

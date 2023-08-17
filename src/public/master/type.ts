@@ -4,8 +4,8 @@ type PokemonData = {
   index: number;
   nameEN: string;
   nameJA: string;
-  gender: GenderText;
-  type: MoveTypeType[];
+  gender: string;
+  type: Type[];
   ability: string[];
   stats: {
     hitPoint: number;
@@ -20,6 +20,55 @@ type PokemonData = {
   isEvolve: string;
 }
 
+type MoveData = {
+  id: number;
+  nameJA: string;
+  nameEN: string;
+  type: Type | null;
+  class: string;
+  target: string;
+  category: string;
+  power: number | null;
+  accuracy: number | null;
+  powerPoint: number;
+  priority: number;
+  critical: number;
+  drain: number;
+  flinch: number;
+  healing: number;
+  hits: { max: number | null, min: number | null };
+  turns: { max: number | null, min: number | null };
+  ailment: { chance: number, name: string };
+  stat: { chance: number, changes: { stat: string, change: number }[]}
+}
+
+type MoveFlagData = {
+  id: number;
+  nameEN: string;
+  nameJA: string;
+  contact: boolean;
+  charge: boolean;
+  recharge: boolean;
+  protect: boolean;
+  reflectable: boolean;
+  snatch: boolean;
+  mirror: boolean;
+  punch: boolean;
+  sound: boolean;
+  gravity: boolean;
+  defrost: boolean;
+  distance: boolean;
+  heal: boolean;
+  authentic: boolean;
+  powder: boolean;
+  bite: boolean;
+  pulse: boolean;
+  ballistics: boolean;
+  mental: boolean;
+  nonSkyBattle: boolean;
+  dance: boolean;
+}
+
 
 
 type MoveCategoryType = '物理' | '特殊' | '変化';
@@ -32,27 +81,6 @@ type ParameterStringType = 'attack' | 'defense' | 'specialAttack' | 'specialDefe
 type NatureType = 'てれや' | 'さみしがり' | 'いじっぱり' | 'やんちゃ' | 'ゆうかん' | 'ずぶとい' | 'がんばりや' | 'わんぱく' | 'のうてんき' | 'のんき' | 'ひかえめ' | 'おっとり' | 'すなお' | 'うっかりや' | 'れいせい' | 'おだやか' | 'おとなしい' | 'しんちょう' | 'きまぐれ' | 'なまいき' | 'おくびょう' | 'せっかち' | 'ようき' | 'むじゃき' | 'まじめ';
 type SignType = '+' | '-';
 type GenderType = '♂' | '♀' | '-';
-
-type PokemonDataType = {
-  number: string;
-  name: string;
-  type1: MoveTypeType;
-  type2: MoveTypeType;
-  gender1: GenderType;
-  gender2: GenderType;
-  ability1: string;
-  ability2: string;
-  ability3: string;
-  hitPoint: number;
-  attack: number;
-  defense: number;
-  specialAttack: number;
-  specialDefense: number;
-  speed: number;
-  height: number;
-  weight: number;
-  isOK: boolean;
-}
 
 type MoveDataType = {
   name: string;

@@ -97,17 +97,10 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
 
     // 技
     for ( let j = 0; j < 4; j++ ) {
-      opponentAllParty[i].move[j].name = party[i]._move[j]._name;
-      opponentAllParty[i].move[j].type = party[i]._move[j]._type;
-      opponentAllParty[i].move[j].category = party[i]._move[j]._category;
-      opponentAllParty[i].move[j].power = party[i]._move[j]._power;
-      opponentAllParty[i].move[j].accuracy = party[i]._move[j]._accuracy;
-      opponentAllParty[i].move[j].remainingPP = party[i]._move[j]._remainingPP;
-      opponentAllParty[i].move[j].powerPoint = party[i]._move[j]._remainingPP;
-      opponentAllParty[i].move[j].isDirect = party[i]._move[j]._isDirect;
-      opponentAllParty[i].move[j].isProtect = party[i]._move[j]._isProtect;
-      opponentAllParty[i].move[j].target = party[i]._move[j]._target;
-      opponentAllParty[i].move[j].number = j;
+      opponentAllParty[i].learnedMove[j].slot = j;
+      opponentAllParty[i].learnedMove[j].name = party[i]._learnedMove[j]._name;
+      opponentAllParty[i].learnedMove[j].powerPoint = party[i]._learnedMove[j]._remainingPP;
+      opponentAllParty[i].learnedMove[j].remainingPP = party[i]._learnedMove[j]._remainingPP;
     }
 
     // パーティ画像
@@ -317,9 +310,7 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.opponentTarget = myCommand[i]._opponentTarget;
 
       // 使用する技
-      if ( pokemon.command.move !== null ) {
-        pokemon.moveUsed = pokemon.move[pokemon.command.move];
-      }
+      setSelectedMove( pokemon );
     }
 
     for ( const pokemon of opponentParty ) {
@@ -332,9 +323,7 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
 
       // 使用する技
-      if ( pokemon.command.move !== null ) {
-        pokemon.moveUsed = pokemon.move[pokemon.command.move];
-      }
+      setSelectedMove( pokemon );
     }
   }
 

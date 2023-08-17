@@ -2452,7 +2452,7 @@ const pokemonNameListJA = [
   'ワルビル',
   'ワンパチ',
   'ワンリキー',
-]
+] as const;
 
 const abilityNameListEN = [
   'Adaptability',
@@ -3409,6 +3409,7 @@ const typeTextList = [
   'dragon',
   'dark',
   'fairy',
+  null,
 ] as const;
 
 const genderTextList = [

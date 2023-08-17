@@ -102,7 +102,7 @@ function isGrounded( pokemon: Pokemon ): boolean {
   if ( fieldStatus.whole.gravity.isTrue === true ) return true;
   if ( isItem( pokemon, 'くろいてっきゅう' ) === true ) return true;
 
-  if ( getPokemonType( pokemon ).includes( 'ひこう' ) ) return false;
+  if ( getPokemonType( pokemon ).includes( 'flying' ) ) return false;
   if ( isAbility( pokemon, 'ふゆう' ) === true ) return false;
   if ( isItem( pokemon, 'ふうせん' ) === true ) return false;
   if ( pokemon.stateChange.magnetRise.isTrue === true ) return false;
@@ -126,9 +126,9 @@ function isGrounded( pokemon: Pokemon ): boolean {
 }
 
 // ポケモンのタイプ
-function getPokemonType( pokemon: Pokemon ): MoveTypeType[] {
+function getPokemonType( pokemon: Pokemon ): Type[] {
 
-  let result: MoveTypeType[] = [];
+  let result: Type[] = [];
 
   if ( pokemon.status.type1 !== null ) {
     result.push( pokemon.status.type1 );
@@ -170,24 +170,24 @@ function isExistAbility( ability: string ): Pokemon | false {
 function isSubstitute( pokemon: Pokemon, target: Pokemon ): boolean {
 
   if ( target.stateChange.substitute.isTrue === false ) return false;
-  if ( pokemon.moveUsed.name === 'いじげんホール' ) return false;
-  if ( pokemon.moveUsed.name === 'いじげんラッシュ' ) return false;
-  if ( pokemon.moveUsed.name === 'シャドースチール' ) return false;
-  if ( pokemon.moveUsed.category === '変化' ) {
-    if ( pokemon.moveUsed.target === '全体の場' ) return false;
-    if ( pokemon.moveUsed.target === '相手の場' ) return false;
-    if ( pokemon.moveUsed.target === '味方の場' ) return false;
+  if ( pokemon.selectedMove.name === 'いじげんホール' ) return false;
+  if ( pokemon.selectedMove.name === 'いじげんラッシュ' ) return false;
+  if ( pokemon.selectedMove.name === 'シャドースチール' ) return false;
+  if ( pokemon.selectedMove.category === '変化' ) {
+    if ( pokemon.selectedMove.target === '全体の場' ) return false;
+    if ( pokemon.selectedMove.target === '相手の場' ) return false;
+    if ( pokemon.selectedMove.target === '味方の場' ) return false;
   }
   if ( isSame( pokemon, target ) ) return false;
   if ( isAbility( pokemon, 'すりぬけ' ) === true ) {
-    if ( pokemon.moveUsed.name === 'へんしん' || pokemon.moveUsed.name === 'フリーフォール' ) {
+    if ( pokemon.selectedMove.name === 'へんしん' || pokemon.selectedMove.name === 'フリーフォール' ) {
       ;
     } else {
       return false;
     }
   }
-  if ( soundMoveList.includes( pokemon.moveUsed.name ) === true ) {
-    if ( pokemon.moveUsed.name === 'とおぼえ' && isFriend( pokemon, target ) ) {
+  if ( soundMoveList.includes( pokemon.selectedMove.name ) === true ) {
+    if ( pokemon.selectedMove.name === 'とおぼえ' && isFriend( pokemon, target ) ) {
       ;
     } else {
       return false;
@@ -211,7 +211,7 @@ function isHide( pokemon: Pokemon ): boolean {
 // 直接攻撃
 function isDirect( pokemon: Pokemon ): boolean {
 
-  if ( pokemon.moveUsed.isDirect === false ) {
+  if ( pokemon.selectedMove.flag.contact === false ) {
     return false;
   }
   if ( isAbility( pokemon, 'えんかく' ) === true ) {
@@ -265,15 +265,15 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
     // 自分で食べるとき
     if ( pokemon.stateChange.memo.text === 'ヒメリのみ' ) {
       for ( let i = 0; i < 4; i++ ) {
-        if ( pokemon.move[i].remainingPP === 0 ) {
-          pokemon.move[i].curePPByLeppaBerry( pokemon, 10 * ripen );
+        if ( pokemon.learnedMove[i].remainingPP === 0 ) {
+          pokemon.learnedMove[i].curePPByLeppaBerry( pokemon, 10 * ripen );
           break leppaBerry;
         }
       }
     } else {
       for ( let i = 0; i < 4; i++ ) {
-        if ( pokemon.move[i].remainingPP < pokemon.move[i].powerPoint ) {
-          pokemon.move[i].curePPByLeppaBerry( pokemon, 10 * ripen );
+        if ( pokemon.learnedMove[i].remainingPP < pokemon.learnedMove[i].powerPoint ) {
+          pokemon.learnedMove[i].curePPByLeppaBerry( pokemon, 10 * ripen );
           break leppaBerry;
         }
       }
@@ -764,7 +764,7 @@ function isEnableEatBerry( pokemon: Pokemon ): boolean {
   if ( berry === 'チーゴのみ' && ailment === 'やけど' ) return true;
   if ( berry === 'ナナシのみ' && ailment === 'こおり' ) return true;
   if ( berry === 'ヒメリのみ' ) {
-    for ( const move of pokemon.move ) {
+    for ( const move of pokemon.learnedMove ) {
       if ( move.remainingPP < move.powerPoint ) return true;
     }
   }
@@ -799,12 +799,12 @@ function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number 
     rate = rate * 2;
   }
   if ( fieldStatus.getSide( pokemon.trainer ).rainbow.isTrue === true ) {
-    if ( pokemon.moveUsed.name !== 'ひみつのちから' ) {
+    if ( pokemon.selectedMove.name !== 'ひみつのちから' ) {
       rate = rate * 2;
     }
   }
   for ( const move of additionalEffectFlinch ) {
-    if ( move.name === pokemon.moveUsed.name ) {
+    if ( move.name === pokemon.selectedMove.name ) {
       rate = Math.min( rate, moveRate * 2 );
     }
   }
@@ -979,10 +979,10 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       target.stateChange.endureMsg.text === 'こらえる';
       return result;
     }
-    if ( pokemon.moveUsed.name === 'みねうち' || pokemon.moveUsed.name === 'てかげん' ) {
+    if ( pokemon.selectedMove.name === 'みねうち' || pokemon.selectedMove.name === 'てかげん' ) {
       result -= 1;
       target.stateChange.endureMsg.isTrue === true;
-      target.stateChange.endureMsg.text === pokemon.moveUsed.name;
+      target.stateChange.endureMsg.text === pokemon.selectedMove.name;
       return result;
     }
     if ( isAbility( target, 'がんじょう' ) === true ) {
@@ -1014,20 +1014,20 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
   return result;
 }
 
-function isActivateSkinAbikity( pokemon: Pokemon, type: MoveTypeType ): boolean {
+function isActivateSkinAbikity( pokemon: Pokemon, type: Type ): boolean {
 
-  if ( changeTypeMoveList.includes( pokemon.moveUsed.name ) === true ) return false;
-  if ( pokemon.moveUsed.name === 'わるあがき' ) return false;
-  if ( pokemon.moveUsed.type === type ) return false;
+  if ( changeTypeMoveList.includes( pokemon.selectedMove.name ) === true ) return false;
+  if ( pokemon.selectedMove.name === 'わるあがき' ) return false;
+  if ( pokemon.selectedMove.type === type ) return false;
 
   return true;
 }
 
-function activateSkin( pokemon: Pokemon, type: MoveTypeType ): void {
+function activateSkin( pokemon: Pokemon, type: Type ): void {
 
-  pokemon.moveUsed.type = type;
+  pokemon.selectedMove.type = type;
   pokemon.stateChange.skin.isTrue === true;
-  pokemon.stateChange.skin.text = String( pokemon.moveUsed.type );
+  pokemon.stateChange.skin.text = String( pokemon.selectedMove.type );
 }
 
 function isWeight( pokemon: Pokemon ): number {

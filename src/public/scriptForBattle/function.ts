@@ -3,20 +3,16 @@ function getPokemonDataByName( name: string ): PokemonData {
 
   const result = pokemonMaster.filter( pokemon => pokemon.nameJA === name );
 
-  return result[0]
+  return result[0];
 }
 
 
 // 技検索
-function getMoveDataByName( name: string ): MoveDataType | false {
+function getMoveDataByName( name: string ): MoveData {
 
-  for ( const move of moveData ) {
-    if ( move.name === name ) {
-      return move;
-    }
-  }
+  const result = moveMaster.filter( move => move.nameJA === name );
 
-  return false;
+  return result[0];
 }
 
 

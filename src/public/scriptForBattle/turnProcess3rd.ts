@@ -5,7 +5,7 @@ function actionBeforeTurn(): void {
 
     quickDraw:
     if ( isAbility( pokemon, 'クイックドロウ' ) === true ) {
-      if ( pokemon.moveUsed.category === '変化' ) break quickDraw;
+      if ( pokemon.selectedMove.category === '変化' ) break quickDraw;
       if ( getRandom() >= 30 ) break quickDraw;
 
       pokemon.stateChange.orderRaise.isTrue = true;

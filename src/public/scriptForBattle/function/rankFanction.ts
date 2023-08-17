@@ -30,7 +30,7 @@ function changeTargetRank( pokemon: Pokemon, target: Pokemon, parameter: string,
     if ( isAbility( target, 'しろいけむり' ) === true ) return;
     if ( isAbility( target, 'クリアボディ' ) === true ) return;
     if ( isAbility( target, 'メタルプロテクト' ) === true ) return;
-    if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'くさ' ) ) return;
+    if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'grass' ) ) return;
     if ( isAbility( target, 'ミラーアーマー' ) ) {
       changeTargetRank( target, pokemon, parameter, change );
       return;
