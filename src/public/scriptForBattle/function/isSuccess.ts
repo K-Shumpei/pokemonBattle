@@ -1507,7 +1507,7 @@ function stanceChange( pokemon: Pokemon ): void {
 // 「<ポケモン>の <技>!」のメッセージ。PPが減少することが確約される
 function moveDeclareMessage( pokemon: Pokemon ): void {
 
-  writeLog( `${getArticle( pokemon )}の ${pokemon.selectedMove.name}!` );
+  writeLog( `${getArticle( pokemon )}の ${translateMove( pokemon.selectedMove.name )}!` );
 }
 
 // 技のタイプが変わる。

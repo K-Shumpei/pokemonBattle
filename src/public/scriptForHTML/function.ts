@@ -556,7 +556,7 @@ function registerParty( number: number ): void {
     const move: MoveData = getMoveDataByName( moveName );
 
     myAllParty[number].learnedMove[i].slot = i;
-    myAllParty[number].learnedMove[i].name = move.nameJA;
+    myAllParty[number].learnedMove[i].name = move.nameEN;
     myAllParty[number].learnedMove[i].remainingPP = Number( powerPoint.value );
     myAllParty[number].learnedMove[i].powerPoint = Number( powerPoint.value );
   }
@@ -620,11 +620,9 @@ function editParty( number: number ): void {
 
   // 技
   for ( let i = 0; i < 4; i++ ) {
-    if ( myAllParty[number].learnedMove[i].name === null ) {
-      continue;
-    }
-
-    getHTMLInputElement( 'registerMoveName' + i ).value = String( myAllParty[number].learnedMove[i].name );
+    const moveName = myAllParty[number].learnedMove[i].name;
+    if ( moveName === null ) continue;
+    getHTMLInputElement( 'registerMoveName' + i ).value = translateMove( moveName );
     reflectMoveNatureInHTML( i );
     getHTMLInputElement( 'registerMovePowerPoint' + i ).textContent = String( myAllParty[number].learnedMove[i].powerPoint );
     getHTMLInputElement( 'registerMovePowerPoint' + i ).value = String( myAllParty[number].learnedMove[i].powerPoint );
@@ -673,7 +671,9 @@ function showPartyPokemon( pokemon: Pokemon ): void {
 
   // 技
   for ( let i = 0; i < 4; i++ ) {
-    getHTMLInputElement( 'party' + handOrder + '_move' + i ).textContent = pokemon.learnedMove[i].name;
+    const moveName = pokemon.learnedMove[i].name
+    if ( moveName === null ) continue;
+    getHTMLInputElement( 'party' + handOrder + '_move' + i ).textContent = translateMove( moveName );
     getHTMLInputElement( 'party' + handOrder + '_remainingPP' + i ).textContent = String( pokemon.learnedMove[i].remainingPP );
     getHTMLInputElement( 'party' + handOrder + '_powerPoint' + i ).textContent = String( pokemon.learnedMove[i].powerPoint );
   }
@@ -826,7 +826,9 @@ function showCommand1stField(): void {
 
     // 技
     for ( let j = 0; j < 4; j++ ) {
-      getHTMLInputElement( 'moveText_' + i + '_' + j ).textContent = pokemon.learnedMove[j].name;
+      const moveName = pokemon.learnedMove[j].name;
+      if ( moveName === null ) continue;
+      getHTMLInputElement( 'moveText_' + i + '_' + j ).textContent = translateMove( moveName );
       getHTMLInputElement( 'moveRadio_' + i + '_' + j ).disabled = false;
     }
     // 控え
@@ -845,6 +847,12 @@ function setSelectedMove( pokemon: Pokemon ): void {
   if ( pokemon.command.move === null ) return;
 
   const number: number = pokemon.command.move;
+
+  console.log(pokemon.learnedMove[number])
+
+  if ( moveMaster.some( _move => _move.nameEN === pokemon.learnedMove[number].name ) === false ) return;
+  if ( moveFlagMaster.some( _move => _move.nameEN === pokemon.learnedMove[number].name ) === false ) return;
+
   const move = moveMaster.filter( _move => _move.nameEN === pokemon.learnedMove[number].name )[0];
   const flag = moveFlagMaster.filter( _move => _move.nameEN === pokemon.learnedMove[number].name )[0];
 
