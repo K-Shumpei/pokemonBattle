@@ -35,7 +35,6 @@ class Status {
   _order: number;
   _index: number;
   _name: string;
-  _nameEN: string;
   _type1: Type | null;
   _type2: Type | null;
   _gender: GenderType;
@@ -54,7 +53,6 @@ class Status {
     this._order = 0;
     this._index = 0;
     this._name = '';
-    this._nameEN = '';
     this._type1 = null;
     this._type2 = null;
     this._gender = '-';
@@ -80,9 +78,6 @@ class Status {
   }
   set name( name: string ) {
     this._name = name;
-  }
-  set nameEN( nameEN: string ) {
-    this._nameEN = nameEN;
   }
   set type1( type: Type | null ) {
     this._type1 = type;
@@ -132,9 +127,6 @@ class Status {
   }
   get name(): string {
     return this._name;
-  }
-  get nameEN(): string {
-    return this._nameEN;
   }
   get type1(): Type | null {
     return this._type1;
