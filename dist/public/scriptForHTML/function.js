@@ -49,7 +49,7 @@ function resetInputRegister() {
 function registrationPokemon() {
     const name = getHTMLInputElement('register_name').value;
     // 存在しないポケモンの場合、処理を終了
-    if (pokemonNameListJA.some(_poke => _poke === name) === false) {
+    if (pokemonMaster.some(_poke => _poke.nameJA === name) === false) {
         return;
     }
     const pokemon = getPokemonDataByName(name);
@@ -131,7 +131,7 @@ function reflectActualValueInHTML() {
     const name = getHTMLInputElement('register_name').value;
     const level = Number(getHTMLInputElement('register_level').value);
     // 存在しないポケモンの場合、処理を終了
-    if (pokemonNameListJA.some(_poke => _poke === name) === false) {
+    if (pokemonMaster.some(_poke => _poke.nameJA === name) === false) {
         return;
     }
     const pokemon = getPokemonDataByName(name);
@@ -179,6 +179,17 @@ function translateMove(move) {
         }
     }
     return move;
+}
+function translatePokemonName(name) {
+    for (const data of pokemonMaster) {
+        if (data.nameEN === name) {
+            return data.nameJA;
+        }
+        if (data.nameJA === name) {
+            return data.nameEN;
+        }
+    }
+    return name;
 }
 function getGenderType(gender) {
     for (const _gender of genderList) {
@@ -277,7 +288,7 @@ function setEffortValue(parameter, number) {
 function reflectEffortValueInHTML(parameter) {
     const name = getHTMLInputElement('register_name').value;
     // 存在しないポケモンの場合、処理を終了
-    if (pokemonNameListJA.some(_poke => _poke === name) === false) {
+    if (pokemonMaster.some(_poke => _poke.nameJA === name) === false) {
         return;
     }
     const pokemon = getPokemonDataByName(name);
@@ -377,7 +388,7 @@ function changePowerPoint(number, direction) {
 function registerParty(number) {
     const name = getHTMLInputElement('register_name').value;
     // 存在しないポケモンの場合、処理を終了
-    if (pokemonNameListJA.some(_poke => _poke === name) === false) {
+    if (pokemonMaster.some(_poke => _poke.nameJA === name) === false) {
         return;
     }
     const pokemon = getPokemonDataByName(name);
@@ -398,8 +409,7 @@ function registerParty(number) {
     myAllParty[number].statusOrg.id = pokemon.id;
     myAllParty[number].statusOrg.order = pokemon.order;
     myAllParty[number].statusOrg.index = pokemon.index;
-    myAllParty[number].statusOrg.name = pokemon.nameJA;
-    myAllParty[number].statusOrg.nameEN = pokemon.nameEN;
+    myAllParty[number].statusOrg.name = pokemon.nameEN;
     myAllParty[number].statusOrg.type1 = translateTypeIntoEnglish(type1HTML.value);
     myAllParty[number].statusOrg.type2 = translateTypeIntoEnglish(type2HTML.value);
     myAllParty[number].statusOrg.gender = getGenderType(genderHTML.value);
@@ -410,7 +420,20 @@ function registerParty(number) {
     myAllParty[number].statusOrg.height = pokemon.height;
     myAllParty[number].statusOrg.weight = pokemon.weight;
     myAllParty[number].statusOrg.remainingHP = Number(actualValue_hitPoint.value);
-    myAllParty[number].status = myAllParty[number].statusOrg;
+    myAllParty[number].status.id = myAllParty[number].statusOrg.id;
+    myAllParty[number].status.order = myAllParty[number].statusOrg.order;
+    myAllParty[number].status.index = myAllParty[number].statusOrg.index;
+    myAllParty[number].status.name = myAllParty[number].statusOrg.name;
+    myAllParty[number].status.type1 = myAllParty[number].statusOrg.type1;
+    myAllParty[number].status.type2 = myAllParty[number].statusOrg.type2;
+    myAllParty[number].status.gender = myAllParty[number].statusOrg.gender;
+    myAllParty[number].status.ability = myAllParty[number].statusOrg.ability;
+    myAllParty[number].status.level = myAllParty[number].statusOrg.level;
+    myAllParty[number].status.item = myAllParty[number].statusOrg.item;
+    myAllParty[number].status.nature = myAllParty[number].statusOrg.nature;
+    myAllParty[number].status.height = myAllParty[number].statusOrg.height;
+    myAllParty[number].status.weight = myAllParty[number].statusOrg.weight;
+    myAllParty[number].status.remainingHP = myAllParty[number].statusOrg.remainingHP;
     // 実数値・種族値・個体値・努力値
     for (const parameter of Object.keys(myAllParty[number].actualValue)) {
         const actualValue = getHTMLInputElement('register' + parameter + 'ActualValue');
@@ -432,7 +455,7 @@ function registerParty(number) {
         }
         const move = getMoveDataByName(moveName);
         myAllParty[number].learnedMove[i].slot = i;
-        myAllParty[number].learnedMove[i].name = move.nameJA;
+        myAllParty[number].learnedMove[i].name = move.nameEN;
         myAllParty[number].learnedMove[i].remainingPP = Number(powerPoint.value);
         myAllParty[number].learnedMove[i].powerPoint = Number(powerPoint.value);
     }
@@ -482,10 +505,10 @@ function editParty(number) {
     reflectActualValueInHTML();
     // 技
     for (let i = 0; i < 4; i++) {
-        if (myAllParty[number].learnedMove[i].name === null) {
+        const moveName = myAllParty[number].learnedMove[i].name;
+        if (moveName === null)
             continue;
-        }
-        getHTMLInputElement('registerMoveName' + i).value = String(myAllParty[number].learnedMove[i].name);
+        getHTMLInputElement('registerMoveName' + i).value = translateMove(moveName);
         reflectMoveNatureInHTML(i);
         getHTMLInputElement('registerMovePowerPoint' + i).textContent = String(myAllParty[number].learnedMove[i].powerPoint);
         getHTMLInputElement('registerMovePowerPoint' + i).value = String(myAllParty[number].learnedMove[i].powerPoint);
@@ -500,7 +523,7 @@ function showPartyPokemon(pokemon) {
     if (handOrder === null) {
         return;
     }
-    getHTMLInputElement('party' + handOrder + '_name').textContent = pokemon.status.name;
+    getHTMLInputElement('party' + handOrder + '_name').textContent = translatePokemonName(pokemon.status.name);
     getHTMLInputElement('party' + handOrder + '_gender').textContent = pokemon.status.gender;
     getHTMLInputElement('party' + handOrder + '_level').textContent = String(pokemon.status.level);
     getHTMLInputElement('party' + handOrder + '_type1').textContent = translateTypeIntoJapanese(pokemon.status.type1);
@@ -524,7 +547,10 @@ function showPartyPokemon(pokemon) {
     }
     // 技
     for (let i = 0; i < 4; i++) {
-        getHTMLInputElement('party' + handOrder + '_move' + i).textContent = pokemon.learnedMove[i].name;
+        const moveName = pokemon.learnedMove[i].name;
+        if (moveName === null)
+            continue;
+        getHTMLInputElement('party' + handOrder + '_move' + i).textContent = translateMove(moveName);
         getHTMLInputElement('party' + handOrder + '_remainingPP' + i).textContent = String(pokemon.learnedMove[i].remainingPP);
         getHTMLInputElement('party' + handOrder + '_powerPoint' + i).textContent = String(pokemon.learnedMove[i].powerPoint);
     }
@@ -644,7 +670,10 @@ function showCommand1stField() {
         getHTMLInputElement('command1st_' + i).style.visibility = 'visible';
         // 技
         for (let j = 0; j < 4; j++) {
-            getHTMLInputElement('moveText_' + i + '_' + j).textContent = pokemon.learnedMove[j].name;
+            const moveName = pokemon.learnedMove[j].name;
+            if (moveName === null)
+                continue;
+            getHTMLInputElement('moveText_' + i + '_' + j).textContent = translateMove(moveName);
             getHTMLInputElement('moveRadio_' + i + '_' + j).disabled = false;
         }
         // 控え
@@ -661,6 +690,11 @@ function setSelectedMove(pokemon) {
     if (pokemon.command.move === null)
         return;
     const number = pokemon.command.move;
+    console.log(pokemon.learnedMove[number]);
+    if (moveMaster.some(_move => _move.nameEN === pokemon.learnedMove[number].name) === false)
+        return;
+    if (moveFlagMaster.some(_move => _move.nameEN === pokemon.learnedMove[number].name) === false)
+        return;
     const move = moveMaster.filter(_move => _move.nameEN === pokemon.learnedMove[number].name)[0];
     const flag = moveFlagMaster.filter(_move => _move.nameEN === pokemon.learnedMove[number].name)[0];
     pokemon.selectedMove.slot = pokemon.learnedMove[number].slot;

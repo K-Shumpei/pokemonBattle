@@ -541,8 +541,7 @@ function formChange(pokemon) {
     pokemon.status.id = nextPokemon.id;
     pokemon.status.order = nextPokemon.order;
     pokemon.status.index = nextPokemon.index;
-    pokemon.status.name = nextPokemon.nameJA;
-    pokemon.status.nameEN = nextPokemon.nameEN;
+    pokemon.status.name = nextPokemon.nameEN;
     pokemon.status.type1 = nextPokemon.type[0];
     if (nextPokemon.type.length === 2)
         pokemon.status.type2 = nextPokemon.type[1];

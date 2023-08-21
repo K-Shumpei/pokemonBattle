@@ -30,7 +30,6 @@ class Status {
         this._order = 0;
         this._index = 0;
         this._name = '';
-        this._nameEN = '';
         this._type1 = null;
         this._type2 = null;
         this._gender = '-';
@@ -55,9 +54,6 @@ class Status {
     }
     set name(name) {
         this._name = name;
-    }
-    set nameEN(nameEN) {
-        this._nameEN = nameEN;
     }
     set type1(type) {
         this._type1 = type;
@@ -106,9 +102,6 @@ class Status {
     }
     get name() {
         return this._name;
-    }
-    get nameEN() {
-        return this._nameEN;
     }
     get type1() {
         return this._type1;
