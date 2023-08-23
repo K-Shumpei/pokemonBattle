@@ -190,14 +190,14 @@ function getNatureType( nature: string ): NatureType {
   return 'てれや';
 }
 
-function translateTypeIntoEnglish( type: string ): Type {
+function translateTypeIntoEnglish( type: string ): PokemonType {
 
   const result = typeTextMaster.filter( text => text.nameJA === type )[0]
 
   return result.nameEN;
 }
 
-function translateTypeIntoJapanese( type: Type ): string {
+function translateTypeIntoJapanese( type: PokemonType ): string {
 
   const result = typeTextMaster.filter( text => text.nameEN === type )[0]
 
@@ -246,15 +246,15 @@ function translatePokemonName( name: string ): string {
   return name;
 }
 
-function getGenderType( gender: string ): GenderType {
+function getGenderType( gender: string ): Gender {
 
-  for ( const _gender of genderList ) {
-    if ( _gender === gender ) {
-      return _gender;
-    }
-  }
-
-  return '-';
+   if ( gender === '♂' ) {
+    return 'male';
+   } else if ( gender === '♀' ) {
+    return 'female';
+   } else {
+    return 'genderless';
+   }
 }
 
 

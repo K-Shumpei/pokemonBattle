@@ -150,7 +150,7 @@ function getSpeedValue( pokemon: Pokemon, type: string ): number {
   speedTypeB = fiveRoundEntry( speedTypeB * correction / 4096 );
 
   // まひ補正
-  if ( pokemon.status.statusAilment.name === 'まひ' ) {
+  if ( pokemon.status.statusAilment.name === 'paralysis' ) {
     speedTypeB = Math.floor( speedTypeB * 2048 / 4096 );
   }
 

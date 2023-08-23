@@ -67,7 +67,7 @@ const categoryList = [
 ]
 
 
-const itemAPIdata: ItemDataType[] = [
+const itemAPIdata: ItemData[] = [
   { id: 43, nameJA: 'きのみジュース', nameEN: 'Berry Juice', category: 'healing', flingPower: 30, flingEffect: null },
   { id: 112, nameJA: 'こんごうだま', nameEN: 'Adamant Orb', category: 'species-specific', flingPower: 60, flingEffect: null },
   { id: 113, nameJA: 'しらたま', nameEN: 'Lustrous Orb', category: 'species-specific', flingPower: 60, flingEffect: null },

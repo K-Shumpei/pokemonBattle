@@ -1,15 +1,17 @@
 class Weather {
-  _name: WeatherType;
+  _name: WeatherText;
   _turn: number;
   _extend: boolean;
+  _strong: boolean;
 
   constructor() {
     this._name = null;
     this._turn = 0;
     this._extend = false;
+    this._strong = false;
   }
 
-  set name( name: WeatherType ) {
+  set name( name: WeatherText ) {
     this._name = name;
   }
   set turn( turn: number ) {
@@ -18,8 +20,11 @@ class Weather {
   set extend( extend: boolean ) {
     this._extend = extend;
   }
+  set strong( strong: boolean ) {
+    this._strong = strong;
+  }
 
-  get name(): WeatherType {
+  get name(): WeatherText {
     return this._name;
   }
   get turn(): number {
@@ -28,16 +33,20 @@ class Weather {
   get extend(): boolean {
     return this._extend;
   }
+  get strong(): boolean {
+    return this._strong;
+  }
 
   reset(): void {
     this._name = null;
     this._turn = 0;
     this._extend = false;
+    this._strong = false;
   }
 }
 
 class Terrain {
-  _name: TerrainType;
+  _name: TerrainText;
   _turn: number;
   _extend: boolean;
 
@@ -47,7 +56,7 @@ class Terrain {
     this._extend = false;
   }
 
-  set name( name: TerrainType ) {
+  set name( name: TerrainText ) {
     this._name = name;
   }
   set turn( turn: number ) {
@@ -57,7 +66,7 @@ class Terrain {
     this._extend = extend;
   }
 
-  get name(): TerrainType {
+  get name(): TerrainText {
     return this._name;
   }
   get turn(): number {

@@ -4,8 +4,8 @@ type PokemonData = {
   index: number;
   nameEN: string;
   nameJA: string;
-  gender: string;
-  type: Type[];
+  gender: Gender;
+  type: PokemonType[];
   ability: string[];
   stats: {
     hitPoint: number;
@@ -24,8 +24,8 @@ type MoveData = {
   id: number;
   nameJA: string;
   nameEN: string;
-  type: Type | null;
-  class: string;
+  type: PokemonType;
+  class: MoveClass;
   target: string;
   category: string;
   power: number | null;
@@ -69,33 +69,7 @@ type MoveFlagData = {
   dance: boolean;
 }
 
-
-
-type MoveCategoryType = '物理' | '特殊' | '変化';
-type MoveTypeType = 'ノーマル' | 'ほのお' | 'みず' | 'でんき' | 'くさ' | 'こおり' | 'かくとう' | 'どく' | 'じめん' | 'ひこう' | 'エスパー' | 'むし' | 'いわ' | 'ゴースト' | 'ドラゴン' | 'あく' | 'はがね' | 'フェアリー' | null;
-type MoveTargetType = '自分' | '1体選択' | '味方1体' | '自分か味方' | 'ランダム1体' | '味方全体' | '相手全体' | '自分以外' | '全体' | '味方の場' | '相手の場' | '全体の場' | '不定' ;
-type WeatherType = 'にほんばれ' | 'あめ' | 'すなあらし' | 'あられ' | 'ゆき' | 'おおあめ' | 'おおひでり' | 'らんきりゅう' | null;
-type TerrainType = 'エレキフィールド' | 'グラスフィールド' | 'サイコフィールド' | 'ミストフィールド' | null;
-type StatusAilmentType = 'まひ' | 'ねむり' | 'どく' | 'もうどく' | 'やけど' | 'こおり' | null;
-type ParameterStringType = 'attack' | 'defense' | 'specialAttack' | 'specialDefense' | 'speed' | 'accuracy' | 'evasion';
-type NatureType = 'てれや' | 'さみしがり' | 'いじっぱり' | 'やんちゃ' | 'ゆうかん' | 'ずぶとい' | 'がんばりや' | 'わんぱく' | 'のうてんき' | 'のんき' | 'ひかえめ' | 'おっとり' | 'すなお' | 'うっかりや' | 'れいせい' | 'おだやか' | 'おとなしい' | 'しんちょう' | 'きまぐれ' | 'なまいき' | 'おくびょう' | 'せっかち' | 'ようき' | 'むじゃき' | 'まじめ';
-type SignType = '+' | '-';
-type GenderType = '♂' | '♀' | '-';
-
-type MoveDataType = {
-  name: string;
-  type: MoveTypeType;
-  category: MoveCategoryType;
-  power: number;
-  accuracy: number;
-  powerPoint: number;
-  isDirect: boolean;
-  isProtect: boolean;
-  target: MoveTargetType;
-  discription: string;
-}
-
-type ItemDataType = {
+type ItemData = {
   id: number;
   nameJA: string;
   nameEN: string;
@@ -104,12 +78,26 @@ type ItemDataType = {
   flingEffect: string | null;
 }
 
-type AbilityMasterType = {
+type AbilityData = {
   id: number;
   nameJA: string;
   nameEN: string;
   text: string;
 }
+
+type MoveClass = 'physical' | 'special' | 'status';
+
+
+
+type MoveTargetType = '自分' | '1体選択' | '味方1体' | '自分か味方' | 'ランダム1体' | '味方全体' | '相手全体' | '自分以外' | '全体' | '味方の場' | '相手の場' | '全体の場' | '不定' ;
+
+
+
+type ParameterStringType = 'attack' | 'defense' | 'specialAttack' | 'specialDefense' | 'speed' | 'accuracy' | 'evasion';
+type NatureType = 'てれや' | 'さみしがり' | 'いじっぱり' | 'やんちゃ' | 'ゆうかん' | 'ずぶとい' | 'がんばりや' | 'わんぱく' | 'のうてんき' | 'のんき' | 'ひかえめ' | 'おっとり' | 'すなお' | 'うっかりや' | 'れいせい' | 'おだやか' | 'おとなしい' | 'しんちょう' | 'きまぐれ' | 'なまいき' | 'おくびょう' | 'せっかち' | 'ようき' | 'むじゃき' | 'まじめ';
+type SignType = '+' | '-';
+
+
 
 type ParameterSixType = {
   hitPoint: number;
@@ -155,7 +143,7 @@ type MoveEffectRank = {
 type AdditionalEffectAilment = {
   name: string;
   rate: number;
-  ailment: StatusAilmentType;
+  ailment: StatusAilmentText;
 }
 
 type TranslationDictionaryType = {
@@ -222,10 +210,10 @@ type changeAbilityType = {
 
 type BerryTableType = {
   number: number;
-  name: ItemNameJA;
-  half: MoveTypeType;
+  name: string;
+  half: PokemonType;
   fling: boolean;
-  naturalGift: { type: MoveTypeType, power: number };
+  naturalGift: { type: PokemonType, power: number };
 }
 
 type TargetDataType = {

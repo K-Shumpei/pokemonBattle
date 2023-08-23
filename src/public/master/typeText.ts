@@ -1,6 +1,6 @@
 const typeTextMaster: {
   id: number,
-  nameEN: Type | null,
+  nameEN: PokemonType,
   nameJA: string
 }[] = [
   { id: 1, nameEN: 'normal', nameJA: 'ノーマル' },

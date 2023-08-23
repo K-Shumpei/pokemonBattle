@@ -35,9 +35,9 @@ class Status {
   _order: number;
   _index: number;
   _name: string;
-  _type1: Type | null;
-  _type2: Type | null;
-  _gender: GenderType;
+  _type1: PokemonType;
+  _type2: PokemonType;
+  _gender: Gender;
   _ability: string;
   _level: number;
   _item: string | null;
@@ -55,7 +55,7 @@ class Status {
     this._name = '';
     this._type1 = null;
     this._type2 = null;
-    this._gender = '-';
+    this._gender = 'male';
     this._ability = '';
     this._level = 50;
     this._item = null;
@@ -79,13 +79,13 @@ class Status {
   set name( name: string ) {
     this._name = name;
   }
-  set type1( type: Type | null ) {
+  set type1( type: PokemonType ) {
     this._type1 = type;
   }
-  set type2( type: Type | null ) {
+  set type2( type: PokemonType ) {
     this._type2 = type;
   }
-  set gender( gender: GenderType ) {
+  set gender( gender: Gender ) {
     this._gender = gender;
   }
   set ability( ability: string ) {
@@ -128,13 +128,13 @@ class Status {
   get name(): string {
     return this._name;
   }
-  get type1(): Type | null {
+  get type1(): PokemonType {
     return this._type1;
   }
-  get type2(): Type | null {
+  get type2(): PokemonType {
     return this._type2;
   }
-  get gender(): GenderType {
+  get gender(): Gender {
     return this._gender;
   }
   get ability(): string {
@@ -205,22 +205,22 @@ class Status {
 }
 
 class StatusAilment {
-  _name: StatusAilmentType;
+  _name: StatusAilmentText;
   _turn: number;
 
-  constructor( name: StatusAilmentType ) {
+  constructor( name: StatusAilmentText ) {
     this._name = name;
     this._turn = 0;
   }
 
-  set name( name: StatusAilmentType ) {
+  set name( name: StatusAilmentText ) {
     this._name = name;
   }
   set turn( turn: number ) {
     this._turn = turn;
   }
 
-  get name(): StatusAilmentType {
+  get name(): StatusAilmentText {
     return this._name;
   }
   get turn(): number {
@@ -1513,7 +1513,7 @@ class MoveFlag {
 class SelectedMove {
   _slot: number;
   _name: string;
-  _type: Type;
+  _type: PokemonType;
   _damageClass: string;
   _target: string;
   _category: string;
@@ -1557,7 +1557,7 @@ class SelectedMove {
   set name( name: string ) {
     this._name = name;
   }
-  set type( type: Type ) {
+  set type( type: PokemonType ) {
     this._type = type;
   }
   set damageClass( damageClass: string ) {
@@ -1612,7 +1612,7 @@ class SelectedMove {
    get name(): string {
     return this._name;
    }
-   get type(): Type {
+   get type(): PokemonType {
     return this._type;
    }
    get damageClass(): string {

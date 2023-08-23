@@ -22,16 +22,10 @@ function isAbility( pokemon: Pokemon, ability: string ): boolean {
 }
 
 // 状態異常
-function isStatusAilment( pokemon: Pokemon, statusAilment: string ): boolean {
+function isStatusAilment( pokemon: Pokemon, statusAilment: StatusAilmentText ): boolean {
 
   if ( pokemon.status.statusAilment.name === statusAilment ) {
     return true;
-  }
-
-  if ( statusAilment === 'どく' ) {
-    if ( pokemon.status.statusAilment.name === 'もうどく' ) {
-      return true;
-    }
   }
 
   return false;
@@ -57,37 +51,18 @@ function getValueWithRankCorrection( actualValue: number, rank: number, critical
 }
 
 // 天気
-function isWeather( pokemon: Pokemon, weather: WeatherType ): boolean {
+function isWeather( pokemon: Pokemon, weather: WeatherText, strong?: boolean ): boolean {
 
-  for ( const pokemon of allPokemonInBattlefield() ) {
-    if ( isAbility( pokemon, 'エアロック' ) === true ) {
-      return false;
-    }
-    if ( isAbility( pokemon, 'ノーてんき' ) === true ) {
-      return false;
-    }
+  if ( isExistAbility( 'エアロック' ) !== false ) return false;
+  if ( isExistAbility( 'ノーてんき' ) !== false ) return false;
+
+  if ( isItem( pokemon, 'ばんのうがさ' ) === true ) {
+    if ( weather === 'rain' ) return false;
+    if ( weather === 'sunny' ) return false;
   }
 
-  if ( weather === 'あめ' || weather === 'おおあめ' || weather === 'にほんばれ' || weather === 'おおひでり' ) {
-    if ( isItem( pokemon, 'ばんのうがさ' ) === true ) {
-      return false;
-    }
-  }
-
-  if ( fieldStatus.weather.name === weather ) {
+  if ( fieldStatus.weather.name === weather && fieldStatus.weather.strong === strong ) {
     return true;
-  }
-
-  if ( weather === 'あめ' ) {
-    if ( fieldStatus.weather.name === 'おおあめ' ) {
-      return true;
-    }
-  }
-
-  if ( weather === 'にほんばれ' ) {
-    if ( fieldStatus.weather.name === 'おおひでり' ) {
-      return true;
-    }
   }
 
   return false;
@@ -126,9 +101,9 @@ function isGrounded( pokemon: Pokemon ): boolean {
 }
 
 // ポケモンのタイプ
-function getPokemonType( pokemon: Pokemon ): Type[] {
+function getPokemonType( pokemon: Pokemon ): PokemonType[] {
 
-  let result: Type[] = [];
+  let result: PokemonType[] = [];
 
   if ( pokemon.status.type1 !== null ) {
     result.push( pokemon.status.type1 );
@@ -245,20 +220,19 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
   const ripen: number = ( isAbility( pokemon, 'じゅくせい' ) )? 2 : 1;
 
   if ( berry === 'クラボのみ' ) {
-    cureAilmentByItem( pokemon, 'まひ', berry );
+    cureAilmentByItem( pokemon, 'paralysis', berry );
   }
   if ( berry === 'カゴのみ' ) {
-    cureAilmentByItem( pokemon, 'ねむり', berry );
+    cureAilmentByItem( pokemon, 'asleep', berry );
   }
   if ( berry === 'モモンのみ' ) {
-    cureAilmentByItem( pokemon, 'どく', berry );
-    cureAilmentByItem( pokemon, 'もうどく', berry );
+    cureAilmentByItem( pokemon, 'poisoned', berry );
   }
   if ( berry === 'チーゴのみ' ) {
-    cureAilmentByItem( pokemon, 'やけど', berry );
+    cureAilmentByItem( pokemon, 'burned', berry );
   }
   if ( berry === 'ナナシのみ' ) {
-    cureAilmentByItem( pokemon, 'こおり', berry );
+    cureAilmentByItem( pokemon, 'frozen', berry );
   }
   leppaBerry:
   if ( berry === 'ヒメリのみ' ) {
@@ -400,8 +374,8 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
 // メロメロ
 function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void {
 
-  if ( pokemon.status.gender === '-' ) return;
-  if ( target.status.gender === '-' ) return;
+  if ( pokemon.status.gender === 'genderless' ) return;
+  if ( target.status.gender === 'genderless' ) return;
   if ( pokemon.status.gender === target.status.gender ) return;
   if ( pokemon.trainer === target.trainer ) return;
   if ( target.stateChange.attract.isTrue === true ) return;
@@ -428,18 +402,19 @@ function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void 
 }
 
 // 天気変化
-function changeWeather( pokemon: Pokemon, weather: WeatherType ): void {
+function changeWeather( pokemon: Pokemon, weather: WeatherText, strong: boolean ): void {
 
   if ( isChangableWeather( weather ) === false ) return;
 
   fieldStatus.weather.reset();
   fieldStatus.weather.name = weather;
+  fieldStatus.weather.strong = strong;
 
-  if ( weather === 'おおあめ' ) writeLog( `強い雨が 降り始めた!` );
-  if ( weather === 'おおひでり' ) writeLog( `日差しが とても強くなった!` );
-  if ( weather === 'らんきりゅう' ) writeLog( `謎の乱気流が ひこうポケモンを 護る!` );
+  if ( weather === 'turbulence' ) {
+    writeLog( `謎の乱気流が ひこうポケモンを 護る!` );
+  }
 
-  if ( weather === 'あめ' ) {
+  if ( weather === 'rain' ) {
     if ( isItem( pokemon, 'しめったいわ' ) === true ) {
       fieldStatus.weather.turn = 8;
       fieldStatus.weather.extend = true;
@@ -447,10 +422,15 @@ function changeWeather( pokemon: Pokemon, weather: WeatherType ): void {
       fieldStatus.weather.turn = 5;
       fieldStatus.weather.extend = false;
     }
-    writeLog( `雨が 降り始めた!` );
+
+    if ( strong === true ) {
+      writeLog( `強い雨が 降り始めた!` );
+    } else {
+      writeLog( `雨が 降り始めた!` );
+    }
   }
 
-  if ( weather === 'にほんばれ' ) {
+  if ( weather === 'sunny' ) {
     if ( isItem( pokemon, 'あついいわ' ) === true ) {
       fieldStatus.weather.turn = 8;
       fieldStatus.weather.extend = true;
@@ -458,10 +438,15 @@ function changeWeather( pokemon: Pokemon, weather: WeatherType ): void {
       fieldStatus.weather.turn = 5;
       fieldStatus.weather.extend = false;
     }
-    writeLog( `日差しが 強くなった!` );
+
+    if ( strong === true ) {
+      writeLog( `日差しが とても強くなった!` );
+    } else {
+      writeLog( `日差しが 強くなった!` );
+    }
   }
 
-  if ( weather === 'すなあらし' ) {
+  if ( weather === 'sandstorm' ) {
     if ( isItem( pokemon, 'さらさらいわ' ) === true ) {
       fieldStatus.weather.turn = 8;
       fieldStatus.weather.extend = true;
@@ -472,18 +457,7 @@ function changeWeather( pokemon: Pokemon, weather: WeatherType ): void {
     writeLog( `砂あらしが 吹き始めた!` );
   }
 
-  if ( weather === 'あられ' ) {
-    if ( isItem( pokemon, 'つめたいいわ' ) === true ) {
-      fieldStatus.weather.turn = 8;
-      fieldStatus.weather.extend = true;
-    } else {
-      fieldStatus.weather.turn = 5;
-      fieldStatus.weather.extend = false;
-    }
-    writeLog( `あられが 降り始めた!` );
-  }
-
-  if ( weather === 'ゆき' ) {
+  if ( weather === 'snow' ) {
     if ( isItem( pokemon, 'つめたいいわ' ) === true ) {
       fieldStatus.weather.turn = 8;
       fieldStatus.weather.extend = true;
@@ -495,23 +469,22 @@ function changeWeather( pokemon: Pokemon, weather: WeatherType ): void {
   }
 }
 
-function isChangableWeather( weather: WeatherType ): boolean {
+function isChangableWeather( weather: WeatherText ): boolean {
 
   if ( fieldStatus.weather.name === weather ) return false;
 
-  if ( fieldStatus.weather.name === 'おおあめ' || fieldStatus.weather.name === 'おおひでり' || fieldStatus.weather.name === 'らんきりゅう' ) {
-    if ( weather === 'あめ' ) return false;
-    if ( weather === 'にほんばれ' ) return false;
-    if ( weather === 'すなあらし' ) return false;
-    if ( weather === 'あられ' ) return false;
-    if ( weather === 'ゆき' ) return false;
+  if ( fieldStatus.weather.strong === true ) {
+    if ( weather === 'rain' ) return false;
+    if ( weather === 'sunny' ) return false;
+    if ( weather === 'sandstorm' ) return false;
+    if ( weather === 'snow' ) return false;
   }
 
   return true;
 }
 
 // フィールド変化
-function changeTerrain( pokemon: Pokemon, terrain: TerrainType ): void {
+function changeTerrain( pokemon: Pokemon, terrain: TerrainText ): void {
 
   if ( isChangableTerrain( terrain ) === false ) return;
 
@@ -525,14 +498,14 @@ function changeTerrain( pokemon: Pokemon, terrain: TerrainType ): void {
     fieldStatus.terrain.extend = false;
   }
 
-  if ( terrain === 'エレキフィールド' ) writeLog( `足下に 電気が かけめぐる!` );
-  if ( terrain === 'グラスフィールド' ) writeLog( `足下に 草がおいしげった!` );
-  if ( terrain === 'サイコフィールド' ) writeLog( `足下が 不思議な感じに なった!` );
-  if ( terrain === 'ミストフィールド' ) writeLog( `足下に 霧が立ち込めた!` );
+  if ( terrain === 'electric' ) writeLog( `足下に 電気が かけめぐる!` );
+  if ( terrain === 'grassy' ) writeLog( `足下に 草がおいしげった!` );
+  if ( terrain === 'psychic' ) writeLog( `足下が 不思議な感じに なった!` );
+  if ( terrain === 'misty' ) writeLog( `足下に 霧が立ち込めた!` );
 
 }
 
-function isChangableTerrain( terrain: TerrainType ): boolean {
+function isChangableTerrain( terrain: TerrainText ): boolean {
 
   if ( fieldStatus.terrain.name === terrain ) return false;
 
@@ -541,10 +514,10 @@ function isChangableTerrain( terrain: TerrainType ): boolean {
 
 function vanishTerrian(): void {
 
-  if ( fieldStatus.terrain.name === 'エレキフィールド' ) writeLog( `足下の 電気が 消え去った!` );
-  if ( fieldStatus.terrain.name === 'グラスフィールド' ) writeLog( `足下の 電気が 消え去った!` );
-  if ( fieldStatus.terrain.name === 'サイコフィールド' ) writeLog( `足下の 電気が 消え去った!` );
-  if ( fieldStatus.terrain.name === 'ミストフィールド' ) writeLog( `足下の 電気が 消え去った!` );
+  if ( fieldStatus.terrain.name === 'electric' ) writeLog( `足下の 電気が 消え去った!` );
+  if ( fieldStatus.terrain.name === 'grassy' ) writeLog( `足下の 電気が 消え去った!` );
+  if ( fieldStatus.terrain.name === 'psychic' ) writeLog( `足下の 電気が 消え去った!` );
+  if ( fieldStatus.terrain.name === 'misty') writeLog( `足下の 電気が 消え去った!` );
 
   fieldStatus.terrain.reset();
 }
@@ -756,12 +729,11 @@ function isEnableEatBerry( pokemon: Pokemon ): boolean {
   if ( berry === null ) return false;
   if ( isItem( pokemon, berry ) === false ) return false;
 
-  if ( berry === 'クラボのみ' && ailment === 'まひ' ) return true;
-  if ( berry === 'カゴのみ' && ailment === 'ねむり' ) return true;
-  if ( berry === 'モモンのみ' && ailment === 'どく' ) return true;
-  if ( berry === 'モモンのみ' && ailment === 'もうどく' ) return true;
-  if ( berry === 'チーゴのみ' && ailment === 'やけど' ) return true;
-  if ( berry === 'ナナシのみ' && ailment === 'こおり' ) return true;
+  if ( berry === 'クラボのみ' && ailment === 'paralysis' ) return true;
+  if ( berry === 'カゴのみ' && ailment === 'asleep' ) return true;
+  if ( berry === 'モモンのみ' && ailment === 'poisoned' ) return true;
+  if ( berry === 'チーゴのみ' && ailment === 'burned' ) return true;
+  if ( berry === 'ナナシのみ' && ailment === 'frozen' ) return true;
   if ( berry === 'ヒメリのみ' ) {
     for ( const move of pokemon.learnedMove ) {
       if ( move.remainingPP < move.powerPoint ) return true;
@@ -928,13 +900,13 @@ function isReleasableItem( pokemon: Pokemon, target: Pokemon ): boolean {
 function activateSeed( pokemon: Pokemon ): void {
 
   const seedTable: {
-    item: ItemNameJA;
+    item: string;
     terrain: string;
     parameter: ParameterStringType
   }[] = [
-    { item: 'エレキシード', terrain: 'エレキフィールド', parameter: 'defense' },
-    { item: 'グラスシード', terrain: 'グラスフィールド', parameter: 'defense' },
-    { item: 'サイコシード', terrain: 'サイコフィールド', parameter: 'specialDefense' },
+    { item: 'エレキシード', terrain: 'electric', parameter: 'defense' },
+    { item: 'グラスシード', terrain: 'grassy', parameter: 'defense' },
+    { item: 'サイコシード', terrain: 'psychic', parameter: 'specialDefense' },
     { item: 'ミストシード', terrain: 'ミストフィールド', parameter: 'specialDefense' },
   ]
 
@@ -1013,7 +985,7 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
   return result;
 }
 
-function isActivateSkinAbikity( pokemon: Pokemon, type: Type ): boolean {
+function isActivateSkinAbikity( pokemon: Pokemon, type: PokemonType ): boolean {
 
   if ( changeTypeMoveList.includes( pokemon.selectedMove.name ) === true ) return false;
   if ( pokemon.selectedMove.name === 'わるあがき' ) return false;
@@ -1022,7 +994,7 @@ function isActivateSkinAbikity( pokemon: Pokemon, type: Type ): boolean {
   return true;
 }
 
-function activateSkin( pokemon: Pokemon, type: Type ): void {
+function activateSkin( pokemon: Pokemon, type: PokemonType ): void {
 
   pokemon.selectedMove.type = type;
   pokemon.stateChange.skin.isTrue === true;

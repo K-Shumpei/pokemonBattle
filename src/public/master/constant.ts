@@ -488,8 +488,9 @@ const changeAbilityTable: changeAbilityType[] = [
   { name: 'レシーバー', exchange: 0, overwrite: 0, noAbility: 0, neutral: 0, copy: 1, copied: 1, transform: 2 },
 ]
 
+
 // プレート
-const plateTable: { name: ItemNameJA, type: MoveTypeType }[] = [
+const plateTable = [
   { name: 'あおぞらプレート', type: 'ひこう' },
   { name: 'いかずちプレート', type: 'でんき' },
   { name: 'がんせきプレート', type: 'いわ' },
@@ -510,7 +511,7 @@ const plateTable: { name: ItemNameJA, type: MoveTypeType }[] = [
 ]
 
 // ジュエル
-const gemTable: { name: ItemNameJA, type: MoveTypeType }[] = [
+const gemTable = [
   { name: 'あくのジュエル', type: 'あく' },
   { name: 'いわのジュエル', type: 'いわ' },
   { name: 'エスパージュエル', type: 'エスパー' },
@@ -532,7 +533,7 @@ const gemTable: { name: ItemNameJA, type: MoveTypeType }[] = [
 ]
 
 // メモリ
-const memoryTable: { name: ItemNameJA, type: MoveTypeType }[] = [
+const memoryTable = [
   { name: 'アイスメモリ', type: 'こおり' },
   { name: 'ウオーターメモリ', type: 'みず' },
   { name: 'エレクトロメモリ', type: 'でんき' },
@@ -553,7 +554,7 @@ const memoryTable: { name: ItemNameJA, type: MoveTypeType }[] = [
 ]
 
 // カセット
-const driveTable: { name: ItemNameJA, type: MoveTypeType }[] = [
+const driveTable = [
   { name: 'アクアカセット', type: 'みず' },
   { name: 'イナズマカセット', type: 'でんき' },
   { name: 'フリーズカセット', type: 'こおり' },
@@ -561,7 +562,7 @@ const driveTable: { name: ItemNameJA, type: MoveTypeType }[] = [
 ]
 
 // シルクのスカーフ、おこう
-const incenseTable: { name: ItemNameJA, type: MoveTypeType }[] = [
+const incenseTable = [
   { name: 'あやしいおこう', type: 'エスパー' },
   { name: 'うしおのおこう', type: 'みず' },
   { name: 'おはなのおこう', type: 'くさ' },
@@ -682,29 +683,6 @@ const megaStoneTable = [
   { name: 'リザードナイトY', pokemon: 'リザードンY', mega: 'メガリザードンY' },
   { name: 'ルカリオナイト', pokemon: 'ルカリオ', mega: 'メガルカリオ' },
 ]
-
-const typeList: MoveTypeType[] = [
-  'ノーマル',
-  'ほのお',
-  'みず',
-  'くさ',
-  'でんき',
-  'こおり',
-  'かくとう',
-  'どく',
-  'じめん',
-  'ひこう',
-  'エスパー',
-  'むし',
-  'いわ',
-  'ゴースト',
-  'ドラゴン',
-  'あく',
-  'はがね',
-  'フェアリー'
-];
-
-const genderList: GenderType[] = [ '♂', '♀', '-' ];
 
 // 追加効果のある技（対象のランクを変化させる）
 const additionalEffectTargetRank: AdditionalEffectRank[] = [
@@ -831,7 +809,7 @@ const additionalEffectFlinch = [
 ]
 
 // 追加効果のある技（対象を状態異常にさせる）
-const additionalEffectAilment: AdditionalEffectAilment[] = [
+const additionalEffectAilment = [
   { name: '10まんボルト', rate: 10, ailment: 'まひ' },
   { name: 'かみなり', rate: 30, ailment: 'まひ' },
   { name: 'かみなりあらし', rate: 20, ailment: 'まひ' },
@@ -931,7 +909,7 @@ const additionalEffectOthers = [
   'ぶきみなじゅもん',
 ]
 
-const berryTable: BerryTableType[] = [
+const berryTable = [
   { number: 1, name: 'クラボのみ', half: null, fling: true, naturalGift: { type: 'ほのお', power: 80 } },
   { number: 2, name: 'カゴのみ', half: null, fling: true, naturalGift: { type: 'みず', power: 80 } },
   { number: 3, name: 'モモンのみ', half: null, fling: true, naturalGift: { type: 'でんき', power: 80 } },
