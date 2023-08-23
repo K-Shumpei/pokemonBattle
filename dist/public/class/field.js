@@ -4,6 +4,7 @@ class Weather {
         this._name = null;
         this._turn = 0;
         this._extend = false;
+        this._strong = false;
     }
     set name(name) {
         this._name = name;
@@ -14,6 +15,9 @@ class Weather {
     set extend(extend) {
         this._extend = extend;
     }
+    set strong(strong) {
+        this._strong = strong;
+    }
     get name() {
         return this._name;
     }
@@ -23,10 +27,14 @@ class Weather {
     get extend() {
         return this._extend;
     }
+    get strong() {
+        return this._strong;
+    }
     reset() {
         this._name = null;
         this._turn = 0;
         this._extend = false;
+        this._strong = false;
     }
 }
 class Terrain {

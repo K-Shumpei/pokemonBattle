@@ -72,16 +72,3 @@ if (false) {
     }
     */
 }
-if (true) {
-    let aa = { a: 0, b: 1 };
-    let bb = { a: 2, b: 3 };
-    console.log(aa);
-    console.log(bb);
-    bb.a = aa.a;
-    bb.b = aa.b;
-    console.log(aa);
-    console.log(bb);
-    bb.a = 6;
-    console.log(aa);
-    console.log(bb);
-}

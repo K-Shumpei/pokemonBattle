@@ -645,27 +645,6 @@ const megaStoneTable = [
     { name: 'リザードナイトY', pokemon: 'リザードンY', mega: 'メガリザードンY' },
     { name: 'ルカリオナイト', pokemon: 'ルカリオ', mega: 'メガルカリオ' },
 ];
-const typeList = [
-    'ノーマル',
-    'ほのお',
-    'みず',
-    'くさ',
-    'でんき',
-    'こおり',
-    'かくとう',
-    'どく',
-    'じめん',
-    'ひこう',
-    'エスパー',
-    'むし',
-    'いわ',
-    'ゴースト',
-    'ドラゴン',
-    'あく',
-    'はがね',
-    'フェアリー'
-];
-const genderList = ['♂', '♀', '-'];
 // 追加効果のある技（対象のランクを変化させる）
 const additionalEffectTargetRank = [
     { name: 'オーロラビーム', rate: 10, change: { attack: -1, defense: 0, specialAttack: 0, specialDefense: 0, speed: 0, accuracy: 0, evasion: 0 } },

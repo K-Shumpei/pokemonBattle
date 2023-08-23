@@ -32,7 +32,7 @@ class Status {
         this._name = '';
         this._type1 = null;
         this._type2 = null;
-        this._gender = '-';
+        this._gender = 'male';
         this._ability = '';
         this._level = 50;
         this._item = null;

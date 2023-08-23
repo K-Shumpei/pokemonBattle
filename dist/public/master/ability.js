@@ -12,7 +12,11 @@ const abilityMaster = [
         nameEN: 'drizzle',
         text: '登場 したときに 天気を 雨に する。'
     },
-    { id: 3, nameJA: 'かそく', nameEN: 'speed-boost', text: '毎ターン 素早さが 上がる。' },
+    {
+        id: 3,
+        nameJA: 'かそく',
+        nameEN: 'speed-boost', text: '毎ターン素早さが 上がる。'
+    },
     {
         id: 4,
         nameJA: 'カブトアーマー',
@@ -1597,35 +1601,190 @@ const abilityMaster = [
         nameEN: 'as-one',
         text: 'バドレックスの きんちょうかんと レイスポスの くろのいななきの 二つの 特性を あわせ持つ。'
     },
-    { id: 268, nameJA: 'とれないにおい', nameEN: 'lingering-aroma', text: '' },
-    { id: 269, nameJA: 'こぼれダネ', nameEN: 'seed-sower', text: '' },
-    { id: 270, nameJA: 'ねつこうかん', nameEN: 'thermal-exchange', text: '' },
-    { id: 271, nameJA: 'いかりのこうら', nameEN: 'anger-shell', text: '' },
-    { id: 272, nameJA: 'きよめのしお', nameEN: 'purifying-salt', text: '' },
-    { id: 273, nameJA: 'こんがりボディ', nameEN: 'well-baked-body', text: '' },
-    { id: 274, nameJA: 'かぜのり', nameEN: 'wind-rider', text: '' },
-    { id: 275, nameJA: 'ばんけん', nameEN: 'guard-dog', text: '' },
-    { id: 276, nameJA: 'いわはこび', nameEN: 'rocky-payload', text: '' },
-    { id: 277, nameJA: 'ふうりょくでんき', nameEN: 'wind-power', text: '' },
-    { id: 278, nameJA: 'マイティチェンジ', nameEN: 'zero-to hero', text: '' },
-    { id: 279, nameJA: 'しれいとう', nameEN: 'commander', text: '' },
-    { id: 280, nameJA: 'でんきにかえる', nameEN: 'electromorphosis', text: '' },
-    { id: 281, nameJA: 'こだいかっせい', nameEN: 'protosynthesis', text: '' },
-    { id: 282, nameJA: 'クォークチャージ', nameEN: 'quark-drive', text: '' },
-    { id: 283, nameJA: 'おうごんのからだ', nameEN: 'good-as gold', text: '' },
-    { id: 284, nameJA: 'わざわいのうつわ', nameEN: 'vessel-of ruin', text: '' },
-    { id: 285, nameJA: 'わざわいのつるぎ', nameEN: 'sword-of ruin', text: '' },
-    { id: 286, nameJA: 'わざわいのおふだ', nameEN: 'tablets-of ruin', text: '' },
-    { id: 287, nameJA: 'わざわいのたま', nameEN: 'beads-of ruin', text: '' },
-    { id: 288, nameJA: 'ひひいろのこどう', nameEN: 'orichalcum-pulse', text: '' },
-    { id: 289, nameJA: 'ハドロンエンジン', nameEN: 'hadron-engine', text: '' },
-    { id: 290, nameJA: 'びんじょう', nameEN: 'opportunist', text: '' },
-    { id: 291, nameJA: 'はんすう', nameEN: 'cud-chew', text: '' },
-    { id: 292, nameJA: 'きれあじ', nameEN: 'sharpness', text: '' },
-    { id: 293, nameJA: 'そうだいしょう', nameEN: 'supreme-overlord', text: '' },
-    { id: 294, nameJA: 'きょうえん', nameEN: 'costar', text: '' },
-    { id: 295, nameJA: 'どくげしょう', nameEN: 'toxic-debris', text: '' },
-    { id: 296, nameJA: 'テイルアーマー', nameEN: 'armor-tail', text: '' },
-    { id: 297, nameJA: 'どしょく', nameEN: 'earth-eater', text: '' },
-    { id: 298, nameJA: 'きんしのちから', nameEN: 'mycelium-might', text: '' },
+    {
+        id: 268,
+        nameJA: 'とれないにおい',
+        nameEN: 'lingering-aroma',
+        text: ''
+    },
+    {
+        id: 269,
+        nameJA: 'こぼれダネ',
+        nameEN: 'seed-sower',
+        text: ''
+    },
+    {
+        id: 270,
+        nameJA: 'ねつこうかん',
+        nameEN: 'thermal-exchange',
+        text: ''
+    },
+    {
+        id: 271,
+        nameJA: 'いかりのこうら',
+        nameEN: 'anger-shell',
+        text: ''
+    },
+    {
+        id: 272,
+        nameJA: 'きよめのしお',
+        nameEN: 'purifying-salt',
+        text: ''
+    },
+    {
+        id: 273,
+        nameJA: 'こんがりボディ',
+        nameEN: 'well-baked-body',
+        text: ''
+    },
+    {
+        id: 274,
+        nameJA: 'かぜのり',
+        nameEN: 'wind-rider',
+        text: ''
+    },
+    {
+        id: 275,
+        nameJA: 'ばんけん',
+        nameEN: 'guard-dog',
+        text: ''
+    },
+    {
+        id: 276,
+        nameJA: 'いわはこび',
+        nameEN: 'rocky-payload',
+        text: ''
+    },
+    {
+        id: 277,
+        nameJA: 'ふうりょくでんき',
+        nameEN: 'wind-power',
+        text: ''
+    },
+    {
+        id: 278,
+        nameJA: 'マイティチェンジ',
+        nameEN: 'zero-to hero',
+        text: ''
+    },
+    {
+        id: 279,
+        nameJA: 'しれいとう',
+        nameEN: 'commander',
+        text: ''
+    },
+    {
+        id: 280,
+        nameJA: 'でんきにかえる',
+        nameEN: 'electromorphosis',
+        text: ''
+    },
+    {
+        id: 281,
+        nameJA: 'こだいかっせい',
+        nameEN: 'protosynthesis',
+        text: ''
+    },
+    {
+        id: 282,
+        nameJA: 'クォークチャージ',
+        nameEN: 'quark-drive',
+        text: ''
+    },
+    {
+        id: 283,
+        nameJA: 'おうごんのからだ',
+        nameEN: 'good-as gold',
+        text: ''
+    },
+    {
+        id: 284,
+        nameJA: 'わざわいのうつわ',
+        nameEN: 'vessel-of ruin',
+        text: ''
+    },
+    {
+        id: 285,
+        nameJA: 'わざわいのつるぎ',
+        nameEN: 'sword-of ruin',
+        text: ''
+    },
+    {
+        id: 286,
+        nameJA: 'わざわいのおふだ',
+        nameEN: 'tablets-of ruin',
+        text: ''
+    },
+    {
+        id: 287,
+        nameJA: 'わざわいのたま',
+        nameEN: 'beads-of ruin',
+        text: ''
+    },
+    {
+        id: 288,
+        nameJA: 'ひひいろのこどう',
+        nameEN: 'orichalcum-pulse',
+        text: ''
+    },
+    {
+        id: 289,
+        nameJA: 'ハドロンエンジン',
+        nameEN: 'hadron-engine',
+        text: ''
+    },
+    {
+        id: 290,
+        nameJA: 'びんじょう',
+        nameEN: 'opportunist',
+        text: ''
+    },
+    {
+        id: 291,
+        nameJA: 'はんすう',
+        nameEN: 'cud-chew',
+        text: ''
+    },
+    {
+        id: 292,
+        nameJA: 'きれあじ',
+        nameEN: 'sharpness',
+        text: ''
+    },
+    {
+        id: 293,
+        nameJA: 'そうだいしょう',
+        nameEN: 'supreme-overlord',
+        text: ''
+    },
+    {
+        id: 294,
+        nameJA: 'きょうえん',
+        nameEN: 'costar',
+        text: ''
+    },
+    {
+        id: 295,
+        nameJA: 'どくげしょう',
+        nameEN: 'toxic-debris',
+        text: ''
+    },
+    {
+        id: 296,
+        nameJA: 'テイルアーマー',
+        nameEN: 'armor-tail',
+        text: ''
+    },
+    {
+        id: 297,
+        nameJA: 'どしょく',
+        nameEN: 'earth-eater',
+        text: ''
+    },
+    {
+        id: 298,
+        nameJA: 'きんしのちから',
+        nameEN: 'mycelium-might',
+        text: ''
+    },
 ];

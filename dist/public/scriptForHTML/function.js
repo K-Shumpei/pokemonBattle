@@ -192,12 +192,15 @@ function translatePokemonName(name) {
     return name;
 }
 function getGenderType(gender) {
-    for (const _gender of genderList) {
-        if (_gender === gender) {
-            return _gender;
-        }
+    if (gender === '♂') {
+        return 'male';
     }
-    return '-';
+    else if (gender === '♀') {
+        return 'female';
+    }
+    else {
+        return 'genderless';
+    }
 }
 // 実数値計算
 function calculateActualValue(pokemon, level, natureString) {
