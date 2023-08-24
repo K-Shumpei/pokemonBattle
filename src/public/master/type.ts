@@ -7,7 +7,7 @@ type PokemonData = {
   gender: Gender;
   type: PokemonType[];
   ability: string[];
-  stats: {
+  baseStatus: {
     hitPoint: number;
     attack: number;
     defense: number;
@@ -17,7 +17,8 @@ type PokemonData = {
   };
   height: number;
   weight: number;
-  isEvolve: string;
+  isEvolve: boolean;
+  text: string;
 }
 
 type MoveData = {
@@ -39,7 +40,8 @@ type MoveData = {
   hits: { max: number | null, min: number | null };
   turns: { max: number | null, min: number | null };
   ailment: { chance: number, name: string };
-  stat: { chance: number, changes: { stat: string, change: number }[]}
+  stat: { chance: number, changes: { stat: string, change: number }[]};
+  text: string;
 }
 
 type MoveFlagData = {

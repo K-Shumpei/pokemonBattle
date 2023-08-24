@@ -19,26 +19,26 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   if ( isAbility( target, 'ぜったいねむり' ) === true ) return false;
   if ( isAbility( target, 'リーフガード' ) === true  && isWeather( target, 'sunny' ) ) return false;
   if ( isAbility( target, 'リミットシールド' ) === true && target.status.name === 'メテノ(流星)' ) return false;
-  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'grass' ) ) return false;
+  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'Grass' ) ) return false;
   // 個別の無効化
   if ( ailment === 'paralysis' ) {
-    if ( getPokemonType( target ).includes( 'electric' ) ) return false;
+    if ( getPokemonType( target ).includes( 'Electric' ) ) return false;
   }
   if ( ailment === 'frozen' ) {
-    if ( getPokemonType( target ).includes( 'ice' ) ) return false;
+    if ( getPokemonType( target ).includes( 'Ice' ) ) return false;
     if ( isWeather( target, 'sunny' ) ) return false;
     if ( isAbility( target, 'マグマのよろい' ) ) return false;
   }
   if ( ailment === 'burned' ) {
-    if ( getPokemonType( target ).includes( 'fire' ) ) return false;
+    if ( getPokemonType( target ).includes( 'Fire' ) ) return false;
     if ( isAbility( target, 'みずのベール' ) ) return false;
     if ( isAbility( target, 'すいほう' ) ) return false;
   }
   if ( ailment === 'poisoned' ) {
     if ( isAbility( target, 'めんえき' ) ) return false;
     if ( isExistAbilityOneSide( target.trainer, 'パステルベール' ) ) return false;
-    if ( getPokemonType( target ).includes( 'poison' ) ) return false;
-    if ( getPokemonType( target ).includes( 'steel' ) ) return false;
+    if ( getPokemonType( target ).includes( 'Poison' ) ) return false;
+    if ( getPokemonType( target ).includes( 'Steel' ) ) return false;
   }
   if ( ailment === 'asleep' ) {
     if ( isAbility( target, 'やるき' ) ) return false;
@@ -106,9 +106,9 @@ function giveAilmentByBeakBlast( pokemon: Pokemon, target: Pokemon ): void {
   if ( isAbility( target, 'ぜったいねむり' ) === true ) return;
   if ( isAbility( target, 'リーフガード' ) === true  && isWeather( target, 'sunny' ) ) return;
   if ( isAbility( target, 'リミットシールド' ) === true && target.status.name === 'メテノ(流星)' ) return;
-  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'grass' ) ) return;
+  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'Grass' ) ) return;
 
-  if ( getPokemonType( target ).includes( 'fire' ) ) return;
+  if ( getPokemonType( target ).includes( 'Fire' ) ) return;
   if ( isAbility( target, 'みずのベール' ) ) return;
   if ( isAbility( target, 'すいほう' ) ) return;
 

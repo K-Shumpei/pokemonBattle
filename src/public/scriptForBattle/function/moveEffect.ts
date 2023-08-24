@@ -231,7 +231,7 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: D
   anchorShot:
   if ( pokemon.selectedMove.name === 'アンカーショット' || pokemon.selectedMove.name === 'かげぬい' ) {
     if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break anchorShot;
-    if ( getPokemonType( target ).includes( 'ghost' ) === true ) break anchorShot;
+    if ( getPokemonType( target ).includes( 'Ghost' ) === true ) break anchorShot;
     if ( target.stateChange.cannotEscape.isTrue === true ) break anchorShot;
 
     giveCannotEscape( pokemon, target, pokemon.selectedMove.name );
@@ -442,7 +442,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
 
     effectSpore:
     if ( isAbility( target, 'ほうし' ) === true ) {
-      if ( getPokemonType( pokemon ).includes( 'grass' ) ) break effectSpore;
+      if ( getPokemonType( pokemon ).includes( 'Grass' ) ) break effectSpore;
       if ( isAbility( pokemon, 'ぼうじん' ) === true ) break effectSpore;
       if ( isItem( pokemon, 'ぼうじんゴーグル' ) === true ) break effectSpore;
       if ( isItem( pokemon, 'ぼうごパット' ) === true ) break effectSpore;
@@ -715,7 +715,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
 
     waterCompaction:
     if ( isAbility( target, 'みずがため' ) === true ) {
-      if ( pokemon.selectedMove.type !== 'water' ) break waterCompaction;
+      if ( pokemon.selectedMove.type !== 'Water' ) break waterCompaction;
       if ( getRankVariation( target, 'defense', 2 ) === 0 ) break waterCompaction;
 
       target.status.declareAbility();
@@ -724,7 +724,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
 
     justified:
     if ( isAbility( target, 'せいぎのこころ' ) === true ) {
-      if ( pokemon.selectedMove.type !== 'dark' ) break justified;
+      if ( pokemon.selectedMove.type !== 'Dark' ) break justified;
       if ( getRankVariation( target, 'attack', 1 ) === 0 ) break justified;
 
       target.status.declareAbility();
@@ -733,7 +733,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
 
     rattled:
     if ( isAbility( target, 'びびり' ) === true ) {
-      if ( pokemon.selectedMove.type !== 'dark' && pokemon.selectedMove.type !== 'ghost' && pokemon.selectedMove.type !== 'bug' ) break rattled;
+      if ( pokemon.selectedMove.type !== 'Dark' && pokemon.selectedMove.type !== 'Ghost' && pokemon.selectedMove.type !== 'Bug' ) break rattled;
       if ( getRankVariation( target, 'speed', 1 ) === 0 ) break rattled;
 
       target.status.declareAbility();
@@ -742,7 +742,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
 
     steamEngine:
     if ( isAbility( target, 'じょうききかん' ) === true ) {
-      if ( pokemon.selectedMove.type !== 'water' && pokemon.selectedMove.type !== 'fire' ) break steamEngine;
+      if ( pokemon.selectedMove.type !== 'Water' && pokemon.selectedMove.type !== 'Fire' ) break steamEngine;
       if ( getRankVariation( target, 'speed', 6 ) === 0 ) break steamEngine;
 
       target.status.declareAbility()
@@ -807,7 +807,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
   cellBattery:
   if ( isItem( target, 'じゅうでんち' ) === true ) {
     if ( damage.substitute === true ) break cellBattery;
-    if ( pokemon.selectedMove.type !== 'electric' ) break cellBattery;
+    if ( pokemon.selectedMove.type !== 'Electric' ) break cellBattery;
     if ( getRankVariation( target, 'attack', 1 ) === 0 ) break cellBattery;
 
     changeMyRankByItem( target, 'attack', 1, 'じゅうでんち' );
@@ -817,7 +817,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
   snowball:
   if ( isItem( target, 'ゆきだま' ) === true ) {
     if ( damage.substitute === true ) break snowball;
-    if ( pokemon.selectedMove.type !== 'ice' ) break snowball;
+    if ( pokemon.selectedMove.type !== 'Ice' ) break snowball;
     if ( getRankVariation( target, 'attack', 1 ) === 0 ) break snowball;
 
     changeMyRankByItem( target, 'attack', 1, 'ゆきだま' );
@@ -827,7 +827,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
   absorbBulb:
   if ( isItem( target, 'きゅうこん' ) === true ) {
     if ( damage.substitute === true ) break absorbBulb;
-    if ( pokemon.selectedMove.type !== 'water' ) break absorbBulb;
+    if ( pokemon.selectedMove.type !== 'Water' ) break absorbBulb;
     if ( getRankVariation( target, 'specialAttack', 1 ) === 0 ) break absorbBulb;
 
     changeMyRankByItem( target, 'specialAttack', 1, 'きゅうこん' );
@@ -837,7 +837,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
   luminousMoss:
   if ( isItem( target, 'ひかりごけ' ) === true ) {
     if ( damage.substitute === true ) break luminousMoss;
-    if ( pokemon.selectedMove.type !== 'water' ) break luminousMoss;
+    if ( pokemon.selectedMove.type !== 'Water' ) break luminousMoss;
     if ( getRankVariation( target, 'specialDefense', 1 ) === 0 ) break luminousMoss;
 
     changeMyRankByItem( target, 'specialDefense', 1, 'ひかりごけ' );
@@ -1006,7 +1006,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
   const one: TargetDataType = targetList[0];
 
   fire:
-  if ( pokemon.selectedMove.type === 'fire' ) {
+  if ( pokemon.selectedMove.type === 'Fire' ) {
     if ( pokemon.selectedMove.category === '変化' ) break fire;
     for ( const data of targetList ) {
       if ( data.target.status.remainingHP === 0 ) continue;
@@ -1217,7 +1217,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
   if ( pokemon.selectedMove.name === 'サウザンウェーブ' ) {
     for ( const data of targetList ) {
       if ( data.target.status.remainingHP === 0 ) continue;
-      if ( getPokemonType( data.target ).includes( 'ghost' ) === true ) continue;
+      if ( getPokemonType( data.target ).includes( 'Ghost' ) === true ) continue;
       if ( data.target.stateChange.cannotEscape.isTrue === true ) continue;
 
       giveCannotEscape( pokemon, data.target, pokemon.selectedMove.name );
@@ -1230,8 +1230,8 @@ function activateMoveEffect( pokemon: Pokemon ): void {
     if ( one.damage.substitute === true ) break jawLock;
     if ( pokemon.stateChange.cannotEscape.isTrue === true ) break jawLock;
     if ( one.target.stateChange.cannotEscape.isTrue === true ) break jawLock;
-    if ( getPokemonType( pokemon ).includes( 'ghost' ) === true ) break jawLock;
-    if ( getPokemonType( one.target ).includes( 'ghost' ) === true ) break jawLock;
+    if ( getPokemonType( pokemon ).includes( 'Ghost' ) === true ) break jawLock;
+    if ( getPokemonType( one.target ).includes( 'Ghost' ) === true ) break jawLock;
 
     giveCannotEscape( pokemon, one.target, pokemon.selectedMove.name );
   }
@@ -1698,8 +1698,8 @@ function activatePickpocket( pokemon: Pokemon ): void {
 function otherEffect( pokemon: Pokemon ): void {
 
   if ( pokemon.selectedMove.name === 'もえつきる' ) {
-    if ( pokemon.status.type1 === 'fire' ) pokemon.status.type1 = null;
-    if ( pokemon.status.type2 === 'fire' ) pokemon.status.type2 = null;
+    if ( pokemon.status.type1 === 'Fire' ) pokemon.status.type1 = null;
+    if ( pokemon.status.type2 === 'Fire' ) pokemon.status.type2 = null;
 
     writeLog( `${getArticle( pokemon )}の 炎は 燃え尽きた!` );
   }

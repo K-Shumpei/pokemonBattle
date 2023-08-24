@@ -77,7 +77,7 @@ function isGrounded( pokemon: Pokemon ): boolean {
   if ( fieldStatus.whole.gravity.isTrue === true ) return true;
   if ( isItem( pokemon, 'くろいてっきゅう' ) === true ) return true;
 
-  if ( getPokemonType( pokemon ).includes( 'flying' ) ) return false;
+  if ( getPokemonType( pokemon ).includes( 'Flying' ) ) return false;
   if ( isAbility( pokemon, 'ふゆう' ) === true ) return false;
   if ( isItem( pokemon, 'ふうせん' ) === true ) return false;
   if ( pokemon.stateChange.magnetRise.isTrue === true ) return false;
