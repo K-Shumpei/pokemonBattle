@@ -14,7 +14,7 @@ function isAbility( pokemon: Pokemon, ability: string ): boolean {
   if ( pokemon.status.remainingHP === 0 ) {
     return false;
   }
-  if ( pokemon.status.ability !== ability ) {
+  if ( pokemon.status.ability === ability ) {
     return false;
   }
 

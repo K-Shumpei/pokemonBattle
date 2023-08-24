@@ -122,7 +122,7 @@ function giveAilmentByBeakBlast( pokemon: Pokemon, target: Pokemon ): void {
 // こんらん
 function giveConfuse( pokemon: Pokemon, target: Pokemon, type: string ): void {
 
-  if ( pokemon.stateChange.confuse.isTrue === true ) return;
+  if ( target.stateChange.confuse.isTrue === true ) return;
 
   // 追加効果で状態異常になる場合
   if ( type === 'additional' ) {
