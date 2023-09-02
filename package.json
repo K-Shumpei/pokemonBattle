@@ -4,8 +4,7 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "ts-node src/index.ts",
-    "dev:watch": "ts-node-dev --respawn src/index.ts",
+    "clean": "rimraf dist/*",
     "clean1": "rimraf dist/public/master/*",
     "clean2": "rimraf dist/public/scriptForBattle/*",
     "clean3": "rimraf dist/public/scriptForHTML/*",
@@ -13,7 +12,7 @@
     "copy:html": "node -e \"require('fs').copyFileSync('src/public/index.html', 'dist/public/index.html')\"",
     "copy:css": "node -e \"require('fs-extra').copySync('src/public/css', 'dist/public/css')\"",
     "copy:img": "node -e \"require('fs-extra').copySync('src/public/image', 'dist/public/image')\"",
-    "build": "npm-run-all clean tsc copy:html",
+    "build": "npm-run-all clean tsc copy:html copy:css copy:img",
     "connect": "node .",
     "start": "npm-run-all clean1 clean2 clean3 tsc connect"
   },

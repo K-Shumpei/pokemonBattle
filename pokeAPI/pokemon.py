@@ -257,7 +257,7 @@ def toCapital(string):
   string = ' '.join(string)
   return string
 
-def getPokemonData( i, pokemon: Pokemon, less, male, female ):
+def getPokemonData( i, pokemon: Pokemon ):
   url = "https://pokeapi.co/api/v2/pokemon/" + str(i) + "/"
   r = requests.get(url, timeout=5)
   print(i)
@@ -265,7 +265,6 @@ def getPokemonData( i, pokemon: Pokemon, less, male, female ):
   url2 = ''
   try:
     r = r.json()
-    print(pokemon)
 
     pokemon.id = r['id']
     pokemon.order = r['order']
@@ -277,8 +276,6 @@ def getPokemonData( i, pokemon: Pokemon, less, male, female ):
     pokemon.setBaseStatus(r['stats'])
 
     url2 = r['species']['url']
-
-    print(pokemon.nameEN)
 
   except:
       pass
@@ -340,7 +337,7 @@ def getPokemon(value):
       if i % 10 == 0: print(i)
 
       pokemon = Pokemon()
-      pokemon, url2 = getPokemonData( i, pokemon, less, male, female )
+      pokemon, url2 = getPokemonData( i, pokemon )
       pokemon, url3 = getPokemonName( i, pokemon, url2, less, male, female )
       pokemon = getPokemonEvolve( pokemon, url3 )
 
