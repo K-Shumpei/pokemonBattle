@@ -17,30 +17,30 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   if ( isAbility( target, 'りんぷん' ) === true ) return false;
   if ( isAbility( target, 'きよめのしお' ) === true ) return false;
   if ( isAbility( target, 'ぜったいねむり' ) === true ) return false;
-  if ( isAbility( target, 'リーフガード' ) === true  && isWeather( target, 'sunny' ) ) return false;
+  if ( isAbility( target, 'リーフガード' ) === true  && isWeather( target, 'HarshSunlight' ) ) return false;
   if ( isAbility( target, 'リミットシールド' ) === true && target.status.name === 'メテノ(流星)' ) return false;
-  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'Grass' ) ) return false;
+  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return false;
   // 個別の無効化
-  if ( ailment === 'paralysis' ) {
-    if ( getPokemonType( target ).includes( 'Electric' ) ) return false;
+  if ( ailment === 'PARALYSIS' ) {
+    if ( getPokemonType( target ).includes( 'ELECTRIC' ) ) return false;
   }
-  if ( ailment === 'frozen' ) {
-    if ( getPokemonType( target ).includes( 'Ice' ) ) return false;
-    if ( isWeather( target, 'sunny' ) ) return false;
+  if ( ailment === 'FROZEN' ) {
+    if ( getPokemonType( target ).includes( 'ICE' ) ) return false;
+    if ( isWeather( target, 'HarshSunlight' ) ) return false;
     if ( isAbility( target, 'マグマのよろい' ) ) return false;
   }
-  if ( ailment === 'burned' ) {
-    if ( getPokemonType( target ).includes( 'Fire' ) ) return false;
+  if ( ailment === 'BURNED' ) {
+    if ( getPokemonType( target ).includes( 'FIRE' ) ) return false;
     if ( isAbility( target, 'みずのベール' ) ) return false;
     if ( isAbility( target, 'すいほう' ) ) return false;
   }
-  if ( ailment === 'poisoned' ) {
+  if ( ailment === 'POISONED' ) {
     if ( isAbility( target, 'めんえき' ) ) return false;
     if ( isExistAbilityOneSide( target.trainer, 'パステルベール' ) ) return false;
-    if ( getPokemonType( target ).includes( 'Poison' ) ) return false;
-    if ( getPokemonType( target ).includes( 'Steel' ) ) return false;
+    if ( getPokemonType( target ).includes( 'POISON' ) ) return false;
+    if ( getPokemonType( target ).includes( 'STEEL' ) ) return false;
   }
-  if ( ailment === 'asleep' ) {
+  if ( ailment === 'ASLEEP' ) {
     if ( isAbility( target, 'やるき' ) ) return false;
     if ( isAbility( target, 'ふみん' ) ) return false;
     if ( isExistAbilityOneSide( target.trainer, 'スイートベール' ) ) return false;
@@ -65,22 +65,24 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   }
 
   // メッセージ
-  if ( ailment === 'paralysis' ) {
+  if ( ailment === 'PARALYSIS' ) {
     writeLog( `${getArticle( target )}は まひして 技が でにくくなった!` );
   }
-  if ( ailment === 'frozen' ) {
+  if ( ailment === 'FROZEN' ) {
     writeLog( `${getArticle( target )}は 凍りついた!` );
   }
-  if ( ailment === 'burned' ) {
+  if ( ailment === 'BURNED' ) {
     writeLog( `${getArticle( target )}は やけどを 負った!` );
   }
-  if ( ailment === 'poisoned' ) {
+  if ( ailment === 'POISONED' ) {
     writeLog( `${getArticle( target )}は 毒を あびた!` );
   }
+  /*
   if ( ailment === 'sp-poisoned' ) {
     writeLog( `${getArticle( target )}は 猛毒を あびた!` );
   }
-  if ( ailment === 'asleep' ) {
+  */
+  if ( ailment === 'ASLEEP' ) {
     writeLog( `${getArticle( target )}は 眠ってしまった!` );
   }
 
@@ -104,16 +106,16 @@ function giveAilmentByBeakBlast( pokemon: Pokemon, target: Pokemon ): void {
   if ( isAbility( target, 'りんぷん' ) === true ) return;
   if ( isAbility( target, 'きよめのしお' ) === true ) return;
   if ( isAbility( target, 'ぜったいねむり' ) === true ) return;
-  if ( isAbility( target, 'リーフガード' ) === true  && isWeather( target, 'sunny' ) ) return;
+  if ( isAbility( target, 'リーフガード' ) === true  && isWeather( target, 'HarshSunlight' ) ) return;
   if ( isAbility( target, 'リミットシールド' ) === true && target.status.name === 'メテノ(流星)' ) return;
-  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'Grass' ) ) return;
+  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return;
 
-  if ( getPokemonType( target ).includes( 'Fire' ) ) return;
+  if ( getPokemonType( target ).includes( 'FIRE' ) ) return;
   if ( isAbility( target, 'みずのベール' ) ) return;
   if ( isAbility( target, 'すいほう' ) ) return;
 
   // 状態異常になる
-  target.status.statusAilment.name = 'burned';
+  target.status.statusAilment.name = 'BURNED';
 
   // メッセージ
   writeLog( `${getArticle( target )}は やけどを 負った!` );
@@ -226,19 +228,19 @@ function cureAilmentByItem( pokemon: Pokemon, ailment: StatusAilmentText, item: 
   pokemon.status.statusAilment.turn = 0;
 
   // メッセージ
-  if ( ailment === 'paralysis' ) {
+  if ( ailment === 'PARALYSIS' ) {
     writeLog( `${getArticle( pokemon )}は ${item}で まひが 治った!` );
   }
-  if ( ailment === 'asleep' ) {
+  if ( ailment === 'ASLEEP' ) {
     writeLog( `${getArticle( pokemon )}は ${item}で 目を 覚ました!` );
   }
-  if ( ailment === 'poisoned' ) {
+  if ( ailment === 'POISONED' ) {
     writeLog( `${getArticle( pokemon )}は ${item}で 毒が 治った!` );
   }
-  if ( ailment === 'burned' ) {
+  if ( ailment === 'BURNED' ) {
     writeLog( `${getArticle( pokemon )}は ${item}で やけどが 治った!` );
   }
-  if ( ailment === 'frozen' ) {
+  if ( ailment === 'FROZEN' ) {
     writeLog( `${getArticle( pokemon )}は ${item}で こおり状態が 治った!` );
   }
 
@@ -257,19 +259,19 @@ function cureAilment( pokemon: Pokemon, ailment: StatusAilmentText ): void {
   pokemon.status.statusAilment.turn = 0;
 
   // メッセージ
-  if ( ailment === 'paralysis' ) {
+  if ( ailment === 'PARALYSIS' ) {
     writeLog( `${getArticle( pokemon )}は まひが 治った!` );
   }
-  if ( ailment === 'asleep' ) {
+  if ( ailment === 'ASLEEP' ) {
     writeLog( `${getArticle( pokemon )}は 目を 覚ました!` );
   }
-  if ( ailment === 'poisoned' ) {
+  if ( ailment === 'POISONED' ) {
     writeLog( `${getArticle( pokemon )}は 毒が 治った!` );
   }
-  if ( ailment === 'burned' ) {
+  if ( ailment === 'BURNED' ) {
     writeLog( `${getArticle( pokemon )}は やけどが 治った!` );
   }
-  if ( ailment === 'frozen' ) {
+  if ( ailment === 'FROZEN' ) {
     writeLog( `${getArticle( pokemon )}は こおり状態が 治った!` );
   }
 }

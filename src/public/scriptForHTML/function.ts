@@ -136,7 +136,7 @@ function registrationPokemon(): void {
   reflectActualValueInHTML();
 
   // 技表示
-  const learn = moveLearnedByPomeon.filter( data => data.nameEN === pokemon.nameEN )[0].move
+  const learn = moveLearnedByPokemon.filter( data => data.nameEN === pokemon.nameEN )[0].move
   for ( let i = 0; i < 4; i++ ) {
     const moveHTML = getHTMLInputElement( 'registerMoveName' + i );
     moveHTML.innerHTML = '';
@@ -257,6 +257,20 @@ function getGenderType( gender: string ): Gender {
    }
 }
 
+function translateGender( gender: Gender ): string {
+
+  if ( gender === 'male' ) {
+    return '♂';
+  }
+  if ( gender === 'female' ) {
+    return '♀';
+  }
+  if ( gender === 'genderless' ) {
+    return '-';
+  }
+
+  return '-'
+}
 
 // 実数値計算
 function calculateActualValue( pokemon: PokemonData, level: number, natureString: NatureType ): ParameterSixType {
@@ -609,18 +623,18 @@ function editParty( number: number ): void {
   resetInputRegister();
 
   // 編集するポケモンの名前をセット
-  getHTMLInputElement( 'register_name' ).value = myAllParty[number].status.name;
+  getHTMLInputElement( 'register_name' ).value = translatePokemonName(myAllParty[number].status.name);
 
   // 基本ステータス表示
   registrationPokemon()
 
   getHTMLInputElement( 'register_level' ).value = String( myAllParty[number].status.level );
-  getHTMLInputElement( 'register_gender' ).value = myAllParty[number].status.gender;
+  getHTMLInputElement( 'register_gender' ).value = translateGender(myAllParty[number].status.gender);
   getHTMLInputElement( 'register_type1' ).value = translateTypeIntoJapanese( myAllParty[number].status.type1 );
   getHTMLInputElement( 'register_type1' ).textContent = translateTypeIntoJapanese( myAllParty[number].status.type1 );
   getHTMLInputElement( 'register_type2' ).value = translateTypeIntoJapanese( myAllParty[number].status.type2 );
   getHTMLInputElement( 'register_type2' ).textContent = translateTypeIntoJapanese( myAllParty[number].status.type2 );
-  getHTMLInputElement( 'register_ability' ).value = myAllParty[number].status.ability;
+  getHTMLInputElement( 'register_ability' ).value = translateAbility(myAllParty[number].status.ability);
   getHTMLInputElement( 'register_nature' ).value = myAllParty[number].status.nature;
 
   if ( myAllParty[number].status.item === null ) {
@@ -705,7 +719,7 @@ function showPartyPokemon( pokemon: Pokemon ): void {
   }
 
   // パーティ画像
-  imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.index + '.png';
+  imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.id + '.png';
 }
 
 
@@ -765,9 +779,9 @@ function registerAllRandom(): void {
     registrationPokemon();
 
     for ( let j = 0; j < 4; j++ ) {
-      if ( moveLearnedByPomeon.some( _move => _move.nameEN === pokemon.nameEN ) === false ) continue;
+      if ( moveLearnedByPokemon.some( _move => _move.nameEN === pokemon.nameEN ) === false ) continue;
 
-      const learned = moveLearnedByPomeon.filter( _move => _move.nameEN === pokemon.nameEN )[0].move
+      const learned = moveLearnedByPokemon.filter( _move => _move.nameEN === pokemon.nameEN )[0].move
       const move = learned[ Math.floor( Math.random() * learned.length ) ];
 
       if ( moveMaster.some(  _move => _move.nameEN === move ) == false ) continue;

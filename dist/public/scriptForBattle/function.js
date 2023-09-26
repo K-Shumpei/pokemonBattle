@@ -47,12 +47,12 @@ function translateJPintoEN(string) {
 }
 function getBaseStatusList(pokemon) {
     const baseStatusList = {
-        hitPoint: pokemon.stats.hitPoint,
-        attack: pokemon.stats.attack,
-        defense: pokemon.stats.defense,
-        specialAttack: pokemon.stats.specialAttack,
-        specialDefense: pokemon.stats.specialDefense,
-        speed: pokemon.stats.speed
+        hitPoint: pokemon.baseStatus.hitPoint,
+        attack: pokemon.baseStatus.attack,
+        defense: pokemon.baseStatus.defense,
+        specialAttack: pokemon.baseStatus.specialAttack,
+        specialDefense: pokemon.baseStatus.specialDefense,
+        speed: pokemon.baseStatus.speed
     };
     return baseStatusList;
 }

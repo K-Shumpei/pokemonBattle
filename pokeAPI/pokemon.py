@@ -251,6 +251,8 @@ class Pokemon:
                 self._isEvolve = False
 
 
+# ここまでクラス定義
+
 def toCapital(string):
   string = string.split('-')
   string = [ s.title() for s in string ]

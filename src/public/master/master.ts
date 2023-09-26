@@ -6,24 +6,24 @@ type TerrainText = ( typeof terrainTextList )[number];
 
 
 const typeTextList = [
-  'Normal',
-  'Fighting',
-  'Flying',
-  'Poison',
-  'Ground',
-  'Rock',
-  'Bug',
-  'Ghost',
-  'Steel',
-  'Fire',
-  'Water',
-  'Grass',
-  'Electric',
-  'Psychic',
-  'Ice',
-  'Dragon',
-  'Dark',
-  'Fairy',
+  'NORMAL',
+  'FIGHTING',
+  'FLYING',
+  'POISON',
+  'GROUND',
+  'ROCK',
+  'BUG',
+  'GHOST',
+  'STEEL',
+  'FIRE',
+  'WATER',
+  'GRASS',
+  'ELECTRIC',
+  'PSYCHIC',
+  'ICE',
+  'DRAGON',
+  'DARK',
+  'FAIRY',
   null,
 ] as const;
 
@@ -35,21 +35,20 @@ const genderTextList = [
 ] as const;
 
 const statusAilmentTextList = [
-  'paralysis',
-  'frozen',
-  'burned',
-  'poisoned',
-  'sp-poisoned',
-  'asleep',
+  'PARALYSIS',
+  'FROZEN',
+  'BURNED',
+  'POISONED',
+  'ASLEEP',
   null,
 ] as const;
 
 const weatherTextList = [
-  'sunny',
-  'rain',
-  'sandstorm',
-  'snow',
-  'turbulence',
+  'HarshSunlight',
+  'Rain',
+  'Sandstorm',
+  'Hail', // あられ
+  'Turbulence', // 未確認
   null,
 ] as const;
 

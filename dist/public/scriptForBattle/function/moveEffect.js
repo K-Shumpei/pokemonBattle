@@ -219,7 +219,7 @@ function activateAdditionalEffects(pokemon, target, damage) {
     anchorShot: if (pokemon.selectedMove.name === 'アンカーショット' || pokemon.selectedMove.name === 'かげぬい') {
         if (isValidToTargetAdditionalEffect(pokemon, target, damage) === false)
             break anchorShot;
-        if (getPokemonType(target).includes('ghost') === true)
+        if (getPokemonType(target).includes('GHOST') === true)
             break anchorShot;
         if (target.stateChange.cannotEscape.isTrue === true)
             break anchorShot;
@@ -248,13 +248,13 @@ function activateAdditionalEffects(pokemon, target, damage) {
             break triAttack;
         const rate = getRandom();
         if (rate < 100 / 3) {
-            giveAilment(pokemon, target, 'paralysis');
+            giveAilment(pokemon, target, 'PARALYSIS');
         }
         else if (rate < 200 / 3) {
-            giveAilment(pokemon, target, 'burned');
+            giveAilment(pokemon, target, 'BURNED');
         }
         else {
-            giveAilment(pokemon, target, 'frozen');
+            giveAilment(pokemon, target, 'FROZEN');
         }
     }
     fling: if (pokemon.selectedMove.name === 'なげつける') {
@@ -263,17 +263,19 @@ function activateAdditionalEffects(pokemon, target, damage) {
             break fling;
         }
         if (pokemon.stateChange.fling.text === 'でんきだま') {
-            giveAilment(pokemon, target, 'paralysis');
+            giveAilment(pokemon, target, 'PARALYSIS');
         }
         if (pokemon.stateChange.fling.text === 'かえんだま') {
-            giveAilment(pokemon, target, 'burned');
+            giveAilment(pokemon, target, 'BURNED');
         }
         if (pokemon.stateChange.fling.text === 'どくバリ') {
-            giveAilment(pokemon, target, 'poisoned');
+            giveAilment(pokemon, target, 'POISONED');
         }
-        if (pokemon.stateChange.fling.text === 'どくどくだま') {
-            giveAilment(pokemon, target, 'sp-poisoned');
+        /*
+        if ( pokemon.stateChange.fling.text === 'どくどくだま' ) {
+          giveAilment( pokemon, target, 'sp-poisoned' );
         }
+        */
         if (pokemon.stateChange.fling.text === 'おうじゃのしるし' || pokemon.stateChange.fling.text === 'するどいキバ') {
             target.stateChange.flinch.isTrue = true;
         }
@@ -313,13 +315,13 @@ function activateAdditionalEffects(pokemon, target, damage) {
             break direClaw;
         const rate = getRandom();
         if (rate < 100 / 3) {
-            giveAilment(pokemon, target, 'poisoned');
+            giveAilment(pokemon, target, 'POISONED');
         }
         else if (rate < 200 / 3) {
-            giveAilment(pokemon, target, 'paralysis');
+            giveAilment(pokemon, target, 'PARALYSIS');
         }
         else {
-            giveAilment(pokemon, target, 'asleep');
+            giveAilment(pokemon, target, 'ASLEEP');
         }
     }
     // 自分のランクが下がる技の効果
@@ -391,21 +393,23 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             break poisonTouch;
         if (getRandom() >= 30)
             break poisonTouch;
-        if (giveAilment(pokemon, target, 'poisoned', true)) {
+        if (giveAilment(pokemon, target, 'POISONED', true)) {
             pokemon.status.declareAbility();
             writeLog(`${getArticle(target)}に 毒を あびせた!`);
         }
     }
-    synchronize: if (isAbility(target, 'シンクロ') === true) {
-        if (target.stateChange.synchronize.isTrue === false)
-            break synchronize;
-        const ailment = target.stateChange.synchronize.name;
-        if (ailment === 'poisoned' || ailment === 'sp-poisoned' || ailment === 'burned' || ailment === 'paralysis') {
-            target.status.declareAbility();
-            giveAilment(target, pokemon, ailment);
-        }
-        target.stateChange.synchronize.reset();
+    /*
+    synchronize:
+    if ( isAbility( target, 'シンクロ' ) === true ) {
+      if ( target.stateChange.synchronize.isTrue === false ) break synchronize;
+      const ailment = target.stateChange.synchronize.name;
+      if ( ailment === 'POISONED' || ailment === 'sp-poisoned' || ailment === 'BURNED' || ailment === 'PARALYSIS' ) {
+        target.status.declareAbility();
+        giveAilment( target, pokemon, ailment );
+      }
+      target.stateChange.synchronize.reset();
     }
+    */
     // 直接攻撃を受けた時
     if (isDirect(pokemon) === true && damage.substitute === false) {
         roughSkin: if (isAbility(target, 'さめはだ') === true || isAbility(target, 'てつのトゲ') === true) {
@@ -421,7 +425,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             writeLog(`${getArticle(pokemon)}は 傷ついた!`);
         }
         effectSpore: if (isAbility(target, 'ほうし') === true) {
-            if (getPokemonType(pokemon).includes('grass'))
+            if (getPokemonType(pokemon).includes('GRASS'))
                 break effectSpore;
             if (isAbility(pokemon, 'ぼうじん') === true)
                 break effectSpore;
@@ -434,13 +438,13 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             target.status.declareAbility();
             const random = Math.floor(getRandom() * 0.3);
             if (random < 9) {
-                giveAilment(target, pokemon, 'poisoned');
+                giveAilment(target, pokemon, 'POISONED');
             }
             else if (random < 19) {
-                giveAilment(target, pokemon, 'paralysis');
+                giveAilment(target, pokemon, 'PARALYSIS');
             }
             else {
-                giveAilment(target, pokemon, 'asleep');
+                giveAilment(target, pokemon, 'ASLEEP');
             }
         }
         poisonPoint: if (isAbility(target, 'どくのトゲ') === true) {
@@ -449,7 +453,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             if (getRandom() > 30)
                 break poisonPoint;
             target.status.declareAbility();
-            giveAilment(target, pokemon, 'poisoned');
+            giveAilment(target, pokemon, 'POISONED');
         }
         staticElectricity: if (isAbility(target, 'せいでんき') === true) {
             if (isItem(pokemon, 'ぼうごパット') === true)
@@ -457,7 +461,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             if (getRandom() > 30)
                 break staticElectricity;
             target.status.declareAbility();
-            giveAilment(target, pokemon, 'paralysis');
+            giveAilment(target, pokemon, 'PARALYSIS');
         }
         flameBody: if (isAbility(target, 'ほのおのからだ') === true) {
             if (isItem(pokemon, 'ぼうごパット') === true)
@@ -465,7 +469,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             if (getRandom() > 30)
                 break flameBody;
             target.status.declareAbility();
-            giveAilment(target, pokemon, 'burned');
+            giveAilment(target, pokemon, 'BURNED');
         }
         atract: if (isAbility(target, 'メロメロボディ') === true) {
             if (isItem(pokemon, 'ぼうごパット') === true)
@@ -580,10 +584,10 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             changeMyRank(target, 'defense', 1);
         }
         sandSpit: if (isAbility(target, 'すなはき') === true) {
-            if (isChangableWeather('sandstorm') === false)
+            if (isChangableWeather('Sandstorm') === false)
                 break sandSpit;
             target.status.declareAbility();
-            changeWeather(target, 'sandstorm', false);
+            changeWeather(target, 'Sandstorm', false);
         }
         cottonDown: if (isAbility(target, 'わたげ') === true) {
             target.stateChange.memo.isTrue = true;
@@ -623,7 +627,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
                 changeTargetRank(target, pokemon, 'defense', -1);
             }
             if (target.status.name === 'ウッウ(丸呑み)') {
-                giveAilment(target, pokemon, 'paralysis');
+                giveAilment(target, pokemon, 'PARALYSIS');
             }
             formChange(pokemon);
         }
@@ -659,7 +663,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
     // 特定のタイプの攻撃技を受けた時
     if (damage.substitute === false) {
         waterCompaction: if (isAbility(target, 'みずがため') === true) {
-            if (pokemon.selectedMove.type !== 'water')
+            if (pokemon.selectedMove.type !== 'WATER')
                 break waterCompaction;
             if (getRankVariation(target, 'defense', 2) === 0)
                 break waterCompaction;
@@ -667,7 +671,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             changeMyRank(target, 'defense', 2);
         }
         justified: if (isAbility(target, 'せいぎのこころ') === true) {
-            if (pokemon.selectedMove.type !== 'dark')
+            if (pokemon.selectedMove.type !== 'DARK')
                 break justified;
             if (getRankVariation(target, 'attack', 1) === 0)
                 break justified;
@@ -675,7 +679,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             changeMyRank(target, 'attack', 1);
         }
         rattled: if (isAbility(target, 'びびり') === true) {
-            if (pokemon.selectedMove.type !== 'dark' && pokemon.selectedMove.type !== 'ghost' && pokemon.selectedMove.type !== 'bug')
+            if (pokemon.selectedMove.type !== 'DARK' && pokemon.selectedMove.type !== 'GHOST' && pokemon.selectedMove.type !== 'BUG')
                 break rattled;
             if (getRankVariation(target, 'speed', 1) === 0)
                 break rattled;
@@ -683,7 +687,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             changeMyRank(target, 'speed', 1);
         }
         steamEngine: if (isAbility(target, 'じょうききかん') === true) {
-            if (pokemon.selectedMove.type !== 'water' && pokemon.selectedMove.type !== 'fire')
+            if (pokemon.selectedMove.type !== 'WATER' && pokemon.selectedMove.type !== 'FIRE')
                 break steamEngine;
             if (getRankVariation(target, 'speed', 6) === 0)
                 break steamEngine;
@@ -740,7 +744,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
     cellBattery: if (isItem(target, 'じゅうでんち') === true) {
         if (damage.substitute === true)
             break cellBattery;
-        if (pokemon.selectedMove.type !== 'electric')
+        if (pokemon.selectedMove.type !== 'ELECTRIC')
             break cellBattery;
         if (getRankVariation(target, 'attack', 1) === 0)
             break cellBattery;
@@ -750,7 +754,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
     snowball: if (isItem(target, 'ゆきだま') === true) {
         if (damage.substitute === true)
             break snowball;
-        if (pokemon.selectedMove.type !== 'ice')
+        if (pokemon.selectedMove.type !== 'ICE')
             break snowball;
         if (getRankVariation(target, 'attack', 1) === 0)
             break snowball;
@@ -760,7 +764,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
     absorbBulb: if (isItem(target, 'きゅうこん') === true) {
         if (damage.substitute === true)
             break absorbBulb;
-        if (pokemon.selectedMove.type !== 'water')
+        if (pokemon.selectedMove.type !== 'WATER')
             break absorbBulb;
         if (getRankVariation(target, 'specialAttack', 1) === 0)
             break absorbBulb;
@@ -770,7 +774,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
     luminousMoss: if (isItem(target, 'ひかりごけ') === true) {
         if (damage.substitute === true)
             break luminousMoss;
-        if (pokemon.selectedMove.type !== 'water')
+        if (pokemon.selectedMove.type !== 'WATER')
             break luminousMoss;
         if (getRankVariation(target, 'specialDefense', 1) === 0)
             break luminousMoss;
@@ -925,13 +929,13 @@ function activateSealedEffects(pokemon) {
 function activateMoveEffect(pokemon) {
     const targetList = getTargetList(pokemon);
     const one = targetList[0];
-    fire: if (pokemon.selectedMove.type === 'fire') {
+    fire: if (pokemon.selectedMove.type === 'FIRE') {
         if (pokemon.selectedMove.category === '変化')
             break fire;
         for (const data of targetList) {
             if (data.target.status.remainingHP === 0)
                 continue;
-            cureAilment(data.target, 'frozen');
+            cureAilment(data.target, 'FROZEN');
         }
     }
     if (pokemon.order.battle === null)
@@ -1033,10 +1037,10 @@ function activateMoveEffect(pokemon) {
         if (isValidProbabilityAdditionalEffect(pokemon, 30) === false)
             break secretPower;
         if (fieldStatus.terrain.name === 'electric') {
-            giveAilment(pokemon, one.target, 'paralysis');
+            giveAilment(pokemon, one.target, 'PARALYSIS');
         }
         if (fieldStatus.terrain.name === 'grassy') {
-            giveAilment(pokemon, one.target, 'asleep');
+            giveAilment(pokemon, one.target, 'ASLEEP');
         }
         if (fieldStatus.terrain.name === 'psychic') {
             if (getRankVariation(one.target, 'speed', -1) !== 0) {
@@ -1049,7 +1053,7 @@ function activateMoveEffect(pokemon) {
             }
         }
         if (fieldStatus.terrain.name === null) {
-            giveAilment(pokemon, one.target, 'paralysis');
+            giveAilment(pokemon, one.target, 'PARALYSIS');
         }
     }
     fellStinger: if (pokemon.selectedMove.name === 'とどめばり') {
@@ -1132,7 +1136,7 @@ function activateMoveEffect(pokemon) {
         for (const data of targetList) {
             if (data.target.status.remainingHP === 0)
                 continue;
-            if (getPokemonType(data.target).includes('ghost') === true)
+            if (getPokemonType(data.target).includes('GHOST') === true)
                 continue;
             if (data.target.stateChange.cannotEscape.isTrue === true)
                 continue;
@@ -1148,9 +1152,9 @@ function activateMoveEffect(pokemon) {
             break jawLock;
         if (one.target.stateChange.cannotEscape.isTrue === true)
             break jawLock;
-        if (getPokemonType(pokemon).includes('ghost') === true)
+        if (getPokemonType(pokemon).includes('GHOST') === true)
             break jawLock;
-        if (getPokemonType(one.target).includes('ghost') === true)
+        if (getPokemonType(one.target).includes('GHOST') === true)
             break jawLock;
         giveCannotEscape(pokemon, one.target, pokemon.selectedMove.name);
     }
@@ -1187,22 +1191,22 @@ function activateMoveEffect(pokemon) {
             break scald;
         if (pokemon.stateChange.sheerForce.isTrue === true)
             break scald;
-        cureAilment(one.target, 'frozen');
+        cureAilment(one.target, 'FROZEN');
     }
     hydroSteam: if (pokemon.selectedMove.name === 'ハイドロスチーム') {
         if (one.damage.substitute === true)
             break hydroSteam;
-        cureAilment(one.target, 'frozen');
+        cureAilment(one.target, 'FROZEN');
     }
     smellingSalts: if (pokemon.selectedMove.name === 'きつけ') {
         if (one.damage.substitute === true)
             break smellingSalts;
-        cureAilment(one.target, 'paralysis');
+        cureAilment(one.target, 'PARALYSIS');
     }
     wakeUpSlap: if (pokemon.selectedMove.name === 'めざましビンタ') {
         if (one.damage.substitute === true)
             break wakeUpSlap;
-        cureAilment(one.target, 'asleep');
+        cureAilment(one.target, 'ASLEEP');
     }
     sparklingAria: if (pokemon.selectedMove.name === 'うたかたのアリア') {
         if (pokemon.stateChange.sheerForce.isTrue === true)
@@ -1212,7 +1216,7 @@ function activateMoveEffect(pokemon) {
                 continue;
             if (isAbility(data.target, 'りんぷん') === true && targetList.length === 1)
                 continue;
-            cureAilment(data.target, 'asleep');
+            cureAilment(data.target, 'ASLEEP');
         }
     }
     eerieSpell: if (pokemon.selectedMove.name === 'ぶきみなじゅもん') {
@@ -1578,9 +1582,9 @@ function activatePickpocket(pokemon) {
 // 技の効果
 function otherEffect(pokemon) {
     if (pokemon.selectedMove.name === 'もえつきる') {
-        if (pokemon.status.type1 === 'fire')
+        if (pokemon.status.type1 === 'FIRE')
             pokemon.status.type1 = null;
-        if (pokemon.status.type2 === 'fire')
+        if (pokemon.status.type2 === 'FIRE')
             pokemon.status.type2 = null;
         writeLog(`${getArticle(pokemon)}の 炎は 燃え尽きた!`);
     }

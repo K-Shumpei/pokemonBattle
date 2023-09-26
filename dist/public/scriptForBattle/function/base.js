@@ -11,7 +11,7 @@ function isAbility(pokemon, ability) {
     if (pokemon.status.remainingHP === 0) {
         return false;
     }
-    if (pokemon.status.ability !== ability) {
+    if (pokemon.status.ability === ability) {
         return false;
     }
     return true;
@@ -45,9 +45,9 @@ function isWeather(pokemon, weather, strong) {
     if (isExistAbility('ノーてんき') !== false)
         return false;
     if (isItem(pokemon, 'ばんのうがさ') === true) {
-        if (weather === 'rain')
+        if (weather === 'Rain')
             return false;
-        if (weather === 'sunny')
+        if (weather === 'HarshSunlight')
             return false;
     }
     if (fieldStatus.weather.name === weather && fieldStatus.weather.strong === strong) {
@@ -65,7 +65,7 @@ function isGrounded(pokemon) {
         return true;
     if (isItem(pokemon, 'くろいてっきゅう') === true)
         return true;
-    if (getPokemonType(pokemon).includes('flying'))
+    if (getPokemonType(pokemon).includes('FLYING'))
         return false;
     if (isAbility(pokemon, 'ふゆう') === true)
         return false;
@@ -200,19 +200,19 @@ function eatBerry(pokemon, berry) {
         return;
     const ripen = (isAbility(pokemon, 'じゅくせい')) ? 2 : 1;
     if (berry === 'クラボのみ') {
-        cureAilmentByItem(pokemon, 'paralysis', berry);
+        cureAilmentByItem(pokemon, 'PARALYSIS', berry);
     }
     if (berry === 'カゴのみ') {
-        cureAilmentByItem(pokemon, 'asleep', berry);
+        cureAilmentByItem(pokemon, 'ASLEEP', berry);
     }
     if (berry === 'モモンのみ') {
-        cureAilmentByItem(pokemon, 'poisoned', berry);
+        cureAilmentByItem(pokemon, 'POISONED', berry);
     }
     if (berry === 'チーゴのみ') {
-        cureAilmentByItem(pokemon, 'burned', berry);
+        cureAilmentByItem(pokemon, 'BURNED', berry);
     }
     if (berry === 'ナナシのみ') {
-        cureAilmentByItem(pokemon, 'frozen', berry);
+        cureAilmentByItem(pokemon, 'FROZEN', berry);
     }
     leppaBerry: if (berry === 'ヒメリのみ') {
         // 自分で食べるとき
@@ -385,10 +385,10 @@ function changeWeather(pokemon, weather, strong) {
     fieldStatus.weather.reset();
     fieldStatus.weather.name = weather;
     fieldStatus.weather.strong = strong;
-    if (weather === 'turbulence') {
+    if (weather === 'Turbulence') {
         writeLog(`謎の乱気流が ひこうポケモンを 護る!`);
     }
-    if (weather === 'rain') {
+    if (weather === 'Rain') {
         if (isItem(pokemon, 'しめったいわ') === true) {
             fieldStatus.weather.turn = 8;
             fieldStatus.weather.extend = true;
@@ -404,7 +404,7 @@ function changeWeather(pokemon, weather, strong) {
             writeLog(`雨が 降り始めた!`);
         }
     }
-    if (weather === 'sunny') {
+    if (weather === 'HarshSunlight') {
         if (isItem(pokemon, 'あついいわ') === true) {
             fieldStatus.weather.turn = 8;
             fieldStatus.weather.extend = true;
@@ -420,7 +420,7 @@ function changeWeather(pokemon, weather, strong) {
             writeLog(`日差しが 強くなった!`);
         }
     }
-    if (weather === 'sandstorm') {
+    if (weather === 'Sandstorm') {
         if (isItem(pokemon, 'さらさらいわ') === true) {
             fieldStatus.weather.turn = 8;
             fieldStatus.weather.extend = true;
@@ -431,7 +431,7 @@ function changeWeather(pokemon, weather, strong) {
         }
         writeLog(`砂あらしが 吹き始めた!`);
     }
-    if (weather === 'snow') {
+    if (weather === 'Hail') {
         if (isItem(pokemon, 'つめたいいわ') === true) {
             fieldStatus.weather.turn = 8;
             fieldStatus.weather.extend = true;
@@ -447,13 +447,13 @@ function isChangableWeather(weather) {
     if (fieldStatus.weather.name === weather)
         return false;
     if (fieldStatus.weather.strong === true) {
-        if (weather === 'rain')
+        if (weather === 'Rain')
             return false;
-        if (weather === 'sunny')
+        if (weather === 'HarshSunlight')
             return false;
-        if (weather === 'sandstorm')
+        if (weather === 'Sandstorm')
             return false;
-        if (weather === 'snow')
+        if (weather === 'Hail')
             return false;
     }
     return true;
@@ -685,15 +685,15 @@ function isEnableEatBerry(pokemon) {
         return false;
     if (isItem(pokemon, berry) === false)
         return false;
-    if (berry === 'クラボのみ' && ailment === 'paralysis')
+    if (berry === 'クラボのみ' && ailment === 'PARALYSIS')
         return true;
-    if (berry === 'カゴのみ' && ailment === 'asleep')
+    if (berry === 'カゴのみ' && ailment === 'ASLEEP')
         return true;
-    if (berry === 'モモンのみ' && ailment === 'poisoned')
+    if (berry === 'モモンのみ' && ailment === 'POISONED')
         return true;
-    if (berry === 'チーゴのみ' && ailment === 'burned')
+    if (berry === 'チーゴのみ' && ailment === 'BURNED')
         return true;
-    if (berry === 'ナナシのみ' && ailment === 'frozen')
+    if (berry === 'ナナシのみ' && ailment === 'FROZEN')
         return true;
     if (berry === 'ヒメリのみ') {
         for (const move of pokemon.learnedMove) {

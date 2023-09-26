@@ -135,12 +135,12 @@ function getPower(pokemon, target) {
             basicPower = 120;
     }
     if (move.name === 'きつけ') {
-        if (target.status.statusAilment.name === 'paralysis') {
+        if (target.status.statusAilment.name === 'PARALYSIS') {
             basicPower = 140;
         }
     }
     if (move.name === 'めざましビンタ') {
-        if (target.status.statusAilment.name === 'asleep') {
+        if (target.status.statusAilment.name === 'ASLEEP') {
             basicPower = 140;
         }
     }
@@ -150,13 +150,13 @@ function getPower(pokemon, target) {
         }
     }
     if (move.name === 'ウェザーボール') {
-        if (isWeather(pokemon, 'sunny'))
+        if (isWeather(pokemon, 'HarshSunlight'))
             basicPower = 100;
-        if (isWeather(pokemon, 'rain'))
+        if (isWeather(pokemon, 'Rain'))
             basicPower = 100;
-        if (isWeather(pokemon, 'sandstorm'))
+        if (isWeather(pokemon, 'Sandstorm'))
             basicPower = 100;
-        if (isWeather(pokemon, 'snow'))
+        if (isWeather(pokemon, 'Hail'))
             basicPower = 100;
     }
     if (move.name === 'だいちのはどう') {
@@ -255,10 +255,10 @@ function getPower(pokemon, target) {
     // 威力補正
     let correction = 4096;
     if (isExistAbility('オーラブレイク')) {
-        if (isExistAbility('フェアリーオーラ') && move.type === 'fairy') {
+        if (isExistAbility('フェアリーオーラ') && move.type === 'FAIRY') {
             correction = Math.round(correction * 3072 / 4096);
         }
-        if (isExistAbility('ダークオーラ') && move.type === 'dark') {
+        if (isExistAbility('ダークオーラ') && move.type === 'DARK') {
             correction = Math.round(correction * 3072 / 4096);
         }
     }
@@ -314,7 +314,7 @@ function getPower(pokemon, target) {
         }
     }
     if (isAbility(pokemon, 'すなのちから')) {
-        if (isWeather(pokemon, 'sandstorm') === true && (move.type === 'rock' || move.type === 'ground' || move.type === 'steel')) {
+        if (isWeather(pokemon, 'Sandstorm') === true && (move.type === 'ROCK' || move.type === 'GROUND' || move.type === 'STEEL')) {
             correction = Math.round(correction * 5325 / 4096);
         }
     }
@@ -359,12 +359,12 @@ function getPower(pokemon, target) {
         }
     }
     if (isExistAbility('ダークオーラ')) {
-        if (move.type === 'dark' && isExistAbility('オーラブレイク') === false) {
+        if (move.type === 'DARK' && isExistAbility('オーラブレイク') === false) {
             correction = Math.round(correction * 5448 / 4096);
         }
     }
     if (isExistAbility('フェアリーオーラ')) {
-        if (move.type === 'fairy' && isExistAbility('オーラブレイク') === false) {
+        if (move.type === 'FAIRY' && isExistAbility('オーラブレイク') === false) {
             correction = Math.round(correction * 5448 / 4096);
         }
     }
@@ -379,12 +379,12 @@ function getPower(pokemon, target) {
         }
     }
     if (isAbility(pokemon, 'どくぼうそう')) {
-        if (isStatusAilment(pokemon, 'poisoned') === true && move.category === '物理') {
+        if (isStatusAilment(pokemon, 'POISONED') === true && move.category === '物理') {
             correction = Math.round(correction * 6144 / 4096);
         }
     }
     if (isAbility(pokemon, 'ねつぼうそう')) {
-        if (isStatusAilment(pokemon, 'burned') === true && move.category === '特殊') {
+        if (isStatusAilment(pokemon, 'BURNED') === true && move.category === '特殊') {
             correction = Math.round(correction * 6144 / 4096);
         }
     }
@@ -401,12 +401,12 @@ function getPower(pokemon, target) {
         }
     }
     if (isAbility(target, 'たいねつ')) {
-        if (move.type === 'fire') {
+        if (move.type === 'FIRE') {
             correction = Math.round(correction * 2048 / 4096);
         }
     }
     if (isAbility(target, 'かんそうはだ')) {
-        if (move.type === 'fire') {
+        if (move.type === 'FIRE') {
             correction = Math.round(correction * 5120 / 4096);
         }
     }
@@ -431,22 +431,22 @@ function getPower(pokemon, target) {
         }
     }
     if (isItem(pokemon, 'こころのしずく')) {
-        if ((pokemon.status.name === 'ラティオス' || pokemon.status.name === 'ラティアス') && (move.type === 'dragon' || move.type === 'psychic') && pokemon.stateChange.transform.isTrue === false) {
+        if ((pokemon.status.name === 'ラティオス' || pokemon.status.name === 'ラティアス') && (move.type === 'DRAGON' || move.type === 'PSYCHIC') && pokemon.stateChange.transform.isTrue === false) {
             correction = Math.round(correction * 4915 / 4096);
         }
     }
     if (isItem(pokemon, 'こんごうだま')) {
-        if (pokemon.status.name === 'ディアルガ' && (move.type === 'steel' || move.type === 'dragon') && pokemon.stateChange.transform.isTrue === false) {
+        if (pokemon.status.name === 'ディアルガ' && (move.type === 'STEEL' || move.type === 'DRAGON') && pokemon.stateChange.transform.isTrue === false) {
             correction = Math.round(correction * 4915 / 4096);
         }
     }
     if (isItem(pokemon, 'しらたま')) {
-        if (pokemon.status.name === 'パルキア' && (move.type === 'water' || move.type === 'dragon') && pokemon.stateChange.transform.isTrue === false) {
+        if (pokemon.status.name === 'パルキア' && (move.type === 'WATER' || move.type === 'DRAGON') && pokemon.stateChange.transform.isTrue === false) {
             correction = Math.round(correction * 4915 / 4096);
         }
     }
     if (isItem(pokemon, 'はっきんだま')) {
-        if ((pokemon.status.name === 'ギラティナ(オリジン)' || pokemon.status.name === 'ギラティナ(アナザー)') && (move.type === 'steel' || move.type === 'dragon') && pokemon.stateChange.transform.isTrue === false) {
+        if ((pokemon.status.name === 'ギラティナ(オリジン)' || pokemon.status.name === 'ギラティナ(アナザー)') && (move.type === 'STEEL' || move.type === 'DRAGON') && pokemon.stateChange.transform.isTrue === false) {
             correction = Math.round(correction * 4915 / 4096);
         }
     }
@@ -455,7 +455,7 @@ function getPower(pokemon, target) {
         pokemon.stateChange.gem.reset();
     }
     if (move.name === 'ソーラービーム' || move.name === 'ソーラーブレード') {
-        if (isWeather(pokemon, 'rain') || isWeather(pokemon, 'sandstorm') || isWeather(pokemon, 'snow')) {
+        if (isWeather(pokemon, 'Rain') || isWeather(pokemon, 'Sandstorm') || isWeather(pokemon, 'Hail')) {
             correction = Math.round(correction * 2048 / 4096);
         }
     }
@@ -485,13 +485,13 @@ function getPower(pokemon, target) {
         }
     }
     if (pokemon.stateChange.charge.isTrue === true) {
-        if (move.type === 'electric') {
+        if (move.type === 'ELECTRIC') {
             correction = Math.round(correction * 8192 / 4096);
             pokemon.stateChange.charge.reset();
         }
     }
     if (move.name === 'からげんき') {
-        if (isStatusAilment(pokemon, 'poisoned') || isStatusAilment(pokemon, 'burned') || isStatusAilment(pokemon, 'paralysis')) {
+        if (isStatusAilment(pokemon, 'POISONED') || isStatusAilment(pokemon, 'BURNED') || isStatusAilment(pokemon, 'PARALYSIS')) {
             correction = Math.round(correction * 8192 / 4096);
         }
     }
@@ -501,7 +501,7 @@ function getPower(pokemon, target) {
         }
     }
     if (move.name === 'ベノムショック') {
-        if (isStatusAilment(target, 'poisoned')) {
+        if (isStatusAilment(target, 'POISONED')) {
             correction = Math.round(correction * 8192 / 4096);
         }
     }
@@ -511,32 +511,32 @@ function getPower(pokemon, target) {
         }
     }
     if (fieldStatus.terrain.name === 'misty' && isGrounded(target)) {
-        if (move.type === 'dragon') {
+        if (move.type === 'DRAGON') {
             correction = Math.round(correction * 2048 / 4096);
         }
     }
     if (fieldStatus.terrain.name === 'electric') {
-        if (isGrounded(pokemon) && move.type === 'electric') {
+        if (isGrounded(pokemon) && move.type === 'ELECTRIC') {
             correction = Math.round(correction * 5325 / 4096);
         }
     }
     if (fieldStatus.terrain.name === 'grassy') {
-        if (isGrounded(pokemon) && move.type === 'grass') {
+        if (isGrounded(pokemon) && move.type === 'GRASS') {
             correction = Math.round(correction * 5325 / 4096);
         }
     }
     if (fieldStatus.terrain.name === 'psychic') {
-        if (isGrounded(pokemon) && move.type === 'psychic') {
+        if (isGrounded(pokemon) && move.type === 'PSYCHIC') {
             correction = Math.round(correction * 5325 / 4096);
         }
     }
     if (fieldStatus.whole.mudSport.isTrue === true) {
-        if (move.type === 'electric') {
+        if (move.type === 'ELECTRIC') {
             correction = Math.round(correction * 1352 / 4096);
         }
     }
     if (fieldStatus.whole.waterSport.isTrue === true) {
-        if (move.type === 'fire') {
+        if (move.type === 'FIRE') {
             correction = Math.round(correction * 1352 / 4096);
         }
     }
@@ -622,7 +622,7 @@ function getStatus(pokemon, target, damage) {
         }
     }
     if (isAbility(pokemon, 'ひひいろのこどう')) {
-        if (isWeather(pokemon, 'sunny') === true && pokemon.selectedMove.category === '物理') {
+        if (isWeather(pokemon, 'HarshSunlight') === true && pokemon.selectedMove.category === '物理') {
             attackCorrection = Math.round(attackCorrection * 5461 / 4096);
         }
     }
@@ -631,7 +631,7 @@ function getStatus(pokemon, target, damage) {
             continue;
         if (_pokemon.status.name !== 'チェリム(ポジ)')
             continue;
-        if (isWeather(_pokemon, 'sunny') === false)
+        if (isWeather(_pokemon, 'HarshSunlight') === false)
             continue;
         if (isAbility(_pokemon, 'フラワーギフト') === false)
             continue;
@@ -645,32 +645,32 @@ function getStatus(pokemon, target, damage) {
         }
     }
     if (isAbility(pokemon, 'しんりょく')) {
-        if (pokemon.status.remainingHP <= pokemon.actualValue.hitPoint / 3 && pokemon.selectedMove.type === 'grass') {
+        if (pokemon.status.remainingHP <= pokemon.actualValue.hitPoint / 3 && pokemon.selectedMove.type === 'GRASS') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (isAbility(pokemon, 'もうか')) {
-        if (pokemon.status.remainingHP <= pokemon.actualValue.hitPoint / 3 && pokemon.selectedMove.type === 'fire') {
+        if (pokemon.status.remainingHP <= pokemon.actualValue.hitPoint / 3 && pokemon.selectedMove.type === 'FIRE') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (isAbility(pokemon, 'げきりゅう')) {
-        if (pokemon.status.remainingHP <= pokemon.actualValue.hitPoint / 3 && pokemon.selectedMove.type === 'water') {
+        if (pokemon.status.remainingHP <= pokemon.actualValue.hitPoint / 3 && pokemon.selectedMove.type === 'WATER') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (isAbility(pokemon, 'むしのしらせ')) {
-        if (pokemon.status.remainingHP <= pokemon.actualValue.hitPoint / 3 && pokemon.selectedMove.type === 'bug') {
+        if (pokemon.status.remainingHP <= pokemon.actualValue.hitPoint / 3 && pokemon.selectedMove.type === 'BUG') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (isAbility(pokemon, 'もらいび')) {
-        if (pokemon.stateChange.flashFire.isTrue === true && pokemon.selectedMove.type === 'fire') {
+        if (pokemon.stateChange.flashFire.isTrue === true && pokemon.selectedMove.type === 'FIRE') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (isAbility(pokemon, 'サンパワー')) {
-        if (isWeather(pokemon, 'sunny') === true && pokemon.selectedMove.category === '特殊') {
+        if (isWeather(pokemon, 'HarshSunlight') === true && pokemon.selectedMove.category === '特殊') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
@@ -689,12 +689,12 @@ function getStatus(pokemon, target, damage) {
         }
     }
     if (isAbility(pokemon, 'いわはこび')) {
-        if (pokemon.selectedMove.type === 'rock') {
+        if (pokemon.selectedMove.type === 'ROCK') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (isAbility(pokemon, 'はがねつかい')) {
-        if (pokemon.selectedMove.type === 'steel') {
+        if (pokemon.selectedMove.type === 'STEEL') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
@@ -704,12 +704,12 @@ function getStatus(pokemon, target, damage) {
         }
     }
     if (isAbility(pokemon, 'トランジスタ')) {
-        if (pokemon.selectedMove.type === 'electric') {
+        if (pokemon.selectedMove.type === 'ELECTRIC') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (isAbility(pokemon, 'りゅうのあぎと')) {
-        if (pokemon.selectedMove.type === 'dragon') {
+        if (pokemon.selectedMove.type === 'DRAGON') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
@@ -719,22 +719,22 @@ function getStatus(pokemon, target, damage) {
         }
     }
     if (isAbility(pokemon, 'すいほう')) {
-        if (pokemon.selectedMove.type === 'water') {
+        if (pokemon.selectedMove.type === 'WATER') {
             attackCorrection = Math.round(attackCorrection * 8192 / 4096);
         }
     }
     if (isAbility(target, 'あついしぼう')) {
-        if (pokemon.selectedMove.type === 'fire' || pokemon.selectedMove.type === 'ice') {
+        if (pokemon.selectedMove.type === 'FIRE' || pokemon.selectedMove.type === 'ICE') {
             attackCorrection = Math.round(attackCorrection * 2048 / 4096);
         }
     }
     if (isAbility(target, 'すいほう')) {
-        if (pokemon.selectedMove.type === 'fire') {
+        if (pokemon.selectedMove.type === 'FIRE') {
             attackCorrection = Math.round(attackCorrection * 2048 / 4096);
         }
     }
     if (isAbility(target, 'きよめのしお')) {
-        if (pokemon.selectedMove.type === 'ghost') {
+        if (pokemon.selectedMove.type === 'GHOST') {
             attackCorrection = Math.round(attackCorrection * 2048 / 4096);
         }
     }
@@ -767,14 +767,14 @@ function getStatus(pokemon, target, damage) {
     finalAttack = fiveRoundEntry(finalAttack * attackCorrection / 4096);
     finalAttack = Math.max(finalAttack, 1);
     // すなあらし
-    if (isWeather(target, 'sandstorm')) {
-        if (getPokemonType(target).includes('rock') && pokemon.selectedMove.category === '特殊') {
+    if (isWeather(target, 'Sandstorm')) {
+        if (getPokemonType(target).includes('ROCK') && pokemon.selectedMove.category === '特殊') {
             finalDefense = Math.floor(finalDefense * 6144 / 4096);
         }
     }
     // ゆき
-    if (isWeather(target, 'snow')) {
-        if (getPokemonType(target).includes('ice') && pokemon.selectedMove.category === '物理') {
+    if (isWeather(target, 'Hail')) {
+        if (getPokemonType(target).includes('ICE') && pokemon.selectedMove.category === '物理') {
             finalDefense = Math.floor(finalDefense * 6144 / 4096);
         }
     }
@@ -813,7 +813,7 @@ function getStatus(pokemon, target, damage) {
             continue;
         if (_pokemon.status.name !== 'チェリム(ポジ)')
             continue;
-        if (isWeather(_pokemon, 'sunny') === false)
+        if (isWeather(_pokemon, 'HarshSunlight') === false)
             continue;
         if (isAbility(_pokemon, 'フラワーギフト') === false)
             continue;
@@ -864,19 +864,19 @@ function getDamage(pokemon, target, power, status, damageInfo) {
         damage = fiveRoundEntry(damage * 3072 / 4096);
     }
     // 天気補正
-    if (isWeather(target, 'rain')) {
-        if (pokemon.selectedMove.type === 'water') {
+    if (isWeather(target, 'Rain')) {
+        if (pokemon.selectedMove.type === 'WATER') {
             damage = fiveRoundEntry(damage * 1.5);
         }
-        if (pokemon.selectedMove.type === 'fire') {
+        if (pokemon.selectedMove.type === 'FIRE') {
             damage = fiveRoundEntry(damage * 0.5);
         }
     }
-    if (isWeather(target, 'sunny')) {
-        if (pokemon.selectedMove.type === 'water') {
+    if (isWeather(target, 'HarshSunlight')) {
+        if (pokemon.selectedMove.type === 'WATER') {
             damage = fiveRoundEntry(damage * 0.5);
         }
-        if (pokemon.selectedMove.type === 'fire') {
+        if (pokemon.selectedMove.type === 'FIRE') {
             damage = fiveRoundEntry(damage * 1.5);
         }
     }
@@ -899,7 +899,7 @@ function getDamage(pokemon, target, power, status, damageInfo) {
     // 相性補正
     damage = Math.floor(damage * damageInfo.effective);
     // やけど補正
-    if (isStatusAilment(pokemon, 'burned')) {
+    if (isStatusAilment(pokemon, 'BURNED')) {
         if (pokemon.selectedMove.name !== 'からげんき' && pokemon.selectedMove.category === '物理') {
             damage = fiveRoundEntry(damage * 0.5);
         }
@@ -945,7 +945,7 @@ function getDamage(pokemon, target, power, status, damageInfo) {
     }
     // もふもふほのお補正
     if (isAbility(target, 'もふもふ')) {
-        if (pokemon.selectedMove.type === 'fire') {
+        if (pokemon.selectedMove.type === 'FIRE') {
             corrM = Math.round(corrM * 2);
         }
     }
@@ -998,7 +998,7 @@ function getDamage(pokemon, target, power, status, damageInfo) {
     }
     // 半減の実補正
     let isHalfBerry = false;
-    if (isItem(target, 'ホズのみ') === true && pokemon.selectedMove.type === 'normal') {
+    if (isItem(target, 'ホズのみ') === true && pokemon.selectedMove.type === 'NORMAL') {
         isHalfBerry = true;
     }
     for (const berry of berryTable) {
