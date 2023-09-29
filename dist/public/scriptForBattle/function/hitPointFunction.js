@@ -5,33 +5,33 @@ function changeHPByMove(pokemon, target, change) {
     if (isItem(pokemon, 'おおきなねっこ') === true) {
         value = fiveRoundEntry(value * 5324 / 4096);
     }
-    if (isAbility(target, 'ヘドロえき') === true) {
-        if (isAbility(pokemon, 'マジックガード') === true)
+    if (target.ability.isName('ヘドロえき')) {
+        if (pokemon.ability.isName('マジックガード'))
             return;
         // HP減少
-        pokemon.status.remainingHP = Math.max(pokemon.status.remainingHP - value, 0);
+        pokemon.hitPoint.add(-1 * value);
         // メッセージ
-        target.status.declareAbility();
+        target.declareAbility();
         writeLog(`${getArticle(pokemon)}は ヘドロえきを 吸い取った!`);
     }
     else {
-        if (pokemon.status.remainingHP === pokemon.actualValue.hitPoint)
+        if (pokemon.hitPoint.isFull())
             return;
         if (pokemon.stateChange.healBlock.isTrue === true)
             return;
         // HP回復
-        pokemon.status.remainingHP = Math.min(pokemon.status.remainingHP + value, pokemon.actualValue.hitPoint);
+        pokemon.hitPoint.add(value);
         // メッセージ
         writeLog(`${getArticle(target)}から 体力を 吸い取った!`);
     }
 }
 // きのみを食べることによるHP回復
 function changeHPByBerry(pokemon, item) {
-    if (pokemon.status.remainingHP === pokemon.actualValue.hitPoint)
+    if (pokemon.hitPoint.isFull())
         return;
     if (pokemon.stateChange.healBlock.isTrue === true)
         return;
-    const ripen = (isAbility(pokemon, 'じゅくせい')) ? 2 : 1;
+    const ripen = (pokemon.ability.isName('じゅくせい')) ? 2 : 1;
     const dynamax = (pokemon.stateChange.dynamax.isTrue) ? 0.5 : 1;
     let value = 0;
     if (item === 'オレンのみ') {
@@ -47,7 +47,7 @@ function changeHPByBerry(pokemon, item) {
         value = Math.floor((pokemon.actualValue.hitPoint * dynamax) / 4) * ripen;
     }
     // HP回復
-    pokemon.status.remainingHP = Math.min(pokemon.status.remainingHP + value, pokemon.actualValue.hitPoint);
+    pokemon.hitPoint.add(value);
     // メッセージ
     writeLog(`${getArticle(pokemon)}は ${item}で 体力を 回復した!`);
     // なげつける・むしくい・ついばむ
@@ -59,19 +59,19 @@ function changeHPByBerry(pokemon, item) {
 function changeHPByItem(pokemon, item, damage) {
     if (item === 'いのちのたま') {
         // ダメージ
-        pokemon.status.remainingHP = Math.max(pokemon.status.remainingHP - damage, 0);
+        pokemon.hitPoint.add(-1 * damage);
         // メッセージ
         writeLog(`${getArticle(pokemon)}は 命が 少し削られた!`);
     }
     if (item === 'かいがらのすず') {
         // HP回復
-        pokemon.status.remainingHP = Math.min(pokemon.status.remainingHP + damage, pokemon.actualValue.hitPoint);
+        pokemon.hitPoint.add(damage);
         // メッセージ
         writeLog(`${getArticle(pokemon)}は かいがらのすずで 少し 回復`);
     }
     if (item === 'きのみジュース') {
         // HP回復
-        pokemon.status.remainingHP = Math.min(pokemon.status.remainingHP + damage, pokemon.actualValue.hitPoint);
+        pokemon.hitPoint.add(damage);
         // メッセージ
         writeLog(`${getArticle(pokemon)}は ${item}で 体力を 回復した!`);
     }
@@ -80,23 +80,23 @@ function changeHPByItem(pokemon, item, damage) {
 function changeHPByAbility(pokemon, value, sign) {
     if (sign === '-') {
         // ダメージ
-        pokemon.status.remainingHP = Math.max(pokemon.status.remainingHP - value, 0);
+        pokemon.hitPoint.add(-1 * value);
     }
     if (sign === '+') {
-        if (pokemon.status.remainingHP === pokemon.actualValue.hitPoint)
+        if (pokemon.hitPoint.isFull())
             return;
         if (pokemon.stateChange.healBlock.isTrue === true)
             return;
-        pokemon.status.declareAbility();
+        pokemon.declareAbility();
         // HP回復
-        pokemon.status.remainingHP = Math.min(pokemon.status.remainingHP + value, pokemon.actualValue.hitPoint);
+        pokemon.hitPoint.add(value);
         // メッセージ
         writeLog(`${getArticle(pokemon)}の 体力が 回復した!`);
     }
 }
 // ほおぶくろ
 function activateCheekPouch(pokemon) {
-    if (isAbility(pokemon, 'ほおぶくろ') === false)
+    if (!pokemon.ability.isName('ほおぶくろ'))
         return;
     const dynamax = (pokemon.stateChange.dynamax.isTrue) ? 0.5 : 1;
     const value = Math.floor(pokemon.actualValue.hitPoint * dynamax / 3);

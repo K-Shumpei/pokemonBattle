@@ -24,24 +24,208 @@ class Weather {
     this._strong = strong;
   }
 
-  get name(): WeatherText {
-    return this._name;
-  }
-  get turn(): number {
-    return this._turn;
-  }
-  get extend(): boolean {
-    return this._extend;
-  }
-  get strong(): boolean {
-    return this._strong;
-  }
-
   reset(): void {
     this._name = null;
     this._turn = 0;
     this._extend = false;
     this._strong = false;
+  }
+
+  isNoWeather(): boolean {
+    if ( ( isExistAbility( 'ノーてんき' ) || isExistAbility( 'エアロック' ) ) === false ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  isPlaim(): boolean {
+    return this._name === null || this.isNoWeather();
+  }
+
+  isSunny( pokemon: Pokemon ): boolean {
+    if ( isItem( pokemon, 'ばんのうがさ' ) || this.isNoWeather() ) {
+      return false;
+    } else {
+      return this._name === 'HarshSunlight';
+    }
+  }
+
+  isRainy( pokemon: Pokemon ): boolean {
+    if ( isItem( pokemon, 'ばんのうがさ' ) || this.isNoWeather() ) {
+      return false;
+    } else {
+      return this._name === 'Rain';
+    }
+  }
+
+  isSandy(): boolean {
+    if ( this.isNoWeather() ) {
+      return false;
+    } else {
+      return this._name === 'Sandstorm';
+    }
+  }
+
+  isSnowy(): boolean {
+    if ( this.isNoWeather() ) {
+      return false;
+    } else {
+      return this._name === 'Hail';
+    }
+  }
+
+  isBadSunny( pokemon: Pokemon ): boolean {
+    if ( isItem( pokemon, 'ばんのうがさ' ) || this.isNoWeather() ) {
+      return false;
+    } else {
+      return this._name === 'HarshSunlight' && this._strong === true;
+    }
+  }
+
+  isBadRainy( pokemon: Pokemon ): boolean {
+    if ( isItem( pokemon, 'ばんのうがさ' ) || this.isNoWeather() ) {
+      return false;
+    } else {
+      return this._name === 'Rain' && this._strong === true;
+    }
+  }
+
+  isTurbulence(): boolean {
+    if ( this.isNoWeather() ) {
+      return false;
+    } else {
+      return this._name === 'Turbulence';
+    }
+  }
+
+  isGetSunny(): boolean {
+    if ( this._name === 'HarshSunlight' ) return false;
+    if ( this._strong ) return false;
+    return true;
+  }
+
+  isGetRainy(): boolean {
+    if ( this._name === 'Rain' ) return false;
+    if ( this._strong ) return false;
+    return true;
+  }
+
+  isGetSandy(): boolean {
+    if ( this._name === 'Sandstorm' ) return false;
+    if ( this._strong ) return false;
+    return true;
+  }
+
+  isGetSnowy(): boolean {
+    if ( this._name === 'Hail' ) return false;
+    if ( this._strong ) return false;
+    return true;
+  }
+
+  isGetBadSunny(): boolean {
+    if ( this._name === 'HarshSunlight' && this._strong ) return false;
+    return true;
+  }
+
+  isGetBadRainy(): boolean {
+    if ( this._name === 'Rain' && this._strong ) return false;
+    return true;
+  }
+
+  isGetTurbulence(): boolean {
+    if ( this._name === 'Turbulence' && this._strong ) return false;
+    return true;
+  }
+
+  getSunny( pokemon: Pokemon ): void {
+    if ( !this.isGetSunny() ) return;
+
+    this.reset()
+    fieldStatus.weather.name = 'HarshSunlight';
+    fieldStatus.weather.turn = 5;
+
+    if ( isItem( pokemon, 'あついいわ' ) ) {
+      fieldStatus.weather.turn = 8;
+      fieldStatus.weather.extend = true;
+    }
+
+    writeLog( '日差しが 強くなった!' );
+  }
+
+  getRainy( pokemon: Pokemon ): void {
+    if ( !this.isGetRainy() ) return;
+
+    this.reset()
+    fieldStatus.weather.name = 'Rain';
+    fieldStatus.weather.turn = 5;
+
+    if ( isItem( pokemon, 'しめったいわ' ) ) {
+      fieldStatus.weather.turn = 8;
+      fieldStatus.weather.extend = true;
+    }
+
+    writeLog( '雨が 降り始めた!' );
+  }
+
+  getSandy( pokemon: Pokemon ): void {
+    if ( !this.isGetSandy() ) return;
+
+    this.reset()
+    fieldStatus.weather.name = 'Sandstorm';
+    fieldStatus.weather.turn = 5;
+
+    if ( isItem( pokemon, 'さらさらいわ' ) ) {
+      fieldStatus.weather.turn = 8;
+      fieldStatus.weather.extend = true;
+    }
+
+    writeLog( '砂あらしが 吹き始めた!' );
+  }
+
+  getSnowy( pokemon: Pokemon ): void {
+    if ( !this.isGetSnowy() ) return;
+
+    this.reset()
+    fieldStatus.weather.name = 'Hail';
+    fieldStatus.weather.turn = 5;
+
+    if ( isItem( pokemon, 'つめたいいわ' ) ) {
+      fieldStatus.weather.turn = 8;
+      fieldStatus.weather.extend = true;
+    }
+
+    writeLog( '雪が 降り始めた!' );
+  }
+
+  getBadSunny(): void {
+    if ( !this.isGetBadSunny() ) return;
+
+    this.reset()
+    fieldStatus.weather.name = 'HarshSunlight';
+    fieldStatus.weather.strong = true;
+
+    writeLog( '日差しが とても強くなった!' );
+  }
+
+  getBadRainy(): void {
+    if ( !this.isGetBadRainy() ) return;
+
+    this.reset()
+    fieldStatus.weather.name = 'Rain';
+    fieldStatus.weather.strong = true;
+
+    writeLog( '強い雨が 降り始めた!' );
+  }
+
+  getTurbulence(): void {
+    if ( !this.isGetTurbulence() ) return;
+
+    this.reset()
+    fieldStatus.weather.name = 'Turbulence'
+    fieldStatus.weather.strong = true;
+
+    writeLog( '謎の乱気流が ひこうポケモンを 護る!' );
   }
 }
 
@@ -56,9 +240,6 @@ class Terrain {
     this._extend = false;
   }
 
-  set name( name: TerrainText ) {
-    this._name = name;
-  }
   set turn( turn: number ) {
     this._turn = turn;
   }
@@ -66,20 +247,76 @@ class Terrain {
     this._extend = extend;
   }
 
-  get name(): TerrainText {
-    return this._name;
-  }
-  get turn(): number {
-    return this._turn;
-  }
-  get extend(): boolean {
-    return this._extend;
+  resetWithMessage(): void {
+    if ( this.isElectric() ) writeLog( `足下の 電気が 消え去った!` );
+    if ( this.isGrassy() ) writeLog( `足下の 電気が 消え去った!` );
+    if ( this.isMisty() ) writeLog( `足下の 電気が 消え去った!` );
+    if ( this.isPsychic() ) writeLog( `足下の 電気が 消え去った!` );
+    this.reset()
   }
 
   reset(): void {
     this._name = null;
     this._turn = 0;
     this._extend = false;
+  }
+
+  setExtend( pokemon: Pokemon ): void {
+    if ( isItem( pokemon, 'グランドコート' ) ) {
+      this._turn = 8;
+      this._extend = true;
+    } else {
+      this._turn = 5;
+      this._extend = false;
+    }
+  }
+
+  getElectric( pokemon: Pokemon ): void {
+    this.reset();
+    this._name = 'electric';
+    this.setExtend( pokemon );
+    writeLog( `足下に 電気が かけめぐる!` );
+  }
+
+  getGrassy( pokemon: Pokemon ): void {
+    this.reset();
+    this._name = 'grassy';
+    this.setExtend( pokemon );
+    writeLog( `足下に 草がおいしげった!` );
+  }
+
+  getMisty( pokemon: Pokemon ): void {
+    this.reset();
+    this._name = 'misty';
+    this.setExtend( pokemon );
+    writeLog( `足下が 不思議な感じに なった!` );
+  }
+
+  getPsychic( pokemon: Pokemon ): void {
+    this.reset();
+    this._name = 'psychic';
+    this.setExtend( pokemon );
+    writeLog( `足下に 霧が立ち込めた!` );
+  }
+
+  isElectric(): boolean {
+    return this._name === 'electric';
+  }
+
+  isGrassy(): boolean {
+    return this._name === 'grassy';
+  }
+
+  isMisty(): boolean {
+    return this._name === 'misty';
+  }
+
+  isPsychic(): boolean {
+    return this._name === 'psychic';
+  }
+
+  isPlain(): boolean {
+    return this._name === null;
   }
 }
 

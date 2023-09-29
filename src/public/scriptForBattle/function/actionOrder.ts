@@ -144,13 +144,13 @@ function getSpeedValue( pokemon: Pokemon, type: string ): number {
   }
 
   // b. 各種補正
-  let speedTypeB: number = getValueWithRankCorrection( pokemon.actualValue.speed, pokemon.rank.speed, false );
+  let speedTypeB: number = getValueWithRankCorrection( pokemon.actualValue.speed, pokemon.rank.speed.value, false );
   let correction: number = 4096;
 
   speedTypeB = fiveRoundEntry( speedTypeB * correction / 4096 );
 
   // まひ補正
-  if ( pokemon.status.statusAilment.name === 'PARALYSIS' ) {
+  if ( pokemon.statusAilment.isParalysis() ) {
     speedTypeB = Math.floor( speedTypeB * 2048 / 4096 );
   }
 

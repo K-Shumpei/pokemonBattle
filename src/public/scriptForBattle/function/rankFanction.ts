@@ -17,38 +17,38 @@ function changeTargetRank( pokemon: Pokemon, target: Pokemon, parameter: string,
       if ( pokemon.stateChange.memo.text === 'わたげ' ) {
         const infiltrator: Pokemon | false = getPokemonByBattle( pokemon.stateChange.memo.target.trainer, pokemon.stateChange.memo.target.battle );
         if ( infiltrator === false ) break mist;
-        if ( isAbility( infiltrator, 'すりぬけ' ) === true && infiltrator.trainer !== target.trainer ) {
+        if ( infiltrator.ability.isName( 'すりぬけ' ) && infiltrator.trainer !== target.trainer ) {
           return;
         }
       } else {
-        if ( isAbility( pokemon, 'すりぬけ' ) === true && pokemon.trainer !== target.trainer ) {
+        if ( pokemon.ability.isName( 'すりぬけ' ) && pokemon.trainer !== target.trainer ) {
           return;
         }
       }
     }
     // 特性
-    if ( isAbility( target, 'しろいけむり' ) === true ) return;
-    if ( isAbility( target, 'クリアボディ' ) === true ) return;
-    if ( isAbility( target, 'メタルプロテクト' ) === true ) return;
+    if ( target.ability.isName( 'しろいけむり' ) ) return;
+    if ( target.ability.isName( 'クリアボディ' ) ) return;
+    if ( target.ability.isName( 'メタルプロテクト' ) ) return;
     if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return;
-    if ( isAbility( target, 'ミラーアーマー' ) ) {
+    if ( target.ability.isName( 'ミラーアーマー' )) {
       changeTargetRank( target, pokemon, parameter, change );
       return;
     }
     // 個別のパラメーター
     if ( parameter === 'attack' ) {
-      if ( isAbility( target, 'かいりきバサミ' ) ) return;
+      if ( target.ability.isName( 'かいりきバサミ' ) ) return;
     }
     if ( parameter === 'defense' ) {
-      if ( isAbility( target, 'はとむね' ) ) return;
+      if ( target.ability.isName( 'はとむね' ) ) return;
     }
     if ( parameter === 'accuracy' ) {
-      if ( isAbility( target, 'するどいめ' ) ) return;
+      if ( target.ability.isName( 'するどいめ' ) ) return;
     }
   }
 
   // ランク変化
-  target.rank[parameter] += value;
+  target.rank[parameter].add( value );
 
   // メッセージ
   if ( value >= 3 )   writeLog( `${getArticle( target )}の ${parameterJP}が ぐぐーんと上がった!` );
@@ -60,10 +60,10 @@ function changeTargetRank( pokemon: Pokemon, target: Pokemon, parameter: string,
 
   // まけんき・かちき
   if ( value < 0 ) {
-    if ( isAbility( target, 'まけんき' ) === true ) {
+    if ( target.ability.isName( 'まけんき' ) ) {
       changeMyRank( target, 'attack', 2 );
     }
-    if ( isAbility( target, 'かちき' ) === true ) {
+    if ( target.ability.isName( 'かちき' ) ) {
       changeMyRank( target, 'specialAttack', 2 );
     }
   }
@@ -81,7 +81,7 @@ function changeMyRank( pokemon: Pokemon, parameter: string, change: number ): vo
   }
 
   // ランク変化
-  pokemon.rank[parameter] += value;
+  pokemon.rank[parameter].add( value );
 
   // メッセージ
   if ( value >= 3 )   writeLog( `${getArticle( pokemon )}の ${parameterJP}が ぐぐーんと上がった!` );
@@ -104,7 +104,7 @@ function changeMyRankByItem( pokemon: Pokemon, parameter: string, change: number
   }
 
   // ランク変化
-  pokemon.rank[parameter] += value;
+  pokemon.rank[parameter].add( value );
 
   // メッセージ
   if ( value >= 3 )   writeLog( `${getArticle( pokemon )}は ${item}で ${parameterJP}が ぐぐーんと上がった!` );
@@ -127,7 +127,7 @@ function changeMyRankByRage( pokemon: Pokemon, parameter: string, change: number
   if ( value === 0 ) return;
 
   // ランク変化
-  pokemon.rank[parameter] += value;
+  pokemon.rank[parameter].add( value );
 
   // メッセージ
   writeLog( `${pokemon}の いかりのボルテージが 上がっていく!` );
@@ -137,18 +137,18 @@ function getRankVariation( pokemon: Pokemon, parameter: string, value: number ):
 
   let result: number = value;
 
-  if ( isAbility( pokemon, 'たんじゅん' ) === true ) {
+  if ( pokemon.ability.isName( 'たんじゅん' ) ) {
     result = result * 2;
   }
-  if ( isAbility( pokemon, 'あまのじゃく' ) === true ) {
+  if ( pokemon.ability.isName( 'あまのじゃく' ) ) {
     result = 0 - result;
   }
 
   if ( result > 0 ) {
-    result = Math.min( result, 6 - pokemon.rank[parameter] )
+    result = Math.min( result, 6 - pokemon.rank[parameter].value )
   }
   if ( result < 0 ) {
-    result = -1 * Math.min( Math.abs( result ), 6 + pokemon.rank[parameter] )
+    result = -1 * Math.min( Math.abs( result ), 6 + pokemon.rank[parameter].value )
   }
 
   return result

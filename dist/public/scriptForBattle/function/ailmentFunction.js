@@ -4,28 +4,28 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
     if (ailment === null)
         return false;
     // すでに状態異常
-    if (target.status.statusAilment.name !== null)
+    if (!target.statusAilment.isHealth())
         return false;
     // しんぴのまもり
     if (fieldStatus.getSide(target.trainer).safeguard.isTrue === true) {
-        if (isAbility(pokemon, 'すりぬけ') === false || pokemon.trainer === target.trainer)
+        if (pokemon.ability.isName('すりぬけ') || pokemon.trainer === target.trainer)
             return false;
     }
     // ミストフィールド
-    if (fieldStatus.terrain.name === 'misty') {
+    if (fieldStatus.terrain.isMisty()) {
         if (isGrounded(target) === true)
             return false;
     }
     // 特性
-    if (isAbility(target, 'りんぷん') === true)
+    if (target.ability.isName('りんぷん'))
         return false;
-    if (isAbility(target, 'きよめのしお') === true)
+    if (target.ability.isName('きよめのしお'))
         return false;
-    if (isAbility(target, 'ぜったいねむり') === true)
+    if (target.ability.isName('ぜったいねむり'))
         return false;
-    if (isAbility(target, 'リーフガード') === true && isWeather(target, 'HarshSunlight'))
+    if (target.ability.isName('リーフガード') && fieldStatus.weather.isSunny(target))
         return false;
-    if (isAbility(target, 'リミットシールド') === true && target.status.name === 'メテノ(流星)')
+    if (target.ability.isName('リミットシールド') && target.name === 'メテノ(流星)')
         return false;
     if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('GRASS'))
         return false;
@@ -37,21 +37,21 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
     if (ailment === 'FROZEN') {
         if (getPokemonType(target).includes('ICE'))
             return false;
-        if (isWeather(target, 'HarshSunlight'))
+        if (fieldStatus.weather.isSunny(target))
             return false;
-        if (isAbility(target, 'マグマのよろい'))
+        if (target.ability.isName('マグマのよろい'))
             return false;
     }
     if (ailment === 'BURNED') {
         if (getPokemonType(target).includes('FIRE'))
             return false;
-        if (isAbility(target, 'みずのベール'))
+        if (target.ability.isName('みずのベール'))
             return false;
-        if (isAbility(target, 'すいほう'))
+        if (target.ability.isName('すいほう'))
             return false;
     }
     if (ailment === 'POISONED') {
-        if (isAbility(target, 'めんえき'))
+        if (target.ability.isName('めんえき'))
             return false;
         if (isExistAbilityOneSide(target.trainer, 'パステルベール'))
             return false;
@@ -61,13 +61,13 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
             return false;
     }
     if (ailment === 'ASLEEP') {
-        if (isAbility(target, 'やるき'))
+        if (target.ability.isName('やるき'))
             return false;
-        if (isAbility(target, 'ふみん'))
+        if (target.ability.isName('ふみん'))
             return false;
         if (isExistAbilityOneSide(target.trainer, 'スイートベール'))
             return false;
-        if (fieldStatus.terrain.name === 'electric' && isGrounded(target))
+        if (fieldStatus.terrain.isElectric() && isGrounded(target))
             return false;
         for (const _pokemon of allPokemonInBattlefield()) {
             if (_pokemon.stateChange.uproar.isTrue === true)
@@ -75,9 +75,9 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
         }
     }
     // 状態異常になる
-    target.status.statusAilment.name = ailment;
+    // target.statusAilment.name = ailment;
     // シンクロ用
-    if (isAbility(target, 'シンクロ') === true) {
+    if (target.ability.isName('シンクロ')) {
         target.stateChange.synchronize.isTrue = true;
         target.stateChange.synchronize.text = ailment;
     }
@@ -111,39 +111,39 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
 // くちばしキャノンによるやけど
 function giveAilmentByBeakBlast(pokemon, target) {
     // すでに状態異常
-    if (target.status.statusAilment.name !== null)
+    if (!target.statusAilment.isHealth())
         return;
     // しんぴのまもり
     if (fieldStatus.getSide(target.trainer).safeguard.isTrue === true) {
-        if (isAbility(pokemon, 'すりぬけ') === false || pokemon.trainer === target.trainer)
+        if (!pokemon.ability.isName('すりぬけ') || pokemon.trainer === target.trainer)
             return;
     }
     // ミストフィールド
-    if (fieldStatus.terrain.name === 'misty') {
+    if (fieldStatus.terrain.isMisty()) {
         if (isGrounded(target) === true)
             return;
     }
     // 特性
-    if (isAbility(target, 'りんぷん') === true)
+    if (target.ability.isName('りんぷん'))
         return;
-    if (isAbility(target, 'きよめのしお') === true)
+    if (target.ability.isName('きよめのしお'))
         return;
-    if (isAbility(target, 'ぜったいねむり') === true)
+    if (target.ability.isName('ぜったいねむり'))
         return;
-    if (isAbility(target, 'リーフガード') === true && isWeather(target, 'HarshSunlight'))
+    if (target.ability.isName('リーフガード') && fieldStatus.weather.isSunny(target))
         return;
-    if (isAbility(target, 'リミットシールド') === true && target.status.name === 'メテノ(流星)')
+    if (target.ability.isName('リミットシールド') && target.name === 'メテノ(流星)')
         return;
     if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('GRASS'))
         return;
     if (getPokemonType(target).includes('FIRE'))
         return;
-    if (isAbility(target, 'みずのベール'))
+    if (target.ability.isName('みずのベール'))
         return;
-    if (isAbility(target, 'すいほう'))
+    if (target.ability.isName('すいほう'))
         return;
     // 状態異常になる
-    target.status.statusAilment.name = 'BURNED';
+    target.statusAilment.getBurned();
     // メッセージ
     writeLog(`${getArticle(target)}は やけどを 負った!`);
 }
@@ -155,27 +155,27 @@ function giveConfuse(pokemon, target, type) {
     if (type === 'additional') {
         // しんぴのまもり
         if (fieldStatus.getSide(target.trainer).safeguard.isTrue === true) {
-            if (isAbility(pokemon, 'すりぬけ') === false || pokemon.trainer === target.trainer)
+            if (!pokemon.ability.isName('すりぬけ') || pokemon.trainer === target.trainer)
                 return;
         }
         // ミストフィールド
-        if (fieldStatus.terrain.name === 'misty') {
+        if (fieldStatus.terrain.isMisty()) {
             if (isGrounded(target) === true)
                 return;
         }
         // 特性
-        if (isAbility(target, 'マイペース'))
+        if (target.ability.isName('マイペース'))
             return;
     }
     // アイテムによる
     if (type === 'item') {
         // ミストフィールド
-        if (fieldStatus.terrain.name === 'misty') {
+        if (fieldStatus.terrain.isMisty()) {
             if (isGrounded(target) === true)
                 return;
         }
         // 特性
-        if (isAbility(target, 'マイペース'))
+        if (target.ability.isName('マイペース'))
             return;
     }
     // こんらん状態になる
@@ -188,35 +188,35 @@ function giveConfuse(pokemon, target, type) {
 function giveConfuseByItem(pokemon, item) {
     if (item === 'フィラのみ') {
         for (const nature of natureData) {
-            if (nature.name === pokemon.status.nature && nature.minus === 'attack') {
+            if (nature.name === pokemon.nature && nature.minus === 'attack') {
                 giveConfuse(pokemon, pokemon, 'item');
             }
         }
     }
     if (item === 'ウイのみ') {
         for (const nature of natureData) {
-            if (nature.name === pokemon.status.nature && nature.minus === 'specialAttack') {
+            if (nature.name === pokemon.nature && nature.minus === 'specialAttack') {
                 giveConfuse(pokemon, pokemon, 'item');
             }
         }
     }
     if (item === 'マゴのみ') {
         for (const nature of natureData) {
-            if (nature.name === pokemon.status.nature && nature.minus === 'speed') {
+            if (nature.name === pokemon.nature && nature.minus === 'speed') {
                 giveConfuse(pokemon, pokemon, 'item');
             }
         }
     }
     if (item === 'バンジのみ') {
         for (const nature of natureData) {
-            if (nature.name === pokemon.status.nature && nature.minus === 'specialDefense') {
+            if (nature.name === pokemon.nature && nature.minus === 'specialDefense') {
                 giveConfuse(pokemon, pokemon, 'item');
             }
         }
     }
     if (item === 'イアのみ') {
         for (const nature of natureData) {
-            if (nature.name === pokemon.status.nature && nature.minus === 'defense') {
+            if (nature.name === pokemon.nature && nature.minus === 'defense') {
                 giveConfuse(pokemon, pokemon, 'item');
             }
         }
@@ -234,18 +234,17 @@ function cureConfuseByItem(pokemon, item) {
 // きのみによる回復
 function cureAilmentByItem(pokemon, ailment, item) {
     if (item === 'ラムのみ') {
-        if (pokemon.status.statusAilment.name === null) {
+        if (pokemon.statusAilment.isHealth()) {
             return;
         }
     }
     else {
-        if (ailment !== pokemon.status.statusAilment.name) {
-            return;
-        }
+        //if ( ailment !== pokemon.statusAilment.name ) {
+        //return;
+        //}
     }
     // 状態異常回復
-    pokemon.status.statusAilment.name = null;
-    pokemon.status.statusAilment.turn = 0;
+    pokemon.statusAilment.getHealth();
     // メッセージ
     if (ailment === 'PARALYSIS') {
         writeLog(`${getArticle(pokemon)}は ${item}で まひが 治った!`);
@@ -268,11 +267,9 @@ function cureAilmentByItem(pokemon, ailment, item) {
     }
 }
 function cureAilment(pokemon, ailment) {
-    if (pokemon.status.statusAilment.name !== ailment)
-        return;
+    // if ( pokemon.statusAilment.name !== ailment ) return;
     // 状態異常回復
-    pokemon.status.statusAilment.name = null;
-    pokemon.status.statusAilment.turn = 0;
+    pokemon.statusAilment.getHealth();
     // メッセージ
     if (ailment === 'PARALYSIS') {
         writeLog(`${getArticle(pokemon)}は まひが 治った!`);

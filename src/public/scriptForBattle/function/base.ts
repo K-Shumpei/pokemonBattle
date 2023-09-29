@@ -1,7 +1,7 @@
 // 持ち物
 function isItem( pokemon: Pokemon, item: string ): boolean {
 
-  if ( pokemon.status.item !== item ) {
+  if ( pokemon.item !== item ) {
     return false;
   }
 
@@ -9,27 +9,19 @@ function isItem( pokemon: Pokemon, item: string ): boolean {
 }
 
 // 特性
+/*
 function isAbility( pokemon: Pokemon, ability: string ): boolean {
 
-  if ( pokemon.status.remainingHP === 0 ) {
+  if ( pokemon.hitPoint.isEmpty() ) {
     return false;
   }
-  if ( pokemon.status.ability === ability ) {
+  if ( pokemon.ability === ability ) {
     return false;
   }
 
   return true;
 }
-
-// 状態異常
-function isStatusAilment( pokemon: Pokemon, statusAilment: StatusAilmentText ): boolean {
-
-  if ( pokemon.status.statusAilment.name === statusAilment ) {
-    return true;
-  }
-
-  return false;
-}
+*/
 
 // ランク補正
 function getValueWithRankCorrection( actualValue: number, rank: number, critical: boolean ): number {
@@ -50,24 +42,6 @@ function getValueWithRankCorrection( actualValue: number, rank: number, critical
   return Math.floor( actualValue * rankCorr );
 }
 
-// 天気
-function isWeather( pokemon: Pokemon, weather: WeatherText, strong?: boolean ): boolean {
-
-  if ( isExistAbility( 'エアロック' ) !== false ) return false;
-  if ( isExistAbility( 'ノーてんき' ) !== false ) return false;
-
-  if ( isItem( pokemon, 'ばんのうがさ' ) === true ) {
-    if ( weather === 'Rain' ) return false;
-    if ( weather === 'HarshSunlight' ) return false;
-  }
-
-  if ( fieldStatus.weather.name === weather && fieldStatus.weather.strong === strong ) {
-    return true;
-  }
-
-  return false;
-}
-
 
 // 接地判定
 function isGrounded( pokemon: Pokemon ): boolean {
@@ -78,7 +52,7 @@ function isGrounded( pokemon: Pokemon ): boolean {
   if ( isItem( pokemon, 'くろいてっきゅう' ) === true ) return true;
 
   if ( getPokemonType( pokemon ).includes( 'FLYING' ) ) return false;
-  if ( isAbility( pokemon, 'ふゆう' ) === true ) return false;
+  if ( pokemon.ability.isName( 'ふゆう' ) ) return false;
   if ( isItem( pokemon, 'ふうせん' ) === true ) return false;
   if ( pokemon.stateChange.magnetRise.isTrue === true ) return false;
   if ( pokemon.stateChange.telekinesis.isTrue === true ) return false;
@@ -105,11 +79,11 @@ function getPokemonType( pokemon: Pokemon ): PokemonType[] {
 
   let result: PokemonType[] = [];
 
-  if ( pokemon.status.type1 !== null ) {
-    result.push( pokemon.status.type1 );
+  if ( pokemon.type1 !== null ) {
+    result.push( pokemon.type1 );
   }
-  if ( pokemon.status.type2 !== null ) {
-    result.push( pokemon.status.type2 );
+  if ( pokemon.type2 !== null ) {
+    result.push( pokemon.type2 );
   }
 
   if ( result.length === 0 ) {
@@ -123,7 +97,7 @@ function getPokemonType( pokemon: Pokemon ): PokemonType[] {
 function isExistAbility( ability: string ): Pokemon | false {
 
   for ( const pokemon of allPokemonInBattlefield() ) {
-    if ( isAbility( pokemon, ability ) === true ) {
+    if ( pokemon.ability.isName( ability ) ) {
       return pokemon;
     }
   }
@@ -134,7 +108,7 @@ function isExistAbility( ability: string ): Pokemon | false {
  function isExistAbilityOneSide( trainer: 'me' | 'opp' , ability: string ): Pokemon | false {
 
   for ( const pokemon of allPokemonInSide( trainer ) ) {
-    if ( isAbility( pokemon, ability ) === true ) {
+    if ( pokemon.ability.isName( ability ) ) {
       return pokemon;
     }
   }
@@ -154,7 +128,7 @@ function isSubstitute( pokemon: Pokemon, target: Pokemon ): boolean {
     if ( pokemon.selectedMove.target === '味方の場' ) return false;
   }
   if ( isSame( pokemon, target ) ) return false;
-  if ( isAbility( pokemon, 'すりぬけ' ) === true ) {
+  if ( pokemon.ability.isName( 'すりぬけ' ) ) {
     if ( pokemon.selectedMove.name === 'へんしん' || pokemon.selectedMove.name === 'フリーフォール' ) {
       ;
     } else {
@@ -189,7 +163,7 @@ function isDirect( pokemon: Pokemon ): boolean {
   if ( pokemon.selectedMove.flag.contact === false ) {
     return false;
   }
-  if ( isAbility( pokemon, 'えんかく' ) === true ) {
+  if ( pokemon.ability.isName( 'えんかく' ) ) {
     return false;
   }
   return true;
@@ -198,10 +172,10 @@ function isDirect( pokemon: Pokemon ): boolean {
 // リサイクル
 function recycleAvailable( pokemon: Pokemon ): void {
 
-  if ( pokemon.status.item === null ) return;
+  if ( pokemon.item === null ) return;
 
-  const item = pokemon.status.item;
-  pokemon.status.item = null;
+  const item = pokemon.item;
+  pokemon.item = null;
 
   if ( pokemon.stateChange.recycle.isTrue === true ) return;
 
@@ -217,7 +191,7 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
 
   if ( berry === null ) return;
 
-  const ripen: number = ( isAbility( pokemon, 'じゅくせい' ) )? 2 : 1;
+  const ripen: number = ( pokemon.ability.isName( 'じゅくせい' ) )? 2 : 1;
 
   if ( berry === 'クラボのみ' ) {
     cureAilmentByItem( pokemon, 'PARALYSIS', berry );
@@ -374,12 +348,12 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
 // メロメロ
 function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void {
 
-  if ( pokemon.status.gender === 'genderless' ) return;
-  if ( target.status.gender === 'genderless' ) return;
-  if ( pokemon.status.gender === target.status.gender ) return;
+  if ( pokemon.gender === 'genderless' ) return;
+  if ( target.gender === 'genderless' ) return;
+  if ( pokemon.gender === target.gender ) return;
   if ( pokemon.trainer === target.trainer ) return;
   if ( target.stateChange.attract.isTrue === true ) return;
-  if ( isAbility( target, 'どんかん' ) === true ) return;
+  if ( pokemon.ability.isName( 'どんかん' ) ) return;
   if ( isExistAbilityOneSide( target.trainer, 'アロマベール' ) !== false ) return;
 
   // メロメロ状態にする
@@ -390,7 +364,7 @@ function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void 
 
   // メッセージ
   // if ( type === 'メロメロ' )
-  if ( type === 'メロメロボディ' ) pokemon.status.declareAbility();
+  // if ( type === 'メロメロボディ' ) pokemon.declareAbility();
   // if ( type === 'あかいいと' )
   // if ( type === 'キョダイホーヨー' )
 
@@ -401,126 +375,6 @@ function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void 
   }
 }
 
-// 天気変化
-function changeWeather( pokemon: Pokemon, weather: WeatherText, strong: boolean ): void {
-
-  if ( isChangableWeather( weather ) === false ) return;
-
-  fieldStatus.weather.reset();
-  fieldStatus.weather.name = weather;
-  fieldStatus.weather.strong = strong;
-
-  if ( weather === 'Turbulence' ) {
-    writeLog( `謎の乱気流が ひこうポケモンを 護る!` );
-  }
-
-  if ( weather === 'Rain' ) {
-    if ( isItem( pokemon, 'しめったいわ' ) === true ) {
-      fieldStatus.weather.turn = 8;
-      fieldStatus.weather.extend = true;
-    } else {
-      fieldStatus.weather.turn = 5;
-      fieldStatus.weather.extend = false;
-    }
-
-    if ( strong === true ) {
-      writeLog( `強い雨が 降り始めた!` );
-    } else {
-      writeLog( `雨が 降り始めた!` );
-    }
-  }
-
-  if ( weather === 'HarshSunlight' ) {
-    if ( isItem( pokemon, 'あついいわ' ) === true ) {
-      fieldStatus.weather.turn = 8;
-      fieldStatus.weather.extend = true;
-    } else {
-      fieldStatus.weather.turn = 5;
-      fieldStatus.weather.extend = false;
-    }
-
-    if ( strong === true ) {
-      writeLog( `日差しが とても強くなった!` );
-    } else {
-      writeLog( `日差しが 強くなった!` );
-    }
-  }
-
-  if ( weather === 'Sandstorm' ) {
-    if ( isItem( pokemon, 'さらさらいわ' ) === true ) {
-      fieldStatus.weather.turn = 8;
-      fieldStatus.weather.extend = true;
-    } else {
-      fieldStatus.weather.turn = 5;
-      fieldStatus.weather.extend = false;
-    }
-    writeLog( `砂あらしが 吹き始めた!` );
-  }
-
-  if ( weather === 'Hail' ) {
-    if ( isItem( pokemon, 'つめたいいわ' ) === true ) {
-      fieldStatus.weather.turn = 8;
-      fieldStatus.weather.extend = true;
-    } else {
-      fieldStatus.weather.turn = 5;
-      fieldStatus.weather.extend = false;
-    }
-    writeLog( `雪が 降り始めた!` );
-  }
-}
-
-function isChangableWeather( weather: WeatherText ): boolean {
-
-  if ( fieldStatus.weather.name === weather ) return false;
-
-  if ( fieldStatus.weather.strong === true ) {
-    if ( weather === 'Rain' ) return false;
-    if ( weather === 'HarshSunlight' ) return false;
-    if ( weather === 'Sandstorm' ) return false;
-    if ( weather === 'Hail' ) return false;
-  }
-
-  return true;
-}
-
-// フィールド変化
-function changeTerrain( pokemon: Pokemon, terrain: TerrainText ): void {
-
-  if ( isChangableTerrain( terrain ) === false ) return;
-
-  fieldStatus.terrain.reset();
-  fieldStatus.terrain.name = terrain;
-  if ( isItem( pokemon, 'グランドコート' ) === true ) {
-    fieldStatus.terrain.turn = 8;
-    fieldStatus.terrain.extend = true;
-  } else {
-    fieldStatus.terrain.turn = 5;
-    fieldStatus.terrain.extend = false;
-  }
-
-  if ( terrain === 'electric' ) writeLog( `足下に 電気が かけめぐる!` );
-  if ( terrain === 'grassy' ) writeLog( `足下に 草がおいしげった!` );
-  if ( terrain === 'psychic' ) writeLog( `足下が 不思議な感じに なった!` );
-  if ( terrain === 'misty' ) writeLog( `足下に 霧が立ち込めた!` );
-
-}
-
-function isChangableTerrain( terrain: TerrainText ): boolean {
-
-  if ( fieldStatus.terrain.name === terrain ) return false;
-
-  return true;
-}
-
-function vanishTerrian(): void {
-
-  if ( fieldStatus.terrain.name === 'electric' ) writeLog( `足下の 電気が 消え去った!` );
-  if ( fieldStatus.terrain.name === 'grassy' ) writeLog( `足下の 電気が 消え去った!` );
-  if ( fieldStatus.terrain.name === 'psychic' ) writeLog( `足下の 電気が 消え去った!` );
-  if ( fieldStatus.terrain.name === 'misty') writeLog( `足下の 電気が 消え去った!` );
-
-  fieldStatus.terrain.reset();
-}
 
 // フォルムチェンジ
 function formChange( pokemon: Pokemon ): void {
@@ -528,31 +382,29 @@ function formChange( pokemon: Pokemon ): void {
   let nextFrom: string = ''
 
   for ( const form of formChangeTable ) {
-    if ( form.name === pokemon.status.name ) {
+    if ( form.name === pokemon.name ) {
       nextFrom = form.next;
     }
   }
 
-  if ( pokemon.status.name === 'ウッウ' ) {
-    if ( pokemon.status.remainingHP > pokemon.actualValue.hitPoint / 2 ) nextFrom = 'ウッウ(鵜呑み)';
+  if ( pokemon.name === 'ウッウ' ) {
+    if ( pokemon.hitPoint.isGreaterThan( 2 ) ) nextFrom = 'ウッウ(鵜呑み)';
     else nextFrom = 'ウッウ(丸呑み)'
   }
 
   const nextPokemon: PokemonData = getPokemonDataByName( nextFrom );
-  const nature: NatureDataType = getNatureDataByName( pokemon.status.nature );
+  const nature: NatureDataType = getNatureDataByName( pokemon.nature );
 
   // 基本ステータスの更新
-  pokemon.status.id = nextPokemon.id;
-  pokemon.status.order = nextPokemon.order;
-  pokemon.status.index = nextPokemon.index;
-  pokemon.status.name = nextPokemon.nameEN;
-  pokemon.status.type1 = nextPokemon.type[0];
-  if ( nextPokemon.type.length === 2 ) pokemon.status.type2 = nextPokemon.type[1];
-  pokemon.status.ability = nextPokemon.ability[0];
-  pokemon.status.height = nextPokemon.height;
-  pokemon.status.weight = nextPokemon.weight;
-
-  pokemon.statusOrg = pokemon.status
+  pokemon.id.id = nextPokemon.id;
+  pokemon.id.order = nextPokemon.order;
+  pokemon.id.index = nextPokemon.index;
+  pokemon.name = nextPokemon.nameEN;
+  pokemon.type1 = nextPokemon.type[0];
+  if ( nextPokemon.type.length === 2 ) pokemon.type2 = nextPokemon.type[1];
+  pokemon.ability.setName( nextPokemon.ability[0] );
+  pokemon.height = nextPokemon.height;
+  pokemon.weight = nextPokemon.weight;
 
   // 実数値の更新
   for ( const parameter of Object.keys( parameterFive ) ) {
@@ -563,7 +415,7 @@ function formChange( pokemon: Pokemon ): void {
 
     // 実数値計算
     const step1: number = baseStatus * 2 + individualValue + Math.floor( effortValue / 4 );
-    const step2: number = step1 * pokemon.status.level;
+    const step2: number = step1 * pokemon.level;
     const step3: number = Math.floor( step2 / 100 );
 
     // 性格補正
@@ -667,12 +519,12 @@ function toBattleField( pokemon: Pokemon, battle: number ): void {
   pokemon.order.hand = 0;
 
   if ( pokemon.trainer === 'me' ) {
-    getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.index + '.png';
+    getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id.index + '.png';
   } else {
-    getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.index + '.png';
+    getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id.index + '.png';
   }
 
-  writeLog( `${translateENintoJP( pokemon.trainer )}は ${pokemon.status.name}を くりだした!` );
+  writeLog( `${translateENintoJP( pokemon.trainer )}は ${pokemon.name}を くりだした!` );
 }
 
 // 手持ちに戻る
@@ -689,28 +541,27 @@ function toReserve( pokemon: Pokemon ): void {
   }
 
   // ひんし処理
-  if ( pokemon.status.remainingHP === 0 ) {
+  if ( pokemon.hitPoint.isEmpty() ) {
     writeLog( `${getArticle( pokemon )}は たおれた!` );
   }
 
   naturalCure:
-  if ( isAbility( pokemon, 'しぜんかいふく' ) === true ) {
-    pokemon.status.statusAilment.name = null;
-    pokemon.status.statusAilment.turn = 0;
+  if ( pokemon.ability.isName( 'しぜんかいふく' ) ) {
+    pokemon.statusAilment.getHealth();
   }
 
   regenerator:
-  if ( isAbility( pokemon, 'さいせいりょく' ) === true ) {
+  if ( pokemon.ability.isName( 'さいせいりょく' ) ) {
     const value: number = Math.floor( pokemon.actualValue.hitPoint / 3 );
-    pokemon.status.remainingHP = Math.min( pokemon.status.remainingHP + value, pokemon.actualValue.hitPoint );
+    pokemon.hitPoint.add( value );
   }
 
 
   // 情報のリセット
-  pokemon.status.ability = pokemon.statusOrg.ability;
-  pokemon.status.type1 = pokemon.statusOrg.type1;
-  pokemon.status.type2 = pokemon.statusOrg.type2;
-  pokemon.command = new Command;
+  // pokemon.ability = pokemon.statusOrg.ability;
+  // pokemon.type1 = pokemon.statusOrg.type1;
+  // pokemon.type2 = pokemon.statusOrg.type2;
+  // pokemon.command = new Command;
   // pokemon.damage = [];
   // pokemon.moveUsed = new AvailableMove;
   pokemon.rank = new ParameterRank;
@@ -719,21 +570,20 @@ function toReserve( pokemon: Pokemon ): void {
 // きのみを食べるかどうか
 function isEnableEatBerry( pokemon: Pokemon ): boolean {
 
-  const berry = pokemon.status.item;
-  const ailment = pokemon.status.statusAilment.name;
+  const berry = pokemon.item;
   const confuse = pokemon.stateChange.confuse.isTrue;
   const hitPoint = pokemon.actualValue.hitPoint;
-  const remaining = pokemon.status.remainingHP;
-  const gluttony = ( isAbility( pokemon, 'くいしんぼう' ) === true )? 2 : 1;
+  const remaining = pokemon.hitPoint.pre;
+  const gluttony = ( pokemon.ability.isName( 'くいしんぼう' ) )? 2 : 1;
 
   if ( berry === null ) return false;
   if ( isItem( pokemon, berry ) === false ) return false;
 
-  if ( berry === 'クラボのみ' && ailment === 'PARALYSIS' ) return true;
-  if ( berry === 'カゴのみ' && ailment === 'ASLEEP' ) return true;
-  if ( berry === 'モモンのみ' && ailment === 'POISONED' ) return true;
-  if ( berry === 'チーゴのみ' && ailment === 'BURNED' ) return true;
-  if ( berry === 'ナナシのみ' && ailment === 'FROZEN' ) return true;
+  if ( berry === 'クラボのみ' && pokemon.statusAilment.isParalysis() ) return true;
+  if ( berry === 'カゴのみ' && pokemon.statusAilment.isAsleep() ) return true;
+  if ( berry === 'モモンのみ' && pokemon.statusAilment.isPoisoned() ) return true;
+  if ( berry === 'チーゴのみ' && pokemon.statusAilment.isBurned() ) return true;
+  if ( berry === 'ナナシのみ' && pokemon.statusAilment.isFrozen() ) return true;
   if ( berry === 'ヒメリのみ' ) {
     for ( const move of pokemon.learnedMove ) {
       if ( move.remainingPP < move.powerPoint ) return true;
@@ -741,7 +591,7 @@ function isEnableEatBerry( pokemon: Pokemon ): boolean {
   }
   if ( berry === 'オレンのみ' && remaining <= hitPoint / 2 ) return true;
   if ( berry === 'キーのみ' && confuse === true ) return true;
-  if ( berry === 'ラムのみ' && ailment !== null ) return true;
+  if ( berry === 'ラムのみ' && !pokemon.statusAilment.isHealth() ) return true;
   if ( berry === 'ラムのみ' && confuse === true ) return true;
   if ( berry === 'オボンのみ' && remaining <= hitPoint / 2 ) return true;
   if ( berry === 'フィラのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
@@ -766,7 +616,7 @@ function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number 
 
   let rate: number = moveRate;
 
-  if ( isAbility( pokemon, 'てんのめぐみ' ) ) {
+  if ( pokemon.ability.isName( 'てんのめぐみ' ) ) {
     rate = rate * 2;
   }
   if ( fieldStatus.getSide( pokemon.trainer ).rainbow.isTrue === true ) {
@@ -788,9 +638,9 @@ function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number 
 function isValidToTargetAdditionalEffect( pokemon: Pokemon, target: Pokemon, damage: Damage ): boolean {
 
   if ( pokemon.stateChange.sheerForce.isTrue === true ) return false;
-  if ( target.status.remainingHP === 0 ) return false;
+  if ( target.hitPoint.isEmpty() ) return false;
   if ( damage.substitute === true ) return false ;
-  if ( isAbility( target, 'りんぷん' ) ) return false;
+  if ( target.ability.isName( 'りんぷん' ) ) return false;
   if ( isItem( target, 'おんみつマント' ) ) return false;
 
   return true;
@@ -819,9 +669,9 @@ function giveCannotEscape( pokemon: Pokemon, target: Pokemon, move: string ): vo
 
 function isReleasableItem( pokemon: Pokemon, target: Pokemon ): boolean {
 
-  const atkName: string = pokemon.status.name;
-  const defName: string = target.status.name;
-  const item: string | null = target.status.item;
+  const atkName: string = pokemon.name;
+  const defName: string = target.name;
+  const item: string | null = target.item;
 
   if ( item === null ) return false;
 
@@ -878,12 +728,12 @@ function isReleasableItem( pokemon: Pokemon, target: Pokemon ): boolean {
       return false;
     }
   }
-  if ( pokemon.status.ability === 'こだいかっせい' || target.status.ability === 'こだいかっせい' ) {
+  if ( pokemon.ability.isName( 'こだいかっせい' ) || target.ability.isName( 'こだいかっせい' ) ) {
     if ( item === 'ブーストエナジー' ) {
       return false;
     }
   }
-  if ( pokemon.status.ability === 'クォークチャージ' || target.status.ability === 'クォークチャージ' ) {
+  if ( pokemon.ability.isName( 'クォークチャージ' ) || target.ability.isName( 'クォークチャージ' ) ) {
     if ( item === 'ブーストエナジー' ) {
       return false;
     }
@@ -912,7 +762,7 @@ function activateSeed( pokemon: Pokemon ): void {
 
   for ( const seed of seedTable ) {
     if ( isItem( pokemon, seed.item ) === false ) continue;
-    if ( fieldStatus.terrain.name !== seed.terrain ) continue;
+    //if ( fieldStatus.terrain.name !== seed.terrain ) continue;
     if ( getRankVariation( pokemon, seed.parameter, 1 ) === 0 ) continue;
 
     changeMyRankByItem( pokemon, seed.parameter, 1, seed.item );
@@ -937,13 +787,13 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
 
   result = Math.max( result, 1 );
   result = result % 65536;
-  result = Math.min( result, target.status.remainingHP );
+  result = Math.min( result, target.hitPoint.pre );
 
   if ( damage.substitute === true ) {
     result = Math.min( result, target.stateChange.substitute.count );
   }
 
-  if ( damage.substitute === false && result === target.status.remainingHP ) {
+  if ( damage.substitute === false && result === target.hitPoint.pre ) {
     if ( target.stateChange.endure.isTrue === true ) {
       result -= 1;
       target.stateChange.endureMsg.isTrue === true;
@@ -956,8 +806,8 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       target.stateChange.endureMsg.text === pokemon.selectedMove.name;
       return result;
     }
-    if ( isAbility( target, 'がんじょう' ) === true ) {
-      if ( target.status.remainingHP === target.actualValue.hitPoint ) {
+    if ( pokemon.ability.isName( 'がんじょう' ) ) {
+      if ( target.hitPoint.pre === target.actualValue.hitPoint ) {
         result -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'がんじょう';
@@ -965,7 +815,7 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       }
     }
     if ( isItem( target, 'きあいのタスキ' ) === true ) {
-      if ( target.status.remainingHP === target.actualValue.hitPoint ) {
+      if ( target.hitPoint.pre === target.actualValue.hitPoint ) {
         result -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'きあいのタスキ';
@@ -1003,14 +853,14 @@ function activateSkin( pokemon: Pokemon, type: PokemonType ): void {
 
 function isWeight( pokemon: Pokemon ): number {
 
-  let weight: number = pokemon.status.weight;
+  let weight: number = pokemon.weight;
 
   // ボディパージ
 
-  if ( isAbility( pokemon, 'ライトメタル' ) === true ) {
+  if ( pokemon.ability.isName( 'ライトメタル' ) ) {
     weight = weight / 2;
   }
-  if ( isAbility( pokemon, 'ヘヴィメタル' ) === true ) {
+  if ( pokemon.ability.isName( 'ヘヴィメタル' ) ) {
     weight = weight * 2;
   }
   if ( isItem( pokemon, 'かるいし' ) === true ) {

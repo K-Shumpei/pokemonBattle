@@ -540,35 +540,20 @@ function registerParty( number: number ): void {
   myAllParty[number].order.hand = number;
 
   // 基本ステータス
-  myAllParty[number].statusOrg.id = pokemon.id;
-  myAllParty[number].statusOrg.order = pokemon.order;
-  myAllParty[number].statusOrg.index = pokemon.index;
-  myAllParty[number].statusOrg.name = pokemon.nameEN;
-  myAllParty[number].statusOrg.type1 = translateTypeIntoEnglish( type1HTML.value );
-  myAllParty[number].statusOrg.type2 = translateTypeIntoEnglish( type2HTML.value );
-  myAllParty[number].statusOrg.gender = getGenderType( genderHTML.value );
-  myAllParty[number].statusOrg.ability = translateAbility( abilityHTML.value );
-  myAllParty[number].statusOrg.level = Number( levelHTML.value );
-  myAllParty[number].statusOrg.item = itemHTML.value;
-  myAllParty[number].statusOrg.nature = getNatureType( natureHTML.value );
-  myAllParty[number].statusOrg.height = pokemon.height;
-  myAllParty[number].statusOrg.weight = pokemon.weight;
-  myAllParty[number].statusOrg.remainingHP = Number( actualValue_hitPoint.value );
-
-  myAllParty[number].status.id = myAllParty[number].statusOrg.id;
-  myAllParty[number].status.order = myAllParty[number].statusOrg.order;
-  myAllParty[number].status.index = myAllParty[number].statusOrg.index;
-  myAllParty[number].status.name = myAllParty[number].statusOrg.name;
-  myAllParty[number].status.type1 = myAllParty[number].statusOrg.type1;
-  myAllParty[number].status.type2 = myAllParty[number].statusOrg.type2;
-  myAllParty[number].status.gender = myAllParty[number].statusOrg.gender;
-  myAllParty[number].status.ability = myAllParty[number].statusOrg.ability;
-  myAllParty[number].status.level = myAllParty[number].statusOrg.level;
-  myAllParty[number].status.item = myAllParty[number].statusOrg.item;
-  myAllParty[number].status.nature = myAllParty[number].statusOrg.nature;
-  myAllParty[number].status.height = myAllParty[number].statusOrg.height;
-  myAllParty[number].status.weight = myAllParty[number].statusOrg.weight;
-  myAllParty[number].status.remainingHP = myAllParty[number].statusOrg.remainingHP;
+  myAllParty[number].id.id = pokemon.id;
+  myAllParty[number].id.order = pokemon.order;
+  myAllParty[number].id.index = pokemon.index;
+  myAllParty[number].name = pokemon.nameEN;
+  myAllParty[number].type1 = translateTypeIntoEnglish( type1HTML.value );
+  myAllParty[number].type2 = translateTypeIntoEnglish( type2HTML.value );
+  myAllParty[number].gender = getGenderType( genderHTML.value );
+  myAllParty[number].ability.setOrg( translateAbility( abilityHTML.value ) );
+  myAllParty[number].level = Number( levelHTML.value );
+  myAllParty[number].item = itemHTML.value;
+  myAllParty[number].nature = getNatureType( natureHTML.value );
+  myAllParty[number].height = pokemon.height;
+  myAllParty[number].weight = pokemon.weight;
+  myAllParty[number].hitPoint.setMax( Number(actualValue_hitPoint.value) );
 
   // 実数値・種族値・個体値・努力値
   for ( const parameter of Object.keys( myAllParty[number].actualValue ) ) {
@@ -614,7 +599,7 @@ function registerParty( number: number ): void {
 // パーティ編集
 function editParty( number: number ): void {
 
-  if ( myAllParty[number].status.name === '' ) {
+  if ( myAllParty[number].name === '' ) {
     return;
   }
 
@@ -623,24 +608,24 @@ function editParty( number: number ): void {
   resetInputRegister();
 
   // 編集するポケモンの名前をセット
-  getHTMLInputElement( 'register_name' ).value = translatePokemonName(myAllParty[number].status.name);
+  getHTMLInputElement( 'register_name' ).value = translatePokemonName(myAllParty[number].name);
 
   // 基本ステータス表示
   registrationPokemon()
 
-  getHTMLInputElement( 'register_level' ).value = String( myAllParty[number].status.level );
-  getHTMLInputElement( 'register_gender' ).value = translateGender(myAllParty[number].status.gender);
-  getHTMLInputElement( 'register_type1' ).value = translateTypeIntoJapanese( myAllParty[number].status.type1 );
-  getHTMLInputElement( 'register_type1' ).textContent = translateTypeIntoJapanese( myAllParty[number].status.type1 );
-  getHTMLInputElement( 'register_type2' ).value = translateTypeIntoJapanese( myAllParty[number].status.type2 );
-  getHTMLInputElement( 'register_type2' ).textContent = translateTypeIntoJapanese( myAllParty[number].status.type2 );
-  getHTMLInputElement( 'register_ability' ).value = translateAbility(myAllParty[number].status.ability);
-  getHTMLInputElement( 'register_nature' ).value = myAllParty[number].status.nature;
+  getHTMLInputElement( 'register_level' ).value = String( myAllParty[number].level );
+  getHTMLInputElement( 'register_gender' ).value = translateGender(myAllParty[number].gender);
+  getHTMLInputElement( 'register_type1' ).value = translateTypeIntoJapanese( myAllParty[number].type1 );
+  getHTMLInputElement( 'register_type1' ).textContent = translateTypeIntoJapanese( myAllParty[number].type1 );
+  getHTMLInputElement( 'register_type2' ).value = translateTypeIntoJapanese( myAllParty[number].type2 );
+  getHTMLInputElement( 'register_type2' ).textContent = translateTypeIntoJapanese( myAllParty[number].type2 );
+  getHTMLInputElement( 'register_ability' ).value = translateAbility( myAllParty[number].ability.getName() );
+  getHTMLInputElement( 'register_nature' ).value = myAllParty[number].nature;
 
-  if ( myAllParty[number].status.item === null ) {
+  if ( myAllParty[number].item === null ) {
     getHTMLInputElement( 'register_item' ).value = '';
   } else {
-    getHTMLInputElement( 'register_item' ).value = String( myAllParty[number].status.item );
+    getHTMLInputElement( 'register_item' ).value = String( myAllParty[number].item );
   }
 
   // 性格　ラジオボタン
@@ -683,17 +668,17 @@ function showPartyPokemon( pokemon: Pokemon ): void {
     return;
   }
 
-  getHTMLInputElement( 'party' + handOrder + '_name' ).textContent = translatePokemonName( pokemon.status.name );
-  getHTMLInputElement( 'party' + handOrder + '_gender' ).textContent = pokemon.status.gender;
-  getHTMLInputElement( 'party' + handOrder + '_level' ).textContent = String( pokemon.status.level );
-  getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = translateTypeIntoJapanese( pokemon.status.type1 );
-  getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = translateTypeIntoJapanese( pokemon.status.type2 );
-  getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = translateAbility( pokemon.status.ability );
-  getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( pokemon.status.remainingHP );
+  getHTMLInputElement( 'party' + handOrder + '_name' ).textContent = translatePokemonName( pokemon.name );
+  getHTMLInputElement( 'party' + handOrder + '_gender' ).textContent = pokemon.gender;
+  getHTMLInputElement( 'party' + handOrder + '_level' ).textContent = String( pokemon.level );
+  getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = translateTypeIntoJapanese( pokemon.type1 );
+  getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = translateTypeIntoJapanese( pokemon.type2 );
+  getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = translateAbility( pokemon.ability.getName() );
+  getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( pokemon.hitPoint.pre );
 
   let item: string = '持ち物なし';
-  if ( pokemon.status.item !== null ) {
-    item = pokemon.status.item;
+  if ( pokemon.item !== null ) {
+    item = pokemon.item;
   }
   getHTMLInputElement( 'party' + handOrder + '_item' ).textContent = item;
 
@@ -703,7 +688,7 @@ function showPartyPokemon( pokemon: Pokemon ): void {
   }
 
   // 実数値の性格による色
-  const nature = getNatureDataByName( pokemon.status.nature );
+  const nature = getNatureDataByName( pokemon.nature );
   if ( nature.plus !== nature.minus ) {
     getHTMLInputElement( 'party' + handOrder + '_' + nature.plus ).style.color = 'red';
     getHTMLInputElement( 'party' + handOrder + '_' + nature.minus ).style.color = 'blue';
@@ -719,7 +704,7 @@ function showPartyPokemon( pokemon: Pokemon ): void {
   }
 
   // パーティ画像
-  imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.status.id + '.png';
+  imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id.id + '.png';
 }
 
 
@@ -759,7 +744,7 @@ function resetPartyPokemon( number: number ): void {
   }
 
   // パーティ画像
-  if ( myAllParty[number].status.name !== '' ) {
+  if ( myAllParty[number].name !== '' ) {
     imageHTML.src = './image/pokeBall.png';
   }
 
@@ -872,10 +857,10 @@ function showCommand1stField(): void {
       getHTMLInputElement( 'moveRadio_' + i + '_' + j ).disabled = false;
     }
     // 控え
-    const reserve = myParty.filter( poke => poke.order.battle === null && poke.status.remainingHP > 0 );
+    const reserve = myParty.filter( poke => poke.order.battle === null && poke.hitPoint.isEmpty() === false );
     for ( let j = 0; j < reserve.length; j++ ) {
       getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).disabled = false;
-      getHTMLInputElement( 'reserveText_' + i + '_' + j ).textContent = reserve[j].status.name;
+      getHTMLInputElement( 'reserveText_' + i + '_' + j ).textContent = reserve[j].name;
       getHTMLInputElement( 'reserveText_' + i + '_' + j ).value = String( reserve[j].order.party );
     }
   }

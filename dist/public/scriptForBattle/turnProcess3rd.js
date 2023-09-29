@@ -2,13 +2,13 @@
 // 3.トレーナーの行動、ポケモンの行動順に関する行動
 function actionBeforeTurn() {
     for (const pokemon of allPokemonInBattlefield()) {
-        quickDraw: if (isAbility(pokemon, 'クイックドロウ') === true) {
+        quickDraw: if (pokemon.ability.isName('クイックドロウ')) {
             if (pokemon.selectedMove.category === '変化')
                 break quickDraw;
             if (getRandom() >= 30)
                 break quickDraw;
             pokemon.stateChange.orderRaise.isTrue = true;
-            pokemon.status.declareAbility();
+            pokemon.declareAbility();
             writeLog(`${getArticle(pokemon)}は クイックドロウで 行動が はやくなった!`);
             continue;
         }
@@ -20,8 +20,8 @@ function actionBeforeTurn() {
             continue;
         }
         custapBerry: if (isItem(pokemon, 'イバンのみ') === true) {
-            const gluttony = (isAbility(pokemon, 'くいしんぼう') === true) ? 2 : 1;
-            if (pokemon.status.remainingHP > pokemon.actualValue.hitPoint * gluttony / 4)
+            const gluttony = (pokemon.ability.isName('くいしんぼう')) ? 2 : 1;
+            if (pokemon.hitPoint.isGreaterThan(4 / gluttony))
                 break custapBerry;
             pokemon.stateChange.orderRaise.isTrue = true;
             writeLog(`${getArticle(pokemon)}は イバンのみで 行動が はやくなった!`);
@@ -53,7 +53,7 @@ function actionBeforeTurn() {
             continue;
         if (reserve === null)
             continue;
-        writeLog(`${translateENintoJP(pokemon.trainer)}は ${pokemon.status.name}を 引っこめた!`);
+        writeLog(`${translateENintoJP(pokemon.trainer)}は ${pokemon.name}を 引っこめた!`);
         toReserve(pokemon);
         const next = getPokemonByParty(pokemon.trainer, reserve);
         toBattleField(next, battle);

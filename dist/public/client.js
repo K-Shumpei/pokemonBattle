@@ -44,21 +44,20 @@ socket.on('selectPokemon', (party) => {
         opponentAllParty[i].order.party = party[i]._order._party;
         opponentAllParty[i].order.hand = party[i]._order._hand;
         // 基本ステータス
-        opponentAllParty[i].statusOrg.id = party[i]._status._id;
-        opponentAllParty[i].statusOrg.order = party[i]._status._order;
-        opponentAllParty[i].statusOrg.index = party[i]._status._index;
-        opponentAllParty[i].statusOrg.name = party[i]._status._name;
-        opponentAllParty[i].statusOrg.type1 = party[i]._status._type1;
-        opponentAllParty[i].statusOrg.type2 = party[i]._status._type2;
-        opponentAllParty[i].statusOrg.gender = party[i]._status._gender;
-        opponentAllParty[i].statusOrg.ability = party[i]._status._ability;
-        opponentAllParty[i].statusOrg.level = party[i]._status._level;
-        opponentAllParty[i].statusOrg.item = party[i]._status._item;
-        opponentAllParty[i].statusOrg.nature = party[i]._status._nature;
-        opponentAllParty[i].statusOrg.height = party[i]._status._height;
-        opponentAllParty[i].statusOrg.weight = party[i]._status._weight;
-        opponentAllParty[i].statusOrg.remainingHP = party[i]._status._remainingHP;
-        opponentAllParty[i].status = opponentAllParty[i].statusOrg;
+        opponentAllParty[i].id.id = party[i]._id._id;
+        opponentAllParty[i].id.order = party[i]._id._order;
+        opponentAllParty[i].id.index = party[i]._id._index;
+        opponentAllParty[i].name = party[i]._name;
+        opponentAllParty[i].type1 = party[i]._type1;
+        opponentAllParty[i].type2 = party[i]._type2;
+        opponentAllParty[i].gender = party[i]._gender;
+        opponentAllParty[i].ability.setOrg(party[i]._ability.getName());
+        opponentAllParty[i].level = party[i]._level;
+        opponentAllParty[i].item = party[i]._item;
+        opponentAllParty[i].nature = party[i]._nature;
+        opponentAllParty[i].height = party[i]._height;
+        opponentAllParty[i].weight = party[i]._weight;
+        opponentAllParty[i].hitPoint = party[i]._hitPoint;
         // 実数値・種族値・個体値・努力値
         for (const parameter of Object.keys(party[i]._actualValue)) {
             opponentAllParty[i].actualValue[parameter] = party[i]._actualValue[parameter];
@@ -75,7 +74,7 @@ socket.on('selectPokemon', (party) => {
         }
         // パーティ画像
         const imageHTML = getHTMLInputElement('opponentParty_image' + i);
-        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + opponentAllParty[i].status.index + '.png';
+        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + opponentAllParty[i].id.id + '.png';
     }
     // 選出完了ボタン
     getHTMLInputElement('decideOrderField').style.display = 'block';

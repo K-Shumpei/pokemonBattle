@@ -131,11 +131,11 @@ function getSpeedValue(pokemon, type) {
         return speedTypeA;
     }
     // b. 各種補正
-    let speedTypeB = getValueWithRankCorrection(pokemon.actualValue.speed, pokemon.rank.speed, false);
+    let speedTypeB = getValueWithRankCorrection(pokemon.actualValue.speed, pokemon.rank.speed.value, false);
     let correction = 4096;
     speedTypeB = fiveRoundEntry(speedTypeB * correction / 4096);
     // まひ補正
-    if (pokemon.status.statusAilment.name === 'PARALYSIS') {
+    if (pokemon.statusAilment.isParalysis()) {
         speedTypeB = Math.floor(speedTypeB * 2048 / 4096);
     }
     // c. 上限は10000

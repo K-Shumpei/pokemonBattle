@@ -30,41 +30,15 @@ class Order {
   }
 }
 
-class Status {
+class Index {
   _id: number;
   _order: number;
   _index: number;
-  _name: string;
-  _type1: PokemonType;
-  _type2: PokemonType;
-  _gender: Gender;
-  _ability: string;
-  _level: number;
-  _item: string | null;
-  _nature: NatureType;
-  _height: number;
-  _weight: number;
-  _happiness: number;
-  _remainingHP: number;
-  _statusAilment: StatusAilment;
 
   constructor() {
     this._id = 0;
     this._order = 0;
     this._index = 0;
-    this._name = '';
-    this._type1 = null;
-    this._type2 = null;
-    this._gender = 'male';
-    this._ability = '';
-    this._level = 50;
-    this._item = null;
-    this._nature = 'てれや';
-    this._height = 1.0;
-    this._weight = 1.0;
-    this._happiness = 255;
-    this._remainingHP = 0;
-    this._statusAilment = new StatusAilment( null );
   }
 
   set id( id: number ) {
@@ -76,45 +50,6 @@ class Status {
   set index( index: number ) {
     this._index = index;
   }
-  set name( name: string ) {
-    this._name = name;
-  }
-  set type1( type: PokemonType ) {
-    this._type1 = type;
-  }
-  set type2( type: PokemonType ) {
-    this._type2 = type;
-  }
-  set gender( gender: Gender ) {
-    this._gender = gender;
-  }
-  set ability( ability: string ) {
-    this._ability = ability;
-  }
-  set level( level: number ) {
-    this._level = level;
-  }
-  set item( item: string | null ) {
-    this._item = item;
-  }
-  set nature( nature: NatureType) {
-    this._nature = nature;
-  }
-  set height( height: number ) {
-    this._height = height;
-  }
-  set weight( weight: number) {
-    this._weight = weight;
-  }
-  set happiness( happiness: number ) {
-    this._happiness = happiness;
-  }
-  set remainingHP( remainingHP: number ) {
-    this._remainingHP = remainingHP;
-  }
-  set statusAilment( statusAilment: StatusAilment ) {
-    this._statusAilment = statusAilment;
-  }
 
   get id(): number {
     return this._id;
@@ -125,106 +60,85 @@ class Status {
   get index(): number {
     return this._index;
   }
-  get name(): string {
-    return this._name;
-  }
-  get type1(): PokemonType {
-    return this._type1;
-  }
-  get type2(): PokemonType {
-    return this._type2;
-  }
-  get gender(): Gender {
-    return this._gender;
-  }
-  get ability(): string {
-    return this._ability;
-  }
-  get level(): number {
-    return this._level;
-  }
-  get item(): string | null {
-    return this._item;
-  }
-  get nature(): NatureType {
-    return this._nature;
-  }
-  get height(): number {
-    return this._height;
-  }
-  get weight(): number {
-    return this._weight;
-  }
-  get happiness(): number {
-    return this._happiness;
-  }
-  get remainingHP(): number {
-    return this._remainingHP;
-  }
-  get statusAilment(): StatusAilment {
-    return this._statusAilment;
-  }
-
-  declareAbility(): void {
-    writeLog( `${this._name}の ${this._ability}` );
-  }
-
-  declareFailure(): void {
-    writeLog( `しかし うまく決まらなかった....` );
-  }
-
-  declareInvalid( info: Damage ): void {
-    info.success = false;
-    writeLog( `${this._name}には 効果がないようだ...` );
-  }
-
-  declareNotHit( info: Damage ): void {
-    info.success = false;
-    writeLog( `${this._name}には 当たらなかった!` );
-  }
-
-  abilityInfo(): changeAbilityType {
-    for ( const info of changeAbilityTable ) {
-      if ( info.name === this._ability ) {
-        return info;
-      }
-    }
-
-    const sample = {
-      name: '',
-      exchange: 4,
-      overwrite: 4,
-      noAbility: 4,
-      neutral: 4,
-      copy: 4,
-      copied: 4,
-      transform: 4 };
-
-    return sample;
-  }
 }
 
 class StatusAilment {
   _name: StatusAilmentText;
   _turn: number;
 
-  constructor( name: StatusAilmentText ) {
-    this._name = name;
+  constructor() {
+    this._name = null;
     this._turn = 0;
   }
 
-  set name( name: StatusAilmentText ) {
-    this._name = name;
-  }
-  set turn( turn: number ) {
-    this._turn = turn;
-  }
-
-  get name(): StatusAilmentText {
-    return this._name;
-  }
   get turn(): number {
     return this._turn;
+  }
+
+  isHealth(): boolean {
+    return this._name === null;
+  }
+
+  isParalysis(): boolean {
+    return this._name === 'PARALYSIS';
+  }
+
+  isFrozen(): boolean {
+    return this._name === 'FROZEN';
+  }
+
+  isBurned(): boolean {
+    return this._name === 'BURNED';
+  }
+
+  isPoisoned(): boolean {
+    return this._name === 'POISONED';
+  }
+
+  isBadPoisoned(): boolean {
+    return this._name === 'POISONED' && this._turn > 0;
+  }
+
+  isAsleep(): boolean {
+    return this._name === 'ASLEEP';
+  }
+
+  getHealth(): void {
+    this._name = null;
+    this._turn = 0;
+  }
+
+  getParalysis(): void {
+    this._name = 'PARALYSIS';
+  }
+
+  getFrozen(): void {
+    this._name = 'FROZEN';
+  }
+
+  getBurned(): void {
+    this._name = 'BURNED';
+  }
+
+  getPoisoned(): void {
+    this._name = 'POISONED';
+  }
+
+  getBadPoisoned(): void {
+    this._name = 'POISONED';
+    this._turn = 1;
+  }
+
+  getAsleep(): void {
+    this._name = 'ASLEEP';
+  }
+
+  countPoisoned(): void {
+    this._turn += 1;
+  }
+
+  countAsleep( turn: number ): void {
+    this._turn -= turn;
   }
 }
 
@@ -286,68 +200,88 @@ class ParameterSix {
   }
 }
 
-class ParameterRank {
-  [key: string]: number;
-
-  _attack: number;
-  _defense: number;
-  _specialAttack: number;
-  _specialDefense: number;
-  _speed: number;
-  _evasion: number;
-  _accuracy: number;
+class Rank {
+  _value: number;
 
   constructor() {
-    this._attack = 0;
-    this._defense = 0;
-    this._specialAttack = 0;
-    this._specialDefense = 0;
-    this._speed = 0;
-    this._evasion = 0;
-    this._accuracy = 0;
+    this._value = 0;
   }
 
-  set attack( attack: number ) {
-    this._attack = attack;
-  }
-  set defense( defense: number ) {
-    this._defense = defense;
-  }
-  set specialAttack( specialAttack: number ) {
-    this._specialAttack = specialAttack;
-  }
-  set specialDefense( specialDefense: number ) {
-    this._specialDefense = specialDefense;
-  }
-  set speed( speed: number ) {
-    this._speed = speed;
-  }
-  set evasion( evasion: number ) {
-    this._evasion = evasion;
-  }
-  set accuracy( accuracy: number ) {
-    this._accuracy = accuracy;
+  get value(): number {
+    return this._value;
   }
 
-  get attack(): number {
+  add( value: number ): void {
+    value = Math.min( 6, this._value + value );
+    value = Math.max( -6, this._value + value );
+    this._value = value;
+  }
+
+  toZero(): void {
+    this._value = 0;
+  }
+
+  isMax(): boolean {
+    return this._value === 6;
+  }
+
+  isMin(): boolean {
+    return this._value === -6;
+  }
+
+  isZero(): boolean {
+    return this._value === 0;
+  }
+
+  isPlus(): boolean {
+    return this._value > 0;
+  }
+
+  isMinus(): boolean {
+    return this._value < 0;
+  }
+}
+
+class ParameterRank {
+  [key: string]: Rank;
+
+  _attack: Rank;
+  _defense: Rank;
+  _specialAttack: Rank;
+  _specialDefense: Rank;
+  _speed: Rank;
+  _evasion: Rank;
+  _accuracy: Rank;
+
+  constructor() {
+    this._attack = new Rank();
+    this._defense = new Rank();
+    this._specialAttack = new Rank();
+    this._specialDefense = new Rank();
+    this._speed = new Rank();
+    this._evasion = new Rank();
+    this._accuracy = new Rank();
+  }
+
+  get attack(): Rank {
     return this._attack;
   }
-  get defense(): number {
+  get defense(): Rank {
     return this._defense;
   }
-  get specialAttack(): number {
+  get specialAttack(): Rank {
     return this._specialAttack;
   }
-  get specialDefense(): number {
+  get specialDefense(): Rank {
     return this._specialDefense;
   }
-  get speed(): number {
+  get speed(): Rank {
     return this._speed;
   }
-  get evasion(): number {
+  get evasion(): Rank {
     return this._evasion;
   }
-  get accuracy(): number {
+  get accuracy(): Rank {
     return this._accuracy;
   }
 }
@@ -1660,32 +1594,134 @@ class SelectedMove {
    get flag(): MoveFlag {
     return this._flag;
    }
-
 }
 
 
+class HitPoint {
+  _pre: number;
+  _max: number;
+  _min: number;
+
+  constructor() {
+    this._pre = 0;
+    this._max = 0;
+    this._min = 0;
+  }
+
+  get pre(): number {
+    return this._pre;
+  }
+
+  setMax( max: number ) {
+    this._pre = max;
+    this._max = max;
+  }
+
+  add( value: number ): void {
+    value = Math.min( this._max, this._pre + value );
+    this._pre = value;
+  }
+
+  sub( value: number ): void {
+    value = Math.max( this._min, this._pre - value );
+    this._pre = value;
+  }
+
+  rate(): number {
+    return this._pre / this._max;
+  }
+
+  isEmpty(): boolean {
+    return this._pre <= this._min;
+  }
+
+  isFull(): boolean {
+    return this._pre >= this._max;
+  }
+
+  isGreaterThan( denominator: number ): boolean {
+    return this._pre > this._max / denominator;
+  }
+
+  isGreaterEqual( denominator: number ): boolean {
+    return this._pre >= this._max / denominator;
+  }
+
+  isLessThan( denominator: number ): boolean {
+    return this._pre < this._max / denominator;
+  }
+
+  isLessEqual( denominator: number ): boolean {
+    return this._pre <= this._max / denominator;
+  }
+}
+
+
+class Ability {
+  _name: string;
+  _org: string;
+
+  constructor() {
+    this._name = '';
+    this._org = '';
+  }
+
+  isName( ability: string ): boolean {
+    return this._name === ability;
+  }
+
+  setName( ability: string ): void {
+    this._name = ability;
+  }
+
+  setOrg( ability: string ): void {
+    this._name = ability;
+    this._org = ability;
+  }
+
+  getName(): string {
+    return this._name;
+  }
+}
+
 
 class Pokemon {
+  _id: Index;
   _trainer: 'me' | 'opp';
   _order: Order;
-  _status: Status;
-  _statusOrg: Status;
+
   _actualValue: ParameterSix;
   _baseStatus: ParameterSix;
   _individualValue: ParameterSix;
   _effortValue: ParameterSix;
+
   _rank: ParameterRank;
+
   _learnedMove: LearnedMove[];
   _selectedMove: SelectedMove;
+
   _damage: Damage[];
   _command: Command;
   _stateChange: StateChangeSummary;
 
+  _name: string;
+  _type1: PokemonType;
+  _type2: PokemonType;
+  _gender: Gender;
+  _ability: Ability;
+  _level: number;
+  _item: string | null;
+  _nature: NatureType;
+  _height: number;
+  _weight: number;
+  _happiness: number;
+  _hitPoint: HitPoint;
+  _statusAilment: StatusAilment;
+
   constructor() {
+    this._id = new Index();
     this._trainer = 'me';
     this._order = new Order;
-    this._status = new Status;
-    this._statusOrg = new Status;
     this._actualValue = new ParameterSix;
     this._baseStatus = new ParameterSix;
     this._individualValue = new ParameterSix;
@@ -1701,16 +1737,27 @@ class Pokemon {
     this._damage = [];
     this._command = new Command;
     this._stateChange = new StateChangeSummary;
+
+    this._name = '';
+    this._type1 = null;
+    this._type2 = null;
+    this._gender = 'genderless';
+    this._ability = new Ability();
+    this._level = 50;
+    this._item = null;
+    this._nature = 'てれや';
+    this._height = 1.0;
+    this._weight = 1.0;
+    this._happiness = 255;
+    this._hitPoint = new HitPoint();
+    this._statusAilment = new StatusAilment();
   }
 
+  set id( id: Index ) {
+    this._id = id;
+  }
   set trainer( trainer: 'me' | 'opp' ) {
     this._trainer = trainer;
-  }
-  set status( status: Status ) {
-    this._status = status;
-  }
-  set statusOrg( statusOrg: Status ) {
-    this._statusOrg = statusOrg;
   }
   set rank( rank: ParameterRank ) {
     this._rank = rank;
@@ -1731,18 +1778,53 @@ class Pokemon {
     this._stateChange = stateChange;
   }
 
+  set name( name: string ) {
+    this._name = name;
+  }
+  set type1( type: PokemonType ) {
+    this._type1 = type;
+  }
+  set type2( type: PokemonType ) {
+    this._type2 = type;
+  }
+  set gender( gender: Gender ) {
+    this._gender = gender;
+  }
 
+  set level( level: number ) {
+    this._level = level;
+  }
+  set item( item: string | null ) {
+    this._item = item;
+  }
+  set nature( nature: NatureType) {
+    this._nature = nature;
+  }
+  set height( height: number ) {
+    this._height = height;
+  }
+  set weight( weight: number) {
+    this._weight = weight;
+  }
+  set happiness( happiness: number ) {
+    this._happiness = happiness;
+  }
+  set hitPoint( hitPoint: HitPoint ) {
+    this._hitPoint = hitPoint;
+  }
+  set statusAilment( statusAilment: StatusAilment ) {
+    this._statusAilment = statusAilment;
+  }
+
+
+  get id(): Index {
+    return this._id;
+  }
   get trainer(): 'me' | 'opp' {
     return this._trainer;
   }
   get order(): Order {
     return this._order;
-  }
-  get status(): Status {
-    return this._status
-  }
-  get statusOrg(): Status {
-    return this._statusOrg;
   }
   get actualValue(): ParameterSix {
     return this._actualValue;
@@ -1773,6 +1855,107 @@ class Pokemon {
   }
   get stateChange(): StateChangeSummary {
     return this._stateChange;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+  get type1(): PokemonType {
+    return this._type1;
+  }
+  get type2(): PokemonType {
+    return this._type2;
+  }
+  get gender(): Gender {
+    return this._gender;
+  }
+  get ability(): Ability {
+    return this._ability;
+  }
+  get level(): number {
+    return this._level;
+  }
+  get item(): string | null {
+    return this._item;
+  }
+  get nature(): NatureType {
+    return this._nature;
+  }
+  get height(): number {
+    return this._height;
+  }
+  get weight(): number {
+    return this._weight;
+  }
+  get happiness(): number {
+    return this._happiness;
+  }
+  get hitPoint(): HitPoint {
+    return this._hitPoint;
+  }
+  get statusAilment(): StatusAilment {
+    return this._statusAilment;
+  }
+
+
+  declareAbility(): void {
+    writeLog( `${this._name}の ${this._ability}` );
+  }
+
+  declareFailure(): void {
+    writeLog( `しかし うまく決まらなかった....` );
+  }
+
+  declareInvalid( info: Damage ): void {
+    info.success = false;
+    writeLog( `${this._name}には 効果がないようだ...` );
+  }
+
+  declareNotHit( info: Damage ): void {
+    info.success = false;
+    writeLog( `${this._name}には 当たらなかった!` );
+  }
+
+  abilityInfo(): changeAbilityType {
+    /*
+    for ( const info of changeAbilityTable ) {
+      if ( info.name === this._ability ) {
+        return info;
+      }
+    }
+    */
+
+    const sample = {
+      name: '',
+      exchange: 4,
+      overwrite: 4,
+      noAbility: 4,
+      neutral: 4,
+      copy: 4,
+      copied: 4,
+      transform: 4 };
+
+    return sample;
+  }
+
+
+  //----------
+  // 行動の失敗
+  //----------
+
+  // 反動で動けない
+  isCannotMove(): boolean {
+
+    if ( !this._stateChange.cannotMove.isTrue ) return false;
+
+    this._stateChange.cannotMove.reset();
+
+    // なまけ
+    if ( this._ability.isName( 'Truant' ) ) {
+      this._stateChange.truant.count += 1;
+    }
+
+    return true;
   }
 }
 
