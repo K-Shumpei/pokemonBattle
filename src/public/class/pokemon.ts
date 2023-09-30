@@ -62,6 +62,59 @@ class Index {
   }
 }
 
+class ValueWithRange {
+  _value: number;
+  _max: number;
+  _min: number;
+
+  constructor( max: number, min: number ) {
+    this._value = 0;
+    this._max = max;
+    this._min = min;
+  }
+
+  get value(): number {
+    return this._value;
+  }
+
+  add( value: number ): void {
+    value = Math.min( 6, this._value + value );
+    value = Math.max( -6, this._value + value );
+    this._value = value;
+  }
+
+  sub( value: number ): void {
+    value = Math.min( 6, this._value - value );
+    value = Math.max( -6, this._value - value );
+    this._value = value;
+  }
+
+  toZero(): void {
+    this._value = 0;
+  }
+
+  isMax(): boolean {
+    return this._value === this._max;
+  }
+
+  isMin(): boolean {
+    return this._value === this._min;
+  }
+
+  isZero(): boolean {
+    return this._value === 0;
+  }
+
+  isPlus(): boolean {
+    return this._value > 0;
+  }
+
+  isMinus(): boolean {
+    return this._value < 0;
+  }
+
+}
+
 class StatusAilment {
   _name: StatusAilmentText;
   _turn: number;
@@ -200,46 +253,12 @@ class ParameterSix {
   }
 }
 
-class Rank {
-  _value: number;
+class Rank extends ValueWithRange {
 
   constructor() {
-    this._value = 0;
+    super( 6, -6 )
   }
 
-  get value(): number {
-    return this._value;
-  }
-
-  add( value: number ): void {
-    value = Math.min( 6, this._value + value );
-    value = Math.max( -6, this._value + value );
-    this._value = value;
-  }
-
-  toZero(): void {
-    this._value = 0;
-  }
-
-  isMax(): boolean {
-    return this._value === 6;
-  }
-
-  isMin(): boolean {
-    return this._value === -6;
-  }
-
-  isZero(): boolean {
-    return this._value === 0;
-  }
-
-  isPlus(): boolean {
-    return this._value > 0;
-  }
-
-  isMinus(): boolean {
-    return this._value < 0;
-  }
 }
 
 class ParameterRank {
@@ -1597,62 +1616,36 @@ class SelectedMove {
 }
 
 
-class HitPoint {
-  _pre: number;
-  _max: number;
-  _min: number;
+class HitPoint extends ValueWithRange {
 
   constructor() {
-    this._pre = 0;
-    this._max = 0;
-    this._min = 0;
+    super( 175, 0 )
   }
 
-  get pre(): number {
-    return this._pre;
-  }
 
-  setMax( max: number ) {
-    this._pre = max;
-    this._max = max;
-  }
-
-  add( value: number ): void {
-    value = Math.min( this._max, this._pre + value );
-    this._pre = value;
-  }
-
-  sub( value: number ): void {
-    value = Math.max( this._min, this._pre - value );
-    this._pre = value;
+  setActualValue( value: number ) {
+    this._value = value;
+    this._max = value;
   }
 
   rate(): number {
-    return this._pre / this._max;
-  }
-
-  isEmpty(): boolean {
-    return this._pre <= this._min;
-  }
-
-  isFull(): boolean {
-    return this._pre >= this._max;
+    return this._value / this._max;
   }
 
   isGreaterThan( denominator: number ): boolean {
-    return this._pre > this._max / denominator;
+    return this._value > this._max / denominator;
   }
 
   isGreaterEqual( denominator: number ): boolean {
-    return this._pre >= this._max / denominator;
+    return this._value >= this._max / denominator;
   }
 
   isLessThan( denominator: number ): boolean {
-    return this._pre < this._max / denominator;
+    return this._value < this._max / denominator;
   }
 
   isLessEqual( denominator: number ): boolean {
-    return this._pre <= this._max / denominator;
+    return this._value <= this._max / denominator;
   }
 }
 
@@ -1666,21 +1659,21 @@ class Ability {
     this._org = '';
   }
 
-  isName( ability: string ): boolean {
-    return this._name === ability;
+  set name( name: string ) {
+    this._name = name;
   }
 
-  setName( ability: string ): void {
-    this._name = ability;
+  get name(): string {
+    return this._name;
+  }
+
+  isName( ability: string ): boolean {
+    return this._name === ability;
   }
 
   setOrg( ability: string ): void {
     this._name = ability;
     this._org = ability;
-  }
-
-  getName(): string {
-    return this._name;
   }
 }
 

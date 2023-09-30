@@ -553,7 +553,7 @@ function registerParty( number: number ): void {
   myAllParty[number].nature = getNatureType( natureHTML.value );
   myAllParty[number].height = pokemon.height;
   myAllParty[number].weight = pokemon.weight;
-  myAllParty[number].hitPoint.setMax( Number(actualValue_hitPoint.value) );
+  myAllParty[number].hitPoint.setActualValue( Number(actualValue_hitPoint.value) );
 
   // 実数値・種族値・個体値・努力値
   for ( const parameter of Object.keys( myAllParty[number].actualValue ) ) {
@@ -619,7 +619,7 @@ function editParty( number: number ): void {
   getHTMLInputElement( 'register_type1' ).textContent = translateTypeIntoJapanese( myAllParty[number].type1 );
   getHTMLInputElement( 'register_type2' ).value = translateTypeIntoJapanese( myAllParty[number].type2 );
   getHTMLInputElement( 'register_type2' ).textContent = translateTypeIntoJapanese( myAllParty[number].type2 );
-  getHTMLInputElement( 'register_ability' ).value = translateAbility( myAllParty[number].ability.getName() );
+  getHTMLInputElement( 'register_ability' ).value = translateAbility( myAllParty[number].ability.name );
   getHTMLInputElement( 'register_nature' ).value = myAllParty[number].nature;
 
   if ( myAllParty[number].item === null ) {
@@ -673,8 +673,8 @@ function showPartyPokemon( pokemon: Pokemon ): void {
   getHTMLInputElement( 'party' + handOrder + '_level' ).textContent = String( pokemon.level );
   getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = translateTypeIntoJapanese( pokemon.type1 );
   getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = translateTypeIntoJapanese( pokemon.type2 );
-  getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = translateAbility( pokemon.ability.getName() );
-  getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( pokemon.hitPoint.pre );
+  getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = translateAbility( pokemon.ability.name );
+  getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( pokemon.hitPoint.value );
 
   let item: string = '持ち物なし';
   if ( pokemon.item !== null ) {
@@ -857,7 +857,7 @@ function showCommand1stField(): void {
       getHTMLInputElement( 'moveRadio_' + i + '_' + j ).disabled = false;
     }
     // 控え
-    const reserve = myParty.filter( poke => poke.order.battle === null && poke.hitPoint.isEmpty() === false );
+    const reserve = myParty.filter( poke => poke.order.battle === null && poke.hitPoint.isZero() === false );
     for ( let j = 0; j < reserve.length; j++ ) {
       getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).disabled = false;
       getHTMLInputElement( 'reserveText_' + i + '_' + j ).textContent = reserve[j].name;

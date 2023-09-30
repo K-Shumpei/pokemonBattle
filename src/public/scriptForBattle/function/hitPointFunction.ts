@@ -16,7 +16,7 @@ function changeHPByMove( pokemon: Pokemon, target: Pokemon, change: number ): vo
     target.declareAbility();
     writeLog( `${getArticle( pokemon )}は ヘドロえきを 吸い取った!` );
   } else {
-    if ( pokemon.hitPoint.isFull() ) return;
+    if ( pokemon.hitPoint.isMax() ) return;
     if ( pokemon.stateChange.healBlock.isTrue === true ) return;
 
     // HP回復
@@ -30,7 +30,7 @@ function changeHPByMove( pokemon: Pokemon, target: Pokemon, change: number ): vo
 // きのみを食べることによるHP回復
 function changeHPByBerry( pokemon: Pokemon, item: string ): void {
 
-  if ( pokemon.hitPoint.isFull() ) return;
+  if ( pokemon.hitPoint.isMax() ) return;
   if ( pokemon.stateChange.healBlock.isTrue === true ) return;
 
   const ripen: number = ( pokemon.ability.isName( 'じゅくせい' ) )? 2 : 1;
@@ -96,7 +96,7 @@ function changeHPByAbility( pokemon: Pokemon, value: number, sign: SignType ): v
     pokemon.hitPoint.add( -1 * value );
   }
   if ( sign === '+' ) {
-    if ( pokemon.hitPoint.isFull() ) return;
+    if ( pokemon.hitPoint.isMax() ) return;
     if ( pokemon.stateChange.healBlock.isTrue === true ) return;
 
     pokemon.declareAbility();

@@ -326,7 +326,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
     // その他
     // がむしゃら: 対象のHPが使用者以下
     if ( pokemon.selectedMove.name === 'がむしゃら' ) {
-      if ( pokemon.hitPoint.pre >= target.hitPoint.pre ) {
+      if ( pokemon.hitPoint.value >= target.hitPoint.value ) {
         target.declareInvalid( damage );
       }
     }
@@ -664,25 +664,25 @@ function isSuccess( pokemon: Pokemon ): boolean {
     }
     // HPが満タンだったことによる無効化
     if ( pokemon.selectedMove.name === 'いやしのはどう' || pokemon.selectedMove.name === 'フラワーヒール' ) {
-      if ( target.hitPoint.isFull() ) {
+      if ( target.hitPoint.isMax() ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.selectedMove.name === 'いのちのしずく' ) {
-      if ( target.hitPoint.isFull() ) {
+      if ( target.hitPoint.isMax() ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.selectedMove.name === 'ジャングルヒール' ) {
-      if ( target.hitPoint.isFull() && target.statusAilment === null ) {
+      if ( target.hitPoint.isMax() && target.statusAilment === null ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.selectedMove.name === 'かふんだんご' ) {
-      if ( target.hitPoint.isFull() && pokemon.trainer === target.trainer ) {
+      if ( target.hitPoint.isMax() && pokemon.trainer === target.trainer ) {
         target.declareInvalid( damage );
         continue;
       }
@@ -697,7 +697,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
       || pokemon.selectedMove.name === 'なまける'
       || pokemon.selectedMove.name === 'はねやすめ'
       || pokemon.selectedMove.name === 'ミルクのみ' ) {
-      if ( pokemon.hitPoint.isFull() ) {
+      if ( pokemon.hitPoint.isMax() ) {
         target.declareInvalid( damage );
         continue;
       }
@@ -1772,7 +1772,7 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
 
   clangorousSoul:
   if ( pokemon.selectedMove.name === 'ソウルビート' ) {
-    if ( pokemon.hitPoint.pre > Math.floor( pokemon.actualValue.hitPoint / 3 ) ) break clangorousSoul;
+    if ( pokemon.hitPoint.value > Math.floor( pokemon.actualValue.hitPoint / 3 ) ) break clangorousSoul;
 
     pokemon.damage = [];
     pokemon.declareFailure();
@@ -1790,7 +1790,7 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
 
   teleport:
   if ( pokemon.selectedMove.name === 'テレポート' ) {
-    const bench: Pokemon[] = getParty( pokemon.trainer ).filter( poke => poke.order.battle === null && poke.hitPoint.isEmpty() === false );
+    const bench: Pokemon[] = getParty( pokemon.trainer ).filter( poke => poke.order.battle === null && poke.hitPoint.isZero() === false );
     if ( bench.length > 0 ) break teleport;
 
     pokemon.damage = [];
@@ -1929,7 +1929,7 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
 
   rest:
   if ( pokemon.selectedMove.name === 'ねむる' ) {
-    if ( pokemon.hitPoint.isFull() ) break rest;
+    if ( pokemon.hitPoint.isMax() ) break rest;
     if ( pokemon.statusAilment.isAsleep() ) break rest;
     if ( pokemon.ability.isName( 'ふみん' ) ) break rest;
     if ( pokemon.ability.isName( 'やるき' ) ) break rest;

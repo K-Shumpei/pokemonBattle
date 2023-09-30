@@ -77,7 +77,7 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
     opponentAllParty[i].type1 = party[i]._type1;
     opponentAllParty[i].type2 = party[i]._type2;
     opponentAllParty[i].gender = party[i]._gender;
-    opponentAllParty[i].ability.setOrg( party[i]._ability.getName() );
+    opponentAllParty[i].ability.setOrg( party[i]._ability.name );
     opponentAllParty[i].level = party[i]._level;
     opponentAllParty[i].item = party[i]._item;
     opponentAllParty[i].nature = party[i]._nature;

@@ -1074,7 +1074,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
     }
   }
   if ( target.ability.isName( 'ファントムガード' ) || target.ability.isName( 'マルチスケイル' ) ) {
-    if ( target.hitPoint.isFull() ) {
+    if ( target.hitPoint.isMax() ) {
       corrM = Math.round( corrM * 0.5 );
     }
   }

@@ -8,21 +8,6 @@ function isItem( pokemon: Pokemon, item: string ): boolean {
   return true;
 }
 
-// 特性
-/*
-function isAbility( pokemon: Pokemon, ability: string ): boolean {
-
-  if ( pokemon.hitPoint.isEmpty() ) {
-    return false;
-  }
-  if ( pokemon.ability === ability ) {
-    return false;
-  }
-
-  return true;
-}
-*/
-
 // ランク補正
 function getValueWithRankCorrection( actualValue: number, rank: number, critical: boolean ): number {
 
@@ -402,7 +387,7 @@ function formChange( pokemon: Pokemon ): void {
   pokemon.name = nextPokemon.nameEN;
   pokemon.type1 = nextPokemon.type[0];
   if ( nextPokemon.type.length === 2 ) pokemon.type2 = nextPokemon.type[1];
-  pokemon.ability.setName( nextPokemon.ability[0] );
+  pokemon.ability.name = nextPokemon.ability[0];
   pokemon.height = nextPokemon.height;
   pokemon.weight = nextPokemon.weight;
 
@@ -541,7 +526,7 @@ function toReserve( pokemon: Pokemon ): void {
   }
 
   // ひんし処理
-  if ( pokemon.hitPoint.isEmpty() ) {
+  if ( pokemon.hitPoint.isZero() ) {
     writeLog( `${getArticle( pokemon )}は たおれた!` );
   }
 
@@ -573,7 +558,7 @@ function isEnableEatBerry( pokemon: Pokemon ): boolean {
   const berry = pokemon.item;
   const confuse = pokemon.stateChange.confuse.isTrue;
   const hitPoint = pokemon.actualValue.hitPoint;
-  const remaining = pokemon.hitPoint.pre;
+  const remaining = pokemon.hitPoint.value;
   const gluttony = ( pokemon.ability.isName( 'くいしんぼう' ) )? 2 : 1;
 
   if ( berry === null ) return false;
@@ -638,7 +623,7 @@ function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number 
 function isValidToTargetAdditionalEffect( pokemon: Pokemon, target: Pokemon, damage: Damage ): boolean {
 
   if ( pokemon.stateChange.sheerForce.isTrue === true ) return false;
-  if ( target.hitPoint.isEmpty() ) return false;
+  if ( target.hitPoint.isZero() ) return false;
   if ( damage.substitute === true ) return false ;
   if ( target.ability.isName( 'りんぷん' ) ) return false;
   if ( isItem( target, 'おんみつマント' ) ) return false;
@@ -787,13 +772,13 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
 
   result = Math.max( result, 1 );
   result = result % 65536;
-  result = Math.min( result, target.hitPoint.pre );
+  result = Math.min( result, target.hitPoint.value );
 
   if ( damage.substitute === true ) {
     result = Math.min( result, target.stateChange.substitute.count );
   }
 
-  if ( damage.substitute === false && result === target.hitPoint.pre ) {
+  if ( damage.substitute === false && result === target.hitPoint.value ) {
     if ( target.stateChange.endure.isTrue === true ) {
       result -= 1;
       target.stateChange.endureMsg.isTrue === true;
@@ -807,7 +792,7 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       return result;
     }
     if ( pokemon.ability.isName( 'がんじょう' ) ) {
-      if ( target.hitPoint.pre === target.actualValue.hitPoint ) {
+      if ( target.hitPoint.isMax() ) {
         result -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'がんじょう';
@@ -815,7 +800,7 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       }
     }
     if ( isItem( target, 'きあいのタスキ' ) === true ) {
-      if ( target.hitPoint.pre === target.actualValue.hitPoint ) {
+      if ( target.hitPoint.isMax() ) {
         result -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'きあいのタスキ';
