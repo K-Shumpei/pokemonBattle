@@ -23,39 +23,43 @@ function getPower(pokemon, target) {
     // 基礎威力
     let basicPower = move.power;
     if (move.name === 'きしかいせい' || move.name === 'じたばた') {
-        if (pokemon.hitPoint.rate() >= 0)
+        if (pokemon.status.hitPoint.value.rate() >= 0)
             basicPower = 200;
-        if (pokemon.hitPoint.rate() >= 2 / 48)
+        if (pokemon.status.hitPoint.value.rate() >= 2 / 48)
             basicPower = 150;
-        if (pokemon.hitPoint.rate() >= 5 / 48)
+        if (pokemon.status.hitPoint.value.rate() >= 5 / 48)
             basicPower = 100;
-        if (pokemon.hitPoint.rate() >= 10 / 48)
+        if (pokemon.status.hitPoint.value.rate() >= 10 / 48)
             basicPower = 80;
-        if (pokemon.hitPoint.rate() >= 17 / 48)
+        if (pokemon.status.hitPoint.value.rate() >= 17 / 48)
             basicPower = 40;
-        if (pokemon.hitPoint.rate() >= 33 / 48)
+        if (pokemon.status.hitPoint.value.rate() >= 33 / 48)
             basicPower = 20;
     }
     if (move.name === 'しおふき' || move.name === 'ふんか' || move.name === 'ドラゴンエナジー') {
-        const base = Math.floor(150 * pokemon.hitPoint.rate());
+        const base = Math.floor(150 * pokemon.status.hitPoint.value.rate());
         basicPower = Math.max(base, 1);
     }
     if (move.name === 'しぼりとる' || move.name === 'にぎりつぶす') {
-        const base = Math.floor(150 * target.hitPoint.rate());
+        const base = Math.floor(150 * target.status.hitPoint.value.rate());
         basicPower = Math.max(base, 1);
     }
     if (move.name === 'アシストパワー' || move.name === 'つけあがる') {
         let count = 0;
-        for (const parameter of Object.keys(pokemon.rank)) {
-            count += Math.max(pokemon.rank[parameter].value, 0);
+        /*
+        for ( const parameter of Object.keys( pokemon.rank ) ) {
+          count += Math.max( pokemon.rank[parameter].value, 0 );
         }
+        */
         basicPower = 20 * (count + 1);
     }
     if (move.name === 'おしおき') {
         let count = 0;
-        for (const parameter of Object.keys(target.rank)) {
-            count += Math.max(target.rank[parameter].value, 0);
+        /*
+        for ( const parameter of Object.keys( target.rank ) ) {
+          count += Math.max( target.rank[parameter].value, 0 );
         }
+        */
         const base = 20 * (count + 3);
         basicPower = Math.min(base, 200);
     }
@@ -489,7 +493,7 @@ function getPower(pokemon, target) {
         }
     }
     if (move.name === 'しおみず') {
-        if (target.hitPoint.isLessEqual(2)) {
+        if (target.status.hitPoint.value.isLessEqual(2)) {
             correction = Math.round(correction * 8192 / 4096);
         }
     }
@@ -546,15 +550,15 @@ function getStatus(pokemon, target, damage) {
     let critical = false;
     damage.critical = critical;
     // 実数値・ランク
-    let attackValue = pokemon.actualValue.attack;
-    let attackRank = pokemon.rank.attack.value;
-    let defenseValue = target.actualValue.defense;
-    let defenseRank = target.rank.defense.value;
+    let attackValue = pokemon.status.attack.actual;
+    let attackRank = pokemon.status.attack.rank.value;
+    let defenseValue = target.status.defense.actual;
+    let defenseRank = target.status.defense.rank.value;
     if (pokemon.selectedMove.category === '特殊') {
-        attackValue = pokemon.actualValue.specialAttack;
-        attackRank = pokemon.rank.specialAttack.value;
-        defenseValue = target.actualValue.specialDefense;
-        defenseRank = target.rank.specialDefense.value;
+        attackValue = pokemon.status.specialAttack.actual;
+        attackRank = pokemon.status.specialAttack.rank.value;
+        defenseValue = target.status.specialDefense.actual;
+        defenseRank = target.status.specialDefense.rank.value;
     }
     let finalAttack = getValueWithRankCorrection(attackValue, attackRank, damage.critical);
     let finalDefense = getValueWithRankCorrection(defenseValue, defenseRank, damage.critical);
@@ -572,7 +576,7 @@ function getStatus(pokemon, target, damage) {
         }
     }
     if (pokemon.ability.isName('よわき')) {
-        if (pokemon.hitPoint.isLessEqual(2)) {
+        if (pokemon.status.hitPoint.value.isLessEqual(2)) {
             attackCorrection = Math.round(attackCorrection * 2048 / 4096);
         }
     }
@@ -638,22 +642,22 @@ function getStatus(pokemon, target, damage) {
         }
     }
     if (pokemon.ability.isName('しんりょく')) {
-        if (pokemon.hitPoint.isLessThan(3) && pokemon.selectedMove.type === 'GRASS') {
+        if (pokemon.status.hitPoint.value.isLessThan(3) && pokemon.selectedMove.type === 'GRASS') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (pokemon.ability.isName('もうか')) {
-        if (pokemon.hitPoint.isLessThan(3) && pokemon.selectedMove.type === 'FIRE') {
+        if (pokemon.status.hitPoint.value.isLessThan(3) && pokemon.selectedMove.type === 'FIRE') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (pokemon.ability.isName('げきりゅう')) {
-        if (pokemon.hitPoint.isLessThan(3) && pokemon.selectedMove.type === 'WATER') {
+        if (pokemon.status.hitPoint.value.isLessThan(3) && pokemon.selectedMove.type === 'WATER') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
     if (pokemon.ability.isName('むしのしらせ')) {
-        if (pokemon.hitPoint.isLessThan(3) && pokemon.selectedMove.type === 'BUG') {
+        if (pokemon.status.hitPoint.value.isLessThan(3) && pokemon.selectedMove.type === 'BUG') {
             attackCorrection = Math.round(attackCorrection * 6144 / 4096);
         }
     }
@@ -954,7 +958,7 @@ function getDamage(pokemon, target, power, status, damageInfo) {
         }
     }
     if (target.ability.isName('ファントムガード') || target.ability.isName('マルチスケイル')) {
-        if (target.hitPoint.isFull()) {
+        if (target.status.hitPoint.value.isMax()) {
             corrM = Math.round(corrM * 0.5);
         }
     }

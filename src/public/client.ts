@@ -86,12 +86,7 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
     opponentAllParty[i].hitPoint = party[i]._hitPoint;
 
     // 実数値・種族値・個体値・努力値
-    for ( const parameter of Object.keys( party[i]._actualValue ) ) {
-      opponentAllParty[i].actualValue[parameter] = party[i]._actualValue[parameter];
-      opponentAllParty[i].baseStatus[parameter] = party[i]._baseStatus[parameter];
-      opponentAllParty[i].individualValue[parameter] = party[i]._individualValue[parameter];
-      opponentAllParty[i].effortValue[parameter] = party[i]._effortValue[parameter];
-    }
+    opponentAllParty[i].status.copy( party[i]._status );
 
     // 技
     for ( let j = 0; j < 4; j++ ) {

@@ -434,18 +434,9 @@ function registerParty(number) {
     myAllParty[number].nature = getNatureType(natureHTML.value);
     myAllParty[number].height = pokemon.height;
     myAllParty[number].weight = pokemon.weight;
-    myAllParty[number].hitPoint.setMax(Number(actualValue_hitPoint.value));
+    myAllParty[number].status.hitPoint.setActual(Number(actualValue_hitPoint.value));
     // 実数値・種族値・個体値・努力値
-    for (const parameter of Object.keys(myAllParty[number].actualValue)) {
-        const actualValue = getHTMLInputElement('register' + parameter + 'ActualValue');
-        const baseStatus = getHTMLInputElement('register' + parameter + 'BaseStatus');
-        const individualValue = getHTMLInputElement('register' + parameter + 'IndividualValue');
-        const effortValue = getHTMLInputElement('register' + parameter + 'EffortValue');
-        myAllParty[number].actualValue[parameter] = Number(actualValue.value);
-        myAllParty[number].baseStatus[parameter] = Number(baseStatus.textContent);
-        myAllParty[number].individualValue[parameter] = Number(individualValue.value);
-        myAllParty[number].effortValue[parameter] = Number(effortValue.value);
-    }
+    myAllParty[number].status.register();
     // 技
     for (let i = 0; i < 4; i++) {
         const moveName = getHTMLInputElement('registerMoveName' + i).value;
@@ -484,7 +475,7 @@ function editParty(number) {
     getHTMLInputElement('register_type1').textContent = translateTypeIntoJapanese(myAllParty[number].type1);
     getHTMLInputElement('register_type2').value = translateTypeIntoJapanese(myAllParty[number].type2);
     getHTMLInputElement('register_type2').textContent = translateTypeIntoJapanese(myAllParty[number].type2);
-    getHTMLInputElement('register_ability').value = translateAbility(myAllParty[number].ability.getName());
+    getHTMLInputElement('register_ability').value = translateAbility(myAllParty[number].ability.name);
     getHTMLInputElement('register_nature').value = myAllParty[number].nature;
     if (myAllParty[number].item === null) {
         getHTMLInputElement('register_item').value = '';
@@ -495,13 +486,8 @@ function editParty(number) {
     // 性格　ラジオボタン
     natureTextToRadio();
     // 個体値・努力値
-    let remainingEffortValue = 510;
-    for (const parameter of Object.keys(myAllParty[number].actualValue)) {
-        getHTMLInputElement('register' + parameter + 'IndividualValue').value = String(myAllParty[number].individualValue[parameter]);
-        getHTMLInputElement('register' + parameter + 'EffortValue').value = String(myAllParty[number].effortValue[parameter]);
-        remainingEffortValue -= myAllParty[number].effortValue[parameter];
-    }
-    getHTMLInputElement('remainingEffortValue').textContent = String(remainingEffortValue);
+    myAllParty[number].status.edit();
+    getHTMLInputElement('remainingEffortValue').textContent = String(510 - myAllParty[number].status.getAllEffort());
     // 実数値計算
     reflectActualValueInHTML();
     // 技
@@ -529,17 +515,15 @@ function showPartyPokemon(pokemon) {
     getHTMLInputElement('party' + handOrder + '_level').textContent = String(pokemon.level);
     getHTMLInputElement('party' + handOrder + '_type1').textContent = translateTypeIntoJapanese(pokemon.type1);
     getHTMLInputElement('party' + handOrder + '_type2').textContent = translateTypeIntoJapanese(pokemon.type2);
-    getHTMLInputElement('party' + handOrder + '_ability').textContent = translateAbility(pokemon.ability.getName());
-    getHTMLInputElement('party' + handOrder + '_remainingHP').textContent = String(pokemon.hitPoint.pre);
+    getHTMLInputElement('party' + handOrder + '_ability').textContent = translateAbility(pokemon.ability.name);
+    getHTMLInputElement('party' + handOrder + '_remainingHP').textContent = String(pokemon.hitPoint.value.value);
     let item = '持ち物なし';
     if (pokemon.item !== null) {
         item = pokemon.item;
     }
     getHTMLInputElement('party' + handOrder + '_item').textContent = item;
     // 実数値
-    for (const parameter of Object.keys(pokemon.actualValue)) {
-        getHTMLInputElement('party' + handOrder + parameter).textContent = String(pokemon.actualValue[parameter]);
-    }
+    pokemon.status.showActual(handOrder);
     // 実数値の性格による色
     const nature = getNatureDataByName(pokemon.nature);
     if (nature.plus !== nature.minus) {
@@ -678,7 +662,7 @@ function showCommand1stField() {
             getHTMLInputElement('moveRadio_' + i + '_' + j).disabled = false;
         }
         // 控え
-        const reserve = myParty.filter(poke => poke.order.battle === null && poke.hitPoint.isEmpty() === false);
+        const reserve = myParty.filter(poke => poke.order.battle === null && poke.hitPoint.value.isZero() === false);
         for (let j = 0; j < reserve.length; j++) {
             getHTMLInputElement('reserveRadio_' + i + '_' + j).disabled = false;
             getHTMLInputElement('reserveText_' + i + '_' + j).textContent = reserve[j].name;

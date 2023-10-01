@@ -49,6 +49,44 @@ class Index {
         return this._index;
     }
 }
+class ValueWithRange {
+    constructor(max, min) {
+        this._value = 0;
+        this._max = max;
+        this._min = min;
+    }
+    get value() {
+        return this._value;
+    }
+    add(value) {
+        value = Math.min(6, this._value + value);
+        value = Math.max(-6, this._value + value);
+        this._value = value;
+    }
+    sub(value) {
+        value = Math.min(6, this._value - value);
+        value = Math.max(-6, this._value - value);
+        this._value = value;
+    }
+    toZero() {
+        this._value = 0;
+    }
+    isMax() {
+        return this._value === this._max;
+    }
+    isMin() {
+        return this._value === this._min;
+    }
+    isZero() {
+        return this._value === 0;
+    }
+    isPlus() {
+        return this._value > 0;
+    }
+    isMinus() {
+        return this._value < 0;
+    }
+}
 class StatusAilment {
     constructor() {
         this._name = null;
@@ -152,37 +190,6 @@ class ParameterSix {
     }
     get speed() {
         return this._speed;
-    }
-}
-class Rank {
-    constructor() {
-        this._value = 0;
-    }
-    get value() {
-        return this._value;
-    }
-    add(value) {
-        value = Math.min(6, this._value + value);
-        value = Math.max(-6, this._value + value);
-        this._value = value;
-    }
-    toZero() {
-        this._value = 0;
-    }
-    isMax() {
-        return this._value === 6;
-    }
-    isMin() {
-        return this._value === -6;
-    }
-    isZero() {
-        return this._value === 0;
-    }
-    isPlus() {
-        return this._value > 0;
-    }
-    isMinus() {
-        return this._value < 0;
     }
 }
 class ParameterRank {
@@ -1291,66 +1298,208 @@ class SelectedMove {
         return this._flag;
     }
 }
-class HitPoint {
-    constructor() {
-        this._pre = 0;
-        this._max = 0;
-        this._min = 0;
-    }
-    get pre() {
-        return this._pre;
-    }
-    setMax(max) {
-        this._pre = max;
-        this._max = max;
-    }
-    add(value) {
-        value = Math.min(this._max, this._pre + value);
-        this._pre = value;
-    }
-    sub(value) {
-        value = Math.max(this._min, this._pre - value);
-        this._pre = value;
-    }
-    rate() {
-        return this._pre / this._max;
-    }
-    isEmpty() {
-        return this._pre <= this._min;
-    }
-    isFull() {
-        return this._pre >= this._max;
-    }
-    isGreaterThan(denominator) {
-        return this._pre > this._max / denominator;
-    }
-    isGreaterEqual(denominator) {
-        return this._pre >= this._max / denominator;
-    }
-    isLessThan(denominator) {
-        return this._pre < this._max / denominator;
-    }
-    isLessEqual(denominator) {
-        return this._pre <= this._max / denominator;
-    }
-}
 class Ability {
     constructor() {
         this._name = '';
         this._org = '';
     }
+    set name(name) {
+        this._name = name;
+    }
+    get name() {
+        return this._name;
+    }
     isName(ability) {
         return this._name === ability;
-    }
-    setName(ability) {
-        this._name = ability;
     }
     setOrg(ability) {
         this._name = ability;
         this._org = ability;
     }
-    getName() {
-        return this._name;
+}
+class ActualWithThreeValue {
+    constructor() {
+        this._actual = 0;
+        this._base = 0;
+        this._individual = 0;
+        this._effort = 0;
+    }
+    get actual() {
+        return this._actual;
+    }
+    get base() {
+        return this._base;
+    }
+    get individual() {
+        return this._individual;
+    }
+    get effort() {
+        return this._effort;
+    }
+    register(parameter) {
+        this.setActual(Number(getHTMLInputElement('register_' + parameter + 'ActualValue').value));
+        this.setBase(Number(getHTMLInputElement('register_' + parameter + 'BaseStatus').value));
+        this.setIndividual(Number(getHTMLInputElement('register_' + parameter + 'IndividualValue').value));
+        this.setEffort(Number(getHTMLInputElement('register_' + parameter + 'EffortValue').value));
+    }
+    edit(parameter) {
+        getHTMLInputElement('register_' + parameter + 'IndividualValue').value = String(this._individual);
+        getHTMLInputElement('register_' + parameter + 'EffortValue').value = String(this._effort);
+    }
+    showAcrual(parameter, handOrder) {
+        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = String(this._actual);
+    }
+    copy(status) {
+        this.setActual(status._actual);
+        this.setBase(status._base);
+        this.setIndividual(status._individual);
+        this.setEffort(status._effort);
+    }
+    setActual(value) {
+        this._actual = value;
+    }
+    setBase(value) {
+        this._base = value;
+    }
+    setIndividual(value) {
+        this._individual = value;
+    }
+    setEffort(value) {
+        this._effort = value;
+    }
+}
+class Rank extends ValueWithRange {
+    constructor() {
+        super(6, -6);
+    }
+}
+class HitPointValue extends ValueWithRange {
+    constructor() {
+        super(175, 0);
+    }
+    setActualValue(value) {
+        this._value = value;
+        this._max = value;
+    }
+    rate() {
+        return this._value / this._max;
+    }
+    isGreaterThan(denominator) {
+        return this._value > this._max / denominator;
+    }
+    isGreaterEqual(denominator) {
+        return this._value >= this._max / denominator;
+    }
+    isLessThan(denominator) {
+        return this._value < this._max / denominator;
+    }
+    isLessEqual(denominator) {
+        return this._value <= this._max / denominator;
+    }
+}
+class HitPoint extends ActualWithThreeValue {
+    constructor() {
+        super();
+        this._value = new HitPointValue();
+    }
+    get value() {
+        return this._value;
+    }
+}
+class MainStatus extends ActualWithThreeValue {
+    constructor() {
+        super();
+        this._rank = new Rank();
+    }
+    get rank() {
+        return this._rank;
+    }
+}
+class Status {
+    constructor() {
+        this._hitPoint = new HitPoint();
+        this._attack = new MainStatus();
+        this._defense = new MainStatus();
+        this._specialAttack = new MainStatus();
+        this._specialDefense = new MainStatus();
+        this._speed = new MainStatus();
+        this._accuracy = new Rank();
+        this._evasion = new Rank();
+    }
+    get hitPoint() {
+        return this._hitPoint;
+    }
+    get attack() {
+        return this._attack;
+    }
+    get defense() {
+        return this._defense;
+    }
+    get specialAttack() {
+        return this._specialAttack;
+    }
+    get specialDefense() {
+        return this._specialDefense;
+    }
+    get speed() {
+        return this._speed;
+    }
+    get accuracy() {
+        return this._accuracy;
+    }
+    get evasion() {
+        return this._evasion;
+    }
+    register() {
+        this._hitPoint.register('hitPoint');
+        this._attack.register('attack');
+        this._defense.register('defense');
+        this._specialAttack.register('specialAttack');
+        this._specialDefense.register('specialDefense');
+        this._speed.register('speed');
+    }
+    edit() {
+        this._hitPoint.edit('hitPoint');
+        this._attack.edit('attack');
+        this._defense.edit('defense');
+        this._specialAttack.edit('specialAttack');
+        this._specialDefense.edit('specialDefense');
+        this._speed.edit('speed');
+    }
+    getAllEffort() {
+        let allEffort = 0;
+        allEffort += this._hitPoint.effort;
+        allEffort += this._attack.effort;
+        allEffort += this._defense.effort;
+        allEffort += this._specialAttack.effort;
+        allEffort += this._specialDefense.effort;
+        allEffort += this._speed.effort;
+        return allEffort;
+    }
+    showActual(handOrder) {
+        this._hitPoint.showAcrual('hitPoint', handOrder);
+        this._attack.showAcrual('attack', handOrder);
+        this._defense.showAcrual('defense', handOrder);
+        this._specialAttack.showAcrual('specialAttack', handOrder);
+        this._specialDefense.showAcrual('specialDefense', handOrder);
+        this._speed.showAcrual('speed', handOrder);
+    }
+    resetRank() {
+        this._attack.rank.toZero();
+        this._defense.rank.toZero();
+        this._specialAttack.rank.toZero();
+        this._specialDefense.rank.toZero();
+        this._speed.rank.toZero();
+        this._accuracy.toZero();
+        this._evasion.toZero();
+    }
+    copy(status) {
+        this._hitPoint.copy(status._hitPoint);
+        this._attack.copy(status._attack);
+        this._defense.copy(status._defense);
+        this._specialAttack.copy(status._specialAttack);
+        this._specialDefense.copy(status._specialDefense);
+        this._speed.copy(status._speed);
     }
 }
 class Pokemon {
@@ -1358,11 +1507,7 @@ class Pokemon {
         this._id = new Index();
         this._trainer = 'me';
         this._order = new Order;
-        this._actualValue = new ParameterSix;
-        this._baseStatus = new ParameterSix;
-        this._individualValue = new ParameterSix;
-        this._effortValue = new ParameterSix;
-        this._rank = new ParameterRank;
+        this._status = new Status();
         this._learnedMove = [
             new LearnedMove,
             new LearnedMove,
@@ -1392,9 +1537,6 @@ class Pokemon {
     }
     set trainer(trainer) {
         this._trainer = trainer;
-    }
-    set rank(rank) {
-        this._rank = rank;
     }
     set learnedMove(learnedMove) {
         this._learnedMove = learnedMove;
@@ -1456,20 +1598,8 @@ class Pokemon {
     get order() {
         return this._order;
     }
-    get actualValue() {
-        return this._actualValue;
-    }
-    get baseStatus() {
-        return this._baseStatus;
-    }
-    get individualValue() {
-        return this._individualValue;
-    }
-    get effortValue() {
-        return this._effortValue;
-    }
-    get rank() {
-        return this._rank;
+    get status() {
+        return this._status;
     }
     get learnedMove() {
         return this._learnedMove;

@@ -373,7 +373,7 @@ function formChange( pokemon: Pokemon ): void {
   }
 
   if ( pokemon.name === 'ウッウ' ) {
-    if ( pokemon.hitPoint.isGreaterThan( 2 ) ) nextFrom = 'ウッウ(鵜呑み)';
+    if ( pokemon.hitPoint.value.isGreaterThan( 2 ) ) nextFrom = 'ウッウ(鵜呑み)';
     else nextFrom = 'ウッウ(丸呑み)'
   }
 
@@ -392,6 +392,7 @@ function formChange( pokemon: Pokemon ): void {
   pokemon.weight = nextPokemon.weight;
 
   // 実数値の更新
+  /*
   for ( const parameter of Object.keys( parameterFive ) ) {
     const nextBaseStatus: ParameterSixType = getBaseStatusList( nextPokemon )
     const baseStatus: number = pokemon.baseStatus[parameter];
@@ -417,6 +418,7 @@ function formChange( pokemon: Pokemon ): void {
     pokemon.baseStatus[parameter] = nextBaseStatus[parameter];
     pokemon.actualValue[parameter] = Math.floor( ( step3 + 5 ) * natureRate );
   }
+  */
 
 
   /*
@@ -526,7 +528,7 @@ function toReserve( pokemon: Pokemon ): void {
   }
 
   // ひんし処理
-  if ( pokemon.hitPoint.isZero() ) {
+  if ( pokemon.hitPoint.value.isZero() ) {
     writeLog( `${getArticle( pokemon )}は たおれた!` );
   }
 
@@ -537,8 +539,8 @@ function toReserve( pokemon: Pokemon ): void {
 
   regenerator:
   if ( pokemon.ability.isName( 'さいせいりょく' ) ) {
-    const value: number = Math.floor( pokemon.actualValue.hitPoint / 3 );
-    pokemon.hitPoint.add( value );
+    const value: number = Math.floor( pokemon.status.hitPoint.actual / 3 );
+    pokemon.hitPoint.value.add( value );
   }
 
 
@@ -549,7 +551,7 @@ function toReserve( pokemon: Pokemon ): void {
   // pokemon.command = new Command;
   // pokemon.damage = [];
   // pokemon.moveUsed = new AvailableMove;
-  pokemon.rank = new ParameterRank;
+  pokemon.status.resetRank();
 }
 
 // きのみを食べるかどうか
@@ -557,8 +559,8 @@ function isEnableEatBerry( pokemon: Pokemon ): boolean {
 
   const berry = pokemon.item;
   const confuse = pokemon.stateChange.confuse.isTrue;
-  const hitPoint = pokemon.actualValue.hitPoint;
-  const remaining = pokemon.hitPoint.value;
+  const hitPoint = pokemon.status.hitPoint.actual;
+  const remaining = pokemon.hitPoint.value.value;
   const gluttony = ( pokemon.ability.isName( 'くいしんぼう' ) )? 2 : 1;
 
   if ( berry === null ) return false;
@@ -623,7 +625,7 @@ function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number 
 function isValidToTargetAdditionalEffect( pokemon: Pokemon, target: Pokemon, damage: Damage ): boolean {
 
   if ( pokemon.stateChange.sheerForce.isTrue === true ) return false;
-  if ( target.hitPoint.isZero() ) return false;
+  if ( target.hitPoint.value.isZero() ) return false;
   if ( damage.substitute === true ) return false ;
   if ( target.ability.isName( 'りんぷん' ) ) return false;
   if ( isItem( target, 'おんみつマント' ) ) return false;
@@ -772,13 +774,13 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
 
   result = Math.max( result, 1 );
   result = result % 65536;
-  result = Math.min( result, target.hitPoint.value );
+  result = Math.min( result, target.hitPoint.value.value );
 
   if ( damage.substitute === true ) {
     result = Math.min( result, target.stateChange.substitute.count );
   }
 
-  if ( damage.substitute === false && result === target.hitPoint.value ) {
+  if ( damage.substitute === false && result === target.hitPoint.value.value ) {
     if ( target.stateChange.endure.isTrue === true ) {
       result -= 1;
       target.stateChange.endureMsg.isTrue === true;
@@ -792,7 +794,7 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       return result;
     }
     if ( pokemon.ability.isName( 'がんじょう' ) ) {
-      if ( target.hitPoint.isMax() ) {
+      if ( target.hitPoint.value.isMax() ) {
         result -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'がんじょう';
@@ -800,7 +802,7 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       }
     }
     if ( isItem( target, 'きあいのタスキ' ) === true ) {
-      if ( target.hitPoint.isMax() ) {
+      if ( target.hitPoint.value.isMax() ) {
         result -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'きあいのタスキ';

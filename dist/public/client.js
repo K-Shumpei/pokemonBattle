@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const socket_io_client_1 = require("socket.io-client");
-const socket = (0, socket_io_client_1.io)();
-//const socket = (0, io)();
+
+const socket = (0, io)();
 // パスワード送信
 function sendPassword() {
     const inputPassword = getHTMLInputElement('inputPassword').value;
@@ -51,7 +49,7 @@ socket.on('selectPokemon', (party) => {
         opponentAllParty[i].type1 = party[i]._type1;
         opponentAllParty[i].type2 = party[i]._type2;
         opponentAllParty[i].gender = party[i]._gender;
-        opponentAllParty[i].ability.setOrg(party[i]._ability.getName());
+        opponentAllParty[i].ability.setOrg(party[i]._ability.name);
         opponentAllParty[i].level = party[i]._level;
         opponentAllParty[i].item = party[i]._item;
         opponentAllParty[i].nature = party[i]._nature;
@@ -59,12 +57,7 @@ socket.on('selectPokemon', (party) => {
         opponentAllParty[i].weight = party[i]._weight;
         opponentAllParty[i].hitPoint = party[i]._hitPoint;
         // 実数値・種族値・個体値・努力値
-        for (const parameter of Object.keys(party[i]._actualValue)) {
-            opponentAllParty[i].actualValue[parameter] = party[i]._actualValue[parameter];
-            opponentAllParty[i].baseStatus[parameter] = party[i]._baseStatus[parameter];
-            opponentAllParty[i].individualValue[parameter] = party[i]._individualValue[parameter];
-            opponentAllParty[i].effortValue[parameter] = party[i]._effortValue[parameter];
-        }
+        opponentAllParty[i].status.copy(party[i]._status);
         // 技
         for (let j = 0; j < 4; j++) {
             opponentAllParty[i].learnedMove[j].slot = j;

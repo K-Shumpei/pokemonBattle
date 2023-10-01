@@ -6,20 +6,6 @@ function isItem(pokemon, item) {
     }
     return true;
 }
-// 特性
-/*
-function isAbility( pokemon: Pokemon, ability: string ): boolean {
-
-  if ( pokemon.hitPoint.isEmpty() ) {
-    return false;
-  }
-  if ( pokemon.ability === ability ) {
-    return false;
-  }
-
-  return true;
-}
-*/
 // ランク補正
 function getValueWithRankCorrection(actualValue, rank, critical) {
     let thisRank = rank;
@@ -366,7 +352,7 @@ function formChange(pokemon) {
         }
     }
     if (pokemon.name === 'ウッウ') {
-        if (pokemon.hitPoint.isGreaterThan(2))
+        if (pokemon.hitPoint.value.isGreaterThan(2))
             nextFrom = 'ウッウ(鵜呑み)';
         else
             nextFrom = 'ウッウ(丸呑み)';
@@ -381,34 +367,37 @@ function formChange(pokemon) {
     pokemon.type1 = nextPokemon.type[0];
     if (nextPokemon.type.length === 2)
         pokemon.type2 = nextPokemon.type[1];
-    pokemon.ability.setName(nextPokemon.ability[0]);
+    pokemon.ability.name = nextPokemon.ability[0];
     pokemon.height = nextPokemon.height;
     pokemon.weight = nextPokemon.weight;
     // 実数値の更新
-    for (const parameter of Object.keys(parameterFive)) {
-        const nextBaseStatus = getBaseStatusList(nextPokemon);
-        const baseStatus = pokemon.baseStatus[parameter];
-        const individualValue = pokemon.individualValue[parameter];
-        const effortValue = pokemon.effortValue[parameter];
-        // 実数値計算
-        const step1 = baseStatus * 2 + individualValue + Math.floor(effortValue / 4);
-        const step2 = step1 * pokemon.level;
-        const step3 = Math.floor(step2 / 100);
-        // 性格補正
-        let natureRate = 1.0;
-        if (nature.plus === nature.minus) {
-            natureRate = 1.0;
-        }
-        else if (nature.plus === parameter) {
-            natureRate = 1.1;
-        }
-        else if (nature.minus === parameter) {
-            natureRate = 0.9;
-        }
-        // 種族値・実数値の更新
-        pokemon.baseStatus[parameter] = nextBaseStatus[parameter];
-        pokemon.actualValue[parameter] = Math.floor((step3 + 5) * natureRate);
+    /*
+    for ( const parameter of Object.keys( parameterFive ) ) {
+      const nextBaseStatus: ParameterSixType = getBaseStatusList( nextPokemon )
+      const baseStatus: number = pokemon.baseStatus[parameter];
+      const individualValue: number = pokemon.individualValue[parameter];
+      const effortValue: number = pokemon.effortValue[parameter];
+  
+      // 実数値計算
+      const step1: number = baseStatus * 2 + individualValue + Math.floor( effortValue / 4 );
+      const step2: number = step1 * pokemon.level;
+      const step3: number = Math.floor( step2 / 100 );
+  
+      // 性格補正
+      let natureRate: number = 1.0;
+      if ( nature.plus === nature.minus ) {
+        natureRate = 1.0;
+      } else if ( nature.plus === parameter ) {
+        natureRate = 1.1;
+      } else if ( nature.minus === parameter ) {
+        natureRate = 0.9;
+      }
+  
+      // 種族値・実数値の更新
+      pokemon.baseStatus[parameter] = nextBaseStatus[parameter];
+      pokemon.actualValue[parameter] = Math.floor( ( step3 + 5 ) * natureRate );
     }
+    */
     /*
     みずびたし/もりののろいなどにより自身のタイプが変更されている場合、ばけのかわの発動によりゴースト/フェアリータイプに戻る。
     パワーシェア/ガードシェア/パワートリック/スピードスワップにより自身のステータスが変更されている場合、ばけのかわの発動により元のステータスに戻る。
@@ -512,15 +501,15 @@ function toReserve(pokemon) {
         }
     }
     // ひんし処理
-    if (pokemon.hitPoint.isEmpty()) {
+    if (pokemon.hitPoint.value.isZero()) {
         writeLog(`${getArticle(pokemon)}は たおれた!`);
     }
     naturalCure: if (pokemon.ability.isName('しぜんかいふく')) {
         pokemon.statusAilment.getHealth();
     }
     regenerator: if (pokemon.ability.isName('さいせいりょく')) {
-        const value = Math.floor(pokemon.actualValue.hitPoint / 3);
-        pokemon.hitPoint.add(value);
+        const value = Math.floor(pokemon.status.hitPoint.actual / 3);
+        pokemon.hitPoint.value.add(value);
     }
     // 情報のリセット
     // pokemon.ability = pokemon.statusOrg.ability;
@@ -529,14 +518,14 @@ function toReserve(pokemon) {
     // pokemon.command = new Command;
     // pokemon.damage = [];
     // pokemon.moveUsed = new AvailableMove;
-    pokemon.rank = new ParameterRank;
+    pokemon.status.resetRank();
 }
 // きのみを食べるかどうか
 function isEnableEatBerry(pokemon) {
     const berry = pokemon.item;
     const confuse = pokemon.stateChange.confuse.isTrue;
-    const hitPoint = pokemon.actualValue.hitPoint;
-    const remaining = pokemon.hitPoint.pre;
+    const hitPoint = pokemon.status.hitPoint.actual;
+    const remaining = pokemon.hitPoint.value.value;
     const gluttony = (pokemon.ability.isName('くいしんぼう')) ? 2 : 1;
     if (berry === null)
         return false;
@@ -618,7 +607,7 @@ function isValidProbabilityAdditionalEffect(pokemon, moveRate) {
 function isValidToTargetAdditionalEffect(pokemon, target, damage) {
     if (pokemon.stateChange.sheerForce.isTrue === true)
         return false;
-    if (target.hitPoint.isEmpty())
+    if (target.hitPoint.value.isZero())
         return false;
     if (damage.substitute === true)
         return false;
@@ -753,11 +742,11 @@ function processAfterCalculation(pokemon, target, finalDamage, damage) {
     let result = finalDamage;
     result = Math.max(result, 1);
     result = result % 65536;
-    result = Math.min(result, target.hitPoint.pre);
+    result = Math.min(result, target.hitPoint.value.value);
     if (damage.substitute === true) {
         result = Math.min(result, target.stateChange.substitute.count);
     }
-    if (damage.substitute === false && result === target.hitPoint.pre) {
+    if (damage.substitute === false && result === target.hitPoint.value.value) {
         if (target.stateChange.endure.isTrue === true) {
             result -= 1;
             target.stateChange.endureMsg.isTrue === true;
@@ -771,7 +760,7 @@ function processAfterCalculation(pokemon, target, finalDamage, damage) {
             return result;
         }
         if (pokemon.ability.isName('がんじょう')) {
-            if (target.hitPoint.pre === target.actualValue.hitPoint) {
+            if (target.hitPoint.value.isMax()) {
                 result -= 1;
                 target.stateChange.endureMsg.isTrue === true;
                 target.stateChange.endureMsg.text === 'がんじょう';
@@ -779,7 +768,7 @@ function processAfterCalculation(pokemon, target, finalDamage, damage) {
             }
         }
         if (isItem(target, 'きあいのタスキ') === true) {
-            if (target.hitPoint.pre === target.actualValue.hitPoint) {
+            if (target.hitPoint.value.isMax()) {
                 result -= 1;
                 target.stateChange.endureMsg.isTrue === true;
                 target.stateChange.endureMsg.text === 'きあいのタスキ';

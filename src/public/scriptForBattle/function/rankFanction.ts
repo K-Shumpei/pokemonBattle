@@ -48,7 +48,7 @@ function changeTargetRank( pokemon: Pokemon, target: Pokemon, parameter: string,
   }
 
   // ランク変化
-  target.rank[parameter].add( value );
+  //target.status.rank[parameter].add( value );
 
   // メッセージ
   if ( value >= 3 )   writeLog( `${getArticle( target )}の ${parameterJP}が ぐぐーんと上がった!` );
@@ -81,7 +81,7 @@ function changeMyRank( pokemon: Pokemon, parameter: string, change: number ): vo
   }
 
   // ランク変化
-  pokemon.rank[parameter].add( value );
+  //pokemon.rank[parameter].add( value );
 
   // メッセージ
   if ( value >= 3 )   writeLog( `${getArticle( pokemon )}の ${parameterJP}が ぐぐーんと上がった!` );
@@ -104,7 +104,7 @@ function changeMyRankByItem( pokemon: Pokemon, parameter: string, change: number
   }
 
   // ランク変化
-  pokemon.rank[parameter].add( value );
+  //pokemon.rank[parameter].add( value );
 
   // メッセージ
   if ( value >= 3 )   writeLog( `${getArticle( pokemon )}は ${item}で ${parameterJP}が ぐぐーんと上がった!` );
@@ -127,7 +127,7 @@ function changeMyRankByRage( pokemon: Pokemon, parameter: string, change: number
   if ( value === 0 ) return;
 
   // ランク変化
-  pokemon.rank[parameter].add( value );
+  //pokemon.rank[parameter].add( value );
 
   // メッセージ
   writeLog( `${pokemon}の いかりのボルテージが 上がっていく!` );
@@ -145,10 +145,10 @@ function getRankVariation( pokemon: Pokemon, parameter: string, value: number ):
   }
 
   if ( result > 0 ) {
-    result = Math.min( result, 6 - pokemon.rank[parameter].value )
+    //result = Math.min( result, 6 - pokemon.rank[parameter].value )
   }
   if ( result < 0 ) {
-    result = -1 * Math.min( Math.abs( result ), 6 + pokemon.rank[parameter].value )
+    //result = -1 * Math.min( Math.abs( result ), 6 + pokemon.rank[parameter].value )
   }
 
   return result

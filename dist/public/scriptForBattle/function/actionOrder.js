@@ -126,12 +126,12 @@ function getActionOrderLater(pokemon) {
 }
 function getSpeedValue(pokemon, type) {
     // a. すばやさ実数値
-    const speedTypeA = pokemon.actualValue.speed;
+    const speedTypeA = pokemon.status.speed.actual;
     if (type === 'a') {
         return speedTypeA;
     }
     // b. 各種補正
-    let speedTypeB = getValueWithRankCorrection(pokemon.actualValue.speed, pokemon.rank.speed.value, false);
+    let speedTypeB = getValueWithRankCorrection(pokemon.status.speed.actual, pokemon.status.speed.rank.value, false);
     let correction = 4096;
     speedTypeB = fiveRoundEntry(speedTypeB * correction / 4096);
     // まひ補正
