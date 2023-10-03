@@ -36,7 +36,7 @@ class Weather {
         return this._name === null || this.isNoWeather();
     }
     isSunny(pokemon) {
-        if (isItem(pokemon, 'ばんのうがさ') || this.isNoWeather()) {
+        if (pokemon.item.isName('ばんのうがさ') || this.isNoWeather()) {
             return false;
         }
         else {
@@ -44,7 +44,7 @@ class Weather {
         }
     }
     isRainy(pokemon) {
-        if (isItem(pokemon, 'ばんのうがさ') || this.isNoWeather()) {
+        if (pokemon.item.isName('ばんのうがさ') || this.isNoWeather()) {
             return false;
         }
         else {
@@ -68,7 +68,7 @@ class Weather {
         }
     }
     isBadSunny(pokemon) {
-        if (isItem(pokemon, 'ばんのうがさ') || this.isNoWeather()) {
+        if (pokemon.item.isName('ばんのうがさ') || this.isNoWeather()) {
             return false;
         }
         else {
@@ -76,7 +76,7 @@ class Weather {
         }
     }
     isBadRainy(pokemon) {
-        if (isItem(pokemon, 'ばんのうがさ') || this.isNoWeather()) {
+        if (pokemon.item.isName('ばんのうがさ') || this.isNoWeather()) {
             return false;
         }
         else {
@@ -140,7 +140,7 @@ class Weather {
         this.reset();
         fieldStatus.weather.name = 'HarshSunlight';
         fieldStatus.weather.turn = 5;
-        if (isItem(pokemon, 'あついいわ')) {
+        if (pokemon.item.isName('あついいわ')) {
             fieldStatus.weather.turn = 8;
             fieldStatus.weather.extend = true;
         }
@@ -152,7 +152,7 @@ class Weather {
         this.reset();
         fieldStatus.weather.name = 'Rain';
         fieldStatus.weather.turn = 5;
-        if (isItem(pokemon, 'しめったいわ')) {
+        if (pokemon.item.isName('しめったいわ')) {
             fieldStatus.weather.turn = 8;
             fieldStatus.weather.extend = true;
         }
@@ -164,7 +164,7 @@ class Weather {
         this.reset();
         fieldStatus.weather.name = 'Sandstorm';
         fieldStatus.weather.turn = 5;
-        if (isItem(pokemon, 'さらさらいわ')) {
+        if (pokemon.item.isName('さらさらいわ')) {
             fieldStatus.weather.turn = 8;
             fieldStatus.weather.extend = true;
         }
@@ -176,7 +176,7 @@ class Weather {
         this.reset();
         fieldStatus.weather.name = 'Hail';
         fieldStatus.weather.turn = 5;
-        if (isItem(pokemon, 'つめたいいわ')) {
+        if (pokemon.item.isName('つめたいいわ')) {
             fieldStatus.weather.turn = 8;
             fieldStatus.weather.extend = true;
         }
@@ -236,7 +236,7 @@ class Terrain {
         this._extend = false;
     }
     setExtend(pokemon) {
-        if (isItem(pokemon, 'グランドコート')) {
+        if (pokemon.item.isName('グランドコート')) {
             this._turn = 8;
             this._extend = true;
         }

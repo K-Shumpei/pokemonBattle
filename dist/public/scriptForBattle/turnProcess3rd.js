@@ -3,7 +3,7 @@
 function actionBeforeTurn() {
     for (const pokemon of allPokemonInBattlefield()) {
         quickDraw: if (pokemon.ability.isName('クイックドロウ')) {
-            if (pokemon.selectedMove.category === '変化')
+            if (pokemon.move.selected.isStatus())
                 break quickDraw;
             if (getRandom() >= 30)
                 break quickDraw;
@@ -12,14 +12,14 @@ function actionBeforeTurn() {
             writeLog(`${getArticle(pokemon)}は クイックドロウで 行動が はやくなった!`);
             continue;
         }
-        quickClaw: if (isItem(pokemon, 'せんせいのツメ') === true) {
+        quickClaw: if (pokemon.item.isName('せんせいのツメ') === true) {
             if (getRandom() >= 30)
                 break quickClaw;
             pokemon.stateChange.orderRaise.isTrue = true;
             writeLog(`${getArticle(pokemon)}は せんせいのツメで 行動が はやくなった!`);
             continue;
         }
-        custapBerry: if (isItem(pokemon, 'イバンのみ') === true) {
+        custapBerry: if (pokemon.item.isName('イバンのみ') === true) {
             const gluttony = (pokemon.ability.isName('くいしんぼう')) ? 2 : 1;
             if (pokemon.status.hitPoint.value.isGreaterThan(4 / gluttony))
                 break custapBerry;

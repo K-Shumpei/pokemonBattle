@@ -1,20 +1,20 @@
 // ポケモン
 const myAllParty = [
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon
+  new Pokemon(),
+  new Pokemon(),
+  new Pokemon(),
+  new Pokemon(),
+  new Pokemon(),
+  new Pokemon()
 ];
 
 const opponentAllParty: Pokemon[] = [
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon,
-  new Pokemon
+  new Pokemon(),
+  new Pokemon(),
+  new Pokemon(),
+  new Pokemon(),
+  new Pokemon(),
+  new Pokemon()
 ];
 
 const myParty: Pokemon[] = [];

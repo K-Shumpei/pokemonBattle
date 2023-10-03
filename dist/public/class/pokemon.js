@@ -49,44 +49,6 @@ class Index {
         return this._index;
     }
 }
-class ValueWithRange {
-    constructor(max, min) {
-        this._value = 0;
-        this._max = max;
-        this._min = min;
-    }
-    get value() {
-        return this._value;
-    }
-    add(value) {
-        value = Math.min(6, this._value + value);
-        value = Math.max(-6, this._value + value);
-        this._value = value;
-    }
-    sub(value) {
-        value = Math.min(6, this._value - value);
-        value = Math.max(-6, this._value - value);
-        this._value = value;
-    }
-    toZero() {
-        this._value = 0;
-    }
-    isMax() {
-        return this._value === this._max;
-    }
-    isMin() {
-        return this._value === this._min;
-    }
-    isZero() {
-        return this._value === 0;
-    }
-    isPlus() {
-        return this._value > 0;
-    }
-    isMinus() {
-        return this._value < 0;
-    }
-}
 class StatusAilment {
     constructor() {
         this._name = null;
@@ -975,329 +937,6 @@ class StateChangeSummary {
         return this._memo;
     }
 }
-class LearnedMove {
-    constructor() {
-        this._slot = 0;
-        this._name = null;
-        this._powerPoint = 0;
-        this._remainingPP = 0;
-    }
-    set slot(slot) {
-        this._slot = slot;
-    }
-    set name(name) {
-        this._name = name;
-    }
-    set powerPoint(powerPoint) {
-        this._powerPoint = powerPoint;
-    }
-    set remainingPP(remainingPP) {
-        this._remainingPP = remainingPP;
-    }
-    get slot() {
-        return this._slot;
-    }
-    get name() {
-        return this._name;
-    }
-    get powerPoint() {
-        return this._powerPoint;
-    }
-    get remainingPP() {
-        return this._remainingPP;
-    }
-    curePPByLeppaBerry(pokemon, value) {
-        // PP回復
-        this._remainingPP = Math.min(this._remainingPP + value, this._powerPoint);
-        // メッセージ
-        writeLog(`${getArticle(pokemon)}は ヒメリのみで ${this._name}のPPを 回復した!`);
-        // なげつける・むしくい・ついばむ
-        if (pokemon.stateChange.memo.isTrue === true) {
-            pokemon.stateChange.memo.count += 1;
-        }
-    }
-}
-class MoveFlag {
-    constructor() {
-        this._contact = false;
-        this._charge = false;
-        this._recharge = false;
-        this._protect = false;
-        this._reflectable = false;
-        this._snatch = false;
-        this._mirror = false;
-        this._punch = false;
-        this._sound = false;
-        this._gravity = false;
-        this._defrost = false;
-        this._distance = false;
-        this._heal = false;
-        this._authentic = false;
-        this._powder = false;
-        this._bite = false;
-        this._pulse = false;
-        this._ballistics = false;
-        this._mental = false;
-        this._nonSkyBattle = false;
-        this._dance = false;
-    }
-    set contact(contact) {
-        this._contact = contact;
-    }
-    set charge(charge) {
-        this._charge = charge;
-    }
-    set recharge(recharge) {
-        this._recharge = recharge;
-    }
-    set protect(protect) {
-        this._protect = protect;
-    }
-    set reflectable(reflectable) {
-        this._reflectable = reflectable;
-    }
-    set snatch(snatch) {
-        this._snatch = snatch;
-    }
-    set mirror(mirror) {
-        this._mirror = mirror;
-    }
-    set punch(punch) {
-        this._punch = punch;
-    }
-    set sound(sound) {
-        this._sound = sound;
-    }
-    set gravity(gravity) {
-        this._gravity = gravity;
-    }
-    set defrost(defrost) {
-        this._defrost = defrost;
-    }
-    set distance(distance) {
-        this._distance = distance;
-    }
-    set heal(heal) {
-        this._heal = heal;
-    }
-    set authentic(authentic) {
-        this._authentic = authentic;
-    }
-    set powder(powder) {
-        this._powder = powder;
-    }
-    set bite(bite) {
-        this._bite = bite;
-    }
-    set pulse(pulse) {
-        this._pulse = pulse;
-    }
-    set ballistics(ballistics) {
-        this._ballistics = ballistics;
-    }
-    set mental(mental) {
-        this._mental = mental;
-    }
-    set nonSkyBattle(nonSkyBattle) {
-        this._nonSkyBattle = nonSkyBattle;
-    }
-    set dance(dance) {
-        this._dance = dance;
-    }
-    get contact() {
-        return this._contact;
-    }
-    get charge() {
-        return this._charge;
-    }
-    get recharge() {
-        return this._recharge;
-    }
-    get protect() {
-        return this._protect;
-    }
-    get reflectable() {
-        return this._reflectable;
-    }
-    get snatch() {
-        return this._snatch;
-    }
-    get mirror() {
-        return this._mirror;
-    }
-    get punch() {
-        return this._punch;
-    }
-    get sound() {
-        return this._sound;
-    }
-    get gravity() {
-        return this._gravity;
-    }
-    get defrost() {
-        return this._defrost;
-    }
-    get distance() {
-        return this._distance;
-    }
-    get heal() {
-        return this._heal;
-    }
-    get authentic() {
-        return this._authentic;
-    }
-    get powder() {
-        return this._powder;
-    }
-    get bite() {
-        return this._bite;
-    }
-    get pulse() {
-        return this._pulse;
-    }
-    get ballistics() {
-        return this._ballistics;
-    }
-    get mental() {
-        return this._mental;
-    }
-    get nonSkyBattle() {
-        return this._nonSkyBattle;
-    }
-    get dance() {
-        return this._dance;
-    }
-}
-class SelectedMove {
-    constructor() {
-        this._slot = 0;
-        this._name = '';
-        this._type = null;
-        this._damageClass = '';
-        this._target = '';
-        this._category = '';
-        this._power = 0;
-        this._accuracy = 0;
-        this._priority = 0;
-        this._critical = 0;
-        this._drain = 0;
-        this._flinch = 0;
-        this._healing = 0;
-        this._hits = { max: null, min: null };
-        this._turns = { max: null, min: null };
-        this._ailment = { chance: 0, name: '' };
-        this._stat = { chance: 0, changes: [] };
-        this._flag = new MoveFlag;
-    }
-    set slot(slot) {
-        this._slot = slot;
-    }
-    set name(name) {
-        this._name = name;
-    }
-    set type(type) {
-        this._type = type;
-    }
-    set damageClass(damageClass) {
-        this._damageClass = damageClass;
-    }
-    set target(target) {
-        this._target = target;
-    }
-    set category(category) {
-        this._category = category;
-    }
-    set power(power) {
-        this._power = power;
-    }
-    set accuracy(accuracy) {
-        this._accuracy = accuracy;
-    }
-    set priority(priority) {
-        this._priority = priority;
-    }
-    set critical(critical) {
-        this._critical = critical;
-    }
-    set drain(drain) {
-        this._drain = drain;
-    }
-    set flinch(flinch) {
-        this._flinch = flinch;
-    }
-    set healing(healing) {
-        this._healing = healing;
-    }
-    set hits(hits) {
-        this._hits = hits;
-    }
-    set turns(turns) {
-        this._turns = turns;
-    }
-    set ailment(ailment) {
-        this._ailment = ailment;
-    }
-    set stat(stat) {
-        this._stat = stat;
-    }
-    set flag(flag) {
-        this._flag = flag;
-    }
-    get slot() {
-        return this._slot;
-    }
-    get name() {
-        return this._name;
-    }
-    get type() {
-        return this._type;
-    }
-    get damageClass() {
-        return this._damageClass;
-    }
-    get target() {
-        return this._target;
-    }
-    get category() {
-        return this._category;
-    }
-    get power() {
-        return this._power;
-    }
-    get accuracy() {
-        return this._accuracy;
-    }
-    get priority() {
-        return this._priority;
-    }
-    get critical() {
-        return this._critical;
-    }
-    get drain() {
-        return this._drain;
-    }
-    get flinch() {
-        return this._flinch;
-    }
-    get healing() {
-        return this._healing;
-    }
-    get hits() {
-        return this._hits;
-    }
-    get turns() {
-        return this._turns;
-    }
-    get ailment() {
-        return this._ailment;
-    }
-    get stat() {
-        return this._stat;
-    }
-    get flag() {
-        return this._flag;
-    }
-}
 class Ability {
     constructor() {
         this._name = '';
@@ -1317,189 +956,18 @@ class Ability {
         this._org = ability;
     }
 }
-class ActualWithThreeValue {
+class Item {
     constructor() {
-        this._actual = 0;
-        this._base = 0;
-        this._individual = 0;
-        this._effort = 0;
+        this._name = null;
     }
-    get actual() {
-        return this._actual;
+    set name(name) {
+        this._name = name;
     }
-    get base() {
-        return this._base;
+    get name() {
+        return this._name;
     }
-    get individual() {
-        return this._individual;
-    }
-    get effort() {
-        return this._effort;
-    }
-    register(parameter) {
-        this.setActual(Number(getHTMLInputElement('register_' + parameter + 'ActualValue').value));
-        this.setBase(Number(getHTMLInputElement('register_' + parameter + 'BaseStatus').value));
-        this.setIndividual(Number(getHTMLInputElement('register_' + parameter + 'IndividualValue').value));
-        this.setEffort(Number(getHTMLInputElement('register_' + parameter + 'EffortValue').value));
-    }
-    edit(parameter) {
-        getHTMLInputElement('register_' + parameter + 'IndividualValue').value = String(this._individual);
-        getHTMLInputElement('register_' + parameter + 'EffortValue').value = String(this._effort);
-    }
-    showAcrual(parameter, handOrder) {
-        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = String(this._actual);
-    }
-    copy(status) {
-        this.setActual(status._actual);
-        this.setBase(status._base);
-        this.setIndividual(status._individual);
-        this.setEffort(status._effort);
-    }
-    setActual(value) {
-        this._actual = value;
-    }
-    setBase(value) {
-        this._base = value;
-    }
-    setIndividual(value) {
-        this._individual = value;
-    }
-    setEffort(value) {
-        this._effort = value;
-    }
-}
-class Rank extends ValueWithRange {
-    constructor() {
-        super(6, -6);
-    }
-}
-class HitPointValue extends ValueWithRange {
-    constructor() {
-        super(175, 0);
-    }
-    setActualValue(value) {
-        this._value = value;
-        this._max = value;
-    }
-    rate() {
-        return this._value / this._max;
-    }
-    isGreaterThan(denominator) {
-        return this._value > this._max / denominator;
-    }
-    isGreaterEqual(denominator) {
-        return this._value >= this._max / denominator;
-    }
-    isLessThan(denominator) {
-        return this._value < this._max / denominator;
-    }
-    isLessEqual(denominator) {
-        return this._value <= this._max / denominator;
-    }
-}
-class HitPoint extends ActualWithThreeValue {
-    constructor() {
-        super();
-        this._value = new HitPointValue();
-    }
-    get value() {
-        return this._value;
-    }
-}
-class MainStatus extends ActualWithThreeValue {
-    constructor() {
-        super();
-        this._rank = new Rank();
-    }
-    get rank() {
-        return this._rank;
-    }
-}
-class Status {
-    constructor() {
-        this._hitPoint = new HitPoint();
-        this._attack = new MainStatus();
-        this._defense = new MainStatus();
-        this._specialAttack = new MainStatus();
-        this._specialDefense = new MainStatus();
-        this._speed = new MainStatus();
-        this._accuracy = new Rank();
-        this._evasion = new Rank();
-    }
-    get hitPoint() {
-        return this._hitPoint;
-    }
-    get attack() {
-        return this._attack;
-    }
-    get defense() {
-        return this._defense;
-    }
-    get specialAttack() {
-        return this._specialAttack;
-    }
-    get specialDefense() {
-        return this._specialDefense;
-    }
-    get speed() {
-        return this._speed;
-    }
-    get accuracy() {
-        return this._accuracy;
-    }
-    get evasion() {
-        return this._evasion;
-    }
-    register() {
-        this._hitPoint.register('hitPoint');
-        this._attack.register('attack');
-        this._defense.register('defense');
-        this._specialAttack.register('specialAttack');
-        this._specialDefense.register('specialDefense');
-        this._speed.register('speed');
-    }
-    edit() {
-        this._hitPoint.edit('hitPoint');
-        this._attack.edit('attack');
-        this._defense.edit('defense');
-        this._specialAttack.edit('specialAttack');
-        this._specialDefense.edit('specialDefense');
-        this._speed.edit('speed');
-    }
-    getAllEffort() {
-        let allEffort = 0;
-        allEffort += this._hitPoint.effort;
-        allEffort += this._attack.effort;
-        allEffort += this._defense.effort;
-        allEffort += this._specialAttack.effort;
-        allEffort += this._specialDefense.effort;
-        allEffort += this._speed.effort;
-        return allEffort;
-    }
-    showActual(handOrder) {
-        this._hitPoint.showAcrual('hitPoint', handOrder);
-        this._attack.showAcrual('attack', handOrder);
-        this._defense.showAcrual('defense', handOrder);
-        this._specialAttack.showAcrual('specialAttack', handOrder);
-        this._specialDefense.showAcrual('specialDefense', handOrder);
-        this._speed.showAcrual('speed', handOrder);
-    }
-    resetRank() {
-        this._attack.rank.toZero();
-        this._defense.rank.toZero();
-        this._specialAttack.rank.toZero();
-        this._specialDefense.rank.toZero();
-        this._speed.rank.toZero();
-        this._accuracy.toZero();
-        this._evasion.toZero();
-    }
-    copy(status) {
-        this._hitPoint.copy(status._hitPoint);
-        this._attack.copy(status._attack);
-        this._defense.copy(status._defense);
-        this._specialAttack.copy(status._specialAttack);
-        this._specialDefense.copy(status._specialDefense);
-        this._speed.copy(status._speed);
+    isName(ability) {
+        return this._name === ability;
     }
 }
 class Pokemon {
@@ -1508,13 +976,7 @@ class Pokemon {
         this._trainer = 'me';
         this._order = new Order;
         this._status = new Status();
-        this._learnedMove = [
-            new LearnedMove,
-            new LearnedMove,
-            new LearnedMove,
-            new LearnedMove,
-        ];
-        this._selectedMove = new SelectedMove;
+        this._move = new Move();
         this._damage = [];
         this._command = new Command;
         this._stateChange = new StateChangeSummary;
@@ -1524,10 +986,8 @@ class Pokemon {
         this._gender = 'genderless';
         this._ability = new Ability();
         this._level = 50;
-        this._item = null;
+        this._item = new Item();
         this._nature = 'てれや';
-        this._height = 1.0;
-        this._weight = 1.0;
         this._happiness = 255;
         this._hitPoint = new HitPoint();
         this._statusAilment = new StatusAilment();
@@ -1537,12 +997,6 @@ class Pokemon {
     }
     set trainer(trainer) {
         this._trainer = trainer;
-    }
-    set learnedMove(learnedMove) {
-        this._learnedMove = learnedMove;
-    }
-    set selectedMove(selectedMove) {
-        this._selectedMove = selectedMove;
     }
     set damage(damage) {
         this._damage = damage;
@@ -1574,12 +1028,6 @@ class Pokemon {
     set nature(nature) {
         this._nature = nature;
     }
-    set height(height) {
-        this._height = height;
-    }
-    set weight(weight) {
-        this._weight = weight;
-    }
     set happiness(happiness) {
         this._happiness = happiness;
     }
@@ -1601,11 +1049,8 @@ class Pokemon {
     get status() {
         return this._status;
     }
-    get learnedMove() {
-        return this._learnedMove;
-    }
-    get selectedMove() {
-        return this._selectedMove;
+    get move() {
+        return this._move;
     }
     get damage() {
         return this._damage;
@@ -1639,12 +1084,6 @@ class Pokemon {
     }
     get nature() {
         return this._nature;
-    }
-    get height() {
-        return this._height;
-    }
-    get weight() {
-        return this._weight;
     }
     get happiness() {
         return this._happiness;
@@ -1702,5 +1141,32 @@ class Pokemon {
             this._stateChange.truant.count += 1;
         }
         return true;
+    }
+    getMaster() {
+        let master = pokemonMaster.find((m) => {
+            return m.nameEN === this._name;
+        });
+        if (!master)
+            master = pokemonMaster[0];
+        return master;
+    }
+    getWeight() {
+        const master = this.getMaster();
+        let weight = master.weight;
+        // ボディパージ
+        if (this._ability.isName('ライトメタル')) {
+            weight = weight / 2;
+        }
+        if (this._ability.isName('ヘヴィメタル')) {
+            weight = weight * 2;
+        }
+        if (this._item.isName('かるいし')) {
+            weight = weight - 100;
+        }
+        return Math.max(0.1, weight);
+    }
+    isContact() {
+        const flag = this._move.selected.getFlag();
+        return flag.contact && !this._ability.isName('えんかく');
     }
 }

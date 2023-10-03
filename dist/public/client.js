@@ -1,6 +1,8 @@
 "use strict";
-
-const socket = (0, io)();
+Object.defineProperty(exports, "__esModule", { value: true });
+const socket_io_client_1 = require("socket.io-client");
+const socket = (0, socket_io_client_1.io)();
+//const socket = (0, io)();
 // パスワード送信
 function sendPassword() {
     const inputPassword = getHTMLInputElement('inputPassword').value;
@@ -53,17 +55,12 @@ socket.on('selectPokemon', (party) => {
         opponentAllParty[i].level = party[i]._level;
         opponentAllParty[i].item = party[i]._item;
         opponentAllParty[i].nature = party[i]._nature;
-        opponentAllParty[i].height = party[i]._height;
-        opponentAllParty[i].weight = party[i]._weight;
         opponentAllParty[i].hitPoint = party[i]._hitPoint;
         // 実数値・種族値・個体値・努力値
         opponentAllParty[i].status.copy(party[i]._status);
         // 技
         for (let j = 0; j < 4; j++) {
-            opponentAllParty[i].learnedMove[j].slot = j;
-            opponentAllParty[i].learnedMove[j].name = party[i]._learnedMove[j]._name;
-            opponentAllParty[i].learnedMove[j].powerPoint = party[i]._learnedMove[j]._remainingPP;
-            opponentAllParty[i].learnedMove[j].remainingPP = party[i]._learnedMove[j]._remainingPP;
+            opponentAllParty[i].move.learned[j].copy(party[i]._move._learned[j]);
         }
         // パーティ画像
         const imageHTML = getHTMLInputElement('opponentParty_image' + i);
@@ -245,7 +242,7 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
             pokemon.command.myTarget = myCommand[i]._myTarget;
             pokemon.command.opponentTarget = myCommand[i]._opponentTarget;
             // 使用する技
-            setSelectedMove(pokemon);
+            pokemon.move.setSelcted(pokemon.command.move);
         }
         for (const pokemon of opponentParty) {
             if (pokemon.order.battle !== i) {
@@ -256,7 +253,7 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
             pokemon.command.myTarget = opponentCommand[i]._myTarget;
             pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
             // 使用する技
-            setSelectedMove(pokemon);
+            pokemon.move.setSelcted(pokemon.command.move);
         }
     }
     // 乱数リセット

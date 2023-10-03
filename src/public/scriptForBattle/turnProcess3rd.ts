@@ -5,7 +5,7 @@ function actionBeforeTurn(): void {
 
     quickDraw:
     if ( pokemon.ability.isName( 'クイックドロウ' ) ) {
-      if ( pokemon.selectedMove.category === '変化' ) break quickDraw;
+      if ( pokemon.move.selected.isStatus() ) break quickDraw;
       if ( getRandom() >= 30 ) break quickDraw;
 
       pokemon.stateChange.orderRaise.isTrue = true;
@@ -15,7 +15,7 @@ function actionBeforeTurn(): void {
     }
 
     quickClaw:
-    if ( isItem( pokemon, 'せんせいのツメ' ) === true ) {
+    if ( pokemon.item.isName( 'せんせいのツメ' ) === true ) {
       if ( getRandom() >= 30 ) break quickClaw;
 
       pokemon.stateChange.orderRaise.isTrue = true;
@@ -24,7 +24,7 @@ function actionBeforeTurn(): void {
     }
 
     custapBerry:
-    if ( isItem( pokemon, 'イバンのみ' ) === true ) {
+    if ( pokemon.item.isName( 'イバンのみ' ) === true ) {
       const gluttony: number = ( pokemon.ability.isName( 'くいしんぼう' ) )? 2 : 1;
       if ( pokemon.status.hitPoint.value.isGreaterThan( 4 / gluttony ) ) break custapBerry;
 

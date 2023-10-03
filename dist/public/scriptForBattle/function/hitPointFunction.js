@@ -2,7 +2,7 @@
 // 技の追加効果によるHP変化
 function changeHPByMove(pokemon, target, change) {
     let value = change;
-    if (isItem(pokemon, 'おおきなねっこ') === true) {
+    if (pokemon.item.isName('おおきなねっこ') === true) {
         value = fiveRoundEntry(value * 5324 / 4096);
     }
     if (target.ability.isName('ヘドロえき')) {

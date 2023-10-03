@@ -1,6 +1,7 @@
 type PokemonType = ( typeof typeTextList )[number];
 type Gender = ( typeof genderTextList )[number];
 type StatusAilmentText = ( typeof statusAilmentTextList )[number];
+type MoveClass = ( typeof moveClassText )[number];
 type WeatherText = ( typeof weatherTextList )[number];
 type TerrainText = ( typeof terrainTextList )[number];
 
@@ -41,6 +42,12 @@ const statusAilmentTextList = [
   'POISONED',
   'ASLEEP',
   null,
+] as const;
+
+const moveClassText = [
+  'physical',
+  'special',
+  'status',
 ] as const;
 
 const weatherTextList = [

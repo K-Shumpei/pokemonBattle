@@ -1,20 +1,20 @@
 "use strict";
 // ポケモン
 const myAllParty = [
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon
+    new Pokemon(),
+    new Pokemon(),
+    new Pokemon(),
+    new Pokemon(),
+    new Pokemon(),
+    new Pokemon()
 ];
 const opponentAllParty = [
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon,
-    new Pokemon
+    new Pokemon(),
+    new Pokemon(),
+    new Pokemon(),
+    new Pokemon(),
+    new Pokemon(),
+    new Pokemon()
 ];
 const myParty = [];
 const opponentParty = [];

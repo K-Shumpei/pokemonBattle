@@ -34,6 +34,11 @@ const statusAilmentTextList = [
     'ASLEEP',
     null,
 ];
+const moveClassText = [
+    'physical',
+    'special',
+    'status',
+];
 const weatherTextList = [
     'HarshSunlight',
     'Rain',

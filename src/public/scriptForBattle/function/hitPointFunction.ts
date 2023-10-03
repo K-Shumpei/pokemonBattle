@@ -3,7 +3,7 @@ function changeHPByMove( pokemon: Pokemon, target: Pokemon, change: number ): vo
 
   let value: number = change;
 
-  if ( isItem( pokemon, 'おおきなねっこ' ) === true ) {
+  if ( pokemon.item.isName( 'おおきなねっこ' ) === true ) {
     value = fiveRoundEntry( value * 5324 / 4096 );
   }
 

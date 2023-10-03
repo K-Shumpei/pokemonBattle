@@ -62,58 +62,7 @@ class Index {
   }
 }
 
-class ValueWithRange {
-  _value: number;
-  _max: number;
-  _min: number;
 
-  constructor( max: number, min: number ) {
-    this._value = 0;
-    this._max = max;
-    this._min = min;
-  }
-
-  get value(): number {
-    return this._value;
-  }
-
-  add( value: number ): void {
-    value = Math.min( 6, this._value + value );
-    value = Math.max( -6, this._value + value );
-    this._value = value;
-  }
-
-  sub( value: number ): void {
-    value = Math.min( 6, this._value - value );
-    value = Math.max( -6, this._value - value );
-    this._value = value;
-  }
-
-  toZero(): void {
-    this._value = 0;
-  }
-
-  isMax(): boolean {
-    return this._value === this._max;
-  }
-
-  isMin(): boolean {
-    return this._value === this._min;
-  }
-
-  isZero(): boolean {
-    return this._value === 0;
-  }
-
-  isPlus(): boolean {
-    return this._value > 0;
-  }
-
-  isMinus(): boolean {
-    return this._value < 0;
-  }
-
-}
 
 class StatusAilment {
   _name: StatusAilmentText;
@@ -1229,388 +1178,6 @@ class StateChangeSummary {
 }
 
 
-class LearnedMove {
-  _slot: number
-  _name: string | null;
-  _powerPoint: number;
-  _remainingPP: number;
-
-  constructor() {
-    this._slot = 0
-    this._name = null;
-    this._powerPoint = 0;
-    this._remainingPP = 0;
-  }
-
-  set slot( slot: number ) {
-    this._slot = slot;
-  }
-  set name( name: string | null ) {
-    this._name = name
-  }
-  set powerPoint( powerPoint: number ) {
-    this._powerPoint = powerPoint
-  }
-  set remainingPP( remainingPP: number ) {
-    this._remainingPP = remainingPP
-  }
-
-  get slot(): number {
-    return this._slot;
-  }
-  get name(): string | null {
-    return this._name;
-  }
-  get powerPoint(): number {
-    return this._powerPoint;
-  }
-  get remainingPP(): number {
-    return this._remainingPP;
-  }
-
-  curePPByLeppaBerry( pokemon: Pokemon, value: number ): void {
-    // PP回復
-    this._remainingPP = Math.min( this._remainingPP + value, this._powerPoint );
-    // メッセージ
-    writeLog( `${getArticle( pokemon )}は ヒメリのみで ${this._name}のPPを 回復した!` );
-    // なげつける・むしくい・ついばむ
-    if ( pokemon.stateChange.memo.isTrue === true ) {
-      pokemon.stateChange.memo.count += 1;
-    }
-  }
-}
-
-class MoveFlag {
-  _contact: boolean; // 接触攻撃
-  _charge: boolean; // ため技、パワフルハーブで溜めをスキップできる
-  _recharge: boolean; // 次のターン反動で動けない
-  _protect: boolean; // 「まもる」「みきり」 で防ぐことができる
-  _reflectable: boolean; // マジックコート・マジックミラーで跳ね返すことができる
-  _snatch: boolean; // 「よこどり」で奪うことができる
-  _mirror: boolean; // 「オウムがえし」でコピーすることができる
-  _punch: boolean; // 「てつのこぶし」の場合威力が1.2倍になる
-  _sound: boolean; // 「ぼうおん」で無効化される
-  _gravity: boolean; // 「じゅうりょく」下では使用できない
-  _defrost: boolean; // 自身のこおり状態を治すことができる
-  _distance: boolean; // トリプルバトルでは対角の相手にも攻撃できる
-  _heal: boolean; // 「かいふくふうじ」状態では使用できない
-  _authentic: boolean; // 「みがわり」を無視して攻撃できる
-  _powder: boolean; // 「ぼうじん」「くさタイプ」には無効
-  _bite: boolean; // 「がんじょうあご」の場合威力が1.5倍
-  _pulse: boolean; // 「メガランチャー」の場合、威力が1.5倍
-  _ballistics: boolean; // 「ぼうだん」には無効
-  _mental: boolean; // 「アロマベール」には無効、「メンタルハーブ」で治る
-  _nonSkyBattle: boolean; // スカイバトルでは使えない
-  _dance: boolean; // 「おどりこ」の対象
-
-  constructor() {
-    this._contact = false;
-    this._charge = false;
-    this._recharge = false;
-    this._protect = false;
-    this._reflectable = false;
-    this._snatch = false;
-    this._mirror = false;
-    this._punch = false;
-    this._sound = false;
-    this._gravity = false;
-    this._defrost = false;
-    this._distance = false;
-    this._heal = false;
-    this._authentic = false;
-    this._powder = false;
-    this._bite = false;
-    this._pulse = false;
-    this._ballistics = false;
-    this._mental = false;
-    this._nonSkyBattle = false;
-    this._dance = false;
-  }
-
-  set contact( contact: boolean ) {
-    this._contact = contact;
-  }
-  set charge( charge: boolean ) {
-    this._charge = charge;
-  }
-  set recharge( recharge: boolean ) {
-    this._recharge = recharge;
-  }
-  set protect( protect: boolean ) {
-    this._protect = protect;
-  }
-  set reflectable( reflectable: boolean ) {
-    this._reflectable = reflectable;
-  }
-  set snatch( snatch: boolean ) {
-    this._snatch = snatch;
-  }
-  set mirror( mirror: boolean ) {
-    this._mirror = mirror;
-  }
-  set punch( punch: boolean ) {
-    this._punch = punch;
-  }
-  set sound( sound: boolean ) {
-    this._sound = sound;
-  }
-  set gravity( gravity: boolean ) {
-    this._gravity = gravity;
-  }
-  set defrost( defrost: boolean ) {
-    this._defrost = defrost;
-  }
-  set distance( distance: boolean ) {
-    this._distance = distance;
-  }
-  set heal( heal: boolean ) {
-    this._heal = heal;
-  }
-  set authentic( authentic: boolean ) {
-    this._authentic = authentic;
-  }
-  set powder( powder: boolean ) {
-    this._powder = powder;
-  }
-  set bite( bite: boolean ) {
-    this._bite = bite;
-  }
-  set pulse( pulse: boolean ) {
-    this._pulse = pulse;
-  }
-  set ballistics( ballistics: boolean ) {
-    this._ballistics = ballistics;
-  }
-  set mental( mental: boolean ) {
-    this._mental = mental;
-  }
-  set nonSkyBattle( nonSkyBattle: boolean ) {
-    this._nonSkyBattle = nonSkyBattle;
-  }
-  set dance( dance: boolean ) {
-    this._dance = dance;
-  }
-
-  get contact() {
-    return this._contact;
-  }
-  get charge() {
-    return this._charge;
-  }
-  get recharge() {
-    return this._recharge;
-  }
-  get protect() {
-    return this._protect;
-  }
-  get reflectable() {
-    return this._reflectable;
-  }
-  get snatch() {
-    return this._snatch;
-  }
-  get mirror() {
-    return this._mirror;
-  }
-  get punch() {
-    return this._punch;
-  }
-  get sound() {
-    return this._sound;
-  }
-  get gravity() {
-    return this._gravity;
-  }
-  get defrost() {
-    return this._defrost;
-  }
-  get distance() {
-    return this._distance;
-  }
-  get heal() {
-    return this._heal;
-  }
-  get authentic() {
-    return this._authentic;
-  }
-  get powder() {
-    return this._powder;
-  }
-  get bite() {
-    return this._bite;
-  }
-  get pulse() {
-    return this._pulse;
-  }
-  get ballistics() {
-    return this._ballistics;
-  }
-  get mental() {
-    return this._mental;
-  }
-  get nonSkyBattle() {
-    return this._nonSkyBattle;
-  }
-  get dance() {
-    return this._dance;
-  }
-}
-
-
-class SelectedMove {
-  _slot: number;
-  _name: string;
-  _type: PokemonType;
-  _damageClass: string;
-  _target: string;
-  _category: string;
-  _power: number | null;
-  _accuracy: number | null;
-  _priority: number;
-  _critical: number;
-  _drain: number;
-  _flinch: number;
-  _healing: number;
-  _hits: { max: number | null, min: number | null };
-  _turns: { max: number | null, min: number | null };
-  _ailment: { chance: number, name: string };
-  _stat: { chance: number, changes: { stat: string, change: number }[] };
-  _flag: MoveFlag;
-
-  constructor() {
-    this._slot = 0;
-    this._name = '';
-    this._type = null;
-    this._damageClass = '';
-    this._target = '';
-    this._category = '';
-    this._power = 0;
-    this._accuracy = 0;
-    this._priority = 0;
-    this._critical = 0;
-    this._drain = 0;
-    this._flinch = 0;
-    this._healing = 0;
-    this._hits = { max: null, min: null };
-    this._turns = { max: null, min: null };
-    this._ailment = { chance: 0, name: '' };
-    this._stat = { chance: 0, changes: [] };
-    this._flag = new MoveFlag;
-  }
-
-  set slot( slot: number ) {
-    this._slot = slot;
-  }
-  set name( name: string ) {
-    this._name = name;
-  }
-  set type( type: PokemonType ) {
-    this._type = type;
-  }
-  set damageClass( damageClass: string ) {
-    this._damageClass = damageClass;
-  }
-  set target( target: string ) {
-    this._target = target;
-  }
-  set category( category: string ) {
-    this._category = category;
-  }
-  set power( power: number | null ) {
-    this._power = power;
-  }
-  set accuracy( accuracy: number | null ) {
-    this._accuracy = accuracy;
-  }
-  set priority( priority: number ) {
-    this._priority = priority;
-  }
-  set critical( critical: number ) {
-    this._critical = critical;
-  }
-  set drain( drain: number ) {
-    this._drain = drain;
-  }
-  set flinch( flinch: number ) {
-    this._flinch = flinch;
-  }
-  set healing( healing: number ) {
-    this._healing = healing;
-  }
-  set hits( hits: { max: number | null, min: number | null } ) {
-    this._hits = hits;
-  }
-  set turns( turns: { max: number | null, min: number | null } ) {
-    this._turns = turns;
-  }
-  set ailment( ailment: { chance: number, name: string } ) {
-    this._ailment = ailment;
-  }
-  set stat( stat: { chance: number, changes: { stat: string, change: number }[] } ) {
-    this._stat = stat;
-  }
-  set flag( flag: MoveFlag ) {
-    this._flag = flag;
-  }
-
-  get slot(): number {
-    return this._slot;
-   }
-   get name(): string {
-    return this._name;
-   }
-   get type(): PokemonType {
-    return this._type;
-   }
-   get damageClass(): string {
-    return this._damageClass;
-   }
-   get target(): string {
-    return this._target;
-   }
-   get category(): string {
-    return this._category;
-   }
-   get power(): number | null {
-    return this._power;
-   }
-   get accuracy(): number | null {
-    return this._accuracy;
-   }
-   get priority(): number {
-    return this._priority;
-   }
-   get critical(): number {
-    return this._critical;
-   }
-   get drain(): number {
-    return this._drain;
-   }
-   get flinch(): number {
-    return this._flinch;
-   }
-   get healing(): number {
-    return this._healing;
-   }
-   get hits(): { max: number | null, min: number | null } {
-    return this._hits;
-   }
-   get turns(): { max: number | null, min: number | null } {
-    return this._turns;
-   }
-   get ailment(): { chance: number, name: string } {
-    return this._ailment;
-   }
-   get stat(): { chance: number, changes: { stat: string, change: number }[] } {
-    return this._stat;
-   }
-   get flag(): MoveFlag {
-    return this._flag;
-   }
-}
-
-
-
 
 
 class Ability {
@@ -1640,243 +1207,29 @@ class Ability {
   }
 }
 
-
-
-class ActualWithThreeValue {
-  _actual: number;
-  _base: number;
-  _individual: number;
-  _effort: number;
+class Item {
+  _name: string | null;
 
   constructor() {
-    this._actual = 0;
-    this._base = 0;
-    this._individual = 0;
-    this._effort = 0;
+    this._name = null;
   }
 
-  get actual(): number {
-    return this._actual;
-  }
-  get base(): number {
-    return this._base;
-  }
-  get individual(): number {
-    return this._individual;
-  }
-  get effort(): number {
-    return this._effort;
+  set name( name: string | null ) {
+    this._name = name;
   }
 
-  register( parameter: string ): void {
-    this.setActual( Number( getHTMLInputElement( 'register_' + parameter + 'ActualValue' ).value ) );
-    this.setBase( Number( getHTMLInputElement( 'register_' + parameter + 'BaseStatus' ).value ) );
-    this.setIndividual( Number( getHTMLInputElement( 'register_' + parameter + 'IndividualValue' ).value ) );
-    this.setEffort( Number( getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value ) );
+  get name(): string | null {
+    return this._name;
   }
 
-  edit( parameter: string ): void {
-    getHTMLInputElement( 'register_' + parameter + 'IndividualValue' ).value = String( this._individual );
-    getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value = String( this._effort );
-  }
-
-  showAcrual( parameter: string, handOrder: number ): void {
-    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = String( this._actual );
-  }
-
-  copy( status: ActualWithThreeValue ): void {
-    this.setActual( status._actual );
-    this.setBase( status._base );
-    this.setIndividual( status._individual );
-    this.setEffort( status._effort );
-  }
-
-  setActual( value: number ): void {
-    this._actual = value;
-  }
-  setBase( value: number): void {
-    this._base = value;
-  }
-  setIndividual( value: number ): void {
-    this._individual = value;
-  }
-  setEffort( value: number ): void {
-    this._effort = value;
-  }
-}
-
-class Rank extends ValueWithRange {
-
-  constructor() {
-    super( 6, -6 )
-  }
-
-}
-
-class HitPointValue extends ValueWithRange {
-
-  constructor() {
-    super( 175, 0 );
-  }
-
-
-  setActualValue( value: number ) {
-    this._value = value;
-    this._max = value;
-  }
-
-  rate(): number {
-    return this._value / this._max;
-  }
-
-  isGreaterThan( denominator: number ): boolean {
-    return this._value > this._max / denominator;
-  }
-
-  isGreaterEqual( denominator: number ): boolean {
-    return this._value >= this._max / denominator;
-  }
-
-  isLessThan( denominator: number ): boolean {
-    return this._value < this._max / denominator;
-  }
-
-  isLessEqual( denominator: number ): boolean {
-    return this._value <= this._max / denominator;
-  }
-}
-
-class HitPoint extends ActualWithThreeValue {
-  _value: HitPointValue;
-
-  constructor() {
-    super()
-    this._value = new HitPointValue();
-  }
-
-  get value(): HitPointValue {
-    return this._value;
-  }
-}
-
-class MainStatus extends ActualWithThreeValue {
-  _rank: Rank;
-
-  constructor() {
-    super();
-    this._rank = new Rank();
-  }
-
-  get rank(): Rank {
-    return this._rank;
+  isName( ability: string ): boolean {
+    return this._name === ability;
   }
 }
 
 
-class Status {
-  _hitPoint: HitPoint;
-  _attack: MainStatus;
-  _defense: MainStatus;
-  _specialAttack: MainStatus;
-  _specialDefense: MainStatus;
-  _speed: MainStatus;
-  _accuracy: Rank;
-  _evasion: Rank;
 
-  constructor() {
-    this._hitPoint = new HitPoint();
-    this._attack = new MainStatus();
-    this._defense = new MainStatus();
-    this._specialAttack = new MainStatus();
-    this._specialDefense = new MainStatus();
-    this._speed = new MainStatus();
-    this._accuracy = new Rank();
-    this._evasion = new Rank();
-  }
 
-  get hitPoint(): HitPoint {
-    return this._hitPoint;
-  }
-  get attack(): MainStatus {
-    return this._attack;
-  }
-  get defense(): MainStatus {
-    return this._defense;
-  }
-  get specialAttack(): MainStatus {
-    return this._specialAttack;
-  }
-  get specialDefense(): MainStatus {
-    return this._specialDefense;
-  }
-  get speed(): MainStatus {
-    return this._speed;
-  }
-  get accuracy(): Rank {
-    return this._accuracy;
-  }
-  get evasion(): Rank {
-    return this._evasion;
-  }
-
-  register(): void {
-    this._hitPoint.register( 'hitPoint' );
-    this._attack.register( 'attack' );
-    this._defense.register( 'defense' );
-    this._specialAttack.register( 'specialAttack' );
-    this._specialDefense.register( 'specialDefense' );
-    this._speed.register( 'speed' );
-  }
-
-  edit(): void {
-    this._hitPoint.edit( 'hitPoint' );
-    this._attack.edit( 'attack' );
-    this._defense.edit( 'defense' );
-    this._specialAttack.edit( 'specialAttack' );
-    this._specialDefense.edit( 'specialDefense' );
-    this._speed.edit( 'speed' );
-  }
-
-  getAllEffort(): number {
-    let allEffort: number = 0;
-    allEffort += this._hitPoint.effort;
-    allEffort += this._attack.effort;
-    allEffort += this._defense.effort;
-    allEffort += this._specialAttack.effort;
-    allEffort += this._specialDefense.effort;
-    allEffort += this._speed.effort;
-
-    return allEffort;
-  }
-
-  showActual( handOrder: number ): void {
-    this._hitPoint.showAcrual( 'hitPoint', handOrder );
-    this._attack.showAcrual( 'attack', handOrder );
-    this._defense.showAcrual( 'defense', handOrder );
-    this._specialAttack.showAcrual( 'specialAttack', handOrder );
-    this._specialDefense.showAcrual( 'specialDefense', handOrder );
-    this._speed.showAcrual( 'speed', handOrder );
-  }
-
-  resetRank(): void {
-    this._attack.rank.toZero();
-    this._defense.rank.toZero();
-    this._specialAttack.rank.toZero();
-    this._specialDefense.rank.toZero();
-    this._speed.rank.toZero();
-    this._accuracy.toZero();
-    this._evasion.toZero();
-  }
-
-  copy( status: Status ): void {
-    this._hitPoint.copy( status._hitPoint );
-    this._attack.copy( status._attack );
-    this._defense.copy( status._defense );
-    this._specialAttack.copy( status._specialAttack );
-    this._specialDefense.copy( status._specialDefense );
-    this._speed.copy( status._speed );
-  }
-}
 
 
 class Pokemon {
@@ -1885,9 +1238,7 @@ class Pokemon {
   _order: Order;
 
   _status: Status;
-
-  _learnedMove: LearnedMove[];
-  _selectedMove: SelectedMove;
+  _move: Move;
 
   _damage: Damage[];
   _command: Command;
@@ -1899,10 +1250,8 @@ class Pokemon {
   _gender: Gender;
   _ability: Ability;
   _level: number;
-  _item: string | null;
+  _item: Item;
   _nature: NatureType;
-  _height: number;
-  _weight: number;
   _happiness: number;
   _hitPoint: HitPoint;
   _statusAilment: StatusAilment;
@@ -1913,14 +1262,8 @@ class Pokemon {
     this._order = new Order;
 
     this._status = new Status();
+    this._move = new Move();
 
-    this._learnedMove = [
-      new LearnedMove,
-      new LearnedMove,
-      new LearnedMove,
-      new LearnedMove,
-    ]
-    this._selectedMove = new SelectedMove;
     this._damage = [];
     this._command = new Command;
     this._stateChange = new StateChangeSummary;
@@ -1931,10 +1274,8 @@ class Pokemon {
     this._gender = 'genderless';
     this._ability = new Ability();
     this._level = 50;
-    this._item = null;
+    this._item = new Item();
     this._nature = 'てれや';
-    this._height = 1.0;
-    this._weight = 1.0;
     this._happiness = 255;
     this._hitPoint = new HitPoint();
     this._statusAilment = new StatusAilment();
@@ -1947,12 +1288,6 @@ class Pokemon {
     this._trainer = trainer;
   }
 
-  set learnedMove( learnedMove: LearnedMove[] ) {
-    this._learnedMove = learnedMove;
-  }
-  set selectedMove( selectedMove: SelectedMove ) {
-    this._selectedMove = selectedMove;
-  }
   set damage( damage: Damage[] ) {
     this._damage = damage;
   }
@@ -1979,17 +1314,11 @@ class Pokemon {
   set level( level: number ) {
     this._level = level;
   }
-  set item( item: string | null ) {
+  set item( item: Item ) {
     this._item = item;
   }
   set nature( nature: NatureType) {
     this._nature = nature;
-  }
-  set height( height: number ) {
-    this._height = height;
-  }
-  set weight( weight: number) {
-    this._weight = weight;
   }
   set happiness( happiness: number ) {
     this._happiness = happiness;
@@ -2016,11 +1345,8 @@ class Pokemon {
     return this._status;
   }
 
-  get learnedMove(): LearnedMove[] {
-    return this._learnedMove;
-  }
-  get selectedMove(): SelectedMove {
-    return this._selectedMove;
+  get move(): Move {
+    return this._move;
   }
   get damage(): Damage[] {
     return this._damage;
@@ -2050,17 +1376,11 @@ class Pokemon {
   get level(): number {
     return this._level;
   }
-  get item(): string | null {
+  get item(): Item {
     return this._item;
   }
   get nature(): NatureType {
     return this._nature;
-  }
-  get height(): number {
-    return this._height;
-  }
-  get weight(): number {
-    return this._weight;
   }
   get happiness(): number {
     return this._happiness;
@@ -2131,6 +1451,40 @@ class Pokemon {
     }
 
     return true;
+  }
+
+
+  getMaster(): PokemonData {
+    let master = pokemonMaster.find( ( m ) => {
+      return m.nameEN === this._name;
+    })
+    if ( !master ) master = pokemonMaster[0];
+
+    return master;
+  }
+
+  getWeight(): number {
+    const master = this.getMaster();
+    let weight = master.weight;
+
+    // ボディパージ
+    if ( this._ability.isName( 'ライトメタル' ) ) {
+      weight = weight / 2;
+    }
+    if ( this._ability.isName( 'ヘヴィメタル' ) ) {
+      weight = weight * 2;
+    }
+    if ( this._item.isName( 'かるいし' ) ) {
+      weight = weight - 100;
+    }
+
+    return Math.max( 0.1, weight );
+  }
+
+
+  isContact(): boolean {
+    const flag = this._move.selected.getFlag();
+    return flag.contact && !this._ability.isName( 'えんかく' );
   }
 }
 

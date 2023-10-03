@@ -87,8 +87,6 @@ type AbilityData = {
   text: string;
 }
 
-type MoveClass = 'physical' | 'special' | 'status';
-
 
 
 type MoveTargetType = '自分' | '1体選択' | '味方1体' | '自分か味方' | 'ランダム1体' | '味方全体' | '相手全体' | '自分以外' | '全体' | '味方の場' | '相手の場' | '全体の場' | '不定' ;

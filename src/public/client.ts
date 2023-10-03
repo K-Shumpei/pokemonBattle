@@ -81,8 +81,6 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
     opponentAllParty[i].level = party[i]._level;
     opponentAllParty[i].item = party[i]._item;
     opponentAllParty[i].nature = party[i]._nature;
-    opponentAllParty[i].height = party[i]._height;
-    opponentAllParty[i].weight = party[i]._weight;
     opponentAllParty[i].hitPoint = party[i]._hitPoint;
 
     // 実数値・種族値・個体値・努力値
@@ -90,10 +88,7 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
 
     // 技
     for ( let j = 0; j < 4; j++ ) {
-      opponentAllParty[i].learnedMove[j].slot = j;
-      opponentAllParty[i].learnedMove[j].name = party[i]._learnedMove[j]._name;
-      opponentAllParty[i].learnedMove[j].powerPoint = party[i]._learnedMove[j]._remainingPP;
-      opponentAllParty[i].learnedMove[j].remainingPP = party[i]._learnedMove[j]._remainingPP;
+      opponentAllParty[i].move.learned[j].copy( party[i]._move._learned[j] )
     }
 
     // パーティ画像
@@ -303,7 +298,7 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.opponentTarget = myCommand[i]._opponentTarget;
 
       // 使用する技
-      setSelectedMove( pokemon );
+      pokemon.move.setSelcted( pokemon.command.move );
     }
 
     for ( const pokemon of opponentParty ) {
@@ -316,7 +311,7 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
 
       // 使用する技
-      setSelectedMove( pokemon );
+      pokemon.move.setSelcted( pokemon.command.move );
     }
   }
 

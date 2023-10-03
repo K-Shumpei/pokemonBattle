@@ -66,6 +66,8 @@ function registrationPokemon(): void {
     return;
   }
 
+
+
   const pokemon: PokemonData = getPokemonDataByName( name );
   const type1HTML = getHTMLInputElement( 'register_type1' );
   const type2HTML = getHTMLInputElement( 'register_type2' );
@@ -549,10 +551,8 @@ function registerParty( number: number ): void {
   myAllParty[number].gender = getGenderType( genderHTML.value );
   myAllParty[number].ability.setOrg( translateAbility( abilityHTML.value ) );
   myAllParty[number].level = Number( levelHTML.value );
-  myAllParty[number].item = itemHTML.value;
+  myAllParty[number].item.name = itemHTML.value;
   myAllParty[number].nature = getNatureType( natureHTML.value );
-  myAllParty[number].height = pokemon.height;
-  myAllParty[number].weight = pokemon.weight;
   myAllParty[number].status.hitPoint.setActual( Number(actualValue_hitPoint.value) );
 
   // 実数値・種族値・個体値・努力値
@@ -570,10 +570,8 @@ function registerParty( number: number ): void {
 
     const move: MoveData = getMoveDataByName( moveName );
 
-    myAllParty[number].learnedMove[i].slot = i;
-    myAllParty[number].learnedMove[i].name = move.nameEN;
-    myAllParty[number].learnedMove[i].remainingPP = Number( powerPoint.value );
-    myAllParty[number].learnedMove[i].powerPoint = Number( powerPoint.value );
+    myAllParty[number].move.learned[i].name = move.nameEN;
+    myAllParty[number].move.learned[i].powerPoint.setMaxPP( Number( powerPoint.value ) );
   }
 
   // 画面に表示
@@ -630,12 +628,12 @@ function editParty( number: number ): void {
 
   // 技
   for ( let i = 0; i < 4; i++ ) {
-    const moveName = myAllParty[number].learnedMove[i].name;
+    const moveName = myAllParty[number].move.learned[i].name;
     if ( moveName === null ) continue;
     getHTMLInputElement( 'registerMoveName' + i ).value = translateMove( moveName );
     reflectMoveNatureInHTML( i );
-    getHTMLInputElement( 'registerMovePowerPoint' + i ).textContent = String( myAllParty[number].learnedMove[i].powerPoint );
-    getHTMLInputElement( 'registerMovePowerPoint' + i ).value = String( myAllParty[number].learnedMove[i].powerPoint );
+    getHTMLInputElement( 'registerMovePowerPoint' + i ).textContent = String( myAllParty[number].move.learned[i].powerPoint.value );
+    getHTMLInputElement( 'registerMovePowerPoint' + i ).value = String( myAllParty[number].move.learned[i].powerPoint.value );
   }
 
   // パーティ情報削除
@@ -662,8 +660,8 @@ function showPartyPokemon( pokemon: Pokemon ): void {
   getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( pokemon.hitPoint.value.value );
 
   let item: string = '持ち物なし';
-  if ( pokemon.item !== null ) {
-    item = pokemon.item;
+  if ( pokemon.item.name !== null ) {
+    item = pokemon.item.name;
   }
   getHTMLInputElement( 'party' + handOrder + '_item' ).textContent = item;
 
@@ -679,11 +677,11 @@ function showPartyPokemon( pokemon: Pokemon ): void {
 
   // 技
   for ( let i = 0; i < 4; i++ ) {
-    const moveName = pokemon.learnedMove[i].name
+    const moveName = pokemon.move.learned[i].name
     if ( moveName === null ) continue;
     getHTMLInputElement( 'party' + handOrder + '_move' + i ).textContent = translateMove( moveName );
-    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + i ).textContent = String( pokemon.learnedMove[i].remainingPP );
-    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + i ).textContent = String( pokemon.learnedMove[i].powerPoint );
+    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + i ).textContent = String( pokemon.move.learned[i].powerPoint.value );
+    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + i ).textContent = String( pokemon.move.learned[i].powerPoint.max );
   }
 
   // パーティ画像
@@ -834,7 +832,7 @@ function showCommand1stField(): void {
 
     // 技
     for ( let j = 0; j < 4; j++ ) {
-      const moveName = pokemon.learnedMove[j].name;
+      const moveName = pokemon.move.learned[j].name;
       if ( moveName === null ) continue;
       getHTMLInputElement( 'moveText_' + i + '_' + j ).textContent = translateMove( moveName );
       getHTMLInputElement( 'moveRadio_' + i + '_' + j ).disabled = false;
@@ -849,58 +847,3 @@ function showCommand1stField(): void {
   }
 }
 
-// 受信したコマンドの記録
-function setSelectedMove( pokemon: Pokemon ): void {
-
-  if ( pokemon.command.move === null ) return;
-
-  const number: number = pokemon.command.move;
-
-  console.log(pokemon.learnedMove[number])
-
-  if ( moveMaster.some( _move => _move.nameEN === pokemon.learnedMove[number].name ) === false ) return;
-  if ( moveFlagMaster.some( _move => _move.nameEN === pokemon.learnedMove[number].name ) === false ) return;
-
-  const move = moveMaster.filter( _move => _move.nameEN === pokemon.learnedMove[number].name )[0];
-  const flag = moveFlagMaster.filter( _move => _move.nameEN === pokemon.learnedMove[number].name )[0];
-
-  pokemon.selectedMove.slot = pokemon.learnedMove[number].slot;
-  pokemon.selectedMove.name = move.nameEN;
-  pokemon.selectedMove.type = move.type;
-  pokemon.selectedMove.damageClass = move.class;
-  pokemon.selectedMove.target = move.target;
-  pokemon.selectedMove.category = move.category;
-  pokemon.selectedMove.power = move.power;
-  pokemon.selectedMove.accuracy = move.accuracy;
-  pokemon.selectedMove.priority = move.priority;
-  pokemon.selectedMove.critical = move.critical;
-  pokemon.selectedMove.drain = move.drain;
-  pokemon.selectedMove.flinch = move.flinch;
-  pokemon.selectedMove.healing = move.healing;
-  pokemon.selectedMove.hits = move.hits;
-  pokemon.selectedMove.turns = move.turns;
-  pokemon.selectedMove.ailment = move.ailment;
-  pokemon.selectedMove.stat = move.stat;
-
-  pokemon.selectedMove.flag.contact = flag.contact;
-  pokemon.selectedMove.flag.charge = flag.charge;
-  pokemon.selectedMove.flag.recharge = flag.recharge;
-  pokemon.selectedMove.flag.protect = flag.protect;
-  pokemon.selectedMove.flag.reflectable = flag.reflectable;
-  pokemon.selectedMove.flag.snatch = flag.snatch;
-  pokemon.selectedMove.flag.mirror = flag.mirror;
-  pokemon.selectedMove.flag.punch = flag.punch;
-  pokemon.selectedMove.flag.sound = flag.sound;
-  pokemon.selectedMove.flag.gravity = flag.gravity;
-  pokemon.selectedMove.flag.defrost = flag.defrost;
-  pokemon.selectedMove.flag.distance = flag.distance;
-  pokemon.selectedMove.flag.heal = flag.heal;
-  pokemon.selectedMove.flag.authentic = flag.authentic;
-  pokemon.selectedMove.flag.powder = flag.powder;
-  pokemon.selectedMove.flag.bite = flag.bite;
-  pokemon.selectedMove.flag.pulse = flag.pulse;
-  pokemon.selectedMove.flag.ballistics = flag.ballistics;
-  pokemon.selectedMove.flag.mental = flag.mental;
-  pokemon.selectedMove.flag.nonSkyBattle = flag.nonSkyBattle;
-  pokemon.selectedMove.flag.dance = flag.dance;
-}
