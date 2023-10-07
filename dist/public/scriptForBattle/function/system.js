@@ -121,10 +121,10 @@ function fiveRoundEntry(number) {
 // トレーナー判断
 function getArticle(pokemon) {
     if (pokemon.trainer === 'me') {
-        return translatePokemonName(pokemon.name);
+        return pokemon.translateName(pokemon.name);
     }
     else {
-        return '相手の ' + translatePokemonName(pokemon.name);
+        return '相手の ' + pokemon.translateName(pokemon.name);
     }
 }
 function isSame(pokemon, target) {

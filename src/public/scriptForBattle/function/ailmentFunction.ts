@@ -161,6 +161,7 @@ function giveConfuse( pokemon: Pokemon, target: Pokemon, type: string ): void {
 
 function giveConfuseByItem( pokemon: Pokemon, item: string ): void {
 
+  /*
   if ( item === 'フィラのみ' ) {
     for ( const nature of natureData ) {
       if ( nature.name === pokemon.nature && nature.minus === 'attack' ) {
@@ -196,6 +197,7 @@ function giveConfuseByItem( pokemon: Pokemon, item: string ): void {
       }
     }
   }
+  */
 }
 
 // こんらんの回復

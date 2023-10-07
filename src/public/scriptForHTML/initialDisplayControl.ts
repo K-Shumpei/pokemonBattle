@@ -7,12 +7,14 @@ getHTMLInputElement( 'register_attackNatureMinus' ).checked = true;
 
 // 性格リスト
 const registerPokemonNature = getHTMLInputElement( 'register_nature' );
-for ( const nature of natureData ) {
+
+for ( const nature of natureMaster ) {
   const option = document.createElement( 'option' );
-  option.value = nature.name;
-  option.textContent = nature.name;
+  option.value = nature.nameJA;
+  option.textContent = nature.nameJA;
   registerPokemonNature.appendChild( option );
 }
+
 
 // ポケモンの名前候補
 document.write( '<datalist id="registerPokemonNameList">' );

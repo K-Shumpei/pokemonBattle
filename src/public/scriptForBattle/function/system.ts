@@ -144,9 +144,9 @@ function fiveRoundEntry( number: number ) {
 function getArticle( pokemon: Pokemon ): string {
 
   if ( pokemon.trainer === 'me' ) {
-    return translatePokemonName( pokemon.name );
+    return pokemon.translateName( pokemon.name );
   } else {
-    return '相手の ' + translatePokemonName( pokemon.name );
+    return '相手の ' + pokemon.translateName( pokemon.name );
   }
 }
 

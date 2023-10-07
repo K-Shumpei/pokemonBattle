@@ -11,410 +11,117 @@ function decideBattleStyle(value) {
         getHTMLInputElement('electedOrder' + i).textContent = '';
     }
 }
-// 入力リセット
-function resetInputRegister() {
-    const name = getHTMLInputElement('register_name').value;
-    getHTMLInputElement('register_name').value = '';
-    getHTMLInputElement('register_level').value = '50';
-    getHTMLInputElement('register_type1').value = '';
-    getHTMLInputElement('register_type1').textContent = '';
-    getHTMLInputElement('register_type2').value = '';
-    getHTMLInputElement('register_type2').textContent = '';
-    getHTMLInputElement('register_gender').innerHTML = '';
-    getHTMLInputElement('register_ability').innerHTML = '';
-    getHTMLInputElement('register_item').textContent = '';
-    getHTMLInputElement('register_nature').value = 'てれや';
-    natureTextToRadio();
-    for (const parameter of parameterSix) {
-        getHTMLInputElement('register_' + parameter + 'ActualValue').value = '120';
-        getHTMLInputElement('register_' + parameter + 'BaseStatus').textContent = '100';
-        getHTMLInputElement('register_' + parameter + 'IndividualValue').value = '31';
-        getHTMLInputElement('register_' + parameter + 'EffortValue').value = '0';
-        if (parameter === 'hitPoint') {
-            getHTMLInputElement('register_' + parameter + 'ActualValue').value = '175';
-        }
-    }
-    getHTMLInputElement('remainingEffortValue').textContent = '510';
-    for (let i = 0; i < 4; i++) {
-        getHTMLInputElement('registerMoveName' + i).value = '';
-        getHTMLInputElement('registerMoveType' + i).textContent = '';
-        getHTMLInputElement('registerMovePower' + i).textContent = '';
-        getHTMLInputElement('registerMoveAccuracy' + i).textContent = '';
-        getHTMLInputElement('registerMovePowerPoint' + i).textContent = '';
-        getHTMLInputElement('registerMovePowerPoint' + i).value = '';
-    }
-    getHTMLInputElement('register_name').value = name;
-}
 // ポケモン名を入力した時に各パラメータを表示
 function registrationPokemon() {
-    const name = getHTMLInputElement('register_name').value;
-    // 存在しないポケモンの場合、処理を終了
-    if (pokemonMaster.some(_poke => _poke.nameJA === name) === false) {
+    // 適切な名前でなければ処理なし
+    if (!regPokemon.isValidName())
         return;
-    }
-    const pokemon = getPokemonDataByName(name);
-    const type1HTML = getHTMLInputElement('register_type1');
-    const type2HTML = getHTMLInputElement('register_type2');
-    const genderHTML = getHTMLInputElement('register_gender');
-    const abilityHTML = getHTMLInputElement('register_ability');
-    // 現在の表示をリセット
-    resetInputRegister();
-    // タイプ表示
-    type1HTML.textContent = translateTypeIntoJapanese(pokemon.type[0]);
-    type1HTML.value = translateTypeIntoJapanese(pokemon.type[0]);
-    if (pokemon.type.length === 2) {
-        type2HTML.textContent = translateTypeIntoJapanese(pokemon.type[1]);
-        type2HTML.value = translateTypeIntoJapanese(pokemon.type[1]);
-    }
-    // 性別表示
-    genderHTML.innerHTML = '';
-    const optionMale = document.createElement('option');
-    optionMale.value = '♂';
-    optionMale.textContent = '♂';
-    const optionFemale = document.createElement('option');
-    optionFemale.value = '♀';
-    optionFemale.textContent = '♀';
-    const optionLess = document.createElement('option');
-    optionLess.value = '-';
-    optionLess.textContent = '-';
-    switch (pokemon.gender) {
-        case 'both':
-            genderHTML.appendChild(optionMale);
-            genderHTML.appendChild(optionFemale);
-            break;
-        case 'male':
-            genderHTML.appendChild(optionMale);
-            break;
-        case 'female':
-            genderHTML.appendChild(optionFemale);
-            break;
-        case 'genderless':
-            genderHTML.appendChild(optionLess);
-            break;
-    }
-    // 特性表示
-    abilityHTML.innerHTML = '';
-    for (const ability of pokemon.ability) {
-        const option = document.createElement('option');
-        option.value = translateAbility(ability);
-        option.textContent = translateAbility(ability);
-        abilityHTML.appendChild(option);
-    }
-    // 種族値表示
-    const baseStatusList = getBaseStatusList(pokemon);
-    for (const parameter of Object.keys(baseStatusList)) {
-        getHTMLInputElement('register_' + parameter + 'BaseStatus').textContent = String(baseStatusList[parameter]);
-    }
-    // 実数値表示
-    reflectActualValueInHTML();
-    // 技表示
-    const learn = moveLearnedByPokemon.filter(data => data.nameEN === pokemon.nameEN)[0].move;
-    for (let i = 0; i < 4; i++) {
-        const moveHTML = getHTMLInputElement('registerMoveName' + i);
-        moveHTML.innerHTML = '';
-        // ブランクの選択肢
-        const blunk = document.createElement('option');
-        blunk.value = '';
-        blunk.textContent = '';
-        moveHTML.appendChild(blunk);
-        // ポケモンが覚える技
-        for (const move of learn) {
-            const option = document.createElement('option');
-            option.value = translateMove(move);
-            option.textContent = translateMove(move);
-            moveHTML.appendChild(option);
-        }
-    }
+    regPokemon.setName();
+    regPokemon.showOnScreen();
 }
-// 実数値表示
-function reflectActualValueInHTML() {
-    const name = getHTMLInputElement('register_name').value;
-    const level = Number(getHTMLInputElement('register_level').value);
-    // 存在しないポケモンの場合、処理を終了
-    if (pokemonMaster.some(_poke => _poke.nameJA === name) === false) {
+// レベル変更
+function registerLevel() {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
         return;
-    }
-    const pokemon = getPokemonDataByName(name);
-    const nature = getHTMLInputElement('register_nature').value;
-    const actualValueList = calculateActualValue(pokemon, level, getNatureType(nature));
-    for (const parameter of Object.keys(actualValueList)) {
-        getHTMLInputElement('register_' + parameter + 'ActualValue').value = String(actualValueList[parameter]);
-    }
+    regPokemon.setLevel();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
-//
-function getNatureType(nature) {
-    for (const _nature of natureList) {
-        if (_nature === nature) {
-            return _nature;
-        }
-    }
-    return 'てれや';
+// 性別変更
+function registerGender() {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
+        return;
+    regPokemon.setGender();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
-function translateTypeIntoEnglish(type) {
-    const result = typeTextMaster.filter(text => text.nameJA === type)[0];
-    return result.nameEN;
+// 特性変更
+function registerAbility() {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
+        return;
+    regPokemon.ability.set();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
-function translateTypeIntoJapanese(type) {
-    const result = typeTextMaster.filter(text => text.nameEN === type)[0];
-    return result.nameJA;
+// 性格変更リスト
+function registerNatureList() {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
+        return;
+    regPokemon.setNatureList();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
-function translateAbility(ability) {
-    for (const data of abilityMaster) {
-        if (data.nameEN === ability) {
-            return data.nameJA;
-        }
-        if (data.nameJA === ability) {
-            return data.nameEN;
-        }
-    }
-    return ability;
-}
-function translateMove(move) {
-    for (const data of moveMaster) {
-        if (data.nameEN === move) {
-            return data.nameJA;
-        }
-        if (data.nameJA === move) {
-            return data.nameEN;
-        }
-    }
-    return move;
-}
-function translatePokemonName(name) {
-    for (const data of pokemonMaster) {
-        if (data.nameEN === name) {
-            return data.nameJA;
-        }
-        if (data.nameJA === name) {
-            return data.nameEN;
-        }
-    }
-    return name;
-}
-function getGenderType(gender) {
-    if (gender === '♂') {
-        return 'male';
-    }
-    else if (gender === '♀') {
-        return 'female';
-    }
-    else {
-        return 'genderless';
-    }
-}
-function translateGender(gender) {
-    if (gender === 'male') {
-        return '♂';
-    }
-    if (gender === 'female') {
-        return '♀';
-    }
-    if (gender === 'genderless') {
-        return '-';
-    }
-    return '-';
-}
-// 実数値計算
-function calculateActualValue(pokemon, level, natureString) {
-    const baseStatusList = getBaseStatusList(pokemon);
-    const nature = getNatureDataByName(natureString);
-    for (const parameter of Object.keys(baseStatusList)) {
-        const baseStatus = baseStatusList[parameter];
-        const individualValue = Number(getHTMLInputElement('register_' + parameter + 'IndividualValue').value);
-        const effortValue = Number(getHTMLInputElement('register_' + parameter + 'EffortValue').value);
-        let actualValue = 0;
-        const step1 = baseStatus * 2 + individualValue + Math.floor(effortValue / 4);
-        const step2 = step1 * level;
-        actualValue = Math.floor(step2 / 100);
-        if (parameter === 'hitPoint') {
-            if (pokemon.nameJA === 'ヌケニン') {
-                actualValue = 1;
-            }
-            else {
-                actualValue += level + 10;
-            }
-        }
-        else {
-            let natureRate = 1.0;
-            if (nature.plus === nature.minus) {
-                natureRate = 1.0;
-            }
-            else if (nature.plus === parameter) {
-                natureRate = 1.1;
-            }
-            else if (nature.minus === parameter) {
-                natureRate = 0.9;
-            }
-            actualValue = Math.floor((actualValue + 5) * natureRate);
-        }
-        baseStatusList[parameter] = actualValue;
-    }
-    return baseStatusList;
+// 性格変更ボタン
+function registerNatureButton() {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
+        return;
+    regPokemon.setNatureButton();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
 // 技表示
-function reflectMoveNatureInHTML(number) {
-    const name = getHTMLInputElement('registerMoveName' + number).value;
-    // 存在しない技の場合、処理を終了
-    if (moveMaster.some(_move => _move.nameJA === name) === false) {
+function reflectMoveNatureInHTML(slot) {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
         return;
-    }
-    const move = getMoveDataByName(name);
-    getHTMLInputElement('registerMoveType' + number).textContent = translateTypeIntoJapanese(move.type);
-    getHTMLInputElement('registerMovePower' + number).textContent = String(move.power);
-    getHTMLInputElement('registerMoveAccuracy' + number).textContent = String(move.accuracy);
-    getHTMLInputElement('registerMovePowerPoint' + number).textContent = String(move.powerPoint);
-    getHTMLInputElement('registerMovePowerPoint' + number).value = String(move.powerPoint);
+    regPokemon.move.slot[slot].select(slot);
+    regPokemon.showOnScreen();
 }
-// 努力値：入力欄
-function reflectRemainingEffortValueInHTML(targetParameter) {
-    const remainingHTML = getHTMLInputElement('remainingEffortValue');
-    const targetHTML = getHTMLInputElement('register_' + targetParameter + 'EffortValue');
-    let sumEffortValue = 0;
-    // 努力値の上限は252
-    if (Number(targetHTML.value) > 252) {
-        targetHTML.value = '252';
-    }
-    // 努力値の下限は0
-    if (Number(targetHTML.value) < 0) {
-        targetHTML.value = '0';
-    }
-    // 努力値の総和を計算
-    for (const parameter of parameterSix) {
-        const effortValue = getHTMLInputElement('register_' + parameter + 'EffortValue');
-        sumEffortValue += Number(effortValue.value);
-    }
-    // 努力値の総和の上限は510
-    if (sumEffortValue > 510) {
-        const availableValue = 510 - sumEffortValue + Number(targetHTML.value);
-        targetHTML.value = String(availableValue);
-        remainingHTML.textContent = '0';
-    }
-    else {
-        remainingHTML.textContent = String(510 - sumEffortValue);
-    }
-}
-// 努力値：0/252ボタン
-function setEffortValue(parameter, number) {
-    const effortValue = getHTMLInputElement('register_' + parameter + 'EffortValue');
-    effortValue.value = String(number);
-    reflectRemainingEffortValueInHTML(parameter);
-}
-// 努力値：実数値からの逆算
-function reflectEffortValueInHTML(parameter) {
-    const name = getHTMLInputElement('register_name').value;
-    // 存在しないポケモンの場合、処理を終了
-    if (pokemonMaster.some(_poke => _poke.nameJA === name) === false) {
+// 実数値変更
+function registerActualValue() {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
         return;
-    }
-    const pokemon = getPokemonDataByName(name);
-    const natureString = getHTMLInputElement('register_nature').value;
-    const level = Number(getHTMLInputElement('register_level').value);
-    const nature = getNatureDataByName(getNatureType(natureString));
-    const baseStatusList = getBaseStatusList(pokemon);
-    const individualValue = Number(getHTMLInputElement('register_' + parameter + 'IndividualValue').value);
-    const actualValue = Number(getHTMLInputElement('register_' + parameter + 'ActualValue').value);
-    const effortValueHTML = getHTMLInputElement('register_' + parameter + 'EffortValue');
-    let effortValue = 0;
-    let natureRate = 1.0;
-    // ヌケニンのHP実数値は変更できない
-    if (pokemon.nameJA === 'ヌケニン' && parameter === 'hitPoint') {
-        reflectActualValueInHTML();
-        return;
-    }
-    // 性格補正計算
-    if (nature.plus === nature.minus) {
-        natureRate = 1.0;
-    }
-    else if (nature.plus === parameter) {
-        natureRate = 1.1;
-    }
-    else if (nature.minus === parameter) {
-        natureRate = 0.9;
-    }
-    // 努力値計算
-    for (const targetParameter of Object.keys(baseStatusList)) {
-        if (targetParameter !== parameter) {
-            continue;
-        }
-        let step3 = 0;
-        if (parameter === 'hitPoint') {
-            step3 = actualValue - level - 10;
-        }
-        else {
-            step3 = Math.ceil(actualValue / natureRate - 5);
-        }
-        const step2 = 100 * step3 / level;
-        const step1 = Math.ceil(step2 - 2 * baseStatusList[targetParameter] - individualValue);
-        effortValue = 4 * step1;
-    }
-    // 努力値表示
-    effortValueHTML.value = String(effortValue);
-    reflectRemainingEffortValueInHTML(parameter);
-    // 実数値再計算
-    reflectActualValueInHTML();
+    regPokemon.setAVs();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
-// 性格：テキスト->ラジオボタン
-function natureTextToRadio() {
-    const natureString = getHTMLInputElement('register_nature').value;
-    const nature = getNatureDataByName(getNatureType(natureString));
-    getHTMLInputElement('register_' + nature.plus + 'NaturePlus').checked = true;
-    getHTMLInputElement('register_' + nature.minus + 'NatureMinus').checked = true;
+// 個体値変更
+function registerIndividualValue() {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
+        return;
+    regPokemon.stat.setIVs();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
-// 性格：ラジオボタンー>テキスト
-function natureRadioToText() {
-    for (const nature of natureData) {
-        const plus = getHTMLInputElement('register_' + nature.plus + 'NaturePlus');
-        const minus = getHTMLInputElement('register_' + nature.minus + 'NatureMinus');
-        const natureString = getHTMLInputElement('register_nature');
-        if (plus.checked === true && minus.checked === true) {
-            natureString.value = nature.name;
-        }
-    }
+// 努力値変更
+function registerEffortValue() {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
+        return;
+    regPokemon.stat.setEVs();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
-// PP変更
-function changePowerPoint(number, direction) {
-    const name = getHTMLInputElement('registerMoveName' + number).value;
-    // 存在しない技の場合、処理を終了
-    if (moveMaster.some(_move => _move.nameJA === name) === false) {
+function addPowerPoint(slot) {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
         return;
-    }
-    const move = getMoveDataByName(name);
-    const powerPoint = getHTMLInputElement('registerMovePowerPoint' + number);
-    const step = move.powerPoint / 5;
-    const max = move.powerPoint + step * 3;
-    let result = Number(powerPoint.textContent);
-    // PPが1の技はPPを変更できない
-    if (move.powerPoint === 1) {
+    regPokemon.move.slot[slot].addPP();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
+}
+function subPowerPoint(slot) {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
         return;
-    }
-    if (direction === '▲') {
-        result += step;
-    }
-    else if (direction === '▼') {
-        result -= step;
-    }
-    if (result > max || result < move.powerPoint) {
-        return;
-    }
-    powerPoint.value = String(result);
-    powerPoint.textContent = String(result);
+    regPokemon.move.slot[slot].subPP();
+    regPokemon.calculateActualValue();
+    regPokemon.showOnScreen();
 }
 // パーティ登録
 function registerParty(number) {
-    const name = getHTMLInputElement('register_name').value;
-    // 存在しないポケモンの場合、処理を終了
-    if (pokemonMaster.some(_poke => _poke.nameJA === name) === false) {
+    // 適切な名前でなければ処理なし
+    if (regPokemon.isUnreg())
         return;
-    }
+    const name = getHTMLInputElement('register_name').value;
     const pokemon = getPokemonDataByName(name);
-    const type1HTML = getHTMLInputElement('register_type1');
-    const type2HTML = getHTMLInputElement('register_type2');
-    const genderHTML = getHTMLInputElement('register_gender');
-    const abilityHTML = getHTMLInputElement('register_ability');
-    const levelHTML = getHTMLInputElement('register_level');
-    const itemHTML = getHTMLInputElement('register_item');
-    const natureHTML = getHTMLInputElement('register_nature');
-    const actualValue_hitPoint = getHTMLInputElement('register_hitPointActualValue');
     // トレーナーネーム
     myAllParty[number].trainer = 'me';
     // 並び順
@@ -424,34 +131,13 @@ function registerParty(number) {
     myAllParty[number].id.id = pokemon.id;
     myAllParty[number].id.order = pokemon.order;
     myAllParty[number].id.index = pokemon.index;
-    myAllParty[number].name = pokemon.nameEN;
-    myAllParty[number].type1 = translateTypeIntoEnglish(type1HTML.value);
-    myAllParty[number].type2 = translateTypeIntoEnglish(type2HTML.value);
-    myAllParty[number].gender = getGenderType(genderHTML.value);
-    myAllParty[number].ability.setOrg(translateAbility(abilityHTML.value));
-    myAllParty[number].level = Number(levelHTML.value);
-    myAllParty[number].item.name = itemHTML.value;
-    myAllParty[number].nature = getNatureType(natureHTML.value);
-    myAllParty[number].status.hitPoint.setActual(Number(actualValue_hitPoint.value));
-    // 実数値・種族値・個体値・努力値
-    myAllParty[number].status.register();
-    // 技
-    for (let i = 0; i < 4; i++) {
-        const moveName = getHTMLInputElement('registerMoveName' + i).value;
-        const powerPoint = getHTMLInputElement('registerMovePowerPoint' + i);
-        // 存在しない技の場合、処理を終了
-        if (moveMaster.some(_move => _move.nameJA === moveName) === false) {
-            continue;
-        }
-        const move = getMoveDataByName(moveName);
-        myAllParty[number].move.learned[i].name = move.nameEN;
-        myAllParty[number].move.learned[i].powerPoint.setMaxPP(Number(powerPoint.value));
-    }
+    // 登録情報をコピー
+    myAllParty[number].register(regPokemon);
     // 画面に表示
-    showPartyPokemon(myAllParty[number]);
+    myAllParty[number].showOnScreen();
     // 登録画面リセット
-    getHTMLInputElement('register_name').value = '';
-    resetInputRegister();
+    regPokemon.reset();
+    regPokemon.showOnScreen();
 }
 // パーティ編集
 function editParty(number) {
@@ -460,18 +146,18 @@ function editParty(number) {
     }
     // 登録画面リセット
     getHTMLInputElement('register_name').value = '';
-    resetInputRegister();
+    //resetInputRegister();
     // 編集するポケモンの名前をセット
-    getHTMLInputElement('register_name').value = translatePokemonName(myAllParty[number].name);
+    //getHTMLInputElement( 'register_name' ).value = translatePokemonName(myAllParty[number].name);
     // 基本ステータス表示
     registrationPokemon();
     getHTMLInputElement('register_level').value = String(myAllParty[number].level);
-    getHTMLInputElement('register_gender').value = translateGender(myAllParty[number].gender);
-    getHTMLInputElement('register_type1').value = translateTypeIntoJapanese(myAllParty[number].type1);
-    getHTMLInputElement('register_type1').textContent = translateTypeIntoJapanese(myAllParty[number].type1);
-    getHTMLInputElement('register_type2').value = translateTypeIntoJapanese(myAllParty[number].type2);
-    getHTMLInputElement('register_type2').textContent = translateTypeIntoJapanese(myAllParty[number].type2);
-    getHTMLInputElement('register_ability').value = translateAbility(myAllParty[number].ability.name);
+    //getHTMLInputElement( 'register_gender' ).value = translateGender(myAllParty[number].gender);
+    //getHTMLInputElement( 'register_type1' ).value = translateTypeIntoJapanese( myAllParty[number].type1 );
+    //getHTMLInputElement( 'register_type1' ).textContent = translateTypeIntoJapanese( myAllParty[number].type1 );
+    //getHTMLInputElement( 'register_type2' ).value = translateTypeIntoJapanese( myAllParty[number].type2 );
+    //getHTMLInputElement( 'register_type2' ).textContent = translateTypeIntoJapanese( myAllParty[number].type2 );
+    //getHTMLInputElement( 'register_ability' ).value = translateAbility( myAllParty[number].ability.name );
     getHTMLInputElement('register_nature').value = myAllParty[number].nature;
     if (myAllParty[number].item === null) {
         getHTMLInputElement('register_item').value = '';
@@ -480,63 +166,24 @@ function editParty(number) {
         getHTMLInputElement('register_item').value = String(myAllParty[number].item);
     }
     // 性格　ラジオボタン
-    natureTextToRadio();
+    //natureTextToRadio()
     // 個体値・努力値
     myAllParty[number].status.edit();
     getHTMLInputElement('remainingEffortValue').textContent = String(510 - myAllParty[number].status.getAllEffort());
     // 実数値計算
-    reflectActualValueInHTML();
+    //reflectActualValueInHTML()
     // 技
     for (let i = 0; i < 4; i++) {
         const moveName = myAllParty[number].move.learned[i].name;
         if (moveName === null)
             continue;
-        getHTMLInputElement('registerMoveName' + i).value = translateMove(moveName);
+        //getHTMLInputElement( 'registerMoveName' + i ).value = translateMove( moveName );
         reflectMoveNatureInHTML(i);
         getHTMLInputElement('registerMovePowerPoint' + i).textContent = String(myAllParty[number].move.learned[i].powerPoint.value);
         getHTMLInputElement('registerMovePowerPoint' + i).value = String(myAllParty[number].move.learned[i].powerPoint.value);
     }
     // パーティ情報削除
     resetPartyPokemon(number);
-}
-function showPartyPokemon(pokemon) {
-    const partyOrder = pokemon.order.party;
-    const handOrder = pokemon.order.hand;
-    const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
-    if (handOrder === null) {
-        return;
-    }
-    getHTMLInputElement('party' + handOrder + '_name').textContent = translatePokemonName(pokemon.name);
-    getHTMLInputElement('party' + handOrder + '_gender').textContent = pokemon.gender;
-    getHTMLInputElement('party' + handOrder + '_level').textContent = String(pokemon.level);
-    getHTMLInputElement('party' + handOrder + '_type1').textContent = translateTypeIntoJapanese(pokemon.type1);
-    getHTMLInputElement('party' + handOrder + '_type2').textContent = translateTypeIntoJapanese(pokemon.type2);
-    getHTMLInputElement('party' + handOrder + '_ability').textContent = translateAbility(pokemon.ability.name);
-    getHTMLInputElement('party' + handOrder + '_remainingHP').textContent = String(pokemon.hitPoint.value.value);
-    let item = '持ち物なし';
-    if (pokemon.item.name !== null) {
-        item = pokemon.item.name;
-    }
-    getHTMLInputElement('party' + handOrder + '_item').textContent = item;
-    // 実数値
-    pokemon.status.showActual(handOrder);
-    // 実数値の性格による色
-    const nature = getNatureDataByName(pokemon.nature);
-    if (nature.plus !== nature.minus) {
-        getHTMLInputElement('party' + handOrder + '_' + nature.plus).style.color = 'red';
-        getHTMLInputElement('party' + handOrder + '_' + nature.minus).style.color = 'blue';
-    }
-    // 技
-    for (let i = 0; i < 4; i++) {
-        const moveName = pokemon.move.learned[i].name;
-        if (moveName === null)
-            continue;
-        getHTMLInputElement('party' + handOrder + '_move' + i).textContent = translateMove(moveName);
-        getHTMLInputElement('party' + handOrder + '_remainingPP' + i).textContent = String(pokemon.move.learned[i].powerPoint.value);
-        getHTMLInputElement('party' + handOrder + '_powerPoint' + i).textContent = String(pokemon.move.learned[i].powerPoint.max);
-    }
-    // パーティ画像
-    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id.id + '.png';
 }
 function resetPartyPokemon(number) {
     const partyOrder = myAllParty[number].order.party;
@@ -654,7 +301,7 @@ function showCommand1stField() {
             const moveName = pokemon.move.learned[j].name;
             if (moveName === null)
                 continue;
-            getHTMLInputElement('moveText_' + i + '_' + j).textContent = translateMove(moveName);
+            //getHTMLInputElement( 'moveText_' + i + '_' + j ).textContent = translateMove( moveName );
             getHTMLInputElement('moveRadio_' + i + '_' + j).disabled = false;
         }
         // 控え

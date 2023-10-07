@@ -186,41 +186,43 @@ function giveConfuse(pokemon, target, type) {
     writeLog(`${getArticle(target)}は 混乱した!`);
 }
 function giveConfuseByItem(pokemon, item) {
-    if (item === 'フィラのみ') {
-        for (const nature of natureData) {
-            if (nature.name === pokemon.nature && nature.minus === 'attack') {
-                giveConfuse(pokemon, pokemon, 'item');
-            }
+    /*
+    if ( item === 'フィラのみ' ) {
+      for ( const nature of natureData ) {
+        if ( nature.name === pokemon.nature && nature.minus === 'attack' ) {
+          giveConfuse( pokemon, pokemon, 'item' );
         }
+      }
     }
-    if (item === 'ウイのみ') {
-        for (const nature of natureData) {
-            if (nature.name === pokemon.nature && nature.minus === 'specialAttack') {
-                giveConfuse(pokemon, pokemon, 'item');
-            }
+    if ( item === 'ウイのみ' ) {
+      for ( const nature of natureData ) {
+        if ( nature.name === pokemon.nature && nature.minus === 'specialAttack' ) {
+          giveConfuse( pokemon, pokemon, 'item' );
         }
+      }
     }
-    if (item === 'マゴのみ') {
-        for (const nature of natureData) {
-            if (nature.name === pokemon.nature && nature.minus === 'speed') {
-                giveConfuse(pokemon, pokemon, 'item');
-            }
+    if ( item === 'マゴのみ' ) {
+      for ( const nature of natureData ) {
+        if ( nature.name === pokemon.nature && nature.minus === 'speed' ) {
+          giveConfuse( pokemon, pokemon, 'item' );
         }
+      }
     }
-    if (item === 'バンジのみ') {
-        for (const nature of natureData) {
-            if (nature.name === pokemon.nature && nature.minus === 'specialDefense') {
-                giveConfuse(pokemon, pokemon, 'item');
-            }
+    if ( item === 'バンジのみ' ) {
+      for ( const nature of natureData ) {
+        if ( nature.name === pokemon.nature && nature.minus === 'specialDefense' ) {
+          giveConfuse( pokemon, pokemon, 'item' );
         }
+      }
     }
-    if (item === 'イアのみ') {
-        for (const nature of natureData) {
-            if (nature.name === pokemon.nature && nature.minus === 'defense') {
-                giveConfuse(pokemon, pokemon, 'item');
-            }
+    if ( item === 'イアのみ' ) {
+      for ( const nature of natureData ) {
+        if ( nature.name === pokemon.nature && nature.minus === 'defense' ) {
+          giveConfuse( pokemon, pokemon, 'item' );
         }
+      }
     }
+    */
 }
 // こんらんの回復
 function cureConfuseByItem(pokemon, item) {

@@ -15,6 +15,18 @@ class Move {
     get learned() {
         return this._learned;
     }
+    register(move) {
+        this._learned[0].register(move.slot[0]);
+        this._learned[1].register(move.slot[1]);
+        this._learned[2].register(move.slot[2]);
+        this._learned[3].register(move.slot[3]);
+    }
+    show(handOrder) {
+        this._learned[0].show(handOrder);
+        this._learned[1].show(handOrder);
+        this._learned[2].show(handOrder);
+        this._learned[3].show(handOrder);
+    }
     setSelcted(slot) {
         if (slot === null)
             return;
@@ -41,6 +53,20 @@ class LearnedMove {
     }
     get powerPoint() {
         return this._powerPoint;
+    }
+    register(move) {
+        this._name = move._name;
+        this._powerPoint.setMaxPP(move.powerPoint);
+    }
+    show(handOrder) {
+        if (this._name === null)
+            return;
+        getHTMLInputElement('party' + handOrder + '_move' + this._slot).textContent = this.translate();
+        getHTMLInputElement('party' + handOrder + '_remainingPP' + this._slot).textContent = String(this._powerPoint.value);
+        getHTMLInputElement('party' + handOrder + '_powerPoint' + this._slot).textContent = String(this._powerPoint.max);
+    }
+    translate() {
+        return moveMaster.filter(m => m.nameEN === this._name)[0].nameJA;
     }
     copy(move) {
         this._name = move._name;
@@ -115,6 +141,9 @@ class SelectedMove {
     }
     get critical() {
         return this._critical;
+    }
+    translate() {
+        return moveMaster.filter(m => m.nameEN === this._name)[0].nameJA;
     }
     setSelected(move) {
         const master = moveMaster.find((m) => {

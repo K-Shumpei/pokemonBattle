@@ -1245,13 +1245,12 @@ class Pokemon {
   _stateChange: StateChangeSummary;
 
   _name: string;
-  _type1: PokemonType;
-  _type2: PokemonType;
+  _type: PokemonType[];
   _gender: Gender;
   _ability: Ability;
   _level: number;
   _item: Item;
-  _nature: NatureType;
+  _nature: NatureText;
   _happiness: number;
   _hitPoint: HitPoint;
   _statusAilment: StatusAilment;
@@ -1269,13 +1268,12 @@ class Pokemon {
     this._stateChange = new StateChangeSummary;
 
     this._name = '';
-    this._type1 = null;
-    this._type2 = null;
+    this._type = [];
     this._gender = 'genderless';
     this._ability = new Ability();
     this._level = 50;
     this._item = new Item();
-    this._nature = 'てれや';
+    this._nature = 'Bashful';
     this._happiness = 255;
     this._hitPoint = new HitPoint();
     this._statusAilment = new StatusAilment();
@@ -1301,11 +1299,8 @@ class Pokemon {
   set name( name: string ) {
     this._name = name;
   }
-  set type1( type: PokemonType ) {
-    this._type1 = type;
-  }
-  set type2( type: PokemonType ) {
-    this._type2 = type;
+  set type( type: PokemonType[] ) {
+    this._type = type;
   }
   set gender( gender: Gender ) {
     this._gender = gender;
@@ -1317,7 +1312,7 @@ class Pokemon {
   set item( item: Item ) {
     this._item = item;
   }
-  set nature( nature: NatureType) {
+  set nature( nature: NatureText ) {
     this._nature = nature;
   }
   set happiness( happiness: number ) {
@@ -1361,11 +1356,8 @@ class Pokemon {
   get name(): string {
     return this._name;
   }
-  get type1(): PokemonType {
-    return this._type1;
-  }
-  get type2(): PokemonType {
-    return this._type2;
+  get type(): PokemonType[] {
+    return this._type;
   }
   get gender(): Gender {
     return this._gender;
@@ -1379,7 +1371,7 @@ class Pokemon {
   get item(): Item {
     return this._item;
   }
-  get nature(): NatureType {
+  get nature(): NatureText {
     return this._nature;
   }
   get happiness(): number {
@@ -1391,6 +1383,86 @@ class Pokemon {
   get statusAilment(): StatusAilment {
     return this._statusAilment;
   }
+
+
+  register( reg: Register ): void {
+    this._name = reg.name;
+    this._level = reg.level;
+    this._type = reg.type;
+    this._gender = reg.gender.value;
+    this._ability.setOrg( reg.ability.value );
+    this._item.name = reg.item;
+    this._nature = reg.nature;
+    this._status.register( reg.stat );
+    this._move.register( reg.move );
+  }
+
+  showOnScreen(): void {
+    const partyOrder: number = this._order.party;
+    const handOrder: number | null = this._order.hand;
+    const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
+
+    if ( handOrder === null ) return;
+
+    getHTMLInputElement( 'party' + handOrder + '_name' ).textContent = this.translateName( this._name );
+    getHTMLInputElement( 'party' + handOrder + '_gender' ).textContent = this.translateGender();
+    getHTMLInputElement( 'party' + handOrder + '_level' ).textContent = String( this._level );
+    getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = this.translateAbility( this._ability.name );
+    getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( this._status.hp.value.value );
+    getHTMLInputElement( 'party' + handOrder + '_item' ).textContent = String( this._item.name );
+
+    if ( this._type.length === 0 ) {
+      getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = '';
+      getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = '';
+    } else if ( this._type.length === 1 ) {
+      getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = this.translateType( String( this._type[0] ) );
+      getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = '';
+    } else if ( this._type.length === 2 ) {
+      getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = this.translateType( String( this._type[0] ) );
+      getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = this.translateType( String( this._type[1] ) );
+    }
+
+    this._status.show( handOrder );
+    this._move.show( handOrder );
+
+    // パーティ画像
+    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this._id.id + '.png';
+  }
+
+  translateName( name: string ): string {
+    for ( const data of pokemonMaster ) {
+      if ( data.nameEN === name ) return data.nameJA;
+      if ( data.nameJA === name ) return data.nameEN;
+    }
+    return name;
+  }
+
+  translateType( name: string ): string {
+    for ( const data of typeTextMaster ) {
+      if ( data.nameEN === name ) return data.nameJA;
+      if ( data.nameJA === name ) return String( data.nameEN );
+    }
+    return name;
+  }
+
+  translateGender(): string {
+    if ( this._gender === 'male' ) return '♂';
+    if ( this._gender === 'female' ) return '♀';
+    if ( this._gender === 'genderless' ) return '-';
+
+    return '-'
+  }
+
+  translateAbility( name: string ): string {
+    for ( const data of abilityMaster ) {
+      if ( data.nameEN === name ) return data.nameJA;
+      if ( data.nameJA === name ) return data.nameEN;
+    }
+    return name;
+  }
+
+
+
 
 
   declareAbility(): void {

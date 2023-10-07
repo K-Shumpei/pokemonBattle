@@ -8,12 +8,12 @@ type PokemonData = {
   type: PokemonType[];
   ability: string[];
   baseStatus: {
-    hitPoint: number;
-    attack: number;
-    defense: number;
-    specialAttack: number;
-    specialDefense: number;
-    speed: number;
+    hp: number;
+    atk: number;
+    def: number;
+    spA: number;
+    spD: number;
+    spe: number;
   };
   height: number;
   weight: number;
@@ -71,6 +71,13 @@ type MoveFlagData = {
   dance: boolean;
 }
 
+type MoveLearned = {
+  id: number;
+  order: number;
+  nameEN: string;
+  move: string[];
+}
+
 type ItemData = {
   id: number;
   nameJA: string;
@@ -85,6 +92,18 @@ type AbilityData = {
   nameJA: string;
   nameEN: string;
   text: string;
+}
+
+type NatureData = {
+  nameEN: NatureText;
+  nameJA: string;
+  atk: number;
+  def: number;
+  spA: number;
+  spD: number;
+  spe: number;
+  plus: string;
+  minus: string;
 }
 
 
@@ -152,7 +171,7 @@ type TranslationDictionaryType = {
 }
 
 type NatureDataType = {
-  name: NatureType;
+  name: NatureText;
   plus: ParameterStringType;
   minus: ParameterStringType;
 }

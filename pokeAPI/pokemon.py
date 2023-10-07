@@ -2,60 +2,60 @@ import requests
 
 class BaseStatus:
   def __init__(self):
-    self._hitPoint = 0
-    self._attack = 0
-    self._defense = 0
-    self._specialAttack = 0
-    self._specialDefense = 0
-    self._speed = 0
+    self._hp = 0
+    self._atk = 0
+    self._def = 0
+    self._spA = 0
+    self._spD = 0
+    self._spe = 0
 
   @property
   def hitPoint(self):
-    return self._hitPoint
+    return self._hp
 
   @property
   def attack(self):
-    return self._attack
+    return self._atk
 
   @property
   def defense(self):
-    return self._defense
+    return self._def
 
   @property
   def specialAttack(self):
-    return self._specialAttack
+    return self._spA
 
   @property
   def specialDefense(self):
-    return self._specialDefense
+    return self._spD
 
   @property
   def speed(self):
-    return self._speed
+    return self._spe
 
   @hitPoint.setter
   def hitPoint(self, value):
-    self._hitPoint = value
+    self._hp = value
 
   @attack.setter
   def attack(self, value):
-    self._attack = value
+    self._atk = value
 
   @defense.setter
   def defense(self, value):
-    self._defense = value
+    self._def = value
 
   @specialAttack.setter
   def specialAttack(self, value):
-    self._specialAttack = value
+    self._spA = value
 
   @specialDefense.setter
   def specialDefense(self, value):
-    self._specialDefense = value
+    self._spD = value
 
   @speed.setter
   def speed(self, value):
-    self._speed = value
+    self._spe = value
 
 class Pokemon:
   def __init__(self):

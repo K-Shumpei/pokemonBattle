@@ -20,6 +20,21 @@ class Move {
     return this._learned;
   }
 
+
+  register( move: RegisterMoveList ): void {
+    this._learned[0].register( move.slot[0] );
+    this._learned[1].register( move.slot[1] );
+    this._learned[2].register( move.slot[2] );
+    this._learned[3].register( move.slot[3] );
+  }
+
+  show( handOrder: number ): void {
+    this._learned[0].show( handOrder );
+    this._learned[1].show( handOrder );
+    this._learned[2].show( handOrder );
+    this._learned[3].show( handOrder );
+  }
+
   setSelcted( slot: number | null ): void {
     if ( slot === null ) return;
     this._selected.setSelected( this._learned[slot] );
@@ -54,6 +69,22 @@ class LearnedMove {
   }
   get powerPoint(): PowerPoint {
     return this._powerPoint;
+  }
+
+  register( move: RegisterMove ): void {
+    this._name = move._name;
+    this._powerPoint.setMaxPP( move.powerPoint );
+  }
+
+  show( handOrder: number ): void {
+    if ( this._name === null ) return;
+    getHTMLInputElement( 'party' + handOrder + '_move' + this._slot ).textContent = this.translate();
+    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + this._slot ).textContent = String( this._powerPoint.value );
+    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + this._slot ).textContent = String( this._powerPoint.max );
+  }
+
+  translate(): string {
+    return moveMaster.filter( m => m.nameEN === this._name )[0].nameJA;
   }
 
   copy( move: LearnedMove ): void {
@@ -158,6 +189,10 @@ class SelectedMove {
   }
   get critical(): number {
     return this._critical;
+  }
+
+  translate(): string {
+    return moveMaster.filter( m => m.nameEN === this._name )[0].nameJA;
   }
 
   setSelected( move: LearnedMove ): void {

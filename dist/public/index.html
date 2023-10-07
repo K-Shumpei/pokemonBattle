@@ -12,6 +12,7 @@
   <script type="text/javascript" src="./class/pokemon.js"></script>
   <script type="text/javascript" src="./class/field.js"></script>
   <script type="text/javascript" src="./class/orderOfBehavior.js"></script>
+  <script type="text/javascript" src="./scriptForHTML/registerPokemon.js"></script>
 
   <!-- マスタ -->
   <script type="text/javascript" src="./master/ability.js"></script>
@@ -25,12 +26,20 @@
   <script type="text/javascript" src="./master/translate.js"></script>
   <script type="text/javascript" src="./master/typeText.js"></script>
   <script type="text/javascript" src="./master/type.js"></script>
+  <script type="text/javascript" src="./master/nature.js"></script>
+
+  <!-- 英語名 -->
+  <script type="text/javascript" src="./nameEN/ability.js"></script>
+  <script type="text/javascript" src="./nameEN/move.js"></script>
+  <script type="text/javascript" src="./nameEN/pokemon.js"></script>
+  <script type="text/javascript" src="./nameEN/pokemonExcept.js"></script>
+  <script type="text/javascript" src="./nameEN/nature.js"></script>
 
   <!-- HTML制御 -->
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="./client.js"></script>
   <script type="text/javascript" src="./scriptForHTML/function.js"></script>
-  <script type="text/javascript" src="./scriptForHTML/registerPokemon.js"></script>
+
 
   <!-- バトル制御 -->
   <script type="text/javascript" src="./scriptForBattle/function/actionOrder.js"></script>
@@ -83,7 +92,7 @@
       </tr>
       <tr>
         <td>Lv.</td><td></td>
-        <td><input id="register_level" type="number" value="50" min="1" max="100" step="1" size="5" onchange="reflectActualValueInHTML()"></td>
+        <td><input id="register_level" type="number" value="50" min="1" max="100" step="1" size="5" onchange="registerLevel()"></td>
       </tr>
       <tr>
         <td>タイプ</td><td></td>
@@ -91,11 +100,11 @@
       </tr>
       <tr>
         <td>性別</td><td></td>
-        <td><select id="register_gender"></select></td>
+        <td><select id="register_gender" onchange="registerGender()"></select></td>
       </tr>
       <tr>
         <td>特性</td><td></td>
-        <td><select id="register_ability"></select></td>
+        <td><select id="register_ability" onchange="registerAbility()"></select></td>
       </tr>
       <tr>
         <td>持ち物</td><td></td>
@@ -103,7 +112,7 @@
       </tr>
       <tr>
         <td>性格</td><td></td>
-        <td><select id="register_nature" onchange="natureTextToRadio(), reflectActualValueInHTML()"></select></td>
+        <td><select id="register_nature" onchange="registerNatureList()"></select></td>
       </tr>
     </table>
 

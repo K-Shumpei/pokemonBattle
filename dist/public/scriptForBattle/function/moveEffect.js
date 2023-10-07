@@ -77,7 +77,7 @@ function calculateDamageForAll(pokemon, target, damage) {
 }
 // ダメージを本体に与える
 function damageToBody(target, damage) {
-    target.status.hitPoint.value.add(-1 * damage.damage);
+    target.status.hp.value.add(-1 * damage.damage);
     writeLog(`${damage.damage}の ダメージ!`);
 }
 // バツグンの相性判定のメッセージ
@@ -372,7 +372,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
         writeLog(`全ての ステータスが 元に 戻った!`);
     }
     grudge: if (target.stateChange.grudge.isTrue === true) {
-        if (!target.status.hitPoint.value.isZero())
+        if (!target.status.hp.value.isZero())
             break grudge;
         if (pokemon.move.learned[pokemon.move.selected.slot].powerPoint.isZero())
             break grudge;
@@ -424,7 +424,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             }
             if (pokemon.ability.isName('マジックガード'))
                 break roughSkin;
-            const value = Math.max(1, Math.floor(pokemon.status.hitPoint.actual / 8));
+            const value = Math.max(1, Math.floor(pokemon.status.hp.av / 8));
             changeHPByAbility(pokemon, value, '-');
             writeLog(`${getArticle(pokemon)}は 傷ついた!`);
         }
@@ -538,7 +538,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             }
         }
         perishBody: if (target.ability.isName('ほろびのボディ')) {
-            if (pokemon.status.hitPoint.value.isZero())
+            if (pokemon.status.hp.value.isZero())
                 break perishBody;
             if (pokemon.item.isName('ぼうごパット') === true)
                 break perishBody;
@@ -619,12 +619,12 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
                 break gulpMissile;
             if (isHide(target) === true)
                 break gulpMissile;
-            if (pokemon.status.hitPoint.value.isZero())
+            if (pokemon.status.hp.value.isZero())
                 break gulpMissile;
             target.declareAbility();
             if (pokemon.ability.isName('マジックガード')) {
                 const dynamax = (pokemon.stateChange.dynamax.isTrue) ? 0.5 : 1;
-                const value = Math.max(1, Math.floor(pokemon.status.hitPoint.actual * dynamax / 4));
+                const value = Math.max(1, Math.floor(pokemon.status.hp.av * dynamax / 4));
                 changeHPByAbility(pokemon, value, '-');
             }
             if (target.name === 'ウッウ(鵜呑み)') {
@@ -642,7 +642,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             fieldStatus.terrain.getGrassy(target);
         }
         electromorphosis: if (target.ability.isName('でんきにかえる')) {
-            if (target.status.hitPoint.value.isZero())
+            if (target.status.hp.value.isZero())
                 break electromorphosis;
             target.declareAbility();
             activateCharge(target, pokemon.move.selected.name);
@@ -710,7 +710,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
     if (damage.critical === true && damage.substitute === false) {
         angerPoint: if (target.ability.isName('いかりのつぼ')) {
             target.declareAbility();
-            target.status.attack.rank.add(12);
+            target.status.atk.rank.add(12);
             writeLog(`${getArticle(target)}は 攻撃が 最大まで 上がった!`);
         }
     }
@@ -722,7 +722,7 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
     }
     // 効果バツグンの技を受けた時
     effective: if (damage.effective > 1) {
-        if (target.status.hitPoint.value.isZero())
+        if (target.status.hp.value.isZero())
             break effective;
         if (damage.substitute === true)
             break effective;
@@ -795,8 +795,8 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
         if (pokemon.ability.isName('マジックガード'))
             break rockyHelmet;
         const dynamax = (pokemon.stateChange.dynamax.isTrue) ? 0.5 : 1;
-        const value = Math.floor(pokemon.status.hitPoint.actual * dynamax / 8);
-        pokemon.status.hitPoint.value.add(-1 * value);
+        const value = Math.floor(pokemon.status.hp.av * dynamax / 8);
+        pokemon.status.hp.value.add(-1 * value);
         writeLog(`${getArticle(pokemon)}は ゴツゴツメットで ダメージを受けた!`);
     }
     stickyBarb: if (target.item.isName('くっつきバリ') === true) {
@@ -841,11 +841,11 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             break jabocaBerry;
         if (pokemon.ability.isName('マジックガード'))
             break jabocaBerry;
-        if (pokemon.status.hitPoint.value.isZero())
+        if (pokemon.status.hp.value.isZero())
             break jabocaBerry;
         const dynamax = (pokemon.stateChange.dynamax.isTrue) ? 0.5 : 1;
-        const value = Math.floor(pokemon.status.hitPoint.actual * dynamax / 8);
-        pokemon.status.hitPoint.value.add(-1 * value);
+        const value = Math.floor(pokemon.status.hp.av * dynamax / 8);
+        pokemon.status.hp.value.add(-1 * value);
         writeLog(`${getArticle(target)}は ${getArticle(pokemon)}の ジャポのみで ダメージを 受けた!`);
     }
     rowapBerry: if (target.item.isName('レンブのみ') === true) {
@@ -855,11 +855,11 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
             break rowapBerry;
         if (pokemon.ability.isName('マジックガード'))
             break rowapBerry;
-        if (pokemon.status.hitPoint.value.isZero())
+        if (pokemon.status.hp.value.isZero())
             break rowapBerry;
         const dynamax = (pokemon.stateChange.dynamax.isTrue) ? 0.5 : 1;
-        const value = Math.floor(pokemon.status.hitPoint.actual * dynamax / 8);
-        pokemon.status.hitPoint.value.add(-1 * value);
+        const value = Math.floor(pokemon.status.hp.av * dynamax / 8);
+        pokemon.status.hp.value.add(-1 * value);
         writeLog(`${getArticle(target)}は ${getArticle(pokemon)}の レンブのみで ダメージを 受けた!`);
     }
     // 防御側のばけのかわ/アイスフェイス
@@ -869,8 +869,8 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
         formChange(target);
         writeLog(`${getArticle(target)}の ばけのかわが はがれた!`);
         const dynamax = (pokemon.stateChange.dynamax.isTrue) ? 0.5 : 1;
-        const value = Math.floor(pokemon.status.hitPoint.actual * dynamax / 8);
-        pokemon.status.hitPoint.value.add(-1 * value);
+        const value = Math.floor(pokemon.status.hp.av * dynamax / 8);
+        pokemon.status.hp.value.add(-1 * value);
     }
     if (target.stateChange.iceFace.isTrue === true) {
         target.stateChange.iceFace.reset();
@@ -883,23 +883,23 @@ function effectsWhenDamageOccurs(pokemon, target, damage) {
 function faintingJudgment(pokemon, target, number) {
     if (number === 1) {
         if (pokemon.move.selected.name === 'いのちがけ') {
-            pokemon.status.hitPoint.value.add(-1 * pokemon.status.hitPoint.value.value);
+            pokemon.status.hp.value.add(-1 * pokemon.status.hp.value.value);
             toReserve(pokemon);
         }
     }
     if (number === 2) {
-        if (target.status.hitPoint.value.isZero()) {
+        if (target.status.hp.value.isZero()) {
             toReserve(target);
         }
     }
     if (number === 3) {
-        if (pokemon.status.hitPoint.value.isZero()) {
+        if (pokemon.status.hp.value.isZero()) {
             toReserve(pokemon);
         }
     }
     if (number === 4) {
         destinyBond: if (target.stateChange.destinyBond.isTrue === true) {
-            if (target.status.hitPoint.value.isZero() === false)
+            if (target.status.hp.value.isZero() === false)
                 break destinyBond;
             if (isFriend(pokemon, target) === true)
                 break destinyBond;
@@ -907,14 +907,14 @@ function faintingJudgment(pokemon, target, number) {
                 break destinyBond;
             writeLog(`${getArticle(target)}は 相手を 道連れに した!`);
             // writeLog( `${getArticle( target )}は 相手を 道連れに しようとしている!` );
-            pokemon.status.hitPoint.value.add(-1 * pokemon.status.hitPoint.value.value);
+            pokemon.status.hp.value.add(-1 * pokemon.status.hp.value.value);
             toReserve(pokemon);
         }
     }
 }
 // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
 function activateSealedEffects(pokemon) {
-    if (pokemon.status.hitPoint.value.isZero() === false)
+    if (pokemon.status.hp.value.isZero() === false)
         return;
     if (pokemon.ability.isName('きんちょうかん')) {
         for (const order of getSpeedOrder()) {
@@ -937,7 +937,7 @@ function activateMoveEffect(pokemon) {
         if (pokemon.move.selected.isStatus())
             break fire;
         for (const data of targetList) {
-            if (data.target.status.hitPoint.value.isZero())
+            if (data.target.status.hp.value.isZero())
                 continue;
             cureAilment(data.target, 'FROZEN');
         }
@@ -958,19 +958,19 @@ function activateMoveEffect(pokemon) {
                 if (one.damage.damage === 0)
                     break recoil;
                 const value = Math.max(1, Math.round(one.damage.damage * move.rate));
-                pokemon.status.hitPoint.value.add(-1 * value);
+                pokemon.status.hp.value.add(-1 * value);
                 writeLog(`${getArticle(pokemon)}は 反動による ダメージを 受けた!`);
             }
         }
         // 与ダメージ非依存の反動技
         for (const move of independentRecoilMoveList) {
             if (move.name === pokemon.move.selected.name) {
-                const damage = Math.max(1, Math.round(pokemon.status.hitPoint.actual * move.rate));
-                pokemon.status.hitPoint.value.add(-1 * damage);
+                const damage = Math.max(1, Math.round(pokemon.status.hp.av * move.rate));
+                pokemon.status.hp.value.add(-1 * damage);
                 writeLog(`${getArticle(pokemon)}は 反動による ダメージを 受けた!`);
             }
         }
-        if (pokemon.status.hitPoint.value.isZero()) {
+        if (pokemon.status.hp.value.isZero()) {
             toReserve(pokemon);
             activateSealedEffects(pokemon);
         }
@@ -983,7 +983,7 @@ function activateMoveEffect(pokemon) {
         if (pokemon.item.isName('ねばりのかぎづめ') === true)
             turn = 7;
         for (const data of targetList) {
-            if (data.target.status.hitPoint.value.isZero())
+            if (data.target.status.hp.value.isZero())
                 continue;
             substitute: if (data.damage.substitute === true) {
                 if (pokemon.move.selected.name === 'キョダイサジン')
@@ -1034,7 +1034,7 @@ function activateMoveEffect(pokemon) {
     }
     // ひみつのちからの追加効果
     secretPower: if (pokemon.move.selected.name === 'ひみつのちから') {
-        if (one.target.status.hitPoint.value.isZero())
+        if (one.target.status.hp.value.isZero())
             break secretPower;
         if (isValidToTargetAdditionalEffect(pokemon, one.target, one.damage) === false)
             break secretPower;
@@ -1061,7 +1061,7 @@ function activateMoveEffect(pokemon) {
         }
     }
     fellStinger: if (pokemon.move.selected.name === 'とどめばり') {
-        if (one.target.status.hitPoint.value.isZero() === false)
+        if (one.target.status.hp.value.isZero() === false)
             break fellStinger;
         if (getRankVariation(pokemon, 'attack', 3) === 0)
             break fellStinger;
@@ -1124,7 +1124,7 @@ function activateMoveEffect(pokemon) {
     }
     smackDown: if (pokemon.move.selected.name === 'うちおとす' || pokemon.move.selected.name === 'サウザンアロー') {
         for (const data of targetList) {
-            if (data.target.status.hitPoint.value.isZero())
+            if (data.target.status.hp.value.isZero())
                 continue;
             if (data.damage.substitute === true)
                 continue;
@@ -1138,7 +1138,7 @@ function activateMoveEffect(pokemon) {
     }
     thousandWaves: if (pokemon.move.selected.name === 'サウザンウェーブ') {
         for (const data of targetList) {
-            if (data.target.status.hitPoint.value.isZero())
+            if (data.target.status.hp.value.isZero())
                 continue;
             if (getPokemonType(data.target).includes('GHOST') === true)
                 continue;
@@ -1148,7 +1148,7 @@ function activateMoveEffect(pokemon) {
         }
     }
     jawLock: if (pokemon.move.selected.name === 'くらいつく') {
-        if (one.target.status.hitPoint.value.isZero())
+        if (one.target.status.hp.value.isZero())
             break jawLock;
         if (one.damage.substitute === true)
             break jawLock;
@@ -1163,7 +1163,7 @@ function activateMoveEffect(pokemon) {
         giveCannotEscape(pokemon, one.target, pokemon.move.selected.name);
     }
     plasmaFists: if (pokemon.move.selected.name === 'プラズマフィスト') {
-        if (pokemon.status.hitPoint.value.isZero())
+        if (pokemon.status.hp.value.isZero())
             break plasmaFists;
         fieldStatus.whole.ionDeluge.isTrue = true;
         writeLog(`電子のシャワーが 降りそそいだ!`);
@@ -1280,21 +1280,21 @@ function activateAbilityEffectPart1(pokemon) {
                 }
             }
             moxie: if (pokemon.ability.isName('じしんかじょう')) {
-                const count = targetList.filter(data => data.target.status.hitPoint.value.isZero()).length;
+                const count = targetList.filter(data => data.target.status.hp.value.isZero()).length;
                 if (getRankVariation(pokemon, 'attack', count) === 0)
                     break moxie;
                 pokemon.declareAbility();
                 changeMyRank(pokemon, 'attack', count);
             }
             beastBoost: if (pokemon.ability.isName('ビーストブースト')) {
-                const count = targetList.filter(data => data.target.status.hitPoint.value.isZero()).length;
+                const count = targetList.filter(data => data.target.status.hp.value.isZero()).length;
                 /*
                 let record = { parameter: 'attack', value: 0 };
-                for ( const parameter of Object.keys( pokemon.actualValue ) ) {
+                for ( const parameter of Object.keys( pokemon.avValue ) ) {
                   if ( parameter === 'hitPoint' ) continue;
-                  if ( pokemon.actualValue[parameter] > record.value ) {
+                  if ( pokemon.avValue[parameter] > record.value ) {
                     record.parameter = parameter;
-                    record.value = pokemon.actualValue[parameter];
+                    record.value = pokemon.avValue[parameter];
                   }
                 }
         
@@ -1305,14 +1305,14 @@ function activateAbilityEffectPart1(pokemon) {
                 */
             }
             grimNeigh: if (pokemon.ability.isName('くろのいななき')) {
-                const count = targetList.filter(data => data.target.status.hitPoint.value.isZero()).length;
+                const count = targetList.filter(data => data.target.status.hp.value.isZero()).length;
                 if (getRankVariation(pokemon, 'specialAttack', count) === 0)
                     break grimNeigh;
                 pokemon.declareAbility();
                 changeMyRank(pokemon, 'specialAttack', count);
             }
             chillingNeigh: if (pokemon.ability.isName('しろのいななき')) {
-                const count = targetList.filter(data => data.target.status.hitPoint.value.isZero()).length;
+                const count = targetList.filter(data => data.target.status.hp.value.isZero()).length;
                 if (getRankVariation(pokemon, 'attack', count) === 0)
                     break chillingNeigh;
                 pokemon.declareAbility();
@@ -1391,7 +1391,7 @@ function formChangeByMove(pokemon) {
             break relicSong;
         if (pokemon.stateChange.sheerForce.isTrue === true)
             break relicSong;
-        if (pokemon.status.hitPoint.value.isZero())
+        if (pokemon.status.hp.value.isZero())
             break relicSong;
         formChange(pokemon);
         writeLog(`${getArticle(pokemon)}の 姿が 変化した!`);
@@ -1410,7 +1410,7 @@ function formChangeByMove(pokemon) {
             break battleBond;
         let isFaint = false;
         for (const data of targetList) {
-            if (data.target.status.hitPoint.value.isZero()) {
+            if (data.target.status.hp.value.isZero()) {
                 isFaint = true;
             }
         }
@@ -1427,7 +1427,7 @@ function formChangeByMove(pokemon) {
 function lifeOrbShellBell(pokemon) {
     const targetList = getTargetList(pokemon);
     lifeOrb: if (pokemon.item.isName('いのちのたま')) {
-        if (pokemon.status.hitPoint.value.isZero())
+        if (pokemon.status.hp.value.isZero())
             break lifeOrb;
         if (pokemon.move.selected.isStatus())
             break lifeOrb;
@@ -1438,11 +1438,11 @@ function lifeOrbShellBell(pokemon) {
         if (pokemon.stateChange.sheerForce.isTrue === true)
             break lifeOrb;
         const dynamax = (pokemon.stateChange.dynamax.isTrue) ? 0.5 : 1;
-        const damage = Math.max(1, Math.floor(pokemon.status.hitPoint.actual * dynamax / 10));
+        const damage = Math.max(1, Math.floor(pokemon.status.hp.av * dynamax / 10));
         changeHPByItem(pokemon, 'いのちのたま', damage);
     }
     shellBell: if (pokemon.item.isName('かいがらのすず') === true) {
-        if (pokemon.status.hitPoint.value.isZero())
+        if (pokemon.status.hp.value.isZero())
             break shellBell;
         if (pokemon.order.battle === null)
             break shellBell;
@@ -1473,11 +1473,11 @@ function targetItemEffectPart4(pokemon) {
             return -1;
     });
     for (const data of targetList) {
-        if (data.target.status.hitPoint.value.isZero())
+        if (data.target.status.hp.value.isZero())
             continue;
         const gluttony = (data.target.ability.isName('くいしんぼう')) ? 2 : 1;
         sitrusBerry: if (data.target.item.isName('オボンのみ') === true || data.target.item.isName('オレンのみ') === true) {
-            if (data.target.status.hitPoint.value.isGreaterThan(2))
+            if (data.target.status.hp.value.isGreaterThan(2))
                 break sitrusBerry;
             if (pokemon.stateChange.healBlock.isTrue === true)
                 break sitrusBerry;
@@ -1488,7 +1488,7 @@ function targetItemEffectPart4(pokemon) {
             || data.target.item.isName('マゴのみ') === true
             || data.target.item.isName('バンジのみ') === true
             || data.target.item.isName('イアのみ') === true) {
-            if (data.target.status.hitPoint.value.isGreaterThan(4 / gluttony))
+            if (data.target.status.hp.value.isGreaterThan(4 / gluttony))
                 break confuseBerry;
             if (pokemon.stateChange.healBlock.isTrue === true)
                 break confuseBerry;
@@ -1503,7 +1503,7 @@ function targetItemEffectPart4(pokemon) {
         ];
         for (const berry of rankBerryTable) {
             if (data.target.item.isName(berry.name) === true) {
-                if (data.target.status.hitPoint.value.isGreaterThan(4 / gluttony))
+                if (data.target.status.hp.value.isGreaterThan(4 / gluttony))
                     continue;
                 if (getRankVariation(data.target, berry.parameter, 1) === 0)
                     continue;
@@ -1511,14 +1511,14 @@ function targetItemEffectPart4(pokemon) {
             }
         }
         lansatBerry: if (data.target.item.isName('サンのみ') === true) {
-            if (data.target.status.hitPoint.value.isGreaterThan(4 / gluttony))
+            if (data.target.status.hp.value.isGreaterThan(4 / gluttony))
                 break lansatBerry;
             if (data.target.stateChange.focusEnergy.isTrue === true)
                 break lansatBerry;
             eatBerry(data.target, data.target.item.name);
         }
         starfBerry: if (data.target.item.isName('スターのみ') === true) {
-            if (data.target.status.hitPoint.value.isGreaterThan(4 / gluttony))
+            if (data.target.status.hp.value.isGreaterThan(4 / gluttony))
                 break starfBerry;
             let isTrue = false;
             const parameterList = [];
@@ -1532,12 +1532,12 @@ function targetItemEffectPart4(pokemon) {
             eatBerry(data.target, data.target.item.name);
         }
         micleBerry: if (data.target.item.isName('ミクルのみ') === true) {
-            if (data.target.status.hitPoint.value.isGreaterThan(4 / gluttony))
+            if (data.target.status.hp.value.isGreaterThan(4 / gluttony))
                 break micleBerry;
             eatBerry(data.target, data.target.item.name);
         }
         berryJuice: if (data.target.item.isName('きのみジュース') === true) {
-            if (data.target.status.hitPoint.value.isGreaterThan(2))
+            if (data.target.status.hp.value.isGreaterThan(2))
                 break berryJuice;
             if (pokemon.stateChange.healBlock.isTrue === true)
                 break berryJuice;
@@ -1588,10 +1588,8 @@ function activatePickpocket(pokemon) {
 // 技の効果
 function otherEffect(pokemon) {
     if (pokemon.move.selected.name === 'もえつきる') {
-        if (pokemon.type1 === 'FIRE')
-            pokemon.type1 = null;
-        if (pokemon.type2 === 'FIRE')
-            pokemon.type2 = null;
+        // if ( pokemon.type1 === 'FIRE' ) pokemon.type1 = null;
+        // if ( pokemon.type2 === 'FIRE' ) pokemon.type2 = null;
         writeLog(`${getArticle(pokemon)}の 炎は 燃え尽きた!`);
     }
     naturalGift: if (pokemon.move.selected.name === 'しぜんのめぐみ') {

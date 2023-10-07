@@ -138,13 +138,13 @@ function getActionOrderLater( pokemon: Pokemon ): number {
 function getSpeedValue( pokemon: Pokemon, type: string ): number {
 
   // a. すばやさ実数値
-  const  speedTypeA: number = pokemon.status.speed.actual;
+  const  speedTypeA: number = pokemon.status.spe.av;
   if ( type === 'a' ) {
     return speedTypeA;
   }
 
   // b. 各種補正
-  let speedTypeB: number = getValueWithRankCorrection( pokemon.status.speed.actual, pokemon.status.speed.rank.value, false );
+  let speedTypeB: number = getValueWithRankCorrection( pokemon.status.spe.av, pokemon.status.spe.rank.value, false );
   let correction: number = 4096;
 
   speedTypeB = fiveRoundEntry( speedTypeB * correction / 4096 );

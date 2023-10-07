@@ -17,9 +17,10 @@ function getMoveDataByName( name: string ): MoveData {
 
 
 // 性格検索
+/*
 function getNatureDataByName( name: NatureType ): NatureDataType {
 
-  for ( const nature of natureData ) {
+  for ( const nature of natureMa ) {
     if ( nature.name === name ) {
       return nature;
     }
@@ -27,6 +28,7 @@ function getNatureDataByName( name: NatureType ): NatureDataType {
 
   return natureData[0];
 }
+*/
 
 
 // タイプ検索
@@ -70,12 +72,12 @@ function translateJPintoEN( string: string ): string {
 function getBaseStatusList( pokemon: PokemonData ): ParameterSixType {
 
   const baseStatusList: ParameterSixType = {
-    hitPoint: pokemon.baseStatus.hitPoint,
-    attack: pokemon.baseStatus.attack,
-    defense: pokemon.baseStatus.defense,
-    specialAttack: pokemon.baseStatus.specialAttack,
-    specialDefense: pokemon.baseStatus.specialDefense,
-    speed: pokemon.baseStatus.speed
+    hitPoint: pokemon.baseStatus.hp,
+    attack: pokemon.baseStatus.atk,
+    defense: pokemon.baseStatus.def,
+    specialAttack: pokemon.baseStatus.spA,
+    specialDefense: pokemon.baseStatus.spD,
+    speed: pokemon.baseStatus.spe
   }
 
   return baseStatusList;

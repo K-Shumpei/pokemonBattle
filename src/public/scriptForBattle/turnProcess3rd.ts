@@ -26,7 +26,7 @@ function actionBeforeTurn(): void {
     custapBerry:
     if ( pokemon.item.isName( 'イバンのみ' ) === true ) {
       const gluttony: number = ( pokemon.ability.isName( 'くいしんぼう' ) )? 2 : 1;
-      if ( pokemon.status.hitPoint.value.isGreaterThan( 4 / gluttony ) ) break custapBerry;
+      if ( pokemon.status.hp.value.isGreaterThan( 4 / gluttony ) ) break custapBerry;
 
       pokemon.stateChange.orderRaise.isTrue = true;
       writeLog( `${getArticle( pokemon )}は イバンのみで 行動が はやくなった!` );

@@ -74,8 +74,7 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
     opponentAllParty[i].id.order = party[i]._id._order;
     opponentAllParty[i].id.index = party[i]._id._index;
     opponentAllParty[i].name = party[i]._name;
-    opponentAllParty[i].type1 = party[i]._type1;
-    opponentAllParty[i].type2 = party[i]._type2;
+    opponentAllParty[i].type = party[i]._type;
     opponentAllParty[i].gender = party[i]._gender;
     opponentAllParty[i].ability.setOrg( party[i]._ability.name );
     opponentAllParty[i].level = party[i]._level;
@@ -163,7 +162,7 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
 
   // 選出されたポケモンの情報・表示
   for ( const pokemon of myParty ) {
-    showPartyPokemon( pokemon );
+    pokemon.showOnScreen();
   }
 
   // 選出されなかったポケモンの情報・表示を削除
@@ -332,7 +331,7 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
   // 画面表示
   // 選出されたポケモンの情報・表示
   for ( const pokemon of myParty ) {
-    showPartyPokemon( pokemon );
+    pokemon.showOnScreen();
   }
   // コマンド欄の表示
   showCommand1stField();

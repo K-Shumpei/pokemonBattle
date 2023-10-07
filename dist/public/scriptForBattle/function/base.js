@@ -52,17 +52,7 @@ function isGrounded(pokemon) {
 }
 // ポケモンのタイプ
 function getPokemonType(pokemon) {
-    let result = [];
-    if (pokemon.type1 !== null) {
-        result.push(pokemon.type1);
-    }
-    if (pokemon.type2 !== null) {
-        result.push(pokemon.type2);
-    }
-    if (result.length === 0) {
-        result.push(null);
-    }
-    return result;
+    return pokemon.type;
 }
 // バトル場の特性存在判定
 function isExistAbility(ability) {
@@ -342,15 +332,13 @@ function formChange(pokemon) {
             nextFrom = 'ウッウ(丸呑み)';
     }
     const nextPokemon = getPokemonDataByName(nextFrom);
-    const nature = getNatureDataByName(pokemon.nature);
+    //const nature: NatureDataType = getNatureDataByName( pokemon.nature );
     // 基本ステータスの更新
     pokemon.id.id = nextPokemon.id;
     pokemon.id.order = nextPokemon.order;
     pokemon.id.index = nextPokemon.index;
     pokemon.name = nextPokemon.nameEN;
-    pokemon.type1 = nextPokemon.type[0];
-    if (nextPokemon.type.length === 2)
-        pokemon.type2 = nextPokemon.type[1];
+    pokemon.type = nextPokemon.type;
     pokemon.ability.name = nextPokemon.ability[0];
     // 実数値の更新
     /*
@@ -490,7 +478,7 @@ function toReserve(pokemon) {
         pokemon.statusAilment.getHealth();
     }
     regenerator: if (pokemon.ability.isName('さいせいりょく')) {
-        const value = Math.floor(pokemon.status.hitPoint.actual / 3);
+        const value = Math.floor(pokemon.status.hp.av / 3);
         pokemon.hitPoint.value.add(value);
     }
     // 情報のリセット
@@ -506,7 +494,7 @@ function toReserve(pokemon) {
 function isEnableEatBerry(pokemon) {
     const berry = pokemon.item.name;
     const confuse = pokemon.stateChange.confuse.isTrue;
-    const hitPoint = pokemon.status.hitPoint.actual;
+    const hitPoint = pokemon.status.hp.av;
     const remaining = pokemon.hitPoint.value.value;
     const gluttony = (pokemon.ability.isName('くいしんぼう')) ? 2 : 1;
     if (berry === null)

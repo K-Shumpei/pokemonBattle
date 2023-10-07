@@ -19,6 +19,7 @@ const opponentAllParty: Pokemon[] = [
 
 const myParty: Pokemon[] = [];
 const opponentParty: Pokemon[] = [];
+const regPokemon: Register = new Register();
 
 // フィールド
 const fieldStatus = new Field;
@@ -72,6 +73,7 @@ const natureList: NatureType[] = [
   'まじめ'
 ]
 
+/*
 const natureData: NatureDataType[] = [
   // 攻撃上昇補正
   { name: 'てれや', plus: 'attack', minus: 'attack' },
@@ -104,6 +106,7 @@ const natureData: NatureDataType[] = [
   { name: 'むじゃき', plus: 'speed', minus: 'specialDefense' },
   { name: 'まじめ', plus: 'speed', minus: 'speed' },
 ]
+*/
 
 // タイプのカラーコード
 // https://wiki.xn--rckteqa2e.com/wiki/%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA:%E8%89%B2%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88_%E3%82%BF%E3%82%A4%E3%83%97%E5%88%A5

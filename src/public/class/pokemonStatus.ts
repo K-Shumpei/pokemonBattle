@@ -20,14 +20,14 @@ class ValueWithRange {
   }
 
   add( value: number ): void {
-    value = Math.min( 6, this._value + value );
-    value = Math.max( -6, this._value + value );
+    value = Math.min( this._max, this._value + value );
+    value = Math.max( this._min, this._value + value );
     this._value = value;
   }
 
   sub( value: number ): void {
-    value = Math.min( 6, this._value - value );
-    value = Math.max( -6, this._value - value );
+    value = Math.min( this._max, this._value - value );
+    value = Math.max( this._min, this._value - value );
     this._value = value;
   }
 
@@ -61,65 +61,52 @@ class ValueWithRange {
 // 実数値・種族値・個体値・努力値
 // -------------------------
 class ActualWithThreeValue {
-  _actual: number;
-  _base: number;
-  _individual: number;
-  _effort: number;
+  _av: number;
+  _bs: number;
+  _iv: number;
+  _ev: number;
 
   constructor() {
-    this._actual = 0;
-    this._base = 0;
-    this._individual = 0;
-    this._effort = 0;
+    this._av = 0;
+    this._bs = 0;
+    this._iv = 0;
+    this._ev = 0;
   }
 
-  get actual(): number {
-    return this._actual;
+  get av(): number {
+    return this._av;
   }
-  get base(): number {
-    return this._base;
+  get bs(): number {
+    return this._bs;
   }
-  get individual(): number {
-    return this._individual;
+  get iv(): number {
+    return this._iv;
   }
-  get effort(): number {
-    return this._effort;
+  get ev(): number {
+    return this._ev;
   }
 
-  register( parameter: string ): void {
-    this.setActual( Number( getHTMLInputElement( 'register_' + parameter + 'ActualValue' ).value ) );
-    this.setBase( Number( getHTMLInputElement( 'register_' + parameter + 'BaseStatus' ).value ) );
-    this.setIndividual( Number( getHTMLInputElement( 'register_' + parameter + 'IndividualValue' ).value ) );
-    this.setEffort( Number( getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value ) );
+  register( stat: RegisterFiveStatus ): void {
+    this._av = stat.av;
+    this._bs = stat.bs;
+    this._iv = stat.iv;
+    this._ev = stat.ev;
   }
 
   edit( parameter: string ): void {
-    getHTMLInputElement( 'register_' + parameter + 'IndividualValue' ).value = String( this._individual );
-    getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value = String( this._effort );
+    getHTMLInputElement( 'register_' + parameter + 'IndividualValue' ).value = String( this._iv );
+    getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value = String( this._ev );
   }
 
   showAcrual( parameter: string, handOrder: number ): void {
-    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = String( this._actual );
+    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = String( this._av );
   }
 
   copy( status: ActualWithThreeValue ): void {
-    this.setActual( status._actual );
-    this.setBase( status._base );
-    this.setIndividual( status._individual );
-    this.setEffort( status._effort );
-  }
-
-  setActual( value: number ): void {
-    this._actual = value;
-  }
-  setBase( value: number): void {
-    this._base = value;
-  }
-  setIndividual( value: number ): void {
-    this._individual = value;
-  }
-  setEffort( value: number ): void {
-    this._effort = value;
+    this._av = status._av;
+    this._bs = status._bs;
+    this._iv = status._iv;
+    this._ev = status._ev;
   }
 }
 
@@ -131,107 +118,108 @@ class ActualWithThreeValue {
 // 各ステータス
 // -------------------------
 class Status {
-  _hitPoint: HitPoint;
-  _attack: MainStatus;
-  _defense: MainStatus;
-  _specialAttack: MainStatus;
-  _specialDefense: MainStatus;
-  _speed: MainStatus;
-  _accuracy: Rank;
-  _evasion: Rank;
+  _hp: HitPoint;
+  _atk: MainStatus;
+  _def: MainStatus;
+  _spA: MainStatus;
+  _spD: MainStatus;
+  _spe: MainStatus;
+  _acc: Rank;
+  _eva: Rank;
 
   constructor() {
-    this._hitPoint = new HitPoint();
-    this._attack = new MainStatus();
-    this._defense = new MainStatus();
-    this._specialAttack = new MainStatus();
-    this._specialDefense = new MainStatus();
-    this._speed = new MainStatus();
-    this._accuracy = new Rank();
-    this._evasion = new Rank();
+    this._hp = new HitPoint();
+    this._atk = new MainStatus();
+    this._def = new MainStatus();
+    this._spA = new MainStatus();
+    this._spD = new MainStatus();
+    this._spe = new MainStatus();
+    this._acc = new Rank();
+    this._eva = new Rank();
   }
 
-  get hitPoint(): HitPoint {
-    return this._hitPoint;
+  get hp(): HitPoint {
+    return this._hp;
   }
-  get attack(): MainStatus {
-    return this._attack;
+  get atk(): MainStatus {
+    return this._atk;
   }
-  get defense(): MainStatus {
-    return this._defense;
+  get def(): MainStatus {
+    return this._def;
   }
-  get specialAttack(): MainStatus {
-    return this._specialAttack;
+  get spA(): MainStatus {
+    return this._spA;
   }
-  get specialDefense(): MainStatus {
-    return this._specialDefense;
+  get spD(): MainStatus {
+    return this._spD;
   }
-  get speed(): MainStatus {
-    return this._speed;
+  get spe(): MainStatus {
+    return this._spe;
   }
-  get accuracy(): Rank {
-    return this._accuracy;
+  get acc(): Rank {
+    return this._acc;
   }
-  get evasion(): Rank {
-    return this._evasion;
+  get eva(): Rank {
+    return this._eva;
   }
 
-  register(): void {
-    this._hitPoint.register( 'hitPoint' );
-    this._attack.register( 'attack' );
-    this._defense.register( 'defense' );
-    this._specialAttack.register( 'specialAttack' );
-    this._specialDefense.register( 'specialDefense' );
-    this._speed.register( 'speed' );
+  register( stat: RegisterStatus ): void {
+    this._hp.register( stat.hp );
+    this._atk.register( stat.atk );
+    this._def.register( stat.def );
+    this._spA.register( stat.spA );
+    this._spD.register( stat.spD );
+    this._spe.register( stat.spe );
+    this._hp.value.setActualValue( stat.hp.av );
   }
 
   edit(): void {
-    this._hitPoint.edit( 'hitPoint' );
-    this._attack.edit( 'attack' );
-    this._defense.edit( 'defense' );
-    this._specialAttack.edit( 'specialAttack' );
-    this._specialDefense.edit( 'specialDefense' );
-    this._speed.edit( 'speed' );
+    this._hp.edit( 'hitPoint' );
+    this._atk.edit( 'attack' );
+    this._def.edit( 'defense' );
+    this._spA.edit( 'specialAttack' );
+    this._spD.edit( 'specialDefense' );
+    this._spe.edit( 'speed' );
   }
 
   getAllEffort(): number {
     let allEffort: number = 0;
-    allEffort += this._hitPoint.effort;
-    allEffort += this._attack.effort;
-    allEffort += this._defense.effort;
-    allEffort += this._specialAttack.effort;
-    allEffort += this._specialDefense.effort;
-    allEffort += this._speed.effort;
+    allEffort += this._hp.ev;
+    allEffort += this._atk.ev;
+    allEffort += this._def.ev;
+    allEffort += this._spA.ev;
+    allEffort += this._spD.ev;
+    allEffort += this._spe.ev;
 
     return allEffort;
   }
 
-  showActual( handOrder: number ): void {
-    this._hitPoint.showAcrual( 'hitPoint', handOrder );
-    this._attack.showAcrual( 'attack', handOrder );
-    this._defense.showAcrual( 'defense', handOrder );
-    this._specialAttack.showAcrual( 'specialAttack', handOrder );
-    this._specialDefense.showAcrual( 'specialDefense', handOrder );
-    this._speed.showAcrual( 'speed', handOrder );
+  show( handOrder: number ): void {
+    this._hp.showAcrual( 'hitPoint', handOrder );
+    this._atk.showAcrual( 'attack', handOrder );
+    this._def.showAcrual( 'defense', handOrder );
+    this._spA.showAcrual( 'specialAttack', handOrder );
+    this._spD.showAcrual( 'specialDefense', handOrder );
+    this._spe.showAcrual( 'speed', handOrder );
   }
 
   resetRank(): void {
-    this._attack.rank.toZero();
-    this._defense.rank.toZero();
-    this._specialAttack.rank.toZero();
-    this._specialDefense.rank.toZero();
-    this._speed.rank.toZero();
-    this._accuracy.toZero();
-    this._evasion.toZero();
+    this._atk.rank.toZero();
+    this._def.rank.toZero();
+    this._spA.rank.toZero();
+    this._spD.rank.toZero();
+    this._spe.rank.toZero();
+    this._acc.toZero();
+    this._eva.toZero();
   }
 
   copy( status: Status ): void {
-    this._hitPoint.copy( status._hitPoint );
-    this._attack.copy( status._attack );
-    this._defense.copy( status._defense );
-    this._specialAttack.copy( status._specialAttack );
-    this._specialDefense.copy( status._specialDefense );
-    this._speed.copy( status._speed );
+    this._hp.copy( status._hp );
+    this._atk.copy( status._atk );
+    this._def.copy( status._def );
+    this._spA.copy( status._spA );
+    this._spD.copy( status._spD );
+    this._spe.copy( status._spe );
   }
 }
 

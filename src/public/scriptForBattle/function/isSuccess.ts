@@ -309,17 +309,17 @@ function isSuccess( pokemon: Pokemon ): boolean {
     }
     // ソウルビート/はいすいのじん: 全能力が最大まで上がっている
     if ( pokemon.move.selected.name === 'ソウルビート' || pokemon.move.selected.name === 'はいすいのじん' ) {
-      if ( pokemon.status.attack.rank.isMax() &&
-        pokemon.status.defense.rank.isMax() &&
-        pokemon.status.specialAttack.rank.isMax() &&
-        pokemon.status.specialDefense.rank.isMax() &&
-        pokemon.status.speed.rank.isMax() ) {
+      if ( pokemon.status.atk.rank.isMax() &&
+        pokemon.status.def.rank.isMax() &&
+        pokemon.status.spA.rank.isMax() &&
+        pokemon.status.spD.rank.isMax() &&
+        pokemon.status.spe.rank.isMax() ) {
           target.declareInvalid( damage );
       }
     }
     // ほおばる: ぼうぎょランクがすでに最大である
     if ( pokemon.move.selected.name === 'ほおばる' ) {
-      if ( pokemon.status.defense.rank.isMax() ) {
+      if ( pokemon.status.def.rank.isMax() ) {
         target.declareInvalid( damage );
       }
     }
@@ -408,8 +408,8 @@ function isSuccess( pokemon: Pokemon ): boolean {
     let corrM: number = 4096;
     let corrRank: number = 1;
     let diffRank: number = 0;
-    let atkRank: number = pokemon.status.accuracy.value;
-    let defRank: number = target.status.evasion.value;
+    let atkRank: number = pokemon.status.acc.value;
+    let defRank: number = target.status.eva.value;
 
     // 技の命中率
     if ( fieldStatus.weather.isSunny( pokemon ) ) {
@@ -710,7 +710,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
         target.declareInvalid( damage );
         continue;
       }
-      if ( pokemon.status.attack.rank.isMax() ) {
+      if ( pokemon.status.atk.rank.isMax() ) {
         target.declareInvalid( damage );
         continue;
       }
@@ -728,37 +728,37 @@ function isSuccess( pokemon: Pokemon ): boolean {
       }
     }
     if ( pokemon.move.selected.name === 'ちからをすいとる' ) {
-      if ( target.status.attack.rank.isMin() ) {
+      if ( target.status.atk.rank.isMin() ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.move.selected.name === 'いばる' ) {
-      if ( target.status.attack.rank.isMax() && target.stateChange.confuse.isTrue === true ) {
+      if ( target.status.atk.rank.isMax() && target.stateChange.confuse.isTrue === true ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.move.selected.name === 'おだてる' ) {
-      if ( target.status.specialAttack.rank.isMax() && target.stateChange.confuse.isTrue === true ) {
+      if ( target.status.spA.rank.isMax() && target.stateChange.confuse.isTrue === true ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.move.selected.name === 'ひっくりかえす' ) {
-      if ( target.status.attack.rank.isZero()
-        && target.status.defense.rank.isZero()
-        && target.status.specialAttack.rank.isZero()
-        && target.status.specialDefense.rank.isZero()
-        && target.status.speed.rank.isZero()
-        && target.status.evasion.isZero()
-        && target.status.accuracy.isZero() ) {
+      if ( target.status.atk.rank.isZero()
+        && target.status.def.rank.isZero()
+        && target.status.spA.rank.isZero()
+        && target.status.spD.rank.isZero()
+        && target.status.spe.rank.isZero()
+        && target.status.eva.isZero()
+        && target.status.acc.isZero() ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.move.selected.name === 'タールショット' ) {
-      if ( target.status.speed.rank.isMin() && target.stateChange.tarShot.isTrue === true ) {
+      if ( target.status.spe.rank.isMin() && target.stateChange.tarShot.isTrue === true ) {
         target.declareInvalid( damage );
         continue;
       }
@@ -1417,8 +1417,8 @@ function isActionFailure( pokemon: Pokemon ): boolean {
       writeLog( `わけも わからず 自分を 攻撃した!` );
 
       const power: number = 40;
-      const attack: number = getValueWithRankCorrection( pokemon.status.attack.actual, pokemon.status.attack.rank.value, false );
-      const defense: number = getValueWithRankCorrection( pokemon.status.defense.actual, pokemon.status.defense.rank.value, false );
+      const attack: number = getValueWithRankCorrection( pokemon.status.atk.av, pokemon.status.atk.rank.value, false );
+      const defense: number = getValueWithRankCorrection( pokemon.status.def.av, pokemon.status.def.rank.value, false );
 
       // 最終ダメージ
       const damage = Math.floor( Math.floor( Math.floor( pokemon.level * 2 / 5 + 2 ) * power * attack / defense ) / 50 + 2 );
@@ -1504,7 +1504,7 @@ function stanceChange( pokemon: Pokemon ): void {
 // 「<ポケモン>の <技>!」のメッセージ。PPが減少することが確約される
 function moveDeclareMessage( pokemon: Pokemon ): void {
 
-  writeLog( `${getArticle( pokemon )}の ${translateMove( pokemon.move.selected.name )}!` );
+  writeLog( `${getArticle( pokemon )}の ${pokemon.move.selected.translate()}!` );
 }
 
 // 技のタイプが変わる。
@@ -1701,8 +1701,8 @@ function failureByPowder( pokemon: Pokemon ): boolean {
       }
 
       const dynamax: number = ( pokemon.stateChange.dynamax.isTrue === true )? 1/2 : 1;
-      const damage: number = Math.floor( pokemon.status.hitPoint.actual * dynamax / 4 );
-      pokemon.status.hitPoint.value.add( -1 * damage );
+      const damage: number = Math.floor( pokemon.status.hp.av * dynamax / 4 );
+      pokemon.status.hp.value.add( -1 * damage );
 
       return true;
     }
@@ -1774,7 +1774,7 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
 
   clangorousSoul:
   if ( pokemon.move.selected.name === 'ソウルビート' ) {
-    if ( pokemon.status.hitPoint.value.value > Math.floor( pokemon.status.hitPoint.actual / 3 ) ) break clangorousSoul;
+    if ( pokemon.status.hp.value.value > Math.floor( pokemon.status.hp.av / 3 ) ) break clangorousSoul;
 
     pokemon.damage = [];
     pokemon.declareFailure();
@@ -1792,7 +1792,7 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
 
   teleport:
   if ( pokemon.move.selected.name === 'テレポート' ) {
-    const bench: Pokemon[] = getParty( pokemon.trainer ).filter( poke => poke.order.battle === null && poke.status.hitPoint.value.isZero() === false );
+    const bench: Pokemon[] = getParty( pokemon.trainer ).filter( poke => poke.order.battle === null && poke.status.hp.value.isZero() === false );
     if ( bench.length > 0 ) break teleport;
 
     pokemon.damage = [];
@@ -2044,12 +2044,11 @@ function abilityChangeType( pokemon : Pokemon ): void {
     if ( pokemon.move.selected.name === 'はめつのねがい' ) break protean;
 
     pokemon.declareAbility();
-    pokemon.type1 = pokemon.move.selected.type;
-    pokemon.type2 = null;
+    pokemon.type = [pokemon.move.selected.type];
 
     pokemon.stateChange.protean.isTrue = true;
 
-    writeLog( `${getArticle( pokemon )}は ${pokemon.type1}タイプに なった!` );
+    writeLog( `${getArticle( pokemon )}は ${pokemon.type[0]}タイプに なった!` );
   }
 }
 
@@ -2340,7 +2339,7 @@ function disableByProtect( pokemon: Pokemon ): boolean {
       if ( target.target.item.isName( 'ぼうごパット' ) === true ) break spikyShield;
 
       const dynamax: number = ( pokemon.stateChange.dynamax.isTrue === true )? 0.5 : 1;
-      const damage: number = Math.max( 1, Math.floor( pokemon.status.hitPoint.actual * dynamax / 8 ) )
+      const damage: number = Math.max( 1, Math.floor( pokemon.status.hp.av * dynamax / 8 ) )
       changeHPByAbility( pokemon, damage, '-' );
       writeLog( `${getArticle( pokemon )}は 傷ついた!` );
     }

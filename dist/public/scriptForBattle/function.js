@@ -10,14 +10,18 @@ function getMoveDataByName(name) {
     return result[0];
 }
 // 性格検索
-function getNatureDataByName(name) {
-    for (const nature of natureData) {
-        if (nature.name === name) {
-            return nature;
-        }
+/*
+function getNatureDataByName( name: NatureType ): NatureDataType {
+
+  for ( const nature of natureMa ) {
+    if ( nature.name === name ) {
+      return nature;
     }
-    return natureData[0];
+  }
+
+  return natureData[0];
 }
+*/
 // タイプ検索
 function getTypeColorByName(name) {
     for (const type of typeColor) {
@@ -47,12 +51,12 @@ function translateJPintoEN(string) {
 }
 function getBaseStatusList(pokemon) {
     const baseStatusList = {
-        hitPoint: pokemon.baseStatus.hitPoint,
-        attack: pokemon.baseStatus.attack,
-        defense: pokemon.baseStatus.defense,
-        specialAttack: pokemon.baseStatus.specialAttack,
-        specialDefense: pokemon.baseStatus.specialDefense,
-        speed: pokemon.baseStatus.speed
+        hitPoint: pokemon.baseStatus.hp,
+        attack: pokemon.baseStatus.atk,
+        defense: pokemon.baseStatus.def,
+        specialAttack: pokemon.baseStatus.spA,
+        specialDefense: pokemon.baseStatus.spD,
+        speed: pokemon.baseStatus.spe
     };
     return baseStatusList;
 }
