@@ -69,8 +69,8 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
   }
 
   if ( move.name === 'エレキボール' ) {
-    const mySpeed: number = getSpeedValue( pokemon, 'c' );
-    const opponentSpeed: number = getSpeedValue( target, 'c' );
+    const mySpeed: number = 0 // getSpeedValue( pokemon, 'c' );
+    const opponentSpeed: number = 0 // getSpeedValue( target, 'c' );
     if ( opponentSpeed === 0 ) {
       basicPower = 40;
     }
@@ -83,8 +83,8 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
   }
 
   if ( move.name === 'ジャイロボール' ) {
-    const mySpeed: number = getSpeedValue( pokemon, 'c' );
-    const opponentSpeed: number = getSpeedValue( target, 'c' );
+    const mySpeed: number = 0 // getSpeedValue( pokemon, 'c' );
+    const opponentSpeed: number = 0 // getSpeedValue( target, 'c' );
     if ( mySpeed === 0 ) {
       basicPower = 1;
     }
@@ -306,7 +306,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
 
   for ( const poke of allPokemonInBattlefield() ) {
     if ( !move.isPhysical() ) continue;
-    if ( poke.trainer !== pokemon.trainer ) continue;
+    if ( poke.isMe !== pokemon.isMe ) continue;
     if ( poke.order.battle === pokemon.order.battle ) continue;
     if ( poke.ability.isName( 'バッテリー' ) ) {
       correction = Math.round( correction * 5325 / 4096 );
@@ -314,7 +314,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
   }
 
   for ( const poke of allPokemonInBattlefield() ) {
-    if ( poke.trainer !== pokemon.trainer ) continue;
+    if ( poke.isMe !== pokemon.isMe ) continue;
     if ( poke.order.battle === pokemon.order.battle ) continue;
     if ( poke.ability.isName( 'パワースポット' ) ) {
       correction = Math.round( correction * 5325 / 4096 );
@@ -413,7 +413,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
   }
 
   for ( const poke of allPokemonInBattlefield() ) {
-    if ( poke.trainer !== pokemon.trainer ) continue;
+    if ( poke.isMe !== pokemon.isMe ) continue;
     if ( poke.ability.isName( 'はがねのせいしん' ) ) {
       correction = Math.round( correction * 6144 / 4096 );
     }
@@ -700,7 +700,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, damage: Damage ): number 
   }
 
   for ( const _pokemon of allPokemonInBattlefield() ) {
-    if ( _pokemon.trainer !== pokemon.trainer ) continue;
+    if ( _pokemon.isMe !== pokemon.isMe ) continue;
     if ( _pokemon.name !== 'チェリム(ポジ)' ) continue;
     if ( !fieldStatus.weather.isSunny( _pokemon ) ) continue;
     if ( _pokemon.ability.isName( 'フラワーギフト' ) === false ) continue;
@@ -753,7 +753,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, damage: Damage ): number 
 
   if ( pokemon.ability.isName( 'プラス' ) || pokemon.ability.isName( 'マイナス' ) ) {
     for ( const _pokemon of allPokemonInBattlefield() ) {
-      if ( _pokemon.trainer !== pokemon.trainer ) continue;
+      if ( _pokemon.isMe !== pokemon.isMe ) continue;
       if ( _pokemon.order.battle === pokemon.order.battle ) continue;
       if ( _pokemon.ability.isName( 'プラス' ) === false && _pokemon.ability.isName( 'マイナス' ) === false ) continue;
       if ( pokemon.move.selected.isSpecial() ) {
@@ -907,7 +907,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, damage: Damage ): number 
   }
 
   for ( const _pokemon of allPokemonInBattlefield() ) {
-    if ( _pokemon.trainer !== target.trainer ) continue;
+    if ( _pokemon.isMe !== target.isMe ) continue;
     if ( _pokemon.name !== 'チェリム(ポジ)' ) continue;
     if ( !fieldStatus.weather.isSunny( _pokemon ) ) continue;
     if ( _pokemon.ability.isName( 'フラワーギフト' ) === false ) continue;
@@ -1022,18 +1022,18 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
   let corrM: number = 1.0;
 
   // 壁補正
-  if ( pokemon.ability.isName( 'すりぬけ' ) && pokemon.trainer !== target.trainer ) {
+  if ( pokemon.ability.isName( 'すりぬけ' ) && pokemon.isMe !== target.isMe ) {
     ;
   } else {
     let rate: number = 0.5;
     if ( fieldStatus.battleStyle === 2 || fieldStatus.battleStyle === 3 ) {
       rate = 2732 / 4096;
     }
-    if ( fieldStatus.getSide( target.trainer ).auroraVeil.isTrue === true ) {
+    if ( fieldStatus.getSide( target.isMe ).auroraVeil.isTrue === true ) {
       corrM = Math.round( corrM * rate );
-    } else if ( fieldStatus.getSide( target.trainer ).reflect.isTrue === true && pokemon.move.selected.isPhysical() ) {
+    } else if ( fieldStatus.getSide( target.isMe ).reflect.isTrue === true && pokemon.move.selected.isPhysical() ) {
       corrM = Math.round( corrM * rate );
-    } else if ( fieldStatus.getSide( target.trainer ).lightScreen.isTrue === true && pokemon.move.selected.isSpecial() ) {
+    } else if ( fieldStatus.getSide( target.isMe ).lightScreen.isTrue === true && pokemon.move.selected.isSpecial() ) {
       corrM = Math.round( corrM * rate );
     }
   }
@@ -1097,7 +1097,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
 
   // フレンドガード補正
   for ( const _pokemon of allPokemonInBattlefield() ) {
-    if ( _pokemon.trainer !== target.trainer ) continue;
+    if ( _pokemon.isMe !== target.isMe ) continue;
     if ( _pokemon.order.battle === target.order.battle ) continue;
     if ( _pokemon.ability.isName( 'フレンドガード' ) ) {
       corrM = Math.round( corrM * 0.75 );

@@ -1,3 +1,12 @@
+const a = [
+  {a: 0, b: 0, c: 0},
+  {a: 0, b: 0, c: 0},
+  {a: 1, b: 1, c: 1}
+]
+
+const f = a.filter( b => b.a === 0 )
+f[0].b = 1
+console.log(a)
 
 
 if ( false ) {

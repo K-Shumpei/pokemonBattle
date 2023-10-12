@@ -98,8 +98,8 @@ class ActualWithThreeValue {
     getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value = String( this._ev );
   }
 
-  showAcrual( parameter: string, handOrder: number ): void {
-    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = String( this._av );
+  showAcrual( name: string, parameter: string, handOrder: number ): void {
+    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = ( name === '' )? '' : String( this._av );
   }
 
   copy( status: ActualWithThreeValue ): void {
@@ -123,7 +123,7 @@ class Status {
   _def: MainStatus;
   _spA: MainStatus;
   _spD: MainStatus;
-  _spe: MainStatus;
+  _spe: Speed;
   _acc: Rank;
   _eva: Rank;
 
@@ -133,7 +133,7 @@ class Status {
     this._def = new MainStatus();
     this._spA = new MainStatus();
     this._spD = new MainStatus();
-    this._spe = new MainStatus();
+    this._spe = new Speed();
     this._acc = new Rank();
     this._eva = new Rank();
   }
@@ -153,7 +153,7 @@ class Status {
   get spD(): MainStatus {
     return this._spD;
   }
-  get spe(): MainStatus {
+  get spe(): Speed {
     return this._spe;
   }
   get acc(): Rank {
@@ -194,13 +194,13 @@ class Status {
     return allEffort;
   }
 
-  show( handOrder: number ): void {
-    this._hp.showAcrual( 'hitPoint', handOrder );
-    this._atk.showAcrual( 'attack', handOrder );
-    this._def.showAcrual( 'defense', handOrder );
-    this._spA.showAcrual( 'specialAttack', handOrder );
-    this._spD.showAcrual( 'specialDefense', handOrder );
-    this._spe.showAcrual( 'speed', handOrder );
+  show( name: string, handOrder: number ): void {
+    this._hp.showAcrual( name, 'hitPoint', handOrder );
+    this._atk.showAcrual( name, 'attack', handOrder );
+    this._def.showAcrual( name, 'defense', handOrder );
+    this._spA.showAcrual( name, 'specialAttack', handOrder );
+    this._spD.showAcrual( name, 'specialDefense', handOrder );
+    this._spe.showAcrual( name, 'speed', handOrder );
   }
 
   resetRank(): void {
@@ -213,13 +213,20 @@ class Status {
     this._eva.toZero();
   }
 
-  copy( status: Status ): void {
+  copyFromOpp( status: Status ): void {
     this._hp.copy( status._hp );
     this._atk.copy( status._atk );
     this._def.copy( status._def );
     this._spA.copy( status._spA );
     this._spD.copy( status._spD );
     this._spe.copy( status._spe );
+  }
+
+  calcRankCorrValue( critical: boolean ): void {
+    this._atk.calcRankCorrValue( critical );
+    this._def.calcRankCorrValue( critical );
+    this._spA.calcRankCorrValue( critical );
+    this._spD.calcRankCorrValue( critical );
   }
 }
 
@@ -280,14 +287,68 @@ class HitPointValue extends ValueWithRange {
 // -------------------------
 class MainStatus extends ActualWithThreeValue {
   _rank: Rank;
+  _value: number;
 
   constructor() {
     super();
     this._rank = new Rank();
+    this._value = 0;
   }
 
   get rank(): Rank {
     return this._rank;
+  }
+  get value(): number {
+    return this._value;
+  }
+
+  calcRankCorrValue( critical: boolean ): void {
+    const rank: number = ( critical )? Math.max( this._rank.value, 0 ) : this._rank.value;
+    const corr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
+    this._value = Math.floor( this._av * corr );
+  }
+
+}
+
+class Speed extends MainStatus {
+  _actionOrder: number; // 行動順に影響のある値
+  _forPowerCalc: number; // ジャイロボール・エレキボールの威力計算に関わる値
+  _random: number; // 乱数
+
+  constructor() {
+    super();
+    this._actionOrder = 0;
+    this._forPowerCalc = 0;
+    this._random = 0;
+  }
+
+  get actionOrder(): number {
+    return this._actionOrder;
+  }
+  get foePowerCalc(): number {
+    return this._forPowerCalc;
+  }
+  get random(): number {
+    return this._random;
+  }
+
+  calcSpeed( corr: number, paralysis: number, trickRoom: boolean ): void {
+    // ランク補正値の計算
+    const rank: number = this._rank.value;
+    const rankCorr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
+    this._value = Math.floor( this._av * rankCorr );
+
+    // 各種補正
+    const corr1: number = fiveRoundEntry( this._value * corr / 4096 )
+    const corr2: number = Math.floor( corr1 * paralysis )
+    this._forPowerCalc = Math.min( 10000, corr2 );
+
+    // トリックルーム
+    const corr3: number = ( trickRoom )? 10000 - this._forPowerCalc : this._forPowerCalc;
+    this._actionOrder = corr3 % 8192;
+
+    // 乱数
+    this._random = getRandom();
   }
 }
 

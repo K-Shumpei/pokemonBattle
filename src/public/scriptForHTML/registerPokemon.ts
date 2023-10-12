@@ -47,6 +47,13 @@ class RegisterValue {
   getAV( para: string ): number {
     return Number( getHTMLInputElement( 'register_' + para + 'ActualValue' ).value )
   }
+
+  copy( stat: ActualWithThreeValue ): void {
+    this._av = stat.av;
+    this._bs = stat.bs;
+    this._iv = stat.iv;
+    this._ev = stat.ev;
+  }
 }
 
 class RegisterHitPoint extends RegisterValue {
@@ -194,18 +201,29 @@ class RegisterStatus {
     this._spD.ev = this._spD.calcEffort( 'specialDefense', level, nature.spD );
     this._spe.ev = this._spe.calcEffort( 'speed', level, nature.spe );
   }
+
+  copy( stat: Status ): void {
+    this._hp.copy( stat.hp );
+    this._atk.copy( stat.atk );
+    this._def.copy( stat.def );
+    this._spA.copy( stat.spA );
+    this._spD.copy( stat.spD );
+    this._spe.copy( stat.spe );
+  }
 }
 
 class RegisterMove {
-  _name: string;
+  _slot: number;
+  _name: string | null;
   _type: PokemonType;
   _power: number | null;
   _accuracy: number | null;
   _powerPoint: number;
   _basePP: number;
 
-  constructor() {
-    this._name = '';
+  constructor( slot: number ) {
+    this._slot = slot;
+    this._name = null;
     this._type = null;
     this._power = null;
     this._accuracy = null;
@@ -213,7 +231,7 @@ class RegisterMove {
     this._basePP = 0;
   }
 
-  get name(): string {
+  get name(): string | null {
     return this._name;
   }
   get powerPoint(): number {
@@ -258,6 +276,19 @@ class RegisterMove {
     this._powerPoint = Math.max( this._basePP, this._powerPoint - step );
   }
 
+  copy( move: LearnedMove ): void {
+    if ( move.name === null ) return;
+    const master = this.getMoveMaster( move.name );
+    this._name = master.nameEN;
+    this._type = master.type;
+    this._power = master.power;
+    this._accuracy = master.accuracy;
+    this._powerPoint = move.powerPoint.value;
+    this._basePP = master.powerPoint;
+
+    getHTMLInputElement( 'registerMoveName' + this._slot ).value = this.translate( this._name );
+  }
+
 }
 
 class RegisterMoveList {
@@ -265,10 +296,10 @@ class RegisterMoveList {
 
   constructor() {
     this._slot = [
-      new RegisterMove(),
-      new RegisterMove(),
-      new RegisterMove(),
-      new RegisterMove(),
+      new RegisterMove( 0 ),
+      new RegisterMove( 1 ),
+      new RegisterMove( 2 ),
+      new RegisterMove( 3 ),
     ];
   }
 
@@ -314,6 +345,12 @@ class RegisterMoveList {
       getHTMLInputElement( 'registerMovePowerPoint' + i ).value = String( this._slot[i]._powerPoint );
     }
   }
+
+  copy( move: LearnedMove[] ): void {
+    for ( let i = 0; i < 4; i++ ) {
+      this._slot[i].copy( move[i] );
+    }
+  }
 }
 
 class RegisterGender {
@@ -327,6 +364,9 @@ class RegisterGender {
 
   get value(): Gender {
     return this._value;
+  }
+  set value( gender: Gender ) {
+    this._value = gender;
   }
 
   translate(): string {
@@ -404,6 +444,9 @@ class RegisterAbility {
   get value(): string {
     return this._value;
   }
+  set value( ability: string ) {
+    this._value = ability;
+  }
 
   translate( name: string ): string {
     for ( const data of abilityMaster ) {
@@ -441,6 +484,7 @@ class RegisterAbility {
 }
 
 class Register {
+  _id: number;
   _name: string;
   _level: number;
   _type: PokemonType[];
@@ -452,6 +496,7 @@ class Register {
   _move: RegisterMoveList;
 
   constructor() {
+    this._id = 0;
     this._name = '';
     this._level = 0;
     this._type = [];
@@ -464,6 +509,7 @@ class Register {
   }
 
   reset(): void {
+    this._id = 0;
     this._name = '';
     this._level = 50;
     this._type = [];
@@ -480,6 +526,9 @@ class Register {
     }
   }
 
+  get id(): number {
+    return this._id;
+  }
   get name(): string {
     return this._name;
   }
@@ -563,11 +612,11 @@ class Register {
     this.setMaster( name );
     this.calculateActualValue();
     this.setHTML();
-    this.showOnScreen()
   }
 
   setMaster( name: string ): void {
     const pokemon = this.getPokemonMaster( name );
+    this._id = pokemon.id;
     this._name = pokemon.nameEN;
     this._type = pokemon.type;
     this._gender.setMaster( pokemon );
@@ -594,6 +643,7 @@ class Register {
   setNatureList(): void {
     const nature = getHTMLInputElement( 'register_nature' ).value;
     this._nature = this.translateNatureToEN( nature );
+    this.setNatureListToButton();
   }
   setNatureButton(): void {
     let plus = '';
@@ -662,8 +712,19 @@ class Register {
 
     getHTMLInputElement( 'register_item' ).textContent = this._item;
 
+    this.setNatureListToButton();
 
-    // 性格
+    /*
+    getHTMLInputElement( 'remainingEffortValue' ).textContent = '510';
+    */
+
+    this._gender.show();
+    this._ability.show();
+    this._stat.show();
+    this._move.show();
+  }
+
+  setNatureListToButton(): void {
     getHTMLInputElement( 'register_nature' ).value = this.translateNatureToJA( this._nature );
     const nature = this.getNatureMaster( this._nature );
     if ( nature.atk === 1.1 ) getHTMLInputElement( 'register_attackNaturePlus' ).checked = true;
@@ -676,16 +737,24 @@ class Register {
     if ( nature.spD === 0.9 ) getHTMLInputElement( 'register_specialDefenseNatureMinus' ).checked = true;
     if ( nature.spe === 1.1 ) getHTMLInputElement( 'register_speedNaturePlus' ).checked = true;
     if ( nature.spe === 0.9 ) getHTMLInputElement( 'register_speedNatureMinus' ).checked = true;
+  }
 
+  copy( pokemon: Pokemon ): void {
+    this.reset();
+    this.setMaster( pokemon.name );
+    this.setHTML();
 
-    /*
-    getHTMLInputElement( 'remainingEffortValue' ).textContent = '510';
-    */
+    this._level = pokemon.level;
+    this._type = pokemon.type;
+    this._gender.value = pokemon.gender;
+    this._ability.value = pokemon.ability.name;
+    this._item = pokemon.item.name;
+    this._nature = pokemon.nature;
 
-    this._gender.show();
-    this._ability.show();
-    this._stat.show();
-    this._move.show();
+    this._stat.copy( pokemon.status );
+    this._move.copy( pokemon.move.learned );
+
+    this.calculateActualValue();
   }
 
 }

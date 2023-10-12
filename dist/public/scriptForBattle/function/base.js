@@ -326,7 +326,7 @@ function formChange(pokemon) {
         }
     }
     if (pokemon.name === 'ウッウ') {
-        if (pokemon.hitPoint.value.isGreaterThan(2))
+        if (pokemon.status.hp.value.isGreaterThan(2))
             nextFrom = 'ウッウ(鵜呑み)';
         else
             nextFrom = 'ウッウ(丸呑み)';
@@ -334,9 +334,6 @@ function formChange(pokemon) {
     const nextPokemon = getPokemonDataByName(nextFrom);
     //const nature: NatureDataType = getNatureDataByName( pokemon.nature );
     // 基本ステータスの更新
-    pokemon.id.id = nextPokemon.id;
-    pokemon.id.order = nextPokemon.order;
-    pokemon.id.index = nextPokemon.index;
     pokemon.name = nextPokemon.nameEN;
     pokemon.type = nextPokemon.type;
     pokemon.ability.name = nextPokemon.ability[0];
@@ -453,12 +450,12 @@ function toBattleField(pokemon, battle) {
     }
     pokemon.order.hand = 0;
     if (pokemon.trainer === 'me') {
-        getHTMLInputElement('battleMyImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id.index + '.png';
+        getHTMLInputElement('battleMyImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
     }
     else {
-        getHTMLInputElement('battleOpponentImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id.index + '.png';
+        getHTMLInputElement('battleOpponentImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
     }
-    writeLog(`${translateENintoJP(pokemon.trainer)}は ${pokemon.name}を くりだした!`);
+    pokemon.msgToBattleField();
 }
 // 手持ちに戻る
 function toReserve(pokemon) {
@@ -471,7 +468,7 @@ function toReserve(pokemon) {
         }
     }
     // ひんし処理
-    if (pokemon.hitPoint.value.isZero()) {
+    if (pokemon.status.hp.value.isZero()) {
         writeLog(`${getArticle(pokemon)}は たおれた!`);
     }
     naturalCure: if (pokemon.ability.isName('しぜんかいふく')) {
@@ -479,7 +476,7 @@ function toReserve(pokemon) {
     }
     regenerator: if (pokemon.ability.isName('さいせいりょく')) {
         const value = Math.floor(pokemon.status.hp.av / 3);
-        pokemon.hitPoint.value.add(value);
+        pokemon.status.hp.value.add(value);
     }
     // 情報のリセット
     // pokemon.ability = pokemon.statusOrg.ability;
@@ -495,7 +492,7 @@ function isEnableEatBerry(pokemon) {
     const berry = pokemon.item.name;
     const confuse = pokemon.stateChange.confuse.isTrue;
     const hitPoint = pokemon.status.hp.av;
-    const remaining = pokemon.hitPoint.value.value;
+    const remaining = pokemon.status.hp.value.value;
     const gluttony = (pokemon.ability.isName('くいしんぼう')) ? 2 : 1;
     if (berry === null)
         return false;
@@ -578,7 +575,7 @@ function isValidProbabilityAdditionalEffect(pokemon, moveRate) {
 function isValidToTargetAdditionalEffect(pokemon, target, damage) {
     if (pokemon.stateChange.sheerForce.isTrue === true)
         return false;
-    if (target.hitPoint.value.isZero())
+    if (target.status.hp.value.isZero())
         return false;
     if (damage.substitute === true)
         return false;
@@ -713,11 +710,11 @@ function processAfterCalculation(pokemon, target, finalDamage, damage) {
     let result = finalDamage;
     result = Math.max(result, 1);
     result = result % 65536;
-    result = Math.min(result, target.hitPoint.value.value);
+    result = Math.min(result, target.status.hp.value.value);
     if (damage.substitute === true) {
         result = Math.min(result, target.stateChange.substitute.count);
     }
-    if (damage.substitute === false && result === target.hitPoint.value.value) {
+    if (damage.substitute === false && result === target.status.hp.value.value) {
         if (target.stateChange.endure.isTrue === true) {
             result -= 1;
             target.stateChange.endureMsg.isTrue === true;
@@ -731,7 +728,7 @@ function processAfterCalculation(pokemon, target, finalDamage, damage) {
             return result;
         }
         if (pokemon.ability.isName('がんじょう')) {
-            if (target.hitPoint.value.isMax()) {
+            if (target.status.hp.value.isMax()) {
                 result -= 1;
                 target.stateChange.endureMsg.isTrue === true;
                 target.stateChange.endureMsg.text === 'がんじょう';
@@ -739,7 +736,7 @@ function processAfterCalculation(pokemon, target, finalDamage, damage) {
             }
         }
         if (target.item.isName('きあいのタスキ')) {
-            if (target.hitPoint.value.isMax()) {
+            if (target.status.hp.value.isMax()) {
                 result -= 1;
                 target.stateChange.endureMsg.isTrue === true;
                 target.stateChange.endureMsg.text === 'きあいのタスキ';

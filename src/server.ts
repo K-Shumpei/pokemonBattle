@@ -5,7 +5,7 @@ import { createServer } from "http";
 interface ServerToClientEvents {
   correctPassword: () => void;
   incorrectPassword: () => void;
-  selectPokemon: ( party: Pokemon[] ) => void;
+  selectPokemon: ( party: Pokemon[], host: boolean ) => void;
   sendOrder: ( myOrder: number[], opponentOrder: number[] ) => void;
   returnCommand: ( myCommand: Command[], opponentCommand: Command[], randomList: number[] ) => void;
 }
@@ -142,8 +142,8 @@ io.on("connection", (socket) => {
         room.player2.socketID = socket.id;
         room.player2.party = party;
 
-        io.to( room.player1.socketID ).emit( 'selectPokemon', room.player2.party );
-        io.to( room.player2.socketID ).emit( 'selectPokemon', room.player1.party );
+        io.to( room.player1.socketID ).emit( 'selectPokemon', room.player2.party, true );
+        io.to( room.player2.socketID ).emit( 'selectPokemon', room.player1.party, false );
 
         // バトル部屋へ移動
         const player1 = new BattlePlayerInfo;

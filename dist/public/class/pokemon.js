@@ -1,8 +1,8 @@
 "use strict";
 class Order {
-    constructor() {
-        this._party = 0;
-        this._hand = 0;
+    constructor(slot) {
+        this._party = slot;
+        this._hand = slot;
         this._battle = null;
     }
     set party(party) {
@@ -22,31 +22,6 @@ class Order {
     }
     get battle() {
         return this._battle;
-    }
-}
-class Index {
-    constructor() {
-        this._id = 0;
-        this._order = 0;
-        this._index = 0;
-    }
-    set id(id) {
-        this._id = id;
-    }
-    set order(order) {
-        this._order = order;
-    }
-    set index(index) {
-        this._index = index;
-    }
-    get id() {
-        return this._id;
-    }
-    get order() {
-        return this._order;
-    }
-    get index() {
-        return this._index;
     }
 }
 class StatusAilment {
@@ -966,30 +941,29 @@ class Item {
     get name() {
         return this._name;
     }
-    isName(ability) {
-        return this._name === ability;
+    isName(name) {
+        return this._name === name;
     }
 }
 class Pokemon {
-    constructor() {
-        this._id = new Index();
+    constructor(slot) {
+        this._id = 0;
         this._trainer = 'me';
-        this._order = new Order;
-        this._status = new Status();
-        this._move = new Move();
-        this._damage = [];
-        this._command = new Command;
-        this._stateChange = new StateChangeSummary;
+        this._order = new Order(slot);
         this._name = '';
+        this._level = 50;
         this._type = [];
         this._gender = 'genderless';
         this._ability = new Ability();
-        this._level = 50;
         this._item = new Item();
         this._nature = 'Bashful';
+        this._status = new Status();
+        this._move = new Move();
         this._happiness = 255;
-        this._hitPoint = new HitPoint();
         this._statusAilment = new StatusAilment();
+        this._damage = [];
+        this._command = new Command;
+        this._stateChange = new StateChangeSummary;
     }
     set id(id) {
         this._id = id;
@@ -1026,9 +1000,6 @@ class Pokemon {
     }
     set happiness(happiness) {
         this._happiness = happiness;
-    }
-    set hitPoint(hitPoint) {
-        this._hitPoint = hitPoint;
     }
     set statusAilment(statusAilment) {
         this._statusAilment = statusAilment;
@@ -1081,13 +1052,32 @@ class Pokemon {
     get happiness() {
         return this._happiness;
     }
-    get hitPoint() {
-        return this._hitPoint;
-    }
     get statusAilment() {
         return this._statusAilment;
     }
+    reset() {
+        const partyOrder = this._order.party;
+        const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
+        imageHTML.src = '';
+        this._trainer = 'me';
+        this._order = new Order(this._order.party);
+        this._name = '';
+        this._level = 50;
+        this._type = [];
+        this._gender = 'genderless';
+        this._ability = new Ability();
+        this._item = new Item();
+        this._nature = 'Bashful';
+        this._status = new Status();
+        this._move = new Move();
+        this._happiness = 255;
+        this._statusAilment = new StatusAilment();
+        this._damage = [];
+        this._command = new Command;
+        this._stateChange = new StateChangeSummary;
+    }
     register(reg) {
+        this._id = reg.id;
         this._name = reg.name;
         this._level = reg.level;
         this._type = reg.type;
@@ -1098,34 +1088,32 @@ class Pokemon {
         this._status.register(reg.stat);
         this._move.register(reg.move);
     }
-    showOnScreen() {
-        const partyOrder = this._order.party;
-        const handOrder = this._order.hand;
-        const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
-        if (handOrder === null)
-            return;
-        getHTMLInputElement('party' + handOrder + '_name').textContent = this.translateName(this._name);
-        getHTMLInputElement('party' + handOrder + '_gender').textContent = this.translateGender();
-        getHTMLInputElement('party' + handOrder + '_level').textContent = String(this._level);
-        getHTMLInputElement('party' + handOrder + '_ability').textContent = this.translateAbility(this._ability.name);
-        getHTMLInputElement('party' + handOrder + '_remainingHP').textContent = String(this._status.hp.value.value);
-        getHTMLInputElement('party' + handOrder + '_item').textContent = String(this._item.name);
+    showHandInfo() {
+        getHTMLInputElement('party' + this._order.hand + '_name').textContent = (this._name === '') ? '名前' : this.translateName(this._name);
+        getHTMLInputElement('party' + this._order.hand + '_gender').textContent = (this._name === '') ? '性別' : this.translateGender();
+        getHTMLInputElement('party' + this._order.hand + '_level').textContent = (this._name === '') ? '' : String(this._level);
+        getHTMLInputElement('party' + this._order.hand + '_ability').textContent = (this._name === '') ? '特性' : this.translateAbility(this._ability.name);
+        getHTMLInputElement('party' + this._order.hand + '_remainingHP').textContent = (this._name === '') ? '' : String(this._status.hp.value.value);
+        getHTMLInputElement('party' + this._order.hand + '_item').textContent = (this._name === '') ? '持ち物' : String(this._item.name);
         if (this._type.length === 0) {
-            getHTMLInputElement('party' + handOrder + '_type1').textContent = '';
-            getHTMLInputElement('party' + handOrder + '_type2').textContent = '';
+            getHTMLInputElement('party' + this._order.hand + '_type1').textContent = 'タイプ';
+            getHTMLInputElement('party' + this._order.hand + '_type2').textContent = '';
         }
         else if (this._type.length === 1) {
-            getHTMLInputElement('party' + handOrder + '_type1').textContent = this.translateType(String(this._type[0]));
-            getHTMLInputElement('party' + handOrder + '_type2').textContent = '';
+            getHTMLInputElement('party' + this._order.hand + '_type1').textContent = this.translateType(String(this._type[0]));
+            getHTMLInputElement('party' + this._order.hand + '_type2').textContent = '';
         }
         else if (this._type.length === 2) {
-            getHTMLInputElement('party' + handOrder + '_type1').textContent = this.translateType(String(this._type[0]));
-            getHTMLInputElement('party' + handOrder + '_type2').textContent = this.translateType(String(this._type[1]));
+            getHTMLInputElement('party' + this._order.hand + '_type1').textContent = this.translateType(String(this._type[0]));
+            getHTMLInputElement('party' + this._order.hand + '_type2').textContent = this.translateType(String(this._type[1]));
         }
-        this._status.show(handOrder);
-        this._move.show(handOrder);
-        // パーティ画像
-        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this._id.id + '.png';
+        this._status.show(this._name, this._order.hand);
+        this._move.show(this._order.hand);
+    }
+    showPartyImage() {
+        const partyOrder = this._order.party;
+        const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
+        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this._id + '.png';
     }
     translateName(name) {
         for (const data of pokemonMaster) {
@@ -1162,6 +1150,12 @@ class Pokemon {
                 return data.nameEN;
         }
         return name;
+    }
+    //----------
+    // メッセージ
+    //----------
+    msgToBattleField() {
+        writeLog(`${translateENintoJP(this._trainer)}は ${this.translateName(this._name)}を くりだした!`);
     }
     declareAbility() {
         writeLog(`${this._name}の ${this._ability}`);

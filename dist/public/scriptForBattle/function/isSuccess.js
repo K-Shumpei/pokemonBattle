@@ -336,7 +336,7 @@ function isSuccess(pokemon) {
         // その他
         // がむしゃら: 対象のHPが使用者以下
         if (pokemon.move.selected.name === 'がむしゃら') {
-            if (pokemon.hitPoint.value >= target.hitPoint.value) {
+            if (pokemon.status.hp.value.value >= target.status.hp.value.value) {
                 target.declareInvalid(damage);
             }
         }
@@ -675,25 +675,25 @@ function isSuccess(pokemon) {
         }
         // HPが満タンだったことによる無効化
         if (pokemon.move.selected.name === 'いやしのはどう' || pokemon.move.selected.name === 'フラワーヒール') {
-            if (target.hitPoint.value.isMax()) {
+            if (target.status.hp.value.isMax()) {
                 target.declareInvalid(damage);
                 continue;
             }
         }
         if (pokemon.move.selected.name === 'いのちのしずく') {
-            if (target.hitPoint.value.isMax()) {
+            if (target.status.hp.value.isMax()) {
                 target.declareInvalid(damage);
                 continue;
             }
         }
         if (pokemon.move.selected.name === 'ジャングルヒール') {
-            if (target.hitPoint.value.isMax() && target.statusAilment === null) {
+            if (target.status.hp.value.isMax() && target.statusAilment === null) {
                 target.declareInvalid(damage);
                 continue;
             }
         }
         if (pokemon.move.selected.name === 'かふんだんご') {
-            if (target.hitPoint.value.isMax() && pokemon.trainer === target.trainer) {
+            if (target.status.hp.value.isMax() && pokemon.trainer === target.trainer) {
                 target.declareInvalid(damage);
                 continue;
             }
@@ -708,14 +708,14 @@ function isSuccess(pokemon) {
             || pokemon.move.selected.name === 'なまける'
             || pokemon.move.selected.name === 'はねやすめ'
             || pokemon.move.selected.name === 'ミルクのみ') {
-            if (pokemon.hitPoint.value.isMax()) {
+            if (pokemon.status.hp.value.isMax()) {
                 target.declareInvalid(damage);
                 continue;
             }
         }
         // ステータスに関する無効化
         if (pokemon.move.selected.name === 'はらだいこ') {
-            if (pokemon.hitPoint.value.isLessEqual(2)) {
+            if (pokemon.status.hp.value.isLessEqual(2)) {
                 target.declareInvalid(damage);
                 continue;
             }
@@ -1037,7 +1037,7 @@ function isSuccess(pokemon) {
                 target.declareInvalid(damage);
                 continue;
             }
-            if (pokemon.hitPoint.value.isLessEqual(4)) {
+            if (pokemon.status.hp.value.isLessEqual(4)) {
                 target.declareInvalid(damage);
                 continue;
             }
@@ -1811,7 +1811,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     }
     rest: if (pokemon.move.selected.name === 'ねむる') {
-        if (pokemon.hitPoint.value.isMax())
+        if (pokemon.status.hp.value.isMax())
             break rest;
         if (pokemon.statusAilment.isAsleep())
             break rest;

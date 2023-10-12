@@ -4,7 +4,7 @@ function moveEffect( pokemon: Pokemon ): void {
     // シングルバトルの場合
     if ( fieldStatus.battleStyle === 1 ) {
       const damage: Damage = pokemon.damage[0];
-      const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+      const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
       if ( target === false ) return;
 
       // 対象全員へのダメージ計算
@@ -564,7 +564,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
       //[ pokemon.ability, target.ability ] = [ target.ability, pokemon.ability ];
       writeLog( `${getArticle( target )}は おたがいの とくせいを 入れ替えた!` );
 
-      if ( pokemon.trainer !== target.trainer ) {
+      if ( pokemon.isMe !== target.isMe ) {
         pokemon.declareAbility();
         target.declareAbility();
       }
@@ -604,7 +604,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
     if ( target.ability.isName( 'のろわれボディ' ) ) {
       if ( pokemon.stateChange.disable.isTrue === true ) break cursedBody;
       if ( pokemon.stateChange.dynamax.isTrue === true ) break cursedBody;
-      if ( isExistAbilityOneSide( pokemon.trainer, 'アロマベール' ) !== false ) break cursedBody;
+      if ( isExistAbilityOneSide( pokemon.isMe, 'アロマベール' ) !== false ) break cursedBody;
       if ( getRandom() >= 30 ) break cursedBody;
 
       target.declareAbility();
@@ -636,7 +636,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
     if ( target.ability.isName( 'わたげ' ) ) {
       target.stateChange.memo.isTrue = true;
       target.stateChange.memo.text = 'わたげ';
-      target.stateChange.memo.target.trainer = pokemon.trainer;
+      //target.stateChange.memo.target.isMe = pokemon.isMe;
       target.stateChange.memo.target.battle = pokemon.order.battle;
 
       const valid: Pokemon[] = []
@@ -711,10 +711,10 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, target: Pokemon, damage: Dam
 
     toxicDebris:
     if ( target.ability.isName( 'どくげしょう' ) ) {
-      if ( fieldStatus.getSide( getOpponentTrainer( target.trainer ) ).toxicSpikes.count === 2 ) break toxicDebris;
+      if ( fieldStatus.getSide( getOpponentTrainer( target.isMe ) ).toxicSpikes.count === 2 ) break toxicDebris;
 
       target.declareAbility();
-      changeOpponentField( getOpponentTrainer( target.trainer ), 'どくびし', '+' );
+      changeOpponentField( getOpponentTrainer( target.isMe ), 'どくびし', '+' );
     }
   }
 
@@ -993,13 +993,15 @@ function activateSealedEffects( pokemon: Pokemon ): void {
   if ( pokemon.status.hp.value.isZero() === false ) return;
 
   if ( pokemon.ability.isName( 'きんちょうかん' ) ) {
+    /*
     for ( const order of getSpeedOrder() ) {
-      const target: Pokemon | false = getPokemonByBattle( order.trainer, order.battleNumber );
+      const target: Pokemon | false = getPokemonByBattle( order.isMe, order.battleNumber );
       if ( target === false ) continue;
       if ( isEnableEatBerry( target ) === true ) {
         eatBerry( target, target.item.name );
       }
     }
+    */
   }
   if ( pokemon.ability.isName( 'かがくへんかガス' ) ) {
 
@@ -1269,10 +1271,10 @@ function activateMoveEffect( pokemon: Pokemon ): void {
       writeLog( `` );
     }
 
-    changeOpponentField( pokemon.trainer, 'まきびし', '-' );
-    changeOpponentField( pokemon.trainer, 'どくびし', '-' );
-    changeOpponentField( pokemon.trainer, 'ステルスロック', '-' );
-    changeOpponentField( pokemon.trainer, 'ねばねばネット', '-' );
+    changeOpponentField( pokemon.isMe, 'まきびし', '-' );
+    changeOpponentField( pokemon.isMe, 'どくびし', '-' );
+    changeOpponentField( pokemon.isMe, 'ステルスロック', '-' );
+    changeOpponentField( pokemon.isMe, 'ねばねばネット', '-' );
   }
 
   splinteredStormshards:
@@ -1338,8 +1340,8 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
   allPokemon.push( { target: pokemon, damage: new Damage } );
   allPokemon.sort( ( a, b ) => {
     // 素早さ
-    if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
-    if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
+    //if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
+    //if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
     // 乱数
     if ( getRandom() > 50 ) return 1;
     else return -1;
@@ -1459,8 +1461,8 @@ function targetItemEffectPart3( pokemon: Pokemon ): void {
 
   const targetList: TargetDataType[] = getTargetList( pokemon ).sort( ( a, b ) => {
     // 素早さ
-    if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
-    if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
+    //if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
+    //if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
     // 乱数
     if ( getRandom() > 50 ) return 1;
     else return -1;
@@ -1575,8 +1577,8 @@ function targetItemEffectPart4( pokemon: Pokemon ): void {
 
   const targetList: TargetDataType[] = getTargetList( pokemon ).sort( ( a, b ) => {
     // 素早さ
-    if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
-    if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
+    //if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
+    //if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
     // 乱数
     if ( getRandom() > 50 ) return 1;
     else return -1;
@@ -1680,8 +1682,8 @@ function activatePickpocket( pokemon: Pokemon ): void {
 
   const targetList: TargetDataType[] = getTargetList( pokemon ).sort( ( a, b ) => {
     // 素早さ
-    if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
-    if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
+    //if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
+    //if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
     // 乱数
     if ( getRandom() > 50 ) return 1;
     else return -1;

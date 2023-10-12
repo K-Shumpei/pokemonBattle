@@ -1,14 +1,47 @@
+function sortByActionOrder( pokeList: Pokemon[] ): Pokemon[] {
+  const result = pokeList.sort( (a, b) => {
+    // 技の効果
+    //if ( a.raise > b.raise ) return -1;
+    //if ( a.raise < b.raise ) return 1;
+    //if ( a.lower > b.lower ) return -1;
+    //if ( a.lower < b.later ) return 1;
+    // 優先度
+    if ( a.move.selected.priority > b.move.selected.priority ) return -1;
+    if ( a.move.selected.priority < b.move.selected.priority ) return 1;
+    // 先攻
+    //if ( a.ahead > b.ahead ) return -1;
+    //if ( a.ahead < b.ahead ) return 1;
+    // 後攻
+    //if ( a.later > b.later ) return -1;
+    //if ( a.later < b.later ) return 1;
+    // 素早さ
+    if ( a.status.spe.actionOrder > b.status.spe.actionOrder ) return -1;
+    if ( a.status.spe.actionOrder > b.status.spe.actionOrder ) return 1;
+    // 乱数
+    if ( a.status.spe.random > b.status.spe.random ) return -1;
+    else return 1;
+  })
+
+  return result;
+}
+
+
+
+
+
+
+
 function allPokemonInBattlefield(): Pokemon[] {
 
   const result: Pokemon[] = [];
 
-  for ( const pokemon of myParty ) {
+  for ( const pokemon of main.me.pokemon ) {
     if ( pokemon.order.battle !== null ) {
       result.push( pokemon );
     }
   }
 
-  for ( const pokemon of opponentParty ) {
+  for ( const pokemon of main.opp.pokemon ) {
     if ( pokemon.order.battle !== null ) {
       result.push( pokemon );
     }
@@ -17,12 +50,12 @@ function allPokemonInBattlefield(): Pokemon[] {
   return result;
 }
 
-function allPokemonInSide( trainer: 'me' | 'opp' ): Pokemon[] {
+function allPokemonInSide( trainer: boolean ): Pokemon[] {
 
   const result: Pokemon[] = [];
 
-  if ( trainer === 'me' ) {
-    for ( const pokemon of myParty ) {
+  if ( trainer === true ) {
+    for ( const pokemon of main.me.pokemon ) {
       if ( pokemon.order.battle !== null ) {
         result.push( pokemon );
       }
@@ -30,7 +63,7 @@ function allPokemonInSide( trainer: 'me' | 'opp' ): Pokemon[] {
 
     return result;
   } else {
-    for ( const pokemon of opponentParty ) {
+    for ( const pokemon of main.opp.pokemon ) {
       if ( pokemon.order.battle !== null ) {
         result.push( pokemon );
       }
@@ -46,13 +79,13 @@ function pokemonForCottonDown( pokemon: Pokemon ): Pokemon[] {
   const result: Pokemon[] = [];
 
   for ( let i = fieldStatus.battleStyle - 1; i >= 0; i-- ) {
-    const target: Pokemon | false = getPokemonByBattle( getOpponentTrainer( pokemon.trainer ), i );
+    const target: Pokemon | false = getPokemonByBattle( getOpponentTrainer( pokemon.isMe ), i );
     if ( target === false ) continue;
     result.push( target );
   }
 
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
-    const target: Pokemon | false = getPokemonByBattle( pokemon.trainer, i );
+    const target: Pokemon | false = getPokemonByBattle( pokemon.isMe, i );
     if ( target === false ) continue;
     if ( isSame( target, pokemon ) === true ) continue;
     result.push( target );
@@ -61,36 +94,36 @@ function pokemonForCottonDown( pokemon: Pokemon ): Pokemon[] {
   return result;
 }
 
-function getPokemonByParty( trainer: string, party: number ): Pokemon {
+function getPokemonByParty( trainer: boolean, party: number ): Pokemon {
 
-  if ( trainer === 'me' ) {
-    for ( const pokemon of myParty ) {
+  if ( trainer === true ) {
+    for ( const pokemon of main.me.pokemon ) {
       if ( pokemon.order.party === party ) {
         return pokemon;
       }
     }
   } else {
-    for ( const pokemon of opponentParty ) {
+    for ( const pokemon of main.opp.pokemon ) {
       if ( pokemon.order.party === party ) {
         return pokemon;
       }
     }
   }
 
-  return myParty[0];
+  return main.me.pokemon[0];
 }
 
-function getPokemonByBattle( trainer: string, battle: number | null ): Pokemon | false {
+function getPokemonByBattle( trainer: boolean, battle: number | null ): Pokemon | false {
 
-  if ( trainer === 'me' ) {
-    for ( const pokemon of myParty ) {
+  if ( trainer === true ) {
+    for ( const pokemon of main.me.pokemon ) {
       if ( pokemon.order.battle === battle ) {
         return pokemon;
       }
     }
   }
-  if ( trainer === 'opp' ) {
-    for ( const pokemon of opponentParty ) {
+  if ( trainer === false ) {
+    for ( const pokemon of main.opp.pokemon ) {
       if ( pokemon.order.battle === battle ) {
         return pokemon;
       }
@@ -100,19 +133,19 @@ function getPokemonByBattle( trainer: string, battle: number | null ): Pokemon |
   return false;
 }
 
-function getOpponentTrainer( trainer: 'me' | 'opp' ): 'me' | 'opp' {
+function getOpponentTrainer( trainer: boolean ): boolean {
 
-  if ( trainer === 'me' ) {
-    return 'opp';
+  if ( trainer === true ) {
+    return false;
   } else  {
-    return 'me';
+    return true;
   }
 }
 
-function getParty( trainer: 'me' | 'opp' ): Pokemon[] {
+function getParty( trainer: boolean ): Pokemon[] {
 
-  if ( trainer === 'me' ) return myParty;
-  else return opponentParty;
+  if ( trainer === true ) return main.me.pokemon;
+  else return main.opp.pokemon;
 }
 
 function writeLog( text: string ): void {
@@ -143,16 +176,13 @@ function fiveRoundEntry( number: number ) {
 // トレーナー判断
 function getArticle( pokemon: Pokemon ): string {
 
-  if ( pokemon.trainer === 'me' ) {
-    return pokemon.translateName( pokemon.name );
-  } else {
-    return '相手の ' + pokemon.translateName( pokemon.name );
-  }
+  if ( pokemon.isMe ) return pokemon.translateName( pokemon.name );
+  else return '相手の ' + pokemon.translateName( pokemon.name );
 }
 
 function isSame( pokemon: Pokemon, target: Pokemon ): boolean {
 
-  if ( pokemon.trainer === target.trainer && pokemon.order.party === target.order.party ) {
+  if ( pokemon.isMe === target.isMe && pokemon.order.party === target.order.party ) {
     return true;
   } else {
     return false;
@@ -161,7 +191,7 @@ function isSame( pokemon: Pokemon, target: Pokemon ): boolean {
 
 function isFriend( pokemon: Pokemon, target: Pokemon ): boolean {
 
-  if ( pokemon.trainer === target.trainer && pokemon.order.party !== target.order.party ) {
+  if ( pokemon.isMe === target.isMe && pokemon.order.party !== target.order.party ) {
     return true;
   } else {
     return false;
@@ -176,7 +206,7 @@ function getTargetList( pokemon: Pokemon ): TargetDataType[] {
     if ( damage.success === false ) {
       continue;
     }
-    const target: Pokemon = getPokemonByParty( damage.trainer, damage.party );
+    const target: Pokemon = getPokemonByParty( damage.isMe, damage.party );
     result.push( { target: target, damage: damage } );
   }
 

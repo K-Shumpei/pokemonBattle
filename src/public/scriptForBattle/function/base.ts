@@ -69,7 +69,7 @@ function isExistAbility( ability: string ): Pokemon | false {
 }
 
 // 片側の場の特性存在判定
- function isExistAbilityOneSide( trainer: 'me' | 'opp' , ability: string ): Pokemon | false {
+ function isExistAbilityOneSide( trainer: boolean , ability: string ): Pokemon | false {
 
   for ( const pokemon of allPokemonInSide( trainer ) ) {
     if ( pokemon.ability.isName( ability ) ) {
@@ -306,15 +306,15 @@ function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void 
   if ( pokemon.gender === 'genderless' ) return;
   if ( target.gender === 'genderless' ) return;
   if ( pokemon.gender === target.gender ) return;
-  if ( pokemon.trainer === target.trainer ) return;
+  if ( pokemon.isMe === target.isMe ) return;
   if ( target.stateChange.attract.isTrue === true ) return;
   if ( pokemon.ability.isName( 'どんかん' ) ) return;
-  if ( isExistAbilityOneSide( target.trainer, 'アロマベール' ) !== false ) return;
+  if ( isExistAbilityOneSide( target.isMe, 'アロマベール' ) !== false ) return;
 
   // メロメロ状態にする
   target.stateChange.attract.isTrue = true;
   if ( pokemon.order.battle !== null ) {
-    target.stateChange.attract.target = setTargetInfo( pokemon.trainer, pokemon.order.battle );
+    //target.stateChange.attract.target = setTargetInfo( pokemon.isMe, pokemon.order.battle );
   }
 
   // メッセージ
@@ -343,7 +343,7 @@ function formChange( pokemon: Pokemon ): void {
   }
 
   if ( pokemon.name === 'ウッウ' ) {
-    if ( pokemon.hitPoint.value.isGreaterThan( 2 ) ) nextFrom = 'ウッウ(鵜呑み)';
+    if ( pokemon.status.hp.value.isGreaterThan( 2 ) ) nextFrom = 'ウッウ(鵜呑み)';
     else nextFrom = 'ウッウ(丸呑み)'
   }
 
@@ -351,9 +351,6 @@ function formChange( pokemon: Pokemon ): void {
   //const nature: NatureDataType = getNatureDataByName( pokemon.nature );
 
   // 基本ステータスの更新
-  pokemon.id.id = nextPokemon.id;
-  pokemon.id.order = nextPokemon.order;
-  pokemon.id.index = nextPokemon.index;
   pokemon.name = nextPokemon.nameEN;
   pokemon.type = nextPokemon.type;
   pokemon.ability.name = nextPokemon.ability[0];
@@ -395,10 +392,10 @@ function formChange( pokemon: Pokemon ): void {
 }
 
 // 相手の場の変化
-function changeOpponentField( trainer: 'me' | 'opp', state: string, sign: SignType ): void {
+function changeOpponentField( trainer: boolean, state: string, sign: SignType ): void {
 
-  //const opponent: 'me' | 'opp' = getOpponentTrainer( pokemon.trainer );
-  const article: string = ( trainer === 'opp' )? '相手の ' : '味方の ';
+  //const opponent: 'me' | 'opp' = getOpponentTrainer( pokemon.isMe );
+  const article: string = ( trainer === false )? '相手の ' : '味方の ';
   const field = fieldStatus.getSide( trainer );
 
   if ( state === 'どくびし' ) {
@@ -465,20 +462,20 @@ function toBattleField( pokemon: Pokemon, battle: number ): void {
   pokemon.order.battle = battle;
 
   const hand: number = pokemon.order.hand;
-  for ( const _pokemon of getParty( pokemon.trainer ) ) {
+  for ( const _pokemon of getParty( pokemon.isMe ) ) {
     if ( _pokemon.order.hand < hand ) {
       _pokemon.order.hand += 1;
     }
   }
   pokemon.order.hand = 0;
 
-  if ( pokemon.trainer === 'me' ) {
-    getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id.index + '.png';
+  if ( pokemon.isMe === true ) {
+    getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
   } else {
-    getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id.index + '.png';
+    getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
   }
 
-  writeLog( `${translateENintoJP( pokemon.trainer )}は ${pokemon.name}を くりだした!` );
+  pokemon.msgToBattleField();
 }
 
 // 手持ちに戻る
@@ -488,14 +485,14 @@ function toReserve( pokemon: Pokemon ): void {
 
   const hand: number = pokemon.order.hand;
   pokemon.order.hand = fieldStatus.numberOfPokemon;
-  for ( const _pokemon of getParty( pokemon.trainer ) ) {
+  for ( const _pokemon of getParty( pokemon.isMe ) ) {
     if ( _pokemon.order.hand > hand ) {
       _pokemon.order.hand -= 1;
     }
   }
 
   // ひんし処理
-  if ( pokemon.hitPoint.value.isZero() ) {
+  if ( pokemon.status.hp.value.isZero() ) {
     writeLog( `${getArticle( pokemon )}は たおれた!` );
   }
 
@@ -507,7 +504,7 @@ function toReserve( pokemon: Pokemon ): void {
   regenerator:
   if ( pokemon.ability.isName( 'さいせいりょく' ) ) {
     const value: number = Math.floor( pokemon.status.hp.av / 3 );
-    pokemon.hitPoint.value.add( value );
+    pokemon.status.hp.value.add( value );
   }
 
 
@@ -527,7 +524,7 @@ function isEnableEatBerry( pokemon: Pokemon ): boolean {
   const berry = pokemon.item.name;
   const confuse = pokemon.stateChange.confuse.isTrue;
   const hitPoint = pokemon.status.hp.av;
-  const remaining = pokemon.hitPoint.value.value;
+  const remaining = pokemon.status.hp.value.value;
   const gluttony = ( pokemon.ability.isName( 'くいしんぼう' ) )? 2 : 1;
 
   if ( berry === null ) return false;
@@ -575,7 +572,7 @@ function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number 
   if ( pokemon.ability.isName( 'てんのめぐみ' ) ) {
     rate = rate * 2;
   }
-  if ( fieldStatus.getSide( pokemon.trainer ).rainbow.isTrue === true ) {
+  if ( fieldStatus.getSide( pokemon.isMe ).rainbow.isTrue === true ) {
     if ( pokemon.move.selected.name !== 'ひみつのちから' ) {
       rate = rate * 2;
     }
@@ -594,7 +591,7 @@ function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number 
 function isValidToTargetAdditionalEffect( pokemon: Pokemon, target: Pokemon, damage: Damage ): boolean {
 
   if ( pokemon.stateChange.sheerForce.isTrue === true ) return false;
-  if ( target.hitPoint.value.isZero() ) return false;
+  if ( target.status.hp.value.isZero() ) return false;
   if ( damage.substitute === true ) return false ;
   if ( target.ability.isName( 'りんぷん' ) ) return false;
   if ( target.item.isName( 'おんみつマント' ) ) return false;
@@ -606,17 +603,17 @@ function giveCannotEscape( pokemon: Pokemon, target: Pokemon, move: string ): vo
 
   if ( move === 'くらいつく' ) {
     target.stateChange.cannotEscape.isTrue = true;
-    target.stateChange.cannotEscape.target.trainer = pokemon.trainer;
+    //target.stateChange.cannotEscape.target.isMe = pokemon.isMe;
     target.stateChange.cannotEscape.target.party = pokemon.order.party;
 
     pokemon.stateChange.cannotEscape.isTrue = true;
-    pokemon.stateChange.cannotEscape.target.trainer = target.trainer;
+   // pokemon.stateChange.cannotEscape.target.isMe = target.isMe;
     pokemon.stateChange.cannotEscape.target.party = target.order.party;
 
     writeLog( `おたがいの ポケモンは 逃げることが できなくなった!` );
   } else {
     target.stateChange.cannotEscape.isTrue = true;
-    target.stateChange.cannotEscape.target.trainer = pokemon.trainer;
+    //target.stateChange.cannotEscape.target.isMe = pokemon.isMe;
     target.stateChange.cannotEscape.target.party = pokemon.order.party;
 
     writeLog( `${getArticle( target )}は もう 逃げられない!` );
@@ -743,13 +740,13 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
 
   result = Math.max( result, 1 );
   result = result % 65536;
-  result = Math.min( result, target.hitPoint.value.value );
+  result = Math.min( result, target.status.hp.value.value );
 
   if ( damage.substitute === true ) {
     result = Math.min( result, target.stateChange.substitute.count );
   }
 
-  if ( damage.substitute === false && result === target.hitPoint.value.value ) {
+  if ( damage.substitute === false && result === target.status.hp.value.value ) {
     if ( target.stateChange.endure.isTrue === true ) {
       result -= 1;
       target.stateChange.endureMsg.isTrue === true;
@@ -763,7 +760,7 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       return result;
     }
     if ( pokemon.ability.isName( 'がんじょう' ) ) {
-      if ( target.hitPoint.value.isMax() ) {
+      if ( target.status.hp.value.isMax() ) {
         result -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'がんじょう';
@@ -771,7 +768,7 @@ function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage
       }
     }
     if ( target.item.isName( 'きあいのタスキ' ) ) {
-      if ( target.hitPoint.value.isMax() ) {
+      if ( target.status.hp.value.isMax() ) {
         result -= 1;
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'きあいのタスキ';

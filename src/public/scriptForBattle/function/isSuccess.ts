@@ -66,7 +66,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 相性による無効化
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
     if ( target.item.isName( 'ねらいのまと' ) === true ) continue;
     if ( pokemon.move.selected.isStatus() && pokemon.move.selected.name === 'でんじは' ) continue;
@@ -82,7 +82,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // ふゆうによるじめん技の無効化
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
     if ( !target.ability.isName( 'ふゆう' ) ) continue;
     if ( pokemon.move.selected.type === 'GROUND' ) {
@@ -96,7 +96,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // でんじふゆう/テレキネシス/ふうせんによるじめん技の無効化
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
     if ( pokemon.move.selected.type !== 'GROUND' ) continue;
 
@@ -119,7 +119,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // ぼうじんゴーグルによる粉技の無効化
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
     if ( pokemon.move.selected.getFlag().powder === false ) continue;
 
@@ -134,7 +134,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 特性による無効化(その2)
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
 
     // ぼうだん: 弾の技
@@ -158,7 +158,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // タイプによる技の無効化(その1)
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
 
     // くさタイプ: 粉技の無効化
@@ -188,7 +188,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 技の仕様による無効化(その1)
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
 
     // メロメロ: 対象と性別が同じ/対象が性別不明
@@ -216,7 +216,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 技の仕様による無効化(その2
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
 
     // 重複による無効化
@@ -326,7 +326,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
     // その他
     // がむしゃら: 対象のHPが使用者以下
     if ( pokemon.move.selected.name === 'がむしゃら' ) {
-      if ( pokemon.hitPoint.value >= target.hitPoint.value ) {
+      if ( pokemon.status.hp.value.value >= target.status.hp.value.value ) {
         target.declareInvalid( damage );
       }
     }
@@ -365,7 +365,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // みがわり状態によるランク補正を下げる技/デコレーションの無効化
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
 
     if ( isSubstitute( pokemon, target ) === true ) {
@@ -375,7 +375,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 命中判定による技の無効化
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
 
     // 必中技は命中判定を行わない
@@ -442,8 +442,9 @@ function isSuccess( pokemon: Pokemon ): boolean {
     if ( fieldStatus.whole.gravity.isTrue === true ) {
       corrM = Math.round( corrM * 6840 / 4096 );
     }
+    /*
     for ( const order of getSpeedOrder() ) {
-      if ( order.trainer === target.trainer && order.battleNumber === target.order.battle ) {
+      if ( order.isMe === target.isMe && order.battleNumber === target.order.battle ) {
         if ( target.ability.isName( 'ちどりあし' ) && target.stateChange.confuse.isTrue ) {
           corrM = Math.round( corrM * 2048 / 4096 );
         }
@@ -454,7 +455,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
           corrM = Math.round( corrM * 3277 / 4096 );
         }
       }
-      if ( order.trainer === pokemon.trainer && order.battleNumber === pokemon.order.battle ) {
+      if ( order.isMe === pokemon.isMe && order.battleNumber === pokemon.order.battle ) {
         if ( pokemon.ability.isName( 'はりきり' ) && pokemon.move.selected.isPhysical() ) {
           corrM = Math.round( corrM * 3277 / 4096 );
         }
@@ -462,15 +463,15 @@ function isSuccess( pokemon: Pokemon ): boolean {
           corrM = Math.round( corrM * 5325 / 4096 );
         }
       }
-      if ( order.trainer === pokemon.trainer ) {
-        const one: Pokemon | false = getPokemonByBattle( order.trainer, order.battleNumber );
+      if ( order.isMe === pokemon.isMe ) {
+        const one: Pokemon | false = getPokemonByBattle( order.isMe, order.battleNumber );
         if ( one !== false && one.ability.isName( 'しょうりのほし' ) ) {
           corrM = Math.round( corrM * 4506 / 4096 );
         }
       }
     }
     for ( const order of getSpeedOrder() ) {
-      if ( order.trainer === target.trainer && order.battleNumber === target.order.battle ) {
+      if ( order.isMe === target.isMe && order.battleNumber === target.order.battle ) {
         if ( target.item.isName( 'ひかりのこな' ) ) {
           corrM = Math.round( corrM * 3686 / 4096 );
         }
@@ -478,7 +479,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
           corrM = Math.round( corrM * 3686 / 4096 );
         }
       }
-      if ( order.trainer === pokemon.trainer && order.battleNumber === pokemon.order.battle ) {
+      if ( order.isMe === pokemon.isMe && order.battleNumber === pokemon.order.battle ) {
         if ( pokemon.item.isName( 'こうかくレンズ' ) ) {
           corrM = Math.round( corrM * 4505 / 4096 );
         }
@@ -487,6 +488,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
         }
       }
     }
+    */
     accuracy = fiveRoundEntry( accuracy * corrM / 4096 );
 
     // ランク補正
@@ -529,7 +531,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
 
   // 技の仕様による無効化(その3)
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
 
     // 特性に関する無効化
@@ -666,25 +668,25 @@ function isSuccess( pokemon: Pokemon ): boolean {
     }
     // HPが満タンだったことによる無効化
     if ( pokemon.move.selected.name === 'いやしのはどう' || pokemon.move.selected.name === 'フラワーヒール' ) {
-      if ( target.hitPoint.value.isMax() ) {
+      if ( target.status.hp.value.isMax() ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.move.selected.name === 'いのちのしずく' ) {
-      if ( target.hitPoint.value.isMax() ) {
+      if ( target.status.hp.value.isMax() ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.move.selected.name === 'ジャングルヒール' ) {
-      if ( target.hitPoint.value.isMax() && target.statusAilment === null ) {
+      if ( target.status.hp.value.isMax() && target.statusAilment === null ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     if ( pokemon.move.selected.name === 'かふんだんご' ) {
-      if ( target.hitPoint.value.isMax() && pokemon.trainer === target.trainer ) {
+      if ( target.status.hp.value.isMax() && pokemon.isMe === target.isMe ) {
         target.declareInvalid( damage );
         continue;
       }
@@ -699,14 +701,14 @@ function isSuccess( pokemon: Pokemon ): boolean {
       || pokemon.move.selected.name === 'なまける'
       || pokemon.move.selected.name === 'はねやすめ'
       || pokemon.move.selected.name === 'ミルクのみ' ) {
-      if ( pokemon.hitPoint.value.isMax() ) {
+      if ( pokemon.status.hp.value.isMax() ) {
         target.declareInvalid( damage );
         continue;
       }
     }
     // ステータスに関する無効化
     if ( pokemon.move.selected.name === 'はらだいこ' ) {
-      if ( pokemon.hitPoint.value.isLessEqual( 2 ) ) {
+      if ( pokemon.status.hp.value.isLessEqual( 2 ) ) {
         target.declareInvalid( damage );
         continue;
       }
@@ -909,83 +911,83 @@ function isSuccess( pokemon: Pokemon ): boolean {
   }
   // 片側の場
   if ( pokemon.move.selected.name === 'オーロラベール' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).auroraVeil.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).auroraVeil.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'ひかりのかべ' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).lightScreen.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).lightScreen.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'リフレクター' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).reflect.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).reflect.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'たたみがえし' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).matBlock.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).matBlock.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'トリックガード' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).craftyShield.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).craftyShield.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'ファストガード' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).quickGuard.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).quickGuard.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'ワイドガード' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).wideGuard.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).wideGuard.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'おいかぜ' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).tailwind.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).tailwind.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'おまじない' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).luckyChant.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).luckyChant.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'しろいきり' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).mist.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).mist.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'しんぴのまもり' ) {
-    if ( fieldStatus.getSide( pokemon.trainer ).safeguard.isTrue === true ) {
+    if ( fieldStatus.getSide( pokemon.isMe ).safeguard.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'ステルスロック' ) {
-    if ( fieldStatus.getSide( getOpponentTrainer( pokemon.trainer ) ).stealthRock.isTrue === true ) {
+    if ( fieldStatus.getSide( getOpponentTrainer( pokemon.isMe ) ).stealthRock.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'どくびし' ) {
-    if ( fieldStatus.getSide( getOpponentTrainer( pokemon.trainer ) ).toxicSpikes.count === 2 ) {
+    if ( fieldStatus.getSide( getOpponentTrainer( pokemon.isMe ) ).toxicSpikes.count === 2 ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'ねばねばネット' ) {
-    if ( fieldStatus.getSide( getOpponentTrainer( pokemon.trainer ) ).stickyWeb.isTrue === true ) {
+    if ( fieldStatus.getSide( getOpponentTrainer( pokemon.isMe ) ).stickyWeb.isTrue === true ) {
       pokemon.damage[0].failure();
     }
   }
   if ( pokemon.move.selected.name === 'まきびし' ) {
-    if ( fieldStatus.getSide( getOpponentTrainer( pokemon.trainer ) ).spikes.count === 3 ) {
+    if ( fieldStatus.getSide( getOpponentTrainer( pokemon.isMe ) ).spikes.count === 3 ) {
       pokemon.damage[0].failure();
     }
   }
 
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
 
     if ( pokemon.move.selected.name === 'アクアリング' ) {
@@ -1029,7 +1031,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
         target.declareInvalid( damage );
         continue;
       }
-      if ( pokemon.hitPoint.value.isLessEqual( 4 ) ) {
+      if ( pokemon.status.hp.value.isLessEqual( 4 ) ) {
         target.declareInvalid( damage );
         continue;
       }
@@ -1128,7 +1130,7 @@ function decideTarget( pokemon: Pokemon ): void {
     // シングルバトルの時
     if ( fieldStatus.battleStyle === 1 ) {
       const target = new Damage;
-      target.trainer = getOpponentTrainer( pokemon.trainer );
+      //target.isMe = getOpponentTrainer( pokemon.isMe );
       target.battle = 0;
       pokemon.damage.push( target );
     }
@@ -1150,7 +1152,7 @@ function decideTarget( pokemon: Pokemon ): void {
       case '味方1体':
       case '自分か味方':
       case '味方全体':
-        const damage2 = setTargetInfo( pokemon.trainer, 0 );
+        const damage2 = setTargetInfo( pokemon.isMe, 0 );
         pokemon.damage.push( damage2 );
         break;
 
@@ -1158,14 +1160,14 @@ function decideTarget( pokemon: Pokemon ): void {
       case 'ランダム1体':
       case '相手全体':
       case '自分以外':
-        const damage3 = setTargetInfo( getOpponentTrainer( pokemon.trainer ), 0 );
+        const damage3 = setTargetInfo( getOpponentTrainer( pokemon.isMe ), 0 );
         pokemon.damage.push( damage3 );
         break;
 
       case '全体':
-        const damage4 = setTargetInfo( pokemon.trainer, 0 );
+        const damage4 = setTargetInfo( pokemon.isMe, 0 );
         pokemon.damage.push( damage4 );
-        const damage5 = setTargetInfo( getOpponentTrainer( pokemon.trainer ), 0 );
+        const damage5 = setTargetInfo( getOpponentTrainer( pokemon.isMe ), 0 );
         pokemon.damage.push( damage5 );
         break;
 
@@ -1182,10 +1184,10 @@ function decideTarget( pokemon: Pokemon ): void {
   }
 }
 
-function setTargetInfo( trainer: 'me' | 'opp', battle: number | null ): Damage {
+function setTargetInfo( trainer: boolean, battle: number | null ): Damage {
 
   const damage = new Damage;
-  damage.trainer = trainer;
+  damage.isMe = trainer;
   damage.battle = battle;
 
   const pokemon = getPokemonByBattle( trainer, battle );
@@ -1368,7 +1370,7 @@ function isActionFailure( pokemon: Pokemon ): boolean {
   healBlock:
   if ( pokemon.stateChange.healBlock.isTrue === true ) {
     if ( pokemon.move.selected.getFlag().heal === false ) break healBlock;
-    if ( pokemon.move.selected.name === 'かふんだんご' && pokemon.damage[0].trainer !== pokemon.trainer ) break healBlock;
+    if ( pokemon.move.selected.name === 'かふんだんご' && pokemon.damage[0].isMe !== pokemon.isMe ) break healBlock;
 
     writeLog( `${getArticle( pokemon )}は かいふくふうじで 技が 出せない!` );
     return true;
@@ -1392,7 +1394,7 @@ function isActionFailure( pokemon: Pokemon ): boolean {
   }
 
   imprison:
-  for ( const target of allPokemonInSide( getOpponentTrainer( pokemon.trainer ) ) ) {
+  for ( const target of allPokemonInSide( getOpponentTrainer( pokemon.isMe ) ) ) {
     if ( target.stateChange.imprison.isTrue === false ) continue;
     for ( const move of target.move.learned ) {
       if ( move.name === pokemon.move.selected.name ) {
@@ -1446,9 +1448,10 @@ function isActionFailure( pokemon: Pokemon ): boolean {
   }
 
   attract:
+  /*
   if ( pokemon.stateChange.attract.isTrue === true ) {
     const target: Target = pokemon.stateChange.attract.target;
-    const attractTarget: Pokemon | false = getPokemonByBattle( target.trainer, target.battle );
+    const attractTarget: Pokemon | false = getPokemonByBattle( target.isMe, target.battle );
     if ( attractTarget === false ) break attract
 
     writeLog( `${getArticle( pokemon )}は ${getArticle( attractTarget )}に メロメロだ!` );
@@ -1458,6 +1461,7 @@ function isActionFailure( pokemon: Pokemon ): boolean {
     writeLog( `${getArticle( pokemon )}は メロメロで 技が だせなかった!` );
     return true;
   }
+  */
 
   return false;
 }
@@ -1633,16 +1637,16 @@ function deductPowerPoint( pokemon: Pokemon ): void {
   let value: number = 1;
 
   if ( pokemon.move.selected.name === 'テラバースト' || pokemon.move.selected.name === 'ふういん' ) {
-    for ( const target of allPokemonInSide( getOpponentTrainer( pokemon.trainer ) ) ) {
+    for ( const target of allPokemonInSide( getOpponentTrainer( pokemon.isMe ) ) ) {
       if ( target.ability.isName( 'プレッシャー' ) ) {
         value += 1;
       }
     }
   } else {
     for ( const data of pokemon.damage ) {
-      const target: Pokemon | false = getPokemonByBattle( data.trainer, data.battle );
+      const target: Pokemon | false = getPokemonByBattle( data.isMe, data.battle );
       if ( target === false ) continue;
-      if ( target.trainer === pokemon.trainer ) continue;
+      if ( target.isMe === pokemon.isMe ) continue;
       if ( target.ability.isName( 'プレッシャー' ) ) {
         value += 1;
       }
@@ -1792,7 +1796,7 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
 
   teleport:
   if ( pokemon.move.selected.name === 'テレポート' ) {
-    const bench: Pokemon[] = getParty( pokemon.trainer ).filter( poke => poke.order.battle === null && poke.status.hp.value.isZero() === false );
+    const bench: Pokemon[] = getParty( pokemon.isMe ).filter( poke => poke.order.battle === null && poke.status.hp.value.isZero() === false );
     if ( bench.length > 0 ) break teleport;
 
     pokemon.damage = [];
@@ -1931,7 +1935,7 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
 
   rest:
   if ( pokemon.move.selected.name === 'ねむる' ) {
-    if ( pokemon.hitPoint.value.isMax() ) break rest;
+    if ( pokemon.status.hp.value.isMax() ) break rest;
     if ( pokemon.statusAilment.isAsleep() ) break rest;
     if ( pokemon.ability.isName( 'ふみん' ) ) break rest;
     if ( pokemon.ability.isName( 'やるき' ) ) break rest;
@@ -1974,10 +1978,10 @@ function failureByAbility( pokemon: Pokemon ): boolean {
 
   queenlyMajesty:
   if ( pokemon.move.selected.priority > 0 ) {
-    const queenlyMajestyPokemon: Pokemon | false = isExistAbilityOneSide( getOpponentTrainer( pokemon.trainer ), 'じょおうのいげん' );
-    const dazzlingPokemon: Pokemon | false = isExistAbilityOneSide( getOpponentTrainer( pokemon.trainer ), 'ビビッドボディ' );
+    const queenlyMajestyPokemon: Pokemon | false = isExistAbilityOneSide( getOpponentTrainer( pokemon.isMe ), 'じょおうのいげん' );
+    const dazzlingPokemon: Pokemon | false = isExistAbilityOneSide( getOpponentTrainer( pokemon.isMe ), 'ビビッドボディ' );
 
-    if ( targetList.filter( target => target.target.trainer !== pokemon.trainer ).length === 0 ) break queenlyMajesty;
+    if ( targetList.filter( target => target.target.isMe !== pokemon.isMe ).length === 0 ) break queenlyMajesty;
 
     if ( queenlyMajestyPokemon !== false ) {
       queenlyMajestyPokemon.declareAbility();
@@ -2006,7 +2010,7 @@ function effectAlwaysActivate( pokemon: Pokemon ): boolean {
   if ( pokemon.move.selected.name === 'みらいよち' || pokemon.move.selected.name === 'はめつのねがい' ) {
     const futureSight = new StateChange( 'みらいにこうげき' );
     futureSight.isTrue = true;
-    futureSight.target.trainer = one.target.trainer;
+    //futureSight.target.isMe = one.target.isMe;
     futureSight.target.battle = one.target.order.battle;
     fieldStatus.whole.futureSight.push( futureSight );
 
@@ -2106,7 +2110,7 @@ function preliminaryAction( pokemon: Pokemon ): boolean {
   }
   if ( pokemon.move.selected.name === 'フリーフォール' ) {
     let isFailure: boolean = false;
-    if ( one.target.trainer === pokemon.trainer ) isFailure = true;
+    if ( one.target.isMe === pokemon.isMe ) isFailure = true;
     if ( one.target.stateChange.substitute.isTrue === true ) isFailure = true;
     if ( isHide( one.target ) === true ) isFailure = true;
     if ( isFailure === true ) {
@@ -2260,7 +2264,7 @@ function disableByPsychofield( pokemon: Pokemon ): boolean {
   const targetList: TargetDataType[] = getTargetList( pokemon );
 
   for ( const target of targetList ) {
-    if ( target.target.trainer === pokemon.trainer ) continue;
+    if ( target.target.isMe === pokemon.isMe ) continue;
     if ( isGrounded( target.target ) === false ) continue;
     if ( isHide( target.target ) === true ) continue;
 
@@ -2278,7 +2282,7 @@ function disableByOtherProtect( pokemon: Pokemon ): boolean {
 
   for ( const target of targetList ) {
     quickGuard:
-    if ( fieldStatus.getSide( target.target.trainer ).quickGuard.isTrue === true ) {
+    if ( fieldStatus.getSide( target.target.isMe ).quickGuard.isTrue === true ) {
       if ( pokemon.move.selected.priority <= 0 ) break quickGuard;
       if ( pokemon.ability.isName( 'ふかしのこぶし' ) && pokemon.move.selected.getFlag().contact === true ) break quickGuard;
 
@@ -2288,7 +2292,7 @@ function disableByOtherProtect( pokemon: Pokemon ): boolean {
     }
 
     wideGuard:
-    if ( fieldStatus.getSide( target.target.trainer ).wideGuard.isTrue === true ) {
+    if ( fieldStatus.getSide( target.target.isMe ).wideGuard.isTrue === true ) {
       if ( pokemon.move.selected.target !== '相手全体' && pokemon.move.selected.target !== '自分以外' ) break wideGuard;
       if ( pokemon.ability.isName( 'ふかしのこぶし' ) && pokemon.move.selected.getFlag().contact === true ) break wideGuard;
 
@@ -2298,8 +2302,8 @@ function disableByOtherProtect( pokemon: Pokemon ): boolean {
     }
 
     craftyShield:
-    if ( fieldStatus.getSide( target.target.trainer ).craftyShield.isTrue === true ) {
-      if ( target.target.trainer === pokemon.trainer ) break craftyShield;
+    if ( fieldStatus.getSide( target.target.isMe ).craftyShield.isTrue === true ) {
+      if ( target.target.isMe === pokemon.isMe ) break craftyShield;
       if ( !pokemon.move.selected.isStatus() ) break craftyShield;
       if ( pokemon.move.selected.target === '全体' ) break craftyShield;
       if ( pokemon.move.selected.target === '味方全体' ) break craftyShield;
@@ -2378,7 +2382,7 @@ function disableByMatBlock( pokemon: Pokemon ): boolean {
   const targetList: TargetDataType[] = getTargetList( pokemon );
 
   for ( const target of targetList ) {
-    if ( fieldStatus.getSide( target.target.trainer ).matBlock.isTrue === false ) continue;
+    if ( fieldStatus.getSide( target.target.isMe ).matBlock.isTrue === false ) continue;
     if ( pokemon.move.selected.isStatus() ) continue;
     if ( pokemon.ability.isName( 'ふかしのこぶし' ) && pokemon.move.selected.getFlag().contact === true ) continue;
 
@@ -2438,7 +2442,7 @@ function disableByAbility1st( pokemon: Pokemon ): boolean {
   const one: TargetDataType = targetList[0];
 
   for ( const damage of pokemon.damage ) {
-    const target: Pokemon | false = getPokemonByBattle( damage.trainer, damage.battle );
+    const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
     if ( target === false ) continue;
     // そうしょく: くさタイプ
     if ( target.ability.isName( 'そうしょく' ) ) {

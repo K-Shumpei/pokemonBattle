@@ -75,8 +75,8 @@ class ActualWithThreeValue {
         getHTMLInputElement('register_' + parameter + 'IndividualValue').value = String(this._iv);
         getHTMLInputElement('register_' + parameter + 'EffortValue').value = String(this._ev);
     }
-    showAcrual(parameter, handOrder) {
-        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = String(this._av);
+    showAcrual(name, parameter, handOrder) {
+        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = (name === '') ? '' : String(this._av);
     }
     copy(status) {
         this._av = status._av;
@@ -150,13 +150,13 @@ class Status {
         allEffort += this._spe.ev;
         return allEffort;
     }
-    show(handOrder) {
-        this._hp.showAcrual('hitPoint', handOrder);
-        this._atk.showAcrual('attack', handOrder);
-        this._def.showAcrual('defense', handOrder);
-        this._spA.showAcrual('specialAttack', handOrder);
-        this._spD.showAcrual('specialDefense', handOrder);
-        this._spe.showAcrual('speed', handOrder);
+    show(name, handOrder) {
+        this._hp.showAcrual(name, 'hitPoint', handOrder);
+        this._atk.showAcrual(name, 'attack', handOrder);
+        this._def.showAcrual(name, 'defense', handOrder);
+        this._spA.showAcrual(name, 'specialAttack', handOrder);
+        this._spD.showAcrual(name, 'specialDefense', handOrder);
+        this._spe.showAcrual(name, 'speed', handOrder);
     }
     resetRank() {
         this._atk.rank.toZero();

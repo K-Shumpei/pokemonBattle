@@ -1,35 +1,39 @@
 // 3.トレーナーの行動、ポケモンの行動順に関する行動
 function actionBeforeTurn(): void {
 
-  for ( const pokemon of allPokemonInBattlefield() ) {
+  main.calcSpeed();
+  const pokeList: Pokemon[] = main.getPokemonInBattle();
 
-    quickDraw:
+  for ( const pokemon of sortByActionOrder( pokeList ) ) {
+
+    if ( pokemon.command.isExchange() ) continue;
+
+    quickDraw: // クイックドロウ
     if ( pokemon.ability.isName( 'クイックドロウ' ) ) {
       if ( pokemon.move.selected.isStatus() ) break quickDraw;
       if ( getRandom() >= 30 ) break quickDraw;
 
-      pokemon.stateChange.orderRaise.isTrue = true;
+      pokemon.actionOrder.raise = true;
       pokemon.declareAbility();
-      writeLog( `${getArticle( pokemon )}は クイックドロウで 行動が はやくなった!` );
+      pokemon.msgQuickDraw();
       continue;
     }
 
-    quickClaw:
-    if ( pokemon.item.isName( 'せんせいのツメ' ) === true ) {
-      if ( getRandom() >= 30 ) break quickClaw;
+    quickClaw: // せんせいのつめ
+    if ( pokemon.item.isName( 'せんせいのツメ' ) ) {
+      if ( getRandom() >= 20 ) break quickClaw;
 
-      pokemon.stateChange.orderRaise.isTrue = true;
-      writeLog( `${getArticle( pokemon )}は せんせいのツメで 行動が はやくなった!` );
+      pokemon.actionOrder.raise = true;
+      pokemon.msgQuickClaw();
       continue;
     }
 
-    custapBerry:
-    if ( pokemon.item.isName( 'イバンのみ' ) === true ) {
-      const gluttony: number = ( pokemon.ability.isName( 'くいしんぼう' ) )? 2 : 1;
-      if ( pokemon.status.hp.value.isGreaterThan( 4 / gluttony ) ) break custapBerry;
+    custapBerry: // イバンのみ
+    if ( pokemon.item.isName( 'イバンのみ' ) ) {
+      if ( !pokemon.isActivateBerryByHP() ) break custapBerry;
 
-      pokemon.stateChange.orderRaise.isTrue = true;
-      writeLog( `${getArticle( pokemon )}は イバンのみで 行動が はやくなった!` );
+      pokemon.actionOrder.raise = true;
+      pokemon.msgCustapBerry();
 
       // リサイクル
       recycleAvailable( pokemon );
@@ -43,8 +47,8 @@ function actionBeforeTurn(): void {
   // 交代・よびかける
   const changePokemon = allPokemonInBattlefield().filter( pokemon => pokemon.command.reserve !== null ).sort( ( a, b ) => {
     // 素早さ
-    if ( getSpeedValue( b, 'e' ) > getSpeedValue( a, 'e' ) ) return 1;
-    if ( getSpeedValue( b, 'e' ) < getSpeedValue( a, 'e' ) ) return -1;
+    //if ( getSpeedValue( b, 'e' ) > getSpeedValue( a, 'e' ) ) return 1;
+    //if ( getSpeedValue( b, 'e' ) < getSpeedValue( a, 'e' ) ) return -1;
     // 乱数
     if ( getRandom() > 50 ) return 1;
     else return -1;
@@ -56,10 +60,10 @@ function actionBeforeTurn(): void {
     if ( battle === null ) continue;
     if ( reserve === null ) continue;
 
-    writeLog( `${translateENintoJP( pokemon.trainer )}は ${pokemon.name}を 引っこめた!` );
+    //writeLog( `${translateENintoJP( pokemon.isMe )}は ${pokemon.name}を 引っこめた!` );
     toReserve( pokemon );
 
-    const next: Pokemon = getPokemonByParty( pokemon.trainer, reserve );
+    const next: Pokemon = getPokemonByParty( pokemon.isMe, reserve );
     toBattleField( next, battle );
   }
 }

@@ -1,24 +1,6 @@
-// ポケモン
-const myAllParty = [
-  new Pokemon(),
-  new Pokemon(),
-  new Pokemon(),
-  new Pokemon(),
-  new Pokemon(),
-  new Pokemon()
-];
 
-const opponentAllParty: Pokemon[] = [
-  new Pokemon(),
-  new Pokemon(),
-  new Pokemon(),
-  new Pokemon(),
-  new Pokemon(),
-  new Pokemon()
-];
 
-const myParty: Pokemon[] = [];
-const opponentParty: Pokemon[] = [];
+
 const regPokemon: Register = new Register();
 
 // フィールド
@@ -73,40 +55,6 @@ const natureList: NatureType[] = [
   'まじめ'
 ]
 
-/*
-const natureData: NatureDataType[] = [
-  // 攻撃上昇補正
-  { name: 'てれや', plus: 'attack', minus: 'attack' },
-  { name: 'さみしがり', plus: 'attack', minus: 'defense' },
-  { name: 'いじっぱり', plus: 'attack', minus: 'specialAttack' },
-  { name: 'やんちゃ', plus: 'attack', minus: 'specialDefense' },
-  { name: 'ゆうかん', plus: 'attack', minus: 'speed' },
-  // 防御上昇補正
-  { name: 'ずぶとい', plus: 'defense', minus: 'attack' },
-  { name: 'がんばりや', plus: 'defense', minus: 'defense' },
-  { name: 'わんぱく', plus: 'defense', minus: 'specialAttack' },
-  { name: 'のうてんき', plus: 'defense', minus: 'specialDefense' },
-  { name: 'のんき', plus: 'defense', minus: 'speed' },
-  // 特攻上昇補正
-  { name: 'ひかえめ', plus: 'specialAttack', minus: 'attack' },
-  { name: 'おっとり', plus: 'specialAttack', minus: 'defense' },
-  { name: 'すなお', plus: 'specialAttack', minus: 'specialAttack' },
-  { name: 'うっかりや', plus: 'specialAttack', minus: 'specialDefense' },
-  { name: 'れいせい', plus: 'specialAttack', minus: 'speed' },
-  // 特防上昇補正
-  { name: 'おだやか', plus: 'specialDefense', minus: 'attack' },
-  { name: 'おとなしい', plus: 'specialDefense', minus: 'defense' },
-  { name: 'しんちょう', plus: 'specialDefense', minus: 'specialAttack' },
-  { name: 'きまぐれ', plus: 'specialDefense', minus: 'specialDefense' },
-  { name: 'なまいき', plus: 'specialDefense', minus: 'speed' },
-  // 素早さ上昇補正
-  { name: 'おくびょう', plus: 'speed', minus: 'attack' },
-  { name: 'せっかち', plus: 'speed', minus: 'defense' },
-  { name: 'ようき', plus: 'speed', minus: 'specialAttack' },
-  { name: 'むじゃき', plus: 'speed', minus: 'specialDefense' },
-  { name: 'まじめ', plus: 'speed', minus: 'speed' },
-]
-*/
 
 // タイプのカラーコード
 // https://wiki.xn--rckteqa2e.com/wiki/%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA:%E8%89%B2%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88_%E3%82%BF%E3%82%A4%E3%83%97%E5%88%A5

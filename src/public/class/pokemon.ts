@@ -3,9 +3,9 @@ class Order {
   _hand: number;
   _battle: number | null;
 
-  constructor() {
-    this._party = 0;
-    this._hand = 0;
+  constructor( slot: number ) {
+    this._party = slot;
+    this._hand = slot;
     this._battle = null;
   }
 
@@ -29,39 +29,6 @@ class Order {
     return this._battle;
   }
 }
-
-class Index {
-  _id: number;
-  _order: number;
-  _index: number;
-
-  constructor() {
-    this._id = 0;
-    this._order = 0;
-    this._index = 0;
-  }
-
-  set id( id: number ) {
-    this._id = id;
-  }
-  set order( order: number ) {
-    this._order = order;
-  }
-  set index( index: number ) {
-    this._index = index;
-  }
-
-  get id(): number {
-    return this._id;
-  }
-  get order(): number {
-    return this._order;
-  }
-  get index(): number {
-    return this._index;
-  }
-}
-
 
 
 class StatusAilment {
@@ -324,7 +291,7 @@ class Target {
 }
 
 class Damage {
-  _trainer: 'me' | 'opp' | 'field';
+  _isMe: boolean;
   _battle: number | null;
   _party: number;
   _success: boolean;
@@ -334,7 +301,7 @@ class Damage {
   _substitute: boolean;
 
   constructor() {
-    this._trainer = 'field';
+    this._isMe = true;
     this._battle = null;
     this._party = 0;
     this._success = true;
@@ -344,8 +311,8 @@ class Damage {
     this._substitute = false;
   }
 
-  set trainer( trainer: 'me' | 'opp' | 'field' ) {
-    this._trainer = trainer;
+  set isMe( isMe: boolean ) {
+    this._isMe = isMe;
   }
   set battle( battle: number | null ) {
     this._battle = battle;
@@ -369,8 +336,8 @@ class Damage {
     this._substitute = substitute;
   }
 
-  get trainer(): 'me' | 'opp' | 'field' {
-    return this._trainer;
+  get isMe(): boolean {
+    return this._isMe;
   }
   get battle(): number | null {
     return this._battle;
@@ -437,6 +404,13 @@ class Command {
   }
   get opponentTarget(): number | null {
     return this._opponentTarget;
+  }
+
+  isAttack(): boolean {
+    return this._move !== null;
+  }
+  isExchange(): boolean {
+    return this._reserve !== null;
   }
 }
 
@@ -616,7 +590,6 @@ class StateChangeSummary {
   _sheerForce: StateChange; // ちからずく
   _synchronize: StateChange; // シンクロ
   _gulpMissile: StateChange; // うのミサイル
-  _orderRaise: StateChange; // 行動順繰り上げ
   _skin: StateChange; // スキン系特性
   _gem: StateChange; // ジュエル
   _micleBerry: StateChange; // ミクルのみ
@@ -696,7 +669,6 @@ class StateChangeSummary {
     this._sheerForce = new StateChange( 'ちからずく' );
     this._synchronize = new StateChange( 'シンクロ' );
     this._gulpMissile = new StateChange( 'うのミサイル' );
-    this._orderRaise = new StateChange( '行動順繰り上げ' );
     this._skin = new StateChange( 'スキン系特性' );
     this._gem = new StateChange( 'ジュエル' );
     this._micleBerry = new StateChange( 'ミクルのみ' );
@@ -887,9 +859,6 @@ class StateChangeSummary {
   }
   set gulpMissile( gulpMissile: StateChange ) {
     this._gulpMissile = gulpMissile;
-  }
-  set orderRaise( orderRaise: StateChange ) {
-    this._orderRaise = orderRaise;
   }
   set skin( skin: StateChange ) {
     this._skin = skin;
@@ -1117,9 +1086,6 @@ class StateChangeSummary {
   get gulpMissile(): StateChange {
     return this._gulpMissile;
   }
-  get orderRaise(): StateChange {
-    return this._orderRaise;
-  }
   get skin(): StateChange {
     return this._skin;
   }
@@ -1198,7 +1164,12 @@ class Ability {
   }
 
   isName( ability: string ): boolean {
+    if ( !this.isValid() ) return false;
     return this._name === ability;
+  }
+
+  isValid(): boolean {
+    return true;
   }
 
   setOrg( ability: string ): void {
@@ -1209,21 +1180,39 @@ class Ability {
 
 class Item {
   _name: string | null;
+  _recycle: string | null;
+  _belch: boolean;
 
   constructor() {
     this._name = null;
+    this._recycle = null;
+    this._belch = false;
   }
 
   set name( name: string | null ) {
     this._name = name;
+  }
+  set belch( belch: boolean ) {
+    this._belch = belch;
   }
 
   get name(): string | null {
     return this._name;
   }
 
-  isName( ability: string ): boolean {
-    return this._name === ability;
+  isNull(): boolean {
+    return this._name === null;
+  }
+  isName( name: string ): boolean {
+    return this._name === name;
+  }
+  isBerry(): boolean {
+    // return this._name ===
+    return false;
+  }
+  recyclable(): void {
+    if ( this._recycle === null ) this._recycle = this._name;
+    this._name = null;
   }
 }
 
@@ -1233,59 +1222,57 @@ class Item {
 
 
 class Pokemon {
-  _id: Index;
-  _trainer: 'me' | 'opp';
+  _host: boolean;
+  _id: number;
+  _isMe: boolean;
   _order: Order;
 
+  _name: string;
+  _level: number;
+  _type: PokemonType[];
+  _gender: Gender;
+  _ability: Ability;
+  _item: Item;
+  _nature: NatureText;
   _status: Status;
   _move: Move;
+
+  _happiness: number;
+  _statusAilment: StatusAilment;
 
   _damage: Damage[];
   _command: Command;
   _stateChange: StateChangeSummary;
+  _actionOrder: ActionOrder;
 
-  _name: string;
-  _type: PokemonType[];
-  _gender: Gender;
-  _ability: Ability;
-  _level: number;
-  _item: Item;
-  _nature: NatureText;
-  _happiness: number;
-  _hitPoint: HitPoint;
-  _statusAilment: StatusAilment;
-
-  constructor() {
-    this._id = new Index();
-    this._trainer = 'me';
-    this._order = new Order;
-
-    this._status = new Status();
-    this._move = new Move();
-
-    this._damage = [];
-    this._command = new Command;
-    this._stateChange = new StateChangeSummary;
+  constructor( slot: number, isMe: boolean ) {
+    this._host = true;
+    this._id = 0;
+    this._isMe = isMe;
+    this._order = new Order( slot );
 
     this._name = '';
+    this._level = 50;
     this._type = [];
     this._gender = 'genderless';
     this._ability = new Ability();
-    this._level = 50;
     this._item = new Item();
     this._nature = 'Bashful';
+    this._status = new Status();
+    this._move = new Move();
+
     this._happiness = 255;
-    this._hitPoint = new HitPoint();
     this._statusAilment = new StatusAilment();
+
+    this._damage = [];
+    this._command = new Command;
+    this._stateChange = new StateChangeSummary();
+    this._actionOrder = new ActionOrder();
   }
 
-  set id( id: Index ) {
+  set id( id: number ) {
     this._id = id;
   }
-  set trainer( trainer: 'me' | 'opp' ) {
-    this._trainer = trainer;
-  }
-
   set damage( damage: Damage[] ) {
     this._damage = damage;
   }
@@ -1318,19 +1305,19 @@ class Pokemon {
   set happiness( happiness: number ) {
     this._happiness = happiness;
   }
-  set hitPoint( hitPoint: HitPoint ) {
-    this._hitPoint = hitPoint;
-  }
   set statusAilment( statusAilment: StatusAilment ) {
     this._statusAilment = statusAilment;
   }
 
 
-  get id(): Index {
+  get host(): boolean {
+    return this._host;
+  }
+  get id(): number {
     return this._id;
   }
-  get trainer(): 'me' | 'opp' {
-    return this._trainer;
+  get isMe(): boolean {
+    return this._isMe;
   }
   get order(): Order {
     return this._order;
@@ -1377,15 +1364,42 @@ class Pokemon {
   get happiness(): number {
     return this._happiness;
   }
-  get hitPoint(): HitPoint {
-    return this._hitPoint;
-  }
   get statusAilment(): StatusAilment {
     return this._statusAilment;
+  }
+  get actionOrder(): ActionOrder {
+    return this._actionOrder;
+  }
+
+  reset(): void {
+    const partyOrder: number = this._order.party;
+    const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
+    imageHTML.src = '';
+
+    this._isMe = true;
+    this._order = new Order( this._order.party );
+
+    this._name = '';
+    this._level = 50;
+    this._type = [];
+    this._gender = 'genderless';
+    this._ability = new Ability();
+    this._item = new Item();
+    this._nature = 'Bashful';
+    this._status = new Status();
+    this._move = new Move();
+
+    this._happiness = 255;
+    this._statusAilment = new StatusAilment();
+
+    this._damage = [];
+    this._command = new Command;
+    this._stateChange = new StateChangeSummary;
   }
 
 
   register( reg: Register ): void {
+    this._id = reg.id;
     this._name = reg.name;
     this._level = reg.level;
     this._type = reg.type;
@@ -1397,36 +1411,47 @@ class Pokemon {
     this._move.register( reg.move );
   }
 
-  showOnScreen(): void {
-    const partyOrder: number = this._order.party;
-    const handOrder: number | null = this._order.hand;
-    const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
+  copyFromOpp( opp: Pokemon ): void {
+    this._id = opp._id;
+    this._name = opp._name;
+    this._type = opp._type;
+    this._gender = opp._gender;
+    this._ability.setOrg( opp._ability._name );
+    this._level = opp._level;
+    this._item = opp._item;
+    this._nature = opp._nature;
+    this._status.copyFromOpp( opp._status );
+    this._move.copyFromOpp( opp._move._learned );
+  }
 
-    if ( handOrder === null ) return;
-
-    getHTMLInputElement( 'party' + handOrder + '_name' ).textContent = this.translateName( this._name );
-    getHTMLInputElement( 'party' + handOrder + '_gender' ).textContent = this.translateGender();
-    getHTMLInputElement( 'party' + handOrder + '_level' ).textContent = String( this._level );
-    getHTMLInputElement( 'party' + handOrder + '_ability' ).textContent = this.translateAbility( this._ability.name );
-    getHTMLInputElement( 'party' + handOrder + '_remainingHP' ).textContent = String( this._status.hp.value.value );
-    getHTMLInputElement( 'party' + handOrder + '_item' ).textContent = String( this._item.name );
+  showHandInfo(): void {
+    getHTMLInputElement( 'party' + this._order.hand + '_name' ).textContent = ( this._name === '' )? '名前' : this.translateName( this._name );
+    getHTMLInputElement( 'party' + this._order.hand + '_gender' ).textContent = ( this._name === '' )? '性別' : this.translateGender();
+    getHTMLInputElement( 'party' + this._order.hand + '_level' ).textContent = ( this._name === '' )? '' : String( this._level );
+    getHTMLInputElement( 'party' + this._order.hand + '_ability' ).textContent = ( this._name === '' )? '特性' : this.translateAbility( this._ability.name );
+    getHTMLInputElement( 'party' + this._order.hand + '_remainingHP' ).textContent = ( this._name === '' )? '' : String( this._status.hp.value.value );
+    getHTMLInputElement( 'party' + this._order.hand + '_item' ).textContent = ( this._name === '' )? '持ち物' : String( this._item.name );
 
     if ( this._type.length === 0 ) {
-      getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = '';
-      getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = '';
+      getHTMLInputElement( 'party' + this._order.hand + '_type1' ).textContent = 'タイプ';
+      getHTMLInputElement( 'party' + this._order.hand + '_type2' ).textContent = '';
     } else if ( this._type.length === 1 ) {
-      getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = this.translateType( String( this._type[0] ) );
-      getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = '';
+      getHTMLInputElement( 'party' + this._order.hand + '_type1' ).textContent = this.translateType( String( this._type[0] ) );
+      getHTMLInputElement( 'party' + this._order.hand + '_type2' ).textContent = '';
     } else if ( this._type.length === 2 ) {
-      getHTMLInputElement( 'party' + handOrder + '_type1' ).textContent = this.translateType( String( this._type[0] ) );
-      getHTMLInputElement( 'party' + handOrder + '_type2' ).textContent = this.translateType( String( this._type[1] ) );
+      getHTMLInputElement( 'party' + this._order.hand + '_type1' ).textContent = this.translateType( String( this._type[0] ) );
+      getHTMLInputElement( 'party' + this._order.hand + '_type2' ).textContent = this.translateType( String( this._type[1] ) );
     }
 
-    this._status.show( handOrder );
-    this._move.show( handOrder );
+    this._status.show( this._name, this._order.hand );
+    this._move.show( this._order.hand );
+  }
 
-    // パーティ画像
-    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this._id.id + '.png';
+  showPartyImage(): void {
+    const partyOrder: number = this._order.party;
+    const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
+
+    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this._id + '.png';
   }
 
   translateName( name: string ): string {
@@ -1461,12 +1486,72 @@ class Pokemon {
     return name;
   }
 
+  //----------
+  // メッセージ
+  //----------
+  isMeToStr(): string {
+    if ( this._isMe ) return '自分';
+    else return '相手';
+  }
+  msgToBattleField(): void {
+    writeLog( `${this.isMeToStr()}は ${this.translateName( this._name )}を くりだした!` );
+  }
+  getArticle(): string {
+    if ( this._isMe ) return this.translateName( this._name );
+    else return '相手の' + this.translateName( this._name );
+  }
 
+  msgQuickDraw(): void {
+    writeLog( `${this.getArticle()}は クイックドロウで 行動が はやくなった!` );
+  }
+  msgQuickClaw(): void {
+    writeLog( `${this.getArticle()}は せんせいのつめで 行動が はやくなった!` );
+  }
+  msgCustapBerry(): void {
+    writeLog( `${this.getArticle()}は イバンのみで 行動が はやくなった!` );
+  }
 
+  //------------------
+  // 特性による優先度変更
+  //------------------
+  changeMovePriority(): void {
+    if ( this._ability.isName( 'いたずらごころ' ) && this._move.selected.isStatus() ) {
+      this._move.selected.priority += 1;
+    }
+    if ( this._ability.isName( 'はやてのつばさ' ) && this._status.hp.value.isMax() ) {
+      this._move.selected.priority += 1;
+    }
+    if ( this._ability.isName( 'ヒーリングシフト' ) && this._move.selected.getFlag().heal ) {
+      this._move.selected.priority += 3;
+    }
+  }
 
+  //-------------------------
+  // 残りHPによるきのみの発動判定
+  //-------------------------
+  isActivateBerryByHP(): boolean {
+    const gluttony: number = ( this._ability.isName( 'くいしんぼう' ) )? 2 : 1;
+    return this._status.hp.value.isLessEqual( 4 / gluttony );
+  }
+
+  //-----------
+  // 持ち物の消費
+  //-----------
+  consumeItem(): void {
+    if ( this._item.isNull() ) return;
+
+    if ( this._item.isBerry() ) {
+      this._item.belch = true;
+      if ( this.ability.isName( 'ほおぶくろ' ) ) {
+
+      }
+    }
+
+    this._item.recyclable();
+  }
 
   declareAbility(): void {
-    writeLog( `${this._name}の ${this._ability}` );
+    writeLog( `${this.translateName( this._name )}の ${this.translateAbility( this._ability.name )}` );
   }
 
   declareFailure(): void {

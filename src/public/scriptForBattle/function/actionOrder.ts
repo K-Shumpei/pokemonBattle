@@ -1,3 +1,4 @@
+/*
 function getActionOrder(): ActionOrderInfo[] {
 
   const actionOrder: ActionOrderInfo[] = [];
@@ -9,7 +10,7 @@ function getActionOrder(): ActionOrderInfo[] {
 
     const info = new ActionOrderInfo;
 
-    info.trainer = pokemon.trainer;
+    info.isMe = pokemon.isMe;
     info.battleNumber = pokemon.order.battle;
     info.raise = getActionOrderRaise( pokemon );
     info.lower = getActionOrderLower( pokemon );
@@ -56,7 +57,7 @@ function getSpeedOrder(): ActionOrderInfo[] {
   for ( const pokemon of allPokemonInBattlefield() ) {
     const info = new ActionOrderInfo;
 
-    info.trainer = pokemon.trainer;
+    info.isMe = pokemon.isMe;
     info.battleNumber = pokemon.order.battle;
     info.speed = getSpeedValue( pokemon, 'a' );
     info.random = getRandom();
@@ -84,7 +85,7 @@ function getSpeedOrderForSome( pokemonList: Pokemon[] ): ActionOrderInfo[] {
   for ( const pokemon of pokemonList ) {
     const info = new ActionOrderInfo;
 
-    info.trainer = pokemon.trainer;
+    info.isMe = pokemon.isMe;
     info.battleNumber = pokemon.order.battle;
     info.party = pokemon.order.party;
     info.speed = getSpeedValue( pokemon, 'e' );
@@ -168,3 +169,4 @@ function getSpeedValue( pokemon: Pokemon, type: string ): number {
 
   return speedTypeE;
 }
+*/

@@ -640,8 +640,8 @@ class Field {
     return this._whole;
   }
 
-  getSide( side: 'me' | 'opp' ): SideField {
-    if ( side === 'me' ) {
+  getSide( side: boolean ): SideField {
+    if ( side === true ) {
       return this._myField;
     } else {
       return this._opponentField;

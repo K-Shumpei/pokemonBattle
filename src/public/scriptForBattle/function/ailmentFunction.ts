@@ -6,8 +6,8 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   // すでに状態異常
   if ( !target.statusAilment.isHealth() ) return false;
   // しんぴのまもり
-  if ( fieldStatus.getSide( target.trainer ).safeguard.isTrue === true ) {
-    if ( pokemon.ability.isName( 'すりぬけ' ) || pokemon.trainer === target.trainer ) return false;
+  if ( fieldStatus.getSide( target.isMe ).safeguard.isTrue === true ) {
+    if ( pokemon.ability.isName( 'すりぬけ' ) || pokemon.isMe === target.isMe ) return false;
   }
   // ミストフィールド
   if ( fieldStatus.terrain.isMisty() ) {
@@ -19,7 +19,7 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   if ( target.ability.isName( 'ぜったいねむり' ) ) return false;
   if ( target.ability.isName( 'リーフガード' )  && fieldStatus.weather.isSunny( target ) ) return false;
   if ( target.ability.isName( 'リミットシールド' ) && target.name === 'メテノ(流星)' ) return false;
-  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return false;
+  if ( isExistAbilityOneSide( target.isMe, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return false;
   // 個別の無効化
   if ( ailment === 'PARALYSIS' ) {
     if ( getPokemonType( target ).includes( 'ELECTRIC' ) ) return false;
@@ -36,14 +36,14 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   }
   if ( ailment === 'POISONED' ) {
     if ( target.ability.isName( 'めんえき' ) ) return false;
-    if ( isExistAbilityOneSide( target.trainer, 'パステルベール' ) ) return false;
+    if ( isExistAbilityOneSide( target.isMe, 'パステルベール' ) ) return false;
     if ( getPokemonType( target ).includes( 'POISON' ) ) return false;
     if ( getPokemonType( target ).includes( 'STEEL' ) ) return false;
   }
   if ( ailment === 'ASLEEP' ) {
     if ( target.ability.isName( 'やるき' ) ) return false;
     if ( target.ability.isName( 'ふみん' ) ) return false;
-    if ( isExistAbilityOneSide( target.trainer, 'スイートベール' ) ) return false;
+    if ( isExistAbilityOneSide( target.isMe, 'スイートベール' ) ) return false;
     if ( fieldStatus.terrain.isElectric() && isGrounded( target ) ) return false;
     for ( const _pokemon of allPokemonInBattlefield() ) {
       if ( _pokemon.stateChange.uproar.isTrue === true ) return false;
@@ -95,8 +95,8 @@ function giveAilmentByBeakBlast( pokemon: Pokemon, target: Pokemon ): void {
   // すでに状態異常
   if ( !target.statusAilment.isHealth() ) return;
   // しんぴのまもり
-  if ( fieldStatus.getSide( target.trainer ).safeguard.isTrue === true ) {
-    if ( !pokemon.ability.isName( 'すりぬけ' ) || pokemon.trainer === target.trainer ) return;
+  if ( fieldStatus.getSide( target.isMe ).safeguard.isTrue === true ) {
+    if ( !pokemon.ability.isName( 'すりぬけ' ) || pokemon.isMe === target.isMe ) return;
   }
   // ミストフィールド
   if ( fieldStatus.terrain.isMisty() ) {
@@ -108,7 +108,7 @@ function giveAilmentByBeakBlast( pokemon: Pokemon, target: Pokemon ): void {
   if ( target.ability.isName( 'ぜったいねむり' ) ) return;
   if ( target.ability.isName( 'リーフガード' )  && fieldStatus.weather.isSunny( target ) ) return;
   if ( target.ability.isName( 'リミットシールド' ) && target.name === 'メテノ(流星)' ) return;
-  if ( isExistAbilityOneSide( target.trainer, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return;
+  if ( isExistAbilityOneSide( target.isMe, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return;
 
   if ( getPokemonType( target ).includes( 'FIRE' ) ) return;
   if ( target.ability.isName( 'みずのベール' ) ) return;
@@ -129,8 +129,8 @@ function giveConfuse( pokemon: Pokemon, target: Pokemon, type: string ): void {
   // 追加効果で状態異常になる場合
   if ( type === 'additional' ) {
     // しんぴのまもり
-    if ( fieldStatus.getSide( target.trainer ).safeguard.isTrue === true ) {
-      if ( !pokemon.ability.isName( 'すりぬけ' ) || pokemon.trainer === target.trainer ) return;
+    if ( fieldStatus.getSide( target.isMe ).safeguard.isTrue === true ) {
+      if ( !pokemon.ability.isName( 'すりぬけ' ) || pokemon.isMe === target.isMe ) return;
     }
     // ミストフィールド
     if ( fieldStatus.terrain.isMisty() ) {

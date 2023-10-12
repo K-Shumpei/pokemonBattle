@@ -1,9 +1,11 @@
 // 4. ポケモンの行動
 function pokemonAction(): void {
 
-  while ( getActionOrder().length > 0 ) {
-    const order = getActionOrder()[0]
-    const pokemon: Pokemon | false = getPokemonByBattle( order.trainer, order.battleNumber );
+
+  // !!間違ったコード!! ループさせるポケモンが違う
+  while ( main.getPokemonInBattle().length > 0 ) {
+    const order = main.getPokemonInBattle()[0]
+    const pokemon: Pokemon | false = getPokemonByBattle( order.isMe, order.order.battle );
     if ( pokemon === false ) {
       continue;
     }
@@ -20,6 +22,7 @@ function pokemonAction(): void {
 
     // 技の効果
     moveEffect( pokemon );
+    break;
   }
 }
 

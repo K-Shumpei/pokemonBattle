@@ -1,12 +1,12 @@
 "use strict";
 function allPokemonInBattlefield() {
     const result = [];
-    for (const pokemon of myParty) {
+    for (const pokemon of bothParty.myParty.pokemon) {
         if (pokemon.order.battle !== null) {
             result.push(pokemon);
         }
     }
-    for (const pokemon of opponentParty) {
+    for (const pokemon of bothParty.oppParty.pokemon) {
         if (pokemon.order.battle !== null) {
             result.push(pokemon);
         }
@@ -16,7 +16,7 @@ function allPokemonInBattlefield() {
 function allPokemonInSide(trainer) {
     const result = [];
     if (trainer === 'me') {
-        for (const pokemon of myParty) {
+        for (const pokemon of bothParty.myParty.pokemon) {
             if (pokemon.order.battle !== null) {
                 result.push(pokemon);
             }
@@ -24,7 +24,7 @@ function allPokemonInSide(trainer) {
         return result;
     }
     else {
-        for (const pokemon of opponentParty) {
+        for (const pokemon of bothParty.oppParty.pokemon) {
             if (pokemon.order.battle !== null) {
                 result.push(pokemon);
             }
@@ -53,31 +53,31 @@ function pokemonForCottonDown(pokemon) {
 }
 function getPokemonByParty(trainer, party) {
     if (trainer === 'me') {
-        for (const pokemon of myParty) {
+        for (const pokemon of bothParty.myParty.pokemon) {
             if (pokemon.order.party === party) {
                 return pokemon;
             }
         }
     }
     else {
-        for (const pokemon of opponentParty) {
+        for (const pokemon of bothParty.oppParty.pokemon) {
             if (pokemon.order.party === party) {
                 return pokemon;
             }
         }
     }
-    return myParty[0];
+    return bothParty.myParty.pokemon[0];
 }
 function getPokemonByBattle(trainer, battle) {
     if (trainer === 'me') {
-        for (const pokemon of myParty) {
+        for (const pokemon of bothParty.myParty.pokemon) {
             if (pokemon.order.battle === battle) {
                 return pokemon;
             }
         }
     }
     if (trainer === 'opp') {
-        for (const pokemon of opponentParty) {
+        for (const pokemon of bothParty.oppParty.pokemon) {
             if (pokemon.order.battle === battle) {
                 return pokemon;
             }
@@ -95,9 +95,9 @@ function getOpponentTrainer(trainer) {
 }
 function getParty(trainer) {
     if (trainer === 'me')
-        return myParty;
+        return bothParty.myParty.pokemon;
     else
-        return opponentParty;
+        return bothParty.oppParty.pokemon;
 }
 function writeLog(text) {
     const battleLog = getHTMLInputElement('battle_log');

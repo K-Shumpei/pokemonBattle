@@ -28,6 +28,13 @@ class Move {
     this._learned[3].register( move.slot[3] );
   }
 
+  copyFromOpp( move: LearnedMove[] ): void {
+    this._learned[0].copyFromOpp( move[0] );
+    this._learned[1].copyFromOpp( move[1] );
+    this._learned[2].copyFromOpp( move[2] );
+    this._learned[3].copyFromOpp( move[3] );
+  }
+
   show( handOrder: number ): void {
     this._learned[0].show( handOrder );
     this._learned[1].show( handOrder );
@@ -38,6 +45,13 @@ class Move {
   setSelcted( slot: number | null ): void {
     if ( slot === null ) return;
     this._selected.setSelected( this._learned[slot] );
+  }
+
+  showCommand1st( battleOrder: number ): void {
+    this._learned[0].showCommand1st( battleOrder );
+    this._learned[1].showCommand1st( battleOrder );
+    this._learned[2].showCommand1st( battleOrder );
+    this._learned[3].showCommand1st( battleOrder );
   }
 }
 
@@ -72,24 +86,30 @@ class LearnedMove {
   }
 
   register( move: RegisterMove ): void {
-    this._name = move._name;
+    this._name = ( move._name === '' )? null : move._name;
     this._powerPoint.setMaxPP( move.powerPoint );
   }
 
+
   show( handOrder: number ): void {
-    if ( this._name === null ) return;
-    getHTMLInputElement( 'party' + handOrder + '_move' + this._slot ).textContent = this.translate();
-    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + this._slot ).textContent = String( this._powerPoint.value );
-    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + this._slot ).textContent = String( this._powerPoint.max );
+    getHTMLInputElement( 'party' + handOrder + '_move' + this._slot ).textContent = ( this._name === null )? '技' : this.translate();
+    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + this._slot ).textContent = ( this._name === null )? '' : String( this._powerPoint.value );
+    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + this._slot ).textContent = ( this._name === null )? 'PP' : String( this._powerPoint.max );
   }
 
   translate(): string {
     return moveMaster.filter( m => m.nameEN === this._name )[0].nameJA;
   }
 
-  copy( move: LearnedMove ): void {
+  copyFromOpp( move: LearnedMove ): void {
     this._name = move._name;
     this._powerPoint.setMaxPP( move._powerPoint._value );
+  }
+
+  showCommand1st( battleOrder: number ): void {
+    if ( this._name === null ) return;
+    getHTMLInputElement( 'moveText_' + battleOrder + '_' + this._slot ).textContent = this.translate();
+    getHTMLInputElement( 'moveRadio_' + battleOrder + '_' + this._slot ).disabled = false;
   }
 }
 
@@ -174,6 +194,9 @@ class SelectedMove {
   }
   get name(): string {
     return this._name;
+  }
+  get type(): PokemonType {
+    return this._type;
   }
   get target(): string {
     return this._target;

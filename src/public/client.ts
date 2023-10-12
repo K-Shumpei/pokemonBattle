@@ -4,7 +4,7 @@ import { io, Socket } from "socket.io-client";
 interface ServerToClientEvents {
   correctPassword: () => void;
   incorrectPassword: () => void;
-  selectPokemon: ( party: Pokemon[] ) => void;
+  selectPokemon: ( party: Pokemon[], host: boolean ) => void;
   sendOrder: ( myOrder: number[], opponentOrder: number[] ) => void;
   returnCommand: ( myCommand: Command[], opponentCommand: Command[], randomList: number[] ) => void;
 }
@@ -56,43 +56,19 @@ function findOpponent(): void {
     getHTMLInputElement( 'editParty' + i ).style.display = 'none';
   }
   // パーティ送信
-  socket.emit( 'findOpponent', myAllParty, fieldStatus.battleStyle );
+  socket.emit( 'findOpponent', main.me.party, fieldStatus.battleStyle );
 }
 
 // 対戦相手が見つかり、戦うポケモンを選ぶ
-socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
+socket.on( 'selectPokemon', ( party: Pokemon[], host: boolean ) => {
+  main.setHost( host );
+
   for ( let i = 0; i < 6; i++ ) {
-    // トレーナーネーム
-    opponentAllParty[i].trainer = 'opp';
-
-    // 並び順
-    opponentAllParty[i].order.party = party[i]._order._party;
-    opponentAllParty[i].order.hand = party[i]._order._hand;
-
-    // 基本ステータス
-    opponentAllParty[i].id.id = party[i]._id._id;
-    opponentAllParty[i].id.order = party[i]._id._order;
-    opponentAllParty[i].id.index = party[i]._id._index;
-    opponentAllParty[i].name = party[i]._name;
-    opponentAllParty[i].type = party[i]._type;
-    opponentAllParty[i].gender = party[i]._gender;
-    opponentAllParty[i].ability.setOrg( party[i]._ability.name );
-    opponentAllParty[i].level = party[i]._level;
-    opponentAllParty[i].item = party[i]._item;
-    opponentAllParty[i].nature = party[i]._nature;
-    opponentAllParty[i].hitPoint = party[i]._hitPoint;
-
-    // 実数値・種族値・個体値・努力値
-    opponentAllParty[i].status.copy( party[i]._status );
-
-    // 技
-    for ( let j = 0; j < 4; j++ ) {
-      opponentAllParty[i].move.learned[j].copy( party[i]._move._learned[j] )
-    }
+    main.opp.party[i].copyFromOpp( party[i] );
 
     // パーティ画像
     const imageHTML = getHTMLInputElement( 'opponentParty_image' + i );
-    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + opponentAllParty[i].id.id + '.png';
+    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + main.opp.pokemon[i].id + '.png';
   }
 
   // 選出完了ボタン
@@ -107,28 +83,10 @@ socket.on( 'selectPokemon', ( party: Pokemon[] ) => {
 // 選出決定
 function decideOrder(): void {
 
-  const myOrder: number[] = [];
-
-  for ( let i = 0; i < fieldStatus.numberOfPokemon; i++ ) {
-    myOrder.push( 0 );
-  }
-
-  for ( let i = 0; i < fieldStatus.numberOfPokemon; i++ ) {
-    for ( let j = 0; j < 6; j++ ) {
-      const targetText = getHTMLInputElement( 'electedOrder' + j );
-      const targetOrder = Number( targetText.textContent?.charAt(0) );
-      if ( targetOrder === i + 1 ) {
-        myOrder[i] = j;
-      }
-    }
-  }
-
-  if ( myOrder.length < fieldStatus.battleStyle ) {
-    return;
-  }
+  if ( !electedOrder.isAllElected() ) return;
 
   // 選出送信
-  socket.emit( 'decideOrder', myOrder );
+  socket.emit( 'decideOrder', electedOrder._order );
 
   // 選出完了ボタン
   getHTMLInputElement( 'decideOrderField' ).style.display = 'none';
@@ -145,25 +103,23 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
   // お互いの選出に反映させる
   for ( let i = 0; i < fieldStatus.numberOfPokemon; i++ ) {
     // 手持ちの順番
-    myAllParty[myOrder[i]].order.hand = i;
-    opponentAllParty[opponentOrder[i]].order.hand = i;
+    main.me.party[myOrder[i]].order.hand = i;
+    main.opp.party[opponentOrder[i]].order.hand = i;
     // バトル場の順番
     if ( i < fieldStatus.battleStyle ) {
-      myAllParty[myOrder[i]].order.battle = i;
-      opponentAllParty[opponentOrder[i]].order.battle = fieldStatus.battleStyle - i - 1;
+      main.me.party[myOrder[i]].order.battle = i;
+      main.opp.party[opponentOrder[i]].order.battle = fieldStatus.battleStyle - i - 1;
     } else {
-      myAllParty[myOrder[i]].order.battle = null;
-      opponentAllParty[opponentOrder[i]].order.battle = null;
+      main.me.party[myOrder[i]].order.battle = null;
+      main.opp.party[opponentOrder[i]].order.battle = null;
     }
     // 手持ちにセット
-    myParty.push( myAllParty[myOrder[i]] );
-    opponentParty.push( opponentAllParty[opponentOrder[i]] );
+    main.me.pokemon.push( main.me.party[myOrder[i]] );
+    main.opp.pokemon.push( main.opp.party[opponentOrder[i]] );
   }
 
   // 選出されたポケモンの情報・表示
-  for ( const pokemon of myParty ) {
-    pokemon.showOnScreen();
-  }
+  main.me.showHandInfo();
 
   // 選出されなかったポケモンの情報・表示を削除
   for ( let i = 5; i >= fieldStatus.numberOfPokemon; i-- ) {
@@ -183,14 +139,14 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
 
   // 最初のポケモンを出す
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
-    for ( const pokemon of opponentParty ) {
+    for ( const pokemon of main.opp.pokemon ) {
       if ( pokemon.order.battle === i ) {
         toBattleField( pokemon, i );
       }
     }
   }
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
-    for ( const pokemon of myParty ) {
+    for ( const pokemon of main.me.pokemon ) {
       if ( pokemon.order.battle === i ) {
         toBattleField( pokemon, i );
       }
@@ -198,7 +154,7 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
   }
 
   // コマンド欄の表示
-  showCommand1stField();
+  main.me.showCommand1stField();
 });
 
 
@@ -208,19 +164,20 @@ function sendCommand(): void {
   const myCommand: Command[] = [];
 
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
-    const command = new Command;
+    const command = new Command();
 
     // 技
     for ( let j = 0; j < 4; j++ ) {
       const moveRadio = getHTMLInputElement( 'moveRadio_' + i + '_' + j );
-      if ( moveRadio.checked === true ) {
+      if ( moveRadio.checked ) {
         command.move = j;
       }
     }
     // 控え
     for ( let j = 0; j < 3; j++ ) {
       const reserveRadio = getHTMLInputElement( 'reserveRadio_' + i + '_' + j );
-      if ( reserveRadio.checked === true ) {
+      if ( reserveRadio.checked ) {
+        // 控えのパーティNoを取得
         command.reserve = Number( getHTMLInputElement( 'reserveText_' + i + '_' + j ).value );
       }
     }
@@ -287,7 +244,7 @@ function sendCommand(): void {
 socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], random: number[] ) => {
 
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
-    for ( const pokemon of myParty ) {
+    for ( const pokemon of main.me.pokemon ) {
       if ( pokemon.order.battle !== i ) {
         continue;
       }
@@ -300,7 +257,7 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.move.setSelcted( pokemon.command.move );
     }
 
-    for ( const pokemon of opponentParty ) {
+    for ( const pokemon of main.opp.pokemon ) {
       if ( pokemon.order.battle !== i ) {
         continue;
       }
@@ -310,7 +267,7 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
       pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
 
       // 使用する技
-      pokemon.move.setSelcted( pokemon.command.move );
+      pokemon.move.setSelcted( pokemon.command.move );;
     }
   }
 
@@ -330,10 +287,10 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
 
   // 画面表示
   // 選出されたポケモンの情報・表示
-  for ( const pokemon of myParty ) {
-    pokemon.showOnScreen();
+  for ( const pokemon of main.me.pokemon ) {
+    pokemon.showHandInfo();
   }
   // コマンド欄の表示
-  showCommand1stField();
+  main.me.showCommand1stField();
 
 });
