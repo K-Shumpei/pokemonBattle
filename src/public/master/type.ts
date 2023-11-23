@@ -27,8 +27,8 @@ type MoveData = {
   nameEN: string;
   type: PokemonType;
   class: MoveClass;
-  target: string;
-  category: string;
+  target: MoveTargetText;
+  category: MoveCategoryText;
   power: number | null;
   accuracy: number | null;
   powerPoint: number;
@@ -40,7 +40,7 @@ type MoveData = {
   hits: { max: number | null, min: number | null };
   turns: { max: number | null, min: number | null };
   ailment: { chance: number, name: string };
-  stat: { chance: number, changes: { stat: string, change: number }[]};
+  stat: { chance: number, changes: { stat: RankStrings, change: number }[]};
   text: string;
 }
 
@@ -105,6 +105,24 @@ type NatureData = {
   plus: string;
   minus: string;
 }
+
+type ItemForType = {
+  name: string;
+  type: PokemonType;
+}
+
+type BerryData = {
+  number: number;
+  name: string;
+  half: PokemonType;
+  fling: boolean;
+  naturalGift: {
+    type: PokemonType;
+    power: number;
+  };
+}
+
+type RankStrings = 'atk' | 'def' | 'spA' | 'spD' | 'spe' | 'acc' | 'eva';
 
 
 
@@ -185,30 +203,8 @@ type TypeColorType = {
 }
 
 type TypeCompatibilityType = {
-  attackType: string;
-  rate: TypeCompatibilityRateType;
-}
-
-type TypeCompatibilityRateType = {
-  ノーマル: number;
-  ほのお: number;
-  みず: number;
-  くさ: number;
-  でんき: number;
-  こおり: number;
-  かくとう: number;
-  どく: number;
-  じめん: number;
-  ひこう: number;
-  エスパー: number;
-  むし: number;
-  いわ: number;
-  ゴースト: number;
-  ドラゴン: number;
-  あく: number;
-  はがね: number;
-  フェアリー: number;
-  [key: string]: number;
+  atkType: string;
+  rate: { defType: PokemonType, rate: number }[];
 }
 
 // 参考：https://wiki.xn--rckteqa2e.com/wiki/%E3%81%A8%E3%81%8F%E3%81%9B%E3%81%84
@@ -237,5 +233,5 @@ type BerryTableType = {
 
 type TargetDataType = {
   target: Pokemon;
-  damage: Damage;
+  damage: Attack;
 }

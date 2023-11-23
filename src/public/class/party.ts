@@ -37,6 +37,14 @@ class Main {
     return result;
   }
 
+  getPlayer( isMe: boolean ): Player {
+    return ( isMe )? this._me : this._opp;
+  }
+
+  getParty( isMe: boolean ): Pokemon[] {
+    return ( isMe )? this._me.pokemon : this._opp.pokemon;
+  }
+
   getPokemonInBattle(): Pokemon[] {
     const me: Pokemon[] = this._me.pokemon.filter( p => p.order.battle !== null );
     const opp: Pokemon[] = this._opp.pokemon.filter( p => p.order.battle !== null );
@@ -44,15 +52,49 @@ class Main {
     return this.sortUnique( result );
   }
 
+  getPokemonToAttack(): Pokemon[] {
+    const pokeList: Pokemon[] = this.getPokemonInBattle().filter( p => p.command.isAttack() );
+    return sortByActionOrder( pokeList );
+  }
+
+  getPokemonToExchange(): Pokemon[] {
+    const pokeList: Pokemon[] = this.getPokemonInBattle().filter( p => p.command.isExchange() );
+    return sortByActionOrder( pokeList );
+  }
+
   getPokemonInSide( isMe: boolean ): Pokemon[] {
-    const pokemon: Pokemon[] = ( isMe )? this._me.pokemon : this._opp.pokemon;
+    const pokemon: Pokemon[] = this.getParty( isMe );
     const result: Pokemon[] = pokemon.filter( p => p.order.battle !== null );
     return this.sortUnique( result );
   }
 
   getPokemonByParty( isMe: boolean, party: number ): Pokemon {
-    const pokemon: Pokemon[] = ( isMe )? this._me.pokemon : this._opp.pokemon;
+    const pokemon: Pokemon[] = this.getParty( isMe );
     return pokemon.filter( p => p.order.party === party )[0];
+  }
+
+  getPokemonByBattle( attack: Attack ): Pokemon {
+    const pokemon: Pokemon[] = this.getParty( attack.isMe );
+    return pokemon.filter( p => p.order.battle === attack.battle )[0];
+  }
+
+  isExistByBattle( isMe: boolean, battle: number ): boolean {
+    const pokemon: Pokemon[] = this.getParty( isMe );
+    return pokemon.filter( p => p.order.battle === battle ).length === 1;
+  }
+
+  isExistAbility( name: string ): boolean {
+    return this.getPokemonInBattle().filter( p => p.ability.isName( name ) ).length > 0;
+  }
+  getExistAbility( name: string ): Pokemon {
+    return this.getPokemonInBattle().filter( p => p.ability.isName( name ) )[0];
+  }
+
+  isExistAbilityInSide( isMe: boolean, name: string ): boolean {
+    return this.getPokemonInSide( isMe ).filter( p => p.ability.isName( name ) ).length > 0;
+  }
+  getExistAbilityInSide( isMe: boolean, name: string ): Pokemon {
+    return this.getPokemonInSide( isMe ).filter( p => p.ability.isName( name ) )[0];
   }
 
   calcSpeed(): void {
@@ -112,6 +154,13 @@ class Main {
 
       pokemon.status.spe.calcSpeed( corr, paralysis, this._field.whole.trickRoom.isTrue );
     }
+  }
+
+  isUproar(): boolean {
+    for ( const pokemon of this.getPokemonInBattle() ) {
+      if ( pokemon.stateChange.uproar.isTrue ) return true;
+    }
+    return false;
   }
 }
 
@@ -176,37 +225,12 @@ class Player {
       }
     }
   }
-}
 
-
-class Party {
-  _pokemon: Pokemon[];
-
-  constructor() {
-    this._pokemon = []
-  }
-
-  get pokemon(): Pokemon[] {
-    return this._pokemon;
-  }
-
-
-
-
-
-  sortUnique( pokeList: Pokemon[] ): Pokemon[] {
-    pokeList.sort( (a, b ) => {
-      // トレーナー
-      if ( a.isMe ) return -1;
-      if ( b.isMe ) return 1;
-      // パーティの並び順
-      if ( a.order.party > b.order.party ) return -1;
-      return 1;
-    })
-
-    return pokeList;
+  isExcangable(): boolean {
+    return this._pokemon.filter( p => p.order.battle === null && !p.status.hp.value.isZero() ).length > 0;
   }
 }
+
 
 class ElectOrder {
   _order: number[];

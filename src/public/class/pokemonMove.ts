@@ -146,59 +146,51 @@ class SelectedMove {
   _name: string;
   _type: PokemonType;
   _class: MoveClass;
-  _target: string;
+  _target: MoveTargetText;
   _power: number | null;
   _accuracy: number | null;
   _priority: number;
   _critical: number;
+  _skin: StateChange;
+  _store: string;
 
   constructor() {
     this._slot = 0;
     this._name = '';
     this._type = null;
     this._class = 'physical';
-    this._target = '';
+    this._target = 'user';
     this._power = 0;
     this._accuracy = 0;
     this._priority = 0;
     this._critical = 0;
+    this._skin = new StateChange( 'スキン' );
+    this._store = ''
   }
 
-  set slot( slot: number ) {
-    this._slot = slot;
-  }
-  set name( name: string ) {
-    this._name = name;
-  }
   set type( type: PokemonType ) {
     this._type = type;
-  }
-  set target( target: string ) {
-    this._target = target;
   }
   set power( power: number | null ) {
     this._power = power;
   }
-  set accuracy( accuracy: number | null ) {
-    this._accuracy = accuracy;
-  }
   set priority( priority: number ) {
     this._priority = priority;
   }
-  set critical( critical: number ) {
-    this._critical = critical;
-  }
 
-  get slot(): number {
-    return this._slot;
-  }
   get name(): string {
     return this._name;
+  }
+  get slot(): number {
+    return this._slot;
   }
   get type(): PokemonType {
     return this._type;
   }
-  get target(): string {
+  get class(): string {
+    return this._class;
+  }
+  get target(): MoveTargetText {
     return this._target;
   }
   get power(): number | null {
@@ -213,9 +205,16 @@ class SelectedMove {
   get critical(): number {
     return this._critical;
   }
+  get skin(): StateChange {
+    return this._skin;
+  }
 
   translate(): string {
     return moveMaster.filter( m => m.nameEN === this._name )[0].nameJA;
+  }
+
+  getMaster(): MoveData {
+    return moveMaster.filter( m => m.nameEN === this._name )[0];
   }
 
   setSelected( move: LearnedMove ): void {
@@ -250,6 +249,95 @@ class SelectedMove {
   }
   isStatus(): boolean {
     return this._class === 'status';
+  }
+
+  isName( name: string ): boolean {
+    return this._name === name;
+  }
+
+  isExplosion(): boolean {
+    return explosionMoveList.includes( this._name );
+  }
+
+  //---------------------
+  // スキン系特性が発動するか
+  //---------------------
+  isActivateSkin( type: PokemonType ): boolean {
+    if ( changeTypeMoveList.includes( this._name ) ) return false;
+    if ( this._name === 'わるあがき' ) return false;
+
+    if ( type === 'Normal' && this._type === 'Normal' ) return false;
+    if ( type !== 'Normal' && this._type !== 'Normal' ) return false;
+
+    return true;
+  }
+
+  activateSkin( type: PokemonType ): void {
+    if ( !this.isActivateSkin( type ) ) return;
+    this._type = type;
+    this._skin.isTrue = true;
+    this._skin.text = String( this._type );
+  }
+
+  //-------
+  // ため技
+  //-------
+  setStore(): void {
+    this._store = this._name;
+  }
+  isStore(): boolean {
+    return this._store !== '';
+  }
+
+  //-------------
+  // マグニチュード
+  //-------------
+  fixMagnitudePower(): void {
+    if ( !this.isName( 'マグニチュード' ) ) return;
+
+    const random: number = getRandom();
+
+    if ( random >= 95 ) {
+      this._power = 150;
+      writeLog( `マグニチュード10!`);
+      return;
+    }
+
+    if ( random >= 85 ) {
+      this._power = 110;
+      writeLog( `マグニチュード9!`);
+      return;
+    }
+
+    if ( random >= 65 ) {
+      this._power = 90;
+      writeLog( `マグニチュード8!`);
+      return;
+    }
+
+    if ( random >= 35 ) {
+      this._power = 70;
+      writeLog( `マグニチュード7!`);
+      return;
+    }
+
+    if ( random >= 15 ) {
+      this._power = 50;
+      writeLog( `マグニチュード6!`);
+      return;
+    }
+
+    if ( random >= 5 ) {
+      this._power = 30;
+      writeLog( `マグニチュード5!`);
+      return;
+    }
+
+    if ( random >= 0 ) {
+      this._power = 10;
+      writeLog( `マグニチュード4!`);
+      return;
+    }
   }
 }
 

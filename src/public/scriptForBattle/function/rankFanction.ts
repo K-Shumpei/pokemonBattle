@@ -32,9 +32,9 @@ function changeTargetRank( pokemon: Pokemon, target: Pokemon, parameter: string,
     if ( target.ability.isName( 'しろいけむり' ) ) return;
     if ( target.ability.isName( 'クリアボディ' ) ) return;
     if ( target.ability.isName( 'メタルプロテクト' ) ) return;
-    if ( isExistAbilityOneSide( target.isMe, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return;
+    if ( isExistAbilityOneSide( target.isMe, 'フラワーベール' ) && target.type.has( 'Grass' ) ) return;
     if ( target.ability.isName( 'ミラーアーマー' )) {
-      changeTargetRank( target, pokemon, parameter, change );
+      //changeTargetRank( target, pokemon, parameter, change );
       return;
     }
     // 個別のパラメーター

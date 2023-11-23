@@ -745,7 +745,7 @@ class Register {
     this.setHTML();
 
     this._level = pokemon.level;
-    this._type = pokemon.type;
+    this._type = pokemon.type.get();
     this._gender.value = pokemon.gender;
     this._ability.value = pokemon.ability.name;
     this._item = pokemon.item.name;

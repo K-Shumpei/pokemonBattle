@@ -20,43 +20,6 @@ function getValueWithRankCorrection( actualValue: number, rank: number, critical
 }
 
 
-// 接地判定
-function isGrounded( pokemon: Pokemon ): boolean {
-
-  if ( pokemon.stateChange.ingrain.isTrue === true ) return true;
-  if ( pokemon.stateChange.smackDown.isTrue === true ) return true;
-  if ( fieldStatus.whole.gravity.isTrue === true ) return true;
-  if ( pokemon.item.isName( 'くろいてっきゅう' ) ) return true;
-
-  if ( getPokemonType( pokemon ).includes( 'FLYING' ) ) return false;
-  if ( pokemon.ability.isName( 'ふゆう' ) ) return false;
-  if ( pokemon.item.isName( 'ふうせん' ) ) return false;
-  if ( pokemon.stateChange.magnetRise.isTrue === true ) return false;
-  if ( pokemon.stateChange.telekinesis.isTrue === true ) return false;
-
-  return true;
-  /*
-  以下のポケモンは地面にいないことになる。
-
-  ひこうタイプのポケモン
-  特性がふゆうのポケモン
-  ふうせんを持っているポケモン
-  でんじふゆう状態・テレキネシス状態のポケモン
-  これらに当てはまらない、もしくはこれらをわざや特性で無効化された場合、そのポケモンは地面にいることになる。
-
-  地面にいない状態を打ち消す効果を持つわざやアイテムとして以下のものがある。
-
-  ねをはる状態・うちおとす状態・じゅうりょく状態
-  くろいてっきゅう
-  */
-}
-
-// ポケモンのタイプ
-function getPokemonType( pokemon: Pokemon ): PokemonType[] {
-
-  return pokemon.type;
-}
-
 // バトル場の特性存在判定
 function isExistAbility( ability: string ): Pokemon | false {
 
@@ -79,47 +42,7 @@ function isExistAbility( ability: string ): Pokemon | false {
   return false;
  }
 
-// みがわり
-function isSubstitute( pokemon: Pokemon, target: Pokemon ): boolean {
 
-  if ( target.stateChange.substitute.isTrue === false ) return false;
-  if ( pokemon.move.selected.name === 'いじげんホール' ) return false;
-  if ( pokemon.move.selected.name === 'いじげんラッシュ' ) return false;
-  if ( pokemon.move.selected.name === 'シャドースチール' ) return false;
-  if ( pokemon.move.selected.isStatus() ) {
-    if ( pokemon.move.selected.target === '全体の場' ) return false;
-    if ( pokemon.move.selected.target === '相手の場' ) return false;
-    if ( pokemon.move.selected.target === '味方の場' ) return false;
-  }
-  if ( isSame( pokemon, target ) ) return false;
-  if ( pokemon.ability.isName( 'すりぬけ' ) ) {
-    if ( pokemon.move.selected.name === 'へんしん' || pokemon.move.selected.name === 'フリーフォール' ) {
-      ;
-    } else {
-      return false;
-    }
-  }
-  if ( soundMoveList.includes( pokemon.move.selected.name ) === true ) {
-    if ( pokemon.move.selected.name === 'とおぼえ' && isFriend( pokemon, target ) ) {
-      ;
-    } else {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-// 姿を隠す
-function isHide( pokemon: Pokemon ): boolean {
-
-  if ( pokemon.stateChange.fly.isTrue === true ) return true;
-  if ( pokemon.stateChange.dig.isTrue === true ) return true;
-  if ( pokemon.stateChange.dive.isTrue === true ) return true;
-  if ( pokemon.stateChange.shadowForce.isTrue === true ) return true;
-
-  return false;
-}
 
 
 // リサイクル
@@ -331,65 +254,39 @@ function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void 
 }
 
 
-// フォルムチェンジ
-function formChange( pokemon: Pokemon ): void {
 
-  let nextFrom: string = ''
-
-  for ( const form of formChangeTable ) {
-    if ( form.name === pokemon.name ) {
-      nextFrom = form.next;
-    }
-  }
-
-  if ( pokemon.name === 'ウッウ' ) {
-    if ( pokemon.status.hp.value.isGreaterThan( 2 ) ) nextFrom = 'ウッウ(鵜呑み)';
-    else nextFrom = 'ウッウ(丸呑み)'
-  }
-
-  const nextPokemon: PokemonData = getPokemonDataByName( nextFrom );
-  //const nature: NatureDataType = getNatureDataByName( pokemon.nature );
-
-  // 基本ステータスの更新
-  pokemon.name = nextPokemon.nameEN;
-  pokemon.type = nextPokemon.type;
-  pokemon.ability.name = nextPokemon.ability[0];
-
-  // 実数値の更新
-  /*
-  for ( const parameter of Object.keys( parameterFive ) ) {
-    const nextBaseStatus: ParameterSixType = getBaseStatusList( nextPokemon )
-    const baseStatus: number = pokemon.baseStatus[parameter];
-    const individualValue: number = pokemon.individualValue[parameter];
-    const effortValue: number = pokemon.effortValue[parameter];
-
-    // 実数値計算
-    const step1: number = baseStatus * 2 + individualValue + Math.floor( effortValue / 4 );
-    const step2: number = step1 * pokemon.level;
-    const step3: number = Math.floor( step2 / 100 );
-
-    // 性格補正
-    let natureRate: number = 1.0;
-    if ( nature.plus === nature.minus ) {
-      natureRate = 1.0;
-    } else if ( nature.plus === parameter ) {
-      natureRate = 1.1;
-    } else if ( nature.minus === parameter ) {
-      natureRate = 0.9;
-    }
-
-    // 種族値・実数値の更新
-    pokemon.baseStatus[parameter] = nextBaseStatus[parameter];
-    pokemon.actualValue[parameter] = Math.floor( ( step3 + 5 ) * natureRate );
-  }
-  */
+const formChangeTable = [
+  { name: 'ミミッキュ(化けた姿)', next: 'ミミッキュ(ばれた姿)' },
+  { name: 'コオリッポ(アイス)', next: 'コオリッポ(ナイス)' },
+  { name: 'コオリッポ(ナイス)', next: 'コオリッポ(アイス)' },
+  { name: 'ウッウ(鵜呑み)', next: 'ウッウ' },
+  { name: 'ウッウ(丸呑み)', next: 'ウッウ' },
+  { name: 'メロエッタ(ボイス)', next: 'メロエッタ(ステップ)' },
+  { name: 'メロエッタ(ステップ)', next: 'メロエッタ(ボイス)' },
+  { name: 'ギルガルド(盾)', next: 'ギルガルド(剣)' },
+  { name: 'ギルガルド(剣)', next: 'ギルガルド(盾)' },
+  { name: 'モルペコ(満腹)', next: 'モルペコ(空腹)' },
+  { name: 'モルペコ(空腹)', next: 'モルペコ(満腹)' },
+]
+/*
+ポワルン (通常の姿⇔たいようのすがた⇔あまみずのすがた⇔ゆきぐものすがた | てんき)
+チェリム (ネガフォルム⇔ポジフォルム | ひざしがつよい・特性フラワーギフト[1])
+シェイミ (スカイフォルム⇒ランドフォルム | こおり状態)
+ヒヒダルマ (ノーマルモード⇔ダルマモード | 特性ダルマモード)
+メロエッタ (ボイスフォルム⇔ステップフォルム | 技いにしえのうたの成功)
+ゲッコウガ (通常の姿⇒サトシゲッコウガ | 特性きずなへんげ)
+ギルガルド (シールドフォルム⇔ブレードフォルム | 特性バトルスイッチ)
+ジガルデ (10%フォルム/50%フォルム⇒パーフェクトフォルム | 特性スワームチェンジ)[2]
+ヨワシ (たんどくのすがた⇔むれたすがた | 特性ぎょぐん)
+メテノ (コアのすがた⇔りゅうせいのすがた | 特性リミットシールド)
+ミミッキュ (ばけたすがた⇒ばれたすがた | 特性ばけのかわ)
+モルペコ (まんぷくもよう⇔はらぺこもよう | 特性はらぺこスイッチ)
+ウッウ (通常の姿⇔うのみのすがた | 技なみのり・ダイビング)
+コオリッポ (アイスフェイス⇔ナイスフェイス | 特性アイスフェイス)
+イルカマン (ナイーブフォルム⇔マイティフォルム | 特性マイティチェンジ)
+*/
 
 
-  /*
-  みずびたし/もりののろいなどにより自身のタイプが変更されている場合、ばけのかわの発動によりゴースト/フェアリータイプに戻る。
-  パワーシェア/ガードシェア/パワートリック/スピードスワップにより自身のステータスが変更されている場合、ばけのかわの発動により元のステータスに戻る。
-  */
-}
 
 // 相手の場の変化
 function changeOpponentField( trainer: boolean, state: string, sign: SignType ): void {
@@ -565,56 +462,26 @@ function isEnableEatBerry( pokemon: Pokemon ): boolean {
 }
 
 
-function isValidProbabilityAdditionalEffect( pokemon: Pokemon, moveRate: number ): boolean {
 
-  let rate: number = moveRate;
 
-  if ( pokemon.ability.isName( 'てんのめぐみ' ) ) {
-    rate = rate * 2;
-  }
-  if ( fieldStatus.getSide( pokemon.isMe ).rainbow.isTrue === true ) {
-    if ( pokemon.move.selected.name !== 'ひみつのちから' ) {
-      rate = rate * 2;
-    }
-  }
-  for ( const move of additionalEffectFlinch ) {
-    if ( move.name === pokemon.move.selected.name ) {
-      rate = Math.min( rate, moveRate * 2 );
-    }
-  }
 
-  if ( getRandom() >= rate ) return false;
-
-  return true;
-}
-
-function isValidToTargetAdditionalEffect( pokemon: Pokemon, target: Pokemon, damage: Damage ): boolean {
-
-  if ( pokemon.stateChange.sheerForce.isTrue === true ) return false;
-  if ( target.status.hp.value.isZero() ) return false;
-  if ( damage.substitute === true ) return false ;
-  if ( target.ability.isName( 'りんぷん' ) ) return false;
-  if ( target.item.isName( 'おんみつマント' ) ) return false;
-
-  return true;
-}
 
 function giveCannotEscape( pokemon: Pokemon, target: Pokemon, move: string ): void {
 
   if ( move === 'くらいつく' ) {
     target.stateChange.cannotEscape.isTrue = true;
     //target.stateChange.cannotEscape.target.isMe = pokemon.isMe;
-    target.stateChange.cannotEscape.target.party = pokemon.order.party;
+    //target.stateChange.cannotEscape.target.party = pokemon.order.party;
 
     pokemon.stateChange.cannotEscape.isTrue = true;
    // pokemon.stateChange.cannotEscape.target.isMe = target.isMe;
-    pokemon.stateChange.cannotEscape.target.party = target.order.party;
+    //pokemon.stateChange.cannotEscape.target.party = target.order.party;
 
     writeLog( `おたがいの ポケモンは 逃げることが できなくなった!` );
   } else {
     target.stateChange.cannotEscape.isTrue = true;
     //target.stateChange.cannotEscape.target.isMe = pokemon.isMe;
-    target.stateChange.cannotEscape.target.party = pokemon.order.party;
+    //target.stateChange.cannotEscape.target.party = pokemon.order.party;
 
     writeLog( `${getArticle( target )}は もう 逃げられない!` );
   }
@@ -733,87 +600,3 @@ function activateRoomService( pokemon: Pokemon ): void {
   recycleAvailable( pokemon );
 }
 
-// ダメージ計算後の処理
-function processAfterCalculation( pokemon: Pokemon, target: Pokemon, finalDamage: number, damage: Damage ): number {
-
-  let result: number = finalDamage;
-
-  result = Math.max( result, 1 );
-  result = result % 65536;
-  result = Math.min( result, target.status.hp.value.value );
-
-  if ( damage.substitute === true ) {
-    result = Math.min( result, target.stateChange.substitute.count );
-  }
-
-  if ( damage.substitute === false && result === target.status.hp.value.value ) {
-    if ( target.stateChange.endure.isTrue === true ) {
-      result -= 1;
-      target.stateChange.endureMsg.isTrue === true;
-      target.stateChange.endureMsg.text === 'こらえる';
-      return result;
-    }
-    if ( pokemon.move.selected.name === 'みねうち' || pokemon.move.selected.name === 'てかげん' ) {
-      result -= 1;
-      target.stateChange.endureMsg.isTrue === true;
-      target.stateChange.endureMsg.text === pokemon.move.selected.name;
-      return result;
-    }
-    if ( pokemon.ability.isName( 'がんじょう' ) ) {
-      if ( target.status.hp.value.isMax() ) {
-        result -= 1;
-        target.stateChange.endureMsg.isTrue === true;
-        target.stateChange.endureMsg.text === 'がんじょう';
-        return result;
-      }
-    }
-    if ( target.item.isName( 'きあいのタスキ' ) ) {
-      if ( target.status.hp.value.isMax() ) {
-        result -= 1;
-        target.stateChange.endureMsg.isTrue === true;
-        target.stateChange.endureMsg.text === 'きあいのタスキ';
-        return result;
-      }
-    }
-    if ( target.item.isName( 'きあいのタスキ' ) ) {
-      if ( getRandom() < 10 ) {
-        result -= 1;
-        target.stateChange.endureMsg.isTrue === true;
-        target.stateChange.endureMsg.text === 'きあいのハチマキ';
-        return result;
-      }
-    }
-  }
-
-  return result;
-}
-
-function isActivateSkinAbikity( pokemon: Pokemon, type: PokemonType ): boolean {
-
-  if ( changeTypeMoveList.includes( pokemon.move.selected.name ) === true ) return false;
-  if ( pokemon.move.selected.name === 'わるあがき' ) return false;
-  if ( pokemon.move.selected.type === type ) return false;
-
-  return true;
-}
-
-function activateSkin( pokemon: Pokemon, type: PokemonType ): void {
-
-  pokemon.move.selected.type = type;
-  pokemon.stateChange.skin.isTrue === true;
-  pokemon.stateChange.skin.text = String( pokemon.move.selected.type );
-}
-
-
-
-// 技の成功判定
-function isMoveFailure( pokemon: Pokemon ): boolean {
-
-  const targetList: TargetDataType[] = getTargetList( pokemon );
-
-  if ( targetList.filter( target => target.damage.success === true ).length === 0 ) {
-    return true;
-  }
-
-  return false;
-}

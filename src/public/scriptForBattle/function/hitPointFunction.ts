@@ -13,7 +13,7 @@ function changeHPByMove( pokemon: Pokemon, target: Pokemon, change: number ): vo
     // HP減少
     pokemon.status.hp.value.add( -1 * value );
     // メッセージ
-    target.declareAbility();
+    target.msgDeclareAbility();
     writeLog( `${getArticle( pokemon )}は ヘドロえきを 吸い取った!` );
   } else {
     if ( pokemon.status.hp.value.isMax() ) return;
@@ -99,7 +99,7 @@ function changeHPByAbility( pokemon: Pokemon, value: number, sign: SignType ): v
     if ( pokemon.status.hp.value.isMax() ) return;
     if ( pokemon.stateChange.healBlock.isTrue === true ) return;
 
-    pokemon.declareAbility();
+    pokemon.msgDeclareAbility();
 
     // HP回復
     pokemon.status.hp.value.add( value );

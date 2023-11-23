@@ -11,7 +11,7 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   }
   // ミストフィールド
   if ( fieldStatus.terrain.isMisty() ) {
-    if ( isGrounded( target ) === true ) return false;
+    if ( target.isGround() === true ) return false;
   }
   // 特性
   if ( target.ability.isName( 'りんぷん' ) ) return false;
@@ -19,32 +19,32 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   if ( target.ability.isName( 'ぜったいねむり' ) ) return false;
   if ( target.ability.isName( 'リーフガード' )  && fieldStatus.weather.isSunny( target ) ) return false;
   if ( target.ability.isName( 'リミットシールド' ) && target.name === 'メテノ(流星)' ) return false;
-  if ( isExistAbilityOneSide( target.isMe, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return false;
+  if ( isExistAbilityOneSide( target.isMe, 'フラワーベール' ) && target.type.has( 'Grass' ) ) return false;
   // 個別の無効化
   if ( ailment === 'PARALYSIS' ) {
-    if ( getPokemonType( target ).includes( 'ELECTRIC' ) ) return false;
+    if ( target.type.has( 'Electric' ) ) return false;
   }
   if ( ailment === 'FROZEN' ) {
-    if ( getPokemonType( target ).includes( 'ICE' ) ) return false;
+    if ( target.type.has( 'Ice' ) ) return false;
     if ( fieldStatus.weather.isSunny( target ) ) return false;
     if ( target.ability.isName( 'マグマのよろい' ) ) return false;
   }
   if ( ailment === 'BURNED' ) {
-    if ( getPokemonType( target ).includes( 'FIRE' ) ) return false;
+    if ( target.type.has( 'Fire' ) ) return false;
     if ( target.ability.isName( 'みずのベール' ) ) return false;
     if ( target.ability.isName( 'すいほう' ) ) return false;
   }
   if ( ailment === 'POISONED' ) {
     if ( target.ability.isName( 'めんえき' ) ) return false;
     if ( isExistAbilityOneSide( target.isMe, 'パステルベール' ) ) return false;
-    if ( getPokemonType( target ).includes( 'POISON' ) ) return false;
-    if ( getPokemonType( target ).includes( 'STEEL' ) ) return false;
+    if ( target.type.has( 'Poison' ) ) return false;
+    if ( target.type.has( 'Steel' ) ) return false;
   }
   if ( ailment === 'ASLEEP' ) {
     if ( target.ability.isName( 'やるき' ) ) return false;
     if ( target.ability.isName( 'ふみん' ) ) return false;
     if ( isExistAbilityOneSide( target.isMe, 'スイートベール' ) ) return false;
-    if ( fieldStatus.terrain.isElectric() && isGrounded( target ) ) return false;
+    if ( fieldStatus.terrain.isElectric() && target.isGround() ) return false;
     for ( const _pokemon of allPokemonInBattlefield() ) {
       if ( _pokemon.stateChange.uproar.isTrue === true ) return false;
     }
@@ -100,7 +100,7 @@ function giveAilmentByBeakBlast( pokemon: Pokemon, target: Pokemon ): void {
   }
   // ミストフィールド
   if ( fieldStatus.terrain.isMisty() ) {
-    if ( isGrounded( target ) === true ) return;
+    if ( target.isGround() === true ) return;
   }
   // 特性
   if ( target.ability.isName( 'りんぷん' ) ) return;
@@ -108,14 +108,14 @@ function giveAilmentByBeakBlast( pokemon: Pokemon, target: Pokemon ): void {
   if ( target.ability.isName( 'ぜったいねむり' ) ) return;
   if ( target.ability.isName( 'リーフガード' )  && fieldStatus.weather.isSunny( target ) ) return;
   if ( target.ability.isName( 'リミットシールド' ) && target.name === 'メテノ(流星)' ) return;
-  if ( isExistAbilityOneSide( target.isMe, 'フラワーベール' ) && getPokemonType( target ).includes( 'GRASS' ) ) return;
+  if ( isExistAbilityOneSide( target.isMe, 'フラワーベール' ) && target.type.has( 'Grass' ) ) return;
 
-  if ( getPokemonType( target ).includes( 'FIRE' ) ) return;
+  if ( target.type.has( 'Fire' ) ) return;
   if ( target.ability.isName( 'みずのベール' ) ) return;
   if ( target.ability.isName( 'すいほう' ) ) return;
 
   // 状態異常になる
-  target.statusAilment.getBurned();
+  target.statusAilment.getBurned( target.getArticle() );
 
   // メッセージ
   writeLog( `${getArticle( target )}は やけどを 負った!` );
@@ -134,7 +134,7 @@ function giveConfuse( pokemon: Pokemon, target: Pokemon, type: string ): void {
     }
     // ミストフィールド
     if ( fieldStatus.terrain.isMisty() ) {
-      if ( isGrounded( target ) === true ) return;
+      if ( target.isGround() === true ) return;
     }
     // 特性
     if ( target.ability.isName( 'マイペース' ) ) return;
@@ -144,7 +144,7 @@ function giveConfuse( pokemon: Pokemon, target: Pokemon, type: string ): void {
   if ( type === 'item' ) {
     // ミストフィールド
     if ( fieldStatus.terrain.isMisty() ) {
-      if ( isGrounded( target ) === true ) return;
+      if ( target.isGround() === true ) return;
     }
     // 特性
     if ( target.ability.isName( 'マイペース' ) ) return;

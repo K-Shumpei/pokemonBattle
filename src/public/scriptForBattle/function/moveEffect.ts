@@ -1,28 +1,65 @@
 function moveEffect( pokemon: Pokemon ): void {
 
-  if ( !pokemon.move.selected.isStatus() ) {
-    // シングルバトルの場合
-    if ( fieldStatus.battleStyle === 1 ) {
-      const damage: Damage = pokemon.damage[0];
-      const target: Pokemon | false = getPokemonByBattle( damage.isMe, damage.battle );
-      if ( target === false ) return;
+  // 範囲攻撃技
+  const isRange = ( pokemon: Pokemon ): boolean => {
+    return pokemon.move.selected.getMaster().target === 'all-opponents'
+      || pokemon.move.selected.getMaster().target === 'all-other-pokemon';
+  }
 
-      // 対象全員へのダメージ計算
-      calculateDamageForAll( pokemon, target, damage );
+  if ( !pokemon.move.selected.isStatus() ) {
+    // 対象全員へのダメージ計算
+    calculateDamageForAll( pokemon );
+
+    if ( isRange( pokemon ) ) {
       // みがわり状態に攻撃技が防がれたときの効果: 本体がダメージを受けたとき(4)~(10)などより優先して処理される
-      // じばく/だいばくはつ/ミストバースト/ビックリヘッド/てっていこうせん使用時のダメージ: ひんしになるときは使用者のひんし判定
+
+    }
+
+    // じばく/だいばくはつ/ミストバースト/ビックリヘッド/てっていこうせん使用時のダメージ: ひんしになるときは使用者のひんし判定
+
+
+    if ( isRange( pokemon ) ) {
       // ダメージを本体に与える
-      damageToBody( target, damage );
+      damageToBody( pokemon, pokemon.isMe );
       // バツグンの相性判定のメッセージ
-      goodCompatibilityMessage( pokemon, target, damage );
+      goodCompatibilityMessage( pokemon, pokemon.isMe );
       // 今ひとつの相性判定のメッセージ
-      badCompatibilityMessage( pokemon, target, damage );
+      badCompatibilityMessage( pokemon, pokemon.isMe );
       // ダメージの判定に関するメッセージ
-      damageDeterminationMessage( pokemon, target, damage );
+      damageDeterminationMessage( pokemon, pokemon.isMe );
+      // ダメージをHP1で耐える効果のメッセージなど
+      enduringEffectsMessage( pokemon, pokemon.isMe );
+      // 追加効果などの発動
+      activateAdditionalEffects( pokemon, pokemon.isMe );
+      // ダメージが発生したときの効果
+      effectsWhenDamageOccurs( pokemon, target, damage );
+      // ひんし判定
+      faintingJudgment( pokemon, target, 1 );
+      faintingJudgment( pokemon, target, 2 );
+      faintingJudgment( pokemon, target, 3 );
+      faintingJudgment( pokemon, target, 4 );
+      // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
+      activateSealedEffects( target );
+      activateSealedEffects( pokemon );
+    }
+
+    // 相手の処理
+    for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+      const target: Pokemon = main.getPokemonByBattle( attack );
+      if ( target.isMe !== pokemon.isMe ) continue;
+
+      // ダメージを本体に与える
+      damageToBody( target, attack );
+      // バツグンの相性判定のメッセージ
+      goodCompatibilityMessage( pokemon, target, attack );
+      // 今ひとつの相性判定のメッセージ
+      badCompatibilityMessage( pokemon, target, attack );
+      // ダメージの判定に関するメッセージ
+      damageDeterminationMessage( pokemon, target, attack );
       // ダメージをHP1で耐える効果のメッセージなど
       enduringEffectsMessage( target );
       // 追加効果などの発動
-      activateAdditionalEffects( pokemon, target, damage );
+      activateAdditionalEffects( pokemon, target, attack );
       // ダメージが発生したときの効果
       effectsWhenDamageOccurs( pokemon, target, damage );
       // ひんし判定
@@ -58,135 +95,252 @@ function moveEffect( pokemon: Pokemon ): void {
 }
 
 // 対象全員へのダメージ計算
-function calculateDamageForAll( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
+function calculateDamageForAll( pokemon: Pokemon ): void {
 
-  if ( isSubstitute( pokemon, target ) === true ) {
-    damage.substitute = true;
+  const getFinalDamage = ( pokemon: Pokemon, target: Pokemon, attack: Attack, calcDamage: number): number => {
+
+    let result: number = calcDamage;
+
+    result = Math.max( result, 1 );
+    result = result % 65536;
+    result = Math.min( result, target.status.hp.value.value );
+
+    if ( attack.substitute ) {
+      return Math.min( result, target.stateChange.substitute.count );
+    }
+
+    if ( result !== target.status.hp.value.value ) {
+      return result;
+    }
+
+    if ( target.stateChange.endure.isTrue ) {
+      target.stateChange.endureMsg.isTrue === true;
+      target.stateChange.endureMsg.text === 'こらえる';
+      return result - 1;
+    }
+
+    if ( pokemon.move.selected.name === 'みねうち' || pokemon.move.selected.name === 'てかげん' ) {
+      target.stateChange.endureMsg.isTrue === true;
+      target.stateChange.endureMsg.text === pokemon.move.selected.name;
+      return result - 1;
+    }
+
+    if ( pokemon.ability.isName( 'がんじょう' ) ) {
+      if ( target.status.hp.value.isMax() ) {
+        target.stateChange.endureMsg.isTrue === true;
+        target.stateChange.endureMsg.text === 'がんじょう';
+        return result - 1;
+      }
+    }
+
+    if ( target.item.isName( 'きあいのタスキ' ) ) {
+      if ( target.status.hp.value.isMax() ) {
+        target.stateChange.endureMsg.isTrue === true;
+        target.stateChange.endureMsg.text === 'きあいのタスキ';
+        return result - 1;
+      }
+    }
+
+    if ( target.item.isName( 'きあいのタスキ' ) ) {
+      if ( getRandom() < 10 ) {
+        target.stateChange.endureMsg.isTrue === true;
+        target.stateChange.endureMsg.text === 'きあいのハチマキ';
+        return result - 1;
+      }
+    }
+
+    return result;
   }
 
-  // ばけのかわ/アイスフェイス
-  if ( damage.substitute === false ) {
-    if ( pokemon.name === 'ミミッキュ(化けた姿)' && target.ability.isName( 'ばけのかわ' ) ) {
-      target.stateChange.disguise.isTrue = true;
-      return;
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+
+    // ばけのかわ/アイスフェイス
+    if ( !attack.substitute ) {
+      if ( target.isName( 'ミミッキュ(化けた姿)' ) && target.ability.isName( 'ばけのかわ' ) ) {
+        target.stateChange.disguise.isTrue = true;
+        continue;
+      }
+      if ( target.isName( 'コオリッポ(アイス)' ) && target.ability.isName( 'アイスフェイス' ) && pokemon.move.selected.isPhysical()  ) {
+        target.stateChange.iceFace.isTrue = true;
+        continue;
+      }
     }
-    if ( pokemon.name === 'コオリッポ(アイス)' && target.ability.isName( 'アイスフェイス' ) && pokemon.move.selected.isPhysical()  ) {
-      target.stateChange.iceFace.isTrue = true;
-      return;
-    }
+
+    // ダメージ計算
+    const calcDamage: number = calculateDamage( pokemon, target, attack );
+
+    // ダメージ計算後の処理
+    attack.damage = getFinalDamage( pokemon, target, attack, calcDamage );
   }
-
-  // ダメージ計算
-  const finalDamage: number = calculateDamage( pokemon, target, damage );
-
-  // ダメージ計算後の処理
-  damage.damage = processAfterCalculation( pokemon, target, finalDamage, damage )
 }
 
 // ダメージを本体に与える
-function damageToBody( target: Pokemon, damage: Damage ): void {
+function damageToBody( pokemon: Pokemon, isMe: boolean ): void {
 
-  target.status.hp.value.add( -1 * damage.damage );
-  writeLog( `${damage.damage}の ダメージ!` );
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    if ( target.isMe !== isMe ) continue;
+
+    target.status.hp.value.sub( attack.damage );
+    target.msgDamage( attack.damage );
+  }
 }
 
 // バツグンの相性判定のメッセージ
-function goodCompatibilityMessage( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
+function goodCompatibilityMessage( pokemon: Pokemon, isMe: boolean ): void {
 
-  if ( damage.effective <= 1 ) return;
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    if ( target.isMe !== isMe ) continue;
+    if ( attack.effective <= 1 ) continue;
 
-  if ( pokemon.damage.length === 1 ) {
-    writeLog( `効果は バツグンだ!` );
-  } else {
-    writeLog( `${target.name}に 効果は バツグンだ!` );
+    pokemon.msgSuperEffective( target.getArticle() );
   }
 }
 
 // 今ひとつの相性判定のメッセージ
-function badCompatibilityMessage( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
+function badCompatibilityMessage( pokemon: Pokemon, isMe: boolean ): void {
 
-  if ( damage.effective >= 1 ) return;
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    if ( target.isMe !== isMe ) continue;
+    if ( attack.effective >= 1 ) return;
 
-  if ( pokemon.damage.length === 1 ) {
-    writeLog( `${target.name}に 効果は 今ひとつのようだ......` );
-  } else {
-    writeLog( `${target.name}に 効果は いまひとつだ` );
+    pokemon.msgNotEffective( target.getArticle() );
   }
 }
 
 // ダメージの判定に関するメッセージ
-function damageDeterminationMessage( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
+function damageDeterminationMessage( pokemon: Pokemon, isMe: boolean ): void {
 
-  if ( damage.critical === true ) {
-    if ( pokemon.damage.length === 1 ) {
-      writeLog( `急所に 当たった!` );
-    } else {
-      writeLog( `${target.name}の 急所に 当たった!` );
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    if ( target.isMe !== isMe ) continue;
+
+    if ( attack.critical ) {
+      pokemon.msgCritical( target.getArticle() );
     }
   }
 }
 
 // ダメージをHP1で耐える効果のメッセージなど
-function enduringEffectsMessage( target: Pokemon ): void {
+function enduringEffectsMessage( pokemon: Pokemon, isMe: boolean ): void {
 
-  if ( target.stateChange.endureMsg.isTrue === false ) return;
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    if ( target.isMe !== isMe ) continue;
+    if ( !target.stateChange.endureMsg.isTrue ) return;
 
-  if ( target.stateChange.endureMsg.text === 'こらえる' ) {
-    writeLog( `${target.name}は 攻撃を こらえた!` );
-  }
-  if ( target.stateChange.endureMsg.text === 'がんじょう' ) {
-    target.declareAbility();
-    writeLog( `${target.name}は 攻撃を こらえた!` );
-  }
-  if ( target.stateChange.endureMsg.text === 'きあいのタスキ' ) {
-    recycleAvailable( target );
-    writeLog( `${target.name}は きあいのタスキで 持ちこたえた!` );
-  }
-  if ( target.stateChange.endureMsg.text === 'きあいのハチマキ' ) {
-    writeLog( `${target.name}は きあいのハチマキで 持ちこたえた!` );
-  }
+    if ( target.stateChange.endureMsg.text === 'こらえる' ) {
+      target.msgEndure();
+    }
+    if ( target.stateChange.endureMsg.text === 'がんじょう' ) {
+      target.msgDeclareAbility();
+      target.msgEndure();
+    }
+    if ( target.stateChange.endureMsg.text === 'きあいのタスキ' ) {
+      target.item.recyclable();
+      target.msgFocusSash();
+    }
+    if ( target.stateChange.endureMsg.text === 'きあいのハチマキ' ) {
+      target.msgFocusBand();
+    }
 
-  target.stateChange.endureMsg.reset();
+    target.stateChange.endureMsg.reset();
+  }
 }
 
 // 追加効果などの発動
-function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: Damage ): void {
+function activateAdditionalEffects( pokemon: Pokemon, isMe: boolean ): void {
 
-  if ( pokemon.move.selected.name === 'なげつける' ) {
-    pokemon.stateChange.fling.isTrue = true;
-    const item: string | null = pokemon.item.name;
-    if ( item !== null ) {
-      pokemon.stateChange.flinch.text = item;
-    }
-    recycleAvailable( pokemon );
+  const moveInfo: MoveData = pokemon.move.selected.getMaster();
+
+  const isActivateEffect = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): boolean => {
+
+    if ( pokemon.stateChange.sheerForce.isTrue ) return false;
+    if ( target.status.hp.value.isZero() ) return false;
+    if ( attack.substitute ) return false ;
+    if ( target.ability.isName( 'りんぷん' ) ) return false;
+    if ( target.item.isName( 'おんみつマント' ) ) return false;
+
+    return true;
   }
 
-  // 追加効果
-  // 対象のランク変化
-  for ( const move of additionalEffectTargetRank ) {
-    if ( move.name === pokemon.move.selected.name ) {
-      if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break;
-      if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
+  const isActivateRate = ( pokemon: Pokemon, moveRate: number ): boolean => {
 
-      let isTrue: boolean = false;
-      for ( const parameter of Object.keys( move.change ) ) {
-        if ( getRankVariation( target, parameter, move.change[parameter] ) !== 0 ) {
-          isTrue = true;
-        }
+    let rate: number = moveRate;
+
+    if ( pokemon.ability.isName( 'てんのめぐみ' ) ) {
+      rate = rate * 2;
+    }
+    if ( fieldStatus.getSide( pokemon.isMe ).rainbow.isTrue ) {
+      if ( pokemon.move.selected.name !== 'ひみつのちから' ) {
+        rate = rate * 2;
       }
-      if ( isTrue === true ) {
-        for ( const parameter of Object.keys( move.change ) ) {
-          if ( move.change[parameter] === 0 ) continue;
-          changeTargetRank( pokemon, target, parameter, move.change[parameter] );
-        }
+    }
+
+    if ( getRandom() >= rate ) return false;
+
+    return true;
+  }
+
+  const isActivateFlinch = ( pokemon: Pokemon, moveRate: number ): boolean => {
+    let rate: number = moveRate;
+
+    if ( pokemon.ability.isName( 'てんのめぐみ' ) ) {
+      rate = rate * 2;
+    }
+    if ( fieldStatus.getSide( pokemon.isMe ).rainbow.isTrue ) {
+      if ( pokemon.move.selected.name !== 'ひみつのちから' ) {
+        rate = rate * 2;
+      }
+    }
+    for ( const move of additionalEffectFlinch ) {
+      if ( move.name === pokemon.move.selected.name ) {
+        rate = Math.min( rate, moveRate * 2 );
+      }
+    }
+
+    if ( getRandom() >= rate ) return false;
+
+    return true;
+  }
+
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    if ( target.isMe !== isMe ) continue;
+
+    if ( pokemon.move.selected.name === 'なげつける' ) {
+      pokemon.stateChange.fling.isTrue = true;
+      if ( pokemon.item.name !== null ) {
+        pokemon.stateChange.flinch.text = pokemon.item.name;
+      }
+      pokemon.item.recyclable();
+    }
+
+    // 追加効果
+    // 対象のランク変化
+    lower:
+    if ( moveInfo.category === 'damage+lower' ) {
+      if ( !isActivateEffect( pokemon, target, attack ) ) break lower;
+      if ( !isActivateRate( pokemon, moveInfo.stat.chance ) ) break lower;
+
+      for ( const changes of moveInfo.stat.changes ) {
+        const stat = changes.stat;
+        const change = changes.change;
+        if ( !target.isChangeRankByOther( stat, change, pokemon ) ) continue;
+
+        target.changeRankByOther( stat, change, pokemon );
       }
     }
   }
+
   // 自分のランク変化
   for ( const move of additionalEffectMyRank ) {
     if ( move.name === pokemon.move.selected.name ) {
       if ( pokemon.stateChange.sheerForce.isTrue === true ) break;
-      if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
+      if ( isActivateRate( pokemon, move.rate ) === false ) break;
 
       let isTrue: boolean = false;
       for ( const parameter of Object.keys( move.change ) ) {
@@ -204,24 +358,24 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: D
   }
   for ( const move of additionalEffectAilment ) {
     if ( move.name === pokemon.move.selected.name ) {
-      if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break;
-      if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
+      if ( isActivateEffect( pokemon, target, damage ) === false ) break;
+      if ( isActivateRate( pokemon, move.rate ) === false ) break;
 
       //giveAilment( pokemon, target, move.ailment );
     }
   }
   for ( const move of additionalEffectConfuse ) {
     if ( move.name === pokemon.move.selected.name ) {
-      if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break;
-      if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
+      if ( isActivateEffect( pokemon, target, damage ) === false ) break;
+      if ( isActivateRate( pokemon, move.rate ) === false ) break;
 
       giveConfuse( pokemon, target, 'additional' );
     }
   }
   for ( const move of additionalEffectFlinch ) {
     if ( move.name === pokemon.move.selected.name ) {
-      if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break;
-      if ( isValidProbabilityAdditionalEffect( pokemon, move.rate ) === false ) break;
+      if ( isActivateEffect( pokemon, target, damage ) === false ) break;
+      if ( isActivateRate( pokemon, move.rate ) === false ) break;
 
       target.stateChange.flinch.isTrue = true;
     }
@@ -230,7 +384,7 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: D
   // その他の追加効果
   anchorShot:
   if ( pokemon.move.selected.name === 'アンカーショット' || pokemon.move.selected.name === 'かげぬい' ) {
-    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break anchorShot;
+    if ( isActivateEffect( pokemon, target, damage ) === false ) break anchorShot;
     if ( getPokemonType( target ).includes( 'GHOST' ) === true ) break anchorShot;
     if ( target.stateChange.cannotEscape.isTrue === true ) break anchorShot;
 
@@ -239,7 +393,7 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: D
 
   saltCure:
   if ( pokemon.move.selected.name === 'しおづけ' ) {
-    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break saltCure;
+    if ( isActivateEffect( pokemon, target, damage ) === false ) break saltCure;
     if ( target.stateChange.saltCure.isTrue === true ) break saltCure;
 
     target.stateChange.saltCure.isTrue = true;
@@ -248,7 +402,7 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: D
 
   throatChop:
   if ( pokemon.move.selected.name === 'じごくづき' ) {
-    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break throatChop;
+    if ( isActivateEffect( pokemon, target, damage ) === false ) break throatChop;
     if ( target.stateChange.throatChop.isTrue === true ) break throatChop;
 
     target.stateChange.throatChop.isTrue = true;
@@ -257,8 +411,8 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: D
 
   triAttack:
   if ( pokemon.move.selected.name === 'トライアタック' ) {
-    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break triAttack;
-    if ( isValidProbabilityAdditionalEffect( pokemon, 20 ) === false ) break triAttack;
+    if ( isActivateEffect( pokemon, target, damage ) === false ) break triAttack;
+    if ( isActivateRate( pokemon, 20 ) === false ) break triAttack;
 
     const rate: number = getRandom();
     if ( rate < 100 / 3 ) {
@@ -272,7 +426,7 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: D
 
   fling:
   if ( pokemon.move.selected.name === 'なげつける' ) {
-    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) {
+    if ( isActivateEffect( pokemon, target, damage ) === false ) {
       pokemon.stateChange.fling.reset();
       break fling;
     }
@@ -329,8 +483,8 @@ function activateAdditionalEffects( pokemon: Pokemon, target: Pokemon, damage: D
 
   direClaw:
   if ( pokemon.move.selected.name === 'フェイタルクロー' ) {
-    if ( isValidToTargetAdditionalEffect( pokemon, target, damage ) === false ) break direClaw;
-    if ( isValidProbabilityAdditionalEffect( pokemon, 50 ) === false ) break direClaw;
+    if ( isActivateEffect( pokemon, target, damage ) === false ) break direClaw;
+    if ( isActivateRate( pokemon, 50 ) === false ) break direClaw;
 
     const rate: number = getRandom();
     if ( rate < 100 / 3 ) {
@@ -1122,8 +1276,8 @@ function activateMoveEffect( pokemon: Pokemon ): void {
   secretPower:
   if ( pokemon.move.selected.name === 'ひみつのちから' ) {
     if ( one.target.status.hp.value.isZero() ) break secretPower;
-    if ( isValidToTargetAdditionalEffect( pokemon, one.target, one.damage ) === false ) break secretPower;
-    if ( isValidProbabilityAdditionalEffect( pokemon, 30 ) === false ) break secretPower;
+    if ( isActivateEffect( pokemon, one.target, one.damage ) === false ) break secretPower;
+    if ( isActivateRate( pokemon, 30 ) === false ) break secretPower;
 
     if ( fieldStatus.terrain.isElectric() ) {
       giveAilment( pokemon, one.target, 'PARALYSIS' );
@@ -1326,7 +1480,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
 	eerieSpell:
   if ( pokemon.move.selected.name === 'ぶきみなじゅもん' ) {
 
-    if ( isValidToTargetAdditionalEffect( pokemon, one.target, one.damage ) === false ) break eerieSpell;
+    if ( isActivateEffect( pokemon, one.target, one.damage ) === false ) break eerieSpell;
 
     // writeLog( `${getArticle( one.target)}の ${}を ${}削った!` );
   }

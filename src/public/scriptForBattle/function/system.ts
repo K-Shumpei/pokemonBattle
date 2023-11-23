@@ -16,13 +16,18 @@ function sortByActionOrder( pokeList: Pokemon[] ): Pokemon[] {
     //if ( a.later < b.later ) return 1;
     // 素早さ
     if ( a.status.spe.actionOrder > b.status.spe.actionOrder ) return -1;
-    if ( a.status.spe.actionOrder > b.status.spe.actionOrder ) return 1;
+    if ( a.status.spe.actionOrder < b.status.spe.actionOrder ) return 1;
     // 乱数
     if ( a.status.spe.random > b.status.spe.random ) return -1;
     else return 1;
   })
 
   return result;
+}
+
+function isSame( pokemon: Pokemon, target: Pokemon ): boolean {
+
+  return pokemon.isMe === target.isMe && pokemon.order.party === target.order.party;
 }
 
 
@@ -180,14 +185,7 @@ function getArticle( pokemon: Pokemon ): string {
   else return '相手の ' + pokemon.translateName( pokemon.name );
 }
 
-function isSame( pokemon: Pokemon, target: Pokemon ): boolean {
 
-  if ( pokemon.isMe === target.isMe && pokemon.order.party === target.order.party ) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 function isFriend( pokemon: Pokemon, target: Pokemon ): boolean {
 
@@ -202,7 +200,7 @@ function getTargetList( pokemon: Pokemon ): TargetDataType[] {
 
   const result: TargetDataType[] = []
 
-  for ( const damage of pokemon.damage ) {
+  for ( const damage of pokemon.attack.getTarget() ) {
     if ( damage.success === false ) {
       continue;
     }

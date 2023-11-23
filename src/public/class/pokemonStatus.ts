@@ -55,6 +55,8 @@ class ValueWithRange {
     return this._value < 0;
   }
 
+
+
 }
 
 // -------------------------
@@ -71,6 +73,10 @@ class ActualWithThreeValue {
     this._bs = 0;
     this._iv = 0;
     this._ev = 0;
+  }
+
+  set bs( bs: number ) {
+    this._bs = bs;
   }
 
   get av(): number {
@@ -129,13 +135,13 @@ class Status {
 
   constructor() {
     this._hp = new HitPoint();
-    this._atk = new MainStatus();
-    this._def = new MainStatus();
-    this._spA = new MainStatus();
-    this._spD = new MainStatus();
-    this._spe = new Speed();
-    this._acc = new Rank();
-    this._eva = new Rank();
+    this._atk = new MainStatus( '攻撃' );
+    this._def = new MainStatus( '防御' );
+    this._spA = new MainStatus( '特攻' );
+    this._spD = new MainStatus( '特防' );
+    this._spe = new Speed( '素早さ' );
+    this._acc = new Rank( '命中率' );
+    this._eva = new Rank( '回避率' );
   }
 
   get hp(): HitPoint {
@@ -228,6 +234,63 @@ class Status {
     this._spA.calcRankCorrValue( critical );
     this._spD.calcRankCorrValue( critical );
   }
+
+  formChange( bs: { hp: number, atk: number, def: number, spA: number, spD: number, spe: number }, level: number, nature: NatureData ): void {
+    this._hp.bs = bs.hp;
+    this._atk.bs = bs.atk;
+    this._def.bs = bs.def;
+    this._spA.bs = bs.spA;
+    this._spD.bs = bs.spD;
+    this._spe.bs = bs.spe;
+
+    this._hp.calcAct( level );
+    this._atk.calcAct( level, nature.atk );
+    this._def.calcAct( level, nature.def );
+    this._spA.calcAct( level, nature.spA );
+    this._spD.calcAct( level, nature.spD );
+    this._spe.calcAct( level, nature.spe );
+  }
+
+  changeRank( para: RankStrings, real: number, setting: number, name: string ): void {
+    switch ( para ) {
+      case 'atk':
+        this._atk.rank.change( name, real, setting );
+        break;
+      case 'def':
+        this._def.rank.change( name, real, setting );
+        break;
+      case 'spA':
+        this._spA.rank.change( name, real, setting );
+        break;
+      case 'spD':
+        this._spD.rank.change( name, real, setting );
+        break;
+      case 'spe':
+        this._spe.rank.change( name, real, setting );
+        break;
+      case 'acc':
+        this._acc.change( name, real, setting );
+        break;
+      case 'eva':
+        this._eva.change( name, real, setting );
+        break;
+      default:
+        break;
+    }
+  }
+
+  countRank(): number {
+    let count: number = 0;
+    count += this._atk.rank.value;
+    count += this._def.rank.value;
+    count += this._spA.rank.value;
+    count += this._spD.rank.value;
+    count += this._spe.rank.value;
+    count += this._acc.value;
+    count += this._eva.value;
+
+    return count;
+  }
 }
 
 
@@ -247,6 +310,13 @@ class HitPoint extends ActualWithThreeValue {
   get value(): HitPointValue {
     return this._value;
   }
+
+  calcAct( level: number ): void {
+    const step1: number = this._bs * 2 + this._iv + Math.floor( this._ev / 4 );
+    const step2: number = step1 * level;
+    this._av = Math.floor( step2 / 100 ) + level + 10;
+  }
+
 }
 
 class HitPointValue extends ValueWithRange {
@@ -289,9 +359,9 @@ class MainStatus extends ActualWithThreeValue {
   _rank: Rank;
   _value: number;
 
-  constructor() {
+  constructor( text: string ) {
     super();
-    this._rank = new Rank();
+    this._rank = new Rank( text );
     this._value = 0;
   }
 
@@ -308,6 +378,13 @@ class MainStatus extends ActualWithThreeValue {
     this._value = Math.floor( this._av * corr );
   }
 
+  calcAct( level: number, corr: number ): void {
+    const step1: number = this._bs * 2 + this._iv + Math.floor( this._ev / 4 );
+    const step2: number = step1 * level;
+    const step3: number = Math.floor( step2 / 100 );
+    this._av = Math.floor( ( step3 + 5 ) * corr );
+  }
+
 }
 
 class Speed extends MainStatus {
@@ -315,8 +392,8 @@ class Speed extends MainStatus {
   _forPowerCalc: number; // ジャイロボール・エレキボールの威力計算に関わる値
   _random: number; // 乱数
 
-  constructor() {
-    super();
+  constructor( text: string ) {
+    super( text );
     this._actionOrder = 0;
     this._forPowerCalc = 0;
     this._random = 0;
@@ -325,7 +402,7 @@ class Speed extends MainStatus {
   get actionOrder(): number {
     return this._actionOrder;
   }
-  get foePowerCalc(): number {
+  get forPowerCalc(): number {
     return this._forPowerCalc;
   }
   get random(): number {
@@ -357,9 +434,54 @@ class Speed extends MainStatus {
 // 命中率・回避率
 // -------------------------
 class Rank extends ValueWithRange {
+  _text: string;
 
-  constructor() {
-    super( 6, -6 )
+  constructor( text: string ) {
+    super( 6, -6 );
+    this._text = text;
+  }
+
+  getVariable( value: number ): number {
+    if ( value > 0 ) return Math.min( value, this._max - this._value );
+    if ( value < 0 ) return Math.max( value, this._min + this._value );
+    return value;
+  }
+
+  change( name: string, real: number, setting: number ): void {
+    this.add( real );
+    if ( real === 0 && setting > 0 ) this.msgNoUp( name );
+    if ( real === 0 && setting < 0 ) this.msgNoDown( name );
+    if ( real === 1 ) this.msgUp( name );
+    if ( real === -1 ) this.msgDown( name );
+    if ( real === 2 ) this.msgSuperUp( name );
+    if ( real === -2 ) this.msgSuperDown( name );
+    if ( real >= 3 ) this.msgHyperUp( name );
+    if ( real <= -3 ) this.msgHyperDown( name );
+  }
+
+  msgNoUp( name: string ): void {
+    writeLog( `${name}の ${this._text}は もう上がらない!` );
+  }
+  msgNoDown( name: string ): void {
+    writeLog( `${name}の ${this._text}は もう下がらない!` );
+  }
+  msgUp( name: string ): void {
+    writeLog( `${name}の ${this._text}が 上がった!` );
+  }
+  msgDown( name: string ): void {
+    writeLog( `${name}の ${this._text}が 下がった!` );
+  }
+  msgSuperUp( name: string ): void {
+    writeLog( `${name}の ${this._text}が ぐーんと上がった!` );
+  }
+  msgSuperDown( name: string ): void {
+    writeLog( `${name}の ${this._text}が がくっと下がった!` );
+  }
+  msgHyperUp( name: string ): void {
+    writeLog( `${name}の ${this._text}が ぐぐーんと上がった!` );
+  }
+  msgHyperDown( name: string ): void {
+    writeLog( `${name}の ${this._text}が がくーんと下がった!` );
   }
 
 }

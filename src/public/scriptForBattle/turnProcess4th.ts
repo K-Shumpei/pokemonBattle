@@ -1,14 +1,10 @@
 // 4. ポケモンの行動
 function pokemonAction(): void {
 
+  while ( main.getPokemonToAttack().length > 0 ) {
 
-  // !!間違ったコード!! ループさせるポケモンが違う
-  while ( main.getPokemonInBattle().length > 0 ) {
-    const order = main.getPokemonInBattle()[0]
-    const pokemon: Pokemon | false = getPokemonByBattle( order.isMe, order.order.battle );
-    if ( pokemon === false ) {
-      continue;
-    }
+    main.calcSpeed();
+    const pokemon = main.getPokemonToAttack()[0];
 
     // 技の成功判定
     const judge = isSuccess( pokemon );
