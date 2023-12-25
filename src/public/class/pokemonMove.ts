@@ -217,6 +217,14 @@ class SelectedMove {
     return moveMaster.filter( m => m.nameEN === this._name )[0];
   }
 
+  getFlag(): MoveFlagData {
+    return moveFlagMaster.filter( flag => flag.nameEN === this._name )[0]
+  }
+
+  getAddOn(): MoveAddOnData {
+    return moveAddOnMaster.filter( add => add.nameEN === this._name )[0]
+  }
+
   setSelected( move: LearnedMove ): void {
     const master = moveMaster.find( ( m ) => {
       return m.nameEN === move.name;
@@ -233,9 +241,7 @@ class SelectedMove {
     this._critical = master.priority;
   }
 
-  getFlag(): MoveFlagData {
-    return moveFlagMaster.filter( flag => flag.nameEN === this._name )[0]
-  }
+
 
   isType( type: PokemonType ): boolean {
     return this._type === type;

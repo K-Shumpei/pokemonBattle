@@ -71,6 +71,14 @@ type MoveFlagData = {
   dance: boolean;
 }
 
+type MoveAddOnData = {
+  id: number;
+  nameJA: string;
+  nameEN: string;
+  additional: boolean;
+  wind: boolean;
+}
+
 type MoveLearned = {
   id: number;
   order: number;

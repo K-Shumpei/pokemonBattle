@@ -36,11 +36,11 @@ const genderTextList = [
 ] as const;
 
 const statusAilmentTextList = [
-  'PARALYSIS',
-  'FROZEN',
-  'BURNED',
-  'POISONED',
-  'ASLEEP',
+  'Paralysis',
+  'Frozen',
+  'Burned',
+  'Poisoned',
+  'Asleep',
   null,
 ] as const;
 

@@ -289,14 +289,14 @@ class Terrain {
     this.reset();
     this._name = 'misty';
     this.setExtend( pokemon );
-    writeLog( `足下が 不思議な感じに なった!` );
+    writeLog( `足下に 霧が立ち込めた!` );
   }
 
   getPsychic( pokemon: Pokemon ): void {
     this.reset();
     this._name = 'psychic';
     this.setExtend( pokemon );
-    writeLog( `足下に 霧が立ち込めた!` );
+    writeLog( `足下が 不思議な感じに なった!` );
   }
 
   isElectric(): boolean {
@@ -402,6 +402,8 @@ class WholeField {
 }
 
 class SideField {
+  _host: boolean;
+  _side: boolean;
 
   // 味方の場に発生
   _auroraVeil: StateChange; // オーロラベール
@@ -430,7 +432,10 @@ class SideField {
   _wetlands: StateChange; // しつげん
   _seaOfFire: StateChange; // ひのうみ
 
-  constructor() {
+  constructor( side: boolean ) {
+    this._host = true;
+    this._side = side;
+
     this._auroraVeil = new StateChange( 'オーロラベール' );
     this._lightScreen = new StateChange( 'ひかりのかべ' );
     this._reflect = new StateChange( 'リフレクター' );
@@ -457,6 +462,11 @@ class SideField {
     this._seaOfFire = new StateChange( 'ひのうみ' );
   }
 
+  set host( host: boolean ) {
+    this._host = host;
+  }
+
+  /*
   set auroraVeil( auroraVeil: StateChange ) {
     this._auroraVeil = auroraVeil;
   }
@@ -525,6 +535,11 @@ class SideField {
   }
   set seaOfFire( seaOfFire: StateChange ) {
     this._seaOfFire = seaOfFire;
+  }
+  */
+
+  get host(): boolean {
+    return this._host;
   }
 
   get auroraVeil(): StateChange {
@@ -596,6 +611,64 @@ class SideField {
   get seaOfFire(): StateChange {
     return this._seaOfFire;
   }
+
+  getArticle(): string {
+    if ( this._side ) {
+      return '味方の';
+    } else {
+      return '相手の';
+    }
+  }
+
+  beToxicSpikes(): void {
+    if ( this._toxicSpikes.count === 2 ) return;
+    this._toxicSpikes.isTrue = true;
+    this._toxicSpikes.count += 1;
+    writeLog( `${this.getArticle()}足元に どくびしが 散らばった!` );
+  }
+
+  beSpikes(): void {
+    if ( this._spikes.count === 3 ) return;
+    this._spikes.isTrue = true;
+    this._spikes.count += 1;
+    writeLog( `${this.getArticle()}足元に まきびしが 散らばった!` );
+  }
+
+  beStealthRock(): void {
+    if ( this._stealthRock.isTrue ) return;
+    this._stealthRock.isTrue = true;
+    writeLog( `${this.getArticle()}周りに とがった岩が ただよい始めた!`);
+  }
+
+  beStickyWeb(): void {
+    if ( this._stickyWeb.isTrue ) return;
+    this._stickyWeb.isTrue = true;
+    writeLog( `${this.getArticle()}足元に ねばねばネットが 広がった!` );
+  }
+
+  resetToxicSpikes(): void {
+    if ( !this._toxicSpikes.isTrue ) return;
+    this._toxicSpikes.reset();
+    writeLog( `${this.getArticle()}足元の どくびしが 消え去った!` );
+  }
+
+  resetSpikes(): void {
+    if ( !this._spikes.isTrue ) return;
+    this._spikes.reset();
+    writeLog( `${this.getArticle()}足元の まきびしが 消え去った!` );
+  }
+
+  resetStealthRock(): void {
+    if ( !this._stealthRock.isTrue ) return;
+    this._stealthRock.reset();
+    writeLog( `${this.getArticle()}周りの ステルスロックが 消え去った!` );
+  }
+
+  resetStickyWeb(): void {
+    if ( !this._stickyWeb.isTrue ) return;
+    this._stickyWeb.reset();
+    writeLog( `${this.getArticle()}足元の ねばねばネットが 消え去った!` );
+  }
 }
 
 class Field {
@@ -613,8 +686,8 @@ class Field {
     this._weather = new Weather;
     this._terrain = new Terrain;
     this._whole = new WholeField;
-    this._myField = new SideField;
-    this._opponentField = new SideField;
+    this._myField = new SideField( true );
+    this._opponentField = new SideField( false );
   }
 
   set weather( weather: Weather ) {
@@ -640,8 +713,13 @@ class Field {
     return this._whole;
   }
 
-  getSide( side: boolean ): SideField {
-    if ( side === true ) {
+  setHost( host: boolean ): void {
+    this._myField.host = host;
+    this._opponentField.host = !host;
+  }
+
+  getSide( host: boolean ): SideField {
+    if ( host === this._myField.host ) {
       return this._myField;
     } else {
       return this._opponentField;

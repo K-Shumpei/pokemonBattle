@@ -22,6 +22,7 @@ class Main {
   setHost( host: boolean ): void {
     this._me.setHost( host );
     this._opp.setHost( !host );
+    this._field.setHost( host );
   }
 
   sortUnique( pokeList: Pokemon[] ): Pokemon[] {
@@ -143,10 +144,10 @@ class Main {
       if ( pokemon.item.isName( 'きょうせいギプス' ) ) {
         corr = Math.round( corr * 2048 / 4096 );
       }
-      if ( this._field.getSide( pokemon.isMe ).tailwind.isTrue ) {
+      if ( this._field.getSide( pokemon.isMine() ).tailwind.isTrue ) {
         corr = Math.round( corr * 8192 / 4096 );
       }
-      if ( this._field.getSide( pokemon.isMe ).wetlands.isTrue ) {
+      if ( this._field.getSide( pokemon.isMine() ).wetlands.isTrue ) {
         corr = Math.round( corr * 1024 / 4096 );
       }
 
@@ -228,6 +229,14 @@ class Player {
 
   isExcangable(): boolean {
     return this._pokemon.filter( p => p.order.battle === null && !p.status.hp.value.isZero() ).length > 0;
+  }
+
+  cycleHand( hand: number ): void {
+    for ( const pokemon of this._pokemon ) {
+      if ( pokemon.order.hand > hand ) {
+        pokemon.order.hand -= 1;
+      }
+    }
   }
 }
 

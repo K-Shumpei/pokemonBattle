@@ -291,7 +291,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
 
     for ( const poke of main.getPokemonInBattle() ) {
       if ( !move.isPhysical() ) continue;
-      if ( poke.isMe !== pokemon.isMe ) continue;
+      if ( poke.isMine() !== pokemon.isMine() ) continue;
       if ( poke.order.battle === pokemon.order.battle ) continue;
       if ( poke.ability.isName( 'バッテリー' ) ) {
         correction = Math.round( correction * 5325 / 4096 );
@@ -299,7 +299,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
     }
 
     for ( const poke of main.getPokemonInBattle() ) {
-      if ( poke.isMe !== pokemon.isMe ) continue;
+      if ( poke.isMine() !== pokemon.isMine() ) continue;
       if ( poke.order.battle === pokemon.order.battle ) continue;
       if ( poke.ability.isName( 'パワースポット' ) ) {
         correction = Math.round( correction * 5325 / 4096 );
@@ -398,7 +398,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
     }
 
     for ( const poke of main.getPokemonInBattle() ) {
-      if ( poke.isMe !== pokemon.isMe ) continue;
+      if ( poke.isMine() !== pokemon.isMine() ) continue;
       if ( poke.ability.isName( 'はがねのせいしん' ) ) {
         correction = Math.round( correction * 6144 / 4096 );
       }
@@ -673,7 +673,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
       }
     }
 
-    for ( const _pokemon of main.getPokemonInSide( pokemon.isMe ) ) {
+    for ( const _pokemon of main.getPokemonInSide( pokemon.isMine() ) ) {
       if ( _pokemon.name !== 'チェリム(ポジ)' ) continue;
       if ( !fieldStatus.weather.isSunny( _pokemon ) ) continue;
       if ( !_pokemon.ability.isName( 'フラワーギフト' ) ) continue;
@@ -724,7 +724,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
     }
 
     if ( pokemon.ability.isName( 'プラス' ) || pokemon.ability.isName( 'マイナス' ) ) {
-      for ( const _pokemon of main.getPokemonInSide( pokemon.isMe ) ) {
+      for ( const _pokemon of main.getPokemonInSide( pokemon.isMine() ) ) {
         if ( isSame( pokemon, _pokemon ) ) continue;
         if ( !_pokemon.ability.isName( 'プラス' ) && !_pokemon.ability.isName( 'マイナス' ) ) continue;
         if ( !pokemon.move.selected.isSpecial() ) continue;
@@ -882,7 +882,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
       }
     }
 
-    for ( const _pokemon of main.getPokemonInSide( target.isMe ) ) {
+    for ( const _pokemon of main.getPokemonInSide( target.isMine() ) ) {
       if ( !_pokemon.isName( 'チェリム(ポジ)' ) ) continue;
       if ( !fieldStatus.weather.isSunny( _pokemon ) ) continue;
       if ( !_pokemon.ability.isName( 'フラワーギフト' ) ) continue;
@@ -1008,18 +1008,18 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
   let corrM: number = 1.0;
 
   // 壁補正
-  if ( pokemon.ability.isName( 'すりぬけ' ) && pokemon.isMe !== target.isMe ) {
+  if ( pokemon.ability.isName( 'すりぬけ' ) && pokemon.isMine() !== target.isMine() ) {
     ;
   } else {
     let rate: number = 0.5;
     if ( fieldStatus.battleStyle === 2 || fieldStatus.battleStyle === 3 ) {
       rate = 2732 / 4096;
     }
-    if ( fieldStatus.getSide( target.isMe ).auroraVeil.isTrue ) {
+    if ( fieldStatus.getSide( target.isMine() ).auroraVeil.isTrue ) {
       corrM = Math.round( corrM * rate );
-    } else if ( fieldStatus.getSide( target.isMe ).reflect.isTrue && pokemon.move.selected.isPhysical() ) {
+    } else if ( fieldStatus.getSide( target.isMine() ).reflect.isTrue && pokemon.move.selected.isPhysical() ) {
       corrM = Math.round( corrM * rate );
-    } else if ( fieldStatus.getSide( target.isMe ).lightScreen.isTrue && pokemon.move.selected.isSpecial() ) {
+    } else if ( fieldStatus.getSide( target.isMine() ).lightScreen.isTrue && pokemon.move.selected.isSpecial() ) {
       corrM = Math.round( corrM * rate );
     }
   }
@@ -1082,7 +1082,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
   }
 
   // フレンドガード補正
-  for ( const _pokemon of main.getPokemonInSide( target.isMe ) ) {
+  for ( const _pokemon of main.getPokemonInSide( target.isMine() ) ) {
     if ( isSame( target, _pokemon ) ) continue;
     if ( _pokemon.ability.isName( 'フレンドガード' ) ) {
       corrM = Math.round( corrM * 0.75 );

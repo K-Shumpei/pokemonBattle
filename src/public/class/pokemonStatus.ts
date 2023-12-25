@@ -251,28 +251,28 @@ class Status {
     this._spe.calcAct( level, nature.spe );
   }
 
-  changeRank( para: RankStrings, real: number, setting: number, name: string ): void {
+  changeRank( para: RankStrings, real: number, setting: number, name: string, item?: string ): void {
     switch ( para ) {
       case 'atk':
-        this._atk.rank.change( name, real, setting );
+        this._atk.rank.change( name, real, setting, item );
         break;
       case 'def':
-        this._def.rank.change( name, real, setting );
+        this._def.rank.change( name, real, setting, item );
         break;
       case 'spA':
-        this._spA.rank.change( name, real, setting );
+        this._spA.rank.change( name, real, setting, item );
         break;
       case 'spD':
-        this._spD.rank.change( name, real, setting );
+        this._spD.rank.change( name, real, setting, item );
         break;
       case 'spe':
-        this._spe.rank.change( name, real, setting );
+        this._spe.rank.change( name, real, setting, item );
         break;
       case 'acc':
-        this._acc.change( name, real, setting );
+        this._acc.change( name, real, setting, item );
         break;
       case 'eva':
-        this._eva.change( name, real, setting );
+        this._eva.change( name, real, setting, item );
         break;
       default:
         break;
@@ -290,6 +290,29 @@ class Status {
     count += this._eva.value;
 
     return count;
+  }
+
+  useWhiteHerb(): boolean {
+    let result: boolean = false;
+    result = this._atk.rank.useWhiteHerb();
+    result = this._def.rank.useWhiteHerb();
+    result = this._spA.rank.useWhiteHerb();
+    result = this._spD.rank.useWhiteHerb();
+    result = this._spe.rank.useWhiteHerb();
+    result = this._acc.useWhiteHerb();
+    result = this._eva.useWhiteHerb();
+
+    return result;
+  }
+
+  toZeroAllRank(): void {
+    this._atk.rank.toZero();
+    this._def.rank.toZero();
+    this._spA.rank.toZero();
+    this._spD.rank.toZero();
+    this._spe.rank.toZero();
+    this._acc.toZero();
+    this._eva.toZero();
   }
 }
 
@@ -447,16 +470,16 @@ class Rank extends ValueWithRange {
     return value;
   }
 
-  change( name: string, real: number, setting: number ): void {
+  change( name: string, real: number, setting: number, item?: string ): void {
     this.add( real );
     if ( real === 0 && setting > 0 ) this.msgNoUp( name );
     if ( real === 0 && setting < 0 ) this.msgNoDown( name );
-    if ( real === 1 ) this.msgUp( name );
-    if ( real === -1 ) this.msgDown( name );
-    if ( real === 2 ) this.msgSuperUp( name );
-    if ( real === -2 ) this.msgSuperDown( name );
-    if ( real >= 3 ) this.msgHyperUp( name );
-    if ( real <= -3 ) this.msgHyperDown( name );
+    if ( real === 1 ) this.msgUp( name, item );
+    if ( real === -1 ) this.msgDown( name, item );
+    if ( real === 2 ) this.msgSuperUp( name, item );
+    if ( real === -2 ) this.msgSuperDown( name, item );
+    if ( real >= 3 ) this.msgHyperUp( name, item );
+    if ( real <= -3 ) this.msgHyperDown( name, item );
   }
 
   msgNoUp( name: string ): void {
@@ -465,23 +488,38 @@ class Rank extends ValueWithRange {
   msgNoDown( name: string ): void {
     writeLog( `${name}の ${this._text}は もう下がらない!` );
   }
-  msgUp( name: string ): void {
-    writeLog( `${name}の ${this._text}が 上がった!` );
+  msgUp( name: string, item?: string ): void {
+    if ( item ) writeLog( `${name}は ${item}で ${this._text}が 上がった!` );
+    else writeLog( `${name}の ${this._text}が 上がった!` );
   }
-  msgDown( name: string ): void {
-    writeLog( `${name}の ${this._text}が 下がった!` );
+  msgDown( name: string, item?: string ): void {
+    if ( item ) writeLog( `${name}は ${item}で ${this._text}が 下がった!` );
+    else writeLog( `${name}の ${this._text}が 下がった!` );
   }
-  msgSuperUp( name: string ): void {
-    writeLog( `${name}の ${this._text}が ぐーんと上がった!` );
+  msgSuperUp( name: string, item?: string ): void {
+    if ( item ) writeLog( `${name}は ${item}で ${this._text}が ぐーんと上がった!` );
+    else writeLog( `${name}の ${this._text}が ぐーんと上がった!` );
   }
-  msgSuperDown( name: string ): void {
-    writeLog( `${name}の ${this._text}が がくっと下がった!` );
+  msgSuperDown( name: string, item?: string ): void {
+    if ( item ) writeLog( `${name}は ${item}で ${this._text}が がくっと下がった!` );
+    else writeLog( `${name}の ${this._text}が がくっと下がった!` );
   }
-  msgHyperUp( name: string ): void {
-    writeLog( `${name}の ${this._text}が ぐぐーんと上がった!` );
+  msgHyperUp( name: string, item?: string ): void {
+    if ( item ) writeLog( `${name}は ${item}で ${this._text}が ぐぐーんと上がった!` );
+    else writeLog( `${name}の ${this._text}が ぐぐーんと上がった!` );
   }
-  msgHyperDown( name: string ): void {
-    writeLog( `${name}の ${this._text}が がくーんと下がった!` );
+  msgHyperDown( name: string, item?: string ): void {
+    if ( item ) writeLog( `${name}は ${item}で ${this._text}が がくーんと下がった!` );
+    else writeLog( `${name}の ${this._text}が がくーんと下がった!` );
+  }
+
+  useWhiteHerb(): boolean {
+    if ( this._value < 0 ) {
+      this.toZero();
+      return true;
+    }
+
+    return false;
   }
 
 }

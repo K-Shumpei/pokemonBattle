@@ -27,7 +27,7 @@ function sortByActionOrder( pokeList: Pokemon[] ): Pokemon[] {
 
 function isSame( pokemon: Pokemon, target: Pokemon ): boolean {
 
-  return pokemon.isMe === target.isMe && pokemon.order.party === target.order.party;
+  return pokemon.isMine() === target.isMine() && pokemon.order.party === target.order.party;
 }
 
 
@@ -84,13 +84,13 @@ function pokemonForCottonDown( pokemon: Pokemon ): Pokemon[] {
   const result: Pokemon[] = [];
 
   for ( let i = fieldStatus.battleStyle - 1; i >= 0; i-- ) {
-    const target: Pokemon | false = getPokemonByBattle( getOpponentTrainer( pokemon.isMe ), i );
+    const target: Pokemon | false = getPokemonByBattle( getOpponentTrainer( pokemon.isMine() ), i );
     if ( target === false ) continue;
     result.push( target );
   }
 
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
-    const target: Pokemon | false = getPokemonByBattle( pokemon.isMe, i );
+    const target: Pokemon | false = getPokemonByBattle( pokemon.isMine(), i );
     if ( target === false ) continue;
     if ( isSame( target, pokemon ) === true ) continue;
     result.push( target );
@@ -181,7 +181,7 @@ function fiveRoundEntry( number: number ) {
 // トレーナー判断
 function getArticle( pokemon: Pokemon ): string {
 
-  if ( pokemon.isMe ) return pokemon.translateName( pokemon.name );
+  if ( pokemon.isMine() ) return pokemon.translateName( pokemon.name );
   else return '相手の ' + pokemon.translateName( pokemon.name );
 }
 
@@ -189,7 +189,7 @@ function getArticle( pokemon: Pokemon ): string {
 
 function isFriend( pokemon: Pokemon, target: Pokemon ): boolean {
 
-  if ( pokemon.isMe === target.isMe && pokemon.order.party !== target.order.party ) {
+  if ( pokemon.isMine() === target.isMine() && pokemon.order.party !== target.order.party ) {
     return true;
   } else {
     return false;

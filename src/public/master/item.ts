@@ -50,7 +50,7 @@ const categoryList = [
   { id: 39, name: 'apricorn-balls', pocket: 'pokeballs', isUsed: false },
   { id: 40, name: 'apricorn-box', pocket: 'key', isUsed: false },
   { id: 41, name: 'data-cards', pocket: 'key', isUsed: false },
-  { id: 42, name: 'jewels', pocket: 'misc', isUsed: true },
+  { id: 42, name: 'jewels', pocket: 'misc', isUsed: true }, // ジュエル
   { id: 43, name: 'miracle-shooter', pocket: 'battle', isUsed: false },
   { id: 44, name: 'mega-stones', pocket: 'misc', isUsed: true },
   { id: 45, name: 'memories', pocket: 'misc', isUsed: true },
@@ -67,7 +67,7 @@ const categoryList = [
 ]
 
 
-const itemAPIdata: ItemData[] = [
+const itemMaster: ItemData[] = [
   { id: 43, nameJA: 'きのみジュース', nameEN: 'Berry Juice', category: 'healing', flingPower: 30, flingEffect: null },
   { id: 112, nameJA: 'こんごうだま', nameEN: 'Adamant Orb', category: 'species-specific', flingPower: 60, flingEffect: null },
   { id: 113, nameJA: 'しらたま', nameEN: 'Lustrous Orb', category: 'species-specific', flingPower: 60, flingEffect: null },

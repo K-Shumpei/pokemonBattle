@@ -40,12 +40,40 @@ function isExistAbility( ability: string ): Pokemon | false {
     }
   }
   return false;
- }
+}
+
+// 技の追加効果によるHP変化
+function drainHP( pokemon: Pokemon, target: Pokemon, drain: number ): void {
+
+  let value: number = drain;
+
+  if ( pokemon.item.isName( 'おおきなねっこ' ) ) {
+    value = fiveRoundEntry( value * 5324 / 4096 );
+  }
+
+  if ( target.ability.isName( 'ヘドロえき' ) ) {
+    if ( pokemon.ability.isName( 'マジックガード' ) ) return;
+
+    target.msgDeclareAbility();
+    pokemon.status.hp.value.sub( value );
+    pokemon.msgLiquidOoze();
+  } else {
+    if ( pokemon.status.hp.value.isMax() ) return;
+    if ( pokemon.stateChange.healBlock.isTrue ) return;
+
+    pokemon.status.hp.value.add( value );
+    pokemon.msgDrain( target.getArticle() );
+  }
+}
+
+
+
 
 
 
 
 // リサイクル
+/*
 function recycleAvailable( pokemon: Pokemon ): void {
 
   if ( pokemon.item === null ) return;
@@ -58,6 +86,7 @@ function recycleAvailable( pokemon: Pokemon ): void {
   pokemon.stateChange.recycle.isTrue = true;
   pokemon.stateChange.recycle.text = String( item );
 }
+*/
 
 
 
@@ -212,6 +241,7 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
   }
 
   // リサイクル
+  /*
   recycleAvailable( pokemon );
 
   for ( const _berry of berryTable ) {
@@ -222,6 +252,7 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
       activateCheekPouch( pokemon );
     }
   }
+  */
 }
 // メロメロ
 function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void {
@@ -586,7 +617,7 @@ function activateSeed( pokemon: Pokemon ): void {
     if ( getRankVariation( pokemon, seed.parameter, 1 ) === 0 ) continue;
 
     changeMyRankByItem( pokemon, seed.parameter, 1, seed.item );
-    recycleAvailable( pokemon );
+    //recycleAvailable( pokemon );
   }
 }
 
@@ -597,6 +628,6 @@ function activateRoomService( pokemon: Pokemon ): void {
   if ( getRankVariation( pokemon, 'speed', -1 ) === 0 ) return;
 
   changeMyRankByItem( pokemon, 'speed', -1, 'ルームサービス' );
-  recycleAvailable( pokemon );
+  //recycleAvailable( pokemon );
 }
 
