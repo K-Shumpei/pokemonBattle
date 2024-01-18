@@ -1091,11 +1091,13 @@ class Item {
   _name: string | null;
   _recycle: string | null;
   _belch: boolean;
+  _pokeName: string;
 
   constructor() {
     this._name = null;
     this._recycle = null;
     this._belch = false;
+    this._pokeName = '';
   }
 
   set name( name: string | null ) {
@@ -1131,6 +1133,27 @@ class Item {
   }
   getCategory() {
     return categoryList.filter( c => c.name === this.getMaster().category )[0];
+  }
+
+  isReleasable( name: string, ability: string ): boolean {
+    if ( this.isNull() ) return false;
+    const master: ItemData = this.getMaster();
+    const category = this.getCategory();
+
+    if ( this.isName( 'はっきんだま' ) && name === 'ギラティナ' ) return false;
+    if ( master.category === 'plates' && name === 'アルセウス' ) return false;
+    if ( master.category === 'species-specific' && master.nameEN.includes( 'Drive' ) && name === 'ゲノセクト' ) return false;
+    if ( master.category === 'memories' && name === 'シルヴァディ' ) return false;
+    if ( this.isName( 'くちたけん' ) && name === 'ザシアン' ) return false;
+    if ( this.isName( 'くちたたて' ) && name === 'ザマゼンタ' ) return false;
+    if ( master.category === 'mega-stones' ) return false;
+    if ( this.isName( 'あいいろのたま' ) && name === 'カイオーガ' ) return false;
+    if ( this.isName( 'べにいろのたま' ) && name === 'グラードン' ) return false;
+    if ( this.isName( 'ブーストエナジー' ) && ability === 'こだいかっせい' ) return false;
+    if ( this.isName( 'ブーストエナジー' ) && ability === 'クォークチャージ' ) return false;
+    if ( master.category === 'z-crystals' ) return false;
+
+    return true;
   }
 }
 
@@ -1740,6 +1763,21 @@ class Pokemon {
   msgJawLock(): void {
     writeLog( `おたがいの ポケモンは 逃げることが できなくなった!` );
   }
+  msgColorChange( type: string ): void {
+    writeLog( `${this.getArticle()}は ${type}タイプに なった!` );
+  }
+  msgBattleBond(): void {
+    writeLog( `${this.getArticle()}に きずなの 力が みなぎった!` );
+  }
+  msgLifeOrb(): void {
+    writeLog( `${this.getArticle()}は 命が 少し削られた!` );
+  }
+  msgShellBell(): void {
+    writeLog( `${this.getArticle()}は かいがらのすずで 少し 回復` );
+  }
+  msgPickpocket(): void {
+    writeLog( `${this.getArticle()}の ${this._item.name}を 奪った!` );
+  }
 
   msgAddHPByAbility(): void {
     writeLog( `${this.getArticle()}の 体力が 回復した!` );
@@ -1772,9 +1810,13 @@ class Pokemon {
   //-------------------------
   // 残りHPによるきのみの発動判定
   //-------------------------
-  isActivateBerryByHP(): boolean {
+  isActivateBerryByHP( denominator: 2 | 4 ): boolean {
     const gluttony: number = ( this._ability.isName( 'くいしんぼう' ) )? 2 : 1;
-    return this._status.hp.value.isLessEqual( 4 / gluttony );
+    if ( denominator === 2 ) {
+      return this._status.hp.value.isLessEqual( denominator );
+    } else {
+      return this._status.hp.value.isLessEqual( denominator / gluttony );
+    }
   }
 
   //-----------
@@ -2078,6 +2120,8 @@ class Pokemon {
   getNextForm(): string {
     if ( this._name === 'ギルガルド(盾)' ) return 'ギルガルド(剣)';
     if ( this._name === 'ギルガルド(剣)' ) return 'ギルガルド(盾)';
+    if ( this._name === 'メロエッタ(ボイス)' ) return 'メロエッタ(ステップ)';
+    if ( this._name === 'メロエッタ(ステップ)' ) return 'メロエッタ(ボイス)';
     if ( this._name === 'ミミッキュ(化けた姿)' ) return 'ミミッキュ(ばれた姿)'
     if ( this._name === 'ウッウ(鵜呑み)' ) return 'ウッウ';
     if ( this._name === 'ウッウ(丸呑み)' ) return 'ウッウ';
@@ -2103,6 +2147,9 @@ class Pokemon {
   msgAegislashBlade(): void {
     writeLog( `シールドフォルム チェンジ!` );
   }
+  msgRelicSong(): void {
+    writeLog( `${this.getArticle()}の 姿が 変化した!` );
+  }
   msgDisguise(): void {
     writeLog( `${this.getArticle()}の ばけのかわが はがれた!` );
   }
@@ -2122,6 +2169,10 @@ class Pokemon {
     return value;
   }
 
+  eatBerryJuice(): void {
+    this._status.hp.value.add( 10 );
+    this.msgAddHPByItem( 'きのみジュース' );
+  }
   eatCheriBerry(): void {
     this._statusAilment.getHealth( 'クラボのみ' );
   }

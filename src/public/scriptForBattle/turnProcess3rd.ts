@@ -28,7 +28,7 @@ function actionBeforeTurn(): void {
 
     custapBerry: // イバンのみ
     if ( pokemon.item.isName( 'イバンのみ' ) ) {
-      if ( !pokemon.isActivateBerryByHP() ) break custapBerry;
+      if ( !pokemon.isActivateBerryByHP( 4 ) ) break custapBerry;
 
       pokemon.actionOrder.raise = true;
       pokemon.msgCustapBerry();

@@ -92,6 +92,7 @@ function recycleAvailable( pokemon: Pokemon ): void {
 
 
 // きのみを食べる
+/*
 function eatBerry( pokemon: Pokemon, berry: string | null ): void {
 
   if ( berry === null ) return;
@@ -116,7 +117,6 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
   leppaBerry:
   if ( berry === 'ヒメリのみ' ) {
     // 自分で食べるとき
-    /*
     if ( pokemon.stateChange.memo.text === 'ヒメリのみ' ) {
       for ( let i = 0; i < 4; i++ ) {
         if ( pokemon.learnedMove[i].remainingPP === 0 ) {
@@ -132,7 +132,6 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
         }
       }
     }
-    */
   }
   if ( berry === 'オレンのみ' ) {
     changeHPByBerry( pokemon, berry );
@@ -241,7 +240,6 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
   }
 
   // リサイクル
-  /*
   recycleAvailable( pokemon );
 
   for ( const _berry of berryTable ) {
@@ -252,9 +250,12 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
       activateCheekPouch( pokemon );
     }
   }
-  */
 }
+*/
+
+
 // メロメロ
+/*
 function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void {
 
   if ( pokemon.gender === 'genderless' ) return;
@@ -283,6 +284,7 @@ function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void 
     attractTarget( target, pokemon, 'あかいいと' );
   }
 }
+*/
 
 
 
@@ -390,14 +392,14 @@ function toBattleField( pokemon: Pokemon, battle: number ): void {
   pokemon.order.battle = battle;
 
   const hand: number = pokemon.order.hand;
-  for ( const _pokemon of getParty( pokemon.isMe ) ) {
+  for ( const _pokemon of getParty( pokemon.isMine() ) ) {
     if ( _pokemon.order.hand < hand ) {
       _pokemon.order.hand += 1;
     }
   }
   pokemon.order.hand = 0;
 
-  if ( pokemon.isMe === true ) {
+  if ( pokemon.isMine() ) {
     getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
   } else {
     getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
@@ -413,7 +415,7 @@ function toReserve( pokemon: Pokemon ): void {
 
   const hand: number = pokemon.order.hand;
   pokemon.order.hand = fieldStatus.numberOfPokemon;
-  for ( const _pokemon of getParty( pokemon.isMe ) ) {
+  for ( const _pokemon of getParty( pokemon.isMine() ) ) {
     if ( _pokemon.order.hand > hand ) {
       _pokemon.order.hand -= 1;
     }

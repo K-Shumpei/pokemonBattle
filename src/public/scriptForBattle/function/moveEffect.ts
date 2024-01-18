@@ -1722,374 +1722,570 @@ function activateMoveEffect( pokemon: Pokemon ): void {
 // 特性の効果（その1）
 function activateAbilityEffectPart1( pokemon: Pokemon ): void {
 
-  const targetList: TargetDataType[] = getTargetList( pokemon );
-  const allPokemon: TargetDataType[] = getTargetList( pokemon );
-  allPokemon.push( { target: pokemon, damage: new Damage } );
-  allPokemon.sort( ( a, b ) => {
-    // 素早さ
-    //if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
-    //if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
-    // 乱数
-    if ( getRandom() > 50 ) return 1;
-    else return -1;
-  });
+  const magician = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.ability.isName( 'マジシャン' ) ) return;
+    if ( pokemon.item.isNull() ) return;
+    if ( pokemon.move.selected.isStatus() ) return;
+    if ( pokemon.move.selected.isName( 'なげつける' ) ) return;
+    if ( pokemon.move.selected.isName( 'しぜんのめぐみ' ) ) return;
+    if ( pokemon.move.selected.isName( 'みらいよち' ) ) return;
+    if ( pokemon.move.selected.isName( 'はめつのねがい' ) ) return;
 
-  for ( const data of allPokemon ) {
-    // 攻撃側
-    if ( isSame( data.target, pokemon ) === true ) {
+    for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+      const target: Pokemon = main.getPokemonByBattle( attack );
+      if ( attack.substitute ) return;
+      if ( !pokemon.item.isReleasable( pokemon.name, pokemon.ability.name ) ) return;
+      if ( !target.item.isReleasable( target.name, target.ability.name ) ) return;
+      if ( target.ability.isName( 'ねんちゃく' ) && target.order.battle !== null ) return;
+    }
 
-      magician:
-      if ( pokemon.ability.isName( 'マジシャン' ) ) {
-        if ( pokemon.item !== null ) break magician;
-        if ( pokemon.move.selected.isStatus() ) break magician;
-        if ( pokemon.move.selected.isName( 'なげつける' ) ) break magician;
-        if ( pokemon.move.selected.isName( 'しぜんのめぐみ' ) ) break magician;
-        if ( pokemon.move.selected.isName( 'みらいよち' ) ) break magician;
-        if ( pokemon.move.selected.isName( 'はめつのねがい' ) ) break magician;
+  }
 
-        for ( const _data of targetList ) {
-          if ( _data.damage.substitute === true ) continue;
-          if ( isReleasableItem( pokemon, _data.target ) === false ) continue;
+  const moxie = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.ability.isName( 'じしんかじょう' ) ) return;
 
-          let isZcrystal: boolean = false;
-          for ( const zCrystal of zCrystalTable ) {
-            if ( zCrystal.name === _data.target.item.name ) {
-              isZcrystal = true;
-            }
-          }
-          if ( isZcrystal === true ) continue;
-
-          if ( _data.target.ability.isName( 'ねんちゃく' ) && _data.target.order.battle !== null ) continue;
-        }
+    let number: number = 0;
+    for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+      const target: Pokemon = main.getPokemonByBattle( attack );
+      if ( target.status.hp.value.isZero() ) {
+        number += 1;
       }
+    }
+    if ( !pokemon.isChangeRank( 'atk', number ) ) return;
 
-      moxie:
-      if ( pokemon.ability.isName( 'じしんかじょう' ) ) {
-        const count: number = targetList.filter( data => data.target.status.hp.value.isZero() ).length;
-        if ( getRankVariation( pokemon, 'attack', count ) === 0 ) break moxie;
+    pokemon.msgDeclareAbility();
+    pokemon.changeRank( 'atk', number );
+  }
 
-        pokemon.declareAbility();
-        changeMyRank( pokemon, 'attack', count );
-      }
+  const beastBoost = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.ability.isName( 'ビーストブースト' ) ) return;
 
-      beastBoost:
-      if ( pokemon.ability.isName( 'ビーストブースト' ) ) {
-        const count: number = targetList.filter( data => data.target.status.hp.value.isZero() ).length;
-
-        /*
-        let record = { parameter: 'attack', value: 0 };
-        for ( const parameter of Object.keys( pokemon.avValue ) ) {
-          if ( parameter === 'hitPoint' ) continue;
-          if ( pokemon.avValue[parameter] > record.value ) {
-            record.parameter = parameter;
-            record.value = pokemon.avValue[parameter];
-          }
-        }
-
-        if ( getRankVariation( pokemon, record.parameter, count ) === 0 ) break beastBoost;
-
-        pokemon.declareAbility();
-        changeMyRank( pokemon, record.parameter, count );
-        */
-      }
-
-      grimNeigh:
-      if ( pokemon.ability.isName( 'くろのいななき' ) ) {
-        const count: number = targetList.filter( data => data.target.status.hp.value.isZero() ).length;
-        if ( getRankVariation( pokemon, 'specialAttack', count ) === 0 ) break grimNeigh;
-
-        pokemon.declareAbility();
-        changeMyRank( pokemon, 'specialAttack', count );
-      }
-
-      chillingNeigh:
-      if ( pokemon.ability.isName( 'しろのいななき' ) ) {
-        const count: number = targetList.filter( data => data.target.status.hp.value.isZero() ).length;
-        if ( getRankVariation( pokemon, 'attack', count ) === 0 ) break chillingNeigh;
-
-        pokemon.declareAbility();
-        changeMyRank( pokemon, 'attack', count );
+    let number: number = 0;
+    for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+      const target: Pokemon = main.getPokemonByBattle( attack );
+      if ( target.status.hp.value.isZero() ) {
+        number += 1;
       }
     }
 
-    // 防御側
-    if ( isSame( data.target, pokemon ) === false ) {
+    const statusValue: { status: RankStrings, value: number }[] = [
+      { status: 'atk', value: pokemon.status.atk.value },
+      { status: 'def', value: pokemon.status.def.value },
+      { status: 'spA', value: pokemon.status.spA.value },
+      { status: 'spD', value: pokemon.status.spD.value },
+      { status: 'spe', value: pokemon.status.spe.value },
+    ]
 
-      colorChange:
-      if ( data.target.ability.isName( 'へんしょく' ) ) {
-        if ( pokemon.move.selected.isStatus() ) break colorChange;
-        if ( getPokemonType( data.target ).includes( pokemon.move.selected.type ) ) break colorChange;
-        if ( pokemon.move.selected.isName( 'わるあがき' ) ) break colorChange;
-        if ( pokemon.move.selected.type === null ) break colorChange;
-        if ( pokemon.stateChange.sheerForce.isTrue === true ) break colorChange;
+    statusValue.sort( ( a, b ) => {
+      if ( a.value > b.value ) return 1;
+      if ( a.value < b.value ) return -1;
+      if ( getRandom() > 50 ) return 1;
+      else return -1;
+    })
 
+    const status: RankStrings = statusValue[0].status;
+    const value: number = statusValue[0].value;
 
-        data.target.declareAbility();
-        writeLog( `${getArticle( data.target )}は ${pokemon.move.selected.type}タイプに なった!` );
-      }
+    if ( !pokemon.isChangeRank( status, number ) ) return;
 
-      berserk:
-      if ( data.target.ability.isName( 'ぎゃくじょう' ) ) {
+    pokemon.msgDeclareAbility();
+    pokemon.changeRank( status, number );
+  }
 
-      }
+  const grimNeigh = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.ability.isName( 'くろのいななき' ) ) return;
 
-      angerShell:
-      if ( data.target.ability.isName( 'いかりのこうら' ) ) {
-
+    let number: number = 0;
+    for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+      const target: Pokemon = main.getPokemonByBattle( attack );
+      if ( target.status.hp.value.isZero() ) {
+        number += 1;
       }
     }
+    if ( !pokemon.isChangeRank( 'spA', number ) ) return;
+
+    pokemon.msgDeclareAbility();
+    pokemon.changeRank( 'spA', number );
+  }
+
+  const chillingNeigh = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.ability.isName( 'しろのいななき' ) ) return;
+
+    let number: number = 0;
+    for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+      const target: Pokemon = main.getPokemonByBattle( attack );
+      if ( target.status.hp.value.isZero() ) {
+        number += 1;
+      }
+    }
+    if ( !pokemon.isChangeRank( 'atk', number ) ) return;
+
+    pokemon.msgDeclareAbility();
+    pokemon.changeRank( 'atk', number );
+  }
+
+  const colorChange = ( pokemon: Pokemon, target: Pokemon ): void => {
+    if ( !target.ability.isName( 'へんしょく' ) ) return;
+    if ( pokemon.move.selected.isStatus() ) return;
+    if ( target.type.has( pokemon.move.selected.type ) ) return;
+    if ( pokemon.move.selected.isName( 'わるあがき' ) ) return;
+    if ( pokemon.move.selected.type === null ) return;
+    if ( pokemon.stateChange.sheerForce.isTrue ) return;
+
+    const type: PokemonType = pokemon.move.selected.type;
+    target.msgDeclareAbility();
+    target.type.toType( type );
+    target.msgColorChange( type );
+  }
+
+  const berserk = ( pokemon: Pokemon, target: Pokemon ): void => {
+    if ( !target.ability.isName( 'ぎゃくじょう' ) ) return;
+
+  }
+
+  const angerShell = ( pokemon: Pokemon, target: Pokemon ): void => {
+    if ( !target.ability.isName( 'いかりのこうら' ) ) return;
+
   }
 
 
+
+
+  if ( pokemon.order.battle === null ) return;
+
+  const targetPokemon: Pokemon[] = [ pokemon ];
+
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    targetPokemon.push( target );
+  }
+
+  targetPokemon.sort( ( a, b ) => {
+    // 素早さ
+    if ( a.status.spe.actionOrder > b.status.spe.actionOrder ) return 1;
+    if ( a.status.spe.actionOrder < b.status.spe.actionOrder ) return -1;
+    // 乱数
+    if ( getRandom() > 50 ) return 1;
+    else return -1;
+  })
+
+  for ( const target of targetPokemon ) {
+
+    // 攻撃側
+    if ( isSame( pokemon, target ) ) {
+      magician( target );      // マジシャン
+      moxie( target );         // じしんかじょう
+      beastBoost( target );    // ビーストブースト
+      grimNeigh( target );     // くろのいななき
+      chillingNeigh( target ); // しろのいななき
+    }
+
+    // 防御側
+    if ( !isSame( pokemon, target ) ) {
+      colorChange( pokemon, target ); // へんしょく
+      berserk( pokemon, target );     // ぎゃくじょう
+      angerShell( pokemon, target );  // いかりのこうら
+    }
+  }
 }
 
 // 防御側の持ち物の効果 (その4)
 function targetItemEffectPart3( pokemon: Pokemon ): void {
 
-  const targetList: TargetDataType[] = getTargetList( pokemon ).sort( ( a, b ) => {
-    // 素早さ
-    //if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
-    //if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
-    // 乱数
-    if ( getRandom() > 50 ) return 1;
-    else return -1;
-  });
+  const keeBerry = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
+    if ( !target.item.isName( 'アッキのみ' ) ) return;
+    if ( !pokemon.move.selected.isPhysical() ) return;
+    if ( attack.substitute ) return;
+    if ( !target.isChangeRank( 'def', 1 ) ) return;
+    if ( pokemon.stateChange.sheerForce.isTrue ) return;
 
-  for ( const data of targetList ) {
-    keeBerry:
-    if ( data.target.item.isName( 'アッキのみ' ) === true ) {
-      if ( !pokemon.move.selected.isPhysical() ) break keeBerry;
-      if ( data.damage.substitute === true ) break keeBerry;
-      if ( getRankVariation( data.target, 'defense', 1 ) === 0 ) break keeBerry;
-      if ( pokemon.stateChange.sheerForce.isTrue === true ) break keeBerry;
+    target.eatKeeBerry();
+  }
 
-      eatBerry( data.target, 'アッキのみ' );
-    }
+  const marangaBerry = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
+    if ( !target.item.isName( 'タラプのみ' ) ) return;
+    if ( !pokemon.move.selected.isSpecial() ) return;
+    if ( attack.substitute ) return;
+    if ( !target.isChangeRank( 'spD', 1 ) ) return;
+    if ( pokemon.stateChange.sheerForce.isTrue ) return;
 
-    marangaBerry:
-    if ( data.target.item.isName( 'タラプのみ' ) === true ) {
-      if ( !pokemon.move.selected.isSpecial() ) break marangaBerry;
-      if ( data.damage.substitute === true ) break marangaBerry;
-      if ( getRankVariation( data.target, 'specialDefense', 1 ) === 0 ) break marangaBerry;
-      if ( pokemon.stateChange.sheerForce.isTrue === true ) break marangaBerry;
+    target.eatMarangaBerry();
+  }
 
-      eatBerry( data.target, 'タラプのみ' );
-    }
+  const ejectButton = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
+    if ( !target.item.isName( 'だっしゅつボタン' ) ) return;
 
-    ejectButton:
-    if ( data.target.item.isName( 'だっしゅつボタン' ) === true ) {
+  }
 
-    }
+
+
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+
+    keeBerry( pokemon, target, attack );     // アッキのみ
+    marangaBerry( pokemon, target, attack ); // タラプのみ
+    ejectButton( pokemon, target, attack );  // だっしゅつボタン
+
   }
 }
 
 // いにしえのうた/きずなへんげによるフォルムチェンジ
 function formChangeByMove( pokemon: Pokemon ): void {
 
-  const targetList: TargetDataType[] = getTargetList( pokemon );
+  const relicSong = ( pokemon: Pokemon ) => {
+    if ( !pokemon.move.selected.isName( 'いにしえのうた' ) ) return;
+    if ( !pokemon.isName( 'メロエッタ(ボイス)' ) && !pokemon.isName( 'メロエッタ(ステップ)' ) ) return;
+    if ( pokemon.stateChange.sheerForce.isTrue ) return;
+    if ( pokemon.status.hp.value.isZero() ) return;
 
-  relicSong:
-  if ( pokemon.move.selected.isName( 'いにしえのうた' ) ) {
-    if ( pokemon.name !== 'メロエッタ(ボイス)' && pokemon.name !== 'メロエッタ(ステップ)' ) break relicSong;
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) break relicSong;
-    if ( pokemon.status.hp.value.isZero() ) break relicSong;
-
-    formChange( pokemon );
-    writeLog( `${getArticle( pokemon )}の 姿が 変化した!` );
+    pokemon.formChange();
+    pokemon.msgRelicSong();
   }
 
-  battleBond:
-  if ( pokemon.ability.isName( 'きずなへんげ' ) ) {
-    if ( pokemon.name !== 'サトシゲッコウガ' ) break battleBond;
+  const battleBond = ( pokemon: Pokemon ) => {
+    if ( !pokemon.ability.isName( 'きずなへんげ' ) ) return;
+    if ( !pokemon.isName( 'サトシゲッコウガ' ) ) return;
+    if ( !pokemon.isChangeRank( 'atk', 1 )
+      && !pokemon.isChangeRank( 'spA', 1 )
+      && !pokemon.isChangeRank( 'spe', 1 ) ) return;
 
-    let isChange: boolean = false;
-    if ( getRankVariation( pokemon, 'attack', 1 ) !== 0 ) isChange = true;
-    if ( getRankVariation( pokemon, 'specialAttack', 1 ) !== 0 ) isChange = true;
-    if ( getRankVariation( pokemon, 'speed', 1 ) !== 0 ) isChange = true;
-    if ( isChange === false ) break battleBond;
-
-    let isFaint: boolean = false;
-    for ( const data of targetList ) {
-      if ( data.target.status.hp.value.isZero() ) {
-        isFaint = true;
+    let number: number = 0;
+    for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+      const target: Pokemon = main.getPokemonByBattle( attack );
+      if ( target.status.hp.value.isZero() ) {
+        number += 1;
       }
     }
-    if ( isFaint === false ) break battleBond;
+    if ( number === 0 ) return;
 
-    changeMyRank( pokemon, 'attack', 1 );
-    changeMyRank( pokemon, 'specialAttack', 1 );
-    changeMyRank( pokemon, 'speed', 1 );
-    pokemon.declareAbility();
-    writeLog( `${getArticle( pokemon )}に きずなの 力が みなぎった!` );
+    pokemon.changeRank( 'atk', 1 );
+    pokemon.changeRank( 'spA', 1 );
+    pokemon.changeRank( 'spe', 1 );
+    pokemon.msgDeclareAbility();
+    pokemon.msgBattleBond();
   }
+
+
+  relicSong( pokemon ); // いにしえのうた
+  battleBond( pokemon ); // きずなへんげ
 }
 
 // いのちのたまの反動/かいがらのすずの回復
 function lifeOrbShellBell( pokemon: Pokemon ): void {
 
-  const targetList: TargetDataType[] = getTargetList( pokemon );
+  const lifeOrb = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.item.isName( 'いのちのたま' ) ) return;
+    if ( pokemon.status.hp.value.isZero() ) return;
+    if ( pokemon.move.selected.isStatus() ) return;
+    if ( pokemon.order.battle === null ) return;
+    if ( pokemon.ability.isName( 'マジックガード' ) ) return;
+    if ( pokemon.stateChange.sheerForce.isTrue ) return;
 
-  lifeOrb:
-  if ( pokemon.item.isName( 'いのちのたま' ) ) {
-    if ( pokemon.status.hp.value.isZero() ) break lifeOrb;
-    if ( pokemon.move.selected.isStatus() ) break lifeOrb;
-    if ( pokemon.order.battle === null ) break lifeOrb;
-    if ( pokemon.ability.isName( 'マジックガード' ) ) break lifeOrb;
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) break lifeOrb;
-
-    const dynamax: number = ( pokemon.stateChange.dynamax.isTrue )? 0.5 : 1;
-    const damage: number = Math.max( 1, Math.floor( pokemon.status.hp.av * dynamax / 10 ) );
-    changeHPByItem( pokemon, 'いのちのたま', damage );
+    const damage: number = Math.max( 1, Math.floor( pokemon.getOrgHP() / 10 ) );
+    pokemon.status.hp.value.sub( damage );
+    pokemon.msgLifeOrb();
   }
 
-  shellBell:
-  if ( pokemon.item.isName( 'かいがらのすず' ) === true ) {
-    if ( pokemon.status.hp.value.isZero() ) break shellBell;
-    if ( pokemon.order.battle === null ) break shellBell;
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) break shellBell;
+  const shellBell = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.item.isName( 'かいがらのすず' ) ) return;
+    if ( pokemon.status.hp.value.isZero() ) return;
+    if ( pokemon.order.battle === null ) return;
+    if ( pokemon.stateChange.sheerForce.isTrue ) return;
 
     let value: number = 0;
-    for ( const data of targetList ) {
-      value += data.damage.damage;
+    for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+      value += attack.damage;
     }
-    if ( value === 0 ) break shellBell;
+    if ( value === 0 ) return;
 
     const damage: number = Math.max( 1, Math.floor( value / 8 ) );
-    changeHPByItem( pokemon, 'かいがらのすず', damage );
+    pokemon.status.hp.value.add( damage );
+    pokemon.msgShellBell();
   }
+
+
+  lifeOrb( pokemon );   // いのちのたま
+  shellBell( pokemon ); // かいがらのずず
 }
 
 // 防御側の持ち物の効果 (その4)
 function targetItemEffectPart4( pokemon: Pokemon ): void {
 
-  const targetList: TargetDataType[] = getTargetList( pokemon ).sort( ( a, b ) => {
-    // 素早さ
-    //if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
-    //if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
-    // 乱数
+  const oranBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'オボンのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 2 ) ) return;
+    if ( target.stateChange.healBlock.isTrue ) return;
+
+    target.eatOranBerry();
+    target.consumeItem();
+  }
+
+  const sitrusBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'オボンのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 2 ) ) return;
+    if ( target.stateChange.healBlock.isTrue ) return;
+
+    target.eatSitrusBerry();
+    target.consumeItem();
+  }
+
+  const figyBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'フィラのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( target.stateChange.healBlock.isTrue ) return;
+
+    target.eatFigyBerry();
+    target.consumeItem();
+  }
+
+  const wikiBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'ウイのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( target.stateChange.healBlock.isTrue ) return;
+
+    target.eatWikiBerry();
+    target.consumeItem();
+  }
+
+  const magoBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'マゴのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( target.stateChange.healBlock.isTrue ) return;
+
+    target.eatMagoBerry();
+    target.consumeItem();
+  }
+
+  const aguavBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'バンジのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( target.stateChange.healBlock.isTrue ) return;
+
+    target.eatAguavBerry();
+    target.consumeItem();
+  }
+
+  const iapapaBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'イアのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( target.stateChange.healBlock.isTrue ) return;
+
+    target.eatIapapaBerry();
+    target.consumeItem();
+  }
+
+  const liechiBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'チイラのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( !target.isChangeRank( 'atk', 1 ) ) return;
+
+    target.eatLiechiBerry();
+    target.consumeItem();
+  }
+
+  const ganlonBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'リュガのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( !target.isChangeRank( 'def', 1 ) ) return;
+
+    target.eatGanlonBerry();
+    target.consumeItem();
+  }
+
+  const salacBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'カムラのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( !target.isChangeRank( 'spe', 1 ) ) return;
+
+    target.eatSalacBerry();
+    target.consumeItem();
+  }
+
+  const petayaBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'ヤタピのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( !target.isChangeRank( 'spA', 1 ) ) return;
+
+    target.eatPetayaBerry();
+    target.consumeItem();
+  }
+
+  const apicotBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'ズアのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( !target.isChangeRank( 'spD', 1 ) ) return;
+
+    target.eatApicotBerry();
+    target.consumeItem();
+  }
+
+  const lansatBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'サンのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( target.stateChange.focusEnergy.isTrue ) return;
+
+    target.eatLansatBerry();
+    target.consumeItem();
+  }
+
+  const starfBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'スターのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+    if ( !target.isChangeRank( 'atk', 2 )
+      && !target.isChangeRank( 'def', 2 )
+      && !target.isChangeRank( 'spA', 2 )
+      && !target.isChangeRank( 'spD', 2 )
+      && !target.isChangeRank( 'spe', 2 ) ) return;
+
+    target.eatStarfBerry();
+    target.consumeItem();
+  }
+
+  const micleBerry = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'ミクルのみ' ) ) return;
+    if ( !target.isActivateBerryByHP( 4 ) ) return;
+
+    target.eatMicleBerry();
+    target.consumeItem();
+  }
+
+  const berryJuice = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'きのみジュース' ) ) return;
+    if ( !target.isActivateBerryByHP( 2 ) ) return;
+    if ( pokemon.stateChange.healBlock.isTrue ) return;
+
+    target.eatBerryJuice();
+    target.consumeItem();
+  }
+
+  const electricSeed = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'エレキシード' ) ) return;
+    if ( !main.field.terrain.isElectric() ) return;
+    if ( !target.isChangeRank( 'def', 1 ) ) return;
+
+    target.changeRank( 'def', 1, 'エレキシード' );
+    target.consumeItem();
+  }
+
+  const grassySeed = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'グラスシード' ) ) return;
+    if ( !main.field.terrain.isGrassy() ) return;
+    if ( !target.isChangeRank( 'def', 1 ) ) return;
+
+    target.changeRank( 'def', 1, 'グラスシード' );
+    target.consumeItem();
+  }
+
+  const psychicSeed = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'サイコシード' ) ) return;
+    if ( !main.field.terrain.isPsychic() ) return;
+    if ( !target.isChangeRank( 'spD', 1 ) ) return;
+
+    target.changeRank( 'spD', 1, 'サイコシード' );
+    target.consumeItem();
+  }
+
+  const mistySeed = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'ミストシード' ) ) return;
+    if ( !main.field.terrain.isMisty() ) return;
+    if ( !target.isChangeRank( 'spD', 1 ) ) return;
+
+    target.changeRank( 'spD', 1, 'ミストシード' );
+    target.consumeItem();
+  }
+
+  const roomService = ( target: Pokemon ): void => {
+    if ( !target.item.isName( 'ルームサービス' )  ) return;
+    if ( main.field.whole.trickRoom.isTrue ) return;
+    if ( !target.isChangeRank( 'spe', -1 ) ) return;
+
+    target.changeRank( 'spe', -1, 'ルームサービス' );
+    target.consumeItem();
+  }
+
+
+
+
+
+  const targetList: { target: Pokemon, attack: Attack }[] = [];
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    targetList.push( { target: target, attack: attack } )
+  }
+  targetList.sort( ( a, b ) => {
+    if ( a.target.status.spe.actionOrder > b.target.status.spe.actionOrder ) return 1;
+    if ( a.target.status.spe.actionOrder < b.target.status.spe.actionOrder ) return -1;
+
     if ( getRandom() > 50 ) return 1;
     else return -1;
-  });
+  })
 
-  for ( const data of targetList ) {
 
-    if ( data.target.status.hp.value.isZero() ) continue;
+  for ( const row of targetList ) {
+    const target: Pokemon = row.target;
+    const attack: Attack = row.attack;
 
-    const gluttony: number = ( data.target.ability.isName( 'くいしんぼう' ) )? 2 : 1;
+    if ( target.status.hp.value.isZero() ) continue;
 
-    sitrusBerry:
-    if ( data.target.item.isName( 'オボンのみ' ) === true || data.target.item.isName( 'オレンのみ' ) === true ) {
-      if ( data.target.status.hp.value.isGreaterThan( 2 ) ) break sitrusBerry;
-      if ( pokemon.stateChange.healBlock.isTrue === true ) break sitrusBerry;
+    oranBerry( target );   // オレンのみ
+    sitrusBerry( target ); // オボンのみ
+    figyBerry( target );   // フィラのみ
+    wikiBerry( target );   // ウイのみ
+    magoBerry( target );   // マゴのみ
+    aguavBerry( target );  // バンジのみ
+    iapapaBerry( target ); // イアのみ
+    liechiBerry( target ); // チイラのみ
+    ganlonBerry( target ); // リュガのみ
+    salacBerry( target );  // カムラのみ
+    petayaBerry( target ); // ヤタピのみ
+    apicotBerry( target ); // ズアのみ
+    lansatBerry( target ); // サンのみ
+    micleBerry( target );  // ミクルのみ
+    berryJuice( target );  // きのみジュース
 
-      eatBerry( data.target, data.target.item.name );
-    }
+    if ( attack.damage === 0 ) continue;
 
-    confuseBerry:
-    if ( data.target.item.isName( 'フィラのみ' ) === true
-      || data.target.item.isName( 'ウイのみ' ) === true
-      || data.target.item.isName( 'マゴのみ' ) === true
-      || data.target.item.isName( 'バンジのみ' ) === true
-      || data.target.item.isName( 'イアのみ' ) === true ) {
-        if ( data.target.status.hp.value.isGreaterThan( 4 / gluttony ) ) break confuseBerry;
-        if ( pokemon.stateChange.healBlock.isTrue === true ) break confuseBerry;
-
-        eatBerry( data.target, data.target.item.name );
-    }
-
-    const rankBerryTable: {
-      name: string;
-      parameter: ParameterStringType;
-    }[] = [
-      { name: 'チイラのみ', parameter: 'attack' },
-      { name: 'リュガのみ', parameter: 'defense' },
-      { name: 'ヤタピのみ', parameter: 'specialAttack' },
-      { name: 'ズアのみ', parameter: 'specialDefense' },
-      { name: 'カムラのみ', parameter: 'speed' },
-    ]
-
-    for ( const berry of rankBerryTable ) {
-      if ( data.target.item.isName( berry.name ) === true ) {
-        if ( data.target.status.hp.value.isGreaterThan( 4 / gluttony ) ) continue;
-        if ( getRankVariation( data.target, berry.parameter, 1 ) === 0 ) continue;
-
-        eatBerry( data.target, data.target.item.name );
-      }
-    }
-
-    lansatBerry:
-    if ( data.target.item.isName( 'サンのみ' ) === true ) {
-      if ( data.target.status.hp.value.isGreaterThan( 4 / gluttony ) ) break lansatBerry;
-      if ( data.target.stateChange.focusEnergy.isTrue === true ) break lansatBerry;
-
-      eatBerry( data.target, data.target.item.name );
-    }
-
-    starfBerry:
-    if ( data.target.item.isName( 'スターのみ' ) === true ) {
-      if ( data.target.status.hp.value.isGreaterThan( 4 / gluttony ) ) break starfBerry;
-
-      let isTrue: boolean = false;
-      const parameterList: string[] = [];
-      for ( const parameter of parameterFive ) {
-        if ( getRankVariation( data.target, parameter, 2 ) !== 0 ) {
-          isTrue = true;
-          parameterList.push( parameter );
-        }
-      }
-      parameterList.sort( ( a, b ) => 50 - getRandom() );
-
-      eatBerry( data.target, data.target.item.name );
-    }
-
-    micleBerry:
-    if ( data.target.item.isName( 'ミクルのみ' ) === true ) {
-      if ( data.target.status.hp.value.isGreaterThan( 4 / gluttony ) ) break micleBerry;
-
-      eatBerry( data.target, data.target.item.name );
-    }
-
-    berryJuice:
-    if ( data.target.item.isName( 'きのみジュース' ) === true ) {
-      if ( data.target.status.hp.value.isGreaterThan( 2 ) ) break berryJuice;
-      if ( pokemon.stateChange.healBlock.isTrue === true ) break berryJuice;
-
-      changeHPByItem( data.target, 'きのみジュース', 10 );
-    }
-
-    if ( data.damage.damage > 0 ) {
-      activateSeed( data.target );
-      activateRoomService( data.target );
-    }
+    electricSeed( target ); // エレキシード
+    grassySeed( target );   // グラスシード
+    psychicSeed( target );  // サイコシード
+    mistySeed( target );    // ミストシード
+    roomService( target );  // ルームサービス
   }
 }
 
 // わるいてぐせ
 function activatePickpocket( pokemon: Pokemon ): void {
 
-  const targetList: TargetDataType[] = getTargetList( pokemon ).sort( ( a, b ) => {
-    // 素早さ
-    //if ( getSpeedValue( b.target, 'e' ) > getSpeedValue( a.target, 'e' ) ) return 1;
-    //if ( getSpeedValue( b.target, 'e' ) < getSpeedValue( a.target, 'e' ) ) return -1;
-    // 乱数
+  const targetList: { target: Pokemon, attack: Attack }[] = [];
+  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
+    const target: Pokemon = main.getPokemonByBattle( attack );
+    targetList.push( { target: target, attack: attack } )
+  }
+  targetList.sort( ( a, b ) => {
+    if ( a.target.status.spe.actionOrder > b.target.status.spe.actionOrder ) return 1;
+    if ( a.target.status.spe.actionOrder < b.target.status.spe.actionOrder ) return -1;
+
     if ( getRandom() > 50 ) return 1;
     else return -1;
-  });
+  })
 
-  for ( const data of targetList ) {
-    if ( data.target.ability.isName( 'わるいてぐせ' )  ) continue;
+  for ( const row of targetList ) {
+    const target: Pokemon = row.target;
+    const attack: Attack = row.attack;
+
+    if ( !target.ability.isName( 'わるいてぐせ' ) ) continue;
     if ( !pokemon.isContact() ) continue;
-    if ( data.target.item !== null ) continue;
-    if ( pokemon.item === null ) continue;
-    if ( isReleasableItem( pokemon, data.target ) === false ) continue;
-    if ( pokemon.stateChange.sheerForce.isTrue === true ) continue;
+    if ( target.item.isNull() ) continue;
+    if ( !pokemon.item.isNull() ) continue;
+    if ( !target.item.isReleasable( target.name, target.ability.name ) ) continue;
+    if ( pokemon.stateChange.sheerForce.isTrue ) continue;
     if ( pokemon.ability.isName( 'ねんちゃく' ) ) continue;
-    if ( data.damage.substitute === true ) continue;
+    if ( attack.substitute ) continue;
 
-    [ pokemon.item, data.target.item ] = [ data.target.item, pokemon.item ];
+    [ pokemon.item, target.item ] = [ target.item, pokemon.item ];
 
-    data.target.declareAbility();
-    writeLog( `${getArticle( pokemon )}の ${data.target.item}を 奪った!` );
+    target.msgDeclareAbility();
+    target.msgPickpocket();
   }
 }
 
@@ -2107,7 +2303,7 @@ function otherEffect( pokemon: Pokemon ): void {
   if ( pokemon.move.selected.isName( 'しぜんのめぐみ' ) ) {
     if ( pokemon.order.battle === null ) break naturalGift;
 
-    recycleAvailable( pokemon );
+    pokemon.consumeItem();
   }
 
   if ( pokemon.move.selected.isName( 'アイアンローラー' ) ) {
@@ -2118,30 +2314,31 @@ function otherEffect( pokemon: Pokemon ): void {
   if ( pokemon.move.selected.isName( 'アイススピナー' ) ) {
     if ( pokemon.order.battle === null ) break iceSpinner;
 
-    fieldStatus.terrain.resetWithMessage();
+    main.field.terrain.resetWithMessage();
   }
 }
 
 // 攻撃側の持ち物の効果
 function myItemEffect( pokemon: Pokemon ): void {
 
-  leppaBerry:
-  if ( pokemon.item.isName( 'ヒメリのみ' ) === true ) {
-    if ( pokemon.move.learned[pokemon.move.selected.slot].powerPoint.isPlus() ) break leppaBerry;
+  const leppaBerry = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.item.isName( 'ヒメリのみ' ) ) return;
+    if ( pokemon.move.learned[pokemon.move.selected.slot].powerPoint.isPlus() ) return;
 
-    pokemon.stateChange.memo.isTrue = true;
-    pokemon.stateChange.memo.text = 'ヒメリのみ';
-    eatBerry( pokemon, 'ヒメリのみ' );
-    pokemon.stateChange.memo.reset();
+    pokemon.eatLeppaBerry();
+    pokemon.consumeItem();
   }
 
-  throatSpray:
-  if ( pokemon.item.isName( 'のどスプレー' ) === true ) {
-    if ( getRankVariation( pokemon, 's@ecialAttack', 1 ) === 0 ) break throatSpray;
-    if ( pokemon.damage.filter( damage => damage.success === true ).length === 0 ) break throatSpray;
-    if ( pokemon.order.battle === null ) break throatSpray;
+  const throatSpray = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.item.isName( 'のどスプレー' ) ) return;
+    if ( !pokemon.isChangeRank( 'spA', 1 ) ) return;
+    if ( pokemon.attack.getTargetToPokemon().length === 0 ) return;
+    if ( pokemon.order.battle === null ) return;
 
-    changeMyRankByItem( pokemon, 'specialAttack', 1, 'のどスプレー' );
-    recycleAvailable( pokemon );
+    pokemon.changeRank( 'spA', 1, 'のどスプレー' );
+    pokemon.consumeItem();
   }
+
+  leppaBerry( pokemon );  // ヒメリのみ
+  throatSpray( pokemon ); // のどスプレー
 }
