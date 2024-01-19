@@ -1,0 +1,305 @@
+{
+"No1": 
+[
+  {
+    "id": 1,
+    "order": 1,
+    "index": 1,
+    "nameEN": "Bulbasaur",
+    "nameJA": "フシギダネ",
+    "gender": "both",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "ability": [
+      "Overgrow",
+      "Chlorophyll"
+    ],
+    "baseStatus": {
+      "hp": 45,
+      "atk": 49,
+      "def": 49,
+      "spA": 65,
+      "spD": 65,
+      "spe": 45
+    },
+    "height": 0.7,
+    "weight": 6.9,
+    "isEvolve": "true",
+    "text": "生まれて しばらくの あいだ 背中の タネに つまった 栄養を とって 育つ。"
+  }
+],
+"No2": 
+[
+  {
+    "id": 2,
+    "order": 2,
+    "index": 1,
+    "nameEN": "Ivysaur",
+    "nameJA": "フシギソウ",
+    "gender": "both",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "ability": [
+      "Overgrow",
+      "Chlorophyll"
+    ],
+    "baseStatus": {
+      "hp": 60,
+      "atk": 62,
+      "def": 63,
+      "spA": 80,
+      "spD": 80,
+      "spe": 60
+    },
+    "height": 1.0,
+    "weight": 13.0,
+    "isEvolve": "true",
+    "text": "太陽の 光を 浴びるほど 体に 力が わいて 背中の つぼみが 育っていく。"
+  }
+],
+"No3": 
+[
+  {
+    "id": 3,
+    "order": 3,
+    "index": 1,
+    "nameEN": "Venusaur",
+    "nameJA": "フシギバナ",
+    "gender": "both",
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "ability": [
+      "Overgrow",
+      "Chlorophyll"
+    ],
+    "baseStatus": {
+      "hp": 80,
+      "atk": 82,
+      "def": 83,
+      "spA": 100,
+      "spD": 100,
+      "spe": 80
+    },
+    "height": 2.0,
+    "weight": 100.0,
+    "isEvolve": "false",
+    "text": "花から うっとりする 香りが ただよい 戦うものの 気持ちを なだめてしまう。"
+  }
+],
+"No4": 
+[
+  {
+    "id": 4,
+    "order": 5,
+    "index": 1,
+    "nameEN": "Charmander",
+    "nameJA": "ヒトカゲ",
+    "gender": "both",
+    "type": [
+      "Fire"
+    ],
+    "ability": [
+      "Blaze",
+      "Solar Power"
+    ],
+    "baseStatus": {
+      "hp": 39,
+      "atk": 52,
+      "def": 43,
+      "spA": 60,
+      "spD": 50,
+      "spe": 65
+    },
+    "height": 0.6,
+    "weight": 8.5,
+    "isEvolve": "true",
+    "text": "生まれたときから しっぽに 炎が ともっている。 炎が 消えたとき その 命は 終わって しまう。"
+  }
+],
+"No5": 
+[
+  {
+    "id": 5,
+    "order": 6,
+    "index": 1,
+    "nameEN": "Charmeleon",
+    "nameJA": "リザード",
+    "gender": "both",
+    "type": [
+      "Fire"
+    ],
+    "ability": [
+      "Blaze",
+      "Solar Power"
+    ],
+    "baseStatus": {
+      "hp": 58,
+      "atk": 64,
+      "def": 58,
+      "spA": 80,
+      "spD": 65,
+      "spe": 80
+    },
+    "height": 1.1,
+    "weight": 19.0,
+    "isEvolve": "true",
+    "text": "戦いで 気持ちが たかぶると 灼熱の 炎を 吹きながら あたりを 燃やしてまわる。"
+  }
+],
+"No6": 
+[
+  {
+    "id": 6,
+    "order": 7,
+    "index": 1,
+    "nameEN": "Charizard",
+    "nameJA": "リザードン",
+    "gender": "both",
+    "type": [
+      "Fire",
+      "Flying"
+    ],
+    "ability": [
+      "Blaze",
+      "Solar Power"
+    ],
+    "baseStatus": {
+      "hp": 78,
+      "atk": 84,
+      "def": 78,
+      "spA": 109,
+      "spD": 85,
+      "spe": 100
+    },
+    "height": 1.7,
+    "weight": 90.5,
+    "isEvolve": "false",
+    "text": "地上 １４００メートル まで 羽を 使って 飛ぶことができる。 高熱の 炎を 吐く。"
+  }
+],
+"No7": 
+[
+  {
+    "id": 7,
+    "order": 10,
+    "index": 1,
+    "nameEN": "Squirtle",
+    "nameJA": "ゼニガメ",
+    "gender": "both",
+    "type": [
+      "Water"
+    ],
+    "ability": [
+      "Torrent",
+      "Rain Dish"
+    ],
+    "baseStatus": {
+      "hp": 44,
+      "atk": 48,
+      "def": 65,
+      "spA": 50,
+      "spD": 64,
+      "spe": 43
+    },
+    "height": 0.5,
+    "weight": 9.0,
+    "isEvolve": "true",
+    "text": "危なくなると 甲羅に 手足を 引っこめて 身を 守りながら 口から 水を 吹き出している。"
+  }
+],
+"No8": 
+[
+  {
+    "id": 8,
+    "order": 11,
+    "index": 1,
+    "nameEN": "Wartortle",
+    "nameJA": "カメール",
+    "gender": "both",
+    "type": [
+      "Water"
+    ],
+    "ability": [
+      "Torrent",
+      "Rain Dish"
+    ],
+    "baseStatus": {
+      "hp": 59,
+      "atk": 63,
+      "def": 80,
+      "spA": 65,
+      "spD": 80,
+      "spe": 58
+    },
+    "height": 1.0,
+    "weight": 22.5,
+    "isEvolve": "true",
+    "text": "ふさふさの 耳と しっぽを たくみに 操って 水中での バランスを たもつ。"
+  }
+],
+"No9": 
+[
+  {
+    "id": 9,
+    "order": 12,
+    "index": 1,
+    "nameEN": "Blastoise",
+    "nameJA": "カメックス",
+    "gender": "both",
+    "type": [
+      "Water"
+    ],
+    "ability": [
+      "Torrent",
+      "Rain Dish"
+    ],
+    "baseStatus": {
+      "hp": 79,
+      "atk": 83,
+      "def": 100,
+      "spA": 85,
+      "spD": 105,
+      "spe": 78
+    },
+    "height": 1.6,
+    "weight": 85.5,
+    "isEvolve": "false",
+    "text": "甲羅の ロケット砲 から 噴き出した ジェット水流は ぶ厚い 鉄板も つらぬく。"
+  }
+],
+"No10": 
+[
+  {
+    "id": 10,
+    "order": 14,
+    "index": 1,
+    "nameEN": "Caterpie",
+    "nameJA": "キャタピー",
+    "gender": "both",
+    "type": [
+      "Bug"
+    ],
+    "ability": [
+      "Shield Dust",
+      "Run Away"
+    ],
+    "baseStatus": {
+      "hp": 45,
+      "atk": 30,
+      "def": 35,
+      "spA": 20,
+      "spD": 20,
+      "spe": 45
+    },
+    "height": 0.3,
+    "weight": 2.9,
+    "isEvolve": "true",
+    "text": "脚は 短いが 吸盤に なっているので 坂でも 壁でも くたびれることなく 進んでいく。"
+  }
+]}

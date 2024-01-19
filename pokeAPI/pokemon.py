@@ -1,4 +1,5 @@
 import requests
+import json
 
 class BaseStatus:
   def __init__(self):
@@ -61,7 +62,6 @@ class Pokemon:
   def __init__(self):
     self._id = ''
     self._order = ''
-    self._index = 1
     self._nameEN = ''
     self._nameJA = ''
     self._type = []
@@ -79,10 +79,6 @@ class Pokemon:
   @property
   def order(self):
     return self._order
-
-  @property
-  def index(self):
-    return self._index
 
   @property
   def nameEN(self):
@@ -127,10 +123,6 @@ class Pokemon:
   @order.setter
   def order(self, value):
     self._order = value
-
-  @index.setter
-  def index(self, value):
-    self._index = value
 
   @nameEN.setter
   def nameEN(self, value):
@@ -182,7 +174,6 @@ class Pokemon:
     for ll in less["pokemon_species_details"]:
       if ll["pokemon_species"]["name"] == self._nameEN:
         self._gender = 'genderless'
-        print(self._gender)
         return
 
     for mm in male["pokemon_species_details"]:
@@ -213,7 +204,6 @@ class Pokemon:
       if s['stat']['name'] == 'speed':
         self._baseStatus.speed = s['base_stat']
 
-    print(self._baseStatus.hitPoint)
 
   def setNameJA(self, name):
     for a in name:
@@ -229,26 +219,26 @@ class Pokemon:
   def setIsEvolve(self, chain):
     if chain['species']['name'] == self._nameEN:
       if chain['evolves_to'] != []:
-        self._isEvolve = True
+        self._isEvolve = 'true'
       else:
-        self._isEvolve = False
+        self._isEvolve = 'false'
 
     else:
       for data in chain['evolves_to']:
         if data['species']['name'] == self._nameEN:
           if data['evolves_to'] != []:
-            self._isEvolve = True
+            self._isEvolve = 'true'
           else:
-            self._isEvolve = False
+            self._isEvolve = 'false'
 
       if self._isEvolve == '':
         for d in chain['evolves_to']:
           for data in d['evolves_to']:
             if data['species']['name'] == self._nameEN:
               if data['evolves_to'] != []:
-                self._isEvolve = True
+                self._isEvolve = 'true'
               else:
-                self._isEvolve = False
+                self._isEvolve = 'false'
 
 
 # ここまでクラス定義
@@ -262,7 +252,6 @@ def toCapital(string):
 def getPokemonData( i, pokemon: Pokemon ):
   url = "https://pokeapi.co/api/v2/pokemon/" + str(i) + "/"
   r = requests.get(url, timeout=5)
-  print(i)
 
   url2 = ''
   try:
@@ -291,18 +280,22 @@ def getPokemonName( i, pokemon: Pokemon, url2, less, male, female ):
   if i < 10000:
     url2 = "https://pokeapi.co/api/v2/pokemon-species/" + str(i) + "/"
 
-  r2 = requests.get(url2, timeout=5)
-
   try:
-    r2 = r2.json()
-    pokemon.id = r2['id']
-    pokemon.setNameJA(r2['names'])
-    pokemon.setText(r2['flavor_text_entries'])
-    pokemon.setGender(less, male, female)
-    url3 = r2['evolution_chain']['url']
+    r2 = requests.get(url2, timeout=5)
+
+    try:
+      r2 = r2.json()
+      pokemon.id = r2['id']
+      pokemon.setNameJA(r2['names'])
+      pokemon.setText(r2['flavor_text_entries'])
+      pokemon.setGender(less, male, female)
+      url3 = r2['evolution_chain']['url']
+
+    except:
+        pass
 
   except:
-      pass
+    pass
 
   return pokemon, url3
 
@@ -317,7 +310,7 @@ def getPokemonEvolve( pokemon:Pokemon, url3 ):
 
   return pokemon
 
-def getPokemon(value):
+def main(value):
   url_female = "https://pokeapi.co/api/v2/gender/1/"
   female = requests.get(url_female, timeout=5)
   female = female.json()
@@ -330,37 +323,51 @@ def getPokemon(value):
   less = requests.get(url_less, timeout=5)
   less = less.json()
 
-  pokemonList = []
 
-  with open("../src/public/master/" + value['file'], "w") as o:
-    print('const', value['name'], 'PokemonData[] = [', file=o)
+  with open("tmpJSON/" + value["file"], "w") as f:
+    print("{", file=f)
 
     for i in range(value['start'], value['stop']):
-      if i % 10 == 0: print(i)
+      if i % 10 == 0: print(i,pokemon.nameJA)
 
       pokemon = Pokemon()
       pokemon, url2 = getPokemonData( i, pokemon )
       pokemon, url3 = getPokemonName( i, pokemon, url2, less, male, female )
       pokemon = getPokemonEvolve( pokemon, url3 )
-
       pokemon.nameEN = toCapital(pokemon.nameEN)
-      print( ' ', pokemon, ',', file=o )
-      pokemonList.append(pokemon.nameEN)
-      if i % 10 == 0: break
 
-    print(']', file=o)
+      print('"No' + str(i) + '": ', file=f)
 
-  return pokemonList
+      d = {
+        'id': pokemon.id,
+        'order': pokemon.order,
+        'nameEN': pokemon.nameEN,
+        'nameJA': pokemon.nameJA,
+        'gender': pokemon._gender,
+        'type': pokemon.type,
+        'ability': pokemon.ability,
+        'baseStatus': {
+          'hp': pokemon.baseStatus.hitPoint,
+          'atk': pokemon.baseStatus.attack,
+          'def': pokemon.baseStatus.defense,
+          'spA': pokemon.baseStatus.specialAttack,
+          'spD': pokemon.baseStatus.specialDefense,
+          'spe': pokemon.baseStatus.speed
+        },
+        'height': float(pokemon.height/10),
+        'weight': float(pokemon.weight/10),
+        'isEvolve': pokemon.isEvolve,
+        'text': pokemon.text,
+        },
 
-def makePokemonList( pokemonList, value ):
-  pokemonList.sort()
-  with open("../src/public/nameEN/" + value['file'], "w") as o:
-    print('type PokemonText = ( typeof pokemonTextList )[number];', file=o)
-    print('const pokemonTextList =', pokemonList, 'as const;', file=o)
+      json.dump(d, f, indent=2, ensure_ascii=False)
 
-def main( value ):
-  pokemonList = getPokemon( value )
-  makePokemonList( pokemonList, value )
+      if i != value['stop']-1:
+        print(",", file=f)
+
+    print("}", file=f)
+
+
 
 
 if __name__ == '__main__':
@@ -370,20 +377,23 @@ if __name__ == '__main__':
   value = {
     'normal': {
       'start': 1,
-      'stop': 1011,
-      'file': 'pokemon.ts',
-      'name': 'pokemonMaster:'
+      'stop': 1026,
+      'file': 'pokemon.json'
     },
     'except': {
       'start': 10001,
-      'stop': 10280,
-      'file': 'pokemonExcept.ts',
-      'name': 'pokemonExceptMaster:'
+      'stop': 10278,
+      'file': 'except.json'
+    },
+    'test': {
+      'start': 1,
+      'stop': 11,
+      'file': 'test.json'
     }
   }
 
 
-  main(value['except'])
+  main(value['normal'])
 
 """
 {

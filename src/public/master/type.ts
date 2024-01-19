@@ -1,7 +1,6 @@
 type PokemonData = {
   id: number;
   order: number;
-  index: number;
   nameEN: string;
   nameJA: string;
   gender: Gender;
