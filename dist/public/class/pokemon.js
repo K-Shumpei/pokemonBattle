@@ -1,9 +1,13 @@
 "use strict";
 class Order {
-    constructor(slot) {
+    constructor(team, slot) {
+        this._team = team;
         this._party = slot;
         this._hand = slot;
         this._battle = null;
+    }
+    set team(team) {
+        this._team = team;
     }
     set party(party) {
         this._party = party;
@@ -14,6 +18,9 @@ class Order {
     set battle(battle) {
         this._battle = battle;
     }
+    get team() {
+        return this._team;
+    }
     get party() {
         return this._party;
     }
@@ -22,65 +29,6 @@ class Order {
     }
     get battle() {
         return this._battle;
-    }
-}
-class StatusAilment {
-    constructor() {
-        this._name = null;
-        this._turn = 0;
-    }
-    get turn() {
-        return this._turn;
-    }
-    isHealth() {
-        return this._name === null;
-    }
-    isParalysis() {
-        return this._name === 'PARALYSIS';
-    }
-    isFrozen() {
-        return this._name === 'FROZEN';
-    }
-    isBurned() {
-        return this._name === 'BURNED';
-    }
-    isPoisoned() {
-        return this._name === 'POISONED';
-    }
-    isBadPoisoned() {
-        return this._name === 'POISONED' && this._turn > 0;
-    }
-    isAsleep() {
-        return this._name === 'ASLEEP';
-    }
-    getHealth() {
-        this._name = null;
-        this._turn = 0;
-    }
-    getParalysis() {
-        this._name = 'PARALYSIS';
-    }
-    getFrozen() {
-        this._name = 'FROZEN';
-    }
-    getBurned() {
-        this._name = 'BURNED';
-    }
-    getPoisoned() {
-        this._name = 'POISONED';
-    }
-    getBadPoisoned() {
-        this._name = 'POISONED';
-        this._turn = 1;
-    }
-    getAsleep() {
-        this._name = 'ASLEEP';
-    }
-    countPoisoned() {
-        this._turn += 1;
-    }
-    countAsleep(turn) {
-        this._turn -= turn;
     }
 }
 class ParameterSix {
@@ -129,108 +77,11 @@ class ParameterSix {
         return this._speed;
     }
 }
-class ParameterRank {
-    constructor() {
-        this._attack = new Rank();
-        this._defense = new Rank();
-        this._specialAttack = new Rank();
-        this._specialDefense = new Rank();
-        this._speed = new Rank();
-        this._evasion = new Rank();
-        this._accuracy = new Rank();
-    }
-    get attack() {
-        return this._attack;
-    }
-    get defense() {
-        return this._defense;
-    }
-    get specialAttack() {
-        return this._specialAttack;
-    }
-    get specialDefense() {
-        return this._specialDefense;
-    }
-    get speed() {
-        return this._speed;
-    }
-    get evasion() {
-        return this._evasion;
-    }
-    get accuracy() {
-        return this._accuracy;
-    }
-}
-/*
-class Damage {
-  _damage: number;
-  _effective: number;
-  _critical: boolean;
-  _substitute: boolean;
-
-  constructor() {
-    this._damage = 0;
-    this._effective = 0;
-    this._critical = false;
-    this._substitute = false;
-  }
-
-  set damage( damage: number ) {
-    this._damage = damage;
-  }
-  set effective( effective: number ) {
-    this._effective = effective;
-  }
-  set critical( critical: boolean ) {
-    this._critical = critical;
-  }
-  set substitute( substitute: boolean ) {
-    this._substitute = substitute;
-  }
-
-  get damage(): number {
-    return this._damage;
-  }
-  get effective(): number {
-    return this._effective;
-  }
-  get critical(): boolean {
-    return this._critical;
-  }
-  get substitute(): boolean {
-    return this._substitute;
-  }
-}
-*/
-class Target {
-    constructor() {
-        this._trainer = 'field';
-        this._battle = null;
-        this._party = 0;
-    }
-    set trainer(trainer) {
-        this._trainer = trainer;
-    }
-    set battle(battle) {
+class Attack {
+    constructor(field, isMe, battle) {
+        this._field = field;
+        this._isMe = isMe;
         this._battle = battle;
-    }
-    set party(party) {
-        this._party = party;
-    }
-    get trainer() {
-        return this._trainer;
-    }
-    get battle() {
-        return this._battle;
-    }
-    get party() {
-        return this._party;
-    }
-}
-class Damage {
-    constructor() {
-        this._trainer = 'field';
-        this._battle = null;
         this._party = 0;
         this._success = true;
         this._damage = 0;
@@ -238,23 +89,11 @@ class Damage {
         this._critical = false;
         this._substitute = false;
     }
-    set trainer(trainer) {
-        this._trainer = trainer;
-    }
-    set battle(battle) {
-        this._battle = battle;
-    }
-    set party(party) {
-        this._party = party;
-    }
     set success(success) {
         this._success = success;
     }
     set damage(damage) {
         this._damage = damage;
-    }
-    set effective(effective) {
-        this._effective = effective;
     }
     set critical(critical) {
         this._critical = critical;
@@ -262,8 +101,8 @@ class Damage {
     set substitute(substitute) {
         this._substitute = substitute;
     }
-    get trainer() {
-        return this._trainer;
+    get isMe() {
+        return this._isMe;
     }
     get battle() {
         return this._battle;
@@ -289,6 +128,73 @@ class Damage {
     failure() {
         this._success === false;
         writeLog(`しかし うまく決まらなかった...`);
+    }
+    isField() {
+        return this._field;
+    }
+    calcEffective(move, target) {
+        const rate = (comp, defType) => {
+            const rate = comp.rate.filter(r => r.defType === defType)[0].rate;
+            if (rate === 0.0 && target.item.isName('ねらいのまと')) {
+                return 1.0;
+            }
+            if (move.isName('フリーズドライ') && defType === 'Water') {
+                return 2.0;
+            }
+            return rate;
+        };
+        const calcRate = (move, target) => {
+            let result = 1.0;
+            const comp = typeCompatibility.filter(t => t.atkType === move.type)[0];
+            for (const defType of target.type.get()) {
+                if (defType === null)
+                    continue;
+                result = result * rate(comp, defType);
+            }
+            if (target.stateChange.tarShot.isTrue && move.type === 'Fire') {
+                result = result * 2.0;
+            }
+            return result;
+        };
+        if (move.type === null)
+            return;
+        this._effective = calcRate(move, target);
+    }
+    isNotEffective() {
+        return this._effective === 0;
+    }
+}
+class AttackList {
+    constructor() {
+        this._list = [];
+    }
+    reset() {
+        this._list = [];
+    }
+    setField() {
+        const attack = new Attack(true, false, 0);
+        this._list.push(attack);
+    }
+    setPokemon(isMe, battle) {
+        if (!main.isExistByBattle(isMe, battle))
+            return;
+        const attack = new Attack(false, isMe, battle);
+        this._list.push(attack);
+    }
+    getTarget() {
+        return this._list;
+    }
+    getValidTarget() {
+        return this._list.filter(l => l.success);
+    }
+    getTargetToPokemon() {
+        return this._list.filter(l => l.success && !l.isField());
+    }
+    getTargetToField() {
+        return this._list.filter(l => l.success && l.isField());
+    }
+    isFailure() {
+        return !this._list.some(t => t.success);
     }
 }
 class Command {
@@ -322,6 +228,12 @@ class Command {
     get opponentTarget() {
         return this._opponentTarget;
     }
+    isAttack() {
+        return this._move !== null;
+    }
+    isExchange() {
+        return this._reserve !== null;
+    }
 }
 class StateChange {
     constructor(name) {
@@ -330,7 +242,6 @@ class StateChange {
         this._turn = 0;
         this._count = 0;
         this._text = '';
-        this._target = new Target;
     }
     set name(name) {
         this._name = name;
@@ -347,9 +258,6 @@ class StateChange {
     set text(text) {
         this._text = text;
     }
-    set target(target) {
-        this._target = target;
-    }
     get name() {
         return this._name;
     }
@@ -365,15 +273,38 @@ class StateChange {
     get text() {
         return this._text;
     }
-    get target() {
-        return this._target;
-    }
     reset() {
         this._isTrue = false;
         this._turn = 0;
         this._count = 0;
         this._text = '';
-        this._target = new Target;
+    }
+}
+class Transform extends StateChange {
+    isTransform(name) {
+        return this._isTrue && this._name === name;
+    }
+}
+class CannotEscape extends StateChange {
+    constructor(name) {
+        super(name);
+        this._order = new Order(true, 0);
+    }
+    beTrue(order) {
+        this._isTrue = true;
+        this._order.team = order.team;
+        this._order.party = order.party;
+    }
+}
+class Attract extends StateChange {
+    constructor(name) {
+        super(name);
+        this._order = new Order(true, 0);
+    }
+    beTrue(order) {
+        this._isTrue = true;
+        this._order.team = order.team;
+        this._order.party = order.party;
     }
 }
 class StateChangeSummary {
@@ -381,7 +312,7 @@ class StateChangeSummary {
         this._flinch = new StateChange('ひるみ');
         this._bind = new StateChange('バインド');
         this._curse = new StateChange('のろい');
-        this._attract = new StateChange('メロメロ');
+        this._attract = new Attract('メロメロ');
         this._leechSeed = new StateChange('やどりぎのタネ');
         this._yawn = new StateChange('ねむけ');
         this._perishSong = new StateChange('ほろびのうた');
@@ -397,7 +328,7 @@ class StateChangeSummary {
         this._helpingHand = new StateChange('てだすけ');
         this._smackDown = new StateChange('うちおとす');
         this._telekinesis = new StateChange('テレキネシス');
-        this._cannotEscape = new StateChange('にげられない');
+        this._cannotEscape = new CannotEscape('にげられない');
         this._electrify = new StateChange('そうでん');
         this._powder = new StateChange('ふんじん');
         this._throatChop = new StateChange('じごくづき');
@@ -418,7 +349,7 @@ class StateChangeSummary {
         this._charge = new StateChange('じゅうでん');
         this._stockpile = new StateChange('たくわえる');
         this._magnetRise = new StateChange('でんじふゆう');
-        this._transform = new StateChange('へんしん');
+        this._transform = new Transform('へんしん');
         this._fly = new StateChange('そらを飛ぶ');
         this._dig = new StateChange('あなをほる');
         this._dive = new StateChange('ダイビング');
@@ -435,8 +366,6 @@ class StateChangeSummary {
         this._sheerForce = new StateChange('ちからずく');
         this._synchronize = new StateChange('シンクロ');
         this._gulpMissile = new StateChange('うのミサイル');
-        this._orderRaise = new StateChange('行動順繰り上げ');
-        this._skin = new StateChange('スキン系特性');
         this._gem = new StateChange('ジュエル');
         this._micleBerry = new StateChange('ミクルのみ');
         this._halfBerry = new StateChange('半減きのみ');
@@ -447,10 +376,7 @@ class StateChangeSummary {
         this._noRetreat = new StateChange('はいすいのじん');
         this._someProtect = new StateChange('まもる連続使用');
         this._endureMsg = new StateChange('HP1で耐える効果');
-        this._recycle = new StateChange('リサイクル');
         this._fling = new StateChange('なげつける');
-        this._store = new StateChange('ため技');
-        this._belch = new StateChange('ゲップ');
         this._dynamax = new StateChange('ダイマックス');
         this._rangeCorr = new StateChange('範囲補正');
         this._memo = new StateChange('メモ');
@@ -626,12 +552,6 @@ class StateChangeSummary {
     set gulpMissile(gulpMissile) {
         this._gulpMissile = gulpMissile;
     }
-    set orderRaise(orderRaise) {
-        this._orderRaise = orderRaise;
-    }
-    set skin(skin) {
-        this._skin = skin;
-    }
     set gem(gem) {
         this._gem = gem;
     }
@@ -662,17 +582,8 @@ class StateChangeSummary {
     set endureMsg(endureMsg) {
         this._endureMsg = endureMsg;
     }
-    set recycle(recycle) {
-        this._recycle = recycle;
-    }
     set fling(fling) {
         this._fling = fling;
-    }
-    set store(store) {
-        this._store = store;
-    }
-    set belch(belch) {
-        this._belch = belch;
     }
     set dynamax(dynamax) {
         this._dynamax = dynamax;
@@ -854,12 +765,6 @@ class StateChangeSummary {
     get gulpMissile() {
         return this._gulpMissile;
     }
-    get orderRaise() {
-        return this._orderRaise;
-    }
-    get skin() {
-        return this._skin;
-    }
     get gem() {
         return this._gem;
     }
@@ -890,17 +795,8 @@ class StateChangeSummary {
     get endureMsg() {
         return this._endureMsg;
     }
-    get recycle() {
-        return this._recycle;
-    }
     get fling() {
         return this._fling;
-    }
-    get store() {
-        return this._store;
-    }
-    get belch() {
-        return this._belch;
     }
     get dynamax() {
         return this._dynamax;
@@ -910,6 +806,15 @@ class StateChangeSummary {
     }
     get memo() {
         return this._memo;
+    }
+    isHide() {
+        return this._fly.isTrue || this._dig.isTrue || this._dive.isTrue || this._shadowForce.isTrue;
+    }
+    getConfusion(name) {
+        const turn = Math.floor(getRandom() * 0.04) + 2; // 2,3,4,5のいずれか
+        this._confuse.isTrue = true;
+        this._confuse.turn = turn;
+        writeLog(`${name}は 混乱した!`);
     }
 }
 class Ability {
@@ -924,35 +829,175 @@ class Ability {
         return this._name;
     }
     isName(ability) {
+        if (!this.isValid())
+            return false;
         return this._name === ability;
+    }
+    isValid() {
+        return true;
     }
     setOrg(ability) {
         this._name = ability;
         this._org = ability;
     }
+    changeMaster() {
+        for (const info of changeAbilityTable) {
+            if (info.name === this._name) {
+                return info;
+            }
+        }
+        const sample = {
+            name: '',
+            exchange: 4,
+            overwrite: 4,
+            noAbility: 4,
+            neutral: 4,
+            copy: 4,
+            copied: 4,
+            transform: 4
+        };
+        return sample;
+    }
 }
 class Item {
     constructor() {
         this._name = null;
+        this._recycle = null;
+        this._belch = false;
+        this._pokeName = '';
     }
     set name(name) {
         this._name = name;
     }
+    set belch(belch) {
+        this._belch = belch;
+    }
     get name() {
         return this._name;
     }
+    isNull() {
+        return this._name === null;
+    }
+    isValid() {
+        return true;
+    }
     isName(name) {
-        return this._name === name;
+        return this.isValid() && this._name === name;
+    }
+    isBerry() {
+        // return this._name ===
+        return false;
+    }
+    recyclable() {
+        if (this._recycle === null)
+            this._recycle = this._name;
+        this._name = null;
+    }
+    getMaster() {
+        return itemMaster.filter(i => i.nameEN === this._name)[0];
+    }
+    getCategory() {
+        return categoryList.filter(c => c.name === this.getMaster().category)[0];
+    }
+    isReleasable(name, ability) {
+        if (this.isNull())
+            return false;
+        const master = this.getMaster();
+        const category = this.getCategory();
+        if (this.isName('はっきんだま') && name === 'ギラティナ')
+            return false;
+        if (master.category === 'plates' && name === 'アルセウス')
+            return false;
+        if (master.category === 'species-specific' && master.nameEN.includes('Drive') && name === 'ゲノセクト')
+            return false;
+        if (master.category === 'memories' && name === 'シルヴァディ')
+            return false;
+        if (this.isName('くちたけん') && name === 'ザシアン')
+            return false;
+        if (this.isName('くちたたて') && name === 'ザマゼンタ')
+            return false;
+        if (master.category === 'mega-stones')
+            return false;
+        if (this.isName('あいいろのたま') && name === 'カイオーガ')
+            return false;
+        if (this.isName('べにいろのたま') && name === 'グラードン')
+            return false;
+        if (this.isName('ブーストエナジー') && ability === 'こだいかっせい')
+            return false;
+        if (this.isName('ブーストエナジー') && ability === 'クォークチャージ')
+            return false;
+        if (master.category === 'z-crystals')
+            return false;
+        return true;
+    }
+}
+class Type {
+    constructor() {
+        this._list = [];
+    }
+    set list(list) {
+        this._list = list;
+    }
+    get() {
+        return this._list;
+    }
+    has(type) {
+        return this._list.includes(type);
+    }
+    isOnly(type) {
+        return this.get().length === 1 && this.get()[0] === type;
+    }
+    toType(type) {
+        this._list = [type];
     }
 }
 class Pokemon {
-    constructor(slot) {
+    constructor(slot, isMe) {
+        //--------------
+        // 追加効果発動判定
+        //--------------
+        this.isAdditionalEffect = (target, attack) => {
+            if (this._stateChange.sheerForce.isTrue)
+                return false;
+            if (target.status.hp.value.isZero())
+                return false;
+            if (attack.substitute)
+                return false;
+            if (target.ability.isName('りんぷん'))
+                return false;
+            if (target.item.isName('おんみつマント'))
+                return false;
+            return true;
+        };
+        this.sereneGrace = () => {
+            if (this._ability.isName('てんのべぐみ'))
+                return 2;
+            else
+                return 1;
+        };
+        this.rainbow = () => {
+            if (this._move.selected.isName('ひみつのちから'))
+                return 1;
+            if (main.field.getSide(this.isMine()).rainbow.isTrue)
+                return 2;
+            else
+                return 1;
+        };
+        this.isAdditionalRate = (moveRate) => {
+            const base = moveRate * this.sereneGrace() * this.rainbow();
+            return getRandom() < base;
+        };
+        this.isAdditionalFlinch = (moveRate) => {
+            const base = moveRate * this.sereneGrace() * this.rainbow();
+            const flinchBase = Math.min(base, moveRate * 2);
+            return getRandom() < flinchBase;
+        };
+        this._host = true;
         this._id = 0;
-        this._trainer = 'me';
-        this._order = new Order(slot);
+        this._order = new Order(isMe, slot);
         this._name = '';
         this._level = 50;
-        this._type = [];
+        this._type = new Type();
         this._gender = 'genderless';
         this._ability = new Ability();
         this._item = new Item();
@@ -961,18 +1006,13 @@ class Pokemon {
         this._move = new Move();
         this._happiness = 255;
         this._statusAilment = new StatusAilment();
-        this._damage = [];
+        this._attack = new AttackList();
         this._command = new Command;
-        this._stateChange = new StateChangeSummary;
+        this._stateChange = new StateChangeSummary();
+        this._actionOrder = new ActionOrder();
     }
     set id(id) {
         this._id = id;
-    }
-    set trainer(trainer) {
-        this._trainer = trainer;
-    }
-    set damage(damage) {
-        this._damage = damage;
     }
     set command(command) {
         this._command = command;
@@ -1004,11 +1044,11 @@ class Pokemon {
     set statusAilment(statusAilment) {
         this._statusAilment = statusAilment;
     }
+    get host() {
+        return this._host;
+    }
     get id() {
         return this._id;
-    }
-    get trainer() {
-        return this._trainer;
     }
     get order() {
         return this._order;
@@ -1019,17 +1059,14 @@ class Pokemon {
     get move() {
         return this._move;
     }
-    get damage() {
-        return this._damage;
+    get attack() {
+        return this._attack;
     }
     get command() {
         return this._command;
     }
     get stateChange() {
         return this._stateChange;
-    }
-    get name() {
-        return this._name;
     }
     get type() {
         return this._type;
@@ -1055,15 +1092,18 @@ class Pokemon {
     get statusAilment() {
         return this._statusAilment;
     }
+    get actionOrder() {
+        return this._actionOrder;
+    }
     reset() {
+        const isMe = this.isMine();
         const partyOrder = this._order.party;
         const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
         imageHTML.src = '';
-        this._trainer = 'me';
-        this._order = new Order(this._order.party);
+        this._order = new Order(isMe, partyOrder);
         this._name = '';
         this._level = 50;
-        this._type = [];
+        this._type = new Type();
         this._gender = 'genderless';
         this._ability = new Ability();
         this._item = new Item();
@@ -1072,21 +1112,33 @@ class Pokemon {
         this._move = new Move();
         this._happiness = 255;
         this._statusAilment = new StatusAilment();
-        this._damage = [];
-        this._command = new Command;
-        this._stateChange = new StateChangeSummary;
+        this._attack = new AttackList();
+        this._command = new Command();
+        this._stateChange = new StateChangeSummary();
     }
     register(reg) {
         this._id = reg.id;
         this._name = reg.name;
         this._level = reg.level;
-        this._type = reg.type;
+        this._type.list = reg.type;
         this._gender = reg.gender.value;
         this._ability.setOrg(reg.ability.value);
         this._item.name = reg.item;
         this._nature = reg.nature;
         this._status.register(reg.stat);
         this._move.register(reg.move);
+    }
+    copyFromOpp(opp) {
+        this._id = opp._id;
+        this._name = opp._name;
+        this._type = opp._type;
+        this._gender = opp._gender;
+        this._ability.setOrg(opp._ability._name);
+        this._level = opp._level;
+        this._item = opp._item;
+        this._nature = opp._nature;
+        this._status.copyFromOpp(opp._status);
+        this._move.copyFromOpp(opp._move._learned);
     }
     showHandInfo() {
         getHTMLInputElement('party' + this._order.hand + '_name').textContent = (this._name === '') ? '名前' : this.translateName(this._name);
@@ -1095,17 +1147,17 @@ class Pokemon {
         getHTMLInputElement('party' + this._order.hand + '_ability').textContent = (this._name === '') ? '特性' : this.translateAbility(this._ability.name);
         getHTMLInputElement('party' + this._order.hand + '_remainingHP').textContent = (this._name === '') ? '' : String(this._status.hp.value.value);
         getHTMLInputElement('party' + this._order.hand + '_item').textContent = (this._name === '') ? '持ち物' : String(this._item.name);
-        if (this._type.length === 0) {
+        if (this._type.get().length === 0) {
             getHTMLInputElement('party' + this._order.hand + '_type1').textContent = 'タイプ';
             getHTMLInputElement('party' + this._order.hand + '_type2').textContent = '';
         }
-        else if (this._type.length === 1) {
-            getHTMLInputElement('party' + this._order.hand + '_type1').textContent = this.translateType(String(this._type[0]));
+        else if (this._type.get().length === 1) {
+            getHTMLInputElement('party' + this._order.hand + '_type1').textContent = this.translateType(String(this._type.get()[0]));
             getHTMLInputElement('party' + this._order.hand + '_type2').textContent = '';
         }
-        else if (this._type.length === 2) {
-            getHTMLInputElement('party' + this._order.hand + '_type1').textContent = this.translateType(String(this._type[0]));
-            getHTMLInputElement('party' + this._order.hand + '_type2').textContent = this.translateType(String(this._type[1]));
+        else if (this._type.get().length === 2) {
+            getHTMLInputElement('party' + this._order.hand + '_type1').textContent = this.translateType(String(this._type.get()[0]));
+            getHTMLInputElement('party' + this._order.hand + '_type2').textContent = this.translateType(String(this._type.get()[1]));
         }
         this._status.show(this._name, this._order.hand);
         this._move.show(this._order.hand);
@@ -1151,67 +1203,881 @@ class Pokemon {
         }
         return name;
     }
+    isName(name) {
+        return this._name === name;
+    }
+    isMine() {
+        return this._order.team;
+    }
     //----------
     // メッセージ
     //----------
+    isMeToStr() {
+        if (this.isMine())
+            return '自分';
+        else
+            return '相手';
+    }
     msgToBattleField() {
-        writeLog(`${translateENintoJP(this._trainer)}は ${this.translateName(this._name)}を くりだした!`);
+        writeLog(`${this.isMeToStr()}は ${this.translateName(this._name)}を くりだした!`);
     }
-    declareAbility() {
-        writeLog(`${this._name}の ${this._ability}`);
+    getArticle() {
+        if (this.isMine())
+            return this.translateName(this._name);
+        else
+            return '相手の' + this.translateName(this._name);
     }
-    declareFailure() {
+    msgQuickDraw() {
+        writeLog(`${this.getArticle()}は クイックドロウで 行動が はやくなった!`);
+    }
+    msgQuickClaw() {
+        writeLog(`${this.getArticle()}は せんせいのつめで 行動が はやくなった!`);
+    }
+    msgCustapBerry() {
+        writeLog(`${this.getArticle()}は イバンのみで 行動が はやくなった!`);
+    }
+    msgCannotMove() {
+        writeLog(`${this.getArticle()}は 攻撃の 反動で 動けない!`);
+    }
+    msgStillAsleep() {
+        writeLog(`${this.getArticle()}は ぐうぐう 眠っている`);
+    }
+    msgStillFrozen() {
+        writeLog(`${this.getArticle()}は 凍ってしまって 動けない!`);
+    }
+    msgNoPowerPoint() {
+        writeLog(`しかし 技の 残りポイントが なかった!`);
+    }
+    msgTruant() {
+        writeLog(`${this.getArticle()}は なまけている`);
+    }
+    msgFocusPunch() {
+        writeLog(`${this.getArticle()}は 集中が 途切れて 技が 出せない!`);
+    }
+    msgFlinch() {
+        writeLog(`${this.getArticle()}は ひるんで 技が 出せない!`);
+    }
+    msgDisable() {
+        writeLog(`${this.getArticle()}は かなしばりで 技が 出せない!`);
+    }
+    msgGravity() {
+        writeLog(`${this.getArticle()}は じゅうりょくが 強くて ${this._move.selected.translate()}が 出せない!`);
+    }
+    msgHealBlock() {
+        writeLog(`${this.getArticle()}は かいふくふうじで 技が 出せない!`);
+    }
+    msgThroatChop() {
+        writeLog(`${this.getArticle()}は じごくづきの効果で 技が 出せない!`);
+    }
+    msgTaunt() {
+        writeLog(`${this.getArticle()}は ちょうはつされて 技が 出せない!`);
+    }
+    msgImprison() {
+        writeLog(`${this.getArticle()}は ふういんで 技が 出せない!`);
+    }
+    msgStillConfuse() {
+        writeLog(`${this.getArticle()}は 混乱している!`);
+    }
+    msgAttackMyself() {
+        writeLog(`わけも わからず 自分を 攻撃した!`);
+    }
+    msgParalysis() {
+        writeLog(`${this.getArticle()}は 体がしびれて 動かない!`);
+    }
+    msgMeltByMove() {
+        writeLog(`${this.getArticle()}の ${this._move.selected.translate()}で こおりがとけた!`);
+    }
+    msgDeclareMove() {
+        writeLog(`${this.getArticle()}の ${this._move.selected.translate()}!`);
+    }
+    msgDeclareAbility() {
+        writeLog(`${this.translateName(this._name)}の ${this.translateAbility(this._ability.name)}`);
+    }
+    msgDeclareFailure() {
         writeLog(`しかし うまく決まらなかった....`);
     }
-    declareInvalid(info) {
-        info.success = false;
-        writeLog(`${this._name}には 効果がないようだ...`);
+    msgBadRainy() {
+        writeLog(`強い雨の 影響で ほのおタイプの 攻撃が 消失した!`);
     }
-    declareNotHit(info) {
-        info.success = false;
-        writeLog(`${this._name}には 当たらなかった!`);
+    msgBadSunny() {
+        writeLog(`強い日差しの 影響で みずタイプの 攻撃が 蒸発した!`);
     }
-    abilityInfo() {
-        /*
-        for ( const info of changeAbilityTable ) {
-          if ( info.name === this._ability ) {
-            return info;
-          }
+    msgPowder() {
+        writeLog(`${this._move.selected.translate()}に 反応して ふんじんが 爆発した!`);
+    }
+    msgInvalidUser() {
+        writeLog(`しかし ${this.getArticle()}には 使うことが できなかった!`);
+    }
+    msgRefWeight() {
+        writeLog(`${this.getArticle()}は 首を 横に振った`);
+        writeLog(`この技を しかけることが できないようだ......`);
+    }
+    msgCannotUse() {
+        writeLog(`${this.getArticle()}は ${this._move.selected.translate()}が 使えない!`);
+    }
+    msgFutureSight() {
+        writeLog(`${this.getArticle()}は 未来に 攻撃を予知した!`);
+    }
+    msgDoomDesire() {
+        writeLog(`${this.getArticle()}は はめつのねがいを 未来に託した!`);
+    }
+    msgProtean() {
+        writeLog(`${this.getArticle()}は ${this._type.get()[0]}タイプに なった!`);
+    }
+    msgPowerHerb() {
+        writeLog(`${this.getArticle()}は パワフルハーブで 力が みなぎった!`);
+    }
+    msgNotHit() {
+        writeLog(`${this.getArticle()}には 当たらなかった!`);
+    }
+    msgPsychicTerrain() {
+        writeLog(`${this.getArticle()}は サイコフィールドに 守られている!`);
+    }
+    msgQuickGuard() {
+        writeLog(`${this.getArticle()}は ファストガードで 守られた!`);
+    }
+    msgWideGuard() {
+        writeLog(`${this.getArticle()}は ワイドガードで 守られた!`);
+    }
+    msgCraftyShield() {
+        writeLog(`${this.getArticle()}は トリックガードで 守られた!`);
+    }
+    msgProtect() {
+        writeLog(`${this.getArticle()}は 攻撃から 身を守った!`);
+    }
+    msgHurt() {
+        writeLog(`${this.getArticle()}は 傷ついた!`);
+    }
+    msgMatBlock() {
+        writeLog(`${this._move.selected.translate()}は たたみがえしで 防がれた!`);
+    }
+    msgInvalid() {
+        writeLog(`${this.getArticle()}には 効果がないようだ...`);
+    }
+    msgSafetyGoggles(move) {
+        writeLog(`${this.getArticle()}は ぼうじんゴーグルで ${move}を 受けない!`);
+    }
+    msgDamage(damage) {
+        writeLog(`${damage}の ダメージ!`);
+    }
+    msgSuperEffective(targetName) {
+        if (this._attack.getTarget().length === 1) {
+            writeLog(`効果は バツグンだ!`);
         }
-        */
-        const sample = {
-            name: '',
-            exchange: 4,
-            overwrite: 4,
-            noAbility: 4,
-            neutral: 4,
-            copy: 4,
-            copied: 4,
-            transform: 4
+        else {
+            writeLog(`${targetName}に 効果は バツグンだ!`);
+        }
+    }
+    msgNotEffective(targetName) {
+        if (this._attack.getTarget().length === 1) {
+            writeLog(`${targetName}に 効果は 今ひとつのようだ......`);
+        }
+        else {
+            writeLog(`${targetName}に 効果は いまひとつだ`);
+        }
+    }
+    msgCritical(targetName) {
+        if (this._attack.getTarget().length === 1) {
+            writeLog(`急所に 当たった!`);
+        }
+        else {
+            writeLog(`${targetName}に 急所に 当たった!`);
+        }
+    }
+    msgEndure() {
+        writeLog(`${this.getArticle()}は 攻撃を こらえた!`);
+    }
+    msgFocusSash() {
+        writeLog(`${this.getArticle()}は きあいのタスキで 持ちこたえた!`);
+    }
+    msgFocusBand() {
+        writeLog(`${this.getArticle()}は きあいのハチマキで 持ちこたえた!`);
+    }
+    msgCannotEscape() {
+        writeLog(`${this.getArticle()}は もう 逃げられない!`);
+    }
+    msgSaltCure() {
+        writeLog(`${this.getArticle()}は しおづけに なった!`);
+    }
+    msgWhiteHerb() {
+        writeLog(`${this.getArticle()}は しろいハーブで ステータスを 元に戻した!`);
+    }
+    msgLiquidOoze() {
+        writeLog(`${this.getArticle()}は ヘドロえきを 吸い取った!`);
+    }
+    msgDrain(targetName) {
+        writeLog(`${targetName}から 体力を 吸い取った!`);
+    }
+    msgRage() {
+        writeLog(`${this.getArticle()}の いかりのボルテージが 上がっていく!`);
+    }
+    msgClearSmog() {
+        writeLog(`全ての ステータスが 元に 戻った!`);
+    }
+    msgGrudge() {
+        writeLog(`${this.getArticle()}の ${this._move.learned[this._move.selected.slot].translate()}は おんねんで PPが0になった!`);
+    }
+    msgProtectivePads() {
+        writeLog(`${this.getArticle()}は ぼうごパットで 防いだ!`);
+    }
+    msgRoughSkin() {
+        writeLog(`${this.getArticle()}は 傷ついた!`);
+    }
+    msgAttract() {
+        writeLog(`${this.getArticle()}は メロメロに なった!`);
+    }
+    msgMummy() {
+        writeLog(`${this.getArticle()}は とくせいが ミイラになっちゃった!`);
+    }
+    msgLingeringAroma() {
+        writeLog(`${this.getArticle()}は においが うつって とれなくなっちゃった!`);
+    }
+    msgExchangeAbility() {
+        writeLog(`${this.getArticle()}は おたがいの とくせいを 入れ替えた!`);
+    }
+    msgPerishBodySide() {
+        writeLog(`${this.getArticle()}は 3ターン後に 滅びてしまう!`);
+    }
+    msgPerishBodyAll() {
+        writeLog(`おたがいは 3ターン後に 滅びてしまう!`);
+    }
+    msgCursedBody() {
+        writeLog(`${this.getArticle()}の ${this._stateChange.disable.text}を 封じこめた!`);
+    }
+    msgElectromorphosis(moveName) {
+        writeLog(`${this.getArticle()}は ${moveName}を 受けて 充電した!`);
+    }
+    msgAngerPoint() {
+        writeLog(`${this.getArticle()}は 攻撃が 最大まで 上がった!`);
+    }
+    msgHalfBerry() {
+        writeLog(`${this.getArticle()}への ダメージを ${this._stateChange.halfBerry.text}が 弱めた!`);
+    }
+    msgRockyHelmet() {
+        writeLog(`${this.getArticle()}は ゴツゴツメットで ダメージを受けた!`);
+    }
+    msgAirBalloon() {
+        writeLog(`${this.getArticle()}の ふうせんが 割れた!`);
+    }
+    msgIncinerate() {
+        writeLog(`${this.getArticle()}の ${this._item.name}は 焼けてなくなった!`);
+    }
+    msgJabocaBerry(targetName) {
+        writeLog(`${this.getArticle()}は ${targetName}の ジャポのみで ダメージを 受けた!`);
+    }
+    msgRowapBerry(targetName) {
+        writeLog(`${this.getArticle()}は ${targetName}の レンブのみで ダメージを 受けた!`);
+    }
+    msgFainted() {
+        writeLog(`${this.getArticle()}は たおれた!`);
+    }
+    msgDestinyBond() {
+        writeLog(`${this.getArticle()}は 相手を 道連れに した!`);
+    }
+    msgRecoil() {
+        writeLog(`${this.getArticle()}は 反動による ダメージを 受けた!`);
+    }
+    msgBind(targetName) {
+        if (this._move.selected.isName('うずしお')) {
+            writeLog(`${this.getArticle()}は 渦の中に 閉じこめられた!`);
+        }
+        if (this._move.selected.isName('からではさむ')) {
+            writeLog(`${this.getArticle()}は ${targetName}の からに はさまれた!`);
+        }
+        if (this._move.selected.isName('サンダープリズン')) {
+            writeLog(`${this.getArticle()}は ${targetName}に 閉じこめられた!`);
+        }
+        if (this._move.selected.isName('しめつける')) {
+            writeLog(`${this.getArticle()}は ${targetName}に しめつけられた!`);
+        }
+        if (this._move.selected.isName('すなじごく')) {
+            writeLog(`${this.getArticle()}は 砂じごくに 捕らわれた!`);
+        }
+        if (this._move.selected.isName('トラバサミ')) {
+            writeLog(`${this.getArticle()}は トラバサミに 捕らわれた!`);
+        }
+        if (this._move.selected.isName('ほのおのうず')) {
+            writeLog(`${this.getArticle()}は 炎の渦に 閉じこめられた!`);
+        }
+        if (this._move.selected.isName('まきつく')) {
+            writeLog(`${this.getArticle()}は ${targetName}に 巻きつかれた!`);
+        }
+        if (this._move.selected.isName('マグマストーム')) {
+            writeLog(`${this.getArticle()}は マグマの渦に 閉じこめられた!`);
+        }
+        if (this._move.selected.isName('まとわりつく')) {
+            writeLog(`${this.getArticle()}は ${targetName}に まとわりつかれた!`);
+        }
+    }
+    msgKnockOff(targetName, targetItem) {
+        writeLog(`${this.getArticle()}は ${targetName}の ${targetItem}を はたき落とした!`);
+    }
+    msgNotThief(targetName) {
+        writeLog(`${targetName}の 道具を 奪えない!`);
+    }
+    msgThief(targetName, targetItem) {
+        writeLog(`${this.getArticle()}は ${targetName}から ${targetItem}を 奪い取った!`);
+    }
+    msgBugBote(berryName) {
+        writeLog(`${this.getArticle()}は ${berryName}を 奪って 食べた!`);
+    }
+    msgSmackDown() {
+        writeLog(`${this.getArticle()}は 撃ち落とされて 地面に 落ちた!`);
+    }
+    msgThousandWaves() {
+        writeLog(`${this.getArticle()}は もう 逃げられない!`);
+    }
+    msgJawLock() {
+        writeLog(`おたがいの ポケモンは 逃げることが できなくなった!`);
+    }
+    msgColorChange(type) {
+        writeLog(`${this.getArticle()}は ${type}タイプに なった!`);
+    }
+    msgBattleBond() {
+        writeLog(`${this.getArticle()}に きずなの 力が みなぎった!`);
+    }
+    msgLifeOrb() {
+        writeLog(`${this.getArticle()}は 命が 少し削られた!`);
+    }
+    msgShellBell() {
+        writeLog(`${this.getArticle()}は かいがらのすずで 少し 回復`);
+    }
+    msgPickpocket() {
+        writeLog(`${this.getArticle()}の ${this._item.name}を 奪った!`);
+    }
+    msgAddHPByAbility() {
+        writeLog(`${this.getArticle()}の 体力が 回復した!`);
+    }
+    msgAddHPByItem(item) {
+        writeLog(`${this.getArticle()}は ${item}で 体力を 回復した!`);
+    }
+    msgCureConfuse() {
+        writeLog(`${this.getArticle()}の 混乱が 解けた!`);
+    }
+    //------------------
+    // 特性による優先度変更
+    //------------------
+    changeMovePriority() {
+        if (this._ability.isName('いたずらごころ') && this._move.selected.isStatus()) {
+            this._move.selected.priority += 1;
+        }
+        if (this._ability.isName('はやてのつばさ') && this._status.hp.value.isMax()) {
+            this._move.selected.priority += 1;
+        }
+        if (this._ability.isName('ヒーリングシフト') && this._move.selected.getFlag().heal) {
+            this._move.selected.priority += 3;
+        }
+    }
+    //-------------------------
+    // 残りHPによるきのみの発動判定
+    //-------------------------
+    isActivateBerryByHP(denominator) {
+        const gluttony = (this._ability.isName('くいしんぼう')) ? 2 : 1;
+        if (denominator === 2) {
+            return this._status.hp.value.isLessEqual(denominator);
+        }
+        else {
+            return this._status.hp.value.isLessEqual(denominator / gluttony);
+        }
+    }
+    //-----------
+    // 持ち物の消費
+    //-----------
+    consumeItem() {
+        if (this._item.isNull())
+            return;
+        if (this._item.isBerry()) {
+            this._item.belch = true;
+            this.activateCheekPouch();
+        }
+        this._item.recyclable();
+    }
+    //-------------
+    // ほおぶくろ発動
+    //-------------
+    activateCheekPouch() {
+        if (!this._ability.isName('ほおぶくろ'))
+            return;
+        if (this._status.hp.value.isZero())
+            return;
+        if (this._status.hp.value.isMax())
+            return;
+        if (this._stateChange.healBlock.isTrue)
+            return;
+        const value = Math.floor(this.getOrgHP() / 3);
+        this._status.hp.value.add(value);
+        this.msgDeclareAbility();
+        this.msgAddHPByAbility();
+    }
+    //-----------
+    // 実質HP
+    //-----------
+    getOrgHP() {
+        const dynamax = (this._stateChange.dynamax.isTrue) ? 0.5 : 1;
+        return this._status.hp.av * dynamax;
+    }
+    //--------------
+    // ランク変化可能量
+    //--------------
+    getRankVariableOrg(value) {
+        value = (this._ability.isName('たんじゅん')) ? value * 2 : value;
+        value = (this._ability.isName('あまのじゃく')) ? value * -1 : value;
+        return value;
+    }
+    getRankVariable(para, value) {
+        switch (para) {
+            case 'atk':
+                return this._status.atk.rank.getVariable(value);
+            case 'def':
+                return this._status.def.rank.getVariable(value);
+            case 'spA':
+                return this._status.spA.rank.getVariable(value);
+            case 'spD':
+                return this._status.spD.rank.getVariable(value);
+            case 'spe':
+                return this._status.spe.rank.getVariable(value);
+            case 'acc':
+                return this._status.acc.getVariable(value);
+            case 'eva':
+                return this._status.eva.getVariable(value);
+            default:
+                return 0;
+        }
+    }
+    isChangeRankByOther(para, value, other) {
+        const setting = this.getRankVariableOrg(value);
+        const real = this.getRankVariable(para, setting);
+        const abilityCheck = (para, real) => {
+            if (real >= 0)
+                return true;
+            if (this._ability.isName('しろいけむり'))
+                return false;
+            if (this._ability.isName('クリアボディ'))
+                return false;
+            if (this._ability.isName('メタルプロテクト'))
+                return false;
+            if (main.isExistAbilityInSide(this.isMine(), 'フラワーベール') && this._type.has('Grass'))
+                return false;
+            if (this._ability.isName('ミラーアーマー')) {
+                //changeTargetRank( target, pokemon, parameter, change );
+                // return;
+            }
+            if (this._ability.isName('かいりきバサミ') && para === 'atk')
+                return false;
+            if (this._ability.isName('はとむね') && para === 'def')
+                return false;
+            if (this._ability.isName('するどいめ') && para === 'acc')
+                return false;
+            return true;
         };
-        return sample;
-    }
-    //----------
-    // 行動の失敗
-    //----------
-    // 反動で動けない
-    isCannotMove() {
-        if (!this._stateChange.cannotMove.isTrue)
+        const mistCheck = (real, other) => {
+            if (real >= 0)
+                return true;
+            if (!main.field.getSide(this.isMine()).mist.isTrue)
+                return true;
+            if (!other.ability.isName('すりぬけ'))
+                return true;
             return false;
-        this._stateChange.cannotMove.reset();
-        // なまけ
-        if (this._ability.isName('Truant')) {
-            this._stateChange.truant.count += 1;
+        };
+        return real !== 0 && mistCheck(real, other) && abilityCheck(para, real);
+    }
+    isChangeRank(para, value) {
+        const setting = this.getRankVariableOrg(value);
+        const real = this.getRankVariable(para, setting);
+        return real !== 0;
+    }
+    changeRank(para, value, item) {
+        const setting = this.getRankVariableOrg(value);
+        const real = this.getRankVariable(para, setting);
+        this._status.changeRank(para, real, setting, this.getArticle(), item);
+    }
+    changeRankByOther(para, value, other) {
+        this.changeRank(para, value);
+        const setting = this.getRankVariableOrg(value);
+        const real = this.getRankVariable(para, setting);
+        if (real >= 0)
+            return;
+        if (this._ability.isName('まけんき') && this.isMine() !== other.isMine()) {
+            this.msgDeclareAbility();
+            this.changeRank('atk', 2);
         }
+        if (this.ability.isName('かちき') && this.isMine() !== other.isMine()) {
+            this.msgDeclareAbility();
+            this.changeRank('spA', 2);
+        }
+    }
+    changeRankByRage() {
+        const setting = this.getRankVariableOrg(1);
+        const real = this.getRankVariable('atk', setting);
+        this.status.atk.rank.add(real);
+    }
+    safeGuardCheck(other) {
+        if (!main.field.getSide(this.isMine()).safeguard.isTrue)
+            return true;
+        if (other.ability.isName('すりぬけ') && this.isMine() !== other.isMine())
+            return true;
+        return false;
+    }
+    mistTerrainCheck() {
+        if (!main.field.terrain.isMisty())
+            return true;
+        if (!this.isGround())
+            return true;
+        return false;
+    }
+    //-----------
+    // 状態異常付与
+    //-----------
+    isGetAilmentByOther(ailment, other) {
+        if (ailment === null)
+            return false;
+        if (!this._statusAilment.isHealth())
+            return false;
+        const abilityCheck = () => {
+            if (this._ability.isName('りんぷん'))
+                return false;
+            if (this._ability.isName('きよめのしお'))
+                return false;
+            if (this._ability.isName('ぜったいねむり'))
+                return false;
+            if (this._ability.isName('リーフガード') && main.field.weather.isSunny(this))
+                return false;
+            //if ( this._ability.isName( 'リミットシールド' ) && this._name === 'メテノ(流星)' ) return false;
+            if (main.isExistAbilityInSide(this.isMine(), 'フラワーベール') && this._type.has('Grass'))
+                return false;
+            return true;
+        };
+        const eachCheck = (ailment) => {
+            switch (ailment) {
+                case 'Paralysis':
+                    if (this._type.has('Electric'))
+                        return false;
+                    break;
+                case 'Frozen':
+                    if (this._type.has('Ice'))
+                        return false;
+                    if (main.field.weather.isSunny(this))
+                        return false;
+                    if (this._ability.isName('マグマのよろい'))
+                        return false;
+                    break;
+                case 'Burned':
+                    if (this._type.has('Fire'))
+                        return false;
+                    if (this._ability.isName('みずのベール'))
+                        return false;
+                    if (this._ability.isName('すいほう'))
+                        return false;
+                    break;
+                case 'Poisoned':
+                    if (this._ability.isName('めんえき'))
+                        return false;
+                    if (main.isExistAbilityInSide(this.isMine(), 'パステルベール'))
+                        return false;
+                    if (this._type.has('Poison'))
+                        return false;
+                    if (this._type.has('Steel'))
+                        return false;
+                    break;
+                case 'Asleep':
+                    if (this._ability.isName('やるき'))
+                        return false;
+                    if (this._ability.isName('ふみん'))
+                        return false;
+                    if (main.isExistAbilityInSide(this.isMine(), 'スイートベール'))
+                        return false;
+                    if (main.field.terrain.isElectric() && this.isGround())
+                        return false;
+                    if (main.isUproar())
+                        return false;
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        };
+        return this.safeGuardCheck(other) && this.mistTerrainCheck() && abilityCheck() && eachCheck(ailment);
+    }
+    getAilmentByAdditionalEffect(ailmentName, other) {
+        switch (ailmentName) {
+            case 'paralysis':
+                if (!this.isGetAilmentByOther('Paralysis', other))
+                    return;
+                this._statusAilment.getParalysis();
+                break;
+            case 'burn':
+                if (!this.isGetAilmentByOther('Burned', other))
+                    return;
+                this._statusAilment.getBurned();
+                break;
+            case 'freeze':
+                if (!this.isGetAilmentByOther('Frozen', other))
+                    return;
+                this._statusAilment.getFrozen();
+                break;
+            case 'sleep':
+                if (!this.isGetAilmentByOther('Asleep', other))
+                    return;
+                this._statusAilment.getAsleep();
+                break;
+            case 'poison':
+                if (!this.isGetAilmentByOther('Poisoned', other))
+                    return;
+                if (other.move.selected.isName('Poison Fang')) {
+                    this._statusAilment.getBadPoisoned();
+                }
+                else {
+                    this._statusAilment.getPoisoned();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    //--------
+    // こんらん
+    //--------
+    isGetConfusionByAdditionalEffect(other) {
+        if (this._stateChange.confuse.isTrue)
+            return false;
+        if (this._ability.isName('マイペース'))
+            return false;
+        return this.safeGuardCheck(other) && this.mistTerrainCheck();
+    }
+    getConfusion() {
+        this._stateChange.getConfusion(this.getArticle());
+    }
+    //--------
+    // メロメロ
+    //--------
+    isGetAttract(other) {
+        if (this._gender === 'genderless')
+            return false;
+        if (other.gender === 'genderless')
+            return false;
+        if (this._gender === other.gender)
+            return false;
+        if (this.isMine() === other.isMine())
+            return false;
+        if (this._stateChange.attract.isTrue)
+            return false;
+        if (this._ability.isName('どんかん'))
+            return false;
+        if (!isExistAbilityOneSide(this.isMine(), 'アロマベール'))
+            return false;
         return true;
     }
+    getAttract(other) {
+        this._stateChange.attract.beTrue(other.order);
+        this.msgAttract();
+        if (!this._item.isName('あかいいと'))
+            return;
+        if (!other.isGetAttract(this))
+            return;
+        other.getAttract(this);
+    }
+    //--------------
+    // フォルムチェンジ
+    //--------------
+    getNextForm() {
+        if (this._name === 'ギルガルド(盾)')
+            return 'ギルガルド(剣)';
+        if (this._name === 'ギルガルド(剣)')
+            return 'ギルガルド(盾)';
+        if (this._name === 'メロエッタ(ボイス)')
+            return 'メロエッタ(ステップ)';
+        if (this._name === 'メロエッタ(ステップ)')
+            return 'メロエッタ(ボイス)';
+        if (this._name === 'ミミッキュ(化けた姿)')
+            return 'ミミッキュ(ばれた姿)';
+        if (this._name === 'ウッウ(鵜呑み)')
+            return 'ウッウ';
+        if (this._name === 'ウッウ(丸呑み)')
+            return 'ウッウ';
+        if (this._name === 'コオリッポ(アイス)')
+            return 'コオリッポ(ナイス)';
+        if (this._name === 'コオリッポ(ナイス)')
+            return 'コオリッポ(アイス)';
+        return this._name;
+    }
+    formChange() {
+        const nextForm = this.getNextForm();
+        if (nextForm === this._name)
+            return;
+        this._name = nextForm;
+        const pokemon = this.getMaster();
+        this._type.list = pokemon.type;
+        this._ability.setOrg(pokemon.ability[0]);
+        this._status.formChange(pokemon.baseStatus, this._level, this.getNatureMaster());
+    }
+    msgAegislashSchild() {
+        writeLog(`ブレードフォルム チェンジ!`);
+    }
+    msgAegislashBlade() {
+        writeLog(`シールドフォルム チェンジ!`);
+    }
+    msgRelicSong() {
+        writeLog(`${this.getArticle()}の 姿が 変化した!`);
+    }
+    msgDisguise() {
+        writeLog(`${this.getArticle()}の ばけのかわが はがれた!`);
+    }
+    msgIceFace() {
+        writeLog(`${this.getArticle()}の 姿が 変化した!`);
+    }
+    //-------------
+    // きのみを食べる
+    //-------------
+    getRipen() {
+        return (this._ability.isName('じゅくせい')) ? 2 : 1;
+    }
+    getChangeValueByBerry(denominator) {
+        const value = Math.floor(this.getOrgHP() / denominator) * this.getRipen();
+        return value;
+    }
+    eatBerryJuice() {
+        this._status.hp.value.add(10);
+        this.msgAddHPByItem('きのみジュース');
+    }
+    eatCheriBerry() {
+        this._statusAilment.getHealth('クラボのみ');
+    }
+    eatChestoBerry() {
+        this._statusAilment.getHealth('カゴのみ');
+    }
+    eatPechaBerry() {
+        if (!this._statusAilment.isPoisoned() && !this._statusAilment.isBadPoisoned())
+            return;
+        this._statusAilment.getHealth('モモンのみ');
+    }
+    eatRawstBerry() {
+        this._statusAilment.getHealth('チーゴのみ');
+    }
+    eatAspearBerry() {
+        this._statusAilment.getHealth('ナナシのみ');
+    }
+    eatLeppaBerry() {
+        // ヒメリのみ
+    }
+    eatOranBerry() {
+        this._status.hp.value.add(10 * this.getRipen());
+        this.msgAddHPByItem('オレンのみ');
+    }
+    eatPersimBerry() {
+        // キーのみ
+    }
+    eatLumBerry() {
+        this._statusAilment.getHealth('ラムのみ');
+        // 混乱を治す
+    }
+    eatSitrusBerry() {
+        const value = this.getChangeValueByBerry(4);
+        this._status.hp.value.add(value);
+        this.msgAddHPByItem('オボンのみ');
+    }
+    eatFigyBerry() {
+        const value = this.getChangeValueByBerry(3);
+        this._status.hp.value.add(value);
+        this.msgAddHPByItem('フィラのみ');
+    }
+    eatWikiBerry() {
+        const value = this.getChangeValueByBerry(3);
+        this._status.hp.value.add(value);
+        this.msgAddHPByItem('ウイのみ');
+    }
+    eatMagoBerry() {
+        const value = this.getChangeValueByBerry(3);
+        this._status.hp.value.add(value);
+        this.msgAddHPByItem('マゴのみ');
+    }
+    eatAguavBerry() {
+        const value = this.getChangeValueByBerry(3);
+        this._status.hp.value.add(value);
+        this.msgAddHPByItem('バンジのみ');
+    }
+    eatIapapaBerry() {
+        const value = this.getChangeValueByBerry(3);
+        this._status.hp.value.add(value);
+        this.msgAddHPByItem('イアのみ');
+    }
+    eatLiechiBerry() {
+        this.changeRank('atk', this.getRipen(), 'チイラのみ');
+    }
+    eatGanlonBerry() {
+        this.changeRank('def', this.getRipen(), 'リュガのみ');
+    }
+    eatSalacBerry() {
+        this.changeRank('spe', this.getRipen(), 'カムラのみ');
+    }
+    eatPetayaBerry() {
+        this.changeRank('spA', this.getRipen(), 'ヤタピのみ');
+    }
+    eatApicotBerry() {
+        this.changeRank('spD', this.getRipen(), 'ズアのみ');
+    }
+    eatLansatBerry() {
+        // サンのみ
+    }
+    eatStarfBerry() {
+        // スターのみ
+    }
+    eatEnigmaBerry() {
+        const value = this.getChangeValueByBerry(4);
+        this._status.hp.value.add(value);
+        this.msgAddHPByItem('ナゾのみ');
+    }
+    eatMicleBerry() {
+        // ミクルのみ
+    }
+    eatKeeBerry() {
+        this.changeRank('def', this.getRipen(), 'アッキのみ');
+    }
+    eatMarangaBerry() {
+        this.changeRank('spD', this.getRipen(), 'タラプのみ');
+    }
+    //-----------
+    // 手持ちに戻る
+    //-----------
+    isFainted() {
+        if (!this._status.hp.value.isZero())
+            return false;
+        this.msgFainted();
+        return true;
+    }
+    toHand() {
+        const naturalCure = () => {
+            if (!this._ability.isName('しぜんかいふく'))
+                return;
+            this._statusAilment.getHealth();
+        };
+        const regenerator = () => {
+            if (!this._ability.isName('さいせいりょく'))
+                return;
+            const value = Math.floor(this.getOrgHP() / 3);
+            this._status.hp.value.add(value);
+        };
+        if (!this._status.hp.value.isZero()) {
+            naturalCure(); // しぜんかいふく
+            regenerator(); // さいせいりょく
+        }
+        // 情報のリセット
+        // pokemon.ability = pokemon.statusOrg.ability;
+        // pokemon.type1 = pokemon.statusOrg.type1;
+        // pokemon.type2 = pokemon.statusOrg.type2;
+        // pokemon.command = new Command;
+        // pokemon.damage = [];
+        // pokemon.moveUsed = new AvailableMove;
+        this._status.resetRank();
+        this._order.battle = null;
+        const hand = this._order.hand;
+        this._order.hand = main.field.numberOfPokemon;
+        main.getPlayer(this.isMine()).cycleHand(hand);
+    }
     getMaster() {
-        let master = pokemonMaster.find((m) => {
-            return m.nameEN === this._name;
-        });
-        if (!master)
-            master = pokemonMaster[0];
-        return master;
+        return pokemonMaster.filter(p => p.nameEN === this._name)[0];
+    }
+    getNatureMaster() {
+        return natureMaster.filter(n => n.nameEN === this._nature)[0];
     }
     getWeight() {
         const master = this.getMaster();
@@ -1231,5 +2097,26 @@ class Pokemon {
     isContact() {
         const flag = this._move.selected.getFlag();
         return flag.contact && !this._ability.isName('えんかく');
+    }
+    isGround() {
+        if (this._stateChange.ingrain.isTrue === true)
+            return true;
+        if (this._stateChange.smackDown.isTrue === true)
+            return true;
+        if (main.field.whole.gravity.isTrue === true)
+            return true;
+        if (this._item.isName('くろいてっきゅう'))
+            return true;
+        if (this._type.has('Flying'))
+            return false;
+        if (this._ability.isName('ふゆう'))
+            return false;
+        if (this._item.isName('ふうせん'))
+            return false;
+        if (this._stateChange.magnetRise.isTrue)
+            return false;
+        if (this._stateChange.telekinesis.isTrue)
+            return false;
+        return true;
     }
 }

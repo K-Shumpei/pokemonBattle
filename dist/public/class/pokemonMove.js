@@ -21,6 +21,12 @@ class Move {
         this._learned[2].register(move.slot[2]);
         this._learned[3].register(move.slot[3]);
     }
+    copyFromOpp(move) {
+        this._learned[0].copyFromOpp(move[0]);
+        this._learned[1].copyFromOpp(move[1]);
+        this._learned[2].copyFromOpp(move[2]);
+        this._learned[3].copyFromOpp(move[3]);
+    }
     show(handOrder) {
         this._learned[0].show(handOrder);
         this._learned[1].show(handOrder);
@@ -101,41 +107,34 @@ class SelectedMove {
         this._name = '';
         this._type = null;
         this._class = 'physical';
-        this._target = '';
+        this._target = 'user';
         this._power = 0;
         this._accuracy = 0;
         this._priority = 0;
         this._critical = 0;
-    }
-    set slot(slot) {
-        this._slot = slot;
-    }
-    set name(name) {
-        this._name = name;
+        this._skin = new StateChange('スキン');
+        this._store = '';
     }
     set type(type) {
         this._type = type;
     }
-    set target(target) {
-        this._target = target;
-    }
     set power(power) {
         this._power = power;
-    }
-    set accuracy(accuracy) {
-        this._accuracy = accuracy;
     }
     set priority(priority) {
         this._priority = priority;
     }
-    set critical(critical) {
-        this._critical = critical;
+    get name() {
+        return this._name;
     }
     get slot() {
         return this._slot;
     }
-    get name() {
-        return this._name;
+    get type() {
+        return this._type;
+    }
+    get class() {
+        return this._class;
     }
     get target() {
         return this._target;
@@ -152,8 +151,20 @@ class SelectedMove {
     get critical() {
         return this._critical;
     }
+    get skin() {
+        return this._skin;
+    }
     translate() {
         return moveMaster.filter(m => m.nameEN === this._name)[0].nameJA;
+    }
+    getMaster() {
+        return moveMaster.filter(m => m.nameEN === this._name)[0];
+    }
+    getFlag() {
+        return moveFlagMaster.filter(flag => flag.nameEN === this._name)[0];
+    }
+    getAddOn() {
+        return moveAddOnMaster.filter(add => add.nameEN === this._name)[0];
     }
     setSelected(move) {
         const master = moveMaster.find((m) => {
@@ -170,9 +181,6 @@ class SelectedMove {
         this._priority = master.priority;
         this._critical = master.priority;
     }
-    getFlag() {
-        return moveFlagMaster.filter(flag => flag.nameEN === this._name)[0];
-    }
     isType(type) {
         return this._type === type;
     }
@@ -184,6 +192,85 @@ class SelectedMove {
     }
     isStatus() {
         return this._class === 'status';
+    }
+    isName(name) {
+        return this._name === name;
+    }
+    isExplosion() {
+        return explosionMoveList.includes(this._name);
+    }
+    //---------------------
+    // スキン系特性が発動するか
+    //---------------------
+    isActivateSkin(type) {
+        if (changeTypeMoveList.includes(this._name))
+            return false;
+        if (this._name === 'わるあがき')
+            return false;
+        if (type === 'Normal' && this._type === 'Normal')
+            return false;
+        if (type !== 'Normal' && this._type !== 'Normal')
+            return false;
+        return true;
+    }
+    activateSkin(type) {
+        if (!this.isActivateSkin(type))
+            return;
+        this._type = type;
+        this._skin.isTrue = true;
+        this._skin.text = String(this._type);
+    }
+    //-------
+    // ため技
+    //-------
+    setStore() {
+        this._store = this._name;
+    }
+    isStore() {
+        return this._store !== '';
+    }
+    //-------------
+    // マグニチュード
+    //-------------
+    fixMagnitudePower() {
+        if (!this.isName('マグニチュード'))
+            return;
+        const random = getRandom();
+        if (random >= 95) {
+            this._power = 150;
+            writeLog(`マグニチュード10!`);
+            return;
+        }
+        if (random >= 85) {
+            this._power = 110;
+            writeLog(`マグニチュード9!`);
+            return;
+        }
+        if (random >= 65) {
+            this._power = 90;
+            writeLog(`マグニチュード8!`);
+            return;
+        }
+        if (random >= 35) {
+            this._power = 70;
+            writeLog(`マグニチュード7!`);
+            return;
+        }
+        if (random >= 15) {
+            this._power = 50;
+            writeLog(`マグニチュード6!`);
+            return;
+        }
+        if (random >= 5) {
+            this._power = 30;
+            writeLog(`マグニチュード5!`);
+            return;
+        }
+        if (random >= 0) {
+            this._power = 10;
+            writeLog(`マグニチュード4!`);
+            return;
+        }
     }
 }
 class MoveFlag {

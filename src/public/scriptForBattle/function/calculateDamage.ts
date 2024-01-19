@@ -1114,7 +1114,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
   if ( isHalfBerry ) {
     const ripen: number = ( target.ability.isName( 'じゅくせい' ) )? 1 / 2 : 1;
     corrM = Math.round( corrM * 2048 * ripen / 4096 );
-    eatBerry( target, target.name );
+    //eatBerry( target, target.name );
   }
 
   // Mtwice

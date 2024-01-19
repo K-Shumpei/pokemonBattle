@@ -1,30 +1,4 @@
 "use strict";
-// 技の追加効果によるHP変化
-function changeHPByMove(pokemon, target, change) {
-    let value = change;
-    if (pokemon.item.isName('おおきなねっこ') === true) {
-        value = fiveRoundEntry(value * 5324 / 4096);
-    }
-    if (target.ability.isName('ヘドロえき')) {
-        if (pokemon.ability.isName('マジックガード'))
-            return;
-        // HP減少
-        pokemon.status.hp.value.add(-1 * value);
-        // メッセージ
-        target.declareAbility();
-        writeLog(`${getArticle(pokemon)}は ヘドロえきを 吸い取った!`);
-    }
-    else {
-        if (pokemon.status.hp.value.isMax())
-            return;
-        if (pokemon.stateChange.healBlock.isTrue === true)
-            return;
-        // HP回復
-        pokemon.status.hp.value.add(value);
-        // メッセージ
-        writeLog(`${getArticle(target)}から 体力を 吸い取った!`);
-    }
-}
 // きのみを食べることによるHP回復
 function changeHPByBerry(pokemon, item) {
     if (pokemon.status.hp.value.isMax())
@@ -87,7 +61,7 @@ function changeHPByAbility(pokemon, value, sign) {
             return;
         if (pokemon.stateChange.healBlock.isTrue === true)
             return;
-        pokemon.declareAbility();
+        pokemon.msgDeclareAbility();
         // HP回復
         pokemon.status.hp.value.add(value);
         // メッセージ

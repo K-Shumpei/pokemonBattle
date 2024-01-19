@@ -1,22 +1,177 @@
 "use strict";
-class BothParty {
+class Main {
     constructor() {
-        this._myParty = new Party();
-        this._oppParty = new Party();
+        this._me = new Player(true);
+        this._opp = new Player(false);
+        this._field = new Field();
     }
-    get myParty() {
-        return this._myParty;
+    get me() {
+        return this._me;
     }
-    get oppParty() {
-        return this._oppParty;
+    get opp() {
+        return this._opp;
+    }
+    get field() {
+        return this._field;
+    }
+    setHost(host) {
+        this._me.setHost(host);
+        this._opp.setHost(!host);
+        this._field.setHost(host);
+    }
+    sortUnique(pokeList) {
+        const result = pokeList.sort((a, b) => {
+            // トレーナー
+            if (a.host)
+                return -1;
+            if (b.host)
+                return 1;
+            // パーティの並び順
+            if (a.order.party > b.order.party)
+                return -1;
+            return 1;
+        });
+        return result;
+    }
+    getPlayer(isMe) {
+        return (isMe) ? this._me : this._opp;
+    }
+    getParty(isMe) {
+        return (isMe) ? this._me.pokemon : this._opp.pokemon;
+    }
+    getPokemonInBattle() {
+        const me = this._me.pokemon.filter(p => p.order.battle !== null);
+        const opp = this._opp.pokemon.filter(p => p.order.battle !== null);
+        const result = me.concat(opp);
+        return this.sortUnique(result);
+    }
+    getPokemonToAttack() {
+        const pokeList = this.getPokemonInBattle().filter(p => p.command.isAttack());
+        return sortByActionOrder(pokeList);
+    }
+    getPokemonToExchange() {
+        const pokeList = this.getPokemonInBattle().filter(p => p.command.isExchange());
+        return sortByActionOrder(pokeList);
+    }
+    getPokemonInSide(isMe) {
+        const pokemon = this.getParty(isMe);
+        const result = pokemon.filter(p => p.order.battle !== null);
+        return this.sortUnique(result);
+    }
+    getPokemonByParty(isMe, party) {
+        const pokemon = this.getParty(isMe);
+        return pokemon.filter(p => p.order.party === party)[0];
+    }
+    getPokemonByBattle(attack) {
+        const pokemon = this.getParty(attack.isMe);
+        return pokemon.filter(p => p.order.battle === attack.battle)[0];
+    }
+    isExistByBattle(isMe, battle) {
+        const pokemon = this.getParty(isMe);
+        return pokemon.filter(p => p.order.battle === battle).length === 1;
+    }
+    isExistAbility(name) {
+        return this.getPokemonInBattle().filter(p => p.ability.isName(name)).length > 0;
+    }
+    getExistAbility(name) {
+        return this.getPokemonInBattle().filter(p => p.ability.isName(name))[0];
+    }
+    isExistAbilityInSide(isMe, name) {
+        return this.getPokemonInSide(isMe).filter(p => p.ability.isName(name)).length > 0;
+    }
+    getExistAbilityInSide(isMe, name) {
+        return this.getPokemonInSide(isMe).filter(p => p.ability.isName(name))[0];
+    }
+    calcSpeed() {
+        for (const pokemon of this.getPokemonInBattle()) {
+            let corr = 4096;
+            if (pokemon.ability.isName('ようりょくそ') && this._field.weather.isSunny(pokemon)) {
+                corr = Math.round(corr * 8192 / 4096);
+            }
+            if (pokemon.ability.isName('すいすい') && this._field.weather.isRainy(pokemon)) {
+                corr = Math.round(corr * 8192 / 4096);
+            }
+            if (pokemon.ability.isName('すなかき') && this._field.weather.isSandy()) {
+                corr = Math.round(corr * 8192 / 4096);
+            }
+            if (pokemon.ability.isName('ゆきかき') && this._field.weather.isSnowy()) {
+                corr = Math.round(corr * 8192 / 4096);
+            }
+            if (pokemon.ability.isName('サーフテール') && this._field.terrain.isElectric()) {
+                corr = Math.round(corr * 8192 / 4096);
+            }
+            if (pokemon.ability.isName('スロースタート')) {
+                corr = Math.round(corr * 2048 / 4096);
+            }
+            if (pokemon.ability.isName('かるわざ')) {
+                corr = Math.round(corr * 8192 / 4096);
+            }
+            if (pokemon.ability.isName('はやあし') && !pokemon.statusAilment.isHealth()) {
+                corr = Math.round(corr * 6144 / 4096);
+            }
+            if (pokemon.ability.isName('こだいかっせい')) {
+                corr = Math.round(corr * 6144 / 4096);
+            }
+            if (pokemon.ability.isName('クォークチャージ')) {
+                corr = Math.round(corr * 6144 / 4096);
+            }
+            if (pokemon.item.isName('スピードパウダー') && pokemon.name === 'メタモン') {
+                corr = Math.round(corr * 8192 / 4096);
+            }
+            if (pokemon.item.isName('こだわりスカーフ')) {
+                corr = Math.round(corr * 6144 / 4096);
+            }
+            if (pokemon.item.isName('くろいてっきゅう')) {
+                corr = Math.round(corr * 2048 / 4096);
+            }
+            if (pokemon.item.isName('きょうせいギプス')) {
+                corr = Math.round(corr * 2048 / 4096);
+            }
+            if (this._field.getSide(pokemon.isMine()).tailwind.isTrue) {
+                corr = Math.round(corr * 8192 / 4096);
+            }
+            if (this._field.getSide(pokemon.isMine()).wetlands.isTrue) {
+                corr = Math.round(corr * 1024 / 4096);
+            }
+            const paralysis = (pokemon.statusAilment.isParalysis()) ? 2048 / 4096 : 1;
+            pokemon.status.spe.calcSpeed(corr, paralysis, this._field.whole.trickRoom.isTrue);
+        }
+    }
+    isUproar() {
+        for (const pokemon of this.getPokemonInBattle()) {
+            if (pokemon.stateChange.uproar.isTrue)
+                return true;
+        }
+        return false;
     }
 }
-class Party {
-    constructor() {
+class Player {
+    constructor(isMe) {
+        this._party = [
+            new Pokemon(0, isMe),
+            new Pokemon(1, isMe),
+            new Pokemon(2, isMe),
+            new Pokemon(3, isMe),
+            new Pokemon(4, isMe),
+            new Pokemon(5, isMe)
+        ];
         this._pokemon = [];
+    }
+    get party() {
+        return this._party;
     }
     get pokemon() {
         return this._pokemon;
+    }
+    setHost(host) {
+        for (const pokemon of this._pokemon) {
+            pokemon._host = host;
+        }
+    }
+    showHandInfo() {
+        for (const pokemon of this._pokemon) {
+            pokemon.showHandInfo();
+        }
     }
     showCommand1stField() {
         // 送信ボタンの非活性化
@@ -41,9 +196,14 @@ class Party {
             }
         }
     }
-    showHandInfo() {
+    isExcangable() {
+        return this._pokemon.filter(p => p.order.battle === null && !p.status.hp.value.isZero()).length > 0;
+    }
+    cycleHand(hand) {
         for (const pokemon of this._pokemon) {
-            pokemon.showHandInfo();
+            if (pokemon.order.hand > hand) {
+                pokemon.order.hand -= 1;
+            }
         }
     }
 }
@@ -84,5 +244,5 @@ class ElectOrder {
         }
     }
 }
-const bothParty = new BothParty();
+const main = new Main();
 const electedOrder = new ElectOrder();

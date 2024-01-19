@@ -38,24 +38,20 @@ def main():
   with open("../src/public/master/moveLearned.ts", "w") as o:
     print('const', 'moveLearnedByPokemon', '= [', file=o)
 
-    # ポケモンの数は 1010
-    for i in range(1,1010):
+    for i in range(1,1026):
       if i % 10 == 0: print(i)
 
       pokemon = getInfo(i)
       if len(pokemon['move']) == 0:
         continue
-
       print( ' ', pokemon, ',', file=o )
 
-    # その他のポケモンは　10000~10280
-    for i in range(10000,10200):
+    for i in range(10000,10278):
       if i % 10 == 0: print(i)
 
       pokemon = getInfo(i)
       if len(pokemon['move']) == 0:
         continue
-
       print( ' ', pokemon, ',', file=o )
 
 

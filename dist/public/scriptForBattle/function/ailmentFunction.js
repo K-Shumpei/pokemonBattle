@@ -7,13 +7,13 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
     if (!target.statusAilment.isHealth())
         return false;
     // しんぴのまもり
-    if (fieldStatus.getSide(target.trainer).safeguard.isTrue === true) {
-        if (pokemon.ability.isName('すりぬけ') || pokemon.trainer === target.trainer)
+    if (fieldStatus.getSide(target.isMine()).safeguard.isTrue === true) {
+        if (pokemon.ability.isName('すりぬけ') || pokemon.isMine() === target.isMine())
             return false;
     }
     // ミストフィールド
     if (fieldStatus.terrain.isMisty()) {
-        if (isGrounded(target) === true)
+        if (target.isGround() === true)
             return false;
     }
     // 特性
@@ -27,47 +27,47 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
         return false;
     if (target.ability.isName('リミットシールド') && target.name === 'メテノ(流星)')
         return false;
-    if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('GRASS'))
+    if (isExistAbilityOneSide(target.isMine(), 'フラワーベール') && target.type.has('Grass'))
         return false;
     // 個別の無効化
-    if (ailment === 'PARALYSIS') {
-        if (getPokemonType(target).includes('ELECTRIC'))
+    if (ailment === 'Paralysis') {
+        if (target.type.has('Electric'))
             return false;
     }
-    if (ailment === 'FROZEN') {
-        if (getPokemonType(target).includes('ICE'))
+    if (ailment === 'Frozen') {
+        if (target.type.has('Ice'))
             return false;
         if (fieldStatus.weather.isSunny(target))
             return false;
         if (target.ability.isName('マグマのよろい'))
             return false;
     }
-    if (ailment === 'BURNED') {
-        if (getPokemonType(target).includes('FIRE'))
+    if (ailment === 'Burned') {
+        if (target.type.has('Fire'))
             return false;
         if (target.ability.isName('みずのベール'))
             return false;
         if (target.ability.isName('すいほう'))
             return false;
     }
-    if (ailment === 'POISONED') {
+    if (ailment === 'Poisoned') {
         if (target.ability.isName('めんえき'))
             return false;
-        if (isExistAbilityOneSide(target.trainer, 'パステルベール'))
+        if (isExistAbilityOneSide(target.isMine(), 'パステルベール'))
             return false;
-        if (getPokemonType(target).includes('POISON'))
+        if (target.type.has('Poison'))
             return false;
-        if (getPokemonType(target).includes('STEEL'))
+        if (target.type.has('Steel'))
             return false;
     }
-    if (ailment === 'ASLEEP') {
+    if (ailment === 'Asleep') {
         if (target.ability.isName('やるき'))
             return false;
         if (target.ability.isName('ふみん'))
             return false;
-        if (isExistAbilityOneSide(target.trainer, 'スイートベール'))
+        if (isExistAbilityOneSide(target.isMine(), 'スイートベール'))
             return false;
-        if (fieldStatus.terrain.isElectric() && isGrounded(target))
+        if (fieldStatus.terrain.isElectric() && target.isGround())
             return false;
         for (const _pokemon of allPokemonInBattlefield()) {
             if (_pokemon.stateChange.uproar.isTrue === true)
@@ -86,16 +86,16 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
         return true;
     }
     // メッセージ
-    if (ailment === 'PARALYSIS') {
+    if (ailment === 'Paralysis') {
         writeLog(`${getArticle(target)}は まひして 技が でにくくなった!`);
     }
-    if (ailment === 'FROZEN') {
+    if (ailment === 'Frozen') {
         writeLog(`${getArticle(target)}は 凍りついた!`);
     }
-    if (ailment === 'BURNED') {
+    if (ailment === 'Burned') {
         writeLog(`${getArticle(target)}は やけどを 負った!`);
     }
-    if (ailment === 'POISONED') {
+    if (ailment === 'Poisoned') {
         writeLog(`${getArticle(target)}は 毒を あびた!`);
     }
     /*
@@ -103,49 +103,10 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
       writeLog( `${getArticle( target )}は 猛毒を あびた!` );
     }
     */
-    if (ailment === 'ASLEEP') {
+    if (ailment === 'Asleep') {
         writeLog(`${getArticle(target)}は 眠ってしまった!`);
     }
     return false;
-}
-// くちばしキャノンによるやけど
-function giveAilmentByBeakBlast(pokemon, target) {
-    // すでに状態異常
-    if (!target.statusAilment.isHealth())
-        return;
-    // しんぴのまもり
-    if (fieldStatus.getSide(target.trainer).safeguard.isTrue === true) {
-        if (!pokemon.ability.isName('すりぬけ') || pokemon.trainer === target.trainer)
-            return;
-    }
-    // ミストフィールド
-    if (fieldStatus.terrain.isMisty()) {
-        if (isGrounded(target) === true)
-            return;
-    }
-    // 特性
-    if (target.ability.isName('りんぷん'))
-        return;
-    if (target.ability.isName('きよめのしお'))
-        return;
-    if (target.ability.isName('ぜったいねむり'))
-        return;
-    if (target.ability.isName('リーフガード') && fieldStatus.weather.isSunny(target))
-        return;
-    if (target.ability.isName('リミットシールド') && target.name === 'メテノ(流星)')
-        return;
-    if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('GRASS'))
-        return;
-    if (getPokemonType(target).includes('FIRE'))
-        return;
-    if (target.ability.isName('みずのベール'))
-        return;
-    if (target.ability.isName('すいほう'))
-        return;
-    // 状態異常になる
-    target.statusAilment.getBurned();
-    // メッセージ
-    writeLog(`${getArticle(target)}は やけどを 負った!`);
 }
 // こんらん
 function giveConfuse(pokemon, target, type) {
@@ -154,13 +115,13 @@ function giveConfuse(pokemon, target, type) {
     // 追加効果で状態異常になる場合
     if (type === 'additional') {
         // しんぴのまもり
-        if (fieldStatus.getSide(target.trainer).safeguard.isTrue === true) {
-            if (!pokemon.ability.isName('すりぬけ') || pokemon.trainer === target.trainer)
+        if (fieldStatus.getSide(target.isMine()).safeguard.isTrue === true) {
+            if (!pokemon.ability.isName('すりぬけ') || pokemon.isMine() === target.isMine())
                 return;
         }
         // ミストフィールド
         if (fieldStatus.terrain.isMisty()) {
-            if (isGrounded(target) === true)
+            if (target.isGround() === true)
                 return;
         }
         // 特性
@@ -171,7 +132,7 @@ function giveConfuse(pokemon, target, type) {
     if (type === 'item') {
         // ミストフィールド
         if (fieldStatus.terrain.isMisty()) {
-            if (isGrounded(target) === true)
+            if (target.isGround() === true)
                 return;
         }
         // 特性
@@ -248,19 +209,19 @@ function cureAilmentByItem(pokemon, ailment, item) {
     // 状態異常回復
     pokemon.statusAilment.getHealth();
     // メッセージ
-    if (ailment === 'PARALYSIS') {
+    if (ailment === 'Paralysis') {
         writeLog(`${getArticle(pokemon)}は ${item}で まひが 治った!`);
     }
-    if (ailment === 'ASLEEP') {
+    if (ailment === 'Asleep') {
         writeLog(`${getArticle(pokemon)}は ${item}で 目を 覚ました!`);
     }
-    if (ailment === 'POISONED') {
+    if (ailment === 'Poisoned') {
         writeLog(`${getArticle(pokemon)}は ${item}で 毒が 治った!`);
     }
-    if (ailment === 'BURNED') {
+    if (ailment === 'Burned') {
         writeLog(`${getArticle(pokemon)}は ${item}で やけどが 治った!`);
     }
-    if (ailment === 'FROZEN') {
+    if (ailment === 'Frozen') {
         writeLog(`${getArticle(pokemon)}は ${item}で こおり状態が 治った!`);
     }
     // なげつける・むしくい・ついばむ
@@ -273,19 +234,19 @@ function cureAilment(pokemon, ailment) {
     // 状態異常回復
     pokemon.statusAilment.getHealth();
     // メッセージ
-    if (ailment === 'PARALYSIS') {
+    if (ailment === 'Paralysis') {
         writeLog(`${getArticle(pokemon)}は まひが 治った!`);
     }
-    if (ailment === 'ASLEEP') {
+    if (ailment === 'Asleep') {
         writeLog(`${getArticle(pokemon)}は 目を 覚ました!`);
     }
-    if (ailment === 'POISONED') {
+    if (ailment === 'Poisoned') {
         writeLog(`${getArticle(pokemon)}は 毒が 治った!`);
     }
-    if (ailment === 'BURNED') {
+    if (ailment === 'Burned') {
         writeLog(`${getArticle(pokemon)}は やけどが 治った!`);
     }
-    if (ailment === 'FROZEN') {
+    if (ailment === 'Frozen') {
         writeLog(`${getArticle(pokemon)}は こおり状態が 治った!`);
     }
 }

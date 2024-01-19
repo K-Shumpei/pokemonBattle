@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="./css/htmlMaster.css">
 
   <!-- マスタ -->
-  <script type="text/javascript" src="./master/move.js"></script>
+  <script type="text/javascript" src="./master/pokemon.js"></script>
 </head>
 
 <bode>
@@ -16,38 +16,48 @@
     document.write(`<table id="sampleTable">`);
     document.write('<tr>');
     document.write('<th>ID</td>');
+    document.write('<th>連番</td>');
     document.write('<th cmanFilterBtn>和名</th>');
     document.write('<th cmanFilterBtn>英名</th>');
-    document.write('<th cmanFilterBtn>タイプ</th>');
-    document.write('<th cmanFilterBtn>分類</th>');
-    document.write('<th cmanFilterBtn>対象</th>');
-    document.write('<th cmanFilterBtn>カテゴリ</th>');
-    document.write('<th cmanFilterBtn>威力</th>');
-    document.write('<th cmanFilterBtn>命中率</th>');
-    document.write('<th cmanFilterBtn>PP</th>');
-    document.write('<th cmanFilterBtn>優先度</th>');
-    document.write('<th cmanFilterBtn>急所ランク</th>');
-    document.write('<th cmanFilterBtn>吸収率</th>');
-    document.write('<th cmanFilterBtn>ひるみ率</th>');
-    document.write('<th cmanFilterBtn>回復率</th>');
+    document.write('<th cmanFilterBtn>性別</th>');
+    document.write('<th cmanFilterBtn>タイプ1</th>');
+    document.write('<th cmanFilterBtn>タイプ2</th>');
+    document.write('<th cmanFilterBtn>特性1</th>');
+    document.write('<th cmanFilterBtn>特性2</th>');
+    document.write('<th cmanFilterBtn>特性3</th>');
+    document.write('<th cmanFilterBtn>HP</th>');
+    document.write('<th cmanFilterBtn>攻撃</th>');
+    document.write('<th cmanFilterBtn>特攻</th>');
+    document.write('<th cmanFilterBtn>防御</th>');
+    document.write('<th cmanFilterBtn>特防</th>');
+    document.write('<th cmanFilterBtn>素早さ</th>');
+    document.write('<th cmanFilterBtn>高さ[m]</th>');
+    document.write('<th cmanFilterBtn>重さ[kg]</th>');
+    document.write('<th cmanFilterBtn>進化可否</th>');
+    document.write('<th cmanFilterBtn>説明</th>');
     document.write('</tr>');
-    for ( const move of moveMaster ) {
+    for ( const pokemon of pokemonMaster ) {
       document.write(`<tr>`);
-      document.write(`<td>${move.id}</td>`);
-      document.write(`<td>${move.nameJA}</td>`);
-      document.write(`<td>${move.nameEN}</td>`);
-      document.write(`<td>${move.type}</td>`);
-      document.write(`<td>${move.class}</td>`);
-      document.write(`<td>${move.target}</td>`);
-      document.write(`<td>${move.category}</td>`);
-      document.write(`<td>${move.power}</td>`);
-      document.write(`<td>${move.accuracy}</td>`);
-      document.write(`<td>${move.powerPoint}</td>`);
-      document.write(`<td>${move.priority}</td>`);
-      document.write(`<td>${move.critical}</td>`);
-      document.write(`<td>${move.drain}</td>`);
-      document.write(`<td>${move.flinch}</td>`);
-      document.write(`<td>${move.healing}</td>`);
+      document.write(`<td>${pokemon.id}</td>`);
+      document.write(`<td>${pokemon.order}</td>`);
+      document.write(`<td>${pokemon.nameJA}</td>`);
+      document.write(`<td>${pokemon.nameEN}</td>`);
+      document.write(`<td>${pokemon.gender}</td>`);
+      document.write(`<td>${pokemon.type[0]}</td>`);
+      document.write(`<td>${pokemon.type[1]}</td>`);
+      document.write(`<td>${pokemon.ability[0]}</td>`);
+      document.write(`<td>${pokemon.ability[1]}</td>`);
+      document.write(`<td>${pokemon.ability[2]}</td>`);
+      document.write(`<td>${pokemon.baseStatus.hp}</td>`);
+      document.write(`<td>${pokemon.baseStatus.atk}</td>`);
+      document.write(`<td>${pokemon.baseStatus.def}</td>`);
+      document.write(`<td>${pokemon.baseStatus.spA}</td>`);
+      document.write(`<td>${pokemon.baseStatus.spD}</td>`);
+      document.write(`<td>${pokemon.baseStatus.spe}</td>`);
+      document.write(`<td>${pokemon.height}</td>`);
+      document.write(`<td>${pokemon.weight}</td>`);
+      document.write(`<td>${pokemon.isEvolve}</td>`);
+      document.write(`<td>${pokemon.text}</td>`);
       document.write(`</tr>`);
     }
     document.write(`</table>`);

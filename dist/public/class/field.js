@@ -261,13 +261,13 @@ class Terrain {
         this.reset();
         this._name = 'misty';
         this.setExtend(pokemon);
-        writeLog(`足下が 不思議な感じに なった!`);
+        writeLog(`足下に 霧が立ち込めた!`);
     }
     getPsychic(pokemon) {
         this.reset();
         this._name = 'psychic';
         this.setExtend(pokemon);
-        writeLog(`足下に 霧が立ち込めた!`);
+        writeLog(`足下が 不思議な感じに なった!`);
     }
     isElectric() {
         return this._name === 'electric';
@@ -353,7 +353,9 @@ class WholeField {
     }
 }
 class SideField {
-    constructor() {
+    constructor(side) {
+        this._host = true;
+        this._side = side;
         this._auroraVeil = new StateChange('オーロラベール');
         this._lightScreen = new StateChange('ひかりのかべ');
         this._reflect = new StateChange('リフレクター');
@@ -378,74 +380,82 @@ class SideField {
         this._wetlands = new StateChange('しつげん');
         this._seaOfFire = new StateChange('ひのうみ');
     }
-    set auroraVeil(auroraVeil) {
-        this._auroraVeil = auroraVeil;
+    set host(host) {
+        this._host = host;
     }
-    set lightScreen(lightScreen) {
-        this._lightScreen = lightScreen;
+    /*
+    set auroraVeil( auroraVeil: StateChange ) {
+      this._auroraVeil = auroraVeil;
     }
-    set reflect(reflect) {
-        this._reflect = reflect;
+    set lightScreen( lightScreen: StateChange ) {
+      this._lightScreen = lightScreen;
     }
-    set matBlock(matBlock) {
-        this._matBlock = matBlock;
+    set reflect( reflect: StateChange ) {
+      this._reflect = reflect;
     }
-    set craftyShield(craftyShield) {
-        this._craftyShield = craftyShield;
+    set matBlock( matBlock: StateChange ) {
+      this._matBlock = matBlock;
     }
-    set quickGuard(quickGuard) {
-        this._quickGuard = quickGuard;
+    set craftyShield( craftyShield: StateChange ) {
+      this._craftyShield = craftyShield;
     }
-    set wideGuard(wideGuard) {
-        this._wideGuard = wideGuard;
+    set quickGuard( quickGuard: StateChange ) {
+      this._quickGuard = quickGuard;
     }
-    set tailwind(tailwind) {
-        this._tailwind = tailwind;
+    set wideGuard( wideGuard: StateChange ) {
+      this._wideGuard = wideGuard;
     }
-    set luckyChant(luckyChant) {
-        this._luckyChant = luckyChant;
+    set tailwind( tailwind: StateChange ) {
+      this._tailwind = tailwind;
     }
-    set mist(mist) {
-        this._mist = mist;
+    set luckyChant( luckyChant: StateChange ) {
+      this._luckyChant = luckyChant;
     }
-    set safeguard(safeguard) {
-        this._safeguard = safeguard;
+    set mist( mist: StateChange ) {
+      this._mist = mist;
     }
-    set rainbow(rainbow) {
-        this._rainbow = rainbow;
+    set safeguard( safeguard: StateChange ) {
+      this._safeguard = safeguard;
     }
-    set stealthRock(stealthRock) {
-        this._stealthRock = stealthRock;
+    set rainbow( rainbow: StateChange ) {
+      this._rainbow = rainbow;
     }
-    set toxicSpikes(toxicSpikes) {
-        this._toxicSpikes = toxicSpikes;
+    set stealthRock( stealthRock: StateChange ) {
+      this._stealthRock = stealthRock;
     }
-    set stickyWeb(stickyWeb) {
-        this._stickyWeb = stickyWeb;
+    set toxicSpikes( toxicSpikes: StateChange ) {
+      this._toxicSpikes = toxicSpikes;
     }
-    set spikes(spikes) {
-        this._spikes = spikes;
+    set stickyWeb( stickyWeb: StateChange ) {
+      this._stickyWeb = stickyWeb;
     }
-    set steelsurge(steelsurge) {
-        this._steelsurge = steelsurge;
+    set spikes( spikes: StateChange ) {
+      this._spikes = spikes;
     }
-    set wildfire(wildfire) {
-        this._wildfire = wildfire;
+    set steelsurge( steelsurge: StateChange ) {
+      this._steelsurge = steelsurge;
     }
-    set volcalith(volcalith) {
-        this._volcalith = volcalith;
+    set wildfire( wildfire: StateChange ) {
+      this._wildfire = wildfire;
     }
-    set vineLash(vineLash) {
-        this._vineLash = vineLash;
+    set volcalith( volcalith: StateChange ) {
+      this._volcalith = volcalith;
     }
-    set cannonade(cannonade) {
-        this._cannonade = cannonade;
+    set vineLash( vineLash: StateChange ) {
+      this._vineLash = vineLash;
     }
-    set wetlands(wetlands) {
-        this._wetlands = wetlands;
+    set cannonade( cannonade: StateChange ) {
+      this._cannonade = cannonade;
     }
-    set seaOfFire(seaOfFire) {
-        this._seaOfFire = seaOfFire;
+    set wetlands( wetlands: StateChange ) {
+      this._wetlands = wetlands;
+    }
+    set seaOfFire( seaOfFire: StateChange ) {
+      this._seaOfFire = seaOfFire;
+    }
+    */
+    get host() {
+        return this._host;
     }
     get auroraVeil() {
         return this._auroraVeil;
@@ -516,6 +526,64 @@ class SideField {
     get seaOfFire() {
         return this._seaOfFire;
     }
+    getArticle() {
+        if (this._side) {
+            return '味方の';
+        }
+        else {
+            return '相手の';
+        }
+    }
+    beToxicSpikes() {
+        if (this._toxicSpikes.count === 2)
+            return;
+        this._toxicSpikes.isTrue = true;
+        this._toxicSpikes.count += 1;
+        writeLog(`${this.getArticle()}足元に どくびしが 散らばった!`);
+    }
+    beSpikes() {
+        if (this._spikes.count === 3)
+            return;
+        this._spikes.isTrue = true;
+        this._spikes.count += 1;
+        writeLog(`${this.getArticle()}足元に まきびしが 散らばった!`);
+    }
+    beStealthRock() {
+        if (this._stealthRock.isTrue)
+            return;
+        this._stealthRock.isTrue = true;
+        writeLog(`${this.getArticle()}周りに とがった岩が ただよい始めた!`);
+    }
+    beStickyWeb() {
+        if (this._stickyWeb.isTrue)
+            return;
+        this._stickyWeb.isTrue = true;
+        writeLog(`${this.getArticle()}足元に ねばねばネットが 広がった!`);
+    }
+    resetToxicSpikes() {
+        if (!this._toxicSpikes.isTrue)
+            return;
+        this._toxicSpikes.reset();
+        writeLog(`${this.getArticle()}足元の どくびしが 消え去った!`);
+    }
+    resetSpikes() {
+        if (!this._spikes.isTrue)
+            return;
+        this._spikes.reset();
+        writeLog(`${this.getArticle()}足元の まきびしが 消え去った!`);
+    }
+    resetStealthRock() {
+        if (!this._stealthRock.isTrue)
+            return;
+        this._stealthRock.reset();
+        writeLog(`${this.getArticle()}周りの ステルスロックが 消え去った!`);
+    }
+    resetStickyWeb() {
+        if (!this._stickyWeb.isTrue)
+            return;
+        this._stickyWeb.reset();
+        writeLog(`${this.getArticle()}足元の ねばねばネットが 消え去った!`);
+    }
 }
 class Field {
     constructor() {
@@ -524,8 +592,8 @@ class Field {
         this._weather = new Weather;
         this._terrain = new Terrain;
         this._whole = new WholeField;
-        this._myField = new SideField;
-        this._opponentField = new SideField;
+        this._myField = new SideField(true);
+        this._opponentField = new SideField(false);
     }
     set weather(weather) {
         this._weather = weather;
@@ -548,8 +616,12 @@ class Field {
     get whole() {
         return this._whole;
     }
-    getSide(side) {
-        if (side === 'me') {
+    setHost(host) {
+        this._myField.host = host;
+        this._opponentField.host = !host;
+    }
+    getSide(host) {
+        if (host === this._myField.host) {
             return this._myField;
         }
         else {

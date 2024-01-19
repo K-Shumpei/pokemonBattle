@@ -1,6 +1,8 @@
 "use strict";
-
-const socket = (0, io)();
+Object.defineProperty(exports, "__esModule", { value: true });
+const socket_io_client_1 = require("socket.io-client");
+const socket = (0, socket_io_client_1.io)();
+//const socket = (0, io)();
 // パスワード送信
 function sendPassword() {
     const inputPassword = getHTMLInputElement('inputPassword').value;
@@ -31,34 +33,16 @@ function findOpponent() {
         getHTMLInputElement('editParty' + i).style.display = 'none';
     }
     // パーティ送信
-    socket.emit('findOpponent', myAllParty, fieldStatus.battleStyle);
+    socket.emit('findOpponent', main.me.party, fieldStatus.battleStyle);
 }
 // 対戦相手が見つかり、戦うポケモンを選ぶ
-socket.on('selectPokemon', (party) => {
+socket.on('selectPokemon', (party, host) => {
+    main.setHost(host);
     for (let i = 0; i < 6; i++) {
-        // トレーナーネーム
-        opponentAllParty[i].trainer = 'opp';
-        // 並び順
-        opponentAllParty[i].order.party = party[i]._order._party;
-        opponentAllParty[i].order.hand = party[i]._order._hand;
-        // 基本ステータス
-        opponentAllParty[i].id = party[i]._id;
-        opponentAllParty[i].name = party[i]._name;
-        opponentAllParty[i].type = party[i]._type;
-        opponentAllParty[i].gender = party[i]._gender;
-        opponentAllParty[i].ability.setOrg(party[i]._ability.name);
-        opponentAllParty[i].level = party[i]._level;
-        opponentAllParty[i].item = party[i]._item;
-        opponentAllParty[i].nature = party[i]._nature;
-        // 実数値・種族値・個体値・努力値
-        opponentAllParty[i].status.copy(party[i]._status);
-        // 技
-        for (let j = 0; j < 4; j++) {
-            opponentAllParty[i].move.learned[j].copyFromOpp(party[i]._move._learned[j]);
-        }
+        main.opp.party[i].copyFromOpp(party[i]);
         // パーティ画像
         const imageHTML = getHTMLInputElement('opponentParty_image' + i);
-        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + opponentAllParty[i].id + '.png';
+        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + main.opp.pokemon[i].id + '.png';
     }
     // 選出完了ボタン
     getHTMLInputElement('decideOrderField').style.display = 'block';
@@ -87,23 +71,23 @@ socket.on('sendOrder', (myOrder, opponentOrder) => {
     // お互いの選出に反映させる
     for (let i = 0; i < fieldStatus.numberOfPokemon; i++) {
         // 手持ちの順番
-        myAllParty[myOrder[i]].order.hand = i;
-        opponentAllParty[opponentOrder[i]].order.hand = i;
+        main.me.party[myOrder[i]].order.hand = i;
+        main.opp.party[opponentOrder[i]].order.hand = i;
         // バトル場の順番
         if (i < fieldStatus.battleStyle) {
-            myAllParty[myOrder[i]].order.battle = i;
-            opponentAllParty[opponentOrder[i]].order.battle = fieldStatus.battleStyle - i - 1;
+            main.me.party[myOrder[i]].order.battle = i;
+            main.opp.party[opponentOrder[i]].order.battle = fieldStatus.battleStyle - i - 1;
         }
         else {
-            myAllParty[myOrder[i]].order.battle = null;
-            opponentAllParty[opponentOrder[i]].order.battle = null;
+            main.me.party[myOrder[i]].order.battle = null;
+            main.opp.party[opponentOrder[i]].order.battle = null;
         }
         // 手持ちにセット
-        bothParty.myParty.pokemon.push(myAllParty[myOrder[i]]);
-        bothParty.oppParty.pokemon.push(opponentAllParty[opponentOrder[i]]);
+        main.me.pokemon.push(main.me.party[myOrder[i]]);
+        main.opp.pokemon.push(main.opp.party[opponentOrder[i]]);
     }
     // 選出されたポケモンの情報・表示
-    bothParty.myParty.showHandInfo();
+    main.me.showHandInfo();
     // 選出されなかったポケモンの情報・表示を削除
     for (let i = 5; i >= fieldStatus.numberOfPokemon; i--) {
         getHTMLInputElement('myParty' + i).style.display = 'none';
@@ -119,21 +103,21 @@ socket.on('sendOrder', (myOrder, opponentOrder) => {
     }
     // 最初のポケモンを出す
     for (let i = 0; i < fieldStatus.battleStyle; i++) {
-        for (const pokemon of bothParty.oppParty.pokemon) {
+        for (const pokemon of main.opp.pokemon) {
             if (pokemon.order.battle === i) {
                 toBattleField(pokemon, i);
             }
         }
     }
     for (let i = 0; i < fieldStatus.battleStyle; i++) {
-        for (const pokemon of bothParty.myParty.pokemon) {
+        for (const pokemon of main.me.pokemon) {
             if (pokemon.order.battle === i) {
                 toBattleField(pokemon, i);
             }
         }
     }
     // コマンド欄の表示
-    bothParty.myParty.showCommand1stField();
+    main.me.showCommand1stField();
 });
 // コマンド送信
 function sendCommand() {
@@ -211,7 +195,7 @@ function sendCommand() {
 // コマンド返還
 socket.on('returnCommand', (myCommand, opponentCommand, random) => {
     for (let i = 0; i < fieldStatus.battleStyle; i++) {
-        for (const pokemon of bothParty.myParty.pokemon) {
+        for (const pokemon of main.me.pokemon) {
             if (pokemon.order.battle !== i) {
                 continue;
             }
@@ -222,7 +206,7 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
             // 使用する技
             pokemon.move.setSelcted(pokemon.command.move);
         }
-        for (const pokemon of bothParty.oppParty.pokemon) {
+        for (const pokemon of main.opp.pokemon) {
             if (pokemon.order.battle !== i) {
                 continue;
             }
@@ -232,6 +216,7 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
             pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
             // 使用する技
             pokemon.move.setSelcted(pokemon.command.move);
+            ;
         }
     }
     // 乱数リセット
@@ -248,9 +233,9 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
     endProcess();
     // 画面表示
     // 選出されたポケモンの情報・表示
-    for (const pokemon of bothParty.myParty.pokemon) {
+    for (const pokemon of main.me.pokemon) {
         pokemon.showHandInfo();
     }
     // コマンド欄の表示
-    bothParty.myParty.showCommand1stField();
+    main.me.showCommand1stField();
 });

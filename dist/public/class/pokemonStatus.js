@@ -53,6 +53,9 @@ class ActualWithThreeValue {
         this._iv = 0;
         this._ev = 0;
     }
+    set bs(bs) {
+        this._bs = bs;
+    }
     get av() {
         return this._av;
     }
@@ -91,13 +94,13 @@ class ActualWithThreeValue {
 class Status {
     constructor() {
         this._hp = new HitPoint();
-        this._atk = new MainStatus();
-        this._def = new MainStatus();
-        this._spA = new MainStatus();
-        this._spD = new MainStatus();
-        this._spe = new MainStatus();
-        this._acc = new Rank();
-        this._eva = new Rank();
+        this._atk = new MainStatus('攻撃');
+        this._def = new MainStatus('防御');
+        this._spA = new MainStatus('特攻');
+        this._spD = new MainStatus('特防');
+        this._spe = new Speed('素早さ');
+        this._acc = new Rank('命中率');
+        this._eva = new Rank('回避率');
     }
     get hp() {
         return this._hp;
@@ -167,13 +170,91 @@ class Status {
         this._acc.toZero();
         this._eva.toZero();
     }
-    copy(status) {
+    copyFromOpp(status) {
         this._hp.copy(status._hp);
         this._atk.copy(status._atk);
         this._def.copy(status._def);
         this._spA.copy(status._spA);
         this._spD.copy(status._spD);
         this._spe.copy(status._spe);
+    }
+    calcRankCorrValue(critical) {
+        this._atk.calcRankCorrValue(critical);
+        this._def.calcRankCorrValue(critical);
+        this._spA.calcRankCorrValue(critical);
+        this._spD.calcRankCorrValue(critical);
+    }
+    formChange(bs, level, nature) {
+        this._hp.bs = bs.hp;
+        this._atk.bs = bs.atk;
+        this._def.bs = bs.def;
+        this._spA.bs = bs.spA;
+        this._spD.bs = bs.spD;
+        this._spe.bs = bs.spe;
+        this._hp.calcAct(level);
+        this._atk.calcAct(level, nature.atk);
+        this._def.calcAct(level, nature.def);
+        this._spA.calcAct(level, nature.spA);
+        this._spD.calcAct(level, nature.spD);
+        this._spe.calcAct(level, nature.spe);
+    }
+    changeRank(para, real, setting, name, item) {
+        switch (para) {
+            case 'atk':
+                this._atk.rank.change(name, real, setting, item);
+                break;
+            case 'def':
+                this._def.rank.change(name, real, setting, item);
+                break;
+            case 'spA':
+                this._spA.rank.change(name, real, setting, item);
+                break;
+            case 'spD':
+                this._spD.rank.change(name, real, setting, item);
+                break;
+            case 'spe':
+                this._spe.rank.change(name, real, setting, item);
+                break;
+            case 'acc':
+                this._acc.change(name, real, setting, item);
+                break;
+            case 'eva':
+                this._eva.change(name, real, setting, item);
+                break;
+            default:
+                break;
+        }
+    }
+    countRank() {
+        let count = 0;
+        count += this._atk.rank.value;
+        count += this._def.rank.value;
+        count += this._spA.rank.value;
+        count += this._spD.rank.value;
+        count += this._spe.rank.value;
+        count += this._acc.value;
+        count += this._eva.value;
+        return count;
+    }
+    useWhiteHerb() {
+        let result = false;
+        result = this._atk.rank.useWhiteHerb();
+        result = this._def.rank.useWhiteHerb();
+        result = this._spA.rank.useWhiteHerb();
+        result = this._spD.rank.useWhiteHerb();
+        result = this._spe.rank.useWhiteHerb();
+        result = this._acc.useWhiteHerb();
+        result = this._eva.useWhiteHerb();
+        return result;
+    }
+    toZeroAllRank() {
+        this._atk.rank.toZero();
+        this._def.rank.toZero();
+        this._spA.rank.toZero();
+        this._spD.rank.toZero();
+        this._spe.rank.toZero();
+        this._acc.toZero();
+        this._eva.toZero();
     }
 }
 // -------------------------
@@ -186,6 +267,11 @@ class HitPoint extends ActualWithThreeValue {
     }
     get value() {
         return this._value;
+    }
+    calcAct(level) {
+        const step1 = this._bs * 2 + this._iv + Math.floor(this._ev / 4);
+        const step2 = step1 * level;
+        this._av = Math.floor(step2 / 100) + level + 10;
     }
 }
 class HitPointValue extends ValueWithRange {
@@ -216,19 +302,142 @@ class HitPointValue extends ValueWithRange {
 // 攻撃・防御・特攻・特防・素早さ
 // -------------------------
 class MainStatus extends ActualWithThreeValue {
-    constructor() {
+    constructor(text) {
         super();
-        this._rank = new Rank();
+        this._rank = new Rank(text);
+        this._value = 0;
     }
     get rank() {
         return this._rank;
+    }
+    get value() {
+        return this._value;
+    }
+    calcRankCorrValue(critical) {
+        const rank = (critical) ? Math.max(this._rank.value, 0) : this._rank.value;
+        const corr = (rank > 0) ? (2 + rank) / 2 : 2 / (2 - rank);
+        this._value = Math.floor(this._av * corr);
+    }
+    calcAct(level, corr) {
+        const step1 = this._bs * 2 + this._iv + Math.floor(this._ev / 4);
+        const step2 = step1 * level;
+        const step3 = Math.floor(step2 / 100);
+        this._av = Math.floor((step3 + 5) * corr);
+    }
+}
+class Speed extends MainStatus {
+    constructor(text) {
+        super(text);
+        this._actionOrder = 0;
+        this._forPowerCalc = 0;
+        this._random = 0;
+    }
+    get actionOrder() {
+        return this._actionOrder;
+    }
+    get forPowerCalc() {
+        return this._forPowerCalc;
+    }
+    get random() {
+        return this._random;
+    }
+    calcSpeed(corr, paralysis, trickRoom) {
+        // ランク補正値の計算
+        const rank = this._rank.value;
+        const rankCorr = (rank > 0) ? (2 + rank) / 2 : 2 / (2 - rank);
+        this._value = Math.floor(this._av * rankCorr);
+        // 各種補正
+        const corr1 = fiveRoundEntry(this._value * corr / 4096);
+        const corr2 = Math.floor(corr1 * paralysis);
+        this._forPowerCalc = Math.min(10000, corr2);
+        // トリックルーム
+        const corr3 = (trickRoom) ? 10000 - this._forPowerCalc : this._forPowerCalc;
+        this._actionOrder = corr3 % 8192;
+        // 乱数
+        this._random = getRandom();
     }
 }
 // -------------------------
 // 命中率・回避率
 // -------------------------
 class Rank extends ValueWithRange {
-    constructor() {
+    constructor(text) {
         super(6, -6);
+        this._text = text;
+    }
+    getVariable(value) {
+        if (value > 0)
+            return Math.min(value, this._max - this._value);
+        if (value < 0)
+            return Math.max(value, this._min + this._value);
+        return value;
+    }
+    change(name, real, setting, item) {
+        this.add(real);
+        if (real === 0 && setting > 0)
+            this.msgNoUp(name);
+        if (real === 0 && setting < 0)
+            this.msgNoDown(name);
+        if (real === 1)
+            this.msgUp(name, item);
+        if (real === -1)
+            this.msgDown(name, item);
+        if (real === 2)
+            this.msgSuperUp(name, item);
+        if (real === -2)
+            this.msgSuperDown(name, item);
+        if (real >= 3)
+            this.msgHyperUp(name, item);
+        if (real <= -3)
+            this.msgHyperDown(name, item);
+    }
+    msgNoUp(name) {
+        writeLog(`${name}の ${this._text}は もう上がらない!`);
+    }
+    msgNoDown(name) {
+        writeLog(`${name}の ${this._text}は もう下がらない!`);
+    }
+    msgUp(name, item) {
+        if (item)
+            writeLog(`${name}は ${item}で ${this._text}が 上がった!`);
+        else
+            writeLog(`${name}の ${this._text}が 上がった!`);
+    }
+    msgDown(name, item) {
+        if (item)
+            writeLog(`${name}は ${item}で ${this._text}が 下がった!`);
+        else
+            writeLog(`${name}の ${this._text}が 下がった!`);
+    }
+    msgSuperUp(name, item) {
+        if (item)
+            writeLog(`${name}は ${item}で ${this._text}が ぐーんと上がった!`);
+        else
+            writeLog(`${name}の ${this._text}が ぐーんと上がった!`);
+    }
+    msgSuperDown(name, item) {
+        if (item)
+            writeLog(`${name}は ${item}で ${this._text}が がくっと下がった!`);
+        else
+            writeLog(`${name}の ${this._text}が がくっと下がった!`);
+    }
+    msgHyperUp(name, item) {
+        if (item)
+            writeLog(`${name}は ${item}で ${this._text}が ぐぐーんと上がった!`);
+        else
+            writeLog(`${name}の ${this._text}が ぐぐーんと上がった!`);
+    }
+    msgHyperDown(name, item) {
+        if (item)
+            writeLog(`${name}は ${item}で ${this._text}が がくーんと下がった!`);
+        else
+            writeLog(`${name}の ${this._text}が がくーんと下がった!`);
+    }
+    useWhiteHerb() {
+        if (this._value < 0) {
+            this.toZero();
+            return true;
+        }
+        return false;
     }
 }

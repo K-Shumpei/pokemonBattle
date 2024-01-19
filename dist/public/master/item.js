@@ -65,7 +65,7 @@ const categoryList = [
     { id: 54, name: 'tm-materials', pocket: 'misc', isUsed: false },
     { id: 55, name: 'picnic', pocket: 'misc', isUsed: false },
 ];
-const itemAPIdata = [
+const itemMaster = [
     { id: 43, nameJA: 'きのみジュース', nameEN: 'Berry Juice', category: 'healing', flingPower: 30, flingEffect: null },
     { id: 112, nameJA: 'こんごうだま', nameEN: 'Adamant Orb', category: 'species-specific', flingPower: 60, flingEffect: null },
     { id: 113, nameJA: 'しらたま', nameEN: 'Lustrous Orb', category: 'species-specific', flingPower: 60, flingEffect: null },

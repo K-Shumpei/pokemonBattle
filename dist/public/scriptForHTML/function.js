@@ -120,30 +120,23 @@ function registerParty(number) {
     // 適切な名前でなければ処理なし
     if (regPokemon.isUnreg())
         return;
-    const name = getHTMLInputElement('register_name').value;
-    const pokemon = getPokemonDataByName(name);
-    // トレーナーネーム
-    myAllParty[number].trainer = 'me';
-    // 並び順
-    myAllParty[number].order.party = number;
-    myAllParty[number].order.hand = number;
     // 登録情報をコピー
-    myAllParty[number].register(regPokemon);
+    main.me.party[number].register(regPokemon);
     // 画面に表示
-    myAllParty[number].showHandInfo();
-    myAllParty[number].showPartyImage();
+    main.me.party[number].showHandInfo();
+    main.me.party[number].showPartyImage();
     // 登録画面リセット
     regPokemon.reset();
     regPokemon.showOnScreen();
 }
 // パーティ編集
 function editParty(number) {
-    if (myAllParty[number].name === '')
+    if (main.me.party[number].name === '')
         return;
-    regPokemon.copy(myAllParty[number]);
+    regPokemon.copy(main.me.party[number]);
     regPokemon.showOnScreen();
-    myAllParty[number].reset();
-    myAllParty[number].showHandInfo();
+    main.me.party[number].reset();
+    main.me.party[number].showHandInfo();
 }
 // パーティランダムセット
 function registerAllRandom() {

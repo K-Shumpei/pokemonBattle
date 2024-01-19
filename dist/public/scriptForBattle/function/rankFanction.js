@@ -12,21 +12,22 @@ function changeTargetRank(pokemon, target, parameter, change) {
     }
     if (value < 0) {
         // しろいきり
-        mist: if (fieldStatus.getSide(target.trainer).mist.isTrue === true) {
-            if (pokemon.stateChange.memo.text === 'わたげ') {
-                const infiltrator = getPokemonByBattle(pokemon.stateChange.memo.target.trainer, pokemon.stateChange.memo.target.battle);
-                if (infiltrator === false)
-                    break mist;
-                if (infiltrator.ability.isName('すりぬけ') && infiltrator.trainer !== target.trainer) {
-                    return;
-                }
+        mist: 
+        /*
+        if ( fieldStatus.getSide( target.isMe ).mist.isTrue === true ) {
+          if ( pokemon.stateChange.memo.text === 'わたげ' ) {
+            const infiltrator: Pokemon | false = getPokemonByBattle( pokemon.stateChange.memo.target.isMe, pokemon.stateChange.memo.target.battle );
+            if ( infiltrator === false ) break mist;
+            if ( infiltrator.ability.isName( 'すりぬけ' ) && infiltrator.isMe !== target.isMe ) {
+              return;
             }
-            else {
-                if (pokemon.ability.isName('すりぬけ') && pokemon.trainer !== target.trainer) {
-                    return;
-                }
+          } else {
+            if ( pokemon.ability.isName( 'すりぬけ' ) && pokemon.isMe !== target.isMe ) {
+              return;
             }
+          }
         }
+        */
         // 特性
         if (target.ability.isName('しろいけむり'))
             return;
@@ -34,10 +35,10 @@ function changeTargetRank(pokemon, target, parameter, change) {
             return;
         if (target.ability.isName('メタルプロテクト'))
             return;
-        if (isExistAbilityOneSide(target.trainer, 'フラワーベール') && getPokemonType(target).includes('GRASS'))
+        if (isExistAbilityOneSide(target.isMine(), 'フラワーベール') && target.type.has('Grass'))
             return;
         if (target.ability.isName('ミラーアーマー')) {
-            changeTargetRank(target, pokemon, parameter, change);
+            //changeTargetRank( target, pokemon, parameter, change );
             return;
         }
         // 個別のパラメーター

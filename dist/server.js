@@ -91,8 +91,8 @@ io.on("connection", (socket) => {
             else {
                 room.player2.socketID = socket.id;
                 room.player2.party = party;
-                io.to(room.player1.socketID).emit('selectPokemon', room.player2.party);
-                io.to(room.player2.socketID).emit('selectPokemon', room.player1.party);
+                io.to(room.player1.socketID).emit('selectPokemon', room.player2.party, true);
+                io.to(room.player2.socketID).emit('selectPokemon', room.player1.party, false);
                 // バトル部屋へ移動
                 const player1 = new BattlePlayerInfo;
                 const player2 = new BattlePlayerInfo;

@@ -1,12 +1,9 @@
 "use strict";
 // 4. ポケモンの行動
 function pokemonAction() {
-    while (getActionOrder().length > 0) {
-        const order = getActionOrder()[0];
-        const pokemon = getPokemonByBattle(order.trainer, order.battleNumber);
-        if (pokemon === false) {
-            continue;
-        }
+    while (main.getPokemonToAttack().length > 0) {
+        main.calcSpeed();
+        const pokemon = main.getPokemonToAttack()[0];
         // 技の成功判定
         const judge = isSuccess(pokemon);
         // コマンドの削除
@@ -16,5 +13,6 @@ function pokemonAction() {
         }
         // 技の効果
         moveEffect(pokemon);
+        break;
     }
 }
