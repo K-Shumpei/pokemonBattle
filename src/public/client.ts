@@ -68,7 +68,7 @@ socket.on( 'selectPokemon', ( party: Pokemon[], host: boolean ) => {
 
     // パーティ画像
     const imageHTML = getHTMLInputElement( 'opponentParty_image' + i );
-    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + main.opp.pokemon[i].id + '.png';
+    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + main.opp.party[i].id + '.png';
   }
 
   // 選出完了ボタン

@@ -181,8 +181,8 @@ function fiveRoundEntry( number: number ) {
 // トレーナー判断
 function getArticle( pokemon: Pokemon ): string {
 
-  if ( pokemon.isMine() ) return pokemon.translateName( pokemon.name );
-  else return '相手の ' + pokemon.translateName( pokemon.name );
+  if ( pokemon.isMine() ) return pokemon.translateName( String( pokemon.name ) );
+  else return '相手の ' + pokemon.translateName( String( pokemon.name ) );
 }
 
 

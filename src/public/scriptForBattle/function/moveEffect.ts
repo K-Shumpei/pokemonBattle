@@ -38,7 +38,7 @@ function moveEffect( pokemon: Pokemon ): void {
       // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
       activateSealedEffects( pokemon, pokemon.isMine(), isRange( pokemon ) );
     }
-
+    // ダメージを本体に与える
     damageToBody( pokemon, !pokemon.isMine() );
     // バツグンの相性判定のメッセージ
     goodCompatibilityMessage( pokemon, !pokemon.isMine() );

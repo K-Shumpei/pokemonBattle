@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const socket_io_client_1 = require("socket.io-client");
-const socket = (0, socket_io_client_1.io)();
-//const socket = (0, io)();
+
+const socket = (0, io)();
 // パスワード送信
 function sendPassword() {
     const inputPassword = getHTMLInputElement('inputPassword').value;
@@ -42,7 +40,7 @@ socket.on('selectPokemon', (party, host) => {
         main.opp.party[i].copyFromOpp(party[i]);
         // パーティ画像
         const imageHTML = getHTMLInputElement('opponentParty_image' + i);
-        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + main.opp.pokemon[i].id + '.png';
+        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + main.opp.party[i].id + '.png';
     }
     // 選出完了ボタン
     getHTMLInputElement('decideOrderField').style.display = 'block';

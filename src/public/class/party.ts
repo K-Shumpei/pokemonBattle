@@ -132,7 +132,7 @@ class Main {
       if ( pokemon.ability.isName( 'クォークチャージ' ) ) {
         corr = Math.round( corr * 6144 / 4096 );
       }
-      if ( pokemon.item.isName( 'スピードパウダー' ) && pokemon.name === 'メタモン' ) {
+      if ( pokemon.item.isName( 'スピードパウダー' ) && pokemon.isName( 'メタモン' ) ) {
         corr = Math.round( corr * 8192 / 4096 );
       }
       if ( pokemon.item.isName( 'こだわりスカーフ' ) ) {
@@ -219,9 +219,9 @@ class Player {
       // 控え
       const reserve = this._pokemon.filter( poke => poke.order.battle === null && !poke.status.hp.value.isZero() );
       for ( let j = 0; j < reserve.length; j++ ) {
-        if ( reserve[j].name === '' ) continue;
+        if ( reserve[j].name === null ) continue;
         getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).disabled = false;
-        getHTMLInputElement( 'reserveText_' + i + '_' + j ).textContent = reserve[j].translateName( reserve[j].name );
+        getHTMLInputElement( 'reserveText_' + i + '_' + j ).textContent = reserve[j].translateName( String( reserve[j].name ) );
         getHTMLInputElement( 'reserveText_' + i + '_' + j ).value = String( reserve[j].order.party );
       }
     }

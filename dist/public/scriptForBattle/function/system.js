@@ -155,9 +155,9 @@ function fiveRoundEntry(number) {
 // トレーナー判断
 function getArticle(pokemon) {
     if (pokemon.isMine())
-        return pokemon.translateName(pokemon.name);
+        return pokemon.translateName(String(pokemon.name));
     else
-        return '相手の ' + pokemon.translateName(pokemon.name);
+        return '相手の ' + pokemon.translateName(String(pokemon.name));
 }
 function isFriend(pokemon, target) {
     if (pokemon.isMine() === target.isMine() && pokemon.order.party !== target.order.party) {

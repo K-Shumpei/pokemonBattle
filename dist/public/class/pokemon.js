@@ -829,9 +829,7 @@ class Ability {
         return this._name;
     }
     isName(ability) {
-        if (!this.isValid())
-            return false;
-        return this._name === ability;
+        return this.isValid() && this._name === ability;
     }
     isValid() {
         return true;
@@ -875,6 +873,13 @@ class Item {
     get name() {
         return this._name;
     }
+    get belch() {
+        return this._belch;
+    }
+    copyFromOpp(name, pokeName) {
+        this._name = name;
+        this._pokeName = pokeName;
+    }
     isNull() {
         return this._name === null;
     }
@@ -904,23 +909,23 @@ class Item {
             return false;
         const master = this.getMaster();
         const category = this.getCategory();
-        if (this.isName('はっきんだま') && name === 'ギラティナ')
+        if (this.isName('はっきんだま') && name === 'Giratina Origin')
             return false;
-        if (master.category === 'plates' && name === 'アルセウス')
+        if (master.category === 'plates' && name === 'Arceus')
             return false;
-        if (master.category === 'species-specific' && master.nameEN.includes('Drive') && name === 'ゲノセクト')
+        if (master.category === 'species-specific' && master.nameEN.includes('Drive') && name === 'Genesect')
             return false;
-        if (master.category === 'memories' && name === 'シルヴァディ')
+        if (master.category === 'memories' && name === 'Silvally')
             return false;
-        if (this.isName('くちたけん') && name === 'ザシアン')
+        if (this.isName('くちたけん') && name === 'Zacian Crowned')
             return false;
-        if (this.isName('くちたたて') && name === 'ザマゼンタ')
+        if (this.isName('くちたたて') && name === 'Zamazenta Crowned')
             return false;
         if (master.category === 'mega-stones')
             return false;
-        if (this.isName('あいいろのたま') && name === 'カイオーガ')
+        if (this.isName('あいいろのたま') && name === 'Kyogre Primal')
             return false;
-        if (this.isName('べにいろのたま') && name === 'グラードン')
+        if (this.isName('べにいろのたま') && name === 'Groudon Primal')
             return false;
         if (this.isName('ブーストエナジー') && ability === 'こだいかっせい')
             return false;
@@ -936,6 +941,9 @@ class Type {
         this._list = [];
     }
     set list(list) {
+        this._list = list;
+    }
+    copyFromOpp(list) {
         this._list = list;
     }
     get() {
@@ -995,7 +1003,7 @@ class Pokemon {
         this._host = true;
         this._id = 0;
         this._order = new Order(isMe, slot);
-        this._name = '';
+        this._name = null;
         this._level = 50;
         this._type = new Type();
         this._gender = 'genderless';
@@ -1101,7 +1109,7 @@ class Pokemon {
         const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
         imageHTML.src = '';
         this._order = new Order(isMe, partyOrder);
-        this._name = '';
+        this._name = null;
         this._level = 50;
         this._type = new Type();
         this._gender = 'genderless';
@@ -1131,22 +1139,22 @@ class Pokemon {
     copyFromOpp(opp) {
         this._id = opp._id;
         this._name = opp._name;
-        this._type = opp._type;
+        this._type.copyFromOpp(opp._type._list);
         this._gender = opp._gender;
         this._ability.setOrg(opp._ability._name);
         this._level = opp._level;
-        this._item = opp._item;
+        this._item.copyFromOpp(opp._item._name, opp._item._pokeName);
         this._nature = opp._nature;
         this._status.copyFromOpp(opp._status);
         this._move.copyFromOpp(opp._move._learned);
     }
     showHandInfo() {
-        getHTMLInputElement('party' + this._order.hand + '_name').textContent = (this._name === '') ? '名前' : this.translateName(this._name);
-        getHTMLInputElement('party' + this._order.hand + '_gender').textContent = (this._name === '') ? '性別' : this.translateGender();
-        getHTMLInputElement('party' + this._order.hand + '_level').textContent = (this._name === '') ? '' : String(this._level);
-        getHTMLInputElement('party' + this._order.hand + '_ability').textContent = (this._name === '') ? '特性' : this.translateAbility(this._ability.name);
-        getHTMLInputElement('party' + this._order.hand + '_remainingHP').textContent = (this._name === '') ? '' : String(this._status.hp.value.value);
-        getHTMLInputElement('party' + this._order.hand + '_item').textContent = (this._name === '') ? '持ち物' : String(this._item.name);
+        getHTMLInputElement('party' + this._order.hand + '_name').textContent = (this._name === null) ? '名前' : this.translateName(this._name);
+        getHTMLInputElement('party' + this._order.hand + '_gender').textContent = (this._name === null) ? '性別' : this.translateGender();
+        getHTMLInputElement('party' + this._order.hand + '_level').textContent = (this._name === null) ? '' : String(this._level);
+        getHTMLInputElement('party' + this._order.hand + '_ability').textContent = (this._name === null) ? '特性' : this.translateAbility(this._ability.name);
+        getHTMLInputElement('party' + this._order.hand + '_remainingHP').textContent = (this._name === null) ? '' : String(this._status.hp.value.value);
+        getHTMLInputElement('party' + this._order.hand + '_item').textContent = (this._name === null) ? '持ち物' : String(this._item.name);
         if (this._type.get().length === 0) {
             getHTMLInputElement('party' + this._order.hand + '_type1').textContent = 'タイプ';
             getHTMLInputElement('party' + this._order.hand + '_type2').textContent = '';
@@ -1174,7 +1182,7 @@ class Pokemon {
             if (data.nameJA === name)
                 return data.nameEN;
         }
-        return name;
+        return '';
     }
     translateType(name) {
         for (const data of typeTextMaster) {
@@ -1219,9 +1227,11 @@ class Pokemon {
             return '相手';
     }
     msgToBattleField() {
-        writeLog(`${this.isMeToStr()}は ${this.translateName(this._name)}を くりだした!`);
+        writeLog(`${this.isMeToStr()}は ${this.translateName(String(this._name))}を くりだした!`);
     }
     getArticle() {
+        if (this._name === null)
+            return '';
         if (this.isMine())
             return this.translateName(this._name);
         else
@@ -1291,7 +1301,7 @@ class Pokemon {
         writeLog(`${this.getArticle()}の ${this._move.selected.translate()}!`);
     }
     msgDeclareAbility() {
-        writeLog(`${this.translateName(this._name)}の ${this.translateAbility(this._ability.name)}`);
+        writeLog(`${this.translateName(String(this._name))}の ${this.translateAbility(this._ability.name)}`);
     }
     msgDeclareFailure() {
         writeLog(`しかし うまく決まらなかった....`);
@@ -1880,24 +1890,24 @@ class Pokemon {
     // フォルムチェンジ
     //--------------
     getNextForm() {
-        if (this._name === 'ギルガルド(盾)')
-            return 'ギルガルド(剣)';
-        if (this._name === 'ギルガルド(剣)')
-            return 'ギルガルド(盾)';
-        if (this._name === 'メロエッタ(ボイス)')
-            return 'メロエッタ(ステップ)';
-        if (this._name === 'メロエッタ(ステップ)')
-            return 'メロエッタ(ボイス)';
-        if (this._name === 'ミミッキュ(化けた姿)')
-            return 'ミミッキュ(ばれた姿)';
-        if (this._name === 'ウッウ(鵜呑み)')
-            return 'ウッウ';
-        if (this._name === 'ウッウ(丸呑み)')
-            return 'ウッウ';
-        if (this._name === 'コオリッポ(アイス)')
-            return 'コオリッポ(ナイス)';
-        if (this._name === 'コオリッポ(ナイス)')
-            return 'コオリッポ(アイス)';
+        if (this._name === 'Aegislash Shield')
+            return 'Aegislash Blade';
+        if (this._name === 'Aegislash Blade')
+            return 'Aegislash Shield';
+        if (this._name === 'Meloetta Aria')
+            return 'Meloetta Pirouette';
+        if (this._name === 'Meloetta Pirouette')
+            return 'Meloetta Aria';
+        if (this._name === 'Mimikyu Disguised')
+            return 'Mimikyu Busted';
+        if (this._name === 'Cramorant Gulping')
+            return 'Cramorant';
+        if (this._name === 'Cramorant Gorging')
+            return 'Cramorant';
+        if (this._name === 'Eiscue Ice')
+            return 'Eiscue Noice';
+        if (this._name === 'Eiscue Noice')
+            return 'Eiscue Ice';
         return this._name;
     }
     formChange() {

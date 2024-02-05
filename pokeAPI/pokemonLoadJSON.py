@@ -36,6 +36,7 @@ pokemonList = sorted(pokemonList, key=lambda x: x['id'])
 
 
 pokemonNameList = []
+pokemonNameJAList = []
 
 with open("../src/public/master/pokemon.ts", "w") as o:
   print('const', 'pokemonMaster:', 'PokemonData[] = [', file=o)
@@ -45,6 +46,7 @@ with open("../src/public/master/pokemon.ts", "w") as o:
       poke["isEvolve"] = "false"
 
     pokemonNameList.append(poke["nameEN"])
+    pokemonNameJAList.append(poke["nameJA"])
 
     print(
       "  {",
@@ -75,3 +77,21 @@ with open("../src/public/master/pokemon.ts", "w") as o:
   print(']', file=o)
 
 
+pokemonNameList.sort()
+pokemonNameJAList.sort()
+
+with open("../src/public/nameEN/pokemon.ts", "w") as o:
+  print('type PokemonText = ( typeof pokemonTextList )[number];', file=o)
+  print('const', 'pokemonTextList', '= [', file=o)
+  print('  null,', file=o)
+  for p in pokemonNameList:
+    print("  '" + p + "',", file=o)
+  print('] as const;', file=o)
+
+with open("../src/public/nameJA/pokemon.ts", "w") as o:
+  print('type PokemonJAText = ( typeof pokemonJATextList )[number];', file=o)
+  print('const', 'pokemonJATextList', '= [', file=o)
+  print('  null,', file=o)
+  for p in pokemonNameJAList:
+    print("  '" + p + "',", file=o)
+  print('] as const;', file=o)

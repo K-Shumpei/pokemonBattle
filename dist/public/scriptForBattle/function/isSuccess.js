@@ -305,7 +305,7 @@ function meltMeByMove(pokemon) {
 }
 // 特性バトルスイッチによるフォルムチェンジ
 function stanceChange(pokemon) {
-    if (pokemon.name === 'ギルガルド(盾)') {
+    if (pokemon.name === 'Aegislash Shield') {
         if (!pokemon.move.selected.isStatus()) {
             pokemon.msgDeclareAbility();
             pokemon.formChange();
@@ -313,7 +313,7 @@ function stanceChange(pokemon) {
             return;
         }
     }
-    if (pokemon.name === 'ギルガルド(剣)') {
+    if (pokemon.name === 'Aegislash Blade') {
         if (pokemon.move.selected.isName('キングシールド')) {
             pokemon.msgDeclareAbility();
             pokemon.formChange();
@@ -359,7 +359,7 @@ function changeMoveType(pokemon) {
             pokemon.move.selected.type = 'Ice';
     }
     if (pokemon.move.selected.isName('オーラぐるま')) {
-        if (pokemon.name === 'モルペコ(空腹)') {
+        if (pokemon.name === 'Morpeko Hangry') {
             pokemon.move.selected.type = 'Dark';
         }
     }
@@ -556,31 +556,31 @@ function failureByMoveSpec(pokemon) {
         return true;
     }
     hyperspaceFury: if (pokemon.move.selected.isName('いじげんラッシュ')) {
-        if (pokemon.name === 'フーパ(解放)')
+        if (pokemon.name === 'Hoopa Unbound')
             break hyperspaceFury;
-        if (pokemon.stateChange.transform.isTransform('フーパ(解放)'))
+        if (pokemon.stateChange.transform.isTransform('Hoopa Unbound'))
             break hyperspaceFury;
         pokemon.attack.reset();
         pokemon.msgInvalidUser();
         return true;
     }
     darkVoid: if (pokemon.move.selected.isName('ダークホール')) {
-        if (pokemon.name === 'ダークライ')
+        if (pokemon.name === 'Darkrai')
             break darkVoid;
-        if (pokemon.stateChange.transform.isTransform('ダークライ'))
+        if (pokemon.stateChange.transform.isTransform('Darkrai'))
             break darkVoid;
         pokemon.attack.reset();
         pokemon.msgInvalidUser();
         return true;
     }
     auraWheel: if (pokemon.move.selected.isName('オーラぐるま')) {
-        if (pokemon.name === 'モルペコ(満腹)')
+        if (pokemon.name === 'Morpeko Full Belly')
             break auraWheel;
-        if (pokemon.name === 'モルペコ(空腹)')
+        if (pokemon.name === 'Morpeko Hangry')
             break auraWheel;
-        if (pokemon.stateChange.transform.isTransform('モルペコ(満腹)'))
+        if (pokemon.stateChange.transform.isTransform('Morpeko Full Belly'))
             break auraWheel;
-        if (pokemon.stateChange.transform.isTransform('モルペコ(満腹)'))
+        if (pokemon.stateChange.transform.isTransform('Morpeko Hangry'))
             break auraWheel;
         pokemon.attack.reset();
         pokemon.msgInvalidUser();
@@ -664,13 +664,13 @@ function failureByMoveSpec(pokemon) {
             break fling;
         if (pokemon.item.isName('だいはっきんだま'))
             break fling;
-        if (pokemon.name === 'ギラティナ(アナザー)' && pokemon.item.isName('はっきんだま'))
+        if (pokemon.name === 'Giratina Altered' && pokemon.item.isName('はっきんだま'))
             break fling;
-        if (pokemon.name === 'ギラティナ(オリジン)' && pokemon.item.isName('はっきんだま'))
+        if (pokemon.name === 'Giratina Origin' && pokemon.item.isName('はっきんだま'))
             break fling;
-        if (pokemon.name === 'アルセウス' && plateTable.filter(plate => plate.name === pokemon.name).length === 1)
+        if (pokemon.name === 'Arceus' && plateTable.filter(plate => plate.name === pokemon.name).length === 1)
             break fling;
-        if (pokemon.name === 'ゲノセクト' && driveTable.filter(drive => drive.name === pokemon.item.name).length === 1)
+        if (pokemon.name === 'Genesect' && driveTable.filter(drive => drive.name === pokemon.item.name).length === 1)
             break fling;
         if (gemTable.filter(gem => gem.name === pokemon.item.name).length === 1)
             break fling;
@@ -678,8 +678,7 @@ function failureByMoveSpec(pokemon) {
             break fling;
         if (megaStoneTable.filter(mega => mega.name === pokemon.item.name && mega.name === pokemon.name).length === 1)
             break fling;
-        if (paradoxPokemonList.includes(pokemon.name) && pokemon.item.isName('ブーストエナジー'))
-            break fling;
+        //if ( paradoxPokemonList.includes( pokemon.name ) && pokemon.item.isName( 'ブーストエナジー' ) ) break fling;
         pokemon.attack.reset();
         pokemon.msgDeclareFailure();
         return true;
@@ -917,7 +916,7 @@ function preliminaryAction(pokemon) {
     if (pokemon.move.selected.isName('ダイビング')) {
         writeLog(`${getArticle(pokemon)}は 水中に 身を潜めた!`);
         pokemon.stateChange.dive.isTrue = true;
-        if (pokemon.name === 'ウッウ') {
+        if (pokemon.name === 'Cramorant') {
             pokemon.formChange();
         }
     }

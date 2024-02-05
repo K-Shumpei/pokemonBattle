@@ -18,9 +18,10 @@ function decideBattleStyle( value: string ): void {
 function registrationPokemon(): void {
 
   // 適切な名前でなければ処理なし
-  if ( !regPokemon.isValidName() ) return;
+  const nameEN: PokemonText[] = regPokemon.isValidName()
+  if ( nameEN.length === 0 ) return;
 
-  regPokemon.setName();
+  regPokemon.setName( nameEN[0] );
   regPokemon.showOnScreen();
 }
 
@@ -154,7 +155,7 @@ function registerParty( number: number ): void {
 // パーティ編集
 function editParty( number: number ): void {
 
-  if ( main.me.party[number].name === '' ) return;
+  if ( main.me.party[number].name === null ) return;
 
   regPokemon.copy( main.me.party[number] );
   regPokemon.showOnScreen();

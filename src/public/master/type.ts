@@ -210,7 +210,7 @@ type TypeColorType = {
 }
 
 type TypeCompatibilityType = {
-  atkType: string;
+  atkType: PokemonType;
   rate: { defType: PokemonType, rate: number }[];
 }
 

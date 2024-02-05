@@ -18,7 +18,7 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   if ( target.ability.isName( 'きよめのしお' ) ) return false;
   if ( target.ability.isName( 'ぜったいねむり' ) ) return false;
   if ( target.ability.isName( 'リーフガード' )  && fieldStatus.weather.isSunny( target ) ) return false;
-  if ( target.ability.isName( 'リミットシールド' ) && target.name === 'メテノ(流星)' ) return false;
+  if ( target.ability.isName( 'リミットシールド' ) && target.name?.includes( 'Meteor' ) ) return false;
   if ( isExistAbilityOneSide( target.isMine(), 'フラワーベール' ) && target.type.has( 'Grass' ) ) return false;
   // 個別の無効化
   if ( ailment === 'Paralysis' ) {

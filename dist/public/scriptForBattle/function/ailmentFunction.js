@@ -1,6 +1,7 @@
 "use strict";
 // 状態異常変化
 function giveAilment(pokemon, target, ailment, isOtherMsg) {
+    var _a;
     if (ailment === null)
         return false;
     // すでに状態異常
@@ -25,7 +26,7 @@ function giveAilment(pokemon, target, ailment, isOtherMsg) {
         return false;
     if (target.ability.isName('リーフガード') && fieldStatus.weather.isSunny(target))
         return false;
-    if (target.ability.isName('リミットシールド') && target.name === 'メテノ(流星)')
+    if (target.ability.isName('リミットシールド') && ((_a = target.name) === null || _a === void 0 ? void 0 : _a.includes('Meteor')))
         return false;
     if (isExistAbilityOneSide(target.isMine(), 'フラワーベール') && target.type.has('Grass'))
         return false;

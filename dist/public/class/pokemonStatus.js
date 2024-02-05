@@ -79,7 +79,7 @@ class ActualWithThreeValue {
         getHTMLInputElement('register_' + parameter + 'EffortValue').value = String(this._ev);
     }
     showAcrual(name, parameter, handOrder) {
-        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = (name === '') ? '' : String(this._av);
+        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = (name === null) ? '' : String(this._av);
     }
     copy(status) {
         this._av = status._av;

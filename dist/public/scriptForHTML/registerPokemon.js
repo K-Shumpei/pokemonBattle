@@ -416,7 +416,7 @@ class RegisterAbility {
 class Register {
     constructor() {
         this._id = 0;
-        this._name = '';
+        this._name = null;
         this._level = 0;
         this._type = [];
         this._gender = new RegisterGender();
@@ -428,7 +428,7 @@ class Register {
     }
     reset() {
         this._id = 0;
-        this._name = '';
+        this._name = null;
         this._level = 50;
         this._type = [];
         this._gender = new RegisterGender();
@@ -472,14 +472,6 @@ class Register {
     get move() {
         return this._move;
     }
-    isGetPokemonMaster(name) {
-        if (pokemonMaster.filter(m => m.nameEN === name).length === 0) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
     getPokemonMaster(name) {
         return pokemonMaster.filter(m => m.nameEN === name)[0];
     }
@@ -496,7 +488,7 @@ class Register {
             if (data.nameJA === name)
                 return data.nameEN;
         }
-        return name;
+        return '';
     }
     translateType(name) {
         for (const data of typeTextMaster) {
@@ -515,20 +507,19 @@ class Register {
     }
     isValidName() {
         // 適切な名前でなければ処理なし
-        const name = this.translateName(getHTMLInputElement('register_name').value);
-        return this.isGetPokemonMaster(name);
+        const nameEN = this.translateName(getHTMLInputElement('register_name').value);
+        return pokemonTextList.filter(name => name === nameEN);
     }
-    setName() {
-        const name = this.translateName(getHTMLInputElement('register_name').value);
+    setName(nameEN) {
         this.reset();
-        this.setMaster(name);
+        this.setMaster(nameEN);
         this.calculateActualValue();
         this.setHTML();
     }
     setMaster(name) {
         const pokemon = this.getPokemonMaster(name);
         this._id = pokemon.id;
-        this._name = pokemon.nameEN;
+        this._name = name;
         this._type = pokemon.type;
         this._gender.setMaster(pokemon);
         this._ability.setMaster(pokemon);
@@ -579,7 +570,7 @@ class Register {
         this._nature = nature.nameEN;
     }
     isUnreg() {
-        return this._name === '';
+        return this._name === null;
     }
     calculateActualValue() {
         const nature = this.getNatureMaster(this._nature);
@@ -598,7 +589,7 @@ class Register {
         this._stat.setAVs(this._level, nature);
     }
     showOnScreen() {
-        getHTMLInputElement('register_name').value = this.translateName(this._name);
+        getHTMLInputElement('register_name').value = this.translateName(String(this._name));
         getHTMLInputElement('register_level').value = String(this._level);
         if (this._type.length === 0) {
             getHTMLInputElement('register_type1').value = '';

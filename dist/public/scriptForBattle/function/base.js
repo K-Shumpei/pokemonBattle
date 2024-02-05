@@ -497,26 +497,30 @@ function isReleasableItem(pokemon, target) {
     const item = target.item.name;
     if (item === null)
         return false;
+    if (atkName === null)
+        return false;
+    if (defName === null)
+        return false;
     if (atkName.includes('ギラティナ') || defName.includes('ギラティナ')) {
         if (item === 'はっきんだま') {
             return false;
         }
     }
-    if (atkName === 'アルセウス' || defName === 'アルセウス') {
+    if (atkName === 'Arceus' || defName === 'Arceus') {
         for (const plate of plateTable) {
             if (plate.name === item) {
                 return false;
             }
         }
     }
-    if (atkName === 'ゲノセクト' || defName === 'ゲノセクト') {
+    if (atkName === 'Genesect' || defName === 'Genesect') {
         for (const drive of driveTable) {
             if (drive.name === item) {
                 return false;
             }
         }
     }
-    if (atkName === 'シルヴァディ' || defName === 'シルヴァディ') {
+    if (atkName === 'Silvally' || defName === 'Silvally') {
         for (const memory of memoryTable) {
             if (memory.name === item) {
                 return false;

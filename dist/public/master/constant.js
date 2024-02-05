@@ -71,7 +71,7 @@ const typeColor = [
 ];
 // タイプ相性
 const typeCompatibility = [
-    { atkType: 'NORMAL', rate: [
+    { atkType: 'Normal', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 1.0 },
@@ -91,7 +91,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'FIRE', rate: [
+    { atkType: 'Fire', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 0.5 },
             { defType: 'Water', rate: 0.5 },
@@ -111,7 +111,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 2.0 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'WATER', rate: [
+    { atkType: 'Water', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 2.0 },
             { defType: 'Water', rate: 0.5 },
@@ -131,7 +131,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 1.0 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'ELECTRIC', rate: [
+    { atkType: 'Electric', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 2.0 },
@@ -151,7 +151,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 1.0 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'GRASS', rate: [
+    { atkType: 'Grass', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 0.5 },
             { defType: 'Water', rate: 2.0 },
@@ -171,7 +171,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'ICE', rate: [
+    { atkType: 'Ice', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 0.5 },
             { defType: 'Water', rate: 0.5 },
@@ -191,7 +191,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'FIGHTING', rate: [
+    { atkType: 'Fighting', rate: [
             { defType: 'Normal', rate: 2.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 1.0 },
@@ -211,7 +211,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 2.0 },
             { defType: 'Fairy', rate: 0.5 },
         ] },
-    { atkType: 'POISON', rate: [
+    { atkType: 'Poison', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 1.0 },
@@ -231,7 +231,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.0 },
             { defType: 'Fairy', rate: 2.0 },
         ] },
-    { atkType: 'GROUND', rate: [
+    { atkType: 'Ground', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 2.0 },
             { defType: 'Water', rate: 1.0 },
@@ -251,7 +251,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 2.0 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'FLYING', rate: [
+    { atkType: 'Flying', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 1.0 },
@@ -271,7 +271,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'PSYCHIC', rate: [
+    { atkType: 'Psychic', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 1.0 },
@@ -291,7 +291,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'BUG', rate: [
+    { atkType: 'Bug', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 0.5 },
             { defType: 'Water', rate: 1.0 },
@@ -311,7 +311,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 0.5 },
         ] },
-    { atkType: 'ROCK', rate: [
+    { atkType: 'Rock', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 2.0 },
             { defType: 'Water', rate: 1.0 },
@@ -331,7 +331,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'GHOST', rate: [
+    { atkType: 'Ghost', rate: [
             { defType: 'Normal', rate: 0.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 1.0 },
@@ -351,7 +351,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 1.0 },
             { defType: 'Fairy', rate: 1.0 },
         ] },
-    { atkType: 'DRAGON', rate: [
+    { atkType: 'Dragon', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 1.0 },
@@ -371,7 +371,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 0.0 },
         ] },
-    { atkType: 'DARK', rate: [
+    { atkType: 'Dark', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 1.0 },
             { defType: 'Water', rate: 1.0 },
@@ -391,7 +391,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 1.0 },
             { defType: 'Fairy', rate: 0.5 },
         ] },
-    { atkType: 'STEEL', rate: [
+    { atkType: 'Steel', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 0.5 },
             { defType: 'Water', rate: 0.5 },
@@ -411,7 +411,7 @@ const typeCompatibility = [
             { defType: 'Steel', rate: 0.5 },
             { defType: 'Fairy', rate: 2.0 },
         ] },
-    { atkType: 'FAIRY', rate: [
+    { atkType: 'Fairy', rate: [
             { defType: 'Normal', rate: 1.0 },
             { defType: 'Fire', rate: 0.5 },
             { defType: 'Water', rate: 1.0 },

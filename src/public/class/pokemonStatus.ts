@@ -104,8 +104,8 @@ class ActualWithThreeValue {
     getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value = String( this._ev );
   }
 
-  showAcrual( name: string, parameter: string, handOrder: number ): void {
-    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = ( name === '' )? '' : String( this._av );
+  showAcrual( name: PokemonText, parameter: string, handOrder: number ): void {
+    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = ( name === null )? '' : String( this._av );
   }
 
   copy( status: ActualWithThreeValue ): void {
@@ -200,7 +200,7 @@ class Status {
     return allEffort;
   }
 
-  show( name: string, handOrder: number ): void {
+  show( name: PokemonText, handOrder: number ): void {
     this._hp.showAcrual( name, 'hitPoint', handOrder );
     this._atk.showAcrual( name, 'attack', handOrder );
     this._def.showAcrual( name, 'defense', handOrder );

@@ -14,9 +14,10 @@ function decideBattleStyle(value) {
 // ポケモン名を入力した時に各パラメータを表示
 function registrationPokemon() {
     // 適切な名前でなければ処理なし
-    if (!regPokemon.isValidName())
+    const nameEN = regPokemon.isValidName();
+    if (nameEN.length === 0)
         return;
-    regPokemon.setName();
+    regPokemon.setName(nameEN[0]);
     regPokemon.showOnScreen();
 }
 // レベル変更
@@ -131,7 +132,7 @@ function registerParty(number) {
 }
 // パーティ編集
 function editParty(number) {
-    if (main.me.party[number].name === '')
+    if (main.me.party[number].name === null)
         return;
     regPokemon.copy(main.me.party[number]);
     regPokemon.showOnScreen();

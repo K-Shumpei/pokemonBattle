@@ -1,7 +1,7 @@
 const moveFlagMaster: MoveFlagData[] = [
   {
     id: 1,
-    nameEN: 'pound',
+    nameEN: 'Pound',
     nameJA: 'はたく',
     contact: true,
     charge: false,
@@ -27,7 +27,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 2,
-    nameEN: 'karate-chop',
+    nameEN: 'Karate Chop',
     nameJA: 'からてチョップ',
     contact: true,
     charge: false,
@@ -53,7 +53,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 3,
-    nameEN: 'double-slap',
+    nameEN: 'Double Slap',
     nameJA: 'おうふくビンタ',
     contact: true,
     charge: false,
@@ -79,7 +79,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 4,
-    nameEN: 'comet-punch',
+    nameEN: 'Comet Punch',
     nameJA: 'れんぞくパンチ',
     contact: true,
     charge: false,
@@ -105,7 +105,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 5,
-    nameEN: 'mega-punch',
+    nameEN: 'Mega Punch',
     nameJA: 'メガトンパンチ',
     contact: true,
     charge: false,
@@ -131,7 +131,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 6,
-    nameEN: 'pay-day',
+    nameEN: 'Pay Day',
     nameJA: 'ネコにこばん',
     contact: false,
     charge: false,
@@ -157,7 +157,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 7,
-    nameEN: 'fire-punch',
+    nameEN: 'Fire Punch',
     nameJA: 'ほのおのパンチ',
     contact: true,
     charge: false,
@@ -183,7 +183,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 8,
-    nameEN: 'ice-punch',
+    nameEN: 'Ice Punch',
     nameJA: 'れいとうパンチ',
     contact: true,
     charge: false,
@@ -209,7 +209,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 9,
-    nameEN: 'thunder-punch',
+    nameEN: 'Thunder Punch',
     nameJA: 'かみなりパンチ',
     contact: true,
     charge: false,
@@ -235,7 +235,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 10,
-    nameEN: 'scratch',
+    nameEN: 'Scratch',
     nameJA: 'ひっかく',
     contact: true,
     charge: false,
@@ -261,7 +261,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 11,
-    nameEN: 'vise-grip',
+    nameEN: 'Vise Grip',
     nameJA: 'はさむ',
     contact: true,
     charge: false,
@@ -287,7 +287,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 12,
-    nameEN: 'guillotine',
+    nameEN: 'Guillotine',
     nameJA: 'ハサミギロチン',
     contact: true,
     charge: false,
@@ -313,7 +313,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 13,
-    nameEN: 'razor-wind',
+    nameEN: 'Razor Wind',
     nameJA: 'かまいたち',
     contact: false,
     charge: true,
@@ -339,7 +339,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 14,
-    nameEN: 'swords-dance',
+    nameEN: 'Swords Dance',
     nameJA: 'つるぎのまい',
     contact: false,
     charge: false,
@@ -365,7 +365,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 15,
-    nameEN: 'cut',
+    nameEN: 'Cut',
     nameJA: 'いあいぎり',
     contact: true,
     charge: false,
@@ -391,7 +391,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 16,
-    nameEN: 'gust',
+    nameEN: 'Gust',
     nameJA: 'かぜおこし',
     contact: false,
     charge: false,
@@ -417,7 +417,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 17,
-    nameEN: 'wing-attack',
+    nameEN: 'Wing Attack',
     nameJA: 'つばさでうつ',
     contact: true,
     charge: false,
@@ -443,7 +443,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 18,
-    nameEN: 'whirlwind',
+    nameEN: 'Whirlwind',
     nameJA: 'ふきとばし',
     contact: false,
     charge: false,
@@ -469,7 +469,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 19,
-    nameEN: 'fly',
+    nameEN: 'Fly',
     nameJA: 'そらをとぶ',
     contact: true,
     charge: true,
@@ -495,7 +495,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 20,
-    nameEN: 'bind',
+    nameEN: 'Bind',
     nameJA: 'しめつける',
     contact: true,
     charge: false,
@@ -521,7 +521,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 21,
-    nameEN: 'slam',
+    nameEN: 'Slam',
     nameJA: 'たたきつける',
     contact: true,
     charge: false,
@@ -547,7 +547,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 22,
-    nameEN: 'vine-whip',
+    nameEN: 'Vine Whip',
     nameJA: 'つるのムチ',
     contact: true,
     charge: false,
@@ -573,7 +573,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 23,
-    nameEN: 'stomp',
+    nameEN: 'Stomp',
     nameJA: 'ふみつけ',
     contact: true,
     charge: false,
@@ -599,7 +599,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 24,
-    nameEN: 'double-kick',
+    nameEN: 'Double Kick',
     nameJA: 'にどげり',
     contact: true,
     charge: false,
@@ -625,7 +625,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 25,
-    nameEN: 'mega-kick',
+    nameEN: 'Mega Kick',
     nameJA: 'メガトンキック',
     contact: true,
     charge: false,
@@ -651,7 +651,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 26,
-    nameEN: 'jump-kick',
+    nameEN: 'Jump Kick',
     nameJA: 'とびげり',
     contact: true,
     charge: false,
@@ -677,7 +677,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 27,
-    nameEN: 'rolling-kick',
+    nameEN: 'Rolling Kick',
     nameJA: 'まわしげり',
     contact: true,
     charge: false,
@@ -703,7 +703,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 28,
-    nameEN: 'sand-attack',
+    nameEN: 'Sand Attack',
     nameJA: 'すなかけ',
     contact: false,
     charge: false,
@@ -729,7 +729,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 29,
-    nameEN: 'headbutt',
+    nameEN: 'Headbutt',
     nameJA: 'ずつき',
     contact: true,
     charge: false,
@@ -755,7 +755,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 30,
-    nameEN: 'horn-attack',
+    nameEN: 'Horn Attack',
     nameJA: 'つのでつく',
     contact: true,
     charge: false,
@@ -781,7 +781,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 31,
-    nameEN: 'fury-attack',
+    nameEN: 'Fury Attack',
     nameJA: 'みだれづき',
     contact: true,
     charge: false,
@@ -807,7 +807,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 32,
-    nameEN: 'horn-drill',
+    nameEN: 'Horn Drill',
     nameJA: 'つのドリル',
     contact: true,
     charge: false,
@@ -833,7 +833,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 33,
-    nameEN: 'tackle',
+    nameEN: 'Tackle',
     nameJA: 'たいあたり',
     contact: true,
     charge: false,
@@ -859,7 +859,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 34,
-    nameEN: 'body-slam',
+    nameEN: 'Body Slam',
     nameJA: 'のしかかり',
     contact: true,
     charge: false,
@@ -885,7 +885,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 35,
-    nameEN: 'wrap',
+    nameEN: 'Wrap',
     nameJA: 'まきつく',
     contact: true,
     charge: false,
@@ -911,7 +911,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 36,
-    nameEN: 'take-down',
+    nameEN: 'Take Down',
     nameJA: 'とっしん',
     contact: true,
     charge: false,
@@ -937,7 +937,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 37,
-    nameEN: 'thrash',
+    nameEN: 'Thrash',
     nameJA: 'あばれる',
     contact: true,
     charge: false,
@@ -963,7 +963,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 38,
-    nameEN: 'double-edge',
+    nameEN: 'Double Edge',
     nameJA: 'すてみタックル',
     contact: true,
     charge: false,
@@ -989,7 +989,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 39,
-    nameEN: 'tail-whip',
+    nameEN: 'Tail Whip',
     nameJA: 'しっぽをふる',
     contact: false,
     charge: false,
@@ -1015,7 +1015,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 40,
-    nameEN: 'poison-sting',
+    nameEN: 'Poison Sting',
     nameJA: 'どくばり',
     contact: false,
     charge: false,
@@ -1041,7 +1041,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 41,
-    nameEN: 'twineedle',
+    nameEN: 'Twineedle',
     nameJA: 'ダブルニードル',
     contact: false,
     charge: false,
@@ -1067,7 +1067,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 42,
-    nameEN: 'pin-missile',
+    nameEN: 'Pin Missile',
     nameJA: 'ミサイルばり',
     contact: false,
     charge: false,
@@ -1093,7 +1093,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 43,
-    nameEN: 'leer',
+    nameEN: 'Leer',
     nameJA: 'にらみつける',
     contact: false,
     charge: false,
@@ -1119,7 +1119,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 44,
-    nameEN: 'bite',
+    nameEN: 'Bite',
     nameJA: 'かみつく',
     contact: true,
     charge: false,
@@ -1145,7 +1145,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 45,
-    nameEN: 'growl',
+    nameEN: 'Growl',
     nameJA: 'なきごえ',
     contact: false,
     charge: false,
@@ -1171,7 +1171,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 46,
-    nameEN: 'roar',
+    nameEN: 'Roar',
     nameJA: 'ほえる',
     contact: false,
     charge: false,
@@ -1197,7 +1197,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 47,
-    nameEN: 'sing',
+    nameEN: 'Sing',
     nameJA: 'うたう',
     contact: false,
     charge: false,
@@ -1223,7 +1223,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 48,
-    nameEN: 'supersonic',
+    nameEN: 'Supersonic',
     nameJA: 'ちょうおんぱ',
     contact: false,
     charge: false,
@@ -1249,7 +1249,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 49,
-    nameEN: 'sonic-boom',
+    nameEN: 'Sonic Boom',
     nameJA: 'ソニックブーム',
     contact: false,
     charge: false,
@@ -1275,7 +1275,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 50,
-    nameEN: 'disable',
+    nameEN: 'Disable',
     nameJA: 'かなしばり',
     contact: false,
     charge: false,
@@ -1301,7 +1301,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 51,
-    nameEN: 'acid',
+    nameEN: 'Acid',
     nameJA: 'ようかいえき',
     contact: false,
     charge: false,
@@ -1327,7 +1327,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 52,
-    nameEN: 'ember',
+    nameEN: 'Ember',
     nameJA: 'ひのこ',
     contact: false,
     charge: false,
@@ -1353,7 +1353,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 53,
-    nameEN: 'flamethrower',
+    nameEN: 'Flamethrower',
     nameJA: 'かえんほうしゃ',
     contact: false,
     charge: false,
@@ -1379,7 +1379,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 54,
-    nameEN: 'mist',
+    nameEN: 'Mist',
     nameJA: 'しろいきり',
     contact: false,
     charge: false,
@@ -1405,7 +1405,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 55,
-    nameEN: 'water-gun',
+    nameEN: 'Water Gun',
     nameJA: 'みずでっぽう',
     contact: false,
     charge: false,
@@ -1431,7 +1431,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 56,
-    nameEN: 'hydro-pump',
+    nameEN: 'Hydro Pump',
     nameJA: 'ハイドロポンプ',
     contact: false,
     charge: false,
@@ -1457,7 +1457,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 57,
-    nameEN: 'surf',
+    nameEN: 'Surf',
     nameJA: 'なみのり',
     contact: false,
     charge: false,
@@ -1483,7 +1483,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 58,
-    nameEN: 'ice-beam',
+    nameEN: 'Ice Beam',
     nameJA: 'れいとうビーム',
     contact: false,
     charge: false,
@@ -1509,7 +1509,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 59,
-    nameEN: 'blizzard',
+    nameEN: 'Blizzard',
     nameJA: 'ふぶき',
     contact: false,
     charge: false,
@@ -1535,7 +1535,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 60,
-    nameEN: 'psybeam',
+    nameEN: 'Psybeam',
     nameJA: 'サイケこうせん',
     contact: false,
     charge: false,
@@ -1561,7 +1561,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 61,
-    nameEN: 'bubble-beam',
+    nameEN: 'Bubble Beam',
     nameJA: 'バブルこうせん',
     contact: false,
     charge: false,
@@ -1587,7 +1587,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 62,
-    nameEN: 'aurora-beam',
+    nameEN: 'Aurora Beam',
     nameJA: 'オーロラビーム',
     contact: false,
     charge: false,
@@ -1613,7 +1613,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 63,
-    nameEN: 'hyper-beam',
+    nameEN: 'Hyper Beam',
     nameJA: 'はかいこうせん',
     contact: false,
     charge: false,
@@ -1639,7 +1639,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 64,
-    nameEN: 'peck',
+    nameEN: 'Peck',
     nameJA: 'つつく',
     contact: true,
     charge: false,
@@ -1665,7 +1665,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 65,
-    nameEN: 'drill-peck',
+    nameEN: 'Drill Peck',
     nameJA: 'ドリルくちばし',
     contact: true,
     charge: false,
@@ -1691,7 +1691,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 66,
-    nameEN: 'submission',
+    nameEN: 'Submission',
     nameJA: 'じごくぐるま',
     contact: true,
     charge: false,
@@ -1717,7 +1717,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 67,
-    nameEN: 'low-kick',
+    nameEN: 'Low Kick',
     nameJA: 'けたぐり',
     contact: true,
     charge: false,
@@ -1743,7 +1743,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 68,
-    nameEN: 'counter',
+    nameEN: 'Counter',
     nameJA: 'カウンター',
     contact: true,
     charge: false,
@@ -1769,7 +1769,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 69,
-    nameEN: 'seismic-toss',
+    nameEN: 'Seismic Toss',
     nameJA: 'ちきゅうなげ',
     contact: true,
     charge: false,
@@ -1795,7 +1795,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 70,
-    nameEN: 'strength',
+    nameEN: 'Strength',
     nameJA: 'かいりき',
     contact: true,
     charge: false,
@@ -1821,7 +1821,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 71,
-    nameEN: 'absorb',
+    nameEN: 'Absorb',
     nameJA: 'すいとる',
     contact: false,
     charge: false,
@@ -1847,7 +1847,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 72,
-    nameEN: 'mega-drain',
+    nameEN: 'Mega Drain',
     nameJA: 'メガドレイン',
     contact: false,
     charge: false,
@@ -1873,7 +1873,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 73,
-    nameEN: 'leech-seed',
+    nameEN: 'Leech Seed',
     nameJA: 'やどりぎのタネ',
     contact: false,
     charge: false,
@@ -1899,7 +1899,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 74,
-    nameEN: 'growth',
+    nameEN: 'Growth',
     nameJA: 'せいちょう',
     contact: false,
     charge: false,
@@ -1925,7 +1925,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 75,
-    nameEN: 'razor-leaf',
+    nameEN: 'Razor Leaf',
     nameJA: 'はっぱカッター',
     contact: false,
     charge: false,
@@ -1951,7 +1951,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 76,
-    nameEN: 'solar-beam',
+    nameEN: 'Solar Beam',
     nameJA: 'ソーラービーム',
     contact: false,
     charge: true,
@@ -1977,7 +1977,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 77,
-    nameEN: 'poison-powder',
+    nameEN: 'Poison Powder',
     nameJA: 'どくのこな',
     contact: false,
     charge: false,
@@ -2003,7 +2003,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 78,
-    nameEN: 'stun-spore',
+    nameEN: 'Stun Spore',
     nameJA: 'しびれごな',
     contact: false,
     charge: false,
@@ -2029,7 +2029,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 79,
-    nameEN: 'sleep-powder',
+    nameEN: 'Sleep Powder',
     nameJA: 'ねむりごな',
     contact: false,
     charge: false,
@@ -2055,7 +2055,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 80,
-    nameEN: 'petal-dance',
+    nameEN: 'Petal Dance',
     nameJA: 'はなびらのまい',
     contact: true,
     charge: false,
@@ -2081,7 +2081,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 81,
-    nameEN: 'string-shot',
+    nameEN: 'String Shot',
     nameJA: 'いとをはく',
     contact: false,
     charge: false,
@@ -2107,7 +2107,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 82,
-    nameEN: 'dragon-rage',
+    nameEN: 'Dragon Rage',
     nameJA: 'りゅうのいかり',
     contact: false,
     charge: false,
@@ -2133,7 +2133,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 83,
-    nameEN: 'fire-spin',
+    nameEN: 'Fire Spin',
     nameJA: 'ほのおのうず',
     contact: false,
     charge: false,
@@ -2159,7 +2159,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 84,
-    nameEN: 'thunder-shock',
+    nameEN: 'Thunder Shock',
     nameJA: 'でんきショック',
     contact: false,
     charge: false,
@@ -2185,7 +2185,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 85,
-    nameEN: 'thunderbolt',
+    nameEN: 'Thunderbolt',
     nameJA: '１０まんボルト',
     contact: false,
     charge: false,
@@ -2211,7 +2211,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 86,
-    nameEN: 'thunder-wave',
+    nameEN: 'Thunder Wave',
     nameJA: 'でんじは',
     contact: false,
     charge: false,
@@ -2237,7 +2237,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 87,
-    nameEN: 'thunder',
+    nameEN: 'Thunder',
     nameJA: 'かみなり',
     contact: false,
     charge: false,
@@ -2263,7 +2263,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 88,
-    nameEN: 'rock-throw',
+    nameEN: 'Rock Throw',
     nameJA: 'いわおとし',
     contact: false,
     charge: false,
@@ -2289,7 +2289,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 89,
-    nameEN: 'earthquake',
+    nameEN: 'Earthquake',
     nameJA: 'じしん',
     contact: false,
     charge: false,
@@ -2315,7 +2315,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 90,
-    nameEN: 'fissure',
+    nameEN: 'Fissure',
     nameJA: 'じわれ',
     contact: false,
     charge: false,
@@ -2341,7 +2341,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 91,
-    nameEN: 'dig',
+    nameEN: 'Dig',
     nameJA: 'あなをほる',
     contact: true,
     charge: true,
@@ -2367,7 +2367,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 92,
-    nameEN: 'toxic',
+    nameEN: 'Toxic',
     nameJA: 'どくどく',
     contact: false,
     charge: false,
@@ -2393,7 +2393,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 93,
-    nameEN: 'confusion',
+    nameEN: 'Confusion',
     nameJA: 'ねんりき',
     contact: false,
     charge: false,
@@ -2419,7 +2419,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 94,
-    nameEN: 'psychic',
+    nameEN: 'Psychic',
     nameJA: 'サイコキネシス',
     contact: false,
     charge: false,
@@ -2445,7 +2445,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 95,
-    nameEN: 'hypnosis',
+    nameEN: 'Hypnosis',
     nameJA: 'さいみんじゅつ',
     contact: false,
     charge: false,
@@ -2471,7 +2471,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 96,
-    nameEN: 'meditate',
+    nameEN: 'Meditate',
     nameJA: 'ヨガのポーズ',
     contact: false,
     charge: false,
@@ -2497,7 +2497,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 97,
-    nameEN: 'agility',
+    nameEN: 'Agility',
     nameJA: 'こうそくいどう',
     contact: false,
     charge: false,
@@ -2523,7 +2523,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 98,
-    nameEN: 'quick-attack',
+    nameEN: 'Quick Attack',
     nameJA: 'でんこうせっか',
     contact: true,
     charge: false,
@@ -2549,7 +2549,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 99,
-    nameEN: 'rage',
+    nameEN: 'Rage',
     nameJA: 'いかり',
     contact: true,
     charge: false,
@@ -2575,7 +2575,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 100,
-    nameEN: 'teleport',
+    nameEN: 'Teleport',
     nameJA: 'テレポート',
     contact: false,
     charge: false,
@@ -2601,7 +2601,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 101,
-    nameEN: 'night-shade',
+    nameEN: 'Night Shade',
     nameJA: 'ナイトヘッド',
     contact: false,
     charge: false,
@@ -2627,7 +2627,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 102,
-    nameEN: 'mimic',
+    nameEN: 'Mimic',
     nameJA: 'ものまね',
     contact: false,
     charge: false,
@@ -2653,7 +2653,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 103,
-    nameEN: 'screech',
+    nameEN: 'Screech',
     nameJA: 'いやなおと',
     contact: false,
     charge: false,
@@ -2679,7 +2679,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 104,
-    nameEN: 'double-team',
+    nameEN: 'Double Team',
     nameJA: 'かげぶんしん',
     contact: false,
     charge: false,
@@ -2705,7 +2705,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 105,
-    nameEN: 'recover',
+    nameEN: 'Recover',
     nameJA: 'じこさいせい',
     contact: false,
     charge: false,
@@ -2731,7 +2731,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 106,
-    nameEN: 'harden',
+    nameEN: 'Harden',
     nameJA: 'かたくなる',
     contact: false,
     charge: false,
@@ -2757,7 +2757,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 107,
-    nameEN: 'minimize',
+    nameEN: 'Minimize',
     nameJA: 'ちいさくなる',
     contact: false,
     charge: false,
@@ -2783,7 +2783,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 108,
-    nameEN: 'smokescreen',
+    nameEN: 'Smokescreen',
     nameJA: 'えんまく',
     contact: false,
     charge: false,
@@ -2809,7 +2809,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 109,
-    nameEN: 'confuse-ray',
+    nameEN: 'Confuse Ray',
     nameJA: 'あやしいひかり',
     contact: false,
     charge: false,
@@ -2835,7 +2835,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 110,
-    nameEN: 'withdraw',
+    nameEN: 'Withdraw',
     nameJA: 'からにこもる',
     contact: false,
     charge: false,
@@ -2861,7 +2861,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 111,
-    nameEN: 'defense-curl',
+    nameEN: 'Defense Curl',
     nameJA: 'まるくなる',
     contact: false,
     charge: false,
@@ -2887,7 +2887,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 112,
-    nameEN: 'barrier',
+    nameEN: 'Barrier',
     nameJA: 'バリアー',
     contact: false,
     charge: false,
@@ -2913,7 +2913,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 113,
-    nameEN: 'light-screen',
+    nameEN: 'Light Screen',
     nameJA: 'ひかりのかべ',
     contact: false,
     charge: false,
@@ -2939,7 +2939,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 114,
-    nameEN: 'haze',
+    nameEN: 'Haze',
     nameJA: 'くろいきり',
     contact: false,
     charge: false,
@@ -2965,7 +2965,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 115,
-    nameEN: 'reflect',
+    nameEN: 'Reflect',
     nameJA: 'リフレクター',
     contact: false,
     charge: false,
@@ -2991,7 +2991,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 116,
-    nameEN: 'focus-energy',
+    nameEN: 'Focus Energy',
     nameJA: 'きあいだめ',
     contact: false,
     charge: false,
@@ -3017,7 +3017,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 117,
-    nameEN: 'bide',
+    nameEN: 'Bide',
     nameJA: 'がまん',
     contact: true,
     charge: false,
@@ -3043,7 +3043,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 118,
-    nameEN: 'metronome',
+    nameEN: 'Metronome',
     nameJA: 'ゆびをふる',
     contact: false,
     charge: false,
@@ -3069,7 +3069,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 119,
-    nameEN: 'mirror-move',
+    nameEN: 'Mirror Move',
     nameJA: 'オウムがえし',
     contact: false,
     charge: false,
@@ -3095,7 +3095,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 120,
-    nameEN: 'self-destruct',
+    nameEN: 'Self Destruct',
     nameJA: 'じばく',
     contact: false,
     charge: false,
@@ -3121,7 +3121,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 121,
-    nameEN: 'egg-bomb',
+    nameEN: 'Egg Bomb',
     nameJA: 'タマゴばくだん',
     contact: false,
     charge: false,
@@ -3147,7 +3147,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 122,
-    nameEN: 'lick',
+    nameEN: 'Lick',
     nameJA: 'したでなめる',
     contact: true,
     charge: false,
@@ -3173,7 +3173,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 123,
-    nameEN: 'smog',
+    nameEN: 'Smog',
     nameJA: 'スモッグ',
     contact: false,
     charge: false,
@@ -3199,7 +3199,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 124,
-    nameEN: 'sludge',
+    nameEN: 'Sludge',
     nameJA: 'ヘドロこうげき',
     contact: false,
     charge: false,
@@ -3225,7 +3225,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 125,
-    nameEN: 'bone-club',
+    nameEN: 'Bone Club',
     nameJA: 'ホネこんぼう',
     contact: false,
     charge: false,
@@ -3251,7 +3251,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 126,
-    nameEN: 'fire-blast',
+    nameEN: 'Fire Blast',
     nameJA: 'だいもんじ',
     contact: false,
     charge: false,
@@ -3277,7 +3277,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 127,
-    nameEN: 'waterfall',
+    nameEN: 'Waterfall',
     nameJA: 'たきのぼり',
     contact: true,
     charge: false,
@@ -3303,7 +3303,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 128,
-    nameEN: 'clamp',
+    nameEN: 'Clamp',
     nameJA: 'からではさむ',
     contact: true,
     charge: false,
@@ -3329,7 +3329,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 129,
-    nameEN: 'swift',
+    nameEN: 'Swift',
     nameJA: 'スピードスター',
     contact: false,
     charge: false,
@@ -3355,7 +3355,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 130,
-    nameEN: 'skull-bash',
+    nameEN: 'Skull Bash',
     nameJA: 'ロケットずつき',
     contact: true,
     charge: true,
@@ -3381,7 +3381,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 131,
-    nameEN: 'spike-cannon',
+    nameEN: 'Spike Cannon',
     nameJA: 'とげキャノン',
     contact: false,
     charge: false,
@@ -3407,7 +3407,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 132,
-    nameEN: 'constrict',
+    nameEN: 'Constrict',
     nameJA: 'からみつく',
     contact: true,
     charge: false,
@@ -3433,7 +3433,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 133,
-    nameEN: 'amnesia',
+    nameEN: 'Amnesia',
     nameJA: 'ドわすれ',
     contact: false,
     charge: false,
@@ -3459,7 +3459,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 134,
-    nameEN: 'kinesis',
+    nameEN: 'Kinesis',
     nameJA: 'スプーンまげ',
     contact: false,
     charge: false,
@@ -3485,7 +3485,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 135,
-    nameEN: 'soft-boiled',
+    nameEN: 'Soft Boiled',
     nameJA: 'タマゴうみ',
     contact: false,
     charge: false,
@@ -3511,7 +3511,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 136,
-    nameEN: 'high-jump kick',
+    nameEN: 'High Jump kick',
     nameJA: 'とびひざげり',
     contact: true,
     charge: false,
@@ -3537,7 +3537,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 137,
-    nameEN: 'glare',
+    nameEN: 'Glare',
     nameJA: 'へびにらみ',
     contact: false,
     charge: false,
@@ -3563,7 +3563,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 138,
-    nameEN: 'dream-eater',
+    nameEN: 'Dream Eater',
     nameJA: 'ゆめくい',
     contact: false,
     charge: false,
@@ -3589,7 +3589,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 139,
-    nameEN: 'poison-gas',
+    nameEN: 'Poison Gas',
     nameJA: 'どくガス',
     contact: false,
     charge: false,
@@ -3615,7 +3615,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 140,
-    nameEN: 'barrage',
+    nameEN: 'Barrage',
     nameJA: 'たまなげ',
     contact: false,
     charge: false,
@@ -3641,7 +3641,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 141,
-    nameEN: 'leech-life',
+    nameEN: 'Leech Life',
     nameJA: 'きゅうけつ',
     contact: true,
     charge: false,
@@ -3667,7 +3667,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 142,
-    nameEN: 'lovely-kiss',
+    nameEN: 'Lovely Kiss',
     nameJA: 'あくまのキッス',
     contact: false,
     charge: false,
@@ -3693,7 +3693,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 143,
-    nameEN: 'sky-attack',
+    nameEN: 'Sky Attack',
     nameJA: 'ゴッドバード',
     contact: false,
     charge: true,
@@ -3719,7 +3719,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 144,
-    nameEN: 'transform',
+    nameEN: 'Transform',
     nameJA: 'へんしん',
     contact: false,
     charge: false,
@@ -3745,7 +3745,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 145,
-    nameEN: 'bubble',
+    nameEN: 'Bubble',
     nameJA: 'あわ',
     contact: false,
     charge: false,
@@ -3771,7 +3771,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 146,
-    nameEN: 'dizzy-punch',
+    nameEN: 'Dizzy Punch',
     nameJA: 'ピヨピヨパンチ',
     contact: true,
     charge: false,
@@ -3797,7 +3797,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 147,
-    nameEN: 'spore',
+    nameEN: 'Spore',
     nameJA: 'キノコのほうし',
     contact: false,
     charge: false,
@@ -3823,7 +3823,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 148,
-    nameEN: 'flash',
+    nameEN: 'Flash',
     nameJA: 'フラッシュ',
     contact: false,
     charge: false,
@@ -3849,7 +3849,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 149,
-    nameEN: 'psywave',
+    nameEN: 'Psywave',
     nameJA: 'サイコウェーブ',
     contact: false,
     charge: false,
@@ -3875,7 +3875,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 150,
-    nameEN: 'splash',
+    nameEN: 'Splash',
     nameJA: 'はねる',
     contact: false,
     charge: false,
@@ -3901,7 +3901,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 151,
-    nameEN: 'acid-armor',
+    nameEN: 'Acid Armor',
     nameJA: 'とける',
     contact: false,
     charge: false,
@@ -3927,7 +3927,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 152,
-    nameEN: 'crabhammer',
+    nameEN: 'Crabhammer',
     nameJA: 'クラブハンマー',
     contact: true,
     charge: false,
@@ -3953,7 +3953,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 153,
-    nameEN: 'explosion',
+    nameEN: 'Explosion',
     nameJA: 'だいばくはつ',
     contact: false,
     charge: false,
@@ -3979,7 +3979,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 154,
-    nameEN: 'fury-swipes',
+    nameEN: 'Fury Swipes',
     nameJA: 'みだれひっかき',
     contact: true,
     charge: false,
@@ -4005,7 +4005,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 155,
-    nameEN: 'bonemerang',
+    nameEN: 'Bonemerang',
     nameJA: 'ホネブーメラン',
     contact: false,
     charge: false,
@@ -4031,7 +4031,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 156,
-    nameEN: 'rest',
+    nameEN: 'Rest',
     nameJA: 'ねむる',
     contact: false,
     charge: false,
@@ -4057,7 +4057,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 157,
-    nameEN: 'rock-slide',
+    nameEN: 'Rock Slide',
     nameJA: 'いわなだれ',
     contact: false,
     charge: false,
@@ -4083,7 +4083,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 158,
-    nameEN: 'hyper-fang',
+    nameEN: 'Hyper Fang',
     nameJA: 'ひっさつまえば',
     contact: true,
     charge: false,
@@ -4109,7 +4109,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 159,
-    nameEN: 'sharpen',
+    nameEN: 'Sharpen',
     nameJA: 'かくばる',
     contact: false,
     charge: false,
@@ -4135,7 +4135,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 160,
-    nameEN: 'conversion',
+    nameEN: 'Conversion',
     nameJA: 'テクスチャー',
     contact: false,
     charge: false,
@@ -4161,7 +4161,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 161,
-    nameEN: 'tri-attack',
+    nameEN: 'Tri Attack',
     nameJA: 'トライアタック',
     contact: false,
     charge: false,
@@ -4187,7 +4187,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 162,
-    nameEN: 'super-fang',
+    nameEN: 'Super Fang',
     nameJA: 'いかりのまえば',
     contact: true,
     charge: false,
@@ -4213,7 +4213,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 163,
-    nameEN: 'slash',
+    nameEN: 'Slash',
     nameJA: 'きりさく',
     contact: true,
     charge: false,
@@ -4239,7 +4239,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 164,
-    nameEN: 'substitute',
+    nameEN: 'Substitute',
     nameJA: 'みがわり',
     contact: false,
     charge: false,
@@ -4265,7 +4265,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 165,
-    nameEN: 'struggle',
+    nameEN: 'Struggle',
     nameJA: 'わるあがき',
     contact: true,
     charge: false,
@@ -4291,7 +4291,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 166,
-    nameEN: 'sketch',
+    nameEN: 'Sketch',
     nameJA: 'スケッチ',
     contact: false,
     charge: false,
@@ -4317,7 +4317,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 167,
-    nameEN: 'triple-kick',
+    nameEN: 'Triple Kick',
     nameJA: 'トリプルキック',
     contact: true,
     charge: false,
@@ -4343,7 +4343,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 168,
-    nameEN: 'thief',
+    nameEN: 'Thief',
     nameJA: 'どろぼう',
     contact: true,
     charge: false,
@@ -4369,7 +4369,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 169,
-    nameEN: 'spider-web',
+    nameEN: 'Spider Web',
     nameJA: 'クモのす',
     contact: false,
     charge: false,
@@ -4395,7 +4395,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 170,
-    nameEN: 'mind-reader',
+    nameEN: 'Mind Reader',
     nameJA: 'こころのめ',
     contact: false,
     charge: false,
@@ -4421,7 +4421,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 171,
-    nameEN: 'nightmare',
+    nameEN: 'Nightmare',
     nameJA: 'あくむ',
     contact: false,
     charge: false,
@@ -4447,7 +4447,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 172,
-    nameEN: 'flame-wheel',
+    nameEN: 'Flame Wheel',
     nameJA: 'かえんぐるま',
     contact: true,
     charge: false,
@@ -4473,7 +4473,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 173,
-    nameEN: 'snore',
+    nameEN: 'Snore',
     nameJA: 'いびき',
     contact: false,
     charge: false,
@@ -4499,7 +4499,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 174,
-    nameEN: 'curse',
+    nameEN: 'Curse',
     nameJA: 'のろい',
     contact: false,
     charge: false,
@@ -4525,7 +4525,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 175,
-    nameEN: 'flail',
+    nameEN: 'Flail',
     nameJA: 'じたばた',
     contact: true,
     charge: false,
@@ -4551,7 +4551,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 176,
-    nameEN: 'conversion-2',
+    nameEN: 'Conversion 2',
     nameJA: 'テクスチャー２',
     contact: false,
     charge: false,
@@ -4577,7 +4577,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 177,
-    nameEN: 'aeroblast',
+    nameEN: 'Aeroblast',
     nameJA: 'エアロブラスト',
     contact: false,
     charge: false,
@@ -4603,7 +4603,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 178,
-    nameEN: 'cotton-spore',
+    nameEN: 'Cotton Spore',
     nameJA: 'わたほうし',
     contact: false,
     charge: false,
@@ -4629,7 +4629,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 179,
-    nameEN: 'reversal',
+    nameEN: 'Reversal',
     nameJA: 'きしかいせい',
     contact: true,
     charge: false,
@@ -4655,7 +4655,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 180,
-    nameEN: 'spite',
+    nameEN: 'Spite',
     nameJA: 'うらみ',
     contact: false,
     charge: false,
@@ -4681,7 +4681,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 181,
-    nameEN: 'powder-snow',
+    nameEN: 'Powder Snow',
     nameJA: 'こなゆき',
     contact: false,
     charge: false,
@@ -4707,7 +4707,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 182,
-    nameEN: 'protect',
+    nameEN: 'Protect',
     nameJA: 'まもる',
     contact: false,
     charge: false,
@@ -4733,7 +4733,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 183,
-    nameEN: 'mach-punch',
+    nameEN: 'Mach Punch',
     nameJA: 'マッハパンチ',
     contact: true,
     charge: false,
@@ -4759,7 +4759,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 184,
-    nameEN: 'scary-face',
+    nameEN: 'Scary Face',
     nameJA: 'こわいかお',
     contact: false,
     charge: false,
@@ -4785,7 +4785,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 185,
-    nameEN: 'feint-attack',
+    nameEN: 'Feint Attack',
     nameJA: 'だましうち',
     contact: true,
     charge: false,
@@ -4811,7 +4811,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 186,
-    nameEN: 'sweet-kiss',
+    nameEN: 'Sweet Kiss',
     nameJA: 'てんしのキッス',
     contact: false,
     charge: false,
@@ -4837,7 +4837,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 187,
-    nameEN: 'belly-drum',
+    nameEN: 'Belly Drum',
     nameJA: 'はらだいこ',
     contact: false,
     charge: false,
@@ -4863,7 +4863,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 188,
-    nameEN: 'sludge-bomb',
+    nameEN: 'Sludge Bomb',
     nameJA: 'ヘドロばくだん',
     contact: false,
     charge: false,
@@ -4889,7 +4889,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 189,
-    nameEN: 'mud-slap',
+    nameEN: 'Mud Slap',
     nameJA: 'どろかけ',
     contact: false,
     charge: false,
@@ -4915,7 +4915,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 190,
-    nameEN: 'octazooka',
+    nameEN: 'Octazooka',
     nameJA: 'オクタンほう',
     contact: false,
     charge: false,
@@ -4941,7 +4941,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 191,
-    nameEN: 'spikes',
+    nameEN: 'Spikes',
     nameJA: 'まきびし',
     contact: false,
     charge: false,
@@ -4967,7 +4967,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 192,
-    nameEN: 'zap-cannon',
+    nameEN: 'Zap Cannon',
     nameJA: 'でんじほう',
     contact: false,
     charge: false,
@@ -4993,7 +4993,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 193,
-    nameEN: 'foresight',
+    nameEN: 'Foresight',
     nameJA: 'みやぶる',
     contact: false,
     charge: false,
@@ -5019,7 +5019,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 194,
-    nameEN: 'destiny-bond',
+    nameEN: 'Destiny Bond',
     nameJA: 'みちづれ',
     contact: false,
     charge: false,
@@ -5045,7 +5045,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 195,
-    nameEN: 'perish-song',
+    nameEN: 'Perish Song',
     nameJA: 'ほろびのうた',
     contact: false,
     charge: false,
@@ -5071,7 +5071,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 196,
-    nameEN: 'icy-wind',
+    nameEN: 'Icy Wind',
     nameJA: 'こごえるかぜ',
     contact: false,
     charge: false,
@@ -5097,7 +5097,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 197,
-    nameEN: 'detect',
+    nameEN: 'Detect',
     nameJA: 'みきり',
     contact: false,
     charge: false,
@@ -5123,7 +5123,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 198,
-    nameEN: 'bone-rush',
+    nameEN: 'Bone Rush',
     nameJA: 'ボーンラッシュ',
     contact: false,
     charge: false,
@@ -5149,7 +5149,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 199,
-    nameEN: 'lock-on',
+    nameEN: 'Lock On',
     nameJA: 'ロックオン',
     contact: false,
     charge: false,
@@ -5175,7 +5175,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 200,
-    nameEN: 'outrage',
+    nameEN: 'Outrage',
     nameJA: 'げきりん',
     contact: true,
     charge: false,
@@ -5201,7 +5201,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 201,
-    nameEN: 'sandstorm',
+    nameEN: 'Sandstorm',
     nameJA: 'すなあらし',
     contact: false,
     charge: false,
@@ -5227,7 +5227,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 202,
-    nameEN: 'giga-drain',
+    nameEN: 'Giga Drain',
     nameJA: 'ギガドレイン',
     contact: false,
     charge: false,
@@ -5253,7 +5253,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 203,
-    nameEN: 'endure',
+    nameEN: 'Endure',
     nameJA: 'こらえる',
     contact: false,
     charge: false,
@@ -5279,7 +5279,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 204,
-    nameEN: 'charm',
+    nameEN: 'Charm',
     nameJA: 'あまえる',
     contact: false,
     charge: false,
@@ -5305,7 +5305,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 205,
-    nameEN: 'rollout',
+    nameEN: 'Rollout',
     nameJA: 'ころがる',
     contact: true,
     charge: false,
@@ -5331,7 +5331,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 206,
-    nameEN: 'false-swipe',
+    nameEN: 'False Swipe',
     nameJA: 'みねうち',
     contact: true,
     charge: false,
@@ -5357,7 +5357,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 207,
-    nameEN: 'swagger',
+    nameEN: 'Swagger',
     nameJA: 'いばる',
     contact: false,
     charge: false,
@@ -5383,7 +5383,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 208,
-    nameEN: 'milk-drink',
+    nameEN: 'Milk Drink',
     nameJA: 'ミルクのみ',
     contact: false,
     charge: false,
@@ -5409,7 +5409,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 209,
-    nameEN: 'spark',
+    nameEN: 'Spark',
     nameJA: 'スパーク',
     contact: true,
     charge: false,
@@ -5435,7 +5435,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 210,
-    nameEN: 'fury-cutter',
+    nameEN: 'Fury Cutter',
     nameJA: 'れんぞくぎり',
     contact: true,
     charge: false,
@@ -5461,7 +5461,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 211,
-    nameEN: 'steel-wing',
+    nameEN: 'Steel Wing',
     nameJA: 'はがねのつばさ',
     contact: true,
     charge: false,
@@ -5487,7 +5487,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 212,
-    nameEN: 'mean-look',
+    nameEN: 'Mean Look',
     nameJA: 'くろいまなざし',
     contact: false,
     charge: false,
@@ -5513,7 +5513,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 213,
-    nameEN: 'attract',
+    nameEN: 'Attract',
     nameJA: 'メロメロ',
     contact: false,
     charge: false,
@@ -5539,7 +5539,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 214,
-    nameEN: 'sleep-talk',
+    nameEN: 'Sleep Talk',
     nameJA: 'ねごと',
     contact: false,
     charge: false,
@@ -5565,7 +5565,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 215,
-    nameEN: 'heal-bell',
+    nameEN: 'Heal Bell',
     nameJA: 'いやしのすず',
     contact: false,
     charge: false,
@@ -5591,7 +5591,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 216,
-    nameEN: 'return',
+    nameEN: 'Return',
     nameJA: 'おんがえし',
     contact: true,
     charge: false,
@@ -5617,7 +5617,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 217,
-    nameEN: 'present',
+    nameEN: 'Present',
     nameJA: 'プレゼント',
     contact: false,
     charge: false,
@@ -5643,7 +5643,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 218,
-    nameEN: 'frustration',
+    nameEN: 'Frustration',
     nameJA: 'やつあたり',
     contact: true,
     charge: false,
@@ -5669,7 +5669,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 219,
-    nameEN: 'safeguard',
+    nameEN: 'Safeguard',
     nameJA: 'しんぴのまもり',
     contact: false,
     charge: false,
@@ -5695,7 +5695,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 220,
-    nameEN: 'pain-split',
+    nameEN: 'Pain Split',
     nameJA: 'いたみわけ',
     contact: false,
     charge: false,
@@ -5721,7 +5721,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 221,
-    nameEN: 'sacred-fire',
+    nameEN: 'Sacred Fire',
     nameJA: 'せいなるほのお',
     contact: false,
     charge: false,
@@ -5747,7 +5747,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 222,
-    nameEN: 'magnitude',
+    nameEN: 'Magnitude',
     nameJA: 'マグニチュード',
     contact: false,
     charge: false,
@@ -5773,7 +5773,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 223,
-    nameEN: 'dynamic-punch',
+    nameEN: 'Dynamic Punch',
     nameJA: 'ばくれつパンチ',
     contact: true,
     charge: false,
@@ -5799,7 +5799,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 224,
-    nameEN: 'megahorn',
+    nameEN: 'Megahorn',
     nameJA: 'メガホーン',
     contact: true,
     charge: false,
@@ -5825,7 +5825,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 225,
-    nameEN: 'dragon-breath',
+    nameEN: 'Dragon Breath',
     nameJA: 'りゅうのいぶき',
     contact: false,
     charge: false,
@@ -5851,7 +5851,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 226,
-    nameEN: 'baton-pass',
+    nameEN: 'Baton Pass',
     nameJA: 'バトンタッチ',
     contact: false,
     charge: false,
@@ -5877,7 +5877,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 227,
-    nameEN: 'encore',
+    nameEN: 'Encore',
     nameJA: 'アンコール',
     contact: false,
     charge: false,
@@ -5903,7 +5903,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 228,
-    nameEN: 'pursuit',
+    nameEN: 'Pursuit',
     nameJA: 'おいうち',
     contact: true,
     charge: false,
@@ -5929,7 +5929,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 229,
-    nameEN: 'rapid-spin',
+    nameEN: 'Rapid Spin',
     nameJA: 'こうそくスピン',
     contact: true,
     charge: false,
@@ -5955,7 +5955,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 230,
-    nameEN: 'sweet-scent',
+    nameEN: 'Sweet Scent',
     nameJA: 'あまいかおり',
     contact: false,
     charge: false,
@@ -5981,7 +5981,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 231,
-    nameEN: 'iron-tail',
+    nameEN: 'Iron Tail',
     nameJA: 'アイアンテール',
     contact: true,
     charge: false,
@@ -6007,7 +6007,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 232,
-    nameEN: 'metal-claw',
+    nameEN: 'Metal Claw',
     nameJA: 'メタルクロー',
     contact: true,
     charge: false,
@@ -6033,7 +6033,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 233,
-    nameEN: 'vital-throw',
+    nameEN: 'Vital Throw',
     nameJA: 'あてみなげ',
     contact: true,
     charge: false,
@@ -6059,7 +6059,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 234,
-    nameEN: 'morning-sun',
+    nameEN: 'Morning Sun',
     nameJA: 'あさのひざし',
     contact: false,
     charge: false,
@@ -6085,7 +6085,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 235,
-    nameEN: 'synthesis',
+    nameEN: 'Synthesis',
     nameJA: 'こうごうせい',
     contact: false,
     charge: false,
@@ -6111,7 +6111,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 236,
-    nameEN: 'moonlight',
+    nameEN: 'Moonlight',
     nameJA: 'つきのひかり',
     contact: false,
     charge: false,
@@ -6137,7 +6137,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 237,
-    nameEN: 'hidden-power',
+    nameEN: 'Hidden Power',
     nameJA: 'めざめるパワー',
     contact: false,
     charge: false,
@@ -6163,7 +6163,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 238,
-    nameEN: 'cross-chop',
+    nameEN: 'Cross Chop',
     nameJA: 'クロスチョップ',
     contact: true,
     charge: false,
@@ -6189,7 +6189,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 239,
-    nameEN: 'twister',
+    nameEN: 'Twister',
     nameJA: 'たつまき',
     contact: false,
     charge: false,
@@ -6215,7 +6215,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 240,
-    nameEN: 'rain-dance',
+    nameEN: 'Rain Dance',
     nameJA: 'あまごい',
     contact: false,
     charge: false,
@@ -6241,7 +6241,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 241,
-    nameEN: 'sunny-day',
+    nameEN: 'Sunny Day',
     nameJA: 'にほんばれ',
     contact: false,
     charge: false,
@@ -6267,7 +6267,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 242,
-    nameEN: 'crunch',
+    nameEN: 'Crunch',
     nameJA: 'かみくだく',
     contact: true,
     charge: false,
@@ -6293,7 +6293,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 243,
-    nameEN: 'mirror-coat',
+    nameEN: 'Mirror Coat',
     nameJA: 'ミラーコート',
     contact: false,
     charge: false,
@@ -6319,7 +6319,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 244,
-    nameEN: 'psych-up',
+    nameEN: 'Psych Up',
     nameJA: 'じこあんじ',
     contact: false,
     charge: false,
@@ -6345,7 +6345,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 245,
-    nameEN: 'extreme-speed',
+    nameEN: 'Extreme Speed',
     nameJA: 'しんそく',
     contact: true,
     charge: false,
@@ -6371,7 +6371,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 246,
-    nameEN: 'ancient-power',
+    nameEN: 'Ancient Power',
     nameJA: 'げんしのちから',
     contact: false,
     charge: false,
@@ -6397,7 +6397,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 247,
-    nameEN: 'shadow-ball',
+    nameEN: 'Shadow Ball',
     nameJA: 'シャドーボール',
     contact: false,
     charge: false,
@@ -6423,7 +6423,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 248,
-    nameEN: 'future-sight',
+    nameEN: 'Future Sight',
     nameJA: 'みらいよち',
     contact: false,
     charge: false,
@@ -6449,7 +6449,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 249,
-    nameEN: 'rock-smash',
+    nameEN: 'Rock Smash',
     nameJA: 'いわくだき',
     contact: true,
     charge: false,
@@ -6475,7 +6475,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 250,
-    nameEN: 'whirlpool',
+    nameEN: 'Whirlpool',
     nameJA: 'うずしお',
     contact: false,
     charge: false,
@@ -6501,7 +6501,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 251,
-    nameEN: 'beat-up',
+    nameEN: 'Beat Up',
     nameJA: 'ふくろだたき',
     contact: false,
     charge: false,
@@ -6527,7 +6527,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 252,
-    nameEN: 'fake-out',
+    nameEN: 'Fake Out',
     nameJA: 'ねこだまし',
     contact: true,
     charge: false,
@@ -6553,7 +6553,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 253,
-    nameEN: 'uproar',
+    nameEN: 'Uproar',
     nameJA: 'さわぐ',
     contact: false,
     charge: false,
@@ -6579,7 +6579,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 254,
-    nameEN: 'stockpile',
+    nameEN: 'Stockpile',
     nameJA: 'たくわえる',
     contact: false,
     charge: false,
@@ -6605,7 +6605,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 255,
-    nameEN: 'spit-up',
+    nameEN: 'Spit Up',
     nameJA: 'はきだす',
     contact: false,
     charge: false,
@@ -6631,7 +6631,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 256,
-    nameEN: 'swallow',
+    nameEN: 'Swallow',
     nameJA: 'のみこむ',
     contact: false,
     charge: false,
@@ -6657,7 +6657,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 257,
-    nameEN: 'heat-wave',
+    nameEN: 'Heat Wave',
     nameJA: 'ねっぷう',
     contact: false,
     charge: false,
@@ -6683,7 +6683,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 258,
-    nameEN: 'hail',
+    nameEN: 'Hail',
     nameJA: 'あられ',
     contact: false,
     charge: false,
@@ -6709,7 +6709,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 259,
-    nameEN: 'torment',
+    nameEN: 'Torment',
     nameJA: 'いちゃもん',
     contact: false,
     charge: false,
@@ -6735,7 +6735,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 260,
-    nameEN: 'flatter',
+    nameEN: 'Flatter',
     nameJA: 'おだてる',
     contact: false,
     charge: false,
@@ -6761,7 +6761,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 261,
-    nameEN: 'will-o-wisp',
+    nameEN: 'Will O Wisp',
     nameJA: 'おにび',
     contact: false,
     charge: false,
@@ -6787,7 +6787,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 262,
-    nameEN: 'memento',
+    nameEN: 'Memento',
     nameJA: 'おきみやげ',
     contact: false,
     charge: false,
@@ -6813,7 +6813,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 263,
-    nameEN: 'facade',
+    nameEN: 'Facade',
     nameJA: 'からげんき',
     contact: true,
     charge: false,
@@ -6839,7 +6839,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 264,
-    nameEN: 'focus-punch',
+    nameEN: 'Focus Punch',
     nameJA: 'きあいパンチ',
     contact: true,
     charge: false,
@@ -6865,7 +6865,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 265,
-    nameEN: 'smelling-salts',
+    nameEN: 'Smelling Salts',
     nameJA: 'きつけ',
     contact: true,
     charge: false,
@@ -6891,7 +6891,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 266,
-    nameEN: 'follow-me',
+    nameEN: 'Follow Me',
     nameJA: 'このゆびとまれ',
     contact: false,
     charge: false,
@@ -6917,7 +6917,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 267,
-    nameEN: 'nature-power',
+    nameEN: 'Nature Power',
     nameJA: 'しぜんのちから',
     contact: false,
     charge: false,
@@ -6943,7 +6943,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 268,
-    nameEN: 'charge',
+    nameEN: 'Charge',
     nameJA: 'じゅうでん',
     contact: false,
     charge: false,
@@ -6969,7 +6969,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 269,
-    nameEN: 'taunt',
+    nameEN: 'Taunt',
     nameJA: 'ちょうはつ',
     contact: false,
     charge: false,
@@ -6995,7 +6995,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 270,
-    nameEN: 'helping-hand',
+    nameEN: 'Helping Hand',
     nameJA: 'てだすけ',
     contact: false,
     charge: false,
@@ -7021,7 +7021,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 271,
-    nameEN: 'trick',
+    nameEN: 'Trick',
     nameJA: 'トリック',
     contact: false,
     charge: false,
@@ -7047,7 +7047,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 272,
-    nameEN: 'role-play',
+    nameEN: 'Role Play',
     nameJA: 'なりきり',
     contact: false,
     charge: false,
@@ -7073,7 +7073,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 273,
-    nameEN: 'wish',
+    nameEN: 'Wish',
     nameJA: 'ねがいごと',
     contact: false,
     charge: false,
@@ -7099,7 +7099,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 274,
-    nameEN: 'assist',
+    nameEN: 'Assist',
     nameJA: 'ねこのて',
     contact: false,
     charge: false,
@@ -7125,7 +7125,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 275,
-    nameEN: 'ingrain',
+    nameEN: 'Ingrain',
     nameJA: 'ねをはる',
     contact: false,
     charge: false,
@@ -7151,7 +7151,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 276,
-    nameEN: 'superpower',
+    nameEN: 'Superpower',
     nameJA: 'ばかぢから',
     contact: true,
     charge: false,
@@ -7177,7 +7177,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 277,
-    nameEN: 'magic-coat',
+    nameEN: 'Magic Coat',
     nameJA: 'マジックコート',
     contact: false,
     charge: false,
@@ -7203,7 +7203,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 278,
-    nameEN: 'recycle',
+    nameEN: 'Recycle',
     nameJA: 'リサイクル',
     contact: false,
     charge: false,
@@ -7229,7 +7229,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 279,
-    nameEN: 'revenge',
+    nameEN: 'Revenge',
     nameJA: 'リベンジ',
     contact: true,
     charge: false,
@@ -7255,7 +7255,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 280,
-    nameEN: 'brick-break',
+    nameEN: 'Brick Break',
     nameJA: 'かわらわり',
     contact: true,
     charge: false,
@@ -7281,7 +7281,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 281,
-    nameEN: 'yawn',
+    nameEN: 'Yawn',
     nameJA: 'あくび',
     contact: false,
     charge: false,
@@ -7307,7 +7307,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 282,
-    nameEN: 'knock-off',
+    nameEN: 'Knock Off',
     nameJA: 'はたきおとす',
     contact: true,
     charge: false,
@@ -7333,7 +7333,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 283,
-    nameEN: 'endeavor',
+    nameEN: 'Endeavor',
     nameJA: 'がむしゃら',
     contact: true,
     charge: false,
@@ -7359,7 +7359,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 284,
-    nameEN: 'eruption',
+    nameEN: 'Eruption',
     nameJA: 'ふんか',
     contact: false,
     charge: false,
@@ -7385,7 +7385,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 285,
-    nameEN: 'skill-swap',
+    nameEN: 'Skill Swap',
     nameJA: 'スキルスワップ',
     contact: false,
     charge: false,
@@ -7411,7 +7411,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 286,
-    nameEN: 'imprison',
+    nameEN: 'Imprison',
     nameJA: 'ふういん',
     contact: false,
     charge: false,
@@ -7437,7 +7437,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 287,
-    nameEN: 'refresh',
+    nameEN: 'Refresh',
     nameJA: 'リフレッシュ',
     contact: false,
     charge: false,
@@ -7463,7 +7463,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 288,
-    nameEN: 'grudge',
+    nameEN: 'Grudge',
     nameJA: 'おんねん',
     contact: false,
     charge: false,
@@ -7489,7 +7489,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 289,
-    nameEN: 'snatch',
+    nameEN: 'Snatch',
     nameJA: 'よこどり',
     contact: false,
     charge: false,
@@ -7515,7 +7515,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 290,
-    nameEN: 'secret-power',
+    nameEN: 'Secret Power',
     nameJA: 'ひみつのちから',
     contact: false,
     charge: false,
@@ -7541,7 +7541,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 291,
-    nameEN: 'dive',
+    nameEN: 'Dive',
     nameJA: 'ダイビング',
     contact: true,
     charge: true,
@@ -7567,7 +7567,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 292,
-    nameEN: 'arm-thrust',
+    nameEN: 'Arm Thrust',
     nameJA: 'つっぱり',
     contact: true,
     charge: false,
@@ -7593,7 +7593,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 293,
-    nameEN: 'camouflage',
+    nameEN: 'Camouflage',
     nameJA: 'ほごしょく',
     contact: false,
     charge: false,
@@ -7619,7 +7619,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 294,
-    nameEN: 'tail-glow',
+    nameEN: 'Tail Glow',
     nameJA: 'ほたるび',
     contact: false,
     charge: false,
@@ -7645,7 +7645,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 295,
-    nameEN: 'luster-purge',
+    nameEN: 'Luster Purge',
     nameJA: 'ラスターパージ',
     contact: false,
     charge: false,
@@ -7671,7 +7671,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 296,
-    nameEN: 'mist-ball',
+    nameEN: 'Mist Ball',
     nameJA: 'ミストボール',
     contact: false,
     charge: false,
@@ -7697,7 +7697,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 297,
-    nameEN: 'feather-dance',
+    nameEN: 'Feather Dance',
     nameJA: 'フェザーダンス',
     contact: false,
     charge: false,
@@ -7723,7 +7723,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 298,
-    nameEN: 'teeter-dance',
+    nameEN: 'Teeter Dance',
     nameJA: 'フラフラダンス',
     contact: false,
     charge: false,
@@ -7749,7 +7749,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 299,
-    nameEN: 'blaze-kick',
+    nameEN: 'Blaze Kick',
     nameJA: 'ブレイズキック',
     contact: true,
     charge: false,
@@ -7775,7 +7775,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 300,
-    nameEN: 'mud-sport',
+    nameEN: 'Mud Sport',
     nameJA: 'どろあそび',
     contact: false,
     charge: false,
@@ -7801,7 +7801,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 301,
-    nameEN: 'ice-ball',
+    nameEN: 'Ice Ball',
     nameJA: 'アイスボール',
     contact: true,
     charge: false,
@@ -7827,7 +7827,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 302,
-    nameEN: 'needle-arm',
+    nameEN: 'Needle Arm',
     nameJA: 'ニードルアーム',
     contact: true,
     charge: false,
@@ -7853,7 +7853,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 303,
-    nameEN: 'slack-off',
+    nameEN: 'Slack Off',
     nameJA: 'なまける',
     contact: false,
     charge: false,
@@ -7879,7 +7879,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 304,
-    nameEN: 'hyper-voice',
+    nameEN: 'Hyper Voice',
     nameJA: 'ハイパーボイス',
     contact: false,
     charge: false,
@@ -7905,7 +7905,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 305,
-    nameEN: 'poison-fang',
+    nameEN: 'Poison Fang',
     nameJA: 'どくどくのキバ',
     contact: true,
     charge: false,
@@ -7931,7 +7931,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 306,
-    nameEN: 'crush-claw',
+    nameEN: 'Crush Claw',
     nameJA: 'ブレイククロー',
     contact: true,
     charge: false,
@@ -7957,7 +7957,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 307,
-    nameEN: 'blast-burn',
+    nameEN: 'Blast Burn',
     nameJA: 'ブラストバーン',
     contact: false,
     charge: false,
@@ -7983,7 +7983,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 308,
-    nameEN: 'hydro-cannon',
+    nameEN: 'Hydro Cannon',
     nameJA: 'ハイドロカノン',
     contact: false,
     charge: false,
@@ -8009,7 +8009,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 309,
-    nameEN: 'meteor-mash',
+    nameEN: 'Meteor Mash',
     nameJA: 'コメットパンチ',
     contact: true,
     charge: false,
@@ -8035,7 +8035,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 310,
-    nameEN: 'astonish',
+    nameEN: 'Astonish',
     nameJA: 'おどろかす',
     contact: true,
     charge: false,
@@ -8061,7 +8061,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 311,
-    nameEN: 'weather-ball',
+    nameEN: 'Weather Ball',
     nameJA: 'ウェザーボール',
     contact: false,
     charge: false,
@@ -8087,7 +8087,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 312,
-    nameEN: 'aromatherapy',
+    nameEN: 'Aromatherapy',
     nameJA: 'アロマセラピー',
     contact: false,
     charge: false,
@@ -8113,7 +8113,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 313,
-    nameEN: 'fake-tears',
+    nameEN: 'Fake Tears',
     nameJA: 'うそなき',
     contact: false,
     charge: false,
@@ -8139,7 +8139,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 314,
-    nameEN: 'air-cutter',
+    nameEN: 'Air Cutter',
     nameJA: 'エアカッター',
     contact: false,
     charge: false,
@@ -8165,7 +8165,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 315,
-    nameEN: 'overheat',
+    nameEN: 'Overheat',
     nameJA: 'オーバーヒート',
     contact: false,
     charge: false,
@@ -8191,7 +8191,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 316,
-    nameEN: 'odor-sleuth',
+    nameEN: 'Odor Sleuth',
     nameJA: 'かぎわける',
     contact: false,
     charge: false,
@@ -8217,7 +8217,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 317,
-    nameEN: 'rock-tomb',
+    nameEN: 'Rock Tomb',
     nameJA: 'がんせきふうじ',
     contact: false,
     charge: false,
@@ -8243,7 +8243,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 318,
-    nameEN: 'silver-wind',
+    nameEN: 'Silver Wind',
     nameJA: 'ぎんいろのかぜ',
     contact: false,
     charge: false,
@@ -8269,7 +8269,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 319,
-    nameEN: 'metal-sound',
+    nameEN: 'Metal Sound',
     nameJA: 'きんぞくおん',
     contact: false,
     charge: false,
@@ -8295,7 +8295,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 320,
-    nameEN: 'grass-whistle',
+    nameEN: 'Grass Whistle',
     nameJA: 'くさぶえ',
     contact: false,
     charge: false,
@@ -8321,7 +8321,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 321,
-    nameEN: 'tickle',
+    nameEN: 'Tickle',
     nameJA: 'くすぐる',
     contact: false,
     charge: false,
@@ -8347,7 +8347,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 322,
-    nameEN: 'cosmic-power',
+    nameEN: 'Cosmic Power',
     nameJA: 'コスモパワー',
     contact: false,
     charge: false,
@@ -8373,7 +8373,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 323,
-    nameEN: 'water-spout',
+    nameEN: 'Water Spout',
     nameJA: 'しおふき',
     contact: false,
     charge: false,
@@ -8399,7 +8399,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 324,
-    nameEN: 'signal-beam',
+    nameEN: 'Signal Beam',
     nameJA: 'シグナルビーム',
     contact: false,
     charge: false,
@@ -8425,7 +8425,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 325,
-    nameEN: 'shadow-punch',
+    nameEN: 'Shadow Punch',
     nameJA: 'シャドーパンチ',
     contact: true,
     charge: false,
@@ -8451,7 +8451,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 326,
-    nameEN: 'extrasensory',
+    nameEN: 'Extrasensory',
     nameJA: 'じんつうりき',
     contact: false,
     charge: false,
@@ -8477,7 +8477,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 327,
-    nameEN: 'sky-uppercut',
+    nameEN: 'Sky Uppercut',
     nameJA: 'スカイアッパー',
     contact: true,
     charge: false,
@@ -8503,7 +8503,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 328,
-    nameEN: 'sand-tomb',
+    nameEN: 'Sand Tomb',
     nameJA: 'すなじごく',
     contact: false,
     charge: false,
@@ -8529,7 +8529,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 329,
-    nameEN: 'sheer-cold',
+    nameEN: 'Sheer Cold',
     nameJA: 'ぜったいれいど',
     contact: false,
     charge: false,
@@ -8555,7 +8555,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 330,
-    nameEN: 'muddy-water',
+    nameEN: 'Muddy Water',
     nameJA: 'だくりゅう',
     contact: false,
     charge: false,
@@ -8581,7 +8581,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 331,
-    nameEN: 'bullet-seed',
+    nameEN: 'Bullet Seed',
     nameJA: 'タネマシンガン',
     contact: false,
     charge: false,
@@ -8607,7 +8607,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 332,
-    nameEN: 'aerial-ace',
+    nameEN: 'Aerial Ace',
     nameJA: 'つばめがえし',
     contact: true,
     charge: false,
@@ -8633,7 +8633,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 333,
-    nameEN: 'icicle-spear',
+    nameEN: 'Icicle Spear',
     nameJA: 'つららばり',
     contact: false,
     charge: false,
@@ -8659,7 +8659,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 334,
-    nameEN: 'iron-defense',
+    nameEN: 'Iron Defense',
     nameJA: 'てっぺき',
     contact: false,
     charge: false,
@@ -8685,7 +8685,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 335,
-    nameEN: 'block',
+    nameEN: 'Block',
     nameJA: 'とおせんぼう',
     contact: false,
     charge: false,
@@ -8711,7 +8711,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 336,
-    nameEN: 'howl',
+    nameEN: 'Howl',
     nameJA: 'とおぼえ',
     contact: false,
     charge: false,
@@ -8737,7 +8737,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 337,
-    nameEN: 'dragon-claw',
+    nameEN: 'Dragon Claw',
     nameJA: 'ドラゴンクロー',
     contact: true,
     charge: false,
@@ -8763,7 +8763,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 338,
-    nameEN: 'frenzy-plant',
+    nameEN: 'Frenzy Plant',
     nameJA: 'ハードプラント',
     contact: false,
     charge: false,
@@ -8789,7 +8789,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 339,
-    nameEN: 'bulk-up',
+    nameEN: 'Bulk Up',
     nameJA: 'ビルドアップ',
     contact: false,
     charge: false,
@@ -8815,7 +8815,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 340,
-    nameEN: 'bounce',
+    nameEN: 'Bounce',
     nameJA: 'とびはねる',
     contact: true,
     charge: true,
@@ -8841,7 +8841,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 341,
-    nameEN: 'mud-shot',
+    nameEN: 'Mud Shot',
     nameJA: 'マッドショット',
     contact: false,
     charge: false,
@@ -8867,7 +8867,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 342,
-    nameEN: 'poison-tail',
+    nameEN: 'Poison Tail',
     nameJA: 'ポイズンテール',
     contact: true,
     charge: false,
@@ -8893,7 +8893,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 343,
-    nameEN: 'covet',
+    nameEN: 'Covet',
     nameJA: 'ほしがる',
     contact: true,
     charge: false,
@@ -8919,7 +8919,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 344,
-    nameEN: 'volt-tackle',
+    nameEN: 'Volt Tackle',
     nameJA: 'ボルテッカー',
     contact: true,
     charge: false,
@@ -8945,7 +8945,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 345,
-    nameEN: 'magical-leaf',
+    nameEN: 'Magical Leaf',
     nameJA: 'マジカルリーフ',
     contact: false,
     charge: false,
@@ -8971,7 +8971,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 346,
-    nameEN: 'water-sport',
+    nameEN: 'Water Sport',
     nameJA: 'みずあそび',
     contact: false,
     charge: false,
@@ -8997,7 +8997,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 347,
-    nameEN: 'calm-mind',
+    nameEN: 'Calm Mind',
     nameJA: 'めいそう',
     contact: false,
     charge: false,
@@ -9023,7 +9023,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 348,
-    nameEN: 'leaf-blade',
+    nameEN: 'Leaf Blade',
     nameJA: 'リーフブレード',
     contact: true,
     charge: false,
@@ -9049,7 +9049,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 349,
-    nameEN: 'dragon-dance',
+    nameEN: 'Dragon Dance',
     nameJA: 'りゅうのまい',
     contact: false,
     charge: false,
@@ -9075,7 +9075,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 350,
-    nameEN: 'rock-blast',
+    nameEN: 'Rock Blast',
     nameJA: 'ロックブラスト',
     contact: false,
     charge: false,
@@ -9101,7 +9101,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 351,
-    nameEN: 'shock-wave',
+    nameEN: 'Shock Wave',
     nameJA: 'でんげきは',
     contact: false,
     charge: false,
@@ -9127,7 +9127,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 352,
-    nameEN: 'water-pulse',
+    nameEN: 'Water Pulse',
     nameJA: 'みずのはどう',
     contact: false,
     charge: false,
@@ -9153,7 +9153,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 353,
-    nameEN: 'doom-desire',
+    nameEN: 'Doom Desire',
     nameJA: 'はめつのねがい',
     contact: false,
     charge: false,
@@ -9179,7 +9179,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 354,
-    nameEN: 'psycho-boost',
+    nameEN: 'Psycho Boost',
     nameJA: 'サイコブースト',
     contact: false,
     charge: false,
@@ -9205,7 +9205,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 355,
-    nameEN: 'roost',
+    nameEN: 'Roost',
     nameJA: 'はねやすめ',
     contact: false,
     charge: false,
@@ -9231,7 +9231,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 356,
-    nameEN: 'gravity',
+    nameEN: 'Gravity',
     nameJA: 'じゅうりょく',
     contact: false,
     charge: false,
@@ -9257,7 +9257,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 357,
-    nameEN: 'miracle-eye',
+    nameEN: 'Miracle Eye',
     nameJA: 'ミラクルアイ',
     contact: false,
     charge: false,
@@ -9283,7 +9283,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 358,
-    nameEN: 'wake-up-slap',
+    nameEN: 'Wake Up Slap',
     nameJA: 'めざましビンタ',
     contact: true,
     charge: false,
@@ -9309,7 +9309,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 359,
-    nameEN: 'hammer-arm',
+    nameEN: 'Hammer Arm',
     nameJA: 'アームハンマー',
     contact: true,
     charge: false,
@@ -9335,7 +9335,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 360,
-    nameEN: 'gyro-ball',
+    nameEN: 'Gyro Ball',
     nameJA: 'ジャイロボール',
     contact: true,
     charge: false,
@@ -9361,7 +9361,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 361,
-    nameEN: 'healing-wish',
+    nameEN: 'Healing Wish',
     nameJA: 'いやしのねがい',
     contact: false,
     charge: false,
@@ -9387,7 +9387,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 362,
-    nameEN: 'brine',
+    nameEN: 'Brine',
     nameJA: 'しおみず',
     contact: false,
     charge: false,
@@ -9413,7 +9413,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 363,
-    nameEN: 'natural-gift',
+    nameEN: 'Natural Gift',
     nameJA: 'しぜんのめぐみ',
     contact: false,
     charge: false,
@@ -9439,7 +9439,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 364,
-    nameEN: 'feint',
+    nameEN: 'Feint',
     nameJA: 'フェイント',
     contact: false,
     charge: false,
@@ -9465,7 +9465,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 365,
-    nameEN: 'pluck',
+    nameEN: 'Pluck',
     nameJA: 'ついばむ',
     contact: true,
     charge: false,
@@ -9491,7 +9491,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 366,
-    nameEN: 'tailwind',
+    nameEN: 'Tailwind',
     nameJA: 'おいかぜ',
     contact: false,
     charge: false,
@@ -9517,7 +9517,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 367,
-    nameEN: 'acupressure',
+    nameEN: 'Acupressure',
     nameJA: 'つぼをつく',
     contact: false,
     charge: false,
@@ -9543,7 +9543,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 368,
-    nameEN: 'metal-burst',
+    nameEN: 'Metal Burst',
     nameJA: 'メタルバースト',
     contact: false,
     charge: false,
@@ -9569,7 +9569,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 369,
-    nameEN: 'u-turn',
+    nameEN: 'U Turn',
     nameJA: 'とんぼがえり',
     contact: true,
     charge: false,
@@ -9595,7 +9595,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 370,
-    nameEN: 'close-combat',
+    nameEN: 'Close Combat',
     nameJA: 'インファイト',
     contact: true,
     charge: false,
@@ -9621,7 +9621,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 371,
-    nameEN: 'payback',
+    nameEN: 'Payback',
     nameJA: 'しっぺがえし',
     contact: true,
     charge: false,
@@ -9647,7 +9647,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 372,
-    nameEN: 'assurance',
+    nameEN: 'Assurance',
     nameJA: 'ダメおし',
     contact: true,
     charge: false,
@@ -9673,7 +9673,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 373,
-    nameEN: 'embargo',
+    nameEN: 'Embargo',
     nameJA: 'さしおさえ',
     contact: false,
     charge: false,
@@ -9699,7 +9699,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 374,
-    nameEN: 'fling',
+    nameEN: 'Fling',
     nameJA: 'なげつける',
     contact: false,
     charge: false,
@@ -9725,7 +9725,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 375,
-    nameEN: 'psycho-shift',
+    nameEN: 'Psycho Shift',
     nameJA: 'サイコシフト',
     contact: false,
     charge: false,
@@ -9751,7 +9751,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 376,
-    nameEN: 'trump-card',
+    nameEN: 'Trump Card',
     nameJA: 'きりふだ',
     contact: true,
     charge: false,
@@ -9777,7 +9777,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 377,
-    nameEN: 'heal-block',
+    nameEN: 'Heal Block',
     nameJA: 'かいふくふうじ',
     contact: false,
     charge: false,
@@ -9803,7 +9803,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 378,
-    nameEN: 'wring-out',
+    nameEN: 'Wring Out',
     nameJA: 'しぼりとる',
     contact: true,
     charge: false,
@@ -9829,7 +9829,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 379,
-    nameEN: 'power-trick',
+    nameEN: 'Power Trick',
     nameJA: 'パワートリック',
     contact: false,
     charge: false,
@@ -9855,7 +9855,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 380,
-    nameEN: 'gastro-acid',
+    nameEN: 'Gastro Acid',
     nameJA: 'いえき',
     contact: false,
     charge: false,
@@ -9881,7 +9881,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 381,
-    nameEN: 'lucky-chant',
+    nameEN: 'Lucky Chant',
     nameJA: 'おまじない',
     contact: false,
     charge: false,
@@ -9907,7 +9907,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 382,
-    nameEN: 'me-first',
+    nameEN: 'Me First',
     nameJA: 'さきどり',
     contact: false,
     charge: false,
@@ -9933,7 +9933,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 383,
-    nameEN: 'copycat',
+    nameEN: 'Copycat',
     nameJA: 'まねっこ',
     contact: false,
     charge: false,
@@ -9959,7 +9959,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 384,
-    nameEN: 'power-swap',
+    nameEN: 'Power Swap',
     nameJA: 'パワースワップ',
     contact: false,
     charge: false,
@@ -9985,7 +9985,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 385,
-    nameEN: 'guard-swap',
+    nameEN: 'Guard Swap',
     nameJA: 'ガードスワップ',
     contact: false,
     charge: false,
@@ -10011,7 +10011,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 386,
-    nameEN: 'punishment',
+    nameEN: 'Punishment',
     nameJA: 'おしおき',
     contact: true,
     charge: false,
@@ -10037,7 +10037,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 387,
-    nameEN: 'last-resort',
+    nameEN: 'Last Resort',
     nameJA: 'とっておき',
     contact: true,
     charge: false,
@@ -10063,7 +10063,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 388,
-    nameEN: 'worry-seed',
+    nameEN: 'Worry Seed',
     nameJA: 'なやみのタネ',
     contact: false,
     charge: false,
@@ -10089,7 +10089,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 389,
-    nameEN: 'sucker-punch',
+    nameEN: 'Sucker Punch',
     nameJA: 'ふいうち',
     contact: true,
     charge: false,
@@ -10115,7 +10115,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 390,
-    nameEN: 'toxic-spikes',
+    nameEN: 'Toxic Spikes',
     nameJA: 'どくびし',
     contact: false,
     charge: false,
@@ -10141,7 +10141,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 391,
-    nameEN: 'heart-swap',
+    nameEN: 'Heart Swap',
     nameJA: 'ハートスワップ',
     contact: false,
     charge: false,
@@ -10167,7 +10167,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 392,
-    nameEN: 'aqua-ring',
+    nameEN: 'Aqua Ring',
     nameJA: 'アクアリング',
     contact: false,
     charge: false,
@@ -10193,7 +10193,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 393,
-    nameEN: 'magnet-rise',
+    nameEN: 'Magnet Rise',
     nameJA: 'でんじふゆう',
     contact: false,
     charge: false,
@@ -10219,7 +10219,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 394,
-    nameEN: 'flare-blitz',
+    nameEN: 'Flare Blitz',
     nameJA: 'フレアドライブ',
     contact: true,
     charge: false,
@@ -10245,7 +10245,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 395,
-    nameEN: 'force-palm',
+    nameEN: 'Force Palm',
     nameJA: 'はっけい',
     contact: true,
     charge: false,
@@ -10271,7 +10271,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 396,
-    nameEN: 'aura-sphere',
+    nameEN: 'Aura Sphere',
     nameJA: 'はどうだん',
     contact: false,
     charge: false,
@@ -10297,7 +10297,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 397,
-    nameEN: 'rock-polish',
+    nameEN: 'Rock Polish',
     nameJA: 'ロックカット',
     contact: false,
     charge: false,
@@ -10323,7 +10323,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 398,
-    nameEN: 'poison-jab',
+    nameEN: 'Poison Jab',
     nameJA: 'どくづき',
     contact: true,
     charge: false,
@@ -10349,7 +10349,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 399,
-    nameEN: 'dark-pulse',
+    nameEN: 'Dark Pulse',
     nameJA: 'あくのはどう',
     contact: false,
     charge: false,
@@ -10375,7 +10375,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 400,
-    nameEN: 'night-slash',
+    nameEN: 'Night Slash',
     nameJA: 'つじぎり',
     contact: true,
     charge: false,
@@ -10401,7 +10401,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 401,
-    nameEN: 'aqua-tail',
+    nameEN: 'Aqua Tail',
     nameJA: 'アクアテール',
     contact: true,
     charge: false,
@@ -10427,7 +10427,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 402,
-    nameEN: 'seed-bomb',
+    nameEN: 'Seed Bomb',
     nameJA: 'タネばくだん',
     contact: false,
     charge: false,
@@ -10453,7 +10453,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 403,
-    nameEN: 'air-slash',
+    nameEN: 'Air Slash',
     nameJA: 'エアスラッシュ',
     contact: false,
     charge: false,
@@ -10479,7 +10479,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 404,
-    nameEN: 'x-scissor',
+    nameEN: 'X Scissor',
     nameJA: 'シザークロス',
     contact: true,
     charge: false,
@@ -10505,7 +10505,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 405,
-    nameEN: 'bug-buzz',
+    nameEN: 'Bug Buzz',
     nameJA: 'むしのさざめき',
     contact: false,
     charge: false,
@@ -10531,7 +10531,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 406,
-    nameEN: 'dragon-pulse',
+    nameEN: 'Dragon Pulse',
     nameJA: 'りゅうのはどう',
     contact: false,
     charge: false,
@@ -10557,7 +10557,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 407,
-    nameEN: 'dragon-rush',
+    nameEN: 'Dragon Rush',
     nameJA: 'ドラゴンダイブ',
     contact: true,
     charge: false,
@@ -10583,7 +10583,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 408,
-    nameEN: 'power-gem',
+    nameEN: 'Power Gem',
     nameJA: 'パワージェム',
     contact: false,
     charge: false,
@@ -10609,7 +10609,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 409,
-    nameEN: 'drain-punch',
+    nameEN: 'Drain Punch',
     nameJA: 'ドレインパンチ',
     contact: true,
     charge: false,
@@ -10635,7 +10635,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 410,
-    nameEN: 'vacuum-wave',
+    nameEN: 'Vacuum Wave',
     nameJA: 'しんくうは',
     contact: false,
     charge: false,
@@ -10661,7 +10661,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 411,
-    nameEN: 'focus-blast',
+    nameEN: 'Focus Blast',
     nameJA: 'きあいだま',
     contact: false,
     charge: false,
@@ -10687,7 +10687,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 412,
-    nameEN: 'energy-ball',
+    nameEN: 'Energy Ball',
     nameJA: 'エナジーボール',
     contact: false,
     charge: false,
@@ -10713,7 +10713,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 413,
-    nameEN: 'brave-bird',
+    nameEN: 'Brave Bird',
     nameJA: 'ブレイブバード',
     contact: true,
     charge: false,
@@ -10739,7 +10739,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 414,
-    nameEN: 'earth-power',
+    nameEN: 'Earth Power',
     nameJA: 'だいちのちから',
     contact: false,
     charge: false,
@@ -10765,7 +10765,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 415,
-    nameEN: 'switcheroo',
+    nameEN: 'Switcheroo',
     nameJA: 'すりかえ',
     contact: false,
     charge: false,
@@ -10791,7 +10791,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 416,
-    nameEN: 'giga-impact',
+    nameEN: 'Giga Impact',
     nameJA: 'ギガインパクト',
     contact: true,
     charge: false,
@@ -10817,7 +10817,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 417,
-    nameEN: 'nasty-plot',
+    nameEN: 'Nasty Plot',
     nameJA: 'わるだくみ',
     contact: false,
     charge: false,
@@ -10843,7 +10843,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 418,
-    nameEN: 'bullet-punch',
+    nameEN: 'Bullet Punch',
     nameJA: 'バレットパンチ',
     contact: true,
     charge: false,
@@ -10869,7 +10869,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 419,
-    nameEN: 'avalanche',
+    nameEN: 'Avalanche',
     nameJA: 'ゆきなだれ',
     contact: true,
     charge: false,
@@ -10895,7 +10895,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 420,
-    nameEN: 'ice-shard',
+    nameEN: 'Ice Shard',
     nameJA: 'こおりのつぶて',
     contact: false,
     charge: false,
@@ -10921,7 +10921,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 421,
-    nameEN: 'shadow-claw',
+    nameEN: 'Shadow Claw',
     nameJA: 'シャドークロー',
     contact: true,
     charge: false,
@@ -10947,7 +10947,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 422,
-    nameEN: 'thunder-fang',
+    nameEN: 'Thunder Fang',
     nameJA: 'かみなりのキバ',
     contact: true,
     charge: false,
@@ -10973,7 +10973,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 423,
-    nameEN: 'ice-fang',
+    nameEN: 'Ice Fang',
     nameJA: 'こおりのキバ',
     contact: true,
     charge: false,
@@ -10999,7 +10999,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 424,
-    nameEN: 'fire-fang',
+    nameEN: 'Fire Fang',
     nameJA: 'ほのおのキバ',
     contact: true,
     charge: false,
@@ -11025,7 +11025,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 425,
-    nameEN: 'shadow-sneak',
+    nameEN: 'Shadow Sneak',
     nameJA: 'かげうち',
     contact: true,
     charge: false,
@@ -11051,7 +11051,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 426,
-    nameEN: 'mud-bomb',
+    nameEN: 'Mud Bomb',
     nameJA: 'どろばくだん',
     contact: false,
     charge: false,
@@ -11077,7 +11077,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 427,
-    nameEN: 'psycho-cut',
+    nameEN: 'Psycho Cut',
     nameJA: 'サイコカッター',
     contact: false,
     charge: false,
@@ -11103,7 +11103,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 428,
-    nameEN: 'zen-headbutt',
+    nameEN: 'Zen Headbutt',
     nameJA: 'しねんのずつき',
     contact: true,
     charge: false,
@@ -11129,7 +11129,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 429,
-    nameEN: 'mirror-shot',
+    nameEN: 'Mirror Shot',
     nameJA: 'ミラーショット',
     contact: false,
     charge: false,
@@ -11155,7 +11155,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 430,
-    nameEN: 'flash-cannon',
+    nameEN: 'Flash Cannon',
     nameJA: 'ラスターカノン',
     contact: false,
     charge: false,
@@ -11181,7 +11181,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 431,
-    nameEN: 'rock-climb',
+    nameEN: 'Rock Climb',
     nameJA: 'ロッククライム',
     contact: true,
     charge: false,
@@ -11207,7 +11207,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 432,
-    nameEN: 'defog',
+    nameEN: 'Defog',
     nameJA: 'きりばらい',
     contact: false,
     charge: false,
@@ -11233,7 +11233,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 433,
-    nameEN: 'trick-room',
+    nameEN: 'Trick Room',
     nameJA: 'トリックルーム',
     contact: false,
     charge: false,
@@ -11259,7 +11259,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 434,
-    nameEN: 'draco-meteor',
+    nameEN: 'Draco Meteor',
     nameJA: 'りゅうせいぐん',
     contact: false,
     charge: false,
@@ -11285,7 +11285,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 435,
-    nameEN: 'discharge',
+    nameEN: 'Discharge',
     nameJA: 'ほうでん',
     contact: false,
     charge: false,
@@ -11311,7 +11311,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 436,
-    nameEN: 'lava-plume',
+    nameEN: 'Lava Plume',
     nameJA: 'ふんえん',
     contact: false,
     charge: false,
@@ -11337,7 +11337,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 437,
-    nameEN: 'leaf-storm',
+    nameEN: 'Leaf Storm',
     nameJA: 'リーフストーム',
     contact: false,
     charge: false,
@@ -11363,7 +11363,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 438,
-    nameEN: 'power-whip',
+    nameEN: 'Power Whip',
     nameJA: 'パワーウィップ',
     contact: true,
     charge: false,
@@ -11389,7 +11389,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 439,
-    nameEN: 'rock-wrecker',
+    nameEN: 'Rock Wrecker',
     nameJA: 'がんせきほう',
     contact: false,
     charge: false,
@@ -11415,7 +11415,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 440,
-    nameEN: 'cross-poison',
+    nameEN: 'Cross Poison',
     nameJA: 'クロスポイズン',
     contact: true,
     charge: false,
@@ -11441,7 +11441,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 441,
-    nameEN: 'gunk-shot',
+    nameEN: 'Gunk Shot',
     nameJA: 'ダストシュート',
     contact: false,
     charge: false,
@@ -11467,7 +11467,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 442,
-    nameEN: 'iron-head',
+    nameEN: 'Iron Head',
     nameJA: 'アイアンヘッド',
     contact: true,
     charge: false,
@@ -11493,7 +11493,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 443,
-    nameEN: 'magnet-bomb',
+    nameEN: 'Magnet Bomb',
     nameJA: 'マグネットボム',
     contact: false,
     charge: false,
@@ -11519,7 +11519,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 444,
-    nameEN: 'stone-edge',
+    nameEN: 'Stone Edge',
     nameJA: 'ストーンエッジ',
     contact: false,
     charge: false,
@@ -11545,7 +11545,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 445,
-    nameEN: 'captivate',
+    nameEN: 'Captivate',
     nameJA: 'ゆうわく',
     contact: false,
     charge: false,
@@ -11571,7 +11571,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 446,
-    nameEN: 'stealth-rock',
+    nameEN: 'Stealth Rock',
     nameJA: 'ステルスロック',
     contact: false,
     charge: false,
@@ -11597,7 +11597,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 447,
-    nameEN: 'grass-knot',
+    nameEN: 'Grass Knot',
     nameJA: 'くさむすび',
     contact: true,
     charge: false,
@@ -11623,7 +11623,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 448,
-    nameEN: 'chatter',
+    nameEN: 'Chatter',
     nameJA: 'おしゃべり',
     contact: false,
     charge: false,
@@ -11649,7 +11649,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 449,
-    nameEN: 'judgment',
+    nameEN: 'Judgment',
     nameJA: 'さばきのつぶて',
     contact: false,
     charge: false,
@@ -11675,7 +11675,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 450,
-    nameEN: 'bug-bite',
+    nameEN: 'Bug Bite',
     nameJA: 'むしくい',
     contact: true,
     charge: false,
@@ -11701,7 +11701,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 451,
-    nameEN: 'charge-beam',
+    nameEN: 'Charge Beam',
     nameJA: 'チャージビーム',
     contact: false,
     charge: false,
@@ -11727,7 +11727,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 452,
-    nameEN: 'wood-hammer',
+    nameEN: 'Wood Hammer',
     nameJA: 'ウッドハンマー',
     contact: true,
     charge: false,
@@ -11753,7 +11753,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 453,
-    nameEN: 'aqua-jet',
+    nameEN: 'Aqua Jet',
     nameJA: 'アクアジェット',
     contact: true,
     charge: false,
@@ -11779,7 +11779,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 454,
-    nameEN: 'attack-order',
+    nameEN: 'Attack Order',
     nameJA: 'こうげきしれい',
     contact: false,
     charge: false,
@@ -11805,7 +11805,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 455,
-    nameEN: 'defend-order',
+    nameEN: 'Defend Order',
     nameJA: 'ぼうぎょしれい',
     contact: false,
     charge: false,
@@ -11831,7 +11831,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 456,
-    nameEN: 'heal-order',
+    nameEN: 'Heal Order',
     nameJA: 'かいふくしれい',
     contact: false,
     charge: false,
@@ -11857,7 +11857,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 457,
-    nameEN: 'head-smash',
+    nameEN: 'Head Smash',
     nameJA: 'もろはのずつき',
     contact: true,
     charge: false,
@@ -11883,7 +11883,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 458,
-    nameEN: 'double-hit',
+    nameEN: 'Double Hit',
     nameJA: 'ダブルアタック',
     contact: true,
     charge: false,
@@ -11909,7 +11909,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 459,
-    nameEN: 'roar-of time',
+    nameEN: 'Roar Of time',
     nameJA: 'ときのほうこう',
     contact: false,
     charge: false,
@@ -11935,7 +11935,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 460,
-    nameEN: 'spacial-rend',
+    nameEN: 'Spacial Rend',
     nameJA: 'あくうせつだん',
     contact: false,
     charge: false,
@@ -11961,7 +11961,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 461,
-    nameEN: 'lunar-dance',
+    nameEN: 'Lunar Dance',
     nameJA: 'みかづきのまい',
     contact: false,
     charge: false,
@@ -11987,7 +11987,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 462,
-    nameEN: 'crush-grip',
+    nameEN: 'Crush Grip',
     nameJA: 'にぎりつぶす',
     contact: true,
     charge: false,
@@ -12013,7 +12013,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 463,
-    nameEN: 'magma-storm',
+    nameEN: 'Magma Storm',
     nameJA: 'マグマストーム',
     contact: false,
     charge: false,
@@ -12039,7 +12039,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 464,
-    nameEN: 'dark-void',
+    nameEN: 'Dark Void',
     nameJA: 'ダークホール',
     contact: false,
     charge: false,
@@ -12065,7 +12065,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 465,
-    nameEN: 'seed-flare',
+    nameEN: 'Seed Flare',
     nameJA: 'シードフレア',
     contact: false,
     charge: false,
@@ -12091,7 +12091,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 466,
-    nameEN: 'ominous-wind',
+    nameEN: 'Ominous Wind',
     nameJA: 'あやしいかぜ',
     contact: false,
     charge: false,
@@ -12117,7 +12117,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 467,
-    nameEN: 'shadow-force',
+    nameEN: 'Shadow Force',
     nameJA: 'シャドーダイブ',
     contact: true,
     charge: true,
@@ -12143,7 +12143,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 468,
-    nameEN: 'hone-claws',
+    nameEN: 'Hone Claws',
     nameJA: 'つめとぎ',
     contact: false,
     charge: false,
@@ -12169,7 +12169,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 469,
-    nameEN: 'wide-guard',
+    nameEN: 'Wide Guard',
     nameJA: 'ワイドガード',
     contact: false,
     charge: false,
@@ -12195,7 +12195,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 470,
-    nameEN: 'guard-split',
+    nameEN: 'Guard Split',
     nameJA: 'ガードシェア',
     contact: false,
     charge: false,
@@ -12221,7 +12221,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 471,
-    nameEN: 'power-split',
+    nameEN: 'Power Split',
     nameJA: 'パワーシェア',
     contact: false,
     charge: false,
@@ -12247,7 +12247,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 472,
-    nameEN: 'wonder-room',
+    nameEN: 'Wonder Room',
     nameJA: 'ワンダールーム',
     contact: false,
     charge: false,
@@ -12273,7 +12273,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 473,
-    nameEN: 'psyshock',
+    nameEN: 'Psyshock',
     nameJA: 'サイコショック',
     contact: false,
     charge: false,
@@ -12299,7 +12299,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 474,
-    nameEN: 'venoshock',
+    nameEN: 'Venoshock',
     nameJA: 'ベノムショック',
     contact: false,
     charge: false,
@@ -12325,7 +12325,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 475,
-    nameEN: 'autotomize',
+    nameEN: 'Autotomize',
     nameJA: 'ボディパージ',
     contact: false,
     charge: false,
@@ -12351,7 +12351,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 476,
-    nameEN: 'rage-powder',
+    nameEN: 'Rage Powder',
     nameJA: 'いかりのこな',
     contact: false,
     charge: false,
@@ -12377,7 +12377,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 477,
-    nameEN: 'telekinesis',
+    nameEN: 'Telekinesis',
     nameJA: 'テレキネシス',
     contact: false,
     charge: false,
@@ -12403,7 +12403,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 478,
-    nameEN: 'magic-room',
+    nameEN: 'Magic Room',
     nameJA: 'マジックルーム',
     contact: false,
     charge: false,
@@ -12429,7 +12429,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 479,
-    nameEN: 'smack-down',
+    nameEN: 'Smack Down',
     nameJA: 'うちおとす',
     contact: false,
     charge: false,
@@ -12455,7 +12455,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 480,
-    nameEN: 'storm-throw',
+    nameEN: 'Storm Throw',
     nameJA: 'やまあらし',
     contact: true,
     charge: false,
@@ -12481,7 +12481,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 481,
-    nameEN: 'flame-burst',
+    nameEN: 'Flame Burst',
     nameJA: 'はじけるほのお',
     contact: false,
     charge: false,
@@ -12507,7 +12507,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 482,
-    nameEN: 'sludge-wave',
+    nameEN: 'Sludge Wave',
     nameJA: 'ヘドロウェーブ',
     contact: false,
     charge: false,
@@ -12533,7 +12533,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 483,
-    nameEN: 'quiver-dance',
+    nameEN: 'Quiver Dance',
     nameJA: 'ちょうのまい',
     contact: false,
     charge: false,
@@ -12559,7 +12559,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 484,
-    nameEN: 'heavy-slam',
+    nameEN: 'Heavy Slam',
     nameJA: 'ヘビーボンバー',
     contact: true,
     charge: false,
@@ -12585,7 +12585,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 485,
-    nameEN: 'synchronoise',
+    nameEN: 'Synchronoise',
     nameJA: 'シンクロノイズ',
     contact: false,
     charge: false,
@@ -12611,7 +12611,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 486,
-    nameEN: 'electro-ball',
+    nameEN: 'Electro Ball',
     nameJA: 'エレキボール',
     contact: false,
     charge: false,
@@ -12637,7 +12637,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 487,
-    nameEN: 'soak',
+    nameEN: 'Soak',
     nameJA: 'みずびたし',
     contact: false,
     charge: false,
@@ -12663,7 +12663,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 488,
-    nameEN: 'flame-charge',
+    nameEN: 'Flame Charge',
     nameJA: 'ニトロチャージ',
     contact: true,
     charge: false,
@@ -12689,7 +12689,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 489,
-    nameEN: 'coil',
+    nameEN: 'Coil',
     nameJA: 'とぐろをまく',
     contact: false,
     charge: false,
@@ -12715,7 +12715,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 490,
-    nameEN: 'low-sweep',
+    nameEN: 'Low Sweep',
     nameJA: 'ローキック',
     contact: true,
     charge: false,
@@ -12741,7 +12741,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 491,
-    nameEN: 'acid-spray',
+    nameEN: 'Acid Spray',
     nameJA: 'アシッドボム',
     contact: false,
     charge: false,
@@ -12767,7 +12767,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 492,
-    nameEN: 'foul-play',
+    nameEN: 'Foul Play',
     nameJA: 'イカサマ',
     contact: true,
     charge: false,
@@ -12793,7 +12793,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 493,
-    nameEN: 'simple-beam',
+    nameEN: 'Simple Beam',
     nameJA: 'シンプルビーム',
     contact: false,
     charge: false,
@@ -12819,7 +12819,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 494,
-    nameEN: 'entrainment',
+    nameEN: 'Entrainment',
     nameJA: 'なかまづくり',
     contact: false,
     charge: false,
@@ -12845,7 +12845,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 495,
-    nameEN: 'after-you',
+    nameEN: 'After You',
     nameJA: 'おさきにどうぞ',
     contact: false,
     charge: false,
@@ -12871,7 +12871,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 496,
-    nameEN: 'round',
+    nameEN: 'Round',
     nameJA: 'りんしょう',
     contact: false,
     charge: false,
@@ -12897,7 +12897,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 497,
-    nameEN: 'echoed-voice',
+    nameEN: 'Echoed Voice',
     nameJA: 'エコーボイス',
     contact: false,
     charge: false,
@@ -12923,7 +12923,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 498,
-    nameEN: 'chip-away',
+    nameEN: 'Chip Away',
     nameJA: 'なしくずし',
     contact: true,
     charge: false,
@@ -12949,7 +12949,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 499,
-    nameEN: 'clear-smog',
+    nameEN: 'Clear Smog',
     nameJA: 'クリアスモッグ',
     contact: false,
     charge: false,
@@ -12975,7 +12975,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 500,
-    nameEN: 'stored-power',
+    nameEN: 'Stored Power',
     nameJA: 'アシストパワー',
     contact: false,
     charge: false,
@@ -13001,7 +13001,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 501,
-    nameEN: 'quick-guard',
+    nameEN: 'Quick Guard',
     nameJA: 'ファストガード',
     contact: false,
     charge: false,
@@ -13027,7 +13027,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 502,
-    nameEN: 'ally-switch',
+    nameEN: 'Ally Switch',
     nameJA: 'サイドチェンジ',
     contact: false,
     charge: false,
@@ -13053,7 +13053,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 503,
-    nameEN: 'scald',
+    nameEN: 'Scald',
     nameJA: 'ねっとう',
     contact: false,
     charge: false,
@@ -13079,7 +13079,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 504,
-    nameEN: 'shell-smash',
+    nameEN: 'Shell Smash',
     nameJA: 'からをやぶる',
     contact: false,
     charge: false,
@@ -13105,7 +13105,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 505,
-    nameEN: 'heal-pulse',
+    nameEN: 'Heal Pulse',
     nameJA: 'いやしのはどう',
     contact: false,
     charge: false,
@@ -13131,7 +13131,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 506,
-    nameEN: 'hex',
+    nameEN: 'Hex',
     nameJA: 'たたりめ',
     contact: false,
     charge: false,
@@ -13157,7 +13157,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 507,
-    nameEN: 'sky-drop',
+    nameEN: 'Sky Drop',
     nameJA: 'フリーフォール',
     contact: true,
     charge: true,
@@ -13183,7 +13183,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 508,
-    nameEN: 'shift-gear',
+    nameEN: 'Shift Gear',
     nameJA: 'ギアチェンジ',
     contact: false,
     charge: false,
@@ -13209,7 +13209,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 509,
-    nameEN: 'circle-throw',
+    nameEN: 'Circle Throw',
     nameJA: 'ともえなげ',
     contact: true,
     charge: false,
@@ -13235,7 +13235,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 510,
-    nameEN: 'incinerate',
+    nameEN: 'Incinerate',
     nameJA: 'やきつくす',
     contact: false,
     charge: false,
@@ -13261,7 +13261,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 511,
-    nameEN: 'quash',
+    nameEN: 'Quash',
     nameJA: 'さきおくり',
     contact: false,
     charge: false,
@@ -13287,7 +13287,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 512,
-    nameEN: 'acrobatics',
+    nameEN: 'Acrobatics',
     nameJA: 'アクロバット',
     contact: true,
     charge: false,
@@ -13313,7 +13313,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 513,
-    nameEN: 'reflect-type',
+    nameEN: 'Reflect Type',
     nameJA: 'ミラータイプ',
     contact: false,
     charge: false,
@@ -13339,7 +13339,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 514,
-    nameEN: 'retaliate',
+    nameEN: 'Retaliate',
     nameJA: 'かたきうち',
     contact: true,
     charge: false,
@@ -13365,7 +13365,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 515,
-    nameEN: 'final-gambit',
+    nameEN: 'Final Gambit',
     nameJA: 'いのちがけ',
     contact: false,
     charge: false,
@@ -13391,7 +13391,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 516,
-    nameEN: 'bestow',
+    nameEN: 'Bestow',
     nameJA: 'ギフトパス',
     contact: false,
     charge: false,
@@ -13417,7 +13417,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 517,
-    nameEN: 'inferno',
+    nameEN: 'Inferno',
     nameJA: 'れんごく',
     contact: false,
     charge: false,
@@ -13443,7 +13443,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 518,
-    nameEN: 'water-pledge',
+    nameEN: 'Water Pledge',
     nameJA: 'みずのちかい',
     contact: false,
     charge: false,
@@ -13469,7 +13469,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 519,
-    nameEN: 'fire-pledge',
+    nameEN: 'Fire Pledge',
     nameJA: 'ほのおのちかい',
     contact: false,
     charge: false,
@@ -13495,7 +13495,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 520,
-    nameEN: 'grass-pledge',
+    nameEN: 'Grass Pledge',
     nameJA: 'くさのちかい',
     contact: false,
     charge: false,
@@ -13521,7 +13521,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 521,
-    nameEN: 'volt-switch',
+    nameEN: 'Volt Switch',
     nameJA: 'ボルトチェンジ',
     contact: false,
     charge: false,
@@ -13547,7 +13547,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 522,
-    nameEN: 'struggle-bug',
+    nameEN: 'Struggle Bug',
     nameJA: 'むしのていこう',
     contact: false,
     charge: false,
@@ -13573,7 +13573,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 523,
-    nameEN: 'bulldoze',
+    nameEN: 'Bulldoze',
     nameJA: 'じならし',
     contact: false,
     charge: false,
@@ -13599,7 +13599,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 524,
-    nameEN: 'frost-breath',
+    nameEN: 'Frost Breath',
     nameJA: 'こおりのいぶき',
     contact: false,
     charge: false,
@@ -13625,7 +13625,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 525,
-    nameEN: 'dragon-tail',
+    nameEN: 'Dragon Tail',
     nameJA: 'ドラゴンテール',
     contact: true,
     charge: false,
@@ -13651,7 +13651,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 526,
-    nameEN: 'work-up',
+    nameEN: 'Work Up',
     nameJA: 'ふるいたてる',
     contact: false,
     charge: false,
@@ -13677,7 +13677,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 527,
-    nameEN: 'electroweb',
+    nameEN: 'Electroweb',
     nameJA: 'エレキネット',
     contact: false,
     charge: false,
@@ -13703,7 +13703,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 528,
-    nameEN: 'wild-charge',
+    nameEN: 'Wild Charge',
     nameJA: 'ワイルドボルト',
     contact: true,
     charge: false,
@@ -13729,7 +13729,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 529,
-    nameEN: 'drill-run',
+    nameEN: 'Drill Run',
     nameJA: 'ドリルライナー',
     contact: true,
     charge: false,
@@ -13755,7 +13755,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 530,
-    nameEN: 'dual-chop',
+    nameEN: 'Dual Chop',
     nameJA: 'ダブルチョップ',
     contact: true,
     charge: false,
@@ -13781,7 +13781,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 531,
-    nameEN: 'heart-stamp',
+    nameEN: 'Heart Stamp',
     nameJA: 'ハートスタンプ',
     contact: true,
     charge: false,
@@ -13807,7 +13807,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 532,
-    nameEN: 'horn-leech',
+    nameEN: 'Horn Leech',
     nameJA: 'ウッドホーン',
     contact: true,
     charge: false,
@@ -13833,7 +13833,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 533,
-    nameEN: 'sacred-sword',
+    nameEN: 'Sacred Sword',
     nameJA: 'せいなるつるぎ',
     contact: true,
     charge: false,
@@ -13859,7 +13859,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 534,
-    nameEN: 'razor-shell',
+    nameEN: 'Razor Shell',
     nameJA: 'シェルブレード',
     contact: true,
     charge: false,
@@ -13885,7 +13885,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 535,
-    nameEN: 'heat-crash',
+    nameEN: 'Heat Crash',
     nameJA: 'ヒートスタンプ',
     contact: true,
     charge: false,
@@ -13911,7 +13911,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 536,
-    nameEN: 'leaf-tornado',
+    nameEN: 'Leaf Tornado',
     nameJA: 'グラスミキサー',
     contact: false,
     charge: false,
@@ -13937,7 +13937,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 537,
-    nameEN: 'steamroller',
+    nameEN: 'Steamroller',
     nameJA: 'ハードローラー',
     contact: true,
     charge: false,
@@ -13963,7 +13963,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 538,
-    nameEN: 'cotton-guard',
+    nameEN: 'Cotton Guard',
     nameJA: 'コットンガード',
     contact: false,
     charge: false,
@@ -13989,7 +13989,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 539,
-    nameEN: 'night-daze',
+    nameEN: 'Night Daze',
     nameJA: 'ナイトバースト',
     contact: false,
     charge: false,
@@ -14015,7 +14015,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 540,
-    nameEN: 'psystrike',
+    nameEN: 'Psystrike',
     nameJA: 'サイコブレイク',
     contact: false,
     charge: false,
@@ -14041,7 +14041,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 541,
-    nameEN: 'tail-slap',
+    nameEN: 'Tail Slap',
     nameJA: 'スイープビンタ',
     contact: true,
     charge: false,
@@ -14067,7 +14067,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 542,
-    nameEN: 'hurricane',
+    nameEN: 'Hurricane',
     nameJA: 'ぼうふう',
     contact: false,
     charge: false,
@@ -14093,7 +14093,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 543,
-    nameEN: 'head-charge',
+    nameEN: 'Head Charge',
     nameJA: 'アフロブレイク',
     contact: true,
     charge: false,
@@ -14119,7 +14119,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 544,
-    nameEN: 'gear-grind',
+    nameEN: 'Gear Grind',
     nameJA: 'ギアソーサー',
     contact: true,
     charge: false,
@@ -14145,7 +14145,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 545,
-    nameEN: 'searing-shot',
+    nameEN: 'Searing Shot',
     nameJA: 'かえんだん',
     contact: false,
     charge: false,
@@ -14171,7 +14171,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 546,
-    nameEN: 'techno-blast',
+    nameEN: 'Techno Blast',
     nameJA: 'テクノバスター',
     contact: false,
     charge: false,
@@ -14197,7 +14197,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 547,
-    nameEN: 'relic-song',
+    nameEN: 'Relic Song',
     nameJA: 'いにしえのうた',
     contact: false,
     charge: false,
@@ -14223,7 +14223,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 548,
-    nameEN: 'secret-sword',
+    nameEN: 'Secret Sword',
     nameJA: 'しんぴのつるぎ',
     contact: false,
     charge: false,
@@ -14249,7 +14249,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 549,
-    nameEN: 'glaciate',
+    nameEN: 'Glaciate',
     nameJA: 'こごえるせかい',
     contact: false,
     charge: false,
@@ -14275,7 +14275,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 550,
-    nameEN: 'bolt-strike',
+    nameEN: 'Bolt Strike',
     nameJA: 'らいげき',
     contact: true,
     charge: false,
@@ -14301,7 +14301,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 551,
-    nameEN: 'blue-flare',
+    nameEN: 'Blue Flare',
     nameJA: 'あおいほのお',
     contact: false,
     charge: false,
@@ -14327,7 +14327,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 552,
-    nameEN: 'fiery-dance',
+    nameEN: 'Fiery Dance',
     nameJA: 'ほのおのまい',
     contact: false,
     charge: false,
@@ -14353,7 +14353,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 553,
-    nameEN: 'freeze-shock',
+    nameEN: 'Freeze Shock',
     nameJA: 'フリーズボルト',
     contact: false,
     charge: true,
@@ -14379,7 +14379,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 554,
-    nameEN: 'ice-burn',
+    nameEN: 'Ice Burn',
     nameJA: 'コールドフレア',
     contact: false,
     charge: true,
@@ -14405,7 +14405,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 555,
-    nameEN: 'snarl',
+    nameEN: 'Snarl',
     nameJA: 'バークアウト',
     contact: false,
     charge: false,
@@ -14431,7 +14431,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 556,
-    nameEN: 'icicle-crash',
+    nameEN: 'Icicle Crash',
     nameJA: 'つららおとし',
     contact: false,
     charge: false,
@@ -14457,7 +14457,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 557,
-    nameEN: 'v-create',
+    nameEN: 'V Create',
     nameJA: 'Ｖジェネレート',
     contact: true,
     charge: false,
@@ -14483,7 +14483,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 558,
-    nameEN: 'fusion-flare',
+    nameEN: 'Fusion Flare',
     nameJA: 'クロスフレイム',
     contact: false,
     charge: false,
@@ -14509,7 +14509,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 559,
-    nameEN: 'fusion-bolt',
+    nameEN: 'Fusion Bolt',
     nameJA: 'クロスサンダー',
     contact: false,
     charge: false,
@@ -14535,7 +14535,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 560,
-    nameEN: 'flying-press',
+    nameEN: 'Flying Press',
     nameJA: 'フライングプレス',
     contact: true,
     charge: false,
@@ -14561,7 +14561,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 561,
-    nameEN: 'mat-block',
+    nameEN: 'Mat Block',
     nameJA: 'たたみがえし',
     contact: false,
     charge: false,
@@ -14587,7 +14587,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 562,
-    nameEN: 'belch',
+    nameEN: 'Belch',
     nameJA: 'ゲップ',
     contact: false,
     charge: false,
@@ -14613,7 +14613,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 563,
-    nameEN: 'rototiller',
+    nameEN: 'Rototiller',
     nameJA: 'たがやす',
     contact: false,
     charge: false,
@@ -14639,7 +14639,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 564,
-    nameEN: 'sticky-web',
+    nameEN: 'Sticky Web',
     nameJA: 'ねばねばネット',
     contact: false,
     charge: false,
@@ -14665,7 +14665,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 565,
-    nameEN: 'fell-stinger',
+    nameEN: 'Fell Stinger',
     nameJA: 'とどめばり',
     contact: true,
     charge: false,
@@ -14691,7 +14691,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 566,
-    nameEN: 'phantom-force',
+    nameEN: 'Phantom Force',
     nameJA: 'ゴーストダイブ',
     contact: true,
     charge: true,
@@ -14717,7 +14717,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 567,
-    nameEN: 'trick-or-treat',
+    nameEN: 'Trick Or Treat',
     nameJA: 'ハロウィン',
     contact: false,
     charge: false,
@@ -14743,7 +14743,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 568,
-    nameEN: 'noble-roar',
+    nameEN: 'Noble Roar',
     nameJA: 'おたけび',
     contact: false,
     charge: false,
@@ -14769,7 +14769,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 569,
-    nameEN: 'ion-deluge',
+    nameEN: 'Ion Deluge',
     nameJA: 'プラズマシャワー',
     contact: false,
     charge: false,
@@ -14795,7 +14795,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 570,
-    nameEN: 'parabolic-charge',
+    nameEN: 'Parabolic Charge',
     nameJA: 'パラボラチャージ',
     contact: false,
     charge: false,
@@ -14821,7 +14821,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 571,
-    nameEN: 'forest’s-curse',
+    nameEN: 'Forest’s Curse',
     nameJA: 'もりののろい',
     contact: false,
     charge: false,
@@ -14847,7 +14847,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 572,
-    nameEN: 'petal-blizzard',
+    nameEN: 'Petal Blizzard',
     nameJA: 'はなふぶき',
     contact: false,
     charge: false,
@@ -14873,7 +14873,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 573,
-    nameEN: 'freeze-dry',
+    nameEN: 'Freeze Dry',
     nameJA: 'フリーズドライ',
     contact: false,
     charge: false,
@@ -14899,7 +14899,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 574,
-    nameEN: 'disarming-voice',
+    nameEN: 'Disarming Voice',
     nameJA: 'チャームボイス',
     contact: false,
     charge: false,
@@ -14925,7 +14925,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 575,
-    nameEN: 'parting-shot',
+    nameEN: 'Parting Shot',
     nameJA: 'すてゼリフ',
     contact: false,
     charge: false,
@@ -14951,7 +14951,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 576,
-    nameEN: 'topsy-turvy',
+    nameEN: 'Topsy Turvy',
     nameJA: 'ひっくりかえす',
     contact: false,
     charge: false,
@@ -14977,7 +14977,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 577,
-    nameEN: 'draining-kiss',
+    nameEN: 'Draining Kiss',
     nameJA: 'ドレインキッス',
     contact: true,
     charge: false,
@@ -15003,7 +15003,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 578,
-    nameEN: 'crafty-shield',
+    nameEN: 'Crafty Shield',
     nameJA: 'トリックガード',
     contact: false,
     charge: false,
@@ -15029,7 +15029,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 579,
-    nameEN: 'flower-shield',
+    nameEN: 'Flower Shield',
     nameJA: 'フラワーガード',
     contact: false,
     charge: false,
@@ -15055,7 +15055,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 580,
-    nameEN: 'grassy-terrain',
+    nameEN: 'Grassy Terrain',
     nameJA: 'グラスフィールド',
     contact: false,
     charge: false,
@@ -15081,7 +15081,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 581,
-    nameEN: 'misty-terrain',
+    nameEN: 'Misty Terrain',
     nameJA: 'ミストフィールド',
     contact: false,
     charge: false,
@@ -15107,7 +15107,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 582,
-    nameEN: 'electrify',
+    nameEN: 'Electrify',
     nameJA: 'そうでん',
     contact: false,
     charge: false,
@@ -15133,7 +15133,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 583,
-    nameEN: 'play-rough',
+    nameEN: 'Play Rough',
     nameJA: 'じゃれつく',
     contact: true,
     charge: false,
@@ -15159,7 +15159,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 584,
-    nameEN: 'fairy-wind',
+    nameEN: 'Fairy Wind',
     nameJA: 'ようせいのかぜ',
     contact: false,
     charge: false,
@@ -15185,7 +15185,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 585,
-    nameEN: 'moonblast',
+    nameEN: 'Moonblast',
     nameJA: 'ムーンフォース',
     contact: false,
     charge: false,
@@ -15211,7 +15211,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 586,
-    nameEN: 'boomburst',
+    nameEN: 'Boomburst',
     nameJA: 'ばくおんぱ',
     contact: false,
     charge: false,
@@ -15237,7 +15237,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 587,
-    nameEN: 'fairy-lock',
+    nameEN: 'Fairy Lock',
     nameJA: 'フェアリーロック',
     contact: false,
     charge: false,
@@ -15263,7 +15263,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 588,
-    nameEN: 'king’s-shield',
+    nameEN: 'King’s Shield',
     nameJA: 'キングシールド',
     contact: false,
     charge: false,
@@ -15289,7 +15289,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 589,
-    nameEN: 'play-nice',
+    nameEN: 'Play Nice',
     nameJA: 'なかよくする',
     contact: false,
     charge: false,
@@ -15315,7 +15315,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 590,
-    nameEN: 'confide',
+    nameEN: 'Confide',
     nameJA: 'ないしょばなし',
     contact: false,
     charge: false,
@@ -15341,7 +15341,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 591,
-    nameEN: 'diamond-storm',
+    nameEN: 'Diamond Storm',
     nameJA: 'ダイヤストーム',
     contact: false,
     charge: false,
@@ -15367,7 +15367,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 592,
-    nameEN: 'steam-eruption',
+    nameEN: 'Steam Eruption',
     nameJA: 'スチームバースト',
     contact: false,
     charge: false,
@@ -15393,7 +15393,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 593,
-    nameEN: 'hyperspace-hole',
+    nameEN: 'Hyperspace Hole',
     nameJA: 'いじげんホール',
     contact: false,
     charge: false,
@@ -15419,7 +15419,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 594,
-    nameEN: 'water-shuriken',
+    nameEN: 'Water Shuriken',
     nameJA: 'みずしゅりけん',
     contact: false,
     charge: false,
@@ -15445,7 +15445,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 595,
-    nameEN: 'mystical-fire',
+    nameEN: 'Mystical Fire',
     nameJA: 'マジカルフレイム',
     contact: false,
     charge: false,
@@ -15471,7 +15471,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 596,
-    nameEN: 'spiky-shield',
+    nameEN: 'Spiky Shield',
     nameJA: 'ニードルガード',
     contact: false,
     charge: false,
@@ -15497,7 +15497,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 597,
-    nameEN: 'aromatic-mist',
+    nameEN: 'Aromatic Mist',
     nameJA: 'アロマミスト',
     contact: false,
     charge: false,
@@ -15523,7 +15523,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 598,
-    nameEN: 'eerie-impulse',
+    nameEN: 'Eerie Impulse',
     nameJA: 'かいでんぱ',
     contact: false,
     charge: false,
@@ -15549,7 +15549,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 599,
-    nameEN: 'venom-drench',
+    nameEN: 'Venom Drench',
     nameJA: 'ベノムトラップ',
     contact: false,
     charge: false,
@@ -15575,7 +15575,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 600,
-    nameEN: 'powder',
+    nameEN: 'Powder',
     nameJA: 'ふんじん',
     contact: false,
     charge: false,
@@ -15601,7 +15601,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 601,
-    nameEN: 'geomancy',
+    nameEN: 'Geomancy',
     nameJA: 'ジオコントロール',
     contact: false,
     charge: true,
@@ -15627,7 +15627,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 602,
-    nameEN: 'magnetic-flux',
+    nameEN: 'Magnetic Flux',
     nameJA: 'じばそうさ',
     contact: false,
     charge: false,
@@ -15653,7 +15653,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 603,
-    nameEN: 'happy-hour',
+    nameEN: 'Happy Hour',
     nameJA: 'ハッピータイム',
     contact: false,
     charge: false,
@@ -15679,7 +15679,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 604,
-    nameEN: 'electric-terrain',
+    nameEN: 'Electric Terrain',
     nameJA: 'エレキフィールド',
     contact: false,
     charge: false,
@@ -15705,7 +15705,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 605,
-    nameEN: 'dazzling-gleam',
+    nameEN: 'Dazzling Gleam',
     nameJA: 'マジカルシャイン',
     contact: false,
     charge: false,
@@ -15731,7 +15731,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 606,
-    nameEN: 'celebrate',
+    nameEN: 'Celebrate',
     nameJA: 'おいわい',
     contact: false,
     charge: false,
@@ -15757,7 +15757,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 607,
-    nameEN: 'hold-hands',
+    nameEN: 'Hold Hands',
     nameJA: 'てをつなぐ',
     contact: false,
     charge: false,
@@ -15783,7 +15783,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 608,
-    nameEN: 'baby-doll-eyes',
+    nameEN: 'Baby Doll Eyes',
     nameJA: 'つぶらなひとみ',
     contact: false,
     charge: false,
@@ -15809,7 +15809,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 609,
-    nameEN: 'nuzzle',
+    nameEN: 'Nuzzle',
     nameJA: 'ほっぺすりすり',
     contact: true,
     charge: false,
@@ -15835,7 +15835,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 610,
-    nameEN: 'hold-back',
+    nameEN: 'Hold Back',
     nameJA: 'てかげん',
     contact: true,
     charge: false,
@@ -15861,7 +15861,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 611,
-    nameEN: 'infestation',
+    nameEN: 'Infestation',
     nameJA: 'まとわりつく',
     contact: true,
     charge: false,
@@ -15887,7 +15887,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 612,
-    nameEN: 'power-up-punch',
+    nameEN: 'Power Up Punch',
     nameJA: 'グロウパンチ',
     contact: true,
     charge: false,
@@ -15913,7 +15913,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 613,
-    nameEN: 'oblivion-wing',
+    nameEN: 'Oblivion Wing',
     nameJA: 'デスウイング',
     contact: false,
     charge: false,
@@ -15939,7 +15939,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 614,
-    nameEN: 'thousand-arrows',
+    nameEN: 'Thousand Arrows',
     nameJA: 'サウザンアロー',
     contact: false,
     charge: false,
@@ -15965,7 +15965,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 615,
-    nameEN: 'thousand-waves',
+    nameEN: 'Thousand Waves',
     nameJA: 'サウザンウェーブ',
     contact: false,
     charge: false,
@@ -15991,7 +15991,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 616,
-    nameEN: 'land’s-wrath',
+    nameEN: 'Land’s Wrath',
     nameJA: 'グランドフォース',
     contact: false,
     charge: false,
@@ -16017,7 +16017,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 617,
-    nameEN: 'light-of ruin',
+    nameEN: 'Light Of ruin',
     nameJA: 'はめつのひかり',
     contact: false,
     charge: false,
@@ -16043,7 +16043,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 618,
-    nameEN: 'origin-pulse',
+    nameEN: 'Origin Pulse',
     nameJA: 'こんげんのはどう',
     contact: false,
     charge: false,
@@ -16069,7 +16069,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 619,
-    nameEN: 'precipice-blades',
+    nameEN: 'Precipice Blades',
     nameJA: 'だんがいのつるぎ',
     contact: false,
     charge: false,
@@ -16095,7 +16095,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 620,
-    nameEN: 'dragon-ascent',
+    nameEN: 'Dragon Ascent',
     nameJA: 'ガリョウテンセイ',
     contact: true,
     charge: false,
@@ -16121,7 +16121,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 621,
-    nameEN: 'hyperspace-fury',
+    nameEN: 'Hyperspace Fury',
     nameJA: 'いじげんラッシュ',
     contact: false,
     charge: false,
@@ -16147,7 +16147,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 622,
-    nameEN: 'breakneck-blitz',
+    nameEN: 'Breakneck Blitz',
     nameJA: 'ウルトラダッシュアタック',
     contact: false,
     charge: false,
@@ -16173,7 +16173,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 623,
-    nameEN: 'breakneck-blitz',
+    nameEN: 'Breakneck Blitz',
     nameJA: 'ウルトラダッシュアタック',
     contact: false,
     charge: false,
@@ -16199,7 +16199,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 624,
-    nameEN: 'all-out-pummeling',
+    nameEN: 'All Out Pummeling',
     nameJA: 'ぜんりょくむそうげきれつけん',
     contact: false,
     charge: false,
@@ -16225,7 +16225,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 625,
-    nameEN: 'all-out-pummeling',
+    nameEN: 'All Out Pummeling',
     nameJA: 'ぜんりょくむそうげきれつけん',
     contact: false,
     charge: false,
@@ -16251,7 +16251,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 626,
-    nameEN: 'supersonic-skystrike',
+    nameEN: 'Supersonic Skystrike',
     nameJA: 'ファイナルダイブクラッシュ',
     contact: false,
     charge: false,
@@ -16277,7 +16277,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 627,
-    nameEN: 'supersonic-skystrike',
+    nameEN: 'Supersonic Skystrike',
     nameJA: 'ファイナルダイブクラッシュ',
     contact: false,
     charge: false,
@@ -16303,7 +16303,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 628,
-    nameEN: 'acid-downpour',
+    nameEN: 'Acid Downpour',
     nameJA: 'アシッドポイズンデリート',
     contact: false,
     charge: false,
@@ -16329,7 +16329,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 629,
-    nameEN: 'acid-downpour',
+    nameEN: 'Acid Downpour',
     nameJA: 'アシッドポイズンデリート',
     contact: false,
     charge: false,
@@ -16355,7 +16355,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 630,
-    nameEN: 'tectonic-rage',
+    nameEN: 'Tectonic Rage',
     nameJA: 'ライジングランドオーバー',
     contact: false,
     charge: false,
@@ -16381,7 +16381,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 631,
-    nameEN: 'tectonic-rage',
+    nameEN: 'Tectonic Rage',
     nameJA: 'ライジングランドオーバー',
     contact: false,
     charge: false,
@@ -16407,7 +16407,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 632,
-    nameEN: 'continental-crush',
+    nameEN: 'Continental Crush',
     nameJA: 'ワールズエンドフォール',
     contact: false,
     charge: false,
@@ -16433,7 +16433,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 633,
-    nameEN: 'continental-crush',
+    nameEN: 'Continental Crush',
     nameJA: 'ワールズエンドフォール',
     contact: false,
     charge: false,
@@ -16459,7 +16459,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 634,
-    nameEN: 'savage-spin-out',
+    nameEN: 'Savage Spin Out',
     nameJA: 'ぜったいほしょくかいてんざん',
     contact: false,
     charge: false,
@@ -16485,7 +16485,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 635,
-    nameEN: 'savage-spin-out',
+    nameEN: 'Savage Spin Out',
     nameJA: 'ぜったいほしょくかいてんざん',
     contact: false,
     charge: false,
@@ -16511,7 +16511,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 636,
-    nameEN: 'never-ending-nightmare',
+    nameEN: 'Never Ending Nightmare',
     nameJA: 'むげんあんやへのいざない',
     contact: false,
     charge: false,
@@ -16537,7 +16537,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 637,
-    nameEN: 'never-ending-nightmare',
+    nameEN: 'Never Ending Nightmare',
     nameJA: 'むげんあんやへのいざない',
     contact: false,
     charge: false,
@@ -16563,7 +16563,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 638,
-    nameEN: 'corkscrew-crash',
+    nameEN: 'Corkscrew Crash',
     nameJA: 'ちょうぜつらせんれんげき',
     contact: false,
     charge: false,
@@ -16589,7 +16589,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 639,
-    nameEN: 'corkscrew-crash',
+    nameEN: 'Corkscrew Crash',
     nameJA: 'ちょうぜつらせんれんげき',
     contact: false,
     charge: false,
@@ -16615,7 +16615,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 640,
-    nameEN: 'inferno-overdrive',
+    nameEN: 'Inferno Overdrive',
     nameJA: 'ダイナミックフルフレイム',
     contact: false,
     charge: false,
@@ -16641,7 +16641,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 641,
-    nameEN: 'inferno-overdrive',
+    nameEN: 'Inferno Overdrive',
     nameJA: 'ダイナミックフルフレイム',
     contact: false,
     charge: false,
@@ -16667,7 +16667,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 642,
-    nameEN: 'hydro-vortex',
+    nameEN: 'Hydro Vortex',
     nameJA: 'スーパーアクアトルネード',
     contact: false,
     charge: false,
@@ -16693,7 +16693,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 643,
-    nameEN: 'hydro-vortex',
+    nameEN: 'Hydro Vortex',
     nameJA: 'スーパーアクアトルネード',
     contact: false,
     charge: false,
@@ -16719,7 +16719,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 644,
-    nameEN: 'bloom-doom',
+    nameEN: 'Bloom Doom',
     nameJA: 'ブルームシャインエクストラ',
     contact: false,
     charge: false,
@@ -16745,7 +16745,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 645,
-    nameEN: 'bloom-doom',
+    nameEN: 'Bloom Doom',
     nameJA: 'ブルームシャインエクストラ',
     contact: false,
     charge: false,
@@ -16771,7 +16771,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 646,
-    nameEN: 'gigavolt-havoc',
+    nameEN: 'Gigavolt Havoc',
     nameJA: 'スパーキングギガボルト',
     contact: false,
     charge: false,
@@ -16797,7 +16797,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 647,
-    nameEN: 'gigavolt-havoc',
+    nameEN: 'Gigavolt Havoc',
     nameJA: 'スパーキングギガボルト',
     contact: false,
     charge: false,
@@ -16823,7 +16823,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 648,
-    nameEN: 'shattered-psyche',
+    nameEN: 'Shattered Psyche',
     nameJA: 'マキシマムサイブレイカー',
     contact: false,
     charge: false,
@@ -16849,7 +16849,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 649,
-    nameEN: 'shattered-psyche',
+    nameEN: 'Shattered Psyche',
     nameJA: 'マキシマムサイブレイカー',
     contact: false,
     charge: false,
@@ -16875,7 +16875,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 650,
-    nameEN: 'subzero-slammer',
+    nameEN: 'Subzero Slammer',
     nameJA: 'レイジングジオフリーズ',
     contact: false,
     charge: false,
@@ -16901,7 +16901,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 651,
-    nameEN: 'subzero-slammer',
+    nameEN: 'Subzero Slammer',
     nameJA: 'レイジングジオフリーズ',
     contact: false,
     charge: false,
@@ -16927,7 +16927,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 652,
-    nameEN: 'devastating-drake',
+    nameEN: 'Devastating Drake',
     nameJA: 'アルティメットドラゴンバーン',
     contact: false,
     charge: false,
@@ -16953,7 +16953,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 653,
-    nameEN: 'devastating-drake',
+    nameEN: 'Devastating Drake',
     nameJA: 'アルティメットドラゴンバーン',
     contact: false,
     charge: false,
@@ -16979,7 +16979,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 654,
-    nameEN: 'black-hole eclipse',
+    nameEN: 'Black Hole eclipse',
     nameJA: 'ブラックホールイクリプス',
     contact: false,
     charge: false,
@@ -17005,7 +17005,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 655,
-    nameEN: 'black-hole eclipse',
+    nameEN: 'Black Hole eclipse',
     nameJA: 'ブラックホールイクリプス',
     contact: false,
     charge: false,
@@ -17031,7 +17031,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 656,
-    nameEN: 'twinkle-tackle',
+    nameEN: 'Twinkle Tackle',
     nameJA: 'ラブリースターインパクト',
     contact: false,
     charge: false,
@@ -17057,7 +17057,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 657,
-    nameEN: 'twinkle-tackle',
+    nameEN: 'Twinkle Tackle',
     nameJA: 'ラブリースターインパクト',
     contact: false,
     charge: false,
@@ -17083,7 +17083,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 658,
-    nameEN: 'catastropika',
+    nameEN: 'Catastropika',
     nameJA: 'ひっさつのピカチュート',
     contact: true,
     charge: false,
@@ -17109,7 +17109,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 659,
-    nameEN: 'shore-up',
+    nameEN: 'Shore Up',
     nameJA: 'すなあつめ',
     contact: false,
     charge: false,
@@ -17135,7 +17135,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 660,
-    nameEN: 'first-impression',
+    nameEN: 'First Impression',
     nameJA: 'であいがしら',
     contact: true,
     charge: false,
@@ -17161,7 +17161,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 661,
-    nameEN: 'baneful-bunker',
+    nameEN: 'Baneful Bunker',
     nameJA: 'トーチカ',
     contact: false,
     charge: false,
@@ -17187,7 +17187,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 662,
-    nameEN: 'spirit-shackle',
+    nameEN: 'Spirit Shackle',
     nameJA: 'かげぬい',
     contact: false,
     charge: false,
@@ -17213,7 +17213,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 663,
-    nameEN: 'darkest-lariat',
+    nameEN: 'Darkest Lariat',
     nameJA: 'ＤＤラリアット',
     contact: true,
     charge: false,
@@ -17239,7 +17239,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 664,
-    nameEN: 'sparkling-aria',
+    nameEN: 'Sparkling Aria',
     nameJA: 'うたかたのアリア',
     contact: false,
     charge: false,
@@ -17265,7 +17265,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 665,
-    nameEN: 'ice-hammer',
+    nameEN: 'Ice Hammer',
     nameJA: 'アイスハンマー',
     contact: true,
     charge: false,
@@ -17291,7 +17291,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 666,
-    nameEN: 'floral-healing',
+    nameEN: 'Floral Healing',
     nameJA: 'フラワーヒール',
     contact: false,
     charge: false,
@@ -17317,7 +17317,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 667,
-    nameEN: 'high-horsepower',
+    nameEN: 'High Horsepower',
     nameJA: '１０まんばりき',
     contact: true,
     charge: false,
@@ -17343,7 +17343,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 668,
-    nameEN: 'strength-sap',
+    nameEN: 'Strength Sap',
     nameJA: 'ちからをすいとる',
     contact: false,
     charge: false,
@@ -17369,7 +17369,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 669,
-    nameEN: 'solar-blade',
+    nameEN: 'Solar Blade',
     nameJA: 'ソーラーブレード',
     contact: true,
     charge: true,
@@ -17395,7 +17395,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 670,
-    nameEN: 'leafage',
+    nameEN: 'Leafage',
     nameJA: 'このは',
     contact: false,
     charge: false,
@@ -17421,7 +17421,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 671,
-    nameEN: 'spotlight',
+    nameEN: 'Spotlight',
     nameJA: 'スポットライト',
     contact: false,
     charge: false,
@@ -17447,7 +17447,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 672,
-    nameEN: 'toxic-thread',
+    nameEN: 'Toxic Thread',
     nameJA: 'どくのいと',
     contact: false,
     charge: false,
@@ -17473,7 +17473,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 673,
-    nameEN: 'laser-focus',
+    nameEN: 'Laser Focus',
     nameJA: 'とぎすます',
     contact: false,
     charge: false,
@@ -17499,7 +17499,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 674,
-    nameEN: 'gear-up',
+    nameEN: 'Gear Up',
     nameJA: 'アシストギア',
     contact: false,
     charge: false,
@@ -17525,7 +17525,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 675,
-    nameEN: 'throat-chop',
+    nameEN: 'Throat Chop',
     nameJA: 'じごくづき',
     contact: true,
     charge: false,
@@ -17551,7 +17551,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 676,
-    nameEN: 'pollen-puff',
+    nameEN: 'Pollen Puff',
     nameJA: 'かふんだんご',
     contact: false,
     charge: false,
@@ -17577,7 +17577,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 677,
-    nameEN: 'anchor-shot',
+    nameEN: 'Anchor Shot',
     nameJA: 'アンカーショット',
     contact: true,
     charge: false,
@@ -17603,7 +17603,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 678,
-    nameEN: 'psychic-terrain',
+    nameEN: 'Psychic Terrain',
     nameJA: 'サイコフィールド',
     contact: false,
     charge: false,
@@ -17629,7 +17629,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 679,
-    nameEN: 'lunge',
+    nameEN: 'Lunge',
     nameJA: 'とびかかる',
     contact: true,
     charge: false,
@@ -17655,7 +17655,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 680,
-    nameEN: 'fire-lash',
+    nameEN: 'Fire Lash',
     nameJA: 'ほのおのムチ',
     contact: true,
     charge: false,
@@ -17681,7 +17681,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 681,
-    nameEN: 'power-trip',
+    nameEN: 'Power Trip',
     nameJA: 'つけあがる',
     contact: true,
     charge: false,
@@ -17707,7 +17707,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 682,
-    nameEN: 'burn-up',
+    nameEN: 'Burn Up',
     nameJA: 'もえつきる',
     contact: false,
     charge: false,
@@ -17733,7 +17733,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 683,
-    nameEN: 'speed-swap',
+    nameEN: 'Speed Swap',
     nameJA: 'スピードスワップ',
     contact: false,
     charge: false,
@@ -17759,7 +17759,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 684,
-    nameEN: 'smart-strike',
+    nameEN: 'Smart Strike',
     nameJA: 'スマートホーン',
     contact: true,
     charge: false,
@@ -17785,7 +17785,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 685,
-    nameEN: 'purify',
+    nameEN: 'Purify',
     nameJA: 'じょうか',
     contact: false,
     charge: false,
@@ -17811,7 +17811,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 686,
-    nameEN: 'revelation-dance',
+    nameEN: 'Revelation Dance',
     nameJA: 'めざめるダンス',
     contact: false,
     charge: false,
@@ -17837,7 +17837,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 687,
-    nameEN: 'core-enforcer',
+    nameEN: 'Core Enforcer',
     nameJA: 'コアパニッシャー',
     contact: false,
     charge: false,
@@ -17863,7 +17863,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 688,
-    nameEN: 'trop-kick',
+    nameEN: 'Trop Kick',
     nameJA: 'トロピカルキック',
     contact: true,
     charge: false,
@@ -17889,7 +17889,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 689,
-    nameEN: 'instruct',
+    nameEN: 'Instruct',
     nameJA: 'さいはい',
     contact: false,
     charge: false,
@@ -17915,7 +17915,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 690,
-    nameEN: 'beak-blast',
+    nameEN: 'Beak Blast',
     nameJA: 'くちばしキャノン',
     contact: false,
     charge: false,
@@ -17941,7 +17941,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 691,
-    nameEN: 'clanging-scales',
+    nameEN: 'Clanging Scales',
     nameJA: 'スケイルノイズ',
     contact: false,
     charge: false,
@@ -17967,7 +17967,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 692,
-    nameEN: 'dragon-hammer',
+    nameEN: 'Dragon Hammer',
     nameJA: 'ドラゴンハンマー',
     contact: true,
     charge: false,
@@ -17993,7 +17993,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 693,
-    nameEN: 'brutal-swing',
+    nameEN: 'Brutal Swing',
     nameJA: 'ぶんまわす',
     contact: true,
     charge: false,
@@ -18019,7 +18019,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 694,
-    nameEN: 'aurora-veil',
+    nameEN: 'Aurora Veil',
     nameJA: 'オーロラベール',
     contact: false,
     charge: false,
@@ -18045,7 +18045,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 695,
-    nameEN: 'sinister-arrow raid',
+    nameEN: 'Sinister Arrow raid',
     nameJA: 'シャドーアローズストライク',
     contact: false,
     charge: false,
@@ -18071,7 +18071,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 696,
-    nameEN: 'malicious-moonsault',
+    nameEN: 'Malicious Moonsault',
     nameJA: 'ハイパーダーククラッシャー',
     contact: true,
     charge: false,
@@ -18097,7 +18097,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 697,
-    nameEN: 'oceanic-operetta',
+    nameEN: 'Oceanic Operetta',
     nameJA: 'わだつみのシンフォニア',
     contact: false,
     charge: false,
@@ -18123,7 +18123,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 698,
-    nameEN: 'guardian-of alola',
+    nameEN: 'Guardian Of alola',
     nameJA: 'ガーディアン・デ・アローラ',
     contact: false,
     charge: false,
@@ -18149,7 +18149,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 699,
-    nameEN: 'soul-stealing-7-star strike',
+    nameEN: 'Soul Stealing 7 Star strike',
     nameJA: 'しちせいだっこんたい',
     contact: true,
     charge: false,
@@ -18175,7 +18175,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 700,
-    nameEN: 'stoked-sparksurfer',
+    nameEN: 'Stoked Sparksurfer',
     nameJA: 'ライトニングサーフライド',
     contact: false,
     charge: false,
@@ -18201,7 +18201,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 701,
-    nameEN: 'pulverizing-pancake',
+    nameEN: 'Pulverizing Pancake',
     nameJA: 'ほんきをだす　こうげき',
     contact: true,
     charge: false,
@@ -18227,7 +18227,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 702,
-    nameEN: 'extreme-evoboost',
+    nameEN: 'Extreme Evoboost',
     nameJA: 'ナインエボルブースト',
     contact: false,
     charge: false,
@@ -18253,7 +18253,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 703,
-    nameEN: 'genesis-supernova',
+    nameEN: 'Genesis Supernova',
     nameJA: 'オリジンズスーパーノヴァ',
     contact: false,
     charge: false,
@@ -18279,7 +18279,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 704,
-    nameEN: 'shell-trap',
+    nameEN: 'Shell Trap',
     nameJA: 'トラップシェル',
     contact: false,
     charge: false,
@@ -18305,7 +18305,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 705,
-    nameEN: 'fleur-cannon',
+    nameEN: 'Fleur Cannon',
     nameJA: 'フルールカノン',
     contact: false,
     charge: false,
@@ -18331,7 +18331,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 706,
-    nameEN: 'psychic-fangs',
+    nameEN: 'Psychic Fangs',
     nameJA: 'サイコファング',
     contact: true,
     charge: false,
@@ -18357,7 +18357,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 707,
-    nameEN: 'stomping-tantrum',
+    nameEN: 'Stomping Tantrum',
     nameJA: 'じだんだ',
     contact: true,
     charge: false,
@@ -18383,7 +18383,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 708,
-    nameEN: 'shadow-bone',
+    nameEN: 'Shadow Bone',
     nameJA: 'シャドーボーン',
     contact: false,
     charge: false,
@@ -18409,7 +18409,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 709,
-    nameEN: 'accelerock',
+    nameEN: 'Accelerock',
     nameJA: 'アクセルロック',
     contact: true,
     charge: false,
@@ -18435,7 +18435,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 710,
-    nameEN: 'liquidation',
+    nameEN: 'Liquidation',
     nameJA: 'アクアブレイク',
     contact: true,
     charge: false,
@@ -18461,7 +18461,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 711,
-    nameEN: 'prismatic-laser',
+    nameEN: 'Prismatic Laser',
     nameJA: 'プリズムレーザー',
     contact: false,
     charge: false,
@@ -18487,7 +18487,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 712,
-    nameEN: 'spectral-thief',
+    nameEN: 'Spectral Thief',
     nameJA: 'シャドースチール',
     contact: true,
     charge: false,
@@ -18513,7 +18513,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 713,
-    nameEN: 'sunsteel-strike',
+    nameEN: 'Sunsteel Strike',
     nameJA: 'メテオドライブ',
     contact: true,
     charge: false,
@@ -18539,7 +18539,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 714,
-    nameEN: 'moongeist-beam',
+    nameEN: 'Moongeist Beam',
     nameJA: 'シャドーレイ',
     contact: false,
     charge: false,
@@ -18565,7 +18565,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 715,
-    nameEN: 'tearful-look',
+    nameEN: 'Tearful Look',
     nameJA: 'なみだめ',
     contact: false,
     charge: false,
@@ -18591,7 +18591,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 716,
-    nameEN: 'zing-zap',
+    nameEN: 'Zing Zap',
     nameJA: 'びりびりちくちく',
     contact: true,
     charge: false,
@@ -18617,7 +18617,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 717,
-    nameEN: 'nature’s-madness',
+    nameEN: 'Nature’s Madness',
     nameJA: 'しぜんのいかり',
     contact: false,
     charge: false,
@@ -18643,7 +18643,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 718,
-    nameEN: 'multi-attack',
+    nameEN: 'Multi Attack',
     nameJA: 'マルチアタック',
     contact: true,
     charge: false,
@@ -18669,7 +18669,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 719,
-    nameEN: '10,000,000-volt thunderbolt',
+    nameEN: '10,000,000 Volt thunderbolt',
     nameJA: '１０００まんボルト',
     contact: false,
     charge: false,
@@ -18695,7 +18695,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 720,
-    nameEN: 'mind-blown',
+    nameEN: 'Mind Blown',
     nameJA: 'ビックリヘッド',
     contact: false,
     charge: false,
@@ -18721,7 +18721,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 721,
-    nameEN: 'plasma-fists',
+    nameEN: 'Plasma Fists',
     nameJA: 'プラズマフィスト',
     contact: true,
     charge: false,
@@ -18747,7 +18747,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 722,
-    nameEN: 'photon-geyser',
+    nameEN: 'Photon Geyser',
     nameJA: 'フォトンゲイザー',
     contact: false,
     charge: false,
@@ -18773,7 +18773,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 723,
-    nameEN: 'light-that burns the sky',
+    nameEN: 'Light That burns the sky',
     nameJA: 'てんこがすめつぼうのひかり',
     contact: false,
     charge: false,
@@ -18799,7 +18799,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 724,
-    nameEN: 'searing-sunraze smash',
+    nameEN: 'Searing Sunraze smash',
     nameJA: 'サンシャインスマッシャー',
     contact: true,
     charge: false,
@@ -18825,7 +18825,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 725,
-    nameEN: 'menacing-moonraze maelstrom',
+    nameEN: 'Menacing Moonraze maelstrom',
     nameJA: 'ムーンライトブラスター',
     contact: false,
     charge: false,
@@ -18851,7 +18851,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 726,
-    nameEN: 'let’s-snuggle forever',
+    nameEN: 'Let’s Snuggle forever',
     nameJA: 'ぽかぼかフレンドタイム',
     contact: true,
     charge: false,
@@ -18877,7 +18877,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 727,
-    nameEN: 'splintered-stormshards',
+    nameEN: 'Splintered Stormshards',
     nameJA: 'ラジアルエッジストーム',
     contact: false,
     charge: false,
@@ -18903,7 +18903,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 728,
-    nameEN: 'clangorous-soulblaze',
+    nameEN: 'Clangorous Soulblaze',
     nameJA: 'ブレイジングソウルビート',
     contact: false,
     charge: false,
@@ -18929,7 +18929,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 729,
-    nameEN: 'zippy-zap',
+    nameEN: 'Zippy Zap',
     nameJA: 'ばちばちアクセル',
     contact: true,
     charge: false,
@@ -18955,7 +18955,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 730,
-    nameEN: 'splishy-splash',
+    nameEN: 'Splishy Splash',
     nameJA: 'ざぶざぶサーフ',
     contact: false,
     charge: false,
@@ -18981,7 +18981,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 731,
-    nameEN: 'floaty-fall',
+    nameEN: 'Floaty Fall',
     nameJA: 'ふわふわフォール',
     contact: true,
     charge: false,
@@ -19007,7 +19007,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 732,
-    nameEN: 'pika-papow',
+    nameEN: 'Pika Papow',
     nameJA: 'ピカピカサンダー',
     contact: false,
     charge: false,
@@ -19033,7 +19033,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 733,
-    nameEN: 'bouncy-bubble',
+    nameEN: 'Bouncy Bubble',
     nameJA: 'いきいきバブル',
     contact: false,
     charge: false,
@@ -19059,7 +19059,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 734,
-    nameEN: 'buzzy-buzz',
+    nameEN: 'Buzzy Buzz',
     nameJA: 'びりびりエレキ',
     contact: false,
     charge: false,
@@ -19085,7 +19085,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 735,
-    nameEN: 'sizzly-slide',
+    nameEN: 'Sizzly Slide',
     nameJA: 'めらめらバーン',
     contact: true,
     charge: false,
@@ -19111,7 +19111,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 736,
-    nameEN: 'glitzy-glow',
+    nameEN: 'Glitzy Glow',
     nameJA: 'どばどばオーラ',
     contact: false,
     charge: false,
@@ -19137,7 +19137,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 737,
-    nameEN: 'baddy-bad',
+    nameEN: 'Baddy Bad',
     nameJA: 'わるわるゾーン',
     contact: false,
     charge: false,
@@ -19163,7 +19163,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 738,
-    nameEN: 'sappy-seed',
+    nameEN: 'Sappy Seed',
     nameJA: 'すくすくボンバー',
     contact: false,
     charge: false,
@@ -19189,7 +19189,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 739,
-    nameEN: 'freezy-frost',
+    nameEN: 'Freezy Frost',
     nameJA: 'こちこちフロスト',
     contact: false,
     charge: false,
@@ -19215,7 +19215,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 740,
-    nameEN: 'sparkly-swirl',
+    nameEN: 'Sparkly Swirl',
     nameJA: 'きらきらストーム',
     contact: false,
     charge: false,
@@ -19241,7 +19241,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 741,
-    nameEN: 'veevee-volley',
+    nameEN: 'Veevee Volley',
     nameJA: 'ブイブイブレイク',
     contact: true,
     charge: false,
@@ -19267,7 +19267,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 742,
-    nameEN: 'double-iron bash',
+    nameEN: 'Double Iron bash',
     nameJA: 'ダブルパンツァー',
     contact: true,
     charge: false,
@@ -19293,7 +19293,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 743,
-    nameEN: 'max-guard',
+    nameEN: 'Max Guard',
     nameJA: 'ダイウォール',
     contact: false,
     charge: false,
@@ -19319,7 +19319,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 744,
-    nameEN: 'dynamax-cannon',
+    nameEN: 'Dynamax Cannon',
     nameJA: 'ダイマックスほう',
     contact: false,
     charge: false,
@@ -19345,7 +19345,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 745,
-    nameEN: 'snipe-shot',
+    nameEN: 'Snipe Shot',
     nameJA: 'ねらいうち',
     contact: false,
     charge: false,
@@ -19371,7 +19371,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 746,
-    nameEN: 'jaw-lock',
+    nameEN: 'Jaw Lock',
     nameJA: 'くらいつく',
     contact: true,
     charge: false,
@@ -19397,7 +19397,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 747,
-    nameEN: 'stuff-cheeks',
+    nameEN: 'Stuff Cheeks',
     nameJA: 'ほおばる',
     contact: false,
     charge: false,
@@ -19423,7 +19423,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 748,
-    nameEN: 'no-retreat',
+    nameEN: 'No Retreat',
     nameJA: 'はいすいのじん',
     contact: false,
     charge: false,
@@ -19449,7 +19449,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 749,
-    nameEN: 'tar-shot',
+    nameEN: 'Tar Shot',
     nameJA: 'タールショット',
     contact: false,
     charge: false,
@@ -19475,7 +19475,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 750,
-    nameEN: 'magic-powder',
+    nameEN: 'Magic Powder',
     nameJA: 'まほうのこな',
     contact: false,
     charge: false,
@@ -19501,7 +19501,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 751,
-    nameEN: 'dragon-darts',
+    nameEN: 'Dragon Darts',
     nameJA: 'ドラゴンアロー',
     contact: false,
     charge: false,
@@ -19527,7 +19527,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 752,
-    nameEN: 'teatime',
+    nameEN: 'Teatime',
     nameJA: 'おちゃかい',
     contact: false,
     charge: false,
@@ -19553,7 +19553,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 753,
-    nameEN: 'octolock',
+    nameEN: 'Octolock',
     nameJA: 'たこがため',
     contact: false,
     charge: false,
@@ -19579,7 +19579,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 754,
-    nameEN: 'bolt-beak',
+    nameEN: 'Bolt Beak',
     nameJA: 'でんげきくちばし',
     contact: true,
     charge: false,
@@ -19605,7 +19605,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 755,
-    nameEN: 'fishious-rend',
+    nameEN: 'Fishious Rend',
     nameJA: 'エラがみ',
     contact: true,
     charge: false,
@@ -19631,7 +19631,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 756,
-    nameEN: 'court-change',
+    nameEN: 'Court Change',
     nameJA: 'コートチェンジ',
     contact: false,
     charge: false,
@@ -19657,7 +19657,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 757,
-    nameEN: 'max-flare',
+    nameEN: 'Max Flare',
     nameJA: 'ダイバーン',
     contact: false,
     charge: false,
@@ -19683,7 +19683,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 758,
-    nameEN: 'max-flutterby',
+    nameEN: 'Max Flutterby',
     nameJA: 'ダイワーム',
     contact: false,
     charge: false,
@@ -19709,7 +19709,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 759,
-    nameEN: 'max-lightning',
+    nameEN: 'Max Lightning',
     nameJA: 'ダイサンダー',
     contact: false,
     charge: false,
@@ -19735,7 +19735,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 760,
-    nameEN: 'max-strike',
+    nameEN: 'Max Strike',
     nameJA: 'ダイアタック',
     contact: false,
     charge: false,
@@ -19761,7 +19761,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 761,
-    nameEN: 'max-knuckle',
+    nameEN: 'Max Knuckle',
     nameJA: 'ダイナックル',
     contact: false,
     charge: false,
@@ -19787,7 +19787,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 762,
-    nameEN: 'max-phantasm',
+    nameEN: 'Max Phantasm',
     nameJA: 'ダイホロウ',
     contact: false,
     charge: false,
@@ -19813,7 +19813,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 763,
-    nameEN: 'max-hailstorm',
+    nameEN: 'Max Hailstorm',
     nameJA: 'ダイアイス',
     contact: false,
     charge: false,
@@ -19839,7 +19839,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 764,
-    nameEN: 'max-ooze',
+    nameEN: 'Max Ooze',
     nameJA: 'ダイアシッド',
     contact: false,
     charge: false,
@@ -19865,7 +19865,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 765,
-    nameEN: 'max-geyser',
+    nameEN: 'Max Geyser',
     nameJA: 'ダイストリーム',
     contact: false,
     charge: false,
@@ -19891,7 +19891,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 766,
-    nameEN: 'max-airstream',
+    nameEN: 'Max Airstream',
     nameJA: 'ダイジェット',
     contact: false,
     charge: false,
@@ -19917,7 +19917,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 767,
-    nameEN: 'max-starfall',
+    nameEN: 'Max Starfall',
     nameJA: 'ダイフェアリー',
     contact: false,
     charge: false,
@@ -19943,7 +19943,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 768,
-    nameEN: 'max-wyrmwind',
+    nameEN: 'Max Wyrmwind',
     nameJA: 'ダイドラグーン',
     contact: false,
     charge: false,
@@ -19969,7 +19969,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 769,
-    nameEN: 'max-mindstorm',
+    nameEN: 'Max Mindstorm',
     nameJA: 'ダイサイコ',
     contact: false,
     charge: false,
@@ -19995,7 +19995,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 770,
-    nameEN: 'max-rockfall',
+    nameEN: 'Max Rockfall',
     nameJA: 'ダイロック',
     contact: false,
     charge: false,
@@ -20021,7 +20021,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 771,
-    nameEN: 'max-quake',
+    nameEN: 'Max Quake',
     nameJA: 'ダイアース',
     contact: false,
     charge: false,
@@ -20047,7 +20047,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 772,
-    nameEN: 'max-darkness',
+    nameEN: 'Max Darkness',
     nameJA: 'ダイアーク',
     contact: false,
     charge: false,
@@ -20073,7 +20073,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 773,
-    nameEN: 'max-overgrowth',
+    nameEN: 'Max Overgrowth',
     nameJA: 'ダイソウゲン',
     contact: false,
     charge: false,
@@ -20099,7 +20099,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 774,
-    nameEN: 'max-steelspike',
+    nameEN: 'Max Steelspike',
     nameJA: 'ダイスチル',
     contact: false,
     charge: false,
@@ -20125,7 +20125,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 775,
-    nameEN: 'clangorous-soul',
+    nameEN: 'Clangorous Soul',
     nameJA: 'ソウルビート',
     contact: false,
     charge: false,
@@ -20151,7 +20151,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 776,
-    nameEN: 'body-press',
+    nameEN: 'Body Press',
     nameJA: 'ボディプレス',
     contact: true,
     charge: false,
@@ -20177,7 +20177,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 777,
-    nameEN: 'decorate',
+    nameEN: 'Decorate',
     nameJA: 'デコレーション',
     contact: false,
     charge: false,
@@ -20203,7 +20203,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 778,
-    nameEN: 'drum-beating',
+    nameEN: 'Drum Beating',
     nameJA: 'ドラムアタック',
     contact: false,
     charge: false,
@@ -20229,7 +20229,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 779,
-    nameEN: 'snap-trap',
+    nameEN: 'Snap Trap',
     nameJA: 'トラバサミ',
     contact: true,
     charge: false,
@@ -20255,7 +20255,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 780,
-    nameEN: 'pyro-ball',
+    nameEN: 'Pyro Ball',
     nameJA: 'かえんボール',
     contact: false,
     charge: false,
@@ -20281,7 +20281,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 781,
-    nameEN: 'behemoth-blade',
+    nameEN: 'Behemoth Blade',
     nameJA: 'きょじゅうざん',
     contact: true,
     charge: false,
@@ -20307,7 +20307,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 782,
-    nameEN: 'behemoth-bash',
+    nameEN: 'Behemoth Bash',
     nameJA: 'きょじゅうだん',
     contact: true,
     charge: false,
@@ -20333,7 +20333,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 783,
-    nameEN: 'aura-wheel',
+    nameEN: 'Aura Wheel',
     nameJA: 'オーラぐるま',
     contact: false,
     charge: false,
@@ -20359,7 +20359,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 784,
-    nameEN: 'breaking-swipe',
+    nameEN: 'Breaking Swipe',
     nameJA: 'ワイドブレイカー',
     contact: true,
     charge: false,
@@ -20385,7 +20385,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 785,
-    nameEN: 'branch-poke',
+    nameEN: 'Branch Poke',
     nameJA: 'えだづき',
     contact: true,
     charge: false,
@@ -20411,7 +20411,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 786,
-    nameEN: 'overdrive',
+    nameEN: 'Overdrive',
     nameJA: 'オーバードライブ',
     contact: false,
     charge: false,
@@ -20437,7 +20437,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 787,
-    nameEN: 'apple-acid',
+    nameEN: 'Apple Acid',
     nameJA: 'りんごさん',
     contact: false,
     charge: false,
@@ -20463,7 +20463,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 788,
-    nameEN: 'grav-apple',
+    nameEN: 'Grav Apple',
     nameJA: 'Ｇのちから',
     contact: false,
     charge: false,
@@ -20489,7 +20489,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 789,
-    nameEN: 'spirit-break',
+    nameEN: 'Spirit Break',
     nameJA: 'ソウルクラッシュ',
     contact: true,
     charge: false,
@@ -20515,7 +20515,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 790,
-    nameEN: 'strange-steam',
+    nameEN: 'Strange Steam',
     nameJA: 'ワンダースチーム',
     contact: false,
     charge: false,
@@ -20541,7 +20541,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 791,
-    nameEN: 'life-dew',
+    nameEN: 'Life Dew',
     nameJA: 'いのちのしずく',
     contact: false,
     charge: false,
@@ -20567,7 +20567,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 792,
-    nameEN: 'obstruct',
+    nameEN: 'Obstruct',
     nameJA: 'ブロッキング',
     contact: false,
     charge: false,
@@ -20593,7 +20593,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 793,
-    nameEN: 'false-surrender',
+    nameEN: 'False Surrender',
     nameJA: 'どげざつき',
     contact: true,
     charge: false,
@@ -20619,7 +20619,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 794,
-    nameEN: 'meteor-assault',
+    nameEN: 'Meteor Assault',
     nameJA: 'スターアサルト',
     contact: false,
     charge: false,
@@ -20645,7 +20645,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 795,
-    nameEN: 'eternabeam',
+    nameEN: 'Eternabeam',
     nameJA: 'ムゲンダイビーム',
     contact: false,
     charge: false,
@@ -20671,7 +20671,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 796,
-    nameEN: 'steel-beam',
+    nameEN: 'Steel Beam',
     nameJA: 'てっていこうせん',
     contact: false,
     charge: false,
@@ -20697,7 +20697,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 797,
-    nameEN: 'expanding-force',
+    nameEN: 'Expanding Force',
     nameJA: 'ワイドフォース',
     contact: false,
     charge: false,
@@ -20723,7 +20723,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 798,
-    nameEN: 'steel-roller',
+    nameEN: 'Steel Roller',
     nameJA: 'アイアンローラー',
     contact: true,
     charge: false,
@@ -20749,7 +20749,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 799,
-    nameEN: 'scale-shot',
+    nameEN: 'Scale Shot',
     nameJA: 'スケイルショット',
     contact: false,
     charge: false,
@@ -20775,7 +20775,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 800,
-    nameEN: 'meteor-beam',
+    nameEN: 'Meteor Beam',
     nameJA: 'メテオビーム',
     contact: false,
     charge: true,
@@ -20801,7 +20801,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 801,
-    nameEN: 'shell-side arm',
+    nameEN: 'Shell Side arm',
     nameJA: 'シェルアームズ',
     contact: false,
     charge: false,
@@ -20827,7 +20827,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 802,
-    nameEN: 'misty-explosion',
+    nameEN: 'Misty Explosion',
     nameJA: 'ミストバースト',
     contact: false,
     charge: false,
@@ -20853,7 +20853,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 803,
-    nameEN: 'grassy-glide',
+    nameEN: 'Grassy Glide',
     nameJA: 'グラススライダー',
     contact: true,
     charge: false,
@@ -20879,7 +20879,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 804,
-    nameEN: 'rising-voltage',
+    nameEN: 'Rising Voltage',
     nameJA: 'ライジングボルト',
     contact: false,
     charge: false,
@@ -20905,7 +20905,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 805,
-    nameEN: 'terrain-pulse',
+    nameEN: 'Terrain Pulse',
     nameJA: 'だいちのはどう',
     contact: false,
     charge: false,
@@ -20931,7 +20931,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 806,
-    nameEN: 'skitter-smack',
+    nameEN: 'Skitter Smack',
     nameJA: 'はいよるいちげき',
     contact: true,
     charge: false,
@@ -20957,7 +20957,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 807,
-    nameEN: 'burning-jealousy',
+    nameEN: 'Burning Jealousy',
     nameJA: 'しっとのほのお',
     contact: false,
     charge: false,
@@ -20983,7 +20983,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 808,
-    nameEN: 'lash-out',
+    nameEN: 'Lash Out',
     nameJA: 'うっぷんばらし',
     contact: true,
     charge: false,
@@ -21009,7 +21009,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 809,
-    nameEN: 'poltergeist',
+    nameEN: 'Poltergeist',
     nameJA: 'ポルターガイスト',
     contact: false,
     charge: false,
@@ -21035,7 +21035,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 810,
-    nameEN: 'corrosive-gas',
+    nameEN: 'Corrosive Gas',
     nameJA: 'ふしょくガス',
     contact: false,
     charge: false,
@@ -21061,7 +21061,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 811,
-    nameEN: 'coaching',
+    nameEN: 'Coaching',
     nameJA: 'コーチング',
     contact: false,
     charge: false,
@@ -21087,7 +21087,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 812,
-    nameEN: 'flip-turn',
+    nameEN: 'Flip Turn',
     nameJA: 'クイックターン',
     contact: true,
     charge: false,
@@ -21113,7 +21113,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 813,
-    nameEN: 'triple-axel',
+    nameEN: 'Triple Axel',
     nameJA: 'トリプルアクセル',
     contact: true,
     charge: false,
@@ -21139,7 +21139,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 814,
-    nameEN: 'dual-wingbeat',
+    nameEN: 'Dual Wingbeat',
     nameJA: 'ダブルウイング',
     contact: true,
     charge: false,
@@ -21165,7 +21165,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 815,
-    nameEN: 'scorching-sands',
+    nameEN: 'Scorching Sands',
     nameJA: 'ねっさのだいち',
     contact: false,
     charge: false,
@@ -21191,7 +21191,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 816,
-    nameEN: 'jungle-healing',
+    nameEN: 'Jungle Healing',
     nameJA: 'ジャングルヒール',
     contact: false,
     charge: false,
@@ -21217,7 +21217,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 817,
-    nameEN: 'wicked-blow',
+    nameEN: 'Wicked Blow',
     nameJA: 'あんこくきょうだ',
     contact: true,
     charge: false,
@@ -21243,7 +21243,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 818,
-    nameEN: 'surging-strikes',
+    nameEN: 'Surging Strikes',
     nameJA: 'すいりゅうれんだ',
     contact: true,
     charge: false,
@@ -21269,7 +21269,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 819,
-    nameEN: 'thunder-cage',
+    nameEN: 'Thunder Cage',
     nameJA: 'サンダープリズン',
     contact: false,
     charge: false,
@@ -21295,7 +21295,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 820,
-    nameEN: 'dragon-energy',
+    nameEN: 'Dragon Energy',
     nameJA: 'ドラゴンエナジー',
     contact: false,
     charge: false,
@@ -21321,7 +21321,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 821,
-    nameEN: 'freezing-glare',
+    nameEN: 'Freezing Glare',
     nameJA: 'いてつくしせん',
     contact: false,
     charge: false,
@@ -21347,7 +21347,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 822,
-    nameEN: 'fiery-wrath',
+    nameEN: 'Fiery Wrath',
     nameJA: 'もえあがるいかり',
     contact: false,
     charge: false,
@@ -21373,7 +21373,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 823,
-    nameEN: 'thunderous-kick',
+    nameEN: 'Thunderous Kick',
     nameJA: 'らいめいげり',
     contact: true,
     charge: false,
@@ -21399,7 +21399,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 824,
-    nameEN: 'glacial-lance',
+    nameEN: 'Glacial Lance',
     nameJA: 'ブリザードランス',
     contact: false,
     charge: false,
@@ -21425,7 +21425,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 825,
-    nameEN: 'astral-barrage',
+    nameEN: 'Astral Barrage',
     nameJA: 'アストラルビット',
     contact: false,
     charge: false,
@@ -21451,7 +21451,7 @@ const moveFlagMaster: MoveFlagData[] = [
   },
   {
     id: 826,
-    nameEN: 'eerie-spell',
+    nameEN: 'Eerie Spell',
     nameJA: 'ぶきみなじゅもん',
     contact: false,
     charge: false,

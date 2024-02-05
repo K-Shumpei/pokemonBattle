@@ -2,5784 +2,5784 @@
 const moveAddOnMaster = [
     {
         id: 1,
-        nameEN: 'pound',
+        nameEN: 'Pound',
         nameJA: 'はたく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 2,
-        nameEN: 'karate-chop',
+        nameEN: 'Karate Chop',
         nameJA: 'からてチョップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 3,
-        nameEN: 'double-slap',
+        nameEN: 'Double Slap',
         nameJA: 'おうふくビンタ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 4,
-        nameEN: 'comet-punch',
+        nameEN: 'Comet Punch',
         nameJA: 'れんぞくパンチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 5,
-        nameEN: 'mega-punch',
+        nameEN: 'Mega Punch',
         nameJA: 'メガトンパンチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 6,
-        nameEN: 'pay-day',
+        nameEN: 'Pay Day',
         nameJA: 'ネコにこばん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 7,
-        nameEN: 'fire-punch',
+        nameEN: 'Fire Punch',
         nameJA: 'ほのおのパンチ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 8,
-        nameEN: 'ice-punch',
+        nameEN: 'Ice Punch',
         nameJA: 'れいとうパンチ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 9,
-        nameEN: 'thunder-punch',
+        nameEN: 'Thunder Punch',
         nameJA: 'かみなりパンチ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 10,
-        nameEN: 'scratch',
+        nameEN: 'Scratch',
         nameJA: 'ひっかく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 11,
-        nameEN: 'vise-grip',
+        nameEN: 'Vise Grip',
         nameJA: 'はさむ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 12,
-        nameEN: 'guillotine',
+        nameEN: 'Guillotine',
         nameJA: 'ハサミギロチン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 13,
-        nameEN: 'razor-wind',
+        nameEN: 'Razor Wind',
         nameJA: 'かまいたち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 14,
-        nameEN: 'swords-dance',
+        nameEN: 'Swords Dance',
         nameJA: 'つるぎのまい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 15,
-        nameEN: 'cut',
+        nameEN: 'Cut',
         nameJA: 'いあいぎり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 16,
-        nameEN: 'gust',
+        nameEN: 'Gust',
         nameJA: 'かぜおこし',
         additional: false,
-        wind: true,
+        wind: true
     },
     {
         id: 17,
-        nameEN: 'wing-attack',
+        nameEN: 'Wing Attack',
         nameJA: 'つばさでうつ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 18,
-        nameEN: 'whirlwind',
+        nameEN: 'Whirlwind',
         nameJA: 'ふきとばし',
         additional: false,
-        wind: true,
+        wind: true
     },
     {
         id: 19,
-        nameEN: 'fly',
+        nameEN: 'Fly',
         nameJA: 'そらをとぶ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 20,
-        nameEN: 'bind',
+        nameEN: 'Bind',
         nameJA: 'しめつける',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 21,
-        nameEN: 'slam',
+        nameEN: 'Slam',
         nameJA: 'たたきつける',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 22,
-        nameEN: 'vine-whip',
+        nameEN: 'Vine Whip',
         nameJA: 'つるのムチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 23,
-        nameEN: 'stomp',
+        nameEN: 'Stomp',
         nameJA: 'ふみつけ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 24,
-        nameEN: 'double-kick',
+        nameEN: 'Double Kick',
         nameJA: 'にどげり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 25,
-        nameEN: 'mega-kick',
+        nameEN: 'Mega Kick',
         nameJA: 'メガトンキック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 26,
-        nameEN: 'jump-kick',
+        nameEN: 'Jump Kick',
         nameJA: 'とびげり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 27,
-        nameEN: 'rolling-kick',
+        nameEN: 'Rolling Kick',
         nameJA: 'まわしげり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 28,
-        nameEN: 'sand-attack',
+        nameEN: 'Sand Attack',
         nameJA: 'すなかけ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 29,
-        nameEN: 'headbutt',
+        nameEN: 'Headbutt',
         nameJA: 'ずつき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 30,
-        nameEN: 'horn-attack',
+        nameEN: 'Horn Attack',
         nameJA: 'つのでつく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 31,
-        nameEN: 'fury-attack',
+        nameEN: 'Fury Attack',
         nameJA: 'みだれづき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 32,
-        nameEN: 'horn-drill',
+        nameEN: 'Horn Drill',
         nameJA: 'つのドリル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 33,
-        nameEN: 'tackle',
+        nameEN: 'Tackle',
         nameJA: 'たいあたり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 34,
-        nameEN: 'body-slam',
+        nameEN: 'Body Slam',
         nameJA: 'のしかかり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 35,
-        nameEN: 'wrap',
+        nameEN: 'Wrap',
         nameJA: 'まきつく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 36,
-        nameEN: 'take-down',
+        nameEN: 'Take Down',
         nameJA: 'とっしん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 37,
-        nameEN: 'thrash',
+        nameEN: 'Thrash',
         nameJA: 'あばれる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 38,
-        nameEN: 'double-edge',
+        nameEN: 'Double Edge',
         nameJA: 'すてみタックル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 39,
-        nameEN: 'tail-whip',
+        nameEN: 'Tail Whip',
         nameJA: 'しっぽをふる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 40,
-        nameEN: 'poison-sting',
+        nameEN: 'Poison Sting',
         nameJA: 'どくばり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 41,
-        nameEN: 'twineedle',
+        nameEN: 'Twineedle',
         nameJA: 'ダブルニードル',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 42,
-        nameEN: 'pin-missile',
+        nameEN: 'Pin Missile',
         nameJA: 'ミサイルばり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 43,
-        nameEN: 'leer',
+        nameEN: 'Leer',
         nameJA: 'にらみつける',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 44,
-        nameEN: 'bite',
+        nameEN: 'Bite',
         nameJA: 'かみつく',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 45,
-        nameEN: 'growl',
+        nameEN: 'Growl',
         nameJA: 'なきごえ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 46,
-        nameEN: 'roar',
+        nameEN: 'Roar',
         nameJA: 'ほえる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 47,
-        nameEN: 'sing',
+        nameEN: 'Sing',
         nameJA: 'うたう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 48,
-        nameEN: 'supersonic',
+        nameEN: 'Supersonic',
         nameJA: 'ちょうおんぱ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 49,
-        nameEN: 'sonic-boom',
+        nameEN: 'Sonic Boom',
         nameJA: 'ソニックブーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 50,
-        nameEN: 'disable',
+        nameEN: 'Disable',
         nameJA: 'かなしばり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 51,
-        nameEN: 'acid',
+        nameEN: 'Acid',
         nameJA: 'ようかいえき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 52,
-        nameEN: 'ember',
+        nameEN: 'Ember',
         nameJA: 'ひのこ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 53,
-        nameEN: 'flamethrower',
+        nameEN: 'Flamethrower',
         nameJA: 'かえんほうしゃ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 54,
-        nameEN: 'mist',
+        nameEN: 'Mist',
         nameJA: 'しろいきり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 55,
-        nameEN: 'water-gun',
+        nameEN: 'Water Gun',
         nameJA: 'みずでっぽう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 56,
-        nameEN: 'hydro-pump',
+        nameEN: 'Hydro Pump',
         nameJA: 'ハイドロポンプ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 57,
-        nameEN: 'surf',
+        nameEN: 'Surf',
         nameJA: 'なみのり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 58,
-        nameEN: 'ice-beam',
+        nameEN: 'Ice Beam',
         nameJA: 'れいとうビーム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 59,
-        nameEN: 'blizzard',
+        nameEN: 'Blizzard',
         nameJA: 'ふぶき',
         additional: true,
-        wind: true,
+        wind: true
     },
     {
         id: 60,
-        nameEN: 'psybeam',
+        nameEN: 'Psybeam',
         nameJA: 'サイケこうせん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 61,
-        nameEN: 'bubble-beam',
+        nameEN: 'Bubble Beam',
         nameJA: 'バブルこうせん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 62,
-        nameEN: 'aurora-beam',
+        nameEN: 'Aurora Beam',
         nameJA: 'オーロラビーム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 63,
-        nameEN: 'hyper-beam',
+        nameEN: 'Hyper Beam',
         nameJA: 'はかいこうせん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 64,
-        nameEN: 'peck',
+        nameEN: 'Peck',
         nameJA: 'つつく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 65,
-        nameEN: 'drill-peck',
+        nameEN: 'Drill Peck',
         nameJA: 'ドリルくちばし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 66,
-        nameEN: 'submission',
+        nameEN: 'Submission',
         nameJA: 'じごくぐるま',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 67,
-        nameEN: 'low-kick',
+        nameEN: 'Low Kick',
         nameJA: 'けたぐり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 68,
-        nameEN: 'counter',
+        nameEN: 'Counter',
         nameJA: 'カウンター',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 69,
-        nameEN: 'seismic-toss',
+        nameEN: 'Seismic Toss',
         nameJA: 'ちきゅうなげ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 70,
-        nameEN: 'strength',
+        nameEN: 'Strength',
         nameJA: 'かいりき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 71,
-        nameEN: 'absorb',
+        nameEN: 'Absorb',
         nameJA: 'すいとる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 72,
-        nameEN: 'mega-drain',
+        nameEN: 'Mega Drain',
         nameJA: 'メガドレイン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 73,
-        nameEN: 'leech-seed',
+        nameEN: 'Leech Seed',
         nameJA: 'やどりぎのタネ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 74,
-        nameEN: 'growth',
+        nameEN: 'Growth',
         nameJA: 'せいちょう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 75,
-        nameEN: 'razor-leaf',
+        nameEN: 'Razor Leaf',
         nameJA: 'はっぱカッター',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 76,
-        nameEN: 'solar-beam',
+        nameEN: 'Solar Beam',
         nameJA: 'ソーラービーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 77,
-        nameEN: 'poison-powder',
+        nameEN: 'Poison Powder',
         nameJA: 'どくのこな',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 78,
-        nameEN: 'stun-spore',
+        nameEN: 'Stun Spore',
         nameJA: 'しびれごな',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 79,
-        nameEN: 'sleep-powder',
+        nameEN: 'Sleep Powder',
         nameJA: 'ねむりごな',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 80,
-        nameEN: 'petal-dance',
+        nameEN: 'Petal Dance',
         nameJA: 'はなびらのまい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 81,
-        nameEN: 'string-shot',
+        nameEN: 'String Shot',
         nameJA: 'いとをはく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 82,
-        nameEN: 'dragon-rage',
+        nameEN: 'Dragon Rage',
         nameJA: 'りゅうのいかり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 83,
-        nameEN: 'fire-spin',
+        nameEN: 'Fire Spin',
         nameJA: 'ほのおのうず',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 84,
-        nameEN: 'thunder-shock',
+        nameEN: 'Thunder Shock',
         nameJA: 'でんきショック',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 85,
-        nameEN: 'thunderbolt',
+        nameEN: 'Thunderbolt',
         nameJA: '１０まんボルト',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 86,
-        nameEN: 'thunder-wave',
+        nameEN: 'Thunder Wave',
         nameJA: 'でんじは',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 87,
-        nameEN: 'thunder',
+        nameEN: 'Thunder',
         nameJA: 'かみなり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 88,
-        nameEN: 'rock-throw',
+        nameEN: 'Rock Throw',
         nameJA: 'いわおとし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 89,
-        nameEN: 'earthquake',
+        nameEN: 'Earthquake',
         nameJA: 'じしん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 90,
-        nameEN: 'fissure',
+        nameEN: 'Fissure',
         nameJA: 'じわれ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 91,
-        nameEN: 'dig',
+        nameEN: 'Dig',
         nameJA: 'あなをほる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 92,
-        nameEN: 'toxic',
+        nameEN: 'Toxic',
         nameJA: 'どくどく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 93,
-        nameEN: 'confusion',
+        nameEN: 'Confusion',
         nameJA: 'ねんりき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 94,
-        nameEN: 'psychic',
+        nameEN: 'Psychic',
         nameJA: 'サイコキネシス',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 95,
-        nameEN: 'hypnosis',
+        nameEN: 'Hypnosis',
         nameJA: 'さいみんじゅつ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 96,
-        nameEN: 'meditate',
+        nameEN: 'Meditate',
         nameJA: 'ヨガのポーズ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 97,
-        nameEN: 'agility',
+        nameEN: 'Agility',
         nameJA: 'こうそくいどう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 98,
-        nameEN: 'quick-attack',
+        nameEN: 'Quick Attack',
         nameJA: 'でんこうせっか',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 99,
-        nameEN: 'rage',
+        nameEN: 'Rage',
         nameJA: 'いかり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 100,
-        nameEN: 'teleport',
+        nameEN: 'Teleport',
         nameJA: 'テレポート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 101,
-        nameEN: 'night-shade',
+        nameEN: 'Night Shade',
         nameJA: 'ナイトヘッド',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 102,
-        nameEN: 'mimic',
+        nameEN: 'Mimic',
         nameJA: 'ものまね',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 103,
-        nameEN: 'screech',
+        nameEN: 'Screech',
         nameJA: 'いやなおと',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 104,
-        nameEN: 'double-team',
+        nameEN: 'Double Team',
         nameJA: 'かげぶんしん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 105,
-        nameEN: 'recover',
+        nameEN: 'Recover',
         nameJA: 'じこさいせい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 106,
-        nameEN: 'harden',
+        nameEN: 'Harden',
         nameJA: 'かたくなる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 107,
-        nameEN: 'minimize',
+        nameEN: 'Minimize',
         nameJA: 'ちいさくなる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 108,
-        nameEN: 'smokescreen',
+        nameEN: 'Smokescreen',
         nameJA: 'えんまく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 109,
-        nameEN: 'confuse-ray',
+        nameEN: 'Confuse Ray',
         nameJA: 'あやしいひかり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 110,
-        nameEN: 'withdraw',
+        nameEN: 'Withdraw',
         nameJA: 'からにこもる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 111,
-        nameEN: 'defense-curl',
+        nameEN: 'Defense Curl',
         nameJA: 'まるくなる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 112,
-        nameEN: 'barrier',
+        nameEN: 'Barrier',
         nameJA: 'バリアー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 113,
-        nameEN: 'light-screen',
+        nameEN: 'Light Screen',
         nameJA: 'ひかりのかべ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 114,
-        nameEN: 'haze',
+        nameEN: 'Haze',
         nameJA: 'くろいきり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 115,
-        nameEN: 'reflect',
+        nameEN: 'Reflect',
         nameJA: 'リフレクター',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 116,
-        nameEN: 'focus-energy',
+        nameEN: 'Focus Energy',
         nameJA: 'きあいだめ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 117,
-        nameEN: 'bide',
+        nameEN: 'Bide',
         nameJA: 'がまん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 118,
-        nameEN: 'metronome',
+        nameEN: 'Metronome',
         nameJA: 'ゆびをふる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 119,
-        nameEN: 'mirror-move',
+        nameEN: 'Mirror Move',
         nameJA: 'オウムがえし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 120,
-        nameEN: 'self-destruct',
+        nameEN: 'Self Destruct',
         nameJA: 'じばく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 121,
-        nameEN: 'egg-bomb',
+        nameEN: 'Egg Bomb',
         nameJA: 'タマゴばくだん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 122,
-        nameEN: 'lick',
+        nameEN: 'Lick',
         nameJA: 'したでなめる',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 123,
-        nameEN: 'smog',
+        nameEN: 'Smog',
         nameJA: 'スモッグ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 124,
-        nameEN: 'sludge',
+        nameEN: 'Sludge',
         nameJA: 'ヘドロこうげき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 125,
-        nameEN: 'bone-club',
+        nameEN: 'Bone Club',
         nameJA: 'ホネこんぼう',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 126,
-        nameEN: 'fire-blast',
+        nameEN: 'Fire Blast',
         nameJA: 'だいもんじ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 127,
-        nameEN: 'waterfall',
+        nameEN: 'Waterfall',
         nameJA: 'たきのぼり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 128,
-        nameEN: 'clamp',
+        nameEN: 'Clamp',
         nameJA: 'からではさむ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 129,
-        nameEN: 'swift',
+        nameEN: 'Swift',
         nameJA: 'スピードスター',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 130,
-        nameEN: 'skull-bash',
+        nameEN: 'Skull Bash',
         nameJA: 'ロケットずつき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 131,
-        nameEN: 'spike-cannon',
+        nameEN: 'Spike Cannon',
         nameJA: 'とげキャノン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 132,
-        nameEN: 'constrict',
+        nameEN: 'Constrict',
         nameJA: 'からみつく',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 133,
-        nameEN: 'amnesia',
+        nameEN: 'Amnesia',
         nameJA: 'ドわすれ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 134,
-        nameEN: 'kinesis',
+        nameEN: 'Kinesis',
         nameJA: 'スプーンまげ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 135,
-        nameEN: 'soft-boiled',
+        nameEN: 'Soft Boiled',
         nameJA: 'タマゴうみ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 136,
-        nameEN: 'high-jump kick',
+        nameEN: 'High Jump kick',
         nameJA: 'とびひざげり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 137,
-        nameEN: 'glare',
+        nameEN: 'Glare',
         nameJA: 'へびにらみ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 138,
-        nameEN: 'dream-eater',
+        nameEN: 'Dream Eater',
         nameJA: 'ゆめくい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 139,
-        nameEN: 'poison-gas',
+        nameEN: 'Poison Gas',
         nameJA: 'どくガス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 140,
-        nameEN: 'barrage',
+        nameEN: 'Barrage',
         nameJA: 'たまなげ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 141,
-        nameEN: 'leech-life',
+        nameEN: 'Leech Life',
         nameJA: 'きゅうけつ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 142,
-        nameEN: 'lovely-kiss',
+        nameEN: 'Lovely Kiss',
         nameJA: 'あくまのキッス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 143,
-        nameEN: 'sky-attack',
+        nameEN: 'Sky Attack',
         nameJA: 'ゴッドバード',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 144,
-        nameEN: 'transform',
+        nameEN: 'Transform',
         nameJA: 'へんしん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 145,
-        nameEN: 'bubble',
+        nameEN: 'Bubble',
         nameJA: 'あわ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 146,
-        nameEN: 'dizzy-punch',
+        nameEN: 'Dizzy Punch',
         nameJA: 'ピヨピヨパンチ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 147,
-        nameEN: 'spore',
+        nameEN: 'Spore',
         nameJA: 'キノコのほうし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 148,
-        nameEN: 'flash',
+        nameEN: 'Flash',
         nameJA: 'フラッシュ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 149,
-        nameEN: 'psywave',
+        nameEN: 'Psywave',
         nameJA: 'サイコウェーブ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 150,
-        nameEN: 'splash',
+        nameEN: 'Splash',
         nameJA: 'はねる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 151,
-        nameEN: 'acid-armor',
+        nameEN: 'Acid Armor',
         nameJA: 'とける',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 152,
-        nameEN: 'crabhammer',
+        nameEN: 'Crabhammer',
         nameJA: 'クラブハンマー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 153,
-        nameEN: 'explosion',
+        nameEN: 'Explosion',
         nameJA: 'だいばくはつ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 154,
-        nameEN: 'fury-swipes',
+        nameEN: 'Fury Swipes',
         nameJA: 'みだれひっかき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 155,
-        nameEN: 'bonemerang',
+        nameEN: 'Bonemerang',
         nameJA: 'ホネブーメラン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 156,
-        nameEN: 'rest',
+        nameEN: 'Rest',
         nameJA: 'ねむる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 157,
-        nameEN: 'rock-slide',
+        nameEN: 'Rock Slide',
         nameJA: 'いわなだれ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 158,
-        nameEN: 'hyper-fang',
+        nameEN: 'Hyper Fang',
         nameJA: 'ひっさつまえば',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 159,
-        nameEN: 'sharpen',
+        nameEN: 'Sharpen',
         nameJA: 'かくばる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 160,
-        nameEN: 'conversion',
+        nameEN: 'Conversion',
         nameJA: 'テクスチャー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 161,
-        nameEN: 'tri-attack',
+        nameEN: 'Tri Attack',
         nameJA: 'トライアタック',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 162,
-        nameEN: 'super-fang',
+        nameEN: 'Super Fang',
         nameJA: 'いかりのまえば',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 163,
-        nameEN: 'slash',
+        nameEN: 'Slash',
         nameJA: 'きりさく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 164,
-        nameEN: 'substitute',
+        nameEN: 'Substitute',
         nameJA: 'みがわり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 165,
-        nameEN: 'struggle',
+        nameEN: 'Struggle',
         nameJA: 'わるあがき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 166,
-        nameEN: 'sketch',
+        nameEN: 'Sketch',
         nameJA: 'スケッチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 167,
-        nameEN: 'triple-kick',
+        nameEN: 'Triple Kick',
         nameJA: 'トリプルキック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 168,
-        nameEN: 'thief',
+        nameEN: 'Thief',
         nameJA: 'どろぼう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 169,
-        nameEN: 'spider-web',
+        nameEN: 'Spider Web',
         nameJA: 'クモのす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 170,
-        nameEN: 'mind-reader',
+        nameEN: 'Mind Reader',
         nameJA: 'こころのめ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 171,
-        nameEN: 'nightmare',
+        nameEN: 'Nightmare',
         nameJA: 'あくむ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 172,
-        nameEN: 'flame-wheel',
+        nameEN: 'Flame Wheel',
         nameJA: 'かえんぐるま',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 173,
-        nameEN: 'snore',
+        nameEN: 'Snore',
         nameJA: 'いびき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 174,
-        nameEN: 'curse',
+        nameEN: 'Curse',
         nameJA: 'のろい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 175,
-        nameEN: 'flail',
+        nameEN: 'Flail',
         nameJA: 'じたばた',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 176,
-        nameEN: 'conversion-2',
+        nameEN: 'Conversion 2',
         nameJA: 'テクスチャー２',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 177,
-        nameEN: 'aeroblast',
+        nameEN: 'Aeroblast',
         nameJA: 'エアロブラスト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 178,
-        nameEN: 'cotton-spore',
+        nameEN: 'Cotton Spore',
         nameJA: 'わたほうし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 179,
-        nameEN: 'reversal',
+        nameEN: 'Reversal',
         nameJA: 'きしかいせい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 180,
-        nameEN: 'spite',
+        nameEN: 'Spite',
         nameJA: 'うらみ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 181,
-        nameEN: 'powder-snow',
+        nameEN: 'Powder Snow',
         nameJA: 'こなゆき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 182,
-        nameEN: 'protect',
+        nameEN: 'Protect',
         nameJA: 'まもる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 183,
-        nameEN: 'mach-punch',
+        nameEN: 'Mach Punch',
         nameJA: 'マッハパンチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 184,
-        nameEN: 'scary-face',
+        nameEN: 'Scary Face',
         nameJA: 'こわいかお',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 185,
-        nameEN: 'feint-attack',
+        nameEN: 'Feint Attack',
         nameJA: 'だましうち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 186,
-        nameEN: 'sweet-kiss',
+        nameEN: 'Sweet Kiss',
         nameJA: 'てんしのキッス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 187,
-        nameEN: 'belly-drum',
+        nameEN: 'Belly Drum',
         nameJA: 'はらだいこ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 188,
-        nameEN: 'sludge-bomb',
+        nameEN: 'Sludge Bomb',
         nameJA: 'ヘドロばくだん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 189,
-        nameEN: 'mud-slap',
+        nameEN: 'Mud Slap',
         nameJA: 'どろかけ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 190,
-        nameEN: 'octazooka',
+        nameEN: 'Octazooka',
         nameJA: 'オクタンほう',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 191,
-        nameEN: 'spikes',
+        nameEN: 'Spikes',
         nameJA: 'まきびし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 192,
-        nameEN: 'zap-cannon',
+        nameEN: 'Zap Cannon',
         nameJA: 'でんじほう',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 193,
-        nameEN: 'foresight',
+        nameEN: 'Foresight',
         nameJA: 'みやぶる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 194,
-        nameEN: 'destiny-bond',
+        nameEN: 'Destiny Bond',
         nameJA: 'みちづれ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 195,
-        nameEN: 'perish-song',
+        nameEN: 'Perish Song',
         nameJA: 'ほろびのうた',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 196,
-        nameEN: 'icy-wind',
+        nameEN: 'Icy Wind',
         nameJA: 'こごえるかぜ',
         additional: true,
-        wind: true,
+        wind: true
     },
     {
         id: 197,
-        nameEN: 'detect',
+        nameEN: 'Detect',
         nameJA: 'みきり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 198,
-        nameEN: 'bone-rush',
+        nameEN: 'Bone Rush',
         nameJA: 'ボーンラッシュ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 199,
-        nameEN: 'lock-on',
+        nameEN: 'Lock On',
         nameJA: 'ロックオン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 200,
-        nameEN: 'outrage',
+        nameEN: 'Outrage',
         nameJA: 'げきりん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 201,
-        nameEN: 'sandstorm',
+        nameEN: 'Sandstorm',
         nameJA: 'すなあらし',
         additional: false,
-        wind: true,
+        wind: true
     },
     {
         id: 202,
-        nameEN: 'giga-drain',
+        nameEN: 'Giga Drain',
         nameJA: 'ギガドレイン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 203,
-        nameEN: 'endure',
+        nameEN: 'Endure',
         nameJA: 'こらえる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 204,
-        nameEN: 'charm',
+        nameEN: 'Charm',
         nameJA: 'あまえる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 205,
-        nameEN: 'rollout',
+        nameEN: 'Rollout',
         nameJA: 'ころがる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 206,
-        nameEN: 'false-swipe',
+        nameEN: 'False Swipe',
         nameJA: 'みねうち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 207,
-        nameEN: 'swagger',
+        nameEN: 'Swagger',
         nameJA: 'いばる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 208,
-        nameEN: 'milk-drink',
+        nameEN: 'Milk Drink',
         nameJA: 'ミルクのみ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 209,
-        nameEN: 'spark',
+        nameEN: 'Spark',
         nameJA: 'スパーク',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 210,
-        nameEN: 'fury-cutter',
+        nameEN: 'Fury Cutter',
         nameJA: 'れんぞくぎり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 211,
-        nameEN: 'steel-wing',
+        nameEN: 'Steel Wing',
         nameJA: 'はがねのつばさ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 212,
-        nameEN: 'mean-look',
+        nameEN: 'Mean Look',
         nameJA: 'くろいまなざし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 213,
-        nameEN: 'attract',
+        nameEN: 'Attract',
         nameJA: 'メロメロ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 214,
-        nameEN: 'sleep-talk',
+        nameEN: 'Sleep Talk',
         nameJA: 'ねごと',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 215,
-        nameEN: 'heal-bell',
+        nameEN: 'Heal Bell',
         nameJA: 'いやしのすず',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 216,
-        nameEN: 'return',
+        nameEN: 'Return',
         nameJA: 'おんがえし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 217,
-        nameEN: 'present',
+        nameEN: 'Present',
         nameJA: 'プレゼント',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 218,
-        nameEN: 'frustration',
+        nameEN: 'Frustration',
         nameJA: 'やつあたり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 219,
-        nameEN: 'safeguard',
+        nameEN: 'Safeguard',
         nameJA: 'しんぴのまもり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 220,
-        nameEN: 'pain-split',
+        nameEN: 'Pain Split',
         nameJA: 'いたみわけ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 221,
-        nameEN: 'sacred-fire',
+        nameEN: 'Sacred Fire',
         nameJA: 'せいなるほのお',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 222,
-        nameEN: 'magnitude',
+        nameEN: 'Magnitude',
         nameJA: 'マグニチュード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 223,
-        nameEN: 'dynamic-punch',
+        nameEN: 'Dynamic Punch',
         nameJA: 'ばくれつパンチ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 224,
-        nameEN: 'megahorn',
+        nameEN: 'Megahorn',
         nameJA: 'メガホーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 225,
-        nameEN: 'dragon-breath',
+        nameEN: 'Dragon Breath',
         nameJA: 'りゅうのいぶき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 226,
-        nameEN: 'baton-pass',
+        nameEN: 'Baton Pass',
         nameJA: 'バトンタッチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 227,
-        nameEN: 'encore',
+        nameEN: 'Encore',
         nameJA: 'アンコール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 228,
-        nameEN: 'pursuit',
+        nameEN: 'Pursuit',
         nameJA: 'おいうち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 229,
-        nameEN: 'rapid-spin',
+        nameEN: 'Rapid Spin',
         nameJA: 'こうそくスピン',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 230,
-        nameEN: 'sweet-scent',
+        nameEN: 'Sweet Scent',
         nameJA: 'あまいかおり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 231,
-        nameEN: 'iron-tail',
+        nameEN: 'Iron Tail',
         nameJA: 'アイアンテール',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 232,
-        nameEN: 'metal-claw',
+        nameEN: 'Metal Claw',
         nameJA: 'メタルクロー',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 233,
-        nameEN: 'vital-throw',
+        nameEN: 'Vital Throw',
         nameJA: 'あてみなげ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 234,
-        nameEN: 'morning-sun',
+        nameEN: 'Morning Sun',
         nameJA: 'あさのひざし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 235,
-        nameEN: 'synthesis',
+        nameEN: 'Synthesis',
         nameJA: 'こうごうせい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 236,
-        nameEN: 'moonlight',
+        nameEN: 'Moonlight',
         nameJA: 'つきのひかり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 237,
-        nameEN: 'hidden-power',
+        nameEN: 'Hidden Power',
         nameJA: 'めざめるパワー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 238,
-        nameEN: 'cross-chop',
+        nameEN: 'Cross Chop',
         nameJA: 'クロスチョップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 239,
-        nameEN: 'twister',
+        nameEN: 'Twister',
         nameJA: 'たつまき',
         additional: false,
-        wind: true,
+        wind: true
     },
     {
         id: 240,
-        nameEN: 'rain-dance',
+        nameEN: 'Rain Dance',
         nameJA: 'あまごい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 241,
-        nameEN: 'sunny-day',
+        nameEN: 'Sunny Day',
         nameJA: 'にほんばれ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 242,
-        nameEN: 'crunch',
+        nameEN: 'Crunch',
         nameJA: 'かみくだく',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 243,
-        nameEN: 'mirror-coat',
+        nameEN: 'Mirror Coat',
         nameJA: 'ミラーコート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 244,
-        nameEN: 'psych-up',
+        nameEN: 'Psych Up',
         nameJA: 'じこあんじ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 245,
-        nameEN: 'extreme-speed',
+        nameEN: 'Extreme Speed',
         nameJA: 'しんそく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 246,
-        nameEN: 'ancient-power',
+        nameEN: 'Ancient Power',
         nameJA: 'げんしのちから',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 247,
-        nameEN: 'shadow-ball',
+        nameEN: 'Shadow Ball',
         nameJA: 'シャドーボール',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 248,
-        nameEN: 'future-sight',
+        nameEN: 'Future Sight',
         nameJA: 'みらいよち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 249,
-        nameEN: 'rock-smash',
+        nameEN: 'Rock Smash',
         nameJA: 'いわくだき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 250,
-        nameEN: 'whirlpool',
+        nameEN: 'Whirlpool',
         nameJA: 'うずしお',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 251,
-        nameEN: 'beat-up',
+        nameEN: 'Beat Up',
         nameJA: 'ふくろだたき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 252,
-        nameEN: 'fake-out',
+        nameEN: 'Fake Out',
         nameJA: 'ねこだまし',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 253,
-        nameEN: 'uproar',
+        nameEN: 'Uproar',
         nameJA: 'さわぐ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 254,
-        nameEN: 'stockpile',
+        nameEN: 'Stockpile',
         nameJA: 'たくわえる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 255,
-        nameEN: 'spit-up',
+        nameEN: 'Spit Up',
         nameJA: 'はきだす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 256,
-        nameEN: 'swallow',
+        nameEN: 'Swallow',
         nameJA: 'のみこむ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 257,
-        nameEN: 'heat-wave',
+        nameEN: 'Heat Wave',
         nameJA: 'ねっぷう',
         additional: true,
-        wind: true,
+        wind: true
     },
     {
         id: 258,
-        nameEN: 'hail',
+        nameEN: 'Hail',
         nameJA: 'あられ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 259,
-        nameEN: 'torment',
+        nameEN: 'Torment',
         nameJA: 'いちゃもん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 260,
-        nameEN: 'flatter',
+        nameEN: 'Flatter',
         nameJA: 'おだてる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 261,
-        nameEN: 'will-o-wisp',
+        nameEN: 'Will O Wisp',
         nameJA: 'おにび',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 262,
-        nameEN: 'memento',
+        nameEN: 'Memento',
         nameJA: 'おきみやげ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 263,
-        nameEN: 'facade',
+        nameEN: 'Facade',
         nameJA: 'からげんき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 264,
-        nameEN: 'focus-punch',
+        nameEN: 'Focus Punch',
         nameJA: 'きあいパンチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 265,
-        nameEN: 'smelling-salts',
+        nameEN: 'Smelling Salts',
         nameJA: 'きつけ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 266,
-        nameEN: 'follow-me',
+        nameEN: 'Follow Me',
         nameJA: 'このゆびとまれ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 267,
-        nameEN: 'nature-power',
+        nameEN: 'Nature Power',
         nameJA: 'しぜんのちから',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 268,
-        nameEN: 'charge',
+        nameEN: 'Charge',
         nameJA: 'じゅうでん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 269,
-        nameEN: 'taunt',
+        nameEN: 'Taunt',
         nameJA: 'ちょうはつ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 270,
-        nameEN: 'helping-hand',
+        nameEN: 'Helping Hand',
         nameJA: 'てだすけ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 271,
-        nameEN: 'trick',
+        nameEN: 'Trick',
         nameJA: 'トリック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 272,
-        nameEN: 'role-play',
+        nameEN: 'Role Play',
         nameJA: 'なりきり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 273,
-        nameEN: 'wish',
+        nameEN: 'Wish',
         nameJA: 'ねがいごと',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 274,
-        nameEN: 'assist',
+        nameEN: 'Assist',
         nameJA: 'ねこのて',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 275,
-        nameEN: 'ingrain',
+        nameEN: 'Ingrain',
         nameJA: 'ねをはる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 276,
-        nameEN: 'superpower',
+        nameEN: 'Superpower',
         nameJA: 'ばかぢから',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 277,
-        nameEN: 'magic-coat',
+        nameEN: 'Magic Coat',
         nameJA: 'マジックコート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 278,
-        nameEN: 'recycle',
+        nameEN: 'Recycle',
         nameJA: 'リサイクル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 279,
-        nameEN: 'revenge',
+        nameEN: 'Revenge',
         nameJA: 'リベンジ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 280,
-        nameEN: 'brick-break',
+        nameEN: 'Brick Break',
         nameJA: 'かわらわり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 281,
-        nameEN: 'yawn',
+        nameEN: 'Yawn',
         nameJA: 'あくび',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 282,
-        nameEN: 'knock-off',
+        nameEN: 'Knock Off',
         nameJA: 'はたきおとす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 283,
-        nameEN: 'endeavor',
+        nameEN: 'Endeavor',
         nameJA: 'がむしゃら',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 284,
-        nameEN: 'eruption',
+        nameEN: 'Eruption',
         nameJA: 'ふんか',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 285,
-        nameEN: 'skill-swap',
+        nameEN: 'Skill Swap',
         nameJA: 'スキルスワップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 286,
-        nameEN: 'imprison',
+        nameEN: 'Imprison',
         nameJA: 'ふういん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 287,
-        nameEN: 'refresh',
+        nameEN: 'Refresh',
         nameJA: 'リフレッシュ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 288,
-        nameEN: 'grudge',
+        nameEN: 'Grudge',
         nameJA: 'おんねん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 289,
-        nameEN: 'snatch',
+        nameEN: 'Snatch',
         nameJA: 'よこどり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 290,
-        nameEN: 'secret-power',
+        nameEN: 'Secret Power',
         nameJA: 'ひみつのちから',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 291,
-        nameEN: 'dive',
+        nameEN: 'Dive',
         nameJA: 'ダイビング',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 292,
-        nameEN: 'arm-thrust',
+        nameEN: 'Arm Thrust',
         nameJA: 'つっぱり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 293,
-        nameEN: 'camouflage',
+        nameEN: 'Camouflage',
         nameJA: 'ほごしょく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 294,
-        nameEN: 'tail-glow',
+        nameEN: 'Tail Glow',
         nameJA: 'ほたるび',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 295,
-        nameEN: 'luster-purge',
+        nameEN: 'Luster Purge',
         nameJA: 'ラスターパージ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 296,
-        nameEN: 'mist-ball',
+        nameEN: 'Mist Ball',
         nameJA: 'ミストボール',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 297,
-        nameEN: 'feather-dance',
+        nameEN: 'Feather Dance',
         nameJA: 'フェザーダンス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 298,
-        nameEN: 'teeter-dance',
+        nameEN: 'Teeter Dance',
         nameJA: 'フラフラダンス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 299,
-        nameEN: 'blaze-kick',
+        nameEN: 'Blaze Kick',
         nameJA: 'ブレイズキック',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 300,
-        nameEN: 'mud-sport',
+        nameEN: 'Mud Sport',
         nameJA: 'どろあそび',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 301,
-        nameEN: 'ice-ball',
+        nameEN: 'Ice Ball',
         nameJA: 'アイスボール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 302,
-        nameEN: 'needle-arm',
+        nameEN: 'Needle Arm',
         nameJA: 'ニードルアーム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 303,
-        nameEN: 'slack-off',
+        nameEN: 'Slack Off',
         nameJA: 'なまける',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 304,
-        nameEN: 'hyper-voice',
+        nameEN: 'Hyper Voice',
         nameJA: 'ハイパーボイス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 305,
-        nameEN: 'poison-fang',
+        nameEN: 'Poison Fang',
         nameJA: 'どくどくのキバ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 306,
-        nameEN: 'crush-claw',
+        nameEN: 'Crush Claw',
         nameJA: 'ブレイククロー',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 307,
-        nameEN: 'blast-burn',
+        nameEN: 'Blast Burn',
         nameJA: 'ブラストバーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 308,
-        nameEN: 'hydro-cannon',
+        nameEN: 'Hydro Cannon',
         nameJA: 'ハイドロカノン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 309,
-        nameEN: 'meteor-mash',
+        nameEN: 'Meteor Mash',
         nameJA: 'コメットパンチ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 310,
-        nameEN: 'astonish',
+        nameEN: 'Astonish',
         nameJA: 'おどろかす',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 311,
-        nameEN: 'weather-ball',
+        nameEN: 'Weather Ball',
         nameJA: 'ウェザーボール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 312,
-        nameEN: 'aromatherapy',
+        nameEN: 'Aromatherapy',
         nameJA: 'アロマセラピー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 313,
-        nameEN: 'fake-tears',
+        nameEN: 'Fake Tears',
         nameJA: 'うそなき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 314,
-        nameEN: 'air-cutter',
+        nameEN: 'Air Cutter',
         nameJA: 'エアカッター',
         additional: false,
-        wind: true,
+        wind: true
     },
     {
         id: 315,
-        nameEN: 'overheat',
+        nameEN: 'Overheat',
         nameJA: 'オーバーヒート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 316,
-        nameEN: 'odor-sleuth',
+        nameEN: 'Odor Sleuth',
         nameJA: 'かぎわける',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 317,
-        nameEN: 'rock-tomb',
+        nameEN: 'Rock Tomb',
         nameJA: 'がんせきふうじ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 318,
-        nameEN: 'silver-wind',
+        nameEN: 'Silver Wind',
         nameJA: 'ぎんいろのかぜ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 319,
-        nameEN: 'metal-sound',
+        nameEN: 'Metal Sound',
         nameJA: 'きんぞくおん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 320,
-        nameEN: 'grass-whistle',
+        nameEN: 'Grass Whistle',
         nameJA: 'くさぶえ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 321,
-        nameEN: 'tickle',
+        nameEN: 'Tickle',
         nameJA: 'くすぐる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 322,
-        nameEN: 'cosmic-power',
+        nameEN: 'Cosmic Power',
         nameJA: 'コスモパワー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 323,
-        nameEN: 'water-spout',
+        nameEN: 'Water Spout',
         nameJA: 'しおふき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 324,
-        nameEN: 'signal-beam',
+        nameEN: 'Signal Beam',
         nameJA: 'シグナルビーム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 325,
-        nameEN: 'shadow-punch',
+        nameEN: 'Shadow Punch',
         nameJA: 'シャドーパンチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 326,
-        nameEN: 'extrasensory',
+        nameEN: 'Extrasensory',
         nameJA: 'じんつうりき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 327,
-        nameEN: 'sky-uppercut',
+        nameEN: 'Sky Uppercut',
         nameJA: 'スカイアッパー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 328,
-        nameEN: 'sand-tomb',
+        nameEN: 'Sand Tomb',
         nameJA: 'すなじごく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 329,
-        nameEN: 'sheer-cold',
+        nameEN: 'Sheer Cold',
         nameJA: 'ぜったいれいど',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 330,
-        nameEN: 'muddy-water',
+        nameEN: 'Muddy Water',
         nameJA: 'だくりゅう',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 331,
-        nameEN: 'bullet-seed',
+        nameEN: 'Bullet Seed',
         nameJA: 'タネマシンガン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 332,
-        nameEN: 'aerial-ace',
+        nameEN: 'Aerial Ace',
         nameJA: 'つばめがえし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 333,
-        nameEN: 'icicle-spear',
+        nameEN: 'Icicle Spear',
         nameJA: 'つららばり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 334,
-        nameEN: 'iron-defense',
+        nameEN: 'Iron Defense',
         nameJA: 'てっぺき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 335,
-        nameEN: 'block',
+        nameEN: 'Block',
         nameJA: 'とおせんぼう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 336,
-        nameEN: 'howl',
+        nameEN: 'Howl',
         nameJA: 'とおぼえ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 337,
-        nameEN: 'dragon-claw',
+        nameEN: 'Dragon Claw',
         nameJA: 'ドラゴンクロー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 338,
-        nameEN: 'frenzy-plant',
+        nameEN: 'Frenzy Plant',
         nameJA: 'ハードプラント',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 339,
-        nameEN: 'bulk-up',
+        nameEN: 'Bulk Up',
         nameJA: 'ビルドアップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 340,
-        nameEN: 'bounce',
+        nameEN: 'Bounce',
         nameJA: 'とびはねる',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 341,
-        nameEN: 'mud-shot',
+        nameEN: 'Mud Shot',
         nameJA: 'マッドショット',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 342,
-        nameEN: 'poison-tail',
+        nameEN: 'Poison Tail',
         nameJA: 'ポイズンテール',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 343,
-        nameEN: 'covet',
+        nameEN: 'Covet',
         nameJA: 'ほしがる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 344,
-        nameEN: 'volt-tackle',
+        nameEN: 'Volt Tackle',
         nameJA: 'ボルテッカー',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 345,
-        nameEN: 'magical-leaf',
+        nameEN: 'Magical Leaf',
         nameJA: 'マジカルリーフ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 346,
-        nameEN: 'water-sport',
+        nameEN: 'Water Sport',
         nameJA: 'みずあそび',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 347,
-        nameEN: 'calm-mind',
+        nameEN: 'Calm Mind',
         nameJA: 'めいそう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 348,
-        nameEN: 'leaf-blade',
+        nameEN: 'Leaf Blade',
         nameJA: 'リーフブレード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 349,
-        nameEN: 'dragon-dance',
+        nameEN: 'Dragon Dance',
         nameJA: 'りゅうのまい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 350,
-        nameEN: 'rock-blast',
+        nameEN: 'Rock Blast',
         nameJA: 'ロックブラスト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 351,
-        nameEN: 'shock-wave',
+        nameEN: 'Shock Wave',
         nameJA: 'でんげきは',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 352,
-        nameEN: 'water-pulse',
+        nameEN: 'Water Pulse',
         nameJA: 'みずのはどう',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 353,
-        nameEN: 'doom-desire',
+        nameEN: 'Doom Desire',
         nameJA: 'はめつのねがい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 354,
-        nameEN: 'psycho-boost',
+        nameEN: 'Psycho Boost',
         nameJA: 'サイコブースト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 355,
-        nameEN: 'roost',
+        nameEN: 'Roost',
         nameJA: 'はねやすめ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 356,
-        nameEN: 'gravity',
+        nameEN: 'Gravity',
         nameJA: 'じゅうりょく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 357,
-        nameEN: 'miracle-eye',
+        nameEN: 'Miracle Eye',
         nameJA: 'ミラクルアイ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 358,
-        nameEN: 'wake-up-slap',
+        nameEN: 'Wake Up Slap',
         nameJA: 'めざましビンタ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 359,
-        nameEN: 'hammer-arm',
+        nameEN: 'Hammer Arm',
         nameJA: 'アームハンマー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 360,
-        nameEN: 'gyro-ball',
+        nameEN: 'Gyro Ball',
         nameJA: 'ジャイロボール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 361,
-        nameEN: 'healing-wish',
+        nameEN: 'Healing Wish',
         nameJA: 'いやしのねがい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 362,
-        nameEN: 'brine',
+        nameEN: 'Brine',
         nameJA: 'しおみず',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 363,
-        nameEN: 'natural-gift',
+        nameEN: 'Natural Gift',
         nameJA: 'しぜんのめぐみ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 364,
-        nameEN: 'feint',
+        nameEN: 'Feint',
         nameJA: 'フェイント',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 365,
-        nameEN: 'pluck',
+        nameEN: 'Pluck',
         nameJA: 'ついばむ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 366,
-        nameEN: 'tailwind',
+        nameEN: 'Tailwind',
         nameJA: 'おいかぜ',
         additional: false,
-        wind: true,
+        wind: true
     },
     {
         id: 367,
-        nameEN: 'acupressure',
+        nameEN: 'Acupressure',
         nameJA: 'つぼをつく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 368,
-        nameEN: 'metal-burst',
+        nameEN: 'Metal Burst',
         nameJA: 'メタルバースト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 369,
-        nameEN: 'u-turn',
+        nameEN: 'U Turn',
         nameJA: 'とんぼがえり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 370,
-        nameEN: 'close-combat',
+        nameEN: 'Close Combat',
         nameJA: 'インファイト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 371,
-        nameEN: 'payback',
+        nameEN: 'Payback',
         nameJA: 'しっぺがえし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 372,
-        nameEN: 'assurance',
+        nameEN: 'Assurance',
         nameJA: 'ダメおし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 373,
-        nameEN: 'embargo',
+        nameEN: 'Embargo',
         nameJA: 'さしおさえ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 374,
-        nameEN: 'fling',
+        nameEN: 'Fling',
         nameJA: 'なげつける',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 375,
-        nameEN: 'psycho-shift',
+        nameEN: 'Psycho Shift',
         nameJA: 'サイコシフト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 376,
-        nameEN: 'trump-card',
+        nameEN: 'Trump Card',
         nameJA: 'きりふだ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 377,
-        nameEN: 'heal-block',
+        nameEN: 'Heal Block',
         nameJA: 'かいふくふうじ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 378,
-        nameEN: 'wring-out',
+        nameEN: 'Wring Out',
         nameJA: 'しぼりとる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 379,
-        nameEN: 'power-trick',
+        nameEN: 'Power Trick',
         nameJA: 'パワートリック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 380,
-        nameEN: 'gastro-acid',
+        nameEN: 'Gastro Acid',
         nameJA: 'いえき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 381,
-        nameEN: 'lucky-chant',
+        nameEN: 'Lucky Chant',
         nameJA: 'おまじない',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 382,
-        nameEN: 'me-first',
+        nameEN: 'Me First',
         nameJA: 'さきどり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 383,
-        nameEN: 'copycat',
+        nameEN: 'Copycat',
         nameJA: 'まねっこ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 384,
-        nameEN: 'power-swap',
+        nameEN: 'Power Swap',
         nameJA: 'パワースワップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 385,
-        nameEN: 'guard-swap',
+        nameEN: 'Guard Swap',
         nameJA: 'ガードスワップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 386,
-        nameEN: 'punishment',
+        nameEN: 'Punishment',
         nameJA: 'おしおき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 387,
-        nameEN: 'last-resort',
+        nameEN: 'Last Resort',
         nameJA: 'とっておき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 388,
-        nameEN: 'worry-seed',
+        nameEN: 'Worry Seed',
         nameJA: 'なやみのタネ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 389,
-        nameEN: 'sucker-punch',
+        nameEN: 'Sucker Punch',
         nameJA: 'ふいうち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 390,
-        nameEN: 'toxic-spikes',
+        nameEN: 'Toxic Spikes',
         nameJA: 'どくびし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 391,
-        nameEN: 'heart-swap',
+        nameEN: 'Heart Swap',
         nameJA: 'ハートスワップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 392,
-        nameEN: 'aqua-ring',
+        nameEN: 'Aqua Ring',
         nameJA: 'アクアリング',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 393,
-        nameEN: 'magnet-rise',
+        nameEN: 'Magnet Rise',
         nameJA: 'でんじふゆう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 394,
-        nameEN: 'flare-blitz',
+        nameEN: 'Flare Blitz',
         nameJA: 'フレアドライブ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 395,
-        nameEN: 'force-palm',
+        nameEN: 'Force Palm',
         nameJA: 'はっけい',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 396,
-        nameEN: 'aura-sphere',
+        nameEN: 'Aura Sphere',
         nameJA: 'はどうだん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 397,
-        nameEN: 'rock-polish',
+        nameEN: 'Rock Polish',
         nameJA: 'ロックカット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 398,
-        nameEN: 'poison-jab',
+        nameEN: 'Poison Jab',
         nameJA: 'どくづき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 399,
-        nameEN: 'dark-pulse',
+        nameEN: 'Dark Pulse',
         nameJA: 'あくのはどう',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 400,
-        nameEN: 'night-slash',
+        nameEN: 'Night Slash',
         nameJA: 'つじぎり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 401,
-        nameEN: 'aqua-tail',
+        nameEN: 'Aqua Tail',
         nameJA: 'アクアテール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 402,
-        nameEN: 'seed-bomb',
+        nameEN: 'Seed Bomb',
         nameJA: 'タネばくだん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 403,
-        nameEN: 'air-slash',
+        nameEN: 'Air Slash',
         nameJA: 'エアスラッシュ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 404,
-        nameEN: 'x-scissor',
+        nameEN: 'X Scissor',
         nameJA: 'シザークロス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 405,
-        nameEN: 'bug-buzz',
+        nameEN: 'Bug Buzz',
         nameJA: 'むしのさざめき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 406,
-        nameEN: 'dragon-pulse',
+        nameEN: 'Dragon Pulse',
         nameJA: 'りゅうのはどう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 407,
-        nameEN: 'dragon-rush',
+        nameEN: 'Dragon Rush',
         nameJA: 'ドラゴンダイブ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 408,
-        nameEN: 'power-gem',
+        nameEN: 'Power Gem',
         nameJA: 'パワージェム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 409,
-        nameEN: 'drain-punch',
+        nameEN: 'Drain Punch',
         nameJA: 'ドレインパンチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 410,
-        nameEN: 'vacuum-wave',
+        nameEN: 'Vacuum Wave',
         nameJA: 'しんくうは',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 411,
-        nameEN: 'focus-blast',
+        nameEN: 'Focus Blast',
         nameJA: 'きあいだま',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 412,
-        nameEN: 'energy-ball',
+        nameEN: 'Energy Ball',
         nameJA: 'エナジーボール',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 413,
-        nameEN: 'brave-bird',
+        nameEN: 'Brave Bird',
         nameJA: 'ブレイブバード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 414,
-        nameEN: 'earth-power',
+        nameEN: 'Earth Power',
         nameJA: 'だいちのちから',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 415,
-        nameEN: 'switcheroo',
+        nameEN: 'Switcheroo',
         nameJA: 'すりかえ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 416,
-        nameEN: 'giga-impact',
+        nameEN: 'Giga Impact',
         nameJA: 'ギガインパクト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 417,
-        nameEN: 'nasty-plot',
+        nameEN: 'Nasty Plot',
         nameJA: 'わるだくみ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 418,
-        nameEN: 'bullet-punch',
+        nameEN: 'Bullet Punch',
         nameJA: 'バレットパンチ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 419,
-        nameEN: 'avalanche',
+        nameEN: 'Avalanche',
         nameJA: 'ゆきなだれ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 420,
-        nameEN: 'ice-shard',
+        nameEN: 'Ice Shard',
         nameJA: 'こおりのつぶて',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 421,
-        nameEN: 'shadow-claw',
+        nameEN: 'Shadow Claw',
         nameJA: 'シャドークロー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 422,
-        nameEN: 'thunder-fang',
+        nameEN: 'Thunder Fang',
         nameJA: 'かみなりのキバ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 423,
-        nameEN: 'ice-fang',
+        nameEN: 'Ice Fang',
         nameJA: 'こおりのキバ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 424,
-        nameEN: 'fire-fang',
+        nameEN: 'Fire Fang',
         nameJA: 'ほのおのキバ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 425,
-        nameEN: 'shadow-sneak',
+        nameEN: 'Shadow Sneak',
         nameJA: 'かげうち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 426,
-        nameEN: 'mud-bomb',
+        nameEN: 'Mud Bomb',
         nameJA: 'どろばくだん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 427,
-        nameEN: 'psycho-cut',
+        nameEN: 'Psycho Cut',
         nameJA: 'サイコカッター',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 428,
-        nameEN: 'zen-headbutt',
+        nameEN: 'Zen Headbutt',
         nameJA: 'しねんのずつき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 429,
-        nameEN: 'mirror-shot',
+        nameEN: 'Mirror Shot',
         nameJA: 'ミラーショット',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 430,
-        nameEN: 'flash-cannon',
+        nameEN: 'Flash Cannon',
         nameJA: 'ラスターカノン',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 431,
-        nameEN: 'rock-climb',
+        nameEN: 'Rock Climb',
         nameJA: 'ロッククライム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 432,
-        nameEN: 'defog',
+        nameEN: 'Defog',
         nameJA: 'きりばらい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 433,
-        nameEN: 'trick-room',
+        nameEN: 'Trick Room',
         nameJA: 'トリックルーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 434,
-        nameEN: 'draco-meteor',
+        nameEN: 'Draco Meteor',
         nameJA: 'りゅうせいぐん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 435,
-        nameEN: 'discharge',
+        nameEN: 'Discharge',
         nameJA: 'ほうでん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 436,
-        nameEN: 'lava-plume',
+        nameEN: 'Lava Plume',
         nameJA: 'ふんえん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 437,
-        nameEN: 'leaf-storm',
+        nameEN: 'Leaf Storm',
         nameJA: 'リーフストーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 438,
-        nameEN: 'power-whip',
+        nameEN: 'Power Whip',
         nameJA: 'パワーウィップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 439,
-        nameEN: 'rock-wrecker',
+        nameEN: 'Rock Wrecker',
         nameJA: 'がんせきほう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 440,
-        nameEN: 'cross-poison',
+        nameEN: 'Cross Poison',
         nameJA: 'クロスポイズン',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 441,
-        nameEN: 'gunk-shot',
+        nameEN: 'Gunk Shot',
         nameJA: 'ダストシュート',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 442,
-        nameEN: 'iron-head',
+        nameEN: 'Iron Head',
         nameJA: 'アイアンヘッド',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 443,
-        nameEN: 'magnet-bomb',
+        nameEN: 'Magnet Bomb',
         nameJA: 'マグネットボム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 444,
-        nameEN: 'stone-edge',
+        nameEN: 'Stone Edge',
         nameJA: 'ストーンエッジ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 445,
-        nameEN: 'captivate',
+        nameEN: 'Captivate',
         nameJA: 'ゆうわく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 446,
-        nameEN: 'stealth-rock',
+        nameEN: 'Stealth Rock',
         nameJA: 'ステルスロック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 447,
-        nameEN: 'grass-knot',
+        nameEN: 'Grass Knot',
         nameJA: 'くさむすび',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 448,
-        nameEN: 'chatter',
+        nameEN: 'Chatter',
         nameJA: 'おしゃべり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 449,
-        nameEN: 'judgment',
+        nameEN: 'Judgment',
         nameJA: 'さばきのつぶて',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 450,
-        nameEN: 'bug-bite',
+        nameEN: 'Bug Bite',
         nameJA: 'むしくい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 451,
-        nameEN: 'charge-beam',
+        nameEN: 'Charge Beam',
         nameJA: 'チャージビーム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 452,
-        nameEN: 'wood-hammer',
+        nameEN: 'Wood Hammer',
         nameJA: 'ウッドハンマー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 453,
-        nameEN: 'aqua-jet',
+        nameEN: 'Aqua Jet',
         nameJA: 'アクアジェット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 454,
-        nameEN: 'attack-order',
+        nameEN: 'Attack Order',
         nameJA: 'こうげきしれい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 455,
-        nameEN: 'defend-order',
+        nameEN: 'Defend Order',
         nameJA: 'ぼうぎょしれい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 456,
-        nameEN: 'heal-order',
+        nameEN: 'Heal Order',
         nameJA: 'かいふくしれい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 457,
-        nameEN: 'head-smash',
+        nameEN: 'Head Smash',
         nameJA: 'もろはのずつき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 458,
-        nameEN: 'double-hit',
+        nameEN: 'Double Hit',
         nameJA: 'ダブルアタック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 459,
-        nameEN: 'roar-of time',
+        nameEN: 'Roar Of time',
         nameJA: 'ときのほうこう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 460,
-        nameEN: 'spacial-rend',
+        nameEN: 'Spacial Rend',
         nameJA: 'あくうせつだん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 461,
-        nameEN: 'lunar-dance',
+        nameEN: 'Lunar Dance',
         nameJA: 'みかづきのまい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 462,
-        nameEN: 'crush-grip',
+        nameEN: 'Crush Grip',
         nameJA: 'にぎりつぶす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 463,
-        nameEN: 'magma-storm',
+        nameEN: 'Magma Storm',
         nameJA: 'マグマストーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 464,
-        nameEN: 'dark-void',
+        nameEN: 'Dark Void',
         nameJA: 'ダークホール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 465,
-        nameEN: 'seed-flare',
+        nameEN: 'Seed Flare',
         nameJA: 'シードフレア',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 466,
-        nameEN: 'ominous-wind',
+        nameEN: 'Ominous Wind',
         nameJA: 'あやしいかぜ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 467,
-        nameEN: 'shadow-force',
+        nameEN: 'Shadow Force',
         nameJA: 'シャドーダイブ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 468,
-        nameEN: 'hone-claws',
+        nameEN: 'Hone Claws',
         nameJA: 'つめとぎ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 469,
-        nameEN: 'wide-guard',
+        nameEN: 'Wide Guard',
         nameJA: 'ワイドガード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 470,
-        nameEN: 'guard-split',
+        nameEN: 'Guard Split',
         nameJA: 'ガードシェア',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 471,
-        nameEN: 'power-split',
+        nameEN: 'Power Split',
         nameJA: 'パワーシェア',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 472,
-        nameEN: 'wonder-room',
+        nameEN: 'Wonder Room',
         nameJA: 'ワンダールーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 473,
-        nameEN: 'psyshock',
+        nameEN: 'Psyshock',
         nameJA: 'サイコショック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 474,
-        nameEN: 'venoshock',
+        nameEN: 'Venoshock',
         nameJA: 'ベノムショック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 475,
-        nameEN: 'autotomize',
+        nameEN: 'Autotomize',
         nameJA: 'ボディパージ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 476,
-        nameEN: 'rage-powder',
+        nameEN: 'Rage Powder',
         nameJA: 'いかりのこな',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 477,
-        nameEN: 'telekinesis',
+        nameEN: 'Telekinesis',
         nameJA: 'テレキネシス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 478,
-        nameEN: 'magic-room',
+        nameEN: 'Magic Room',
         nameJA: 'マジックルーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 479,
-        nameEN: 'smack-down',
+        nameEN: 'Smack Down',
         nameJA: 'うちおとす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 480,
-        nameEN: 'storm-throw',
+        nameEN: 'Storm Throw',
         nameJA: 'やまあらし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 481,
-        nameEN: 'flame-burst',
+        nameEN: 'Flame Burst',
         nameJA: 'はじけるほのお',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 482,
-        nameEN: 'sludge-wave',
+        nameEN: 'Sludge Wave',
         nameJA: 'ヘドロウェーブ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 483,
-        nameEN: 'quiver-dance',
+        nameEN: 'Quiver Dance',
         nameJA: 'ちょうのまい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 484,
-        nameEN: 'heavy-slam',
+        nameEN: 'Heavy Slam',
         nameJA: 'ヘビーボンバー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 485,
-        nameEN: 'synchronoise',
+        nameEN: 'Synchronoise',
         nameJA: 'シンクロノイズ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 486,
-        nameEN: 'electro-ball',
+        nameEN: 'Electro Ball',
         nameJA: 'エレキボール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 487,
-        nameEN: 'soak',
+        nameEN: 'Soak',
         nameJA: 'みずびたし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 488,
-        nameEN: 'flame-charge',
+        nameEN: 'Flame Charge',
         nameJA: 'ニトロチャージ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 489,
-        nameEN: 'coil',
+        nameEN: 'Coil',
         nameJA: 'とぐろをまく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 490,
-        nameEN: 'low-sweep',
+        nameEN: 'Low Sweep',
         nameJA: 'ローキック',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 491,
-        nameEN: 'acid-spray',
+        nameEN: 'Acid Spray',
         nameJA: 'アシッドボム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 492,
-        nameEN: 'foul-play',
+        nameEN: 'Foul Play',
         nameJA: 'イカサマ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 493,
-        nameEN: 'simple-beam',
+        nameEN: 'Simple Beam',
         nameJA: 'シンプルビーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 494,
-        nameEN: 'entrainment',
+        nameEN: 'Entrainment',
         nameJA: 'なかまづくり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 495,
-        nameEN: 'after-you',
+        nameEN: 'After You',
         nameJA: 'おさきにどうぞ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 496,
-        nameEN: 'round',
+        nameEN: 'Round',
         nameJA: 'りんしょう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 497,
-        nameEN: 'echoed-voice',
+        nameEN: 'Echoed Voice',
         nameJA: 'エコーボイス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 498,
-        nameEN: 'chip-away',
+        nameEN: 'Chip Away',
         nameJA: 'なしくずし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 499,
-        nameEN: 'clear-smog',
+        nameEN: 'Clear Smog',
         nameJA: 'クリアスモッグ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 500,
-        nameEN: 'stored-power',
+        nameEN: 'Stored Power',
         nameJA: 'アシストパワー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 501,
-        nameEN: 'quick-guard',
+        nameEN: 'Quick Guard',
         nameJA: 'ファストガード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 502,
-        nameEN: 'ally-switch',
+        nameEN: 'Ally Switch',
         nameJA: 'サイドチェンジ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 503,
-        nameEN: 'scald',
+        nameEN: 'Scald',
         nameJA: 'ねっとう',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 504,
-        nameEN: 'shell-smash',
+        nameEN: 'Shell Smash',
         nameJA: 'からをやぶる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 505,
-        nameEN: 'heal-pulse',
+        nameEN: 'Heal Pulse',
         nameJA: 'いやしのはどう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 506,
-        nameEN: 'hex',
+        nameEN: 'Hex',
         nameJA: 'たたりめ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 507,
-        nameEN: 'sky-drop',
+        nameEN: 'Sky Drop',
         nameJA: 'フリーフォール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 508,
-        nameEN: 'shift-gear',
+        nameEN: 'Shift Gear',
         nameJA: 'ギアチェンジ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 509,
-        nameEN: 'circle-throw',
+        nameEN: 'Circle Throw',
         nameJA: 'ともえなげ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 510,
-        nameEN: 'incinerate',
+        nameEN: 'Incinerate',
         nameJA: 'やきつくす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 511,
-        nameEN: 'quash',
+        nameEN: 'Quash',
         nameJA: 'さきおくり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 512,
-        nameEN: 'acrobatics',
+        nameEN: 'Acrobatics',
         nameJA: 'アクロバット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 513,
-        nameEN: 'reflect-type',
+        nameEN: 'Reflect Type',
         nameJA: 'ミラータイプ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 514,
-        nameEN: 'retaliate',
+        nameEN: 'Retaliate',
         nameJA: 'かたきうち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 515,
-        nameEN: 'final-gambit',
+        nameEN: 'Final Gambit',
         nameJA: 'いのちがけ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 516,
-        nameEN: 'bestow',
+        nameEN: 'Bestow',
         nameJA: 'ギフトパス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 517,
-        nameEN: 'inferno',
+        nameEN: 'Inferno',
         nameJA: 'れんごく',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 518,
-        nameEN: 'water-pledge',
+        nameEN: 'Water Pledge',
         nameJA: 'みずのちかい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 519,
-        nameEN: 'fire-pledge',
+        nameEN: 'Fire Pledge',
         nameJA: 'ほのおのちかい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 520,
-        nameEN: 'grass-pledge',
+        nameEN: 'Grass Pledge',
         nameJA: 'くさのちかい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 521,
-        nameEN: 'volt-switch',
+        nameEN: 'Volt Switch',
         nameJA: 'ボルトチェンジ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 522,
-        nameEN: 'struggle-bug',
+        nameEN: 'Struggle Bug',
         nameJA: 'むしのていこう',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 523,
-        nameEN: 'bulldoze',
+        nameEN: 'Bulldoze',
         nameJA: 'じならし',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 524,
-        nameEN: 'frost-breath',
+        nameEN: 'Frost Breath',
         nameJA: 'こおりのいぶき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 525,
-        nameEN: 'dragon-tail',
+        nameEN: 'Dragon Tail',
         nameJA: 'ドラゴンテール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 526,
-        nameEN: 'work-up',
+        nameEN: 'Work Up',
         nameJA: 'ふるいたてる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 527,
-        nameEN: 'electroweb',
+        nameEN: 'Electroweb',
         nameJA: 'エレキネット',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 528,
-        nameEN: 'wild-charge',
+        nameEN: 'Wild Charge',
         nameJA: 'ワイルドボルト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 529,
-        nameEN: 'drill-run',
+        nameEN: 'Drill Run',
         nameJA: 'ドリルライナー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 530,
-        nameEN: 'dual-chop',
+        nameEN: 'Dual Chop',
         nameJA: 'ダブルチョップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 531,
-        nameEN: 'heart-stamp',
+        nameEN: 'Heart Stamp',
         nameJA: 'ハートスタンプ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 532,
-        nameEN: 'horn-leech',
+        nameEN: 'Horn Leech',
         nameJA: 'ウッドホーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 533,
-        nameEN: 'sacred-sword',
+        nameEN: 'Sacred Sword',
         nameJA: 'せいなるつるぎ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 534,
-        nameEN: 'razor-shell',
+        nameEN: 'Razor Shell',
         nameJA: 'シェルブレード',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 535,
-        nameEN: 'heat-crash',
+        nameEN: 'Heat Crash',
         nameJA: 'ヒートスタンプ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 536,
-        nameEN: 'leaf-tornado',
+        nameEN: 'Leaf Tornado',
         nameJA: 'グラスミキサー',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 537,
-        nameEN: 'steamroller',
+        nameEN: 'Steamroller',
         nameJA: 'ハードローラー',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 538,
-        nameEN: 'cotton-guard',
+        nameEN: 'Cotton Guard',
         nameJA: 'コットンガード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 539,
-        nameEN: 'night-daze',
+        nameEN: 'Night Daze',
         nameJA: 'ナイトバースト',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 540,
-        nameEN: 'psystrike',
+        nameEN: 'Psystrike',
         nameJA: 'サイコブレイク',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 541,
-        nameEN: 'tail-slap',
+        nameEN: 'Tail Slap',
         nameJA: 'スイープビンタ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 542,
-        nameEN: 'hurricane',
+        nameEN: 'Hurricane',
         nameJA: 'ぼうふう',
         additional: true,
-        wind: true,
+        wind: true
     },
     {
         id: 543,
-        nameEN: 'head-charge',
+        nameEN: 'Head Charge',
         nameJA: 'アフロブレイク',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 544,
-        nameEN: 'gear-grind',
+        nameEN: 'Gear Grind',
         nameJA: 'ギアソーサー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 545,
-        nameEN: 'searing-shot',
+        nameEN: 'Searing Shot',
         nameJA: 'かえんだん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 546,
-        nameEN: 'techno-blast',
+        nameEN: 'Techno Blast',
         nameJA: 'テクノバスター',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 547,
-        nameEN: 'relic-song',
+        nameEN: 'Relic Song',
         nameJA: 'いにしえのうた',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 548,
-        nameEN: 'secret-sword',
+        nameEN: 'Secret Sword',
         nameJA: 'しんぴのつるぎ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 549,
-        nameEN: 'glaciate',
+        nameEN: 'Glaciate',
         nameJA: 'こごえるせかい',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 550,
-        nameEN: 'bolt-strike',
+        nameEN: 'Bolt Strike',
         nameJA: 'らいげき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 551,
-        nameEN: 'blue-flare',
+        nameEN: 'Blue Flare',
         nameJA: 'あおいほのお',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 552,
-        nameEN: 'fiery-dance',
+        nameEN: 'Fiery Dance',
         nameJA: 'ほのおのまい',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 553,
-        nameEN: 'freeze-shock',
+        nameEN: 'Freeze Shock',
         nameJA: 'フリーズボルト',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 554,
-        nameEN: 'ice-burn',
+        nameEN: 'Ice Burn',
         nameJA: 'コールドフレア',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 555,
-        nameEN: 'snarl',
+        nameEN: 'Snarl',
         nameJA: 'バークアウト',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 556,
-        nameEN: 'icicle-crash',
+        nameEN: 'Icicle Crash',
         nameJA: 'つららおとし',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 557,
-        nameEN: 'v-create',
+        nameEN: 'V Create',
         nameJA: 'Ｖジェネレート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 558,
-        nameEN: 'fusion-flare',
+        nameEN: 'Fusion Flare',
         nameJA: 'クロスフレイム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 559,
-        nameEN: 'fusion-bolt',
+        nameEN: 'Fusion Bolt',
         nameJA: 'クロスサンダー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 560,
-        nameEN: 'flying-press',
+        nameEN: 'Flying Press',
         nameJA: 'フライングプレス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 561,
-        nameEN: 'mat-block',
+        nameEN: 'Mat Block',
         nameJA: 'たたみがえし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 562,
-        nameEN: 'belch',
+        nameEN: 'Belch',
         nameJA: 'ゲップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 563,
-        nameEN: 'rototiller',
+        nameEN: 'Rototiller',
         nameJA: 'たがやす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 564,
-        nameEN: 'sticky-web',
+        nameEN: 'Sticky Web',
         nameJA: 'ねばねばネット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 565,
-        nameEN: 'fell-stinger',
+        nameEN: 'Fell Stinger',
         nameJA: 'とどめばり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 566,
-        nameEN: 'phantom-force',
+        nameEN: 'Phantom Force',
         nameJA: 'ゴーストダイブ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 567,
-        nameEN: 'trick-or-treat',
+        nameEN: 'Trick Or Treat',
         nameJA: 'ハロウィン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 568,
-        nameEN: 'noble-roar',
+        nameEN: 'Noble Roar',
         nameJA: 'おたけび',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 569,
-        nameEN: 'ion-deluge',
+        nameEN: 'Ion Deluge',
         nameJA: 'プラズマシャワー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 570,
-        nameEN: 'parabolic-charge',
+        nameEN: 'Parabolic Charge',
         nameJA: 'パラボラチャージ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 571,
-        nameEN: 'forest’s-curse',
+        nameEN: 'Forest’s Curse',
         nameJA: 'もりののろい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 572,
-        nameEN: 'petal-blizzard',
+        nameEN: 'Petal Blizzard',
         nameJA: 'はなふぶき',
         additional: false,
-        wind: true,
+        wind: true
     },
     {
         id: 573,
-        nameEN: 'freeze-dry',
+        nameEN: 'Freeze Dry',
         nameJA: 'フリーズドライ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 574,
-        nameEN: 'disarming-voice',
+        nameEN: 'Disarming Voice',
         nameJA: 'チャームボイス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 575,
-        nameEN: 'parting-shot',
+        nameEN: 'Parting Shot',
         nameJA: 'すてゼリフ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 576,
-        nameEN: 'topsy-turvy',
+        nameEN: 'Topsy Turvy',
         nameJA: 'ひっくりかえす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 577,
-        nameEN: 'draining-kiss',
+        nameEN: 'Draining Kiss',
         nameJA: 'ドレインキッス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 578,
-        nameEN: 'crafty-shield',
+        nameEN: 'Crafty Shield',
         nameJA: 'トリックガード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 579,
-        nameEN: 'flower-shield',
+        nameEN: 'Flower Shield',
         nameJA: 'フラワーガード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 580,
-        nameEN: 'grassy-terrain',
+        nameEN: 'Grassy Terrain',
         nameJA: 'グラスフィールド',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 581,
-        nameEN: 'misty-terrain',
+        nameEN: 'Misty Terrain',
         nameJA: 'ミストフィールド',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 582,
-        nameEN: 'electrify',
+        nameEN: 'Electrify',
         nameJA: 'そうでん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 583,
-        nameEN: 'play-rough',
+        nameEN: 'Play Rough',
         nameJA: 'じゃれつく',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 584,
-        nameEN: 'fairy-wind',
+        nameEN: 'Fairy Wind',
         nameJA: 'ようせいのかぜ',
         additional: false,
-        wind: true,
+        wind: true
     },
     {
         id: 585,
-        nameEN: 'moonblast',
+        nameEN: 'Moonblast',
         nameJA: 'ムーンフォース',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 586,
-        nameEN: 'boomburst',
+        nameEN: 'Boomburst',
         nameJA: 'ばくおんぱ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 587,
-        nameEN: 'fairy-lock',
+        nameEN: 'Fairy Lock',
         nameJA: 'フェアリーロック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 588,
-        nameEN: 'king’s-shield',
+        nameEN: 'King’s Shield',
         nameJA: 'キングシールド',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 589,
-        nameEN: 'play-nice',
+        nameEN: 'Play Nice',
         nameJA: 'なかよくする',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 590,
-        nameEN: 'confide',
+        nameEN: 'Confide',
         nameJA: 'ないしょばなし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 591,
-        nameEN: 'diamond-storm',
+        nameEN: 'Diamond Storm',
         nameJA: 'ダイヤストーム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 592,
-        nameEN: 'steam-eruption',
+        nameEN: 'Steam Eruption',
         nameJA: 'スチームバースト',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 593,
-        nameEN: 'hyperspace-hole',
+        nameEN: 'Hyperspace Hole',
         nameJA: 'いじげんホール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 594,
-        nameEN: 'water-shuriken',
+        nameEN: 'Water Shuriken',
         nameJA: 'みずしゅりけん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 595,
-        nameEN: 'mystical-fire',
+        nameEN: 'Mystical Fire',
         nameJA: 'マジカルフレイム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 596,
-        nameEN: 'spiky-shield',
+        nameEN: 'Spiky Shield',
         nameJA: 'ニードルガード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 597,
-        nameEN: 'aromatic-mist',
+        nameEN: 'Aromatic Mist',
         nameJA: 'アロマミスト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 598,
-        nameEN: 'eerie-impulse',
+        nameEN: 'Eerie Impulse',
         nameJA: 'かいでんぱ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 599,
-        nameEN: 'venom-drench',
+        nameEN: 'Venom Drench',
         nameJA: 'ベノムトラップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 600,
-        nameEN: 'powder',
+        nameEN: 'Powder',
         nameJA: 'ふんじん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 601,
-        nameEN: 'geomancy',
+        nameEN: 'Geomancy',
         nameJA: 'ジオコントロール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 602,
-        nameEN: 'magnetic-flux',
+        nameEN: 'Magnetic Flux',
         nameJA: 'じばそうさ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 603,
-        nameEN: 'happy-hour',
+        nameEN: 'Happy Hour',
         nameJA: 'ハッピータイム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 604,
-        nameEN: 'electric-terrain',
+        nameEN: 'Electric Terrain',
         nameJA: 'エレキフィールド',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 605,
-        nameEN: 'dazzling-gleam',
+        nameEN: 'Dazzling Gleam',
         nameJA: 'マジカルシャイン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 606,
-        nameEN: 'celebrate',
+        nameEN: 'Celebrate',
         nameJA: 'おいわい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 607,
-        nameEN: 'hold-hands',
+        nameEN: 'Hold Hands',
         nameJA: 'てをつなぐ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 608,
-        nameEN: 'baby-doll-eyes',
+        nameEN: 'Baby Doll Eyes',
         nameJA: 'つぶらなひとみ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 609,
-        nameEN: 'nuzzle',
+        nameEN: 'Nuzzle',
         nameJA: 'ほっぺすりすり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 610,
-        nameEN: 'hold-back',
+        nameEN: 'Hold Back',
         nameJA: 'てかげん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 611,
-        nameEN: 'infestation',
+        nameEN: 'Infestation',
         nameJA: 'まとわりつく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 612,
-        nameEN: 'power-up-punch',
+        nameEN: 'Power Up Punch',
         nameJA: 'グロウパンチ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 613,
-        nameEN: 'oblivion-wing',
+        nameEN: 'Oblivion Wing',
         nameJA: 'デスウイング',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 614,
-        nameEN: 'thousand-arrows',
+        nameEN: 'Thousand Arrows',
         nameJA: 'サウザンアロー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 615,
-        nameEN: 'thousand-waves',
+        nameEN: 'Thousand Waves',
         nameJA: 'サウザンウェーブ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 616,
-        nameEN: 'land’s-wrath',
+        nameEN: 'Land’s Wrath',
         nameJA: 'グランドフォース',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 617,
-        nameEN: 'light-of ruin',
+        nameEN: 'Light Of ruin',
         nameJA: 'はめつのひかり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 618,
-        nameEN: 'origin-pulse',
+        nameEN: 'Origin Pulse',
         nameJA: 'こんげんのはどう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 619,
-        nameEN: 'precipice-blades',
+        nameEN: 'Precipice Blades',
         nameJA: 'だんがいのつるぎ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 620,
-        nameEN: 'dragon-ascent',
+        nameEN: 'Dragon Ascent',
         nameJA: 'ガリョウテンセイ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 621,
-        nameEN: 'hyperspace-fury',
+        nameEN: 'Hyperspace Fury',
         nameJA: 'いじげんラッシュ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 622,
-        nameEN: 'breakneck-blitz',
+        nameEN: 'Breakneck Blitz',
         nameJA: 'ウルトラダッシュアタック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 623,
-        nameEN: 'breakneck-blitz',
+        nameEN: 'Breakneck Blitz',
         nameJA: 'ウルトラダッシュアタック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 624,
-        nameEN: 'all-out-pummeling',
+        nameEN: 'All Out Pummeling',
         nameJA: 'ぜんりょくむそうげきれつけん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 625,
-        nameEN: 'all-out-pummeling',
+        nameEN: 'All Out Pummeling',
         nameJA: 'ぜんりょくむそうげきれつけん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 626,
-        nameEN: 'supersonic-skystrike',
+        nameEN: 'Supersonic Skystrike',
         nameJA: 'ファイナルダイブクラッシュ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 627,
-        nameEN: 'supersonic-skystrike',
+        nameEN: 'Supersonic Skystrike',
         nameJA: 'ファイナルダイブクラッシュ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 628,
-        nameEN: 'acid-downpour',
+        nameEN: 'Acid Downpour',
         nameJA: 'アシッドポイズンデリート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 629,
-        nameEN: 'acid-downpour',
+        nameEN: 'Acid Downpour',
         nameJA: 'アシッドポイズンデリート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 630,
-        nameEN: 'tectonic-rage',
+        nameEN: 'Tectonic Rage',
         nameJA: 'ライジングランドオーバー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 631,
-        nameEN: 'tectonic-rage',
+        nameEN: 'Tectonic Rage',
         nameJA: 'ライジングランドオーバー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 632,
-        nameEN: 'continental-crush',
+        nameEN: 'Continental Crush',
         nameJA: 'ワールズエンドフォール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 633,
-        nameEN: 'continental-crush',
+        nameEN: 'Continental Crush',
         nameJA: 'ワールズエンドフォール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 634,
-        nameEN: 'savage-spin-out',
+        nameEN: 'Savage Spin Out',
         nameJA: 'ぜったいほしょくかいてんざん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 635,
-        nameEN: 'savage-spin-out',
+        nameEN: 'Savage Spin Out',
         nameJA: 'ぜったいほしょくかいてんざん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 636,
-        nameEN: 'never-ending-nightmare',
+        nameEN: 'Never Ending Nightmare',
         nameJA: 'むげんあんやへのいざない',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 637,
-        nameEN: 'never-ending-nightmare',
+        nameEN: 'Never Ending Nightmare',
         nameJA: 'むげんあんやへのいざない',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 638,
-        nameEN: 'corkscrew-crash',
+        nameEN: 'Corkscrew Crash',
         nameJA: 'ちょうぜつらせんれんげき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 639,
-        nameEN: 'corkscrew-crash',
+        nameEN: 'Corkscrew Crash',
         nameJA: 'ちょうぜつらせんれんげき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 640,
-        nameEN: 'inferno-overdrive',
+        nameEN: 'Inferno Overdrive',
         nameJA: 'ダイナミックフルフレイム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 641,
-        nameEN: 'inferno-overdrive',
+        nameEN: 'Inferno Overdrive',
         nameJA: 'ダイナミックフルフレイム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 642,
-        nameEN: 'hydro-vortex',
+        nameEN: 'Hydro Vortex',
         nameJA: 'スーパーアクアトルネード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 643,
-        nameEN: 'hydro-vortex',
+        nameEN: 'Hydro Vortex',
         nameJA: 'スーパーアクアトルネード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 644,
-        nameEN: 'bloom-doom',
+        nameEN: 'Bloom Doom',
         nameJA: 'ブルームシャインエクストラ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 645,
-        nameEN: 'bloom-doom',
+        nameEN: 'Bloom Doom',
         nameJA: 'ブルームシャインエクストラ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 646,
-        nameEN: 'gigavolt-havoc',
+        nameEN: 'Gigavolt Havoc',
         nameJA: 'スパーキングギガボルト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 647,
-        nameEN: 'gigavolt-havoc',
+        nameEN: 'Gigavolt Havoc',
         nameJA: 'スパーキングギガボルト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 648,
-        nameEN: 'shattered-psyche',
+        nameEN: 'Shattered Psyche',
         nameJA: 'マキシマムサイブレイカー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 649,
-        nameEN: 'shattered-psyche',
+        nameEN: 'Shattered Psyche',
         nameJA: 'マキシマムサイブレイカー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 650,
-        nameEN: 'subzero-slammer',
+        nameEN: 'Subzero Slammer',
         nameJA: 'レイジングジオフリーズ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 651,
-        nameEN: 'subzero-slammer',
+        nameEN: 'Subzero Slammer',
         nameJA: 'レイジングジオフリーズ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 652,
-        nameEN: 'devastating-drake',
+        nameEN: 'Devastating Drake',
         nameJA: 'アルティメットドラゴンバーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 653,
-        nameEN: 'devastating-drake',
+        nameEN: 'Devastating Drake',
         nameJA: 'アルティメットドラゴンバーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 654,
-        nameEN: 'black-hole eclipse',
+        nameEN: 'Black Hole eclipse',
         nameJA: 'ブラックホールイクリプス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 655,
-        nameEN: 'black-hole eclipse',
+        nameEN: 'Black Hole eclipse',
         nameJA: 'ブラックホールイクリプス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 656,
-        nameEN: 'twinkle-tackle',
+        nameEN: 'Twinkle Tackle',
         nameJA: 'ラブリースターインパクト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 657,
-        nameEN: 'twinkle-tackle',
+        nameEN: 'Twinkle Tackle',
         nameJA: 'ラブリースターインパクト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 658,
-        nameEN: 'catastropika',
+        nameEN: 'Catastropika',
         nameJA: 'ひっさつのピカチュート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 659,
-        nameEN: 'shore-up',
+        nameEN: 'Shore Up',
         nameJA: 'すなあつめ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 660,
-        nameEN: 'first-impression',
+        nameEN: 'First Impression',
         nameJA: 'であいがしら',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 661,
-        nameEN: 'baneful-bunker',
+        nameEN: 'Baneful Bunker',
         nameJA: 'トーチカ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 662,
-        nameEN: 'spirit-shackle',
+        nameEN: 'Spirit Shackle',
         nameJA: 'かげぬい',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 663,
-        nameEN: 'darkest-lariat',
+        nameEN: 'Darkest Lariat',
         nameJA: 'ＤＤラリアット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 664,
-        nameEN: 'sparkling-aria',
+        nameEN: 'Sparkling Aria',
         nameJA: 'うたかたのアリア',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 665,
-        nameEN: 'ice-hammer',
+        nameEN: 'Ice Hammer',
         nameJA: 'アイスハンマー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 666,
-        nameEN: 'floral-healing',
+        nameEN: 'Floral Healing',
         nameJA: 'フラワーヒール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 667,
-        nameEN: 'high-horsepower',
+        nameEN: 'High Horsepower',
         nameJA: '１０まんばりき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 668,
-        nameEN: 'strength-sap',
+        nameEN: 'Strength Sap',
         nameJA: 'ちからをすいとる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 669,
-        nameEN: 'solar-blade',
+        nameEN: 'Solar Blade',
         nameJA: 'ソーラーブレード',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 670,
-        nameEN: 'leafage',
+        nameEN: 'Leafage',
         nameJA: 'このは',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 671,
-        nameEN: 'spotlight',
+        nameEN: 'Spotlight',
         nameJA: 'スポットライト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 672,
-        nameEN: 'toxic-thread',
+        nameEN: 'Toxic Thread',
         nameJA: 'どくのいと',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 673,
-        nameEN: 'laser-focus',
+        nameEN: 'Laser Focus',
         nameJA: 'とぎすます',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 674,
-        nameEN: 'gear-up',
+        nameEN: 'Gear Up',
         nameJA: 'アシストギア',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 675,
-        nameEN: 'throat-chop',
+        nameEN: 'Throat Chop',
         nameJA: 'じごくづき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 676,
-        nameEN: 'pollen-puff',
+        nameEN: 'Pollen Puff',
         nameJA: 'かふんだんご',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 677,
-        nameEN: 'anchor-shot',
+        nameEN: 'Anchor Shot',
         nameJA: 'アンカーショット',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 678,
-        nameEN: 'psychic-terrain',
+        nameEN: 'Psychic Terrain',
         nameJA: 'サイコフィールド',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 679,
-        nameEN: 'lunge',
+        nameEN: 'Lunge',
         nameJA: 'とびかかる',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 680,
-        nameEN: 'fire-lash',
+        nameEN: 'Fire Lash',
         nameJA: 'ほのおのムチ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 681,
-        nameEN: 'power-trip',
+        nameEN: 'Power Trip',
         nameJA: 'つけあがる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 682,
-        nameEN: 'burn-up',
+        nameEN: 'Burn Up',
         nameJA: 'もえつきる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 683,
-        nameEN: 'speed-swap',
+        nameEN: 'Speed Swap',
         nameJA: 'スピードスワップ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 684,
-        nameEN: 'smart-strike',
+        nameEN: 'Smart Strike',
         nameJA: 'スマートホーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 685,
-        nameEN: 'purify',
+        nameEN: 'Purify',
         nameJA: 'じょうか',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 686,
-        nameEN: 'revelation-dance',
+        nameEN: 'Revelation Dance',
         nameJA: 'めざめるダンス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 687,
-        nameEN: 'core-enforcer',
+        nameEN: 'Core Enforcer',
         nameJA: 'コアパニッシャー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 688,
-        nameEN: 'trop-kick',
+        nameEN: 'Trop Kick',
         nameJA: 'トロピカルキック',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 689,
-        nameEN: 'instruct',
+        nameEN: 'Instruct',
         nameJA: 'さいはい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 690,
-        nameEN: 'beak-blast',
+        nameEN: 'Beak Blast',
         nameJA: 'くちばしキャノン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 691,
-        nameEN: 'clanging-scales',
+        nameEN: 'Clanging Scales',
         nameJA: 'スケイルノイズ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 692,
-        nameEN: 'dragon-hammer',
+        nameEN: 'Dragon Hammer',
         nameJA: 'ドラゴンハンマー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 693,
-        nameEN: 'brutal-swing',
+        nameEN: 'Brutal Swing',
         nameJA: 'ぶんまわす',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 694,
-        nameEN: 'aurora-veil',
+        nameEN: 'Aurora Veil',
         nameJA: 'オーロラベール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 695,
-        nameEN: 'sinister-arrow raid',
+        nameEN: 'Sinister Arrow raid',
         nameJA: 'シャドーアローズストライク',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 696,
-        nameEN: 'malicious-moonsault',
+        nameEN: 'Malicious Moonsault',
         nameJA: 'ハイパーダーククラッシャー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 697,
-        nameEN: 'oceanic-operetta',
+        nameEN: 'Oceanic Operetta',
         nameJA: 'わだつみのシンフォニア',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 698,
-        nameEN: 'guardian-of alola',
+        nameEN: 'Guardian Of alola',
         nameJA: 'ガーディアン・デ・アローラ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 699,
-        nameEN: 'soul-stealing-7-star strike',
+        nameEN: 'Soul Stealing 7 Star strike',
         nameJA: 'しちせいだっこんたい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 700,
-        nameEN: 'stoked-sparksurfer',
+        nameEN: 'Stoked Sparksurfer',
         nameJA: 'ライトニングサーフライド',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 701,
-        nameEN: 'pulverizing-pancake',
+        nameEN: 'Pulverizing Pancake',
         nameJA: 'ほんきをだす　こうげき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 702,
-        nameEN: 'extreme-evoboost',
+        nameEN: 'Extreme Evoboost',
         nameJA: 'ナインエボルブースト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 703,
-        nameEN: 'genesis-supernova',
+        nameEN: 'Genesis Supernova',
         nameJA: 'オリジンズスーパーノヴァ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 704,
-        nameEN: 'shell-trap',
+        nameEN: 'Shell Trap',
         nameJA: 'トラップシェル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 705,
-        nameEN: 'fleur-cannon',
+        nameEN: 'Fleur Cannon',
         nameJA: 'フルールカノン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 706,
-        nameEN: 'psychic-fangs',
+        nameEN: 'Psychic Fangs',
         nameJA: 'サイコファング',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 707,
-        nameEN: 'stomping-tantrum',
+        nameEN: 'Stomping Tantrum',
         nameJA: 'じだんだ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 708,
-        nameEN: 'shadow-bone',
+        nameEN: 'Shadow Bone',
         nameJA: 'シャドーボーン',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 709,
-        nameEN: 'accelerock',
+        nameEN: 'Accelerock',
         nameJA: 'アクセルロック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 710,
-        nameEN: 'liquidation',
+        nameEN: 'Liquidation',
         nameJA: 'アクアブレイク',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 711,
-        nameEN: 'prismatic-laser',
+        nameEN: 'Prismatic Laser',
         nameJA: 'プリズムレーザー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 712,
-        nameEN: 'spectral-thief',
+        nameEN: 'Spectral Thief',
         nameJA: 'シャドースチール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 713,
-        nameEN: 'sunsteel-strike',
+        nameEN: 'Sunsteel Strike',
         nameJA: 'メテオドライブ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 714,
-        nameEN: 'moongeist-beam',
+        nameEN: 'Moongeist Beam',
         nameJA: 'シャドーレイ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 715,
-        nameEN: 'tearful-look',
+        nameEN: 'Tearful Look',
         nameJA: 'なみだめ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 716,
-        nameEN: 'zing-zap',
+        nameEN: 'Zing Zap',
         nameJA: 'びりびりちくちく',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 717,
-        nameEN: 'nature’s-madness',
+        nameEN: 'Nature’s Madness',
         nameJA: 'しぜんのいかり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 718,
-        nameEN: 'multi-attack',
+        nameEN: 'Multi Attack',
         nameJA: 'マルチアタック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 719,
-        nameEN: '10,000,000-volt thunderbolt',
+        nameEN: '10,000,000 Volt thunderbolt',
         nameJA: '１０００まんボルト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 720,
-        nameEN: 'mind-blown',
+        nameEN: 'Mind Blown',
         nameJA: 'ビックリヘッド',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 721,
-        nameEN: 'plasma-fists',
+        nameEN: 'Plasma Fists',
         nameJA: 'プラズマフィスト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 722,
-        nameEN: 'photon-geyser',
+        nameEN: 'Photon Geyser',
         nameJA: 'フォトンゲイザー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 723,
-        nameEN: 'light-that burns the sky',
+        nameEN: 'Light That burns the sky',
         nameJA: 'てんこがすめつぼうのひかり',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 724,
-        nameEN: 'searing-sunraze smash',
+        nameEN: 'Searing Sunraze smash',
         nameJA: 'サンシャインスマッシャー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 725,
-        nameEN: 'menacing-moonraze maelstrom',
+        nameEN: 'Menacing Moonraze maelstrom',
         nameJA: 'ムーンライトブラスター',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 726,
-        nameEN: 'let’s-snuggle forever',
+        nameEN: 'Let’s Snuggle forever',
         nameJA: 'ぽかぼかフレンドタイム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 727,
-        nameEN: 'splintered-stormshards',
+        nameEN: 'Splintered Stormshards',
         nameJA: 'ラジアルエッジストーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 728,
-        nameEN: 'clangorous-soulblaze',
+        nameEN: 'Clangorous Soulblaze',
         nameJA: 'ブレイジングソウルビート',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 729,
-        nameEN: 'zippy-zap',
+        nameEN: 'Zippy Zap',
         nameJA: 'ばちばちアクセル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 730,
-        nameEN: 'splishy-splash',
+        nameEN: 'Splishy Splash',
         nameJA: 'ざぶざぶサーフ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 731,
-        nameEN: 'floaty-fall',
+        nameEN: 'Floaty Fall',
         nameJA: 'ふわふわフォール',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 732,
-        nameEN: 'pika-papow',
+        nameEN: 'Pika Papow',
         nameJA: 'ピカピカサンダー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 733,
-        nameEN: 'bouncy-bubble',
+        nameEN: 'Bouncy Bubble',
         nameJA: 'いきいきバブル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 734,
-        nameEN: 'buzzy-buzz',
+        nameEN: 'Buzzy Buzz',
         nameJA: 'びりびりエレキ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 735,
-        nameEN: 'sizzly-slide',
+        nameEN: 'Sizzly Slide',
         nameJA: 'めらめらバーン',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 736,
-        nameEN: 'glitzy-glow',
+        nameEN: 'Glitzy Glow',
         nameJA: 'どばどばオーラ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 737,
-        nameEN: 'baddy-bad',
+        nameEN: 'Baddy Bad',
         nameJA: 'わるわるゾーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 738,
-        nameEN: 'sappy-seed',
+        nameEN: 'Sappy Seed',
         nameJA: 'すくすくボンバー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 739,
-        nameEN: 'freezy-frost',
+        nameEN: 'Freezy Frost',
         nameJA: 'こちこちフロスト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 740,
-        nameEN: 'sparkly-swirl',
+        nameEN: 'Sparkly Swirl',
         nameJA: 'きらきらストーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 741,
-        nameEN: 'veevee-volley',
+        nameEN: 'Veevee Volley',
         nameJA: 'ブイブイブレイク',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 742,
-        nameEN: 'double-iron bash',
+        nameEN: 'Double Iron bash',
         nameJA: 'ダブルパンツァー',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 743,
-        nameEN: 'max-guard',
+        nameEN: 'Max Guard',
         nameJA: 'ダイウォール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 744,
-        nameEN: 'dynamax-cannon',
+        nameEN: 'Dynamax Cannon',
         nameJA: 'ダイマックスほう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 745,
-        nameEN: 'snipe-shot',
+        nameEN: 'Snipe Shot',
         nameJA: 'ねらいうち',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 746,
-        nameEN: 'jaw-lock',
+        nameEN: 'Jaw Lock',
         nameJA: 'くらいつく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 747,
-        nameEN: 'stuff-cheeks',
+        nameEN: 'Stuff Cheeks',
         nameJA: 'ほおばる',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 748,
-        nameEN: 'no-retreat',
+        nameEN: 'No Retreat',
         nameJA: 'はいすいのじん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 749,
-        nameEN: 'tar-shot',
+        nameEN: 'Tar Shot',
         nameJA: 'タールショット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 750,
-        nameEN: 'magic-powder',
+        nameEN: 'Magic Powder',
         nameJA: 'まほうのこな',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 751,
-        nameEN: 'dragon-darts',
+        nameEN: 'Dragon Darts',
         nameJA: 'ドラゴンアロー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 752,
-        nameEN: 'teatime',
+        nameEN: 'Teatime',
         nameJA: 'おちゃかい',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 753,
-        nameEN: 'octolock',
+        nameEN: 'Octolock',
         nameJA: 'たこがため',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 754,
-        nameEN: 'bolt-beak',
+        nameEN: 'Bolt Beak',
         nameJA: 'でんげきくちばし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 755,
-        nameEN: 'fishious-rend',
+        nameEN: 'Fishious Rend',
         nameJA: 'エラがみ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 756,
-        nameEN: 'court-change',
+        nameEN: 'Court Change',
         nameJA: 'コートチェンジ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 757,
-        nameEN: 'max-flare',
+        nameEN: 'Max Flare',
         nameJA: 'ダイバーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 758,
-        nameEN: 'max-flutterby',
+        nameEN: 'Max Flutterby',
         nameJA: 'ダイワーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 759,
-        nameEN: 'max-lightning',
+        nameEN: 'Max Lightning',
         nameJA: 'ダイサンダー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 760,
-        nameEN: 'max-strike',
+        nameEN: 'Max Strike',
         nameJA: 'ダイアタック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 761,
-        nameEN: 'max-knuckle',
+        nameEN: 'Max Knuckle',
         nameJA: 'ダイナックル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 762,
-        nameEN: 'max-phantasm',
+        nameEN: 'Max Phantasm',
         nameJA: 'ダイホロウ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 763,
-        nameEN: 'max-hailstorm',
+        nameEN: 'Max Hailstorm',
         nameJA: 'ダイアイス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 764,
-        nameEN: 'max-ooze',
+        nameEN: 'Max Ooze',
         nameJA: 'ダイアシッド',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 765,
-        nameEN: 'max-geyser',
+        nameEN: 'Max Geyser',
         nameJA: 'ダイストリーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 766,
-        nameEN: 'max-airstream',
+        nameEN: 'Max Airstream',
         nameJA: 'ダイジェット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 767,
-        nameEN: 'max-starfall',
+        nameEN: 'Max Starfall',
         nameJA: 'ダイフェアリー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 768,
-        nameEN: 'max-wyrmwind',
+        nameEN: 'Max Wyrmwind',
         nameJA: 'ダイドラグーン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 769,
-        nameEN: 'max-mindstorm',
+        nameEN: 'Max Mindstorm',
         nameJA: 'ダイサイコ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 770,
-        nameEN: 'max-rockfall',
+        nameEN: 'Max Rockfall',
         nameJA: 'ダイロック',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 771,
-        nameEN: 'max-quake',
+        nameEN: 'Max Quake',
         nameJA: 'ダイアース',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 772,
-        nameEN: 'max-darkness',
+        nameEN: 'Max Darkness',
         nameJA: 'ダイアーク',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 773,
-        nameEN: 'max-overgrowth',
+        nameEN: 'Max Overgrowth',
         nameJA: 'ダイソウゲン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 774,
-        nameEN: 'max-steelspike',
+        nameEN: 'Max Steelspike',
         nameJA: 'ダイスチル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 775,
-        nameEN: 'clangorous-soul',
+        nameEN: 'Clangorous Soul',
         nameJA: 'ソウルビート',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 776,
-        nameEN: 'body-press',
+        nameEN: 'Body Press',
         nameJA: 'ボディプレス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 777,
-        nameEN: 'decorate',
+        nameEN: 'Decorate',
         nameJA: 'デコレーション',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 778,
-        nameEN: 'drum-beating',
+        nameEN: 'Drum Beating',
         nameJA: 'ドラムアタック',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 779,
-        nameEN: 'snap-trap',
+        nameEN: 'Snap Trap',
         nameJA: 'トラバサミ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 780,
-        nameEN: 'pyro-ball',
+        nameEN: 'Pyro Ball',
         nameJA: 'かえんボール',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 781,
-        nameEN: 'behemoth-blade',
+        nameEN: 'Behemoth Blade',
         nameJA: 'きょじゅうざん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 782,
-        nameEN: 'behemoth-bash',
+        nameEN: 'Behemoth Bash',
         nameJA: 'きょじゅうだん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 783,
-        nameEN: 'aura-wheel',
+        nameEN: 'Aura Wheel',
         nameJA: 'オーラぐるま',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 784,
-        nameEN: 'breaking-swipe',
+        nameEN: 'Breaking Swipe',
         nameJA: 'ワイドブレイカー',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 785,
-        nameEN: 'branch-poke',
+        nameEN: 'Branch Poke',
         nameJA: 'えだづき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 786,
-        nameEN: 'overdrive',
+        nameEN: 'Overdrive',
         nameJA: 'オーバードライブ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 787,
-        nameEN: 'apple-acid',
+        nameEN: 'Apple Acid',
         nameJA: 'りんごさん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 788,
-        nameEN: 'grav-apple',
+        nameEN: 'Grav Apple',
         nameJA: 'Ｇのちから',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 789,
-        nameEN: 'spirit-break',
+        nameEN: 'Spirit Break',
         nameJA: 'ソウルクラッシュ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 790,
-        nameEN: 'strange-steam',
+        nameEN: 'Strange Steam',
         nameJA: 'ワンダースチーム',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 791,
-        nameEN: 'life-dew',
+        nameEN: 'Life Dew',
         nameJA: 'いのちのしずく',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 792,
-        nameEN: 'obstruct',
+        nameEN: 'Obstruct',
         nameJA: 'ブロッキング',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 793,
-        nameEN: 'false-surrender',
+        nameEN: 'False Surrender',
         nameJA: 'どげざつき',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 794,
-        nameEN: 'meteor-assault',
+        nameEN: 'Meteor Assault',
         nameJA: 'スターアサルト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 795,
-        nameEN: 'eternabeam',
+        nameEN: 'Eternabeam',
         nameJA: 'ムゲンダイビーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 796,
-        nameEN: 'steel-beam',
+        nameEN: 'Steel Beam',
         nameJA: 'てっていこうせん',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 797,
-        nameEN: 'expanding-force',
+        nameEN: 'Expanding Force',
         nameJA: 'ワイドフォース',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 798,
-        nameEN: 'steel-roller',
+        nameEN: 'Steel Roller',
         nameJA: 'アイアンローラー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 799,
-        nameEN: 'scale-shot',
+        nameEN: 'Scale Shot',
         nameJA: 'スケイルショット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 800,
-        nameEN: 'meteor-beam',
+        nameEN: 'Meteor Beam',
         nameJA: 'メテオビーム',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 801,
-        nameEN: 'shell-side arm',
+        nameEN: 'Shell Side arm',
         nameJA: 'シェルアームズ',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 802,
-        nameEN: 'misty-explosion',
+        nameEN: 'Misty Explosion',
         nameJA: 'ミストバースト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 803,
-        nameEN: 'grassy-glide',
+        nameEN: 'Grassy Glide',
         nameJA: 'グラススライダー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 804,
-        nameEN: 'rising-voltage',
+        nameEN: 'Rising Voltage',
         nameJA: 'ライジングボルト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 805,
-        nameEN: 'terrain-pulse',
+        nameEN: 'Terrain Pulse',
         nameJA: 'だいちのはどう',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 806,
-        nameEN: 'skitter-smack',
+        nameEN: 'Skitter Smack',
         nameJA: 'はいよるいちげき',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 807,
-        nameEN: 'burning-jealousy',
+        nameEN: 'Burning Jealousy',
         nameJA: 'しっとのほのお',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 808,
-        nameEN: 'lash-out',
+        nameEN: 'Lash Out',
         nameJA: 'うっぷんばらし',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 809,
-        nameEN: 'poltergeist',
+        nameEN: 'Poltergeist',
         nameJA: 'ポルターガイスト',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 810,
-        nameEN: 'corrosive-gas',
+        nameEN: 'Corrosive Gas',
         nameJA: 'ふしょくガス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 811,
-        nameEN: 'coaching',
+        nameEN: 'Coaching',
         nameJA: 'コーチング',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 812,
-        nameEN: 'flip-turn',
+        nameEN: 'Flip Turn',
         nameJA: 'クイックターン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 813,
-        nameEN: 'triple-axel',
+        nameEN: 'Triple Axel',
         nameJA: 'トリプルアクセル',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 814,
-        nameEN: 'dual-wingbeat',
+        nameEN: 'Dual Wingbeat',
         nameJA: 'ダブルウイング',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 815,
-        nameEN: 'scorching-sands',
+        nameEN: 'Scorching Sands',
         nameJA: 'ねっさのだいち',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 816,
-        nameEN: 'jungle-healing',
+        nameEN: 'Jungle Healing',
         nameJA: 'ジャングルヒール',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 817,
-        nameEN: 'wicked-blow',
+        nameEN: 'Wicked Blow',
         nameJA: 'あんこくきょうだ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 818,
-        nameEN: 'surging-strikes',
+        nameEN: 'Surging Strikes',
         nameJA: 'すいりゅうれんだ',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 819,
-        nameEN: 'thunder-cage',
+        nameEN: 'Thunder Cage',
         nameJA: 'サンダープリズン',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 820,
-        nameEN: 'dragon-energy',
+        nameEN: 'Dragon Energy',
         nameJA: 'ドラゴンエナジー',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 821,
-        nameEN: 'freezing-glare',
+        nameEN: 'Freezing Glare',
         nameJA: 'いてつくしせん',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 822,
-        nameEN: 'fiery-wrath',
+        nameEN: 'Fiery Wrath',
         nameJA: 'もえあがるいかり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 823,
-        nameEN: 'thunderous-kick',
+        nameEN: 'Thunderous Kick',
         nameJA: 'らいめいげり',
         additional: true,
-        wind: false,
+        wind: false
     },
     {
         id: 824,
-        nameEN: 'glacial-lance',
+        nameEN: 'Glacial Lance',
         nameJA: 'ブリザードランス',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 825,
-        nameEN: 'astral-barrage',
+        nameEN: 'Astral Barrage',
         nameJA: 'アストラルビット',
         additional: false,
-        wind: false,
+        wind: false
     },
     {
         id: 826,
-        nameEN: 'eerie-spell',
+        nameEN: 'Eerie Spell',
         nameJA: 'ぶきみなじゅもん',
         additional: true,
-        wind: false,
+        wind: false
     },
 ];

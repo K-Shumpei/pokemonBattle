@@ -485,7 +485,7 @@ class RegisterAbility {
 
 class Register {
   _id: number;
-  _name: string;
+  _name: PokemonText;
   _level: number;
   _type: PokemonType[];
   _gender: RegisterGender;
@@ -497,7 +497,7 @@ class Register {
 
   constructor() {
     this._id = 0;
-    this._name = '';
+    this._name = null;
     this._level = 0;
     this._type = [];
     this._gender = new RegisterGender();
@@ -510,7 +510,7 @@ class Register {
 
   reset(): void {
     this._id = 0;
-    this._name = '';
+    this._name = null;
     this._level = 50;
     this._type = [];
     this._gender = new RegisterGender();
@@ -529,7 +529,7 @@ class Register {
   get id(): number {
     return this._id;
   }
-  get name(): string {
+  get name(): PokemonText {
     return this._name;
   }
   get level(): number {
@@ -557,19 +557,11 @@ class Register {
     return this._move;
   }
 
-  isGetPokemonMaster( name: string ): boolean {
-    if ( pokemonMaster.filter( m => m.nameEN === name ).length === 0 ) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  getPokemonMaster( name: string ): PokemonData {
+  getPokemonMaster( name: PokemonText ): PokemonData {
     return pokemonMaster.filter( m => m.nameEN === name )[0];
   }
 
-  getMoveLearnedMaster( name: string ): MoveLearned {
+  getMoveLearnedMaster( name: PokemonText ): MoveLearned {
     return moveLearnedByPokemon.filter( m => m.nameEN === name )[0];
   }
 
@@ -582,7 +574,7 @@ class Register {
       if ( data.nameEN === name ) return data.nameJA;
       if ( data.nameJA === name ) return data.nameEN;
     }
-    return name;
+    return '';
   }
 
   translateType( name: string ): string {
@@ -600,24 +592,23 @@ class Register {
     return natureMaster.filter( m => m.nameJA === name )[0].nameEN;
   }
 
-  isValidName(): boolean {
+  isValidName(): PokemonText[] {
     // 適切な名前でなければ処理なし
-    const name: string = this.translateName( getHTMLInputElement( 'register_name' ).value );
-    return this.isGetPokemonMaster( name );
+    const nameEN: string = this.translateName( getHTMLInputElement( 'register_name' ).value );
+    return pokemonTextList.filter( name => name === nameEN );
   }
 
-  setName(): void {
-    const name: string = this.translateName( getHTMLInputElement( 'register_name' ).value );
+  setName( nameEN: PokemonText ): void {
     this.reset();
-    this.setMaster( name );
+    this.setMaster( nameEN );
     this.calculateActualValue();
     this.setHTML();
   }
 
-  setMaster( name: string ): void {
+  setMaster( name: PokemonText ): void {
     const pokemon = this.getPokemonMaster( name );
     this._id = pokemon.id;
-    this._name = pokemon.nameEN;
+    this._name = name;
     this._type = pokemon.type;
     this._gender.setMaster( pokemon );
     this._ability.setMaster( pokemon );
@@ -664,7 +655,7 @@ class Register {
   }
 
   isUnreg(): boolean {
-    return this._name === '';
+    return this._name === null;
   }
 
   calculateActualValue(): void {
@@ -690,7 +681,7 @@ class Register {
 
   showOnScreen(): void {
 
-    getHTMLInputElement( 'register_name' ).value = this.translateName( this._name );
+    getHTMLInputElement( 'register_name' ).value = this.translateName( String(this._name) );
     getHTMLInputElement( 'register_level' ).value = String( this._level );
 
     if ( this._type.length === 0 ) {

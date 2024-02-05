@@ -415,22 +415,22 @@ function getPower(pokemon, target) {
             }
         }
         if (pokemon.item.isName('こころのしずく')) {
-            if ((pokemon.name === 'ラティオス' || pokemon.name === 'ラティアス') && (move.type === 'Dragon' || move.type === 'Psychic') && !pokemon.stateChange.transform.isTrue) {
+            if ((pokemon.name === 'Latias' || pokemon.name === 'Latios') && (move.type === 'Dragon' || move.type === 'Psychic') && !pokemon.stateChange.transform.isTrue) {
                 correction = Math.round(correction * 4915 / 4096);
             }
         }
         if (pokemon.item.isName('こんごうだま')) {
-            if (pokemon.name === 'ディアルガ' && (move.type === 'Steel' || move.type === 'Dragon') && !pokemon.stateChange.transform.isTrue) {
+            if (pokemon.name === 'Dialga' && (move.type === 'Steel' || move.type === 'Dragon') && !pokemon.stateChange.transform.isTrue) {
                 correction = Math.round(correction * 4915 / 4096);
             }
         }
         if (pokemon.item.isName('しらたま')) {
-            if (pokemon.name === 'パルキア' && (move.type === 'Water' || move.type === 'Dragon') && !pokemon.stateChange.transform.isTrue) {
+            if (pokemon.name === 'Palkia' && (move.type === 'Water' || move.type === 'Dragon') && !pokemon.stateChange.transform.isTrue) {
                 correction = Math.round(correction * 4915 / 4096);
             }
         }
         if (pokemon.item.isName('はっきんだま')) {
-            if ((pokemon.name === 'ギラティナ(オリジン)' || pokemon.name === 'ギラティナ(アナザー)') && (move.type === 'Steel' || move.type === 'Dragon') && !pokemon.stateChange.transform.isTrue) {
+            if ((pokemon.name === 'Giratina Altered' || pokemon.name === 'Giratina Origin') && (move.type === 'Steel' || move.type === 'Dragon') && !pokemon.stateChange.transform.isTrue) {
                 correction = Math.round(correction * 4915 / 4096);
             }
         }
@@ -601,7 +601,7 @@ function getStatus(pokemon, target, attack) {
             }
         }
         for (const _pokemon of main.getPokemonInSide(pokemon.isMine())) {
-            if (_pokemon.name !== 'チェリム(ポジ)')
+            if (_pokemon.name !== 'Cherrim')
                 continue;
             if (!fieldStatus.weather.isSunny(_pokemon))
                 continue;
@@ -719,17 +719,17 @@ function getStatus(pokemon, target, attack) {
             }
         }
         if (pokemon.item.isName('ふといホネ')) {
-            if ((pokemon.name === 'カラカラ' || pokemon.name.includes('ガラガラ')) && pokemon.move.selected.isPhysical()) {
+            if ((pokemon.name === 'Cubone' || pokemon.name === 'Marowak' || pokemon.name === 'Marowak Alola') && pokemon.move.selected.isPhysical()) {
                 correction = Math.round(correction * 8192 / 4096);
             }
         }
         if (pokemon.item.isName('しんかいのキバ')) {
-            if (pokemon.name === 'パールル' && pokemon.move.selected.isSpecial()) {
+            if (pokemon.name === 'Clamperl' && pokemon.move.selected.isSpecial()) {
                 correction = Math.round(correction * 8192 / 4096);
             }
         }
         if (pokemon.item.isName('でんきだま')) {
-            if (pokemon.name === 'ピカチュウ') {
+            if (pokemon.name === 'Pikachu') {
                 correction = Math.round(correction * 8192 / 4096);
             }
         }
@@ -813,12 +813,12 @@ function getStatus(pokemon, target, attack) {
             }
         }
         if (target.item.isName('しんかいのウロコ')) {
-            if (target.name === 'パールル' && pokemon.move.selected.isSpecial()) {
+            if (target.name === 'Clamperl' && pokemon.move.selected.isSpecial()) {
                 correction = Math.round(correction * 8192 / 4096);
             }
         }
         if (target.item.isName('メタルパウダー')) {
-            if (target.name === 'メタモン' && pokemon.move.selected.isPhysical()) {
+            if (target.name === 'Ditto' && pokemon.move.selected.isPhysical()) {
                 correction = Math.round(correction * 8192 / 4096);
             }
         }
