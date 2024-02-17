@@ -214,7 +214,7 @@ class RegisterStatus {
 
 class RegisterMove {
   _slot: number;
-  _name: string | null;
+  _name: MoveText;
   _type: PokemonType;
   _power: number | null;
   _accuracy: number | null;
@@ -238,7 +238,7 @@ class RegisterMove {
     return this._powerPoint;
   }
 
-  getMoveMaster( name: string ): MoveData {
+  getMoveMaster( name: MoveText ): MoveData {
     return moveMaster.filter( m => m.nameEN === name )[0];
   }
 
@@ -250,10 +250,15 @@ class RegisterMove {
     return move;
   }
 
-  select( slot: number ): void {
-    const name: string = this.translate( getHTMLInputElement( 'registerMoveName' + slot ).value );
-    const master: MoveData = moveMaster.filter( m => m.nameEN === name )[0];
-    this._name = master.nameEN;
+  isValidName( slot: number ): MoveText[] {
+    // 適切な名前でなければ処理なし
+    const nameEN: string = this.translate( getHTMLInputElement( 'registerMoveName' + slot ).value );
+    return moveTextList.filter( name => name === nameEN );
+  }
+
+  select( nameEN: MoveText ): void {
+    const master: MoveData = this.getMoveMaster( nameEN );
+    this._name = nameEN;
     this._type = master.type;
     this._power = master.power;
     this._accuracy = master.accuracy;
@@ -262,7 +267,7 @@ class RegisterMove {
   }
 
   addPP(): void {
-    if ( this._name === '' ) return;
+    if ( this._name === null ) return;
     if ( this._powerPoint === 1 ) return;
     const step: number = this._basePP / 5;
     const max: number = this._basePP + step * 3;
@@ -270,7 +275,7 @@ class RegisterMove {
   }
 
   subPP(): void {
-    if ( this._name === '' ) return;
+    if ( this._name === null ) return;
     if ( this._powerPoint === 1 ) return;
     const step: number = this._basePP / 5;
     this._powerPoint = Math.max( this._basePP, this._powerPoint - step );
@@ -279,7 +284,7 @@ class RegisterMove {
   copy( move: LearnedMove ): void {
     if ( move.name === null ) return;
     const master = this.getMoveMaster( move.name );
-    this._name = master.nameEN;
+    this._name = move.name;
     this._type = master.type;
     this._power = master.power;
     this._accuracy = master.accuracy;

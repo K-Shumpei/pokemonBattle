@@ -15,7 +15,7 @@ function calculateDamage( pokemon: Pokemon, target: Pokemon, attack: Attack ): n
   // 攻撃と防御の実数値取得　A/D
   const status = getStatus( pokemon, target, attack );
   // 最終ダメージ
-  const finalDamage = getDamage( pokemon, target, power, status, attack )
+  const finalDamage = getDamage( pokemon, target, power, status, attack );
 
   return finalDamage;
 }

@@ -207,10 +207,14 @@ class RegisterMove {
         }
         return move;
     }
-    select(slot) {
-        const name = this.translate(getHTMLInputElement('registerMoveName' + slot).value);
-        const master = moveMaster.filter(m => m.nameEN === name)[0];
-        this._name = master.nameEN;
+    isValidName(slot) {
+        // 適切な名前でなければ処理なし
+        const nameEN = this.translate(getHTMLInputElement('registerMoveName' + slot).value);
+        return moveTextList.filter(name => name === nameEN);
+    }
+    select(nameEN) {
+        const master = this.getMoveMaster(nameEN);
+        this._name = nameEN;
         this._type = master.type;
         this._power = master.power;
         this._accuracy = master.accuracy;
@@ -218,7 +222,7 @@ class RegisterMove {
         this._basePP = master.powerPoint;
     }
     addPP() {
-        if (this._name === '')
+        if (this._name === null)
             return;
         if (this._powerPoint === 1)
             return;
@@ -227,7 +231,7 @@ class RegisterMove {
         this._powerPoint = Math.min(max, this._powerPoint + step);
     }
     subPP() {
-        if (this._name === '')
+        if (this._name === null)
             return;
         if (this._powerPoint === 1)
             return;
@@ -238,7 +242,7 @@ class RegisterMove {
         if (move.name === null)
             return;
         const master = this.getMoveMaster(move.name);
-        this._name = master.nameEN;
+        this._name = move.name;
         this._type = master.type;
         this._power = master.power;
         this._accuracy = master.accuracy;

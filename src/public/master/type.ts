@@ -26,8 +26,8 @@ type MoveData = {
   nameEN: string;
   type: PokemonType;
   class: MoveClass;
-  target: MoveTargetText;
-  category: MoveCategoryText;
+  target: MoveTarget;
+  category: MoveCategory;
   power: number | null;
   accuracy: number | null;
   powerPoint: number;
@@ -41,6 +41,27 @@ type MoveData = {
   ailment: { chance: number, name: string };
   stat: { chance: number, changes: { stat: RankStrings, change: number }[]};
   text: string;
+  contact: boolean;
+  charge: boolean;
+  recharge: boolean;
+  protect: boolean;
+  reflectable: boolean;
+  snatch: boolean;
+  mirror: boolean;
+  punch: boolean;
+  sound: boolean;
+  gravity: boolean;
+  defrost: boolean;
+  distance: boolean;
+  heal: boolean;
+  authentic: boolean;
+  powder: boolean;
+  bite: boolean;
+  pulse: boolean;
+  ballistics: boolean;
+  mental: boolean;
+  nonSkyBattle: boolean;
+  dance: boolean;
 }
 
 type MoveFlagData = {
@@ -141,7 +162,44 @@ type ParameterStringType = 'attack' | 'defense' | 'specialAttack' | 'specialDefe
 type NatureType = 'てれや' | 'さみしがり' | 'いじっぱり' | 'やんちゃ' | 'ゆうかん' | 'ずぶとい' | 'がんばりや' | 'わんぱく' | 'のうてんき' | 'のんき' | 'ひかえめ' | 'おっとり' | 'すなお' | 'うっかりや' | 'れいせい' | 'おだやか' | 'おとなしい' | 'しんちょう' | 'きまぐれ' | 'なまいき' | 'おくびょう' | 'せっかち' | 'ようき' | 'むじゃき' | 'まじめ';
 type SignType = '+' | '-';
 
+type MoveTarget = ( typeof moveTargetList )[number];
+const moveTargetList = [
+  "specific-move",
+  "selected-pokemon-me-first",
+  "ally",
+  "users-field",
+  "user-or-ally",
+  "opponents-field",
+  "user",
+  "random-opponent",
+  "all-other-pokemon",
+  "selected-pokemon",
+  "all-opponents",
+  "entire-field",
+  "user-and-allies",
+  "all-pokemon",
+  "all-allies",
+  "fainting-pokemon",
+] as const;
 
+type MoveCategory = ( typeof MoveCategoryList )[number];
+const MoveCategoryList = [
+  "damage",
+  "ailment",
+  "net-good-stats",
+  "heal",
+  "damage+ailment",
+  "swagger",
+  "damage+lower",
+  "damage+raise",
+  "damage+heal",
+  "ohko",
+  "whole-field-effect",
+  "field-effect",
+  "force-switch",
+  "unique",
+  "",
+] as const;
 
 type ParameterSixType = {
   hitPoint: number;

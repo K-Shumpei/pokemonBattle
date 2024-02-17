@@ -15,14 +15,10 @@ class ValueWithRange {
         return this._max;
     }
     add(value) {
-        value = Math.min(this._max, this._value + value);
-        value = Math.max(this._min, this._value + value);
-        this._value = value;
+        this._value = Math.max(this._min, Math.min(this._max, this._value + value));
     }
     sub(value) {
-        value = Math.min(this._max, this._value - value);
-        value = Math.max(this._min, this._value - value);
-        this._value = value;
+        this._value = Math.min(this._max, Math.max(this._min, this._value - value));
     }
     toZero() {
         this._value = 0;
@@ -177,6 +173,7 @@ class Status {
         this._spA.copy(status._spA);
         this._spD.copy(status._spD);
         this._spe.copy(status._spe);
+        this._hp.value.setActualValue(status._hp._av);
     }
     calcRankCorrValue(critical) {
         this._atk.calcRankCorrValue(critical);

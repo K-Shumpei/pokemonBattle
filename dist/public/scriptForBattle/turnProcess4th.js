@@ -7,12 +7,11 @@ function pokemonAction() {
         // 技の成功判定
         const judge = isSuccess(pokemon);
         // コマンドの削除
-        pokemon.command = new Command;
+        pokemon.command = new Command();
         if (judge === false) {
             continue;
         }
         // 技の効果
         moveEffect(pokemon);
-        break;
     }
 }

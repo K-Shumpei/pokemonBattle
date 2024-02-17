@@ -2131,15 +2131,15 @@ class Pokemon {
   // フォルムチェンジ
   //--------------
   getNextForm(): PokemonText {
-    if ( this._name === 'Aegislash Shield' ) return 'Aegislash Blade';
-    if ( this._name === 'Aegislash Blade' ) return 'Aegislash Shield';
-    if ( this._name === 'Meloetta Aria' ) return 'Meloetta Pirouette';
+    if ( this._name === 'Aegislash Shield' )   return 'Aegislash Blade';
+    if ( this._name === 'Aegislash Blade' )    return 'Aegislash Shield';
+    if ( this._name === 'Meloetta Aria' )      return 'Meloetta Pirouette';
     if ( this._name === 'Meloetta Pirouette' ) return 'Meloetta Aria';
-    if ( this._name === 'Mimikyu Disguised' ) return 'Mimikyu Busted'
-    if ( this._name === 'Cramorant Gulping' ) return 'Cramorant';
-    if ( this._name === 'Cramorant Gorging' ) return 'Cramorant';
-    if ( this._name === 'Eiscue Ice' ) return 'Eiscue Noice';
-    if ( this._name === 'Eiscue Noice' ) return 'Eiscue Ice';
+    if ( this._name === 'Mimikyu Disguised' )  return 'Mimikyu Busted'
+    if ( this._name === 'Cramorant Gulping' )  return 'Cramorant';
+    if ( this._name === 'Cramorant Gorging' )  return 'Cramorant';
+    if ( this._name === 'Eiscue Ice' )         return 'Eiscue Noice';
+    if ( this._name === 'Eiscue Noice' )       return 'Eiscue Ice';
 
     return this._name;
   }

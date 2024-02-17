@@ -68,9 +68,10 @@ function registerNatureButton() {
 // 技表示
 function reflectMoveNatureInHTML(slot) {
     // 適切な名前でなければ処理なし
-    if (regPokemon.isUnreg())
+    const nameEN = regPokemon.move.slot[slot].isValidName(slot);
+    if (nameEN.length === 0)
         return;
-    regPokemon.move.slot[slot].select(slot);
+    regPokemon.move.slot[slot].select(nameEN[0]);
     regPokemon.showOnScreen();
 }
 // 実数値変更

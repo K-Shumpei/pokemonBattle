@@ -1177,8 +1177,8 @@ function faintingJudgment( pokemon: Pokemon, isMe: boolean, isRange: boolean ): 
     // 防御側のひんし
     for ( const attack of pokemon.attack.getTargetToPokemon() ) {
       const target: Pokemon = main.getPokemonByBattle( attack );
-      if ( target.isMine() !== isMe ) continue;
       if ( !target.isFainted() ) continue;
+      if ( target.isMine() !== isMe ) continue;
 
       target.toHand();
     }

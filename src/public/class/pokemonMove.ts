@@ -61,7 +61,7 @@ class Move {
 // -------------------------
 class LearnedMove {
   _slot: number
-  _name: string | null;
+  _name: MoveText;
   _powerPoint: PowerPoint;
 
   constructor( slot: number ) {
@@ -71,14 +71,14 @@ class LearnedMove {
   }
 
 
-  set name( name: string | null ) {
+  set name( name: MoveText ) {
     this._name = name
   }
 
   get slot(): number {
     return this._slot;
   }
-  get name(): string | null {
+  get name(): MoveText {
     return this._name;
   }
   get powerPoint(): PowerPoint {
@@ -86,7 +86,7 @@ class LearnedMove {
   }
 
   register( move: RegisterMove ): void {
-    this._name = ( move._name === '' )? null : move._name;
+    this._name = move._name;
     this._powerPoint.setMaxPP( move.powerPoint );
   }
 
@@ -146,7 +146,7 @@ class SelectedMove {
   _name: string;
   _type: PokemonType;
   _class: MoveClass;
-  _target: MoveTargetText;
+  _target: MoveTarget;
   _power: number | null;
   _accuracy: number | null;
   _priority: number;
@@ -190,7 +190,7 @@ class SelectedMove {
   get class(): string {
     return this._class;
   }
-  get target(): MoveTargetText {
+  get target(): MoveTarget {
     return this._target;
   }
   get power(): number | null {

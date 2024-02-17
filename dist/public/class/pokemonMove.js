@@ -67,7 +67,7 @@ class LearnedMove {
         return this._powerPoint;
     }
     register(move) {
-        this._name = (move._name === '') ? null : move._name;
+        this._name = move._name;
         this._powerPoint.setMaxPP(move.powerPoint);
     }
     show(handOrder) {

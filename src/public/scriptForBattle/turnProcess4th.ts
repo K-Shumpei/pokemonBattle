@@ -10,7 +10,7 @@ function pokemonAction(): void {
     const judge = isSuccess( pokemon );
 
     // コマンドの削除
-    pokemon.command = new Command;
+    pokemon.command = new Command();
 
     if ( judge === false ) {
       continue;
@@ -18,7 +18,6 @@ function pokemonAction(): void {
 
     // 技の効果
     moveEffect( pokemon );
-    break;
   }
 }
 
