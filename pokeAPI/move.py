@@ -1,80 +1,170 @@
 import requests
+import json
 
-def getMove():
-  moveList = []
+def toCapital(string):
+  string = string.split('-')
+  string = [ s.title() for s in string ]
+  string = ' '.join(string)
+  return string
 
-  with open("../src/public/master/move.ts", "w") as o:
-    print('const moveMaster: MoveData[] = [', file=o)
 
-    # 特性の数は 826
-    for i in range(1, 830):
-      if i % 10 == 0: print(i)
+stop = 920
+
+with open("tmpJSON/move.json", "w") as f:
+  print("{", file=f)
+
+  # 特性の数は 826
+  for i in range(1, stop):
+    if i % 10 == 0: print(i)
+
+    r = ''
+
+    try:
       url = "https://pokeapi.co/api/v2/move/" + str(i) + "/"
       r = requests.get(url, timeout=5)
+      r = r.json()
 
-      try:
-        r = r.json()
-        move = {
-          'id': r['id'],
-          'nameEN': '',
-          'nameJA': '',
-          'type': r['type']['name'],
-          'class': r['damage_class']['name'],
-          'target': r['target']['name'],
-          'category': r['meta']['category']['name'],
-          'power': r['power'],
-          'accuracy': r['accuracy'],
-          'powerPoint': r['pp'],
-          'priority': r['priority'],
-          'critical': r['meta']['crit_rate'],
-          'drain': r['meta']['drain'],
-          'flinch': r['meta']['flinch_chance'],
-          'healing': r['meta']['healing'],
-          'hits': { 'max': 0, 'min': 0 },
-          'turns': { 'max': 0, 'min': 0 },
-          'ailment': { 'chance': r['meta']['ailment_chance'], 'name': r['meta']['ailment']['name'] },
-          'stat': { 'chance': r['meta']['stat_chance'], 'changes': [] },
-          'text': '',
-        }
+    except:
+      continue
 
-        for a in r['names']:
-          if a['language']['name'] == 'ja': move['nameJA'] = a['name']
-          if a['language']['name'] == 'en': move['nameEN'] = a['name']
+    move = {
+      'id': r['id'],
+      'nameEN': '',
+      'nameJA': '',
+      'type': '',
+      'class': '',
+      'target': '',
+      'category': '',
+      'power': '',
+      'accuracy': '',
+      'powerPoint': '',
+      'priority': '',
+      'critical': '',
+      'drain': '',
+      'flinch': '',
+      'healing': '',
+      'hits': { 'max': 0, 'min': 0 },
+      'turns': { 'max': 0, 'min': 0 },
+      'ailment': '',
+      'stat': '',
+      'text': '',
+    }
 
-        for a in r['stat_changes']:
-          data = { 'stat': a['stat']['name'], 'change': a['change'] }
-          move['stat']['changes'].append(data)
+    try:
+      move["type"] = toCapital(r['type']['name'])
+    except:
+      pass
 
-        if r['meta']['max_hits'] != None: move['hits']['max'] = r['meta']['max_hits']
-        if r['meta']['min_hits'] != None: move['hits']['min'] = r['meta']['min_hits']
-        if r['meta']['max_turns'] != None: move['turns']['max'] = r['meta']['max_turns']
-        if r['meta']['max_turns'] != None: move['turns']['min'] = r['meta']['min_turns']
+    try:
+      move['class'] = r['damage_class']['name']
+    except:
+      pass
 
-        for a in r['flavor_text_entries']:
-          if a['language']['name'] == 'ja':
-            move['text'] = a['flavor_text'].replace('\u3000', ' ').replace('\n', ' ')
-            break
+    try:
+      move["target"] = r['target']['name']
+    except:
+      pass
 
-        print( ' ', move, ',', file=o )
-        moveList.append(move['nameEN'])
+    try:
+      move["category"] = r['meta']['category']['name']
+    except:
+      pass
 
-      except:
-        pass
+    try:
+      move["power"] = r['power']
+    except:
+      pass
 
-    print(']', file=o)
+    try:
+      move["accuracy"] = r['accuracy']
+    except:
+      pass
 
-  return moveList
+    try:
+      move["powerPoint"] = r['pp']
+    except:
+      pass
 
-def makeMoveList( moveList ):
-  moveList.sort()
-  with open("../src/public/nameEN/move.ts", "w") as o:
-    print('type MoveText = ( typeof moveTextList )[number];', file=o)
-    print('const moveTextList =', moveList, 'as const;', file=o)
+    try:
+      move["priority"] = r['priority']
+    except:
+      pass
 
-def main():
-  moveList = getMove()
-  makeMoveList( moveList )
+    try:
+      move["critical"] = r['meta']['crit_rate']
+    except:
+      pass
+
+    try:
+      move['drain'] = r['meta']['drain']
+    except:
+      pass
+
+    try:
+      move["flinch"] = r['meta']['flinch_chance']
+    except:
+      pass
+
+    try:
+      move["healing"] = r['meta']['healing']
+    except:
+      pass
+
+    try:
+      move["ailment"] = { 'chance': r['meta']['ailment_chance'], 'name': r['meta']['ailment']['name'] }
+    except:
+      pass
+
+    try:
+      move["stat"] = { 'chance': r['meta']['stat_chance'], 'changes': [] }
+    except:
+      pass
 
 
-if __name__ == '__main__':
-    main()
+    try:
+      for a in r['names']:
+        if a['language']['name'] == 'ja': move['nameJA'] = a['name']
+        if a['language']['name'] == 'en': move['nameEN'] = a['name']
+    except:
+      pass
+
+    try:
+      for a in r['stat_changes']:
+        statname = ''
+        if a['stat']['name'] == 'attack': statname = 'atk'
+        if a['stat']['name'] == 'defense': statname = 'def'
+        if a['stat']['name'] == 'special-attack': statname = 'spA'
+        if a['stat']['name'] == 'special-defense': statname = 'spD'
+        if a['stat']['name'] == 'speed': statname = 'spe'
+        if a['stat']['name'] == 'accuracy': statname = 'acc'
+        if a['stat']['name'] == 'evasion': statname = 'eva'
+        data = { 'stat':statname, 'change': a['change'] }
+        move['stat']['changes'].append(data)
+    except:
+      pass
+
+    try:
+      if r['meta']['max_hits'] != None: move['hits']['max'] = r['meta']['max_hits']
+      if r['meta']['min_hits'] != None: move['hits']['min'] = r['meta']['min_hits']
+      if r['meta']['max_turns'] != None: move['turns']['max'] = r['meta']['max_turns']
+      if r['meta']['max_turns'] != None: move['turns']['min'] = r['meta']['min_turns']
+    except:
+      pass
+
+    try:
+      for a in r['flavor_text_entries']:
+        if a['language']['name'] == 'ja':
+          move['text'] = a['flavor_text'].replace('\u3000', ' ').replace('\n', ' ')
+          break
+    except:
+      pass
+
+    print('"No' + str(i) + '": ', file=f)
+    json.dump(move, f, indent=2, ensure_ascii=False)
+
+
+    if i != stop-1:
+        print(",", file=f)
+
+  print('}', file=f)
+
