@@ -97,6 +97,10 @@ type MoveAddOnData = {
   nameEN: string;
   additional: boolean;
   wind: boolean;
+  stomp: boolean;
+  reckLess: boolean;
+  explosion: boolean;
+  changeType: boolean;
 }
 
 type MoveLearned = {

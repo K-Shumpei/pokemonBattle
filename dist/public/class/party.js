@@ -115,7 +115,7 @@ class Main {
             if (pokemon.ability.isName('クォークチャージ')) {
                 corr = Math.round(corr * 6144 / 4096);
             }
-            if (pokemon.item.isName('スピードパウダー') && pokemon.isName('メタモン')) {
+            if (pokemon.item.isName('スピードパウダー') && pokemon.name === 'Ditto') { // メタモン
                 corr = Math.round(corr * 8192 / 4096);
             }
             if (pokemon.item.isName('こだわりスカーフ')) {

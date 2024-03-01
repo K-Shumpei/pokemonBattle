@@ -143,7 +143,7 @@ class PowerPoint extends ValueWithRange {
 // -------------------------
 class SelectedMove {
   _slot: number;
-  _name: string;
+  _name: MoveText;
   _type: PokemonType;
   _class: MoveClass;
   _target: MoveTarget;
@@ -152,11 +152,11 @@ class SelectedMove {
   _priority: number;
   _critical: number;
   _skin: StateChange;
-  _store: string;
+  _store: MoveText;
 
   constructor() {
     this._slot = 0;
-    this._name = '';
+    this._name = null;
     this._type = null;
     this._class = 'physical';
     this._target = 'user';
@@ -165,7 +165,7 @@ class SelectedMove {
     this._priority = 0;
     this._critical = 0;
     this._skin = new StateChange( 'スキン' );
-    this._store = ''
+    this._store = null
   }
 
   set type( type: PokemonType ) {
@@ -178,7 +178,7 @@ class SelectedMove {
     this._priority = priority;
   }
 
-  get name(): string {
+  get name(): MoveText {
     return this._name;
   }
   get slot(): number {
@@ -227,7 +227,7 @@ class SelectedMove {
     })
     if ( !master ) return;
 
-    this._name = master.nameEN;
+    this._name = move.name;
     this._type = master.type;
     this._class = master.class;
     this._target = master.target;
@@ -253,20 +253,12 @@ class SelectedMove {
     return this._class === 'status';
   }
 
-  isName( name: MoveText ): boolean {
-    return this._name === name;
-  }
-
-  isExplosion(): boolean {
-    return explosionMoveList.includes( this._name );
-  }
-
   //---------------------
   // スキン系特性が発動するか
   //---------------------
   isActivateSkin( type: PokemonType ): boolean {
-    if ( changeTypeMoveList.includes( this._name ) ) return false;
-    if ( this._name === 'わるあがき' ) return false;
+    if ( this.getAddOn().changeType ) return false;
+    if ( this._name === 'Struggle' ) return false; // 技「わるあがき」
 
     if ( type === 'Normal' && this._type === 'Normal' ) return false;
     if ( type !== 'Normal' && this._type !== 'Normal' ) return false;
@@ -288,14 +280,14 @@ class SelectedMove {
     this._store = this._name;
   }
   isStore(): boolean {
-    return this._store !== '';
+    return this._store !== null;
   }
 
   //-------------
   // マグニチュード
   //-------------
   fixMagnitudePower(): void {
-    if ( !this.isName( 'Magnitude' ) ) return; // 技「マグニチュード」
+    if ( this._name !=='Magnitude' ) return; // 技「マグニチュード」
 
     const random: number = getRandom();
 

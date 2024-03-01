@@ -104,7 +104,7 @@ class PowerPoint extends ValueWithRange {
 class SelectedMove {
     constructor() {
         this._slot = 0;
-        this._name = '';
+        this._name = null;
         this._type = null;
         this._class = 'physical';
         this._target = 'user';
@@ -113,7 +113,7 @@ class SelectedMove {
         this._priority = 0;
         this._critical = 0;
         this._skin = new StateChange('スキン');
-        this._store = '';
+        this._store = null;
     }
     set type(type) {
         this._type = type;
@@ -169,7 +169,7 @@ class SelectedMove {
         });
         if (!master)
             return;
-        this._name = master.nameEN;
+        this._name = move.name;
         this._type = master.type;
         this._class = master.class;
         this._target = master.target;
@@ -190,20 +190,14 @@ class SelectedMove {
     isStatus() {
         return this._class === 'status';
     }
-    isName(name) {
-        return this._name === name;
-    }
-    isExplosion() {
-        return explosionMoveList.includes(this._name);
-    }
     //---------------------
     // スキン系特性が発動するか
     //---------------------
     isActivateSkin(type) {
-        if (changeTypeMoveList.includes(this._name))
+        if (this.getAddOn().changeType)
             return false;
-        if (this._name === 'わるあがき')
-            return false;
+        if (this._name === 'Struggle')
+            return false; // 技「わるあがき」
         if (type === 'Normal' && this._type === 'Normal')
             return false;
         if (type !== 'Normal' && this._type !== 'Normal')
@@ -224,13 +218,13 @@ class SelectedMove {
         this._store = this._name;
     }
     isStore() {
-        return this._store !== '';
+        return this._store !== null;
     }
     //-------------
     // マグニチュード
     //-------------
     fixMagnitudePower() {
-        if (!this.isName('Magnitude'))
+        if (this._name !== 'Magnitude')
             return; // 技「マグニチュード」
         const random = getRandom();
         if (random >= 95) {

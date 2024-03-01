@@ -8,10 +8,6 @@ flag = ""
 with open('tmpJSON/moveFlag.json') as f:
   flag = json.load(f)
 
-addon = ""
-with open('tmpJSON/moveAddOn.json') as f:
-  addon = json.load(f)
-
 moveNameList = []
 moveNameJAList = []
 
@@ -105,3 +101,4 @@ with open("../src/public/nameJA/move.ts", "w") as o:
   for m in moveNameJAList:
     print("  '" + m + "',", file=o)
   print('] as const;', file=o)
+

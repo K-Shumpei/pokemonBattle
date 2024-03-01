@@ -152,7 +152,7 @@ function isActionFailure(pokemon) {
             return false;
         }
         if (pokemon.move.selected.getMaster().defrost) {
-            if (!pokemon.move.selected.isName('Burn Up'))
+            if (pokemon.move.selected.name !== 'Burn Up')
                 return false; // 技「もえつきる」
             if (pokemon.type.has('Fire'))
                 return false;
@@ -178,7 +178,7 @@ function isActionFailure(pokemon) {
         return true;
     };
     const focusPunch = (pokemon) => {
-        if (!pokemon.move.selected.isName('Focus Punch'))
+        if (pokemon.move.selected.name !== 'Focus Punch')
             return false; // 技「きあいパンチ」
         if (!pokemon.stateChange.focusPunch.isTrue)
             return false;
@@ -221,7 +221,7 @@ function isActionFailure(pokemon) {
             return false;
         if (!pokemon.move.selected.getMaster().heal)
             return false;
-        if (pokemon.move.selected.isName('Pollen Puff') // 技「かふんだんご」
+        if (pokemon.move.selected.name === 'Pollen Puff' // 技「かふんだんご」
             && pokemon.attack.getValidTarget()[0].isMe !== pokemon.isMine()) {
             return false;
         }
@@ -239,7 +239,7 @@ function isActionFailure(pokemon) {
     const taunt = (pokemon) => {
         if (!pokemon.stateChange.taunt.isTrue)
             return false;
-        if (pokemon.move.selected.isName('Me First'))
+        if (pokemon.move.selected.name === 'Me First')
             return false; // 技「さきどり」
         if (!pokemon.move.selected.isStatus())
             return false;
@@ -254,7 +254,7 @@ function isActionFailure(pokemon) {
             for (const move of target.move.learned) {
                 if (!move.name)
                     continue;
-                if (pokemon.move.selected.isName(move.name)) {
+                if (pokemon.move.selected.name === move.name) {
                     pokemon.msgImprison();
                     return true;
                 }
@@ -368,15 +368,15 @@ function meltMeByMove(pokemon) {
 }
 // 特性バトルスイッチによるフォルムチェンジ
 function stanceChange(pokemon) {
-    if (pokemon.isName('Aegislash Shield') // ギルガルド(盾)
+    if (pokemon.name === 'Aegislash Shield' // ギルガルド(盾)
         && !pokemon.move.selected.isStatus()) {
         pokemon.msgDeclareAbility();
         pokemon.formChange();
         pokemon.msgAegislashSchild();
         return;
     }
-    if (pokemon.isName('Aegislash Blade') // ギルガルド(剣)
-        && pokemon.move.selected.isName('King’s Shield')) { // 技「キングシールド」
+    if (pokemon.name === 'Aegislash Blade' // ギルガルド(剣)
+        && pokemon.move.selected.name === 'King’s Shield') { // 技「キングシールド」
         pokemon.msgDeclareAbility();
         pokemon.formChange();
         pokemon.msgAegislashBlade();
@@ -409,7 +409,7 @@ function changeMoveType(pokemon) {
     refrigerate: if (pokemon.ability.isName('フリーズスキン')) {
         pokemon.move.selected.activateSkin('Ice');
     }
-    if (pokemon.move.selected.isName('Weather Ball')) { // 技「ウェザーボール」
+    if (pokemon.move.selected.name === 'Weather Ball') { // 技「ウェザーボール」
         if (main.field.weather.isSunny(pokemon))
             pokemon.move.selected.type = 'Fire';
         if (main.field.weather.isRainy(pokemon))
@@ -419,25 +419,25 @@ function changeMoveType(pokemon) {
         if (main.field.weather.isSnowy())
             pokemon.move.selected.type = 'Ice';
     }
-    if (pokemon.move.selected.isName('Aura Wheel') // 技「オーラぐるま」
+    if (pokemon.move.selected.name === 'Aura Wheel' // 技「オーラぐるま」
         && pokemon.name === 'Morpeko Hangry') { // モルペコ(空腹)
         pokemon.move.selected.type = 'Dark';
     }
-    if (pokemon.move.selected.isName('Judgment')) { // 技「さばきのつぶて」
+    if (pokemon.move.selected.name === 'Judgment') { // 技「さばきのつぶて」
         for (const plate of plateTable) {
             if (pokemon.item.isName(plate.name)) {
                 pokemon.move.selected.type = plate.type;
             }
         }
     }
-    if (pokemon.move.selected.isName('Natural Gift')) { // 技「しぜんのめぐみ」
+    if (pokemon.move.selected.name === 'Natural Gift') { // 技「しぜんのめぐみ」
         for (const berry of berryTable) {
             if (pokemon.item.isName(berry.name)) {
                 pokemon.move.selected.type = berry.naturalGift.type;
             }
         }
     }
-    if (pokemon.move.selected.isName('Terrain Pulse')) { // 技「だいちのはどう」
+    if (pokemon.move.selected.name === 'Terrain Pulse') { // 技「だいちのはどう」
         if (pokemon.isGround() && main.field.terrain.isElectric()) {
             pokemon.move.selected.type = 'Electric';
         }
@@ -451,29 +451,29 @@ function changeMoveType(pokemon) {
             pokemon.move.selected.type = 'Fairy';
         }
     }
-    if (pokemon.move.selected.isName('Techno Blast')) { // 技「テクノバスター」
+    if (pokemon.move.selected.name === 'Techno Blast') { // 技「テクノバスター」
         for (const drive of driveTable) {
             if (pokemon.item.isName(drive.name) === true) {
                 pokemon.move.selected.type = drive.type;
             }
         }
     }
-    if (pokemon.move.selected.isName('Multi-Attack')) { // 技「マルチアタック」
+    if (pokemon.move.selected.name === 'Multi-Attack') { // 技「マルチアタック」
         for (const memory of memoryTable) {
             if (pokemon.item.isName(memory.name) === true) {
                 pokemon.move.selected.type = memory.type;
             }
         }
     }
-    if (pokemon.move.selected.isName('Revelation Dance')) { // 技「めざめるダンス」
+    if (pokemon.move.selected.name === 'Revelation Dance') { // 技「めざめるダンス」
         pokemon.move.selected.type = pokemon.type.get()[0];
     }
     if (pokemon.stateChange.electrify.isTrue
-        && !pokemon.move.selected.isName('Struggle')) { // 技「わるあがき」
+        && pokemon.move.selected.name !== 'Struggle') { // 技「わるあがき」
         pokemon.move.selected.type = 'Electric';
     }
     if (main.field.whole.ionDeluge.isTrue
-        && !pokemon.move.selected.isName('Struggle') // 技「わるあがき」
+        && pokemon.move.selected.name !== 'Struggle' // 技「わるあがき」
         && pokemon.move.selected.type === 'Normal') {
         pokemon.move.selected.type = 'Electric';
     }
@@ -542,7 +542,7 @@ function deductPowerPoint(pokemon) {
             sub.value = 1;
             break;
         case 'opponents-field':
-            if (pokemon.move.selected.isName('Sticky Web'))
+            if (pokemon.move.selected.name === 'Sticky Web')
                 sub.value = 1; // 技「ねばねばネット」
             else
                 sub.value = pressureSide;
@@ -551,7 +551,7 @@ function deductPowerPoint(pokemon) {
             sub.value = pressureSide;
             break;
         default:
-            if (pokemon.move.selected.isName('Imprison') || pokemon.move.selected.isName('Tera Blast')) {
+            if (pokemon.move.selected.name === 'Imprison' || pokemon.move.selected.name === 'Tera Blast') {
                 sub.value = pressureSide;
             }
             else {
@@ -562,7 +562,7 @@ function deductPowerPoint(pokemon) {
 }
 // ほのおタイプではないことによるもえつきるの失敗
 function burnUpFailure(pokemon) {
-    if (!pokemon.move.selected.isName('Burn Up'))
+    if (pokemon.move.selected.name !== 'Burn Up')
         return false;
     if (pokemon.type.has('Fire'))
         return false;
@@ -610,7 +610,7 @@ function hitCorrConsumance(pokemon) {
 // 技の仕様による失敗
 function failureByMoveSpec(pokemon) {
     const steelRoller = (pokemon) => {
-        if (!pokemon.move.selected.isName('Steel Roller'))
+        if (pokemon.move.selected.name !== 'Steel Roller')
             return false;
         if (!main.field.terrain.isPlain())
             return false;
@@ -619,7 +619,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const hyperspaceFury = (pokemon) => {
-        if (!pokemon.move.selected.isName('Hyperspace Fury'))
+        if (pokemon.move.selected.name !== 'Hyperspace Fury')
             return false;
         if (pokemon.name === 'Hoopa Unbound')
             return false;
@@ -630,7 +630,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const darkVoid = (pokemon) => {
-        if (!pokemon.move.selected.isName('Dark Void'))
+        if (pokemon.move.selected.name !== 'Dark Void')
             return false;
         if (pokemon.name === 'Darkrai')
             return false;
@@ -641,7 +641,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const auraWheel = (pokemon) => {
-        if (!pokemon.move.selected.isName('Aura Wheel'))
+        if (pokemon.move.selected.name !== 'Aura Wheel')
             return false;
         if (pokemon.name === 'Morpeko Full Belly')
             return false;
@@ -656,7 +656,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const auroraVeil = (pokemon) => {
-        if (!pokemon.move.selected.isName('Aurora Veil'))
+        if (pokemon.move.selected.name !== 'Aurora Veil')
             return false;
         if (!main.field.weather.isSnowy())
             return false;
@@ -665,7 +665,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const clangorousSoul = (pokemon) => {
-        if (!pokemon.move.selected.isName('Clangorous Soul'))
+        if (pokemon.move.selected.name !== 'Clangorous Soul')
             return false;
         if (pokemon.status.hp.value.isGreaterEqual(3))
             return false;
@@ -674,7 +674,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const stockpile = (pokemon) => {
-        if (!pokemon.move.selected.isName('Stockpile'))
+        if (pokemon.move.selected.name !== 'Stockpile')
             return false;
         if (pokemon.stateChange.stockpile.count !== 3)
             return false;
@@ -683,7 +683,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const teleport = (pokemon) => {
-        if (!pokemon.move.selected.isName('Teleport'))
+        if (pokemon.move.selected.name !== 'Teleport')
             return false;
         if (main.getPlayer(pokemon.isMine()).isExcangable())
             return false;
@@ -692,7 +692,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const lastResort = (pokemon) => {
-        if (!pokemon.move.selected.isName('Last Resort'))
+        if (pokemon.move.selected.name !== 'Last Resort')
             return false;
         let isFailure = false;
         // 「とっておき」を覚えていない
@@ -708,8 +708,8 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const spitUp = (pokemon) => {
-        if (!pokemon.move.selected.isName('Spit Up')
-            || !pokemon.move.selected.isName('Swallow'))
+        if (pokemon.move.selected.name !== 'Spit Up'
+            && pokemon.move.selected.name !== 'Swallow')
             return false;
         if (pokemon.stateChange.stockpile.count > 0)
             return false;
@@ -718,7 +718,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const stuffCheeks = (pokemon) => {
-        if (!pokemon.move.selected.isName('Stuff Cheeks'))
+        if (pokemon.move.selected.name !== 'Stuff Cheeks')
             return false;
         if (pokemon.item.isBerry())
             return false;
@@ -727,7 +727,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const fling = (pokemon) => {
-        if (!pokemon.move.selected.isName('Fling'))
+        if (pokemon.move.selected.name !== 'Fling')
             return false;
         // 条件分岐がおかしい
         // 持ち物がない
@@ -770,7 +770,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const naturalGift = (pokemon) => {
-        if (!pokemon.move.selected.isName('Natural Gift'))
+        if (pokemon.move.selected.name !== 'Natural Gift')
             return false;
         if (pokemon.item.isBerry())
             return false;
@@ -779,16 +779,16 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const fakeOut = (pokemon) => {
-        if (!pokemon.move.selected.isName('Fake Out')
-            || !pokemon.move.selected.isName('First Impression')
-            || pokemon.move.selected.isName('Mat Block'))
+        if (pokemon.move.selected.name !== 'Fake Out'
+            && pokemon.move.selected.name !== 'First Impression'
+            && pokemon.move.selected.name !== 'Mat Block')
             return false;
         pokemon.attack.reset();
         pokemon.msgDeclareFailure();
         return true;
     };
     const noRetreat = (pokemon) => {
-        if (!pokemon.move.selected.isName('No Retreat'))
+        if (pokemon.move.selected.name !== 'No Retreat')
             return false;
         if (!pokemon.stateChange.noRetreat.isTrue)
             return false;
@@ -797,14 +797,14 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const suckerPunch = (pokemon) => {
-        if (!pokemon.move.selected.isName('Sucker Punch'))
+        if (pokemon.move.selected.name !== 'Sucker Punch')
             return false;
         pokemon.attack.reset();
         pokemon.msgDeclareFailure();
         return true;
     };
     const poltergeist = (pokemon) => {
-        if (!pokemon.move.selected.isName('Poltergeist'))
+        if (pokemon.move.selected.name !== 'Poltergeist')
             return false;
         const attack = pokemon.attack.getValidTarget();
         if (attack.length === 0)
@@ -818,8 +818,7 @@ function failureByMoveSpec(pokemon) {
     };
     const protect = (pokemon) => {
         return false;
-        if (protectMoveList.includes(pokemon.move.selected.name))
-            return false;
+        //if ( protectMoveList.includes( pokemon.move.selected.name ) ) return false;
         if (pokemon.stateChange.someProtect.isTrue === false)
             return false;
         if (getRandom() < Math.pow(1 / 3, pokemon.stateChange.someProtect.count))
@@ -829,8 +828,8 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const snore = (pokemon) => {
-        if (!pokemon.move.selected.isName('Snore')
-            || !pokemon.move.selected.isName('Sleep Talk'))
+        if (pokemon.move.selected.name !== 'Snore'
+            && pokemon.move.selected.name !== 'Sleep Talk')
             return false;
         if (pokemon.statusAilment.isAsleep())
             return false;
@@ -841,7 +840,7 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const rest = (pokemon) => {
-        if (!pokemon.move.selected.isName('Rest'))
+        if (pokemon.move.selected.name !== 'Rest')
             return false;
         if (pokemon.status.hp.value.isMax())
             return false;
@@ -858,10 +857,10 @@ function failureByMoveSpec(pokemon) {
         return true;
     };
     const lowKick = (pokemon) => {
-        if (!pokemon.move.selected.isName('Low Kick')
-            || !pokemon.move.selected.isName('Grass Knot')
-            || !pokemon.move.selected.isName('Heavy Slam')
-            || !pokemon.move.selected.isName('Heat Crash'))
+        if (pokemon.move.selected.name !== 'Low Kick'
+            && pokemon.move.selected.name !== 'Grass Knot'
+            && pokemon.move.selected.name !== 'Heavy Slam'
+            && pokemon.move.selected.name !== 'Heat Crash')
             return false;
         const attack = pokemon.attack.getValidTarget();
         if (attack.length === 0)
@@ -919,7 +918,7 @@ function failureByMoveSpec(pokemon) {
 }
 // 特性による失敗
 function failureByAbility(pokemon) {
-    damp: if (pokemon.move.selected.isExplosion()) {
+    damp: if (pokemon.move.selected.getAddOn().explosion) {
         if (!main.isExistAbility('しめりけ'))
             break damp;
         const poke = main.getExistAbility('しめりけ');
@@ -951,24 +950,24 @@ function failureByAbility(pokemon) {
 // 中断されても効果が発動する技
 function effectAlwaysActivate(pokemon) {
     const futureSight = (pokemon) => {
-        if (!pokemon.move.selected.isName('Future Sight')
-            || !pokemon.move.selected.isName('Doom Desire'))
+        if (pokemon.move.selected.name !== 'Future Sight'
+            && pokemon.move.selected.name !== 'Doom Desire')
             return false;
         const futureSight = new StateChange('みらいにこうげき');
         futureSight.isTrue = true;
         //futureSight.target.isMine() = one.target.isMe;
         //futureSight.target.battle = one.target.order.battle;
         main.field.whole.futureSight.push(futureSight);
-        if (pokemon.move.selected.isName('Future Sight')) {
+        if (pokemon.move.selected.name === 'Future Sight') {
             pokemon.msgFutureSight();
         }
-        if (pokemon.move.selected.isName('Doom Desire')) {
+        if (pokemon.move.selected.name === 'Doom Desire') {
             pokemon.msgDoomDesire();
         }
         return true;
     };
     const rage = (pokemon) => {
-        if (!pokemon.move.selected.isName('Rage'))
+        if (pokemon.move.selected.name !== 'Rage')
             return false;
         if (pokemon.stateChange.rage.isTrue)
             return false;
@@ -990,11 +989,11 @@ function abilityChangeType(pokemon) {
         return;
     if (pokemon.stateChange.protean.isTrue)
         return;
-    if (pokemon.move.selected.isName('Struggle'))
+    if (pokemon.move.selected.name === 'Struggle')
         return; // 技「わるあがき」
-    if (pokemon.move.selected.isName('Future Sight'))
+    if (pokemon.move.selected.name === 'Future Sight')
         return; // 技「みらいよち」
-    if (pokemon.move.selected.isName('Doom Desire'))
+    if (pokemon.move.selected.name === 'Doom Desire')
         return; // 技「はめつのねがい」
     pokemon.msgDeclareAbility();
     pokemon.type.toType(pokemon.move.selected.type);
@@ -1008,28 +1007,28 @@ function preliminaryAction(pokemon) {
     if (pokemon.move.selected.isStore())
         return false;
     pokemon.msgPreliminary();
-    if (pokemon.move.selected.isName('Solar Beam') // 技「ソーラービーム」
-        || pokemon.move.selected.isName('Solar Blade')) { // 技「ソーラーブレード」
+    if (pokemon.move.selected.name === 'Solar Beam' // 技「ソーラービーム」
+        || pokemon.move.selected.name === 'Solar Blade') { // 技「ソーラーブレード」
         if (main.field.weather.isSunny(pokemon)) {
             moveDeclareMessage(pokemon);
             return false;
         }
     }
-    if (pokemon.move.selected.isName('Meteor Beam')) { // 技「メテオビーム」
+    if (pokemon.move.selected.name === 'Meteor Beam') { // 技「メテオビーム」
         changeMyRank(pokemon, 'specialAttack', 1);
     }
-    if (pokemon.move.selected.isName('Skull Bash')) { // 技「ロケットずつき」
+    if (pokemon.move.selected.name === 'Skull Bash') { // 技「ロケットずつき」
         changeMyRank(pokemon, 'defense', 1);
     }
-    if (pokemon.move.selected.isName('Dig')) { // 技「あなをほる」
+    if (pokemon.move.selected.name === 'Dig') { // 技「あなをほる」
         pokemon.stateChange.dig.isTrue = true;
     }
-    if (pokemon.move.selected.isName('Fly') // 技「そらをとぶ」
-        || pokemon.move.selected.isName('Bounce')) { // 技「とびはねる」
+    if (pokemon.move.selected.name === 'Fly' // 技「そらをとぶ」
+        || pokemon.move.selected.name === 'Bounce') { // 技「とびはねる」
         pokemon.stateChange.fly.isTrue = true;
     }
     /*
-    if ( pokemon.move.selected.isName( 'フリーフォール' ) ) {
+    if ( pokemon.move.selected.name === 'フリーフォール) ) {
       let isFailure: boolean = false;
       if ( one.target.isMine() === pokemon.isMine() ) isFailure = true;
       if ( one.target.stateChange.substitute.isTrue ) isFailure = true;
@@ -1053,14 +1052,14 @@ function preliminaryAction(pokemon) {
       return true;
     }
     */
-    if (pokemon.move.selected.isName('Dive')) { // 技「ダイビング」
+    if (pokemon.move.selected.name === 'Dive') { // 技「ダイビング」
         pokemon.stateChange.dive.isTrue = true;
         if (pokemon.name === 'Cramorant') {
             pokemon.formChange();
         }
     }
-    if (pokemon.move.selected.isName('Phantom Force') // 技「ゴーストダイブ」
-        || pokemon.move.selected.isName('Shadow Force')) { // 技「シャドーダイブ」
+    if (pokemon.move.selected.name === 'Phantom Force' // 技「ゴーストダイブ」
+        || pokemon.move.selected.name === 'Shadow Force') { // 技「シャドーダイブ」
         pokemon.stateChange.shadowForce.isTrue = true;
     }
     if (!pokemon.item.isName('パワフルハーブ')) {
@@ -1088,41 +1087,41 @@ function disableByConcealment(pokemon) {
             continue;
         if (target.ability.isName('ノーガード'))
             continue;
-        if (pokemon.move.selected.isName('Toxic') && pokemon.type.has('Poison'))
+        if (pokemon.move.selected.name === 'Toxic' && pokemon.type.has('Poison'))
             continue; // 技「どくどく」
-        if (pokemon.move.selected.isName('Aromatherapy'))
+        if (pokemon.move.selected.name === 'Aromatherapy')
             continue; // 技「アロマセラピー」
-        if (pokemon.move.selected.isName('Heal Bell'))
+        if (pokemon.move.selected.name === 'Heal Bell')
             continue; // 技「いやしのすず」
-        if (pokemon.move.selected.isName('Helping Hand'))
+        if (pokemon.move.selected.name === 'Helping Hand')
             continue; // 技「てだすけ」
         let isValid = true;
         if (target.stateChange.dig.isTrue) {
-            if (pokemon.move.selected.isName('Earthquake'))
+            if (pokemon.move.selected.name === 'Earthquake')
                 isValid = true; // 技「じしん」
-            if (pokemon.move.selected.isName('Magnitude'))
+            if (pokemon.move.selected.name === 'Magnitude')
                 isValid = true; // 技「マグニチュード」
         }
         if (target.stateChange.fly.isTrue) {
-            if (pokemon.move.selected.isName('Gust'))
+            if (pokemon.move.selected.name === 'Gust')
                 isValid = true; // 技「かぜおこし」
-            if (pokemon.move.selected.isName('Twister'))
+            if (pokemon.move.selected.name === 'Twister')
                 isValid = true; // 技「たつまき」
-            if (pokemon.move.selected.isName('Thunder'))
+            if (pokemon.move.selected.name === 'Thunder')
                 isValid = true; // 技「かみなり」
-            if (pokemon.move.selected.isName('Sky Uppercut'))
+            if (pokemon.move.selected.name === 'Sky Uppercut')
                 isValid = true; // 技「スカイアッパー」
-            if (pokemon.move.selected.isName('Smack Down'))
+            if (pokemon.move.selected.name === 'Smack Down')
                 isValid = true; // 技「うちおとす」
-            if (pokemon.move.selected.isName('Hurricane'))
+            if (pokemon.move.selected.name === 'Hurricane')
                 isValid = true; // 技「ぼうふう」
-            if (pokemon.move.selected.isName('Thousand Arrows'))
+            if (pokemon.move.selected.name === 'Thousand Arrows')
                 isValid = true; // 技「サウザンアロー」
         }
         if (target.stateChange.dive.isTrue) {
-            if (pokemon.move.selected.isName('Surf'))
+            if (pokemon.move.selected.name === 'Surf')
                 isValid = true; // 技「なみのり」
-            if (pokemon.move.selected.isName('Whirlpool'))
+            if (pokemon.move.selected.name === 'Whirlpool')
                 isValid = true; // 技「うずしお」
         }
         if (isValid)
@@ -1182,11 +1181,11 @@ function disableByOtherProtect(pokemon) {
                 break craftyShield;
             if (pokemon.move.selected.target === 'user-and-allies')
                 break craftyShield;
-            if (pokemon.move.selected.isName('Coaching'))
+            if (pokemon.move.selected.name === 'Coaching')
                 break craftyShield; // 技「コーチング」
-            if (pokemon.move.selected.isName('Mirror Move'))
+            if (pokemon.move.selected.name === 'Mirror Move')
                 break craftyShield; // 技「オウムがえし」
-            if (pokemon.move.selected.isName('Me First'))
+            if (pokemon.move.selected.name === 'Me First')
                 break craftyShield; // 技「さきどり」
             attack.success = false;
             target.msgCraftyShield();
@@ -1214,7 +1213,7 @@ function disableByProtect(pokemon) {
         spikyShield: if (target.stateChange.protect.text === 'ニードルガード') {
             if (!pokemon.move.selected.getMaster().contact)
                 break spikyShield;
-            if (pokemon.move.selected.isName('Sky Drop'))
+            if (pokemon.move.selected.name === 'Sky Drop')
                 break spikyShield; // 技「フリーフォール」
             if (pokemon.ability.isName('マジックガード'))
                 break spikyShield;
@@ -1227,7 +1226,7 @@ function disableByProtect(pokemon) {
         banefulBunker: if (target.stateChange.protect.text === 'トーチカ') {
             if (!pokemon.move.selected.getMaster().contact)
                 break banefulBunker;
-            if (pokemon.move.selected.isName('Sky Drop'))
+            if (pokemon.move.selected.name === 'Sky Drop')
                 break banefulBunker; // 技「フリーフォール」
             if (!pokemon.isGetAilmentByOther('Poisoned', target))
                 break banefulBunker;
@@ -1279,21 +1278,21 @@ function disableByMaxGuard(pokemon) {
 }
 // テレキネシスの、対象がディグダ/ダグトリオ/スナバァ/シロデスナ/メガゲンガー/うちおとす状態/ねをはる状態であることによる失敗
 function failureByTelekinesis(pokemon) {
-    if (!pokemon.move.selected.isName('Telekinesis'))
+    if (pokemon.move.selected.name !== 'Telekinesis')
         return false; // 技「テレキネシス」
     for (const attack of pokemon.attack.getTargetToPokemon()) {
         const target = main.getPokemonByBattle(attack);
         const check = (target) => {
-            if (target.isName('ディグダ'))
-                return false;
-            if (target.isName('ダグトリオ'))
-                return false;
-            if (target.isName('スナバァ'))
-                return false;
-            if (target.isName('シロデスナ'))
-                return false;
-            if (target.isName('メガゲンガー'))
-                return false;
+            if (target.name === 'Diglett')
+                return false; // ディグダ
+            if (target.name === 'Dugtrio')
+                return false; // ダグトリオ
+            if (target.name === 'Sandygast')
+                return false; // スナバァ
+            if (target.name === 'Palossand')
+                return false; // シロデスナ
+            if (target.name === 'Gengar Mega')
+                return false; // メガゲンガー
             if (target.stateChange.smackDown.isTrue)
                 return false;
             if (target.stateChange.ingrain.isTrue)
@@ -1396,7 +1395,7 @@ function disableByAbility1st(pokemon) {
 function disableByCompatibility(pokemon) {
     for (const attack of pokemon.attack.getTargetToPokemon()) {
         const target = main.getPokemonByBattle(attack);
-        if (pokemon.move.selected.isStatus() && !pokemon.move.selected.isName('Thunder Wave'))
+        if (pokemon.move.selected.isStatus() && pokemon.move.selected.name !== 'Thunder Wave')
             continue; // 技「でんじは」
         attack.calcEffective(pokemon.move.selected, target);
         if (attack.effective > 0)
@@ -1463,9 +1462,9 @@ function disableByAbility2nd(pokemon) {
         }
         // ねんちゃく: トリック/すりかえ/ふしょくガス
         if (target.ability.isName('ねんちゃく')) {
-            if (pokemon.move.selected.isName('Trick') // 技「トリック」
-                || pokemon.move.selected.isName('Switcheroo') // 技「すりかえ」
-                || pokemon.move.selected.isName('Corrosive Gas')) { // 技「ふしょくガス」
+            if (pokemon.move.selected.name === 'Trick' // 技「トリック」
+                || pokemon.move.selected.name === 'Switcheroo' // 技「すりかえ」
+                || pokemon.move.selected.name === 'Corrosive Gas') { // 技「ふしょくガス」
                 target.msgDeclareAbility();
                 attack.success = false;
                 target.msgInvalid();
@@ -1490,7 +1489,7 @@ function disableByType1st(pokemon) {
         // あくタイプ: いたずらごころの効果が発動した技の無効化
         // こおりタイプ: ぜったいれいどの無効化
         Ice: if (target.type.get().includes('Ice')) {
-            if (pokemon.move.selected.isName('Sheer Cold')) { // 技「ぜったいれいど」
+            if (pokemon.move.selected.name === 'Sheer Cold') { // 技「ぜったいれいど」
                 attack.success = false;
                 target.msgInvalid();
                 continue;
@@ -1498,7 +1497,7 @@ function disableByType1st(pokemon) {
         }
         // ひこうタイプ: フリーフォールの無効化
         if (target.type.get().includes('Flying')) {
-            if (pokemon.move.selected.isName('Sky Drop')) { // 技「フリーフォール」
+            if (pokemon.move.selected.name === 'Sky Drop') { // 技「フリーフォール」
                 attack.success = false;
                 target.msgInvalid();
                 continue;
@@ -1512,7 +1511,7 @@ function disableByMoveSpec1st(pokemon) {
     for (const attack of pokemon.attack.getTargetToPokemon()) {
         const target = main.getPokemonByBattle(attack);
         // メロメロ: 対象と性別が同じ/対象が性別不明
-        if (pokemon.move.selected.isName('Attract')) { // 技「メロメロ」
+        if (pokemon.move.selected.name === 'Attract') { // 技「メロメロ」
             if (pokemon.gender === target.gender) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1526,7 +1525,7 @@ function disableByMoveSpec1st(pokemon) {
         }
         // いちゃもん: 対象がダイマックスしている
         // ベノムトラップ: 対象がどく/もうどく状態でない
-        if (pokemon.move.selected.isName('Venom Drench')) { // 技「ベノムトラップ」
+        if (pokemon.move.selected.name === 'Venom Drench') { // 技「ベノムトラップ」
             if (!target.statusAilment.isPoisoned()) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1542,7 +1541,7 @@ function disableByMoveSpec2nd(pokemon) {
         const target = main.getPokemonByBattle(attack);
         // 重複による無効化
         // あくび: 対象がすでにねむけ状態/状態異常である
-        if (pokemon.move.selected.isName('Yawn')) { // 技「あくび」
+        if (pokemon.move.selected.name === 'Yawn') { // 技「あくび」
             if (target.stateChange.yawn.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1555,7 +1554,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // いちゃもん: 対象がすでにいちゃもん状態である
-        if (pokemon.move.selected.isName('Torment')) { // 技「いちゃもん」
+        if (pokemon.move.selected.name === 'Torment') { // 技「いちゃもん」
             if (target.stateChange.torment.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1563,7 +1562,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // さしおさえ: 対象がすでにさしおさえ状態である
-        if (pokemon.move.selected.isName('Embargo')) { // 技「さしおさえ」
+        if (pokemon.move.selected.name === 'Embargo') { // 技「さしおさえ」
             if (target.stateChange.embargo.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1571,7 +1570,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // テレキネシス: 対象がすでにテレキネシス状態である
-        if (pokemon.move.selected.isName('Telekinesis')) { // 技「テレキネシス」
+        if (pokemon.move.selected.name === 'Telekinesis') { // 技「テレキネシス」
             if (target.stateChange.telekinesis.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1579,7 +1578,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // なやみのタネ: 対象の特性がふみん/なまけである
-        if (pokemon.move.selected.isName('Worry Seed')) { // 技「なやみのタネ」
+        if (pokemon.move.selected.name === 'Worry Seed') { // 技「なやみのタネ」
             if (target.ability.isName('ふみん')) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1592,7 +1591,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // ねをはる: 自身がすでにねをはる状態である
-        if (pokemon.move.selected.isName('Ingrain')) { // 技「ねをはる」
+        if (pokemon.move.selected.name === 'Ingrain') { // 技「ねをはる」
             if (pokemon.stateChange.ingrain.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1600,7 +1599,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // ほろびのうた: 対象がすでにほろびのうた状態である
-        if (pokemon.move.selected.isName('Perish Song')) { // 技「ほろびのうた」
+        if (pokemon.move.selected.name === 'Perish Song') { // 技「ほろびのうた」
             if (target.stateChange.perishSong.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1608,9 +1607,9 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // みやぶる/かぎわける/ミラクルアイ: 対象がすでにみやぶられている/ミラクルアイ状態である
-        if (pokemon.move.selected.isName('Foresight') // 技「みやぶる」
-            || pokemon.move.selected.isName('Odor Sleuth') // 技「かぎわける」
-            || pokemon.move.selected.isName('Miracle Eye')) { // 技「ミラクルアイ」
+        if (pokemon.move.selected.name === 'Foresight' // 技「みやぶる」
+            || pokemon.move.selected.name === 'Odor Sleuth' // 技「かぎわける」
+            || pokemon.move.selected.name === 'Miracle Eye') { // 技「ミラクルアイ」
             if (target.stateChange.foresight.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1623,7 +1622,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // メロメロ: 対象がすでにメロメロ状態である
-        if (pokemon.move.selected.isName('Attract')) { // 技「メロメロ」
+        if (pokemon.move.selected.name === 'Attract') { // 技「メロメロ」
             if (target.stateChange.attract.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1631,7 +1630,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // やどりぎのタネ: 対象がすでにやどりぎのタネ状態である
-        if (pokemon.move.selected.isName('Leech Seed')) { // 技「やどりぎのタネ」
+        if (pokemon.move.selected.name === 'Leech Seed') { // 技「やどりぎのタネ」
             if (target.stateChange.leechSeed.isTrue) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1644,7 +1643,7 @@ function disableByMoveSpec2nd(pokemon) {
         // ランク補正を上げる変化技: ランクがすでに最大である
         // ランク補正を下げる変化技: ランクがすでに最低である
         // コーチング: シングルバトルである/対象となる味方がいない
-        if (pokemon.move.selected.isName('Coaching')) { // 技「コーチング」
+        if (pokemon.move.selected.name === 'Coaching') { // 技「コーチング」
             if (main.field.battleStyle === 1) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1652,8 +1651,8 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // ソウルビート/はいすいのじん: 全能力が最大まで上がっている
-        if (pokemon.move.selected.isName('Clangorous Soul') // 技「ソウルビート」
-            || pokemon.move.selected.isName('No Retreat')) { // 技「はいすいのじん」
+        if (pokemon.move.selected.name === 'Clangorous Soul' // 技「ソウルビート」
+            || pokemon.move.selected.name === 'No Retreat') { // 技「はいすいのじん」
             if (pokemon.status.atk.rank.isMax()
                 && pokemon.status.def.rank.isMax()
                 && pokemon.status.spA.rank.isMax()
@@ -1665,7 +1664,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // ほおばる: ぼうぎょランクがすでに最大である
-        if (pokemon.move.selected.isName('Stuff Cheeks')) { // 技「ほおばる」
+        if (pokemon.move.selected.name === 'Stuff Cheeks') { // 技「ほおばる」
             if (pokemon.status.def.rank.isMax()) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1674,7 +1673,7 @@ function disableByMoveSpec2nd(pokemon) {
         }
         // その他
         // がむしゃら: 対象のHPが使用者以下
-        if (pokemon.move.selected.isName('Endeavor')) { // 技「がむしゃら」
+        if (pokemon.move.selected.name === 'Endeavor') { // 技「がむしゃら」
             if (pokemon.status.hp.value.value >= target.status.hp.value.value) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1682,7 +1681,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // シンクロノイズ: タイプが合致していない
-        if (pokemon.move.selected.isName('Synchronoise')) { // 技「シンクロノイズ」
+        if (pokemon.move.selected.name === 'Synchronoise') { // 技「シンクロノイズ」
             const atkType = pokemon.type.get();
             const defType = target.type.get();
             const compare = atkType.concat(defType);
@@ -1699,8 +1698,8 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // ゆめくい/あくむ: 対象がねむり状態でない
-        if (pokemon.move.selected.isName('Dream Eater') // 技「ゆめくい」
-            || pokemon.move.selected.isName('Nightmare')) { // 技「あくむ」
+        if (pokemon.move.selected.name === 'Dream Eater' // 技「ゆめくい」
+            || pokemon.move.selected.name === 'Nightmare') { // 技「あくむ」
             if (!target.statusAilment.isAsleep()) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1708,7 +1707,7 @@ function disableByMoveSpec2nd(pokemon) {
             }
         }
         // 一撃必殺技: 対象が使用者よりレベルが高い/対象がダイマックスしている
-        if (oneShotMoveList.includes(pokemon.move.selected.name)) {
+        if (pokemon.move.selected.getMaster().category === 'ohko') {
             if (pokemon.level < target.level) {
                 attack.success = false;
                 target.msgInvalid();
@@ -1723,12 +1722,12 @@ function disableBySubstitute(pokemon) {
     const isSubstitute = (pokemon, target) => {
         if (!target.stateChange.substitute.isTrue)
             return false;
-        if (pokemon.move.selected.name === 'いじげんホール')
-            return false;
-        if (pokemon.move.selected.name === 'いじげんラッシュ')
-            return false;
-        if (pokemon.move.selected.name === 'シャドースチール')
-            return false;
+        if (pokemon.move.selected.name === 'Hyperspace Hole')
+            return false; // 技「いじげんホール」
+        if (pokemon.move.selected.name === 'Hyperspace Fury')
+            return false; // 技「いじげんラッシュ」
+        if (pokemon.move.selected.name === 'Spectral Thief')
+            return false; // 技「シャドースチール」
         if (pokemon.move.selected.isStatus()) {
             if (pokemon.move.selected.target === 'users-field')
                 return false;
@@ -1740,15 +1739,16 @@ function disableBySubstitute(pokemon) {
         if (isSame(pokemon, target))
             return false;
         if (pokemon.ability.isName('すりぬけ')) {
-            if (pokemon.move.selected.name === 'へんしん' || pokemon.move.selected.name === 'フリーフォール') {
+            if (pokemon.move.selected.name === 'Transform' // 技「へんしん」
+                || pokemon.move.selected.name === 'Sky Drop') { // 技「フリーフォール」
                 ;
             }
             else {
                 return false;
             }
         }
-        if (soundMoveList.includes(pokemon.move.selected.name) === true) {
-            if (pokemon.move.selected.name === 'とおぼえ' && isFriend(pokemon, target)) {
+        if (pokemon.move.selected.getMaster().sound) {
+            if (pokemon.move.selected.name === 'Howl' && isFriend(pokemon, target)) { // 技「とおぼえ」
                 ;
             }
             else {
@@ -1772,16 +1772,16 @@ function disableByHitJudgment(pokemon) {
         if (pokemon.move.selected.accuracy === null)
             return true;
         if (main.field.weather.isRainy(target)) {
-            if (pokemon.move.selected.isName('Thunder'))
+            if (pokemon.move.selected.name === 'Thunder')
                 return true; // 技「かみなり」
-            if (pokemon.move.selected.isName('Hurricane'))
+            if (pokemon.move.selected.name === 'Hurricane')
                 return true; // 技「ぼうふう」
         }
         if (main.field.weather.isSnowy()) {
-            if (pokemon.move.selected.isName('Blizzard'))
+            if (pokemon.move.selected.name === 'Blizzard')
                 return true; // 技「ふぶき」
         }
-        if (stompMoveList.includes(pokemon.move.selected.name)) {
+        if (pokemon.move.selected.getAddOn().stomp) {
             if (target.stateChange.minimize.isTrue)
                 return true;
         }
@@ -1795,7 +1795,7 @@ function disableByHitJudgment(pokemon) {
             return true;
         if (target.ability.isName('ノーガード'))
             return true;
-        if (pokemon.move.selected.isName('Toxic')) { // 技「どくどく」
+        if (pokemon.move.selected.name === 'Toxic') { // 技「どくどく」
             if (pokemon.type.has('Poison'))
                 return true;
         }
@@ -1807,9 +1807,9 @@ function disableByHitJudgment(pokemon) {
             return 0;
         let accuracy = pokemon.move.selected.accuracy;
         if (main.field.weather.isSunny(pokemon)) {
-            if (pokemon.move.selected.isName('Thunder'))
+            if (pokemon.move.selected.name === 'Thunder')
                 accuracy = 50; // 技「かみなり」
-            if (pokemon.move.selected.isName('Hurricane'))
+            if (pokemon.move.selected.name === 'Hurricane')
                 accuracy = 50; // 技「ぼうふう」
         }
         if (target.ability.isName('ミラクルスキン')) {
@@ -1820,7 +1820,7 @@ function disableByHitJudgment(pokemon) {
         if (pokemon.move.selected.class === 'ohko') {
             accuracy = accuracy + pokemon.level - target.level;
         }
-        if (pokemon.move.selected.isName('Sheer Cold') && !pokemon.type.has('Ice')) { // 技「ぜったいれいど」
+        if (pokemon.move.selected.name === 'Sheer Cold' && !pokemon.type.has('Ice')) { // 技「ぜったいれいど」
             accuracy = 20 + pokemon.level - target.level;
         }
         return accuracy;
@@ -1957,7 +1957,7 @@ function disableByHitJudgment(pokemon) {
 // 技の仕様による無効化(その3)
 function disableByMoveSpec3rd(pokemon) {
     const isDisableForAbility = (pokemon, target) => {
-        if (pokemon.move.selected.isName('Entrainment')) { // 技「なかまづくり」
+        if (pokemon.move.selected.name === 'Entrainment') { // 技「なかまづくり」
             if (pokemon.ability === target.ability)
                 return true;
             if (pokemon.ability.changeMaster().copy === 1)
@@ -1965,13 +1965,13 @@ function disableByMoveSpec3rd(pokemon) {
             if (target.ability.changeMaster().copied === 1)
                 return true;
         }
-        if (pokemon.move.selected.isName('Gastro Acid')) { // 技「いえき」
+        if (pokemon.move.selected.name === 'Gastro Acid') { // 技「いえき」
             if (target.stateChange.noAbility.isTrue)
                 return true;
             if (target.ability.changeMaster().noAbility === 1)
                 return true;
         }
-        if (pokemon.move.selected.isName('Role Play')) { // 技「なりきり」
+        if (pokemon.move.selected.name === 'Role Play') { // 技「なりきり」
             if (pokemon.ability === target.ability)
                 return true;
             if (pokemon.ability.changeMaster().noAbility === 1)
@@ -1979,17 +1979,17 @@ function disableByMoveSpec3rd(pokemon) {
             if (target.ability.changeMaster().copied === 1)
                 return true;
         }
-        if (pokemon.move.selected.isName('Simple Beam')) { // 技「シンプルビーム」
+        if (pokemon.move.selected.name === 'Simple Beam') { // 技「シンプルビーム」
             if (target.ability.isName('たんじゅん'))
                 return true;
             if (target.ability.changeMaster().overwrite === 1)
                 return true;
         }
-        if (pokemon.move.selected.isName('Worry Seed')) { // 技「なやみのタネ」
+        if (pokemon.move.selected.name === 'Worry Seed') { // 技「なやみのタネ」
             if (target.ability.changeMaster().overwrite === 1)
                 return true;
         }
-        if (pokemon.move.selected.isName('Skill Swap')) { // 技「スキルスワップ」
+        if (pokemon.move.selected.name === 'Skill Swap') { // 技「スキルスワップ」
             if (pokemon.ability.changeMaster().exchange === 1)
                 return true;
             if (target.ability.changeMaster().exchange === 1)
@@ -1998,42 +1998,42 @@ function disableByMoveSpec3rd(pokemon) {
         return false;
     };
     const isDisableForItem = (pokemon, target) => {
-        if (pokemon.move.selected.isName('Trick') // 技「トリック」
-            || pokemon.move.selected.isName('Switcheroo')) { // 技「すりかえ」
+        if (pokemon.move.selected.name === 'Trick' // 技「トリック」
+            || pokemon.move.selected.name === 'Switcheroo') { // 技「すりかえ」
             if (pokemon.item === null && target.item === null)
                 return true;
         }
-        if (pokemon.move.selected.isName('Corrosive Gas')) { // 技「ふしょくガス」
-            if (target.isName('ギラティナ(オリジン)') && target.item.isName('はっきんだま'))
-                return true;
-            if (target.isName('ギラティナ(アナザー)') && target.item.isName('はっきんだま'))
-                return true;
-            if (target.isName('ゲノセクト')) {
+        if (pokemon.move.selected.name === 'Corrosive Gas') { // 技「ふしょくガス」
+            if (target.name === 'Giratina Origin' && target.item.isName('はっきんだま'))
+                return true; // ギラティナ(オリジン)
+            if (target.name === 'Giratina Altered' && target.item.isName('はっきんだま'))
+                return true; // ギラティナ(アナザー)
+            if (target.name === 'Genesect') { // ゲノセクト
                 for (const drive of driveTable) {
                     if (drive.name === target.item.name)
                         return true;
                 }
             }
-            if (target.isName('シルヴァディ')) {
+            if (target.name === 'Silvally') { // シルヴァディ
                 for (const memory of memoryTable) {
                     if (memory.name === target.item.name)
                         return true;
                 }
             }
-            if (target.isName('ザシアン') && target.item.isName('くちたけん'))
-                return true;
-            if (target.isName('ザシアン(王)') && target.item.isName('くちたけん'))
-                return true;
-            if (target.isName('ザマゼンタ') && target.item.isName('くちたたて'))
-                return true;
-            if (target.isName('ザマゼンタ(王)') && target.item.isName('くちたたて'))
-                return true;
+            if (target.name === 'Zacian' && target.item.isName('くちたけん'))
+                return true; // ザシアン
+            if (target.name === 'Zacian Crowned' && target.item.isName('くちたけん'))
+                return true; // ザシアン(王)
+            if (target.name === 'Zamazenta' && target.item.isName('くちたたて'))
+                return true; // ザマゼンタ
+            if (target.name === 'Zamazenta Crowned' && target.item.isName('くちたたて'))
+                return true; // ザマゼンタ(王)
         }
-        if (pokemon.move.selected.isName('Recycle')) { // 技「リサイクル」
+        if (pokemon.move.selected.name === 'Recycle') { // 技「リサイクル」
             if (pokemon.item !== null)
                 return true;
         }
-        if (pokemon.move.selected.isName('Bestow')) { // 技「ギフトパス」
+        if (pokemon.move.selected.name === 'Bestow') { // 技「ギフトパス」
             if (pokemon.item === null)
                 return true;
             if (target.item !== null)
@@ -2042,68 +2042,68 @@ function disableByMoveSpec3rd(pokemon) {
         return false;
     };
     const isDisableForFullHP = (pokemon, target) => {
-        if (pokemon.move.selected.isName('Heal Pulse') // 技「いやしのはどう」
-            || pokemon.move.selected.isName('Floral Healing')) { // 技「フラワーヒール」
+        if (pokemon.move.selected.name === 'Heal Pulse' // 技「いやしのはどう」
+            || pokemon.move.selected.name === 'Floral Healing') { // 技「フラワーヒール」
             if (target.status.hp.value.isMax())
                 return true;
         }
-        if (pokemon.move.selected.isName('Life Dew')) { // 技「いのちのしずく」
+        if (pokemon.move.selected.name === 'Life Dew') { // 技「いのちのしずく」
             if (target.status.hp.value.isMax())
                 return true;
         }
-        if (pokemon.move.selected.isName('Jungle Healing')) { // 技「ジャングルヒール」
+        if (pokemon.move.selected.name === 'Jungle Healing') { // 技「ジャングルヒール」
             if (target.status.hp.value.isMax() && target.statusAilment === null)
                 return true;
         }
-        if (pokemon.move.selected.isName('Pollen Puff')) { // 技「かふんだんご」
+        if (pokemon.move.selected.name === 'Pollen Puff') { // 技「かふんだんご」
             if (target.status.hp.value.isMax() && pokemon.isMine() === target.isMine())
                 return true;
         }
-        if (pokemon.move.selected.isName('Morning Sun') // 技「あさのひざし」
-            || pokemon.move.selected.isName('Heal Order') // 技「かいふくしれい」
-            || pokemon.move.selected.isName('Synthesis') // 技「こうごうせい」
-            || pokemon.move.selected.isName('Recover') // 技「じこさいせい」
-            || pokemon.move.selected.isName('Shore Up') // 技「すなあつめ」
-            || pokemon.move.selected.isName('Soft-Boiled') // 技「タマゴうみ」
-            || pokemon.move.selected.isName('Moonlight') // 技「つきのひかり」
-            || pokemon.move.selected.isName('Slack Off') // 技「なまける」
-            || pokemon.move.selected.isName('Roost') // 技「はねやすめ」
-            || pokemon.move.selected.isName('Milk Drink')) { // 技「ミルクのみ」
+        if (pokemon.move.selected.name === 'Morning Sun' // 技「あさのひざし」
+            || pokemon.move.selected.name === 'Heal Order' // 技「かいふくしれい」
+            || pokemon.move.selected.name === 'Synthesis' // 技「こうごうせい」
+            || pokemon.move.selected.name === 'Recover' // 技「じこさいせい」
+            || pokemon.move.selected.name === 'Shore Up' // 技「すなあつめ」
+            || pokemon.move.selected.name === 'Soft-Boiled' // 技「タマゴうみ」
+            || pokemon.move.selected.name === 'Moonlight' // 技「つきのひかり」
+            || pokemon.move.selected.name === 'Slack Off' // 技「なまける」
+            || pokemon.move.selected.name === 'Roost' // 技「はねやすめ」
+            || pokemon.move.selected.name === 'Milk Drink') { // 技「ミルクのみ」
             if (pokemon.status.hp.value.isMax())
                 return true;
         }
         return false;
     };
     const isDisableForStatus = (pokemon, target) => {
-        if (pokemon.move.selected.isName('Belly Drum')) { // 技「はらだいこ」
+        if (pokemon.move.selected.name === 'Belly Drum') { // 技「はらだいこ」
             if (pokemon.status.hp.value.isLessEqual(2))
                 return true;
             if (pokemon.status.atk.rank.isMax())
                 return true;
         }
-        if (pokemon.move.selected.isName('Flower Shield') // 技「フラワーガード」
-            || pokemon.move.selected.isName('Rototiller')) { // 技「たがやす」
+        if (pokemon.move.selected.name === 'Flower Shield' // 技「フラワーガード」
+            || pokemon.move.selected.name === 'Rototiller') { // 技「たがやす」
             if (!target.type.get().includes('Grass'))
                 return true;
         }
-        if (pokemon.move.selected.isName('Magnetic Flux') // 技「じばそうさ」
-            || pokemon.move.selected.isName('Gear Up')) { // 技「アシストギア」
+        if (pokemon.move.selected.name === 'Magnetic Flux' // 技「じばそうさ」
+            || pokemon.move.selected.name === 'Gear Up') { // 技「アシストギア」
             if (!target.ability.isName('プラス') && !target.ability.isName('マイナス'))
                 return true;
         }
-        if (pokemon.move.selected.isName('Strength Sap')) { // 技「ちからをすいとる」
+        if (pokemon.move.selected.name === 'Strength Sap') { // 技「ちからをすいとる」
             if (target.status.atk.rank.isMin())
                 return true;
         }
-        if (pokemon.move.selected.isName('Swagger')) { // 技「いばる」
+        if (pokemon.move.selected.name === 'Swagger') { // 技「いばる」
             if (target.status.atk.rank.isMax() && target.stateChange.confuse.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Flatter')) { // 技「おだてる」
+        if (pokemon.move.selected.name === 'Flatter') { // 技「おだてる」
             if (target.status.spA.rank.isMax() && target.stateChange.confuse.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Topsy-Turvy')) { // 技「ひっくりかえす」
+        if (pokemon.move.selected.name === 'Topsy-Turvy') { // 技「ひっくりかえす」
             if (target.status.atk.rank.isZero()
                 && target.status.def.rank.isZero()
                 && target.status.spA.rank.isZero()
@@ -2113,18 +2113,18 @@ function disableByMoveSpec3rd(pokemon) {
                 && target.status.acc.isZero())
                 return true;
         }
-        if (pokemon.move.selected.isName('Tar Shot')) { // 技「タールショット」
+        if (pokemon.move.selected.name === 'Tar Shot') { // 技「タールショット」
             if (target.status.spe.rank.isMin() && target.stateChange.tarShot.isTrue)
                 return true;
         }
         return false;
     };
     const isDisableForType = (pokemon, target) => {
-        if (pokemon.move.selected.isName('Conversion')) { // 技「テクスチャー」
+        if (pokemon.move.selected.name === 'Conversion') { // 技「テクスチャー」
             if (pokemon.type.has(pokemon.move.selected.type))
                 return true;
         }
-        if (pokemon.move.selected.isName('Camouflage')) { // 技「ほごしょく」
+        if (pokemon.move.selected.name === 'Camouflage') { // 技「ほごしょく」
             if (main.field.terrain.isElectric() && pokemon.type.has('Electric'))
                 return true;
             if (main.field.terrain.isGrassy() && pokemon.type.has('Grass'))
@@ -2136,189 +2136,189 @@ function disableByMoveSpec3rd(pokemon) {
             if (main.field.terrain.isPlain() && pokemon.type.has('Normal'))
                 return true;
         }
-        if (pokemon.move.selected.isName('Soak')) { // 技「みずびたし」
+        if (pokemon.move.selected.name === 'Soak') { // 技「みずびたし」
             const type = target.type.get();
             if (type.length === 1 && type[0] === 'Water')
                 return true;
-            if (target.isName('アルセウス'))
-                return true;
-            if (target.isName('シルヴァディ'))
-                return true;
+            if (target.name === 'Arceus')
+                return true; // アルセウス
+            if (target.name === 'Silvally')
+                return true; // シルヴァディ
         }
-        if (pokemon.move.selected.isName('Magic Powder')) { // 技「まほうのこな」
+        if (pokemon.move.selected.name === 'Magic Powder') { // 技「まほうのこな」
             const type = target.type.get();
             if (type.length === 1 && type[0] === 'Psychic')
                 return true;
-            if (target.isName('アルセウス'))
-                return true;
-            if (target.isName('シルヴァディ'))
-                return true;
+            if (target.name === 'Arceus')
+                return true; // アルセウス
+            if (target.name === 'Silvally')
+                return true; // シルヴァディ
         }
-        if (pokemon.move.selected.isName('Trick-or-Treat')) { // 技「ハロウィン」
+        if (pokemon.move.selected.name === 'Trick-or-Treat') { // 技「ハロウィン」
             if (target.type.get().includes('Ghost'))
                 return true;
         }
-        if (pokemon.move.selected.isName('Forest’s Curse')) { // 技「もりののろい」
+        if (pokemon.move.selected.name === 'Forest’s Curse') { // 技「もりののろい」
             if (target.type.get().includes('Grass'))
                 return true;
         }
         return false;
     };
     const isDisableForDuplicateWholeFileld = (pokemon) => {
-        if (pokemon.move.selected.isName('Sunny Day')) { // 技「にほんばれ」
+        if (pokemon.move.selected.name === 'Sunny Day') { // 技「にほんばれ」
             if (main.field.weather.name === 'HarshSunlight')
                 return true;
         }
-        if (pokemon.move.selected.isName('Rain Dance')) { // 技「あまごい」
+        if (pokemon.move.selected.name === 'Rain Dance') { // 技「あまごい」
             if (main.field.weather.name === 'Rain')
                 return true;
         }
-        if (pokemon.move.selected.isName('Sandstorm')) { // 技「すなあらし」
+        if (pokemon.move.selected.name === 'Sandstorm') { // 技「すなあらし」
             if (main.field.weather.name === 'Sandstorm')
                 return true;
         }
-        if (pokemon.move.selected.isName('Hail')) { // 技「あられ」
+        if (pokemon.move.selected.name === 'Hail') { // 技「あられ」
             if (main.field.weather.name === 'Hail')
                 return true;
         }
-        if (pokemon.move.selected.isName('Snowscape')) { // 技「ゆきげしき」
+        if (pokemon.move.selected.name === 'Snowscape') { // 技「ゆきげしき」
             if (main.field.weather.name === 'Hail')
                 return true;
         }
-        if (pokemon.move.selected.isName('Electric Terrain')) { // 技「エレキフィールド」
+        if (pokemon.move.selected.name === 'Electric Terrain') { // 技「エレキフィールド」
             if (main.field.terrain.isElectric())
                 return true;
         }
-        if (pokemon.move.selected.isName('Grassy Terrain')) { // 技「グラスフィールド」
+        if (pokemon.move.selected.name === 'Grassy Terrain') { // 技「グラスフィールド」
             if (main.field.terrain.isGrassy())
                 return true;
         }
-        if (pokemon.move.selected.isName('Psychic Terrain')) { // 技「サイコフィールド」
+        if (pokemon.move.selected.name === 'Psychic Terrain') { // 技「サイコフィールド」
             if (main.field.terrain.isPsychic())
                 return true;
         }
-        if (pokemon.move.selected.isName('Misty Terrain')) { // 技「ミストフィールド」
+        if (pokemon.move.selected.name === 'Misty Terrain') { // 技「ミストフィールド」
             if (main.field.terrain.isMisty())
                 return true;
         }
-        if (pokemon.move.selected.isName('Gravity')) { // 技「じゅうりょく」
+        if (pokemon.move.selected.name === 'Gravity') { // 技「じゅうりょく」
             if (main.field.whole.gravity.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Mud Sport')) { // 技「どろあそび」
+        if (pokemon.move.selected.name === 'Mud Sport') { // 技「どろあそび」
             if (main.field.whole.mudSport.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Fairy Lock')) { // 技「フェアリーロック」
+        if (pokemon.move.selected.name === 'Fairy Lock') { // 技「フェアリーロック」
             if (main.field.whole.fairyLock.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Ion Deluge')) { // 技「プラズマシャワー」
+        if (pokemon.move.selected.name === 'Ion Deluge') { // 技「プラズマシャワー」
             if (main.field.whole.ionDeluge.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Water Sport')) { // 技「みずあそび」
+        if (pokemon.move.selected.name === 'Water Sport') { // 技「みずあそび」
             if (main.field.whole.waterSport.isTrue)
                 return true;
         }
         return false;
     };
     const isDisableForDuplicateOneFileld = (pokemon) => {
-        if (pokemon.move.selected.isName('Aurora Veil')) { // 技「オーロラベール」
+        if (pokemon.move.selected.name === 'Aurora Veil') { // 技「オーロラベール」
             if (main.field.getSide(pokemon.isMine()).auroraVeil.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Light Screen')) { // 技「ひかりのかべ」
+        if (pokemon.move.selected.name === 'Light Screen') { // 技「ひかりのかべ」
             if (main.field.getSide(pokemon.isMine()).lightScreen.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Reflect')) { // 技「リフレクター」
+        if (pokemon.move.selected.name === 'Reflect') { // 技「リフレクター」
             if (main.field.getSide(pokemon.isMine()).reflect.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Mat Block')) { // 技「たたみがえし」
+        if (pokemon.move.selected.name === 'Mat Block') { // 技「たたみがえし」
             if (main.field.getSide(pokemon.isMine()).matBlock.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Crafty Shield')) { // 技「トリックガード」
+        if (pokemon.move.selected.name === 'Crafty Shield') { // 技「トリックガード」
             if (main.field.getSide(pokemon.isMine()).craftyShield.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Quick Guard')) { // 技「ファストガード」
+        if (pokemon.move.selected.name === 'Quick Guard') { // 技「ファストガード」
             if (main.field.getSide(pokemon.isMine()).quickGuard.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Wide Guard')) { // 技「ワイドガード」
+        if (pokemon.move.selected.name === 'Wide Guard') { // 技「ワイドガード」
             if (main.field.getSide(pokemon.isMine()).wideGuard.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Tailwind')) { // 技「おいかぜ」
+        if (pokemon.move.selected.name === 'Tailwind') { // 技「おいかぜ」
             if (main.field.getSide(pokemon.isMine()).tailwind.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Lucky Chant')) { // 技「おまじない」
+        if (pokemon.move.selected.name === 'Lucky Chant') { // 技「おまじない」
             if (main.field.getSide(pokemon.isMine()).luckyChant.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Mist')) { // 技「しろいきり」
+        if (pokemon.move.selected.name === 'Mist') { // 技「しろいきり」
             if (main.field.getSide(pokemon.isMine()).mist.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Safeguard')) { // 技「しんぴのまもり」
+        if (pokemon.move.selected.name === 'Safeguard') { // 技「しんぴのまもり」
             if (main.field.getSide(pokemon.isMine()).safeguard.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Stealth Rock')) { // 技「ステルスロック」
+        if (pokemon.move.selected.name === 'Stealth Rock') { // 技「ステルスロック」
             if (main.field.getSide(getOpponentTrainer(pokemon.isMine())).stealthRock.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Toxic Spikes')) { // 技「どくびし」
+        if (pokemon.move.selected.name === 'Toxic Spikes') { // 技「どくびし」
             if (main.field.getSide(getOpponentTrainer(pokemon.isMine())).toxicSpikes.count === 2)
                 return true;
         }
-        if (pokemon.move.selected.isName('Sticky Web')) { // 技「ねばねばネット」
+        if (pokemon.move.selected.name === 'Sticky Web') { // 技「ねばねばネット」
             if (main.field.getSide(getOpponentTrainer(pokemon.isMine())).stickyWeb.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Spikes')) { // 技「まきびし」
+        if (pokemon.move.selected.name === 'Spikes') { // 技「まきびし」
             if (main.field.getSide(getOpponentTrainer(pokemon.isMine())).spikes.count === 3)
                 return true;
         }
         return false;
     };
     const isDisableForDuplicateMyCond = (pokemon, target) => {
-        if (pokemon.move.selected.isName('Aqua Ring')) { // 技「アクアリング」
+        if (pokemon.move.selected.name === 'Aqua Ring') { // 技「アクアリング」
             if (pokemon.stateChange.aquaRing.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Focus Energy')) { // 技「きあいだめ」
+        if (pokemon.move.selected.name === 'Focus Energy') { // 技「きあいだめ」
             if (pokemon.stateChange.focusEnergy.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Taunt')) { // 技「ちょうはつ」
+        if (pokemon.move.selected.name === 'Taunt') { // 技「ちょうはつ」
             if (target.stateChange.taunt.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Magnet Rise')) { // 技「でんじふゆう」
+        if (pokemon.move.selected.name === 'Magnet Rise') { // 技「でんじふゆう」
             if (pokemon.stateChange.magnetRise.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Curse') && pokemon.type.has('Ghost')) { // 技「のろい」
+        if (pokemon.move.selected.name === 'Curse' && pokemon.type.has('Ghost')) { // 技「のろい」
             if (target.stateChange.curse.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Lock-On') // 技「ロックオン」
-            || pokemon.move.selected.isName('Mind Reader')) { // 技「こころのめ」
+        if (pokemon.move.selected.name === 'Lock-On' // 技「ロックオン」
+            || pokemon.move.selected.name === 'Mind Reader') { // 技「こころのめ」
             if (pokemon.stateChange.lockOn.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Substitute')) { // 技「みがわり」
+        if (pokemon.move.selected.name === 'Substitute') { // 技「みがわり」
             if (pokemon.stateChange.substitute.isTrue)
                 return true;
             if (pokemon.status.hp.value.isLessEqual(4))
                 return true;
         }
-        if (pokemon.move.selected.isName('Transform')) { // 技「へんしん」
+        if (pokemon.move.selected.name === 'Transform') { // 技「へんしん」
             if (pokemon.stateChange.transform.isTrue)
                 return true;
             if (target.stateChange.transform.isTrue)
@@ -2327,41 +2327,41 @@ function disableByMoveSpec3rd(pokemon) {
         return false;
     };
     const isDisableForDuplicateAction = (pokemon, target) => {
-        if (pokemon.move.selected.isName('Encore')) { // 技「アンコール」
+        if (pokemon.move.selected.name === 'Encore') { // 技「アンコール」
             if (target.stateChange.dynamax.isTrue)
                 return true;
             if (target.stateChange.encore.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.isName('Disable')) { // 技「かなしばり」
+        if (pokemon.move.selected.name === 'Disable') { // 技「かなしばり」
             if (target.stateChange.disable.isTrue)
                 return true;
         }
         return false;
     };
     const isDisableForDuplicateCondition = (pokemon, target) => {
-        if (pokemon.move.selected.isName('Psycho Shift')) { // 技「サイコシフト」
+        if (pokemon.move.selected.name === 'Psycho Shift') { // 技「サイコシフト」
             if (pokemon.statusAilment.isHealth())
                 return true;
             if (target.statusAilment !== null)
                 return true;
         }
-        if (pokemon.move.selected.isName('Purify')) { // 技「じょうか」
+        if (pokemon.move.selected.name === 'Purify') { // 技「じょうか」
             if (target.statusAilment === null)
                 return true;
         }
-        if (pokemon.move.selected.isName('Refresh')) { // 技「リフレッシュ」
+        if (pokemon.move.selected.name === 'Refresh') { // 技「リフレッシュ」
             if (pokemon.statusAilment.isHealth())
                 return true;
         }
         return false;
     };
     const isDisableForDuplicateFileldCondition = (pokemon) => {
-        if (pokemon.move.selected.isName('Sunny Day') // 技「にほんばれ」
-            || pokemon.move.selected.isName('Rain Dance') // 技「あまごい」
-            || pokemon.move.selected.isName('Sandstorm') // 技「すなあらし」
-            || pokemon.move.selected.isName('Hail') // 技「あられ」
-            || pokemon.move.selected.isName('Snowscape')) { // 技「ゆきげしき」
+        if (pokemon.move.selected.name === 'Sunny Day' // 技「にほんばれ」
+            || pokemon.move.selected.name === 'Rain Dance' // 技「あまごい」
+            || pokemon.move.selected.name === 'Sandstorm' // 技「すなあらし」
+            || pokemon.move.selected.name === 'Hail' // 技「あられ」
+            || pokemon.move.selected.name === 'Snowscape') { // 技「ゆきげしき」
             if (main.field.weather.name === 'HarshSunlight' && main.field.weather.strong)
                 return true;
             if (main.field.weather.name === 'Rain' && main.field.weather.strong)
