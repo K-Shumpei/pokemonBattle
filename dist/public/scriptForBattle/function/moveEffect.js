@@ -88,7 +88,8 @@ function calculateDamageForAll(pokemon) {
             target.stateChange.endureMsg.text === 'こらえる';
             return result - 1;
         }
-        if (pokemon.move.selected.isName('みねうち') || pokemon.move.selected.isName('てかげん')) {
+        if (pokemon.move.selected.isName('False Swipe') // 技「みねうち」
+            || pokemon.move.selected.isName('Hold Back')) { // 技「てかげん」
             target.stateChange.endureMsg.isTrue === true;
             target.stateChange.endureMsg.text === pokemon.move.selected.name;
             return result - 1;
@@ -206,7 +207,6 @@ function enduringEffectsMessage(pokemon, isMe) {
 // 追加効果などの発動
 function activateAdditionalEffects(pokemon, isMe, isRange) {
     const master = pokemon.move.selected.getMaster();
-    const flag = pokemon.move.selected.getFlag();
     const addOn = pokemon.move.selected.getAddOn();
     const lower = (pokemon, target, attack) => {
         if (master.category !== 'damage+lower')
@@ -281,8 +281,9 @@ function activateAdditionalEffects(pokemon, isMe, isRange) {
         target.stateChange.flinch.isTrue = true;
     };
     const anchorShot = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('アンカーショット') && !pokemon.move.selected.isName('かげぬい'))
-            return;
+        if (!pokemon.move.selected.isName('Anchor Shot') // 技「アンカーショット」、
+            && !pokemon.move.selected.isName('Spirit Shackle'))
+            return; // 技「かげぬい」
         if (!pokemon.isAdditionalEffect(target, attack))
             return;
         if (target.type.has('Ghost'))
@@ -293,8 +294,8 @@ function activateAdditionalEffects(pokemon, isMe, isRange) {
         target.msgCannotEscape();
     };
     const saltCure = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('しおづけ'))
-            return;
+        if (!pokemon.move.selected.isName('Salt Cure'))
+            return; // 技「しおづけ」
         if (!pokemon.isAdditionalEffect(target, attack))
             return;
         ;
@@ -304,8 +305,8 @@ function activateAdditionalEffects(pokemon, isMe, isRange) {
         target.msgSaltCure();
     };
     const throatChop = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('じごくづき'))
-            return;
+        if (!pokemon.move.selected.isName('Throat Chop'))
+            return; // 技「じごくづき」
         if (!pokemon.isAdditionalEffect(target, attack))
             return;
         if (target.stateChange.throatChop.isTrue)
@@ -314,8 +315,8 @@ function activateAdditionalEffects(pokemon, isMe, isRange) {
         target.stateChange.throatChop.turn = 2;
     };
     const triAttack = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('トライアタック'))
-            return;
+        if (!pokemon.move.selected.isName('Tri Attack'))
+            return; // 技「トライアタック」
         if (!pokemon.isAdditionalEffect(target, attack))
             return;
         if (!pokemon.isAdditionalRate(master.ailment.chance))
@@ -332,8 +333,8 @@ function activateAdditionalEffects(pokemon, isMe, isRange) {
         }
     };
     const fling = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('なげつける'))
-            return;
+        if (!pokemon.move.selected.isName('Fling'))
+            return; // 技「なげつける」
         const item = pokemon.stateChange.fling.text;
         pokemon.stateChange.fling.reset();
         if (!pokemon.isAdditionalEffect(target, attack))
@@ -378,8 +379,8 @@ function activateAdditionalEffects(pokemon, isMe, isRange) {
         }
     };
     const direClaw = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('フェイタルクロー'))
-            return;
+        if (!pokemon.move.selected.isName('Dire Claw'))
+            return; // 技「フェイタルクロー」
         if (!pokemon.isAdditionalEffect(target, attack))
             return;
         if (!pokemon.isAdditionalRate(master.ailment.chance))
@@ -397,7 +398,7 @@ function activateAdditionalEffects(pokemon, isMe, isRange) {
     };
     // 一度だけ発動する
     if (!isRange) {
-        if (pokemon.move.selected.isName('なげつける')) { // 持ち物を失う
+        if (pokemon.move.selected.isName('Fling')) { // 技「なげつける」
             pokemon.stateChange.fling.isTrue = true;
             if (pokemon.item.name !== null) {
                 pokemon.stateChange.flinch.text = pokemon.item.name;
@@ -455,8 +456,8 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (attack.substitute)
             return;
-        if (!pokemon.move.selected.isName('クリアスモッグ'))
-            return;
+        if (!pokemon.move.selected.isName('Clear Smog'))
+            return; // 技「クリアスモッグ」
         target.status.toZeroAllRank();
         target.msgClearSmog();
     };
@@ -477,8 +478,8 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (!target.stateChange.beakBlast.isTrue)
             return;
-        if (pokemon.move.selected.isName('フリーフォール'))
-            return;
+        if (pokemon.move.selected.isName('Sky Drop'))
+            return; // 技「フリーフォール」
         if (!pokemon.isGetAilmentByOther('Burned', target))
             return;
         pokemon.statusAilment.getBurned();
@@ -1083,8 +1084,8 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
     const incinerate = (pokemon, target, attack) => {
         if (attack.substitute)
             return;
-        if (!pokemon.move.selected.isName('やきつくす'))
-            return;
+        if (!pokemon.move.selected.isName('Incinerate'))
+            return; // 技「やきつくす」
         if (target.ability.isName('ねんちゃく'))
             return;
         if (target.item.getMaster().category !== 'jeweles'
@@ -1226,7 +1227,7 @@ function faintingJudgment(pokemon, isMe, isRange) {
     }
     if (!isRange) {
         // いのちがけ使用者のひんし: 防御側にダメージを与え、特性や持ち物の効果が発動した後にひんしになる
-        if (pokemon.move.selected.isName('いのちがけ')) {
+        if (pokemon.move.selected.isName('Final Gambit')) { // 技「いのちがけ」
             pokemon.status.hp.value.toZero();
             pokemon.isFainted();
             pokemon.toHand();
@@ -1279,11 +1280,10 @@ function activateSealedEffects(pokemon, isMe, isRange) {
 // 技の効果
 function activateMoveEffect(pokemon) {
     const master = pokemon.move.selected.getMaster();
-    const flag = pokemon.move.selected.getFlag();
     const addOn = pokemon.move.selected.getAddOn();
     const recoil = (pokemon, attack) => {
         // わるあがきの反動ダメージは無視されない
-        if (!pokemon.move.selected.isName('わるあがき')) {
+        if (!pokemon.move.selected.isName('Struggle')) { // 技「わるあがき」
             if (pokemon.ability.isName('マジックガード'))
                 return;
             if (pokemon.ability.isName('いしあたま'))
@@ -1314,10 +1314,8 @@ function activateMoveEffect(pokemon) {
         if (target.stateChange.bind.isTrue)
             return;
         if (attack.substitute) {
-            if (pokemon.move.selected.isName('キョダイサジン'))
-                return;
-            if (pokemon.move.selected.isName('キョダイヒャッカ'))
-                return;
+            // if ( pokemon.move.selected.isName( 'キョダイサジン' ) ) return;
+            // if ( pokemon.move.selected.isName( 'キョダイヒャッカ' ) ) return;
         }
         const getTurn = (pokemon) => {
             let turn = 4;
@@ -1335,8 +1333,8 @@ function activateMoveEffect(pokemon) {
         target.msgBind(pokemon.getArticle());
     };
     const secretPower = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('ひみつのちから'))
-            return;
+        if (!pokemon.move.selected.isName('Secret Power'))
+            return; // 技「ひみつのちから」
         if (target.status.hp.value.isZero())
             return;
         if (!pokemon.isAdditionalEffect(target, attack))
@@ -1364,8 +1362,8 @@ function activateMoveEffect(pokemon) {
         }
     };
     const fellStinger = (pokemon, target) => {
-        if (!pokemon.move.selected.isName('とどめばり'))
-            return;
+        if (!pokemon.move.selected.isName('Fell Stinger'))
+            return; // 技「とどめばり」
         if (!target.status.hp.value.isZero())
             return;
         if (!pokemon.isChangeRank('atk', 3))
@@ -1374,8 +1372,8 @@ function activateMoveEffect(pokemon) {
         pokemon.changeRank('atk', 3);
     };
     const knockOff = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('はたきおとす'))
-            return;
+        if (!pokemon.move.selected.isName('Knock Off'))
+            return; // 技「はたきおとす」
         if (target.item.name === null)
             return;
         if (target.ability.isName('ねんちゃく'))
@@ -1386,8 +1384,9 @@ function activateMoveEffect(pokemon) {
         target.item.name = null;
     };
     const thief = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('どろぼう') && !pokemon.move.selected.isName('ほしがる'))
-            return;
+        if (!pokemon.move.selected.isName('Thief') // 技「どろぼう」
+            && !pokemon.move.selected.isName('Covet'))
+            return; // 技「ほしがる」
         if (pokemon.item.name !== null)
             return;
         if (target.item.name === null)
@@ -1408,9 +1407,9 @@ function activateMoveEffect(pokemon) {
         */
     };
     const bugBite = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('むしくい')
-            && !pokemon.move.selected.isName('ついばむ'))
-            return;
+        if (!pokemon.move.selected.isName('Bug Bite') // 技「むしくい」
+            && !pokemon.move.selected.isName('Pluck'))
+            return; // 技「ついばむ」
         if (pokemon.item.name !== null)
             return;
         if (target.item.name === null)
@@ -1624,9 +1623,9 @@ function activateMoveEffect(pokemon) {
         }
     };
     const smackDown = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('うちおとす')
-            && !pokemon.move.selected.isName('サウザンアロー'))
-            return;
+        if (!pokemon.move.selected.isName('Smack Down') // 技「うちおとす」
+            && !pokemon.move.selected.isName('Thousand Arrows'))
+            return; // 技「サウザンアロー」
         if (target.status.hp.value.isZero())
             return;
         if (attack.substitute)
@@ -1639,8 +1638,8 @@ function activateMoveEffect(pokemon) {
         target.msgSmackDown();
     };
     const thousandWaves = (pokemon, target) => {
-        if (!pokemon.move.selected.isName('サウザンウェーブ'))
-            return;
+        if (!pokemon.move.selected.isName('Thousand Waves'))
+            return; // 技「サウザンウェーブ」
         if (target.status.hp.value.isZero())
             return;
         if (target.type.has('Ghost'))
@@ -1651,8 +1650,8 @@ function activateMoveEffect(pokemon) {
         target.msgThousandWaves();
     };
     const jawLock = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('くらいつく'))
-            return;
+        if (!pokemon.move.selected.isName('Jaw Lock'))
+            return; // 技「くらいつく」
         if (target.status.hp.value.isZero())
             return;
         if (attack.substitute)
@@ -1670,16 +1669,16 @@ function activateMoveEffect(pokemon) {
         pokemon.msgJawLock();
     };
     const plasmaFists = (pokemon) => {
-        if (pokemon.move.selected.isName('プラズマフィスト'))
-            return;
+        if (pokemon.move.selected.isName('Plasma Fists'))
+            return; // 技「プラズマフィスト」
         if (pokemon.status.hp.value.isZero())
             return;
         fieldStatus.whole.ionDeluge.isTrue = true;
         writeLog(`電子のシャワーが 降りそそいだ!`);
     };
     const genesisSupernova = (pokemon) => {
-        if (!pokemon.move.selected.isName('オリジンズスーパーノヴァ'))
-            return;
+        if (!pokemon.move.selected.isName('Genesis Supernova'))
+            return; // 技「オリジンズスーパーノヴァ」
         if (pokemon.stateChange.sheerForce.isTrue)
             return;
         if (fieldStatus.terrain.isPsychic())
@@ -1687,9 +1686,9 @@ function activateMoveEffect(pokemon) {
         fieldStatus.terrain.getPsychic(pokemon);
     };
     const rapidSpin = (pokemon) => {
-        if (!pokemon.move.selected.isName('こうそくスピン')
-            && !pokemon.move.selected.isName('キラースピン'))
-            return;
+        if (!pokemon.move.selected.isName('Rapid Spin') // 技「こうそくスピン」
+            && !pokemon.move.selected.isName('Mortal Spin'))
+            return; // 技「キラースピン」
         if (pokemon.stateChange.sheerForce.isTrue)
             return;
         if (pokemon.stateChange.ingrain.isTrue) {
@@ -1702,14 +1701,14 @@ function activateMoveEffect(pokemon) {
         main.field.getSide(pokemon.isMine()).resetStickyWeb();
     };
     const splinteredStormshards = (pokemon) => {
-        if (!pokemon.move.selected.isName('ラジアルエッジストーム'))
-            return;
+        if (!pokemon.move.selected.isName('Splintered Stormshards'))
+            return; // 技「ラジアルエッジストーム」
         main.field.terrain.resetWithMessage();
     };
     const scald = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('ねっとう')
-            && !pokemon.move.selected.isName('スチームバースト'))
-            return;
+        if (!pokemon.move.selected.isName('Scald') // 技「ねっとう」
+            && !pokemon.move.selected.isName('Steam Eruption'))
+            return; // 技「スチームバースト」
         if (attack.substitute)
             return;
         if (pokemon.stateChange.sheerForce.isTrue)
@@ -1717,15 +1716,15 @@ function activateMoveEffect(pokemon) {
         target.statusAilment.getHealth();
     };
     const hydroSteam = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('ハイドロスチーム'))
-            return;
+        if (!pokemon.move.selected.isName('Hydro Steam'))
+            return; // 技「ハイドロスチーム」
         if (attack.substitute)
             return;
         target.statusAilment.getHealth();
     };
     const smellingSalts = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('きつけ'))
-            return;
+        if (!pokemon.move.selected.isName('Smelling Salts'))
+            return; // 技「きつけ」
         if (attack.substitute)
             return;
         if (!target.statusAilment.isParalysis())
@@ -1733,8 +1732,8 @@ function activateMoveEffect(pokemon) {
         target.statusAilment.getHealth();
     };
     const wakeUpSlap = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('めざましビンタ'))
-            return;
+        if (!pokemon.move.selected.isName('Wake-Up Slap'))
+            return; // 技「めざましビンタ」
         if (attack.substitute)
             return;
         if (!target.statusAilment.isAsleep())
@@ -1742,8 +1741,8 @@ function activateMoveEffect(pokemon) {
         target.statusAilment.getHealth();
     };
     const sparklingAria = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('うたかたのアリア'))
-            return;
+        if (!pokemon.move.selected.isName('Sparkling Aria'))
+            return; // 技「うたかたのアリア」
         if (pokemon.stateChange.sheerForce.isTrue)
             return;
         if (!target.statusAilment.isBurned())
@@ -1759,8 +1758,8 @@ function activateMoveEffect(pokemon) {
         target.statusAilment.getHealth();
     };
     const eerieSpell = (pokemon, target, attack) => {
-        if (!pokemon.move.selected.isName('ぶきみなじゅもん'))
-            return;
+        if (!pokemon.move.selected.isName('Eerie Spell'))
+            return; // 技「ぶきみなじゅもん」
         if (!pokemon.isAdditionalEffect(target, attack))
             return;
         // writeLog( `${getArticle( one.target)}の ${}を ${}削った!` );
@@ -1812,14 +1811,14 @@ function activateAbilityEffectPart1(pokemon) {
             return;
         if (pokemon.move.selected.isStatus())
             return;
-        if (pokemon.move.selected.isName('なげつける'))
-            return;
-        if (pokemon.move.selected.isName('しぜんのめぐみ'))
-            return;
-        if (pokemon.move.selected.isName('みらいよち'))
-            return;
-        if (pokemon.move.selected.isName('はめつのねがい'))
-            return;
+        if (pokemon.move.selected.isName('Fling'))
+            return; // 技「なげつける」
+        if (pokemon.move.selected.isName('Natural Gift'))
+            return; // 技「しぜんのめぐみ」
+        if (pokemon.move.selected.isName('Future Sight'))
+            return; // 技「みらいよち」
+        if (pokemon.move.selected.isName('Doom Desire'))
+            return; // 技「はめつのねがい」
         for (const attack of pokemon.attack.getTargetToPokemon()) {
             const target = main.getPokemonByBattle(attack);
             if (attack.substitute)
@@ -1918,8 +1917,8 @@ function activateAbilityEffectPart1(pokemon) {
             return;
         if (target.type.has(pokemon.move.selected.type))
             return;
-        if (pokemon.move.selected.isName('わるあがき'))
-            return;
+        if (pokemon.move.selected.isName('Struggle'))
+            return; // 技「わるあがき」
         if (pokemon.move.selected.type === null)
             return;
         if (pokemon.stateChange.sheerForce.isTrue)
@@ -2015,8 +2014,8 @@ function targetItemEffectPart3(pokemon) {
 // いにしえのうた/きずなへんげによるフォルムチェンジ
 function formChangeByMove(pokemon) {
     const relicSong = (pokemon) => {
-        if (!pokemon.move.selected.isName('いにしえのうた'))
-            return;
+        if (!pokemon.move.selected.isName('Relic Song'))
+            return; // 技「いにしえのうた」
         if (!pokemon.isName('メロエッタ(ボイス)') && !pokemon.isName('メロエッタ(ステップ)'))
             return;
         if (pokemon.stateChange.sheerForce.isTrue)
@@ -2395,20 +2394,20 @@ function activatePickpocket(pokemon) {
 }
 // 技の効果
 function otherEffect(pokemon) {
-    if (pokemon.move.selected.isName('もえつきる')) {
+    if (pokemon.move.selected.isName('Burn Up')) { // 技「もえつきる」
         // if ( pokemon.type1 === 'FIRE' ) pokemon.type1 = null;
         // if ( pokemon.type2 === 'FIRE' ) pokemon.type2 = null;
         writeLog(`${getArticle(pokemon)}の 炎は 燃え尽きた!`);
     }
-    naturalGift: if (pokemon.move.selected.isName('しぜんのめぐみ')) {
+    naturalGift: if (pokemon.move.selected.isName('Natural Gift')) { // 技「しぜんのめぐみ」
         if (pokemon.order.battle === null)
             break naturalGift;
         pokemon.consumeItem();
     }
-    if (pokemon.move.selected.isName('アイアンローラー')) {
+    if (pokemon.move.selected.isName('Steel Roller')) { // 技「アイアンローラー」
         fieldStatus.terrain.resetWithMessage();
     }
-    iceSpinner: if (pokemon.move.selected.isName('アイススピナー')) {
+    iceSpinner: if (pokemon.move.selected.isName('Ice Spinner')) { // 技「アイススピナー」
         if (pokemon.order.battle === null)
             break iceSpinner;
         main.field.terrain.resetWithMessage();

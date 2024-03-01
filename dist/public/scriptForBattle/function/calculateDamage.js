@@ -9,6 +9,9 @@ function calculateDamage(pokemon, target, attack) {
         return
     }
     */
+    const fixedDamage = isFixedDamage(pokemon, target);
+    if (fixedDamage)
+        return fixedDamage;
     // 最終威力
     const power = getPower(pokemon, target);
     // 攻撃と防御の実数値取得　A/D
@@ -17,11 +20,16 @@ function calculateDamage(pokemon, target, attack) {
     const finalDamage = getDamage(pokemon, target, power, status, attack);
     return finalDamage;
 }
+function isFixedDamage(pokemon, target) {
+    const move = pokemon.move.selected;
+    return 0;
+}
 // 威力計算
 function getPower(pokemon, target) {
     const getBasicPawer = (pokemon, target) => {
         const move = pokemon.move.selected;
-        if (move.isName('きしかいせい') || move.isName('じたばた')) {
+        if (move.isName('Reversal') // 技「きしかいせい」
+            || move.isName('Flail')) { // 技「じたばた」
             if (pokemon.status.hp.value.rate() >= 0)
                 return 200;
             if (pokemon.status.hp.value.rate() >= 2 / 48)
@@ -35,22 +43,26 @@ function getPower(pokemon, target) {
             if (pokemon.status.hp.value.rate() >= 33 / 48)
                 return 20;
         }
-        if (move.isName('しおふき') || move.isName('ふんか') || move.isName('ドラゴンエナジー')) {
+        if (move.isName('Water Spout') // 技「しおふき」
+            || move.isName('Eruption') // 技「ふんか」
+            || move.isName('Dragon Energy')) { // 技「ドラゴンエナジー」
             const base = Math.floor(150 * pokemon.status.hp.value.rate());
             return Math.max(base, 1);
         }
-        if (move.isName('しぼりとる') || move.isName('にぎりつぶす')) {
+        if (move.isName('Wring Out') // 技「しぼりとる」
+            || move.isName('Crush Grip')) { // 技「にぎりつぶす」
             const base = Math.floor(150 * target.status.hp.value.rate());
             return Math.max(base, 1);
         }
-        if (move.isName('アシストパワー') || move.isName('つけあがる')) {
+        if (move.isName('Stored Power') // 技「アシストパワー」
+            || move.isName('Power Trip')) { // 技「つけあがる」
             return 20 * (pokemon.status.countRank() + 1);
         }
-        if (move.isName('おしおき')) {
+        if (move.isName('Punishment')) { // 技「おしおき」
             const base = 20 * (pokemon.status.countRank() + 3);
             return Math.min(base, 200);
         }
-        if (move.isName('エレキボール')) {
+        if (move.isName('Electro Ball')) { // 技「エレキボール」
             if (target.status.spe.forPowerCalc === 0)
                 return 1; // 相手の値が0なら威力は40
             const parameter = pokemon.status.spe.forPowerCalc / target.status.spe.forPowerCalc;
@@ -65,20 +77,20 @@ function getPower(pokemon, target) {
             if (parameter >= 0)
                 return 40;
         }
-        if (move.isName('ジャイロボール')) {
+        if (move.isName('Gyro Ball')) { // 技「ジャイロボール」
             if (pokemon.status.spe.forPowerCalc === 0)
                 return 1; // 自分の値が0なら威力は1
             return Math.floor(25 * target.status.spe.forPowerCalc / pokemon.status.spe.forPowerCalc) + 1;
         }
-        if (move.isName('おんがえし')) {
+        if (move.isName('Return')) { // 技「おんがえし」
             const base = Math.floor(pokemon.happiness * 10 / 25);
             return Math.max(base, 1);
         }
-        if (move.isName('やつあたり')) {
+        if (move.isName('Frustration')) { // 技「やつあたり」
             const base = Math.floor((255 - pokemon.happiness) * 10 / 25);
             return Math.max(base, 1);
         }
-        if (move.isName('きりふだ')) {
+        if (move.isName('Trump Card')) { // 技「きりふだ」
             const parameter = pokemon.move.learned[pokemon.move.selected.slot].powerPoint.value;
             if (parameter === 0)
                 return 200;
@@ -91,7 +103,8 @@ function getPower(pokemon, target) {
             if (parameter >= 4)
                 return 40;
         }
-        if (move.isName('くさむすび') || move.isName('けたぐり')) {
+        if (move.isName('Grass Knot') // 技「くさむすび」
+            || move.isName('Low Kick')) { // 技「けたぐり」
             const parameter = target.getWeight();
             if (parameter >= 120)
                 return 120;
@@ -105,7 +118,8 @@ function getPower(pokemon, target) {
                 return 40;
             return 20;
         }
-        if (move.isName('ヒートスタンプ') || move.isName('ヘビーボンバー')) {
+        if (move.isName('Heat Crash') // 技「ヒートスタンプ」
+            || move.isName('Heavy Slam')) { // 技「ヘビーボンバー」
             const parameter = target.getWeight() / pokemon.getWeight();
             if (parameter <= 1 / 5)
                 return 120;
@@ -117,22 +131,22 @@ function getPower(pokemon, target) {
                 return 60;
             return 40;
         }
-        if (move.isName('きつけ')) {
+        if (move.isName('Smelling Salts')) { // 技「きつけ」
             if (target.statusAilment.isParalysis()) {
                 return 140;
             }
         }
-        if (move.isName('めざましビンタ')) {
+        if (move.isName('Wake-Up Slap')) { // 技「めさましビンタ」
             if (target.statusAilment.isAsleep()) {
                 return 140;
             }
         }
-        if (move.isName('たたりめ')) {
+        if (move.isName('Hex')) { // 技「たたりめ」
             if (!target.statusAilment.isHealth()) {
                 return 130;
             }
         }
-        if (move.isName('ウェザーボール')) {
+        if (move.isName('Weather Ball')) { // 技「ウェザーボール」
             if (fieldStatus.weather.isSunny(pokemon))
                 return 100;
             if (fieldStatus.weather.isRainy(pokemon))
@@ -142,77 +156,83 @@ function getPower(pokemon, target) {
             if (fieldStatus.weather.isSnowy())
                 return 100;
         }
-        if (move.isName('だいちのはどう')) {
+        if (move.isName('Terrain Pulse')) { // 技「だいちのはどう」
             if (pokemon.isGround()) {
                 if (!fieldStatus.terrain.isPlain())
                     return 100;
             }
         }
-        if (move.isName('ライジングボルト')) {
+        if (move.isName('Rising Voltage')) { // 技「ライジングボルト」
             if (target.isGround() && fieldStatus.terrain.isElectric()) {
                 return 140;
             }
         }
-        if (move.isName('かぜおこし') || move.isName('たつまき')) {
+        if (move.isName('Gust') // 技「かぜおこし」
+            || move.isName('Twister')) { // 技「たつまき」
             ;
         }
-        if (move.isName('アクロバット')) {
+        if (move.isName('Acrobatics')) { // 技「アクロバット」
             if (pokemon.item === null) {
                 return 110;
             }
         }
-        if (move.isName('しぜんのめぐみ')) {
+        if (move.isName('Natural Gift')) { // 技「しぜんのめぐみ」
             for (const berry of berryTable) {
                 if (pokemon.item.isName(berry.name) === true) {
                     return berry.naturalGift.power;
                 }
             }
         }
-        if (move.isName('なげつける')) {
+        if (move.isName('Fling')) { // 技「なげつける」
             ;
         }
-        if (move.isName('アイスボール') || move.isName('ころがる')) {
+        if (move.isName('Ice Ball') // 技「アイスボール」
+            || move.isName('Rollout')) { // 技「ころがる」
             ;
         }
-        if (move.isName('エコーボイス')) {
+        if (move.isName('Echoed Voice')) { // 技「エコーボイス」
             ;
         }
-        if (move.isName('じだんだ')) {
+        if (move.isName('Stomping Tantrum')) { // 技「じだんだ」
             ;
         }
-        if (move.isName('トリプルキック')) {
+        if (move.isName('Triple Kick')) { // 技「トリプルキック」
             ;
         }
-        if (move.isName('トリプルアクセル')) {
+        if (move.isName('Triple Axel')) { // 技「トリプルアクセル」
             ;
         }
-        if (move.isName('はきだす')) {
+        if (move.isName('Spit Up')) { // 技「はきだす」
             ;
         }
-        if (move.isName('りんしょう')) {
+        if (move.isName('Round')) { // 技「りんしょう」
         }
-        if (move.isName('れんぞくぎり')) {
+        if (move.isName('Fury Cutter')) { // 技「れんぞくぎり」
             ;
         }
-        if (move.isName('くさのちかい') || move.isName('ほのおのちかい') || move.isName('みずのちかい')) {
+        if (move.isName('Grass Pledge') // 技「くさのちかい」
+            || move.isName('Fire Pledge') // 技「ほのおのちかい」
+            || move.isName('Water Pledge')) { // 技「みずのちかい」
             ;
         }
-        if (move.isName('エラがみ') || move.isName('でんげきくちばし')) {
+        if (move.isName('Fishious Rend') // 技「エラがみ」
+            || move.isName('Bolt Beak')) { // 技「でんげきくちばし」
             ;
         }
-        if (move.isName('おいうち')) {
+        if (move.isName('Pursuit')) { // 技「おいうち」
             ;
         }
-        if (move.isName('しっぺがえし')) {
+        if (move.isName('Payback')) { // 技「しっぺがえし」
             ;
         }
-        if (move.isName('ダメおし')) {
+        if (move.isName('Assurance')) { // 技「ダメおし」
             ;
         }
-        if (move.isName('ゆきなだれ') || move.isName('リベンジ')) {
+        if (move.isName('Avalanche') // 技「ゆきなだれ」
+            || move.isName('Revenge')) { // 技「リベンジ」
             ;
         }
-        if (move.isName('プレゼント')) {
+        if (move.isName('Present')) { // 技「プレゼント」
             const random = getRandom();
             if (random >= 0)
                 return 40;
@@ -223,10 +243,10 @@ function getPower(pokemon, target) {
             if (random >= 88)
                 return 0;
         }
-        if (move.isName('マグニチュード')) {
+        if (move.isName('Magnitude')) { // 技「マグニチュード」
             ;
         }
-        if (move.isName('みずしゅりけん')) {
+        if (move.isName('Water Shuriken')) { // 技「みずしゅりけん」
             ;
         }
         // 基礎威力が定義されていない場合、1を返す
@@ -438,27 +458,28 @@ function getPower(pokemon, target) {
             correction = Math.round(correction * 5325 / 4096);
             pokemon.stateChange.gem.reset();
         }
-        if (move.isName('ソーラービーム') || move.isName('ソーラーブレード')) {
+        if (move.isName('Solar Beam') // 技「ソーラービーム」
+            || move.isName('Solar Blade')) { // 技「ソーラーブレード」
             if (fieldStatus.weather.isRainy(pokemon) || fieldStatus.weather.isSandy() || fieldStatus.weather.isSnowy()) {
                 correction = Math.round(correction * 2048 / 4096);
             }
         }
-        if (move.isName('Gのちから')) {
+        if (move.isName('Grav Apple')) { // 技「Ｇのちから」
             if (fieldStatus.whole.gravity.isTrue) {
                 correction = Math.round(correction * 6144 / 4096);
             }
         }
-        if (move.isName('はたきおとす')) {
+        if (move.isName('Knock Off')) { // 技「はたきおとす」
             if (isReleasableItem(pokemon, target)) {
                 correction = Math.round(correction * 6144 / 4096);
             }
         }
-        if (move.isName('ミストバースト')) {
+        if (move.isName('Misty Explosion')) { // 技「ミストバースト」
             if (fieldStatus.terrain.isMisty() && pokemon.isGround()) {
                 correction = Math.round(correction * 6144 / 4096);
             }
         }
-        if (move.isName('ワイドフォース')) {
+        if (move.isName('Expanding Force')) { // 技「ワイドフォース」
             if (fieldStatus.terrain.isPsychic() && pokemon.isGround()) {
                 correction = Math.round(correction * 6144 / 4096);
             }
@@ -474,23 +495,25 @@ function getPower(pokemon, target) {
                 pokemon.stateChange.charge.reset();
             }
         }
-        if (move.isName('からげんき')) {
+        if (move.isName('Facade')) { // 技「からげんき」
             if (pokemon.statusAilment.isPoisoned() || pokemon.statusAilment.isBurned() || pokemon.statusAilment.isParalysis()) {
                 correction = Math.round(correction * 8192 / 4096);
             }
         }
-        if (move.isName('しおみず')) {
+        if (move.isName('Brine')) { // 技「しおみず」
             if (target.status.hp.value.isLessEqual(2)) {
                 correction = Math.round(correction * 8192 / 4096);
             }
         }
-        if (move.isName('ベノムショック')) {
+        if (move.isName('Venoshock')) { // 技「ベノムショック」
             if (pokemon.statusAilment.isPoisoned()) {
                 correction = Math.round(correction * 8192 / 4096);
             }
         }
         if (fieldStatus.terrain.isGrassy() && target.isGround()) {
-            if (move.isName('じしん') || move.isName('じならし') || move.isName('マグニチュード')) {
+            if (move.isName('Earthquake') // 技「じしん」
+                || move.isName('Bulldoze') // 技「じならし」
+                || move.isName('Magnitude')) { // 技「マグニチュード」
                 correction = Math.round(correction * 2048 / 4096);
             }
         }
@@ -880,7 +903,7 @@ function getDamage(pokemon, target, power, status, attack) {
     damage = Math.floor(damage * attack.effective);
     // やけど補正
     if (pokemon.statusAilment.isBurned()) {
-        if (!pokemon.move.selected.isName('からげんき') && pokemon.move.selected.isPhysical()) {
+        if (!pokemon.move.selected.isName('Facade') && pokemon.move.selected.isPhysical()) { // 技「からげんき」
             damage = fiveRoundEntry(damage * 0.5);
         }
     }
@@ -991,12 +1014,13 @@ function getDamage(pokemon, target, power, status, attack) {
     }
     // Mtwice
     if (target.stateChange.dig.isTrue) {
-        if (pokemon.move.selected.isName('じしん') || pokemon.move.selected.isName('マグニチュード')) {
+        if (pokemon.move.selected.isName('Earthquake') // 技「じしん」
+            || pokemon.move.selected.isName('Magnitude')) { // 技「マグニチュード」
             corrM = Math.round(corrM * 2);
         }
     }
     if (target.stateChange.dive.isTrue) {
-        if (pokemon.move.selected.isName('なみのり')) {
+        if (pokemon.move.selected.isName('Surf')) { // 技「なみのり」
             corrM = Math.round(corrM * 2);
         }
     }
@@ -1006,7 +1030,9 @@ function getDamage(pokemon, target, power, status, attack) {
         }
     }
     if (target.stateChange.dynamax.isTrue) {
-        if (pokemon.move.selected.isName('きょじゅうざん') || pokemon.move.selected.isName('きょじゅうだん') || pokemon.move.selected.isName('ダイマックスほう')) {
+        if (pokemon.move.selected.isName('Behemoth Blade') // 技「きょじゅうざん」
+            || pokemon.move.selected.isName('Behemoth Bash') // 技「きょじゅうだん」
+            || pokemon.move.selected.isName('Dynamax Cannon')) { // 技「ダイマックスほう」
             corrM = Math.round(corrM * 2);
         }
     }

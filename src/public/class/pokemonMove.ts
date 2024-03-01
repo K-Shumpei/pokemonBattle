@@ -217,10 +217,6 @@ class SelectedMove {
     return moveMaster.filter( m => m.nameEN === this._name )[0];
   }
 
-  getFlag(): MoveFlagData {
-    return moveFlagMaster.filter( flag => flag.nameEN === this._name )[0]
-  }
-
   getAddOn(): MoveAddOnData {
     return moveAddOnMaster.filter( add => add.nameEN === this._name )[0]
   }
@@ -257,7 +253,7 @@ class SelectedMove {
     return this._class === 'status';
   }
 
-  isName( name: string ): boolean {
+  isName( name: MoveText ): boolean {
     return this._name === name;
   }
 
@@ -299,7 +295,7 @@ class SelectedMove {
   // マグニチュード
   //-------------
   fixMagnitudePower(): void {
-    if ( !this.isName( 'マグニチュード' ) ) return;
+    if ( !this.isName( 'Magnitude' ) ) return; // 技「マグニチュード」
 
     const random: number = getRandom();
 

@@ -177,7 +177,7 @@ class Attack {
       if ( rate === 0.0 && target.item.isName( 'ねらいのまと' ) ) {
         return 1.0;
       }
-      if ( move.isName( 'フリーズドライ' ) && defType === 'Water' ) {
+      if ( move.isName( 'Freeze-Dry' ) && defType === 'Water' ) { // 技「フリーズドライ」
         return 2.0;
       }
 
@@ -1572,6 +1572,49 @@ class Pokemon {
   msgProtean(): void {
     writeLog( `${this.getArticle()}は ${this._type.get()[0]}タイプに なった!` );
   }
+  msgPreliminary(): void {
+    if ( this._move.selected.isName( 'Razor Wind' ) ) { // 技「かまいたち」
+      writeLog( `${this.getArticle()}の 周りで 空気が 渦を巻く!` );
+    }
+    if ( this._move.selected.isName( 'Ice Burn' ) ) { // 技「コールドフレア」
+      writeLog( `${this.getArticle()}は 凍える空気に 包まれた!` );
+    }
+    if ( this._move.selected.isName( 'Sky Attack' ) ) { // 技「ゴッドバード」
+      writeLog( `${this.getArticle()}を 激しい光が 包む!` );
+    }
+    if ( this._move.selected.isName( 'Geomancy' ) ) { // 技「ジオコントロール」
+      writeLog( `${this.getArticle()}は パワーを ためこんでいる!` );
+    }
+    if ( this._move.selected.isName( 'Solar Beam' ) // 技「ソーラービーム」
+      || this._move.selected.isName( 'Solar Blade' ) ) { // 技「ソーラーブレード」
+      writeLog( `${this.getArticle()}は 光を 吸収した!` );
+    }
+    if ( this._move.selected.isName( 'Freeze Shock' ) ) { // 技「フリーズボルト」
+      writeLog( `${this.getArticle()}は 冷たい光に 包まれた!` );
+    }
+    if ( this._move.selected.isName( 'Meteor Beam' ) ) { // 技「メテオビーム」
+      writeLog( `${this.getArticle()}に 宇宙の 力が あふれだす!` );
+    }
+    if ( this._move.selected.isName( 'Skull Bash' ) ) { // 技「ロケットずつき」
+      writeLog( `${this.getArticle()}は 首を 引っ込めた!` );
+    }
+    if ( this._move.selected.isName( 'Dig' ) ) { // 技「あなをほる」
+      writeLog( `${this.getArticle()}は 地面に 潜った!` );
+    }
+    if ( this._move.selected.isName( 'Fly' ) ) { // 技「そらをとぶ」
+      writeLog( `${this.getArticle()}は 空高く 飛び上がった!` );
+    }
+    if ( this._move.selected.isName( 'Bounce' ) ) { // 技「とびはねる」
+      writeLog( `${this.getArticle()}は 高く 飛び跳ねた!` );
+    }
+    if ( this._move.selected.isName( 'Dive' ) ) { // 技「ダイビング」
+      writeLog( `${this.getArticle()}は 水中に 身を潜めた!` );
+    }
+    if ( this._move.selected.isName( 'Phantom Force' ) // 技「ゴーストダイブ」
+      || this._move.selected.isName( 'Shadow Force' ) ) { // 技「シャドーダイブ」
+      writeLog( `${this.getArticle()}の姿が 一瞬にして 消えた!` );
+    }
+  }
   msgPowerHerb(): void {
     writeLog( `${this.getArticle()}は パワフルハーブで 力が みなぎった!` );
   }
@@ -1724,34 +1767,34 @@ class Pokemon {
     writeLog( `${this.getArticle()}は 反動による ダメージを 受けた!` );
   }
   msgBind( targetName: string ): void {
-    if ( this._move.selected.isName( 'うずしお' ) ) {
+    if ( this._move.selected.isName( 'Whirlpool' ) ) { // 技「うずしお」
       writeLog( `${this.getArticle()}は 渦の中に 閉じこめられた!` );
     }
-    if ( this._move.selected.isName( 'からではさむ' ) ) {
+    if ( this._move.selected.isName( 'Clamp' ) ) { // 技「からではさむ」
       writeLog( `${this.getArticle()}は ${targetName}の からに はさまれた!` );
     }
-    if ( this._move.selected.isName( 'サンダープリズン' ) ) {
+    if ( this._move.selected.isName( 'Thunder Cage' ) ) { // 技「サンダープリズン」
       writeLog( `${this.getArticle()}は ${targetName}に 閉じこめられた!` );
     }
-    if ( this._move.selected.isName( 'しめつける' ) ) {
+    if ( this._move.selected.isName( 'Bind' ) ) { // 技「しめつける」
       writeLog( `${this.getArticle()}は ${targetName}に しめつけられた!` );
     }
-    if ( this._move.selected.isName( 'すなじごく' ) ) {
+    if ( this._move.selected.isName( 'Sand Tomb' ) ) { // 技「すなじごく」
       writeLog( `${this.getArticle()}は 砂じごくに 捕らわれた!` );
     }
-    if ( this._move.selected.isName( 'トラバサミ' ) ) {
+    if ( this._move.selected.isName( 'Snap Trap' ) ) { // 技「トラバサミ」
       writeLog( `${this.getArticle()}は トラバサミに 捕らわれた!` );
     }
-    if ( this._move.selected.isName( 'ほのおのうず' ) ) {
+    if ( this._move.selected.isName( 'Fire Spin' ) ) { // 技「ほのおのうず」
       writeLog( `${this.getArticle()}は 炎の渦に 閉じこめられた!` );
     }
-    if ( this._move.selected.isName( 'まきつく' ) ) {
+    if ( this._move.selected.isName( 'Wrap' ) ) { // 技「まきつく」
       writeLog( `${this.getArticle()}は ${targetName}に 巻きつかれた!` );
     }
-    if ( this._move.selected.isName( 'マグマストーム' ) ) {
+    if ( this._move.selected.isName( 'Magma Storm' ) ) { // 技「マグマストーム」
       writeLog( `${this.getArticle()}は マグマの渦に 閉じこめられた!` );
     }
-    if ( this._move.selected.isName( 'まとわりつく' ) ) {
+    if ( this._move.selected.isName( 'Infestation' ) ) { // 技「まとわりつく」
       writeLog( `${this.getArticle()}は ${targetName}に まとわりつかれた!` );
     }
   }
@@ -1815,7 +1858,7 @@ class Pokemon {
     if ( this._ability.isName( 'はやてのつばさ' ) && this._status.hp.value.isMax() ) {
       this._move.selected.priority += 1;
     }
-    if ( this._ability.isName( 'ヒーリングシフト' ) && this._move.selected.getFlag().heal ) {
+    if ( this._ability.isName( 'ヒーリングシフト' ) && this._move.selected.getMaster().heal ) {
       this._move.selected.priority += 3;
     }
   }
@@ -2346,7 +2389,7 @@ class Pokemon {
   }
 
   rainbow = (): number => {
-    if ( this._move.selected.isName( 'ひみつのちから' ) ) return 1;
+    if ( this._move.selected.isName( 'Secret Power' ) ) return 1; // 技「ひみつのちから」
     if ( main.field.getSide( this.isMine() ).rainbow.isTrue ) return 2;
     else return 1;
   }
@@ -2398,8 +2441,7 @@ class Pokemon {
 
 
   isContact(): boolean {
-    const flag = this._move.selected.getFlag();
-    return flag.contact && !this._ability.isName( 'えんかく' );
+    return this._move.selected.getMaster().contact && !this._ability.isName( 'えんかく' );
   }
 
   isGround(): boolean {

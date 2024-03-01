@@ -160,9 +160,6 @@ class SelectedMove {
     getMaster() {
         return moveMaster.filter(m => m.nameEN === this._name)[0];
     }
-    getFlag() {
-        return moveFlagMaster.filter(flag => flag.nameEN === this._name)[0];
-    }
     getAddOn() {
         return moveAddOnMaster.filter(add => add.nameEN === this._name)[0];
     }
@@ -233,8 +230,8 @@ class SelectedMove {
     // マグニチュード
     //-------------
     fixMagnitudePower() {
-        if (!this.isName('マグニチュード'))
-            return;
+        if (!this.isName('Magnitude'))
+            return; // 技「マグニチュード」
         const random = getRandom();
         if (random >= 95) {
             this._power = 150;
