@@ -32,11 +32,7 @@ class Weather {
   }
 
   isNoWeather(): boolean {
-    if ( ( isExistAbility( 'ノーてんき' ) || isExistAbility( 'エアロック' ) ) === false ) {
-      return false;
-    } else {
-      return true;
-    }
+    return main.isExistAbility( 'Cloud Nine' ) || main.isExistAbility( 'Air Lock' ); // 特性「ノーてんき」、特性「エアロック」
   }
 
   isPlaim(): boolean {

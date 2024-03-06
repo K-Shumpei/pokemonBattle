@@ -375,7 +375,7 @@ class RegisterGender {
 }
 class RegisterAbility {
     constructor() {
-        this._value = '';
+        this._value = null;
         this._list = [];
     }
     get value() {
@@ -383,6 +383,11 @@ class RegisterAbility {
     }
     set value(ability) {
         this._value = ability;
+    }
+    isValidName() {
+        // 適切な名前でなければ処理なし
+        const nameEN = this.translate(getHTMLInputElement('register_name').value);
+        return abilityTextList.filter(name => name === nameEN);
     }
     translate(name) {
         for (const data of abilityMaster) {
@@ -394,27 +399,32 @@ class RegisterAbility {
         return name;
     }
     setMaster(master) {
-        this._list = master.ability;
-        ;
-        this._value = master.ability[0];
+        const abilityList = [];
+        for (const ability in master) {
+            const nameEN = abilityTextList.filter(name => name === ability);
+            if (nameEN.length === 0)
+                continue;
+            abilityList.push(nameEN[0]);
+        }
+        this._list = abilityList;
+        this._value = abilityList[0];
     }
     setHTML() {
         const abilityHTML = getHTMLInputElement('register_ability');
         abilityHTML.innerHTML = '';
         for (const ability of this._list) {
             const option = document.createElement('option');
-            option.value = this.translate(ability);
-            option.textContent = this.translate(ability);
+            option.value = this.translate(String(ability));
+            option.textContent = this.translate(String(ability));
             abilityHTML.appendChild(option);
         }
     }
-    set() {
-        const ability = this.translate(getHTMLInputElement('register_ability').value);
+    set(ability) {
         this._value = ability;
     }
     show() {
         const abilityHTML = getHTMLInputElement('register_ability');
-        abilityHTML.value = this.translate(this._value);
+        abilityHTML.value = this.translate(String(this._value));
     }
 }
 class Register {

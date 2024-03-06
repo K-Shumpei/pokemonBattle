@@ -819,8 +819,8 @@ class StateChangeSummary {
 }
 class Ability {
     constructor() {
-        this._name = '';
-        this._org = '';
+        this._name = null;
+        this._org = null;
     }
     set name(name) {
         this._name = name;
@@ -837,6 +837,9 @@ class Ability {
     setOrg(ability) {
         this._name = ability;
         this._org = ability;
+    }
+    translate() {
+        return abilityMaster.filter(a => a.nameEN === this._name)[0].nameJA;
     }
     changeMaster() {
         for (const info of changeAbilityTable) {
@@ -916,21 +919,21 @@ class Item {
         if (master.category === 'species-specific' && master.nameEN.includes('Drive') && name === 'Genesect')
             return false;
         if (master.category === 'memories' && name === 'Silvally')
-            return false;
+            return false; // シルヴァディ
         if (this.isName('くちたけん') && name === 'Zacian Crowned')
-            return false;
+            return false; // ザシアン(王)
         if (this.isName('くちたたて') && name === 'Zamazenta Crowned')
-            return false;
+            return false; // ザマゼンタ(王)
         if (master.category === 'mega-stones')
             return false;
         if (this.isName('あいいろのたま') && name === 'Kyogre Primal')
-            return false;
+            return false; // ゲンシカイオーガ
         if (this.isName('べにいろのたま') && name === 'Groudon Primal')
-            return false;
-        if (this.isName('ブーストエナジー') && ability === 'こだいかっせい')
-            return false;
-        if (this.isName('ブーストエナジー') && ability === 'クォークチャージ')
-            return false;
+            return false; // ゲンシグラードン
+        if (this.isName('ブーストエナジー') && ability === 'Protosynthesis')
+            return false; // 特性「こだいかっせい」
+        if (this.isName('ブーストエナジー') && ability === 'Quark Drive')
+            return false; // 特性「クォークチャージ」
         if (master.category === 'z-crystals')
             return false;
         return true;
@@ -971,15 +974,15 @@ class Pokemon {
                 return false;
             if (attack.substitute)
                 return false;
-            if (target.ability.isName('りんぷん'))
-                return false;
+            if (target.ability.isName('Shield Dust'))
+                return false; // 特性「りんぷん」
             if (target.item.isName('おんみつマント'))
                 return false;
             return true;
         };
         this.sereneGrace = () => {
-            if (this._ability.isName('てんのべぐみ'))
-                return 2;
+            if (this._ability.isName('Serene Grace'))
+                return 2; // 特性「てんのめぐみ」
             else
                 return 1;
         };
@@ -1152,7 +1155,7 @@ class Pokemon {
         getHTMLInputElement('party' + this._order.hand + '_name').textContent = (this._name === null) ? '名前' : this.translateName(this._name);
         getHTMLInputElement('party' + this._order.hand + '_gender').textContent = (this._name === null) ? '性別' : this.translateGender();
         getHTMLInputElement('party' + this._order.hand + '_level').textContent = (this._name === null) ? '' : String(this._level);
-        getHTMLInputElement('party' + this._order.hand + '_ability').textContent = (this._name === null) ? '特性' : this.translateAbility(this._ability.name);
+        getHTMLInputElement('party' + this._order.hand + '_ability').textContent = (this._name === null) ? '特性' : this._ability.translate();
         getHTMLInputElement('party' + this._order.hand + '_remainingHP').textContent = (this._name === null) ? '' : String(this._status.hp.value.value);
         getHTMLInputElement('party' + this._order.hand + '_item').textContent = (this._name === null) ? '持ち物' : String(this._item.name);
         if (this._type.get().length === 0) {
@@ -1298,7 +1301,7 @@ class Pokemon {
         writeLog(`${this.getArticle()}の ${this._move.selected.translate()}!`);
     }
     msgDeclareAbility() {
-        writeLog(`${this.translateName(String(this._name))}の ${this.translateAbility(this._ability.name)}`);
+        writeLog(`${this.translateName(String(this._name))}の ${this._ability.translate()}`);
     }
     msgDeclareFailure() {
         writeLog(`しかし うまく決まらなかった....`);
@@ -1608,13 +1611,13 @@ class Pokemon {
     // 特性による優先度変更
     //------------------
     changeMovePriority() {
-        if (this._ability.isName('いたずらごころ') && this._move.selected.isStatus()) {
+        if (this._ability.isName('Prankster') && this._move.selected.isStatus()) { // 特性「いたずらごころ」
             this._move.selected.priority += 1;
         }
-        if (this._ability.isName('はやてのつばさ') && this._status.hp.value.isMax()) {
+        if (this._ability.isName('Gale Wings') && this._status.hp.value.isMax()) { // 特性「はやてのつばさ」
             this._move.selected.priority += 1;
         }
-        if (this._ability.isName('ヒーリングシフト') && this._move.selected.getMaster().heal) {
+        if (this._ability.isName('Triage') && this._move.selected.getMaster().heal) { // 特性「ヒーリングシフト」
             this._move.selected.priority += 3;
         }
     }
@@ -1622,7 +1625,7 @@ class Pokemon {
     // 残りHPによるきのみの発動判定
     //-------------------------
     isActivateBerryByHP(denominator) {
-        const gluttony = (this._ability.isName('くいしんぼう')) ? 2 : 1;
+        const gluttony = (this._ability.isName('Gluttony')) ? 2 : 1; // 特性「くいしんぼう」
         if (denominator === 2) {
             return this._status.hp.value.isLessEqual(denominator);
         }
@@ -1646,8 +1649,8 @@ class Pokemon {
     // ほおぶくろ発動
     //-------------
     activateCheekPouch() {
-        if (!this._ability.isName('ほおぶくろ'))
-            return;
+        if (!this._ability.isName('Cheek Pouch'))
+            return; // 特性「ほおぶくろ」
         if (this._status.hp.value.isZero())
             return;
         if (this._status.hp.value.isMax())
@@ -1670,8 +1673,8 @@ class Pokemon {
     // ランク変化可能量
     //--------------
     getRankVariableOrg(value) {
-        value = (this._ability.isName('たんじゅん')) ? value * 2 : value;
-        value = (this._ability.isName('あまのじゃく')) ? value * -1 : value;
+        value = (this._ability.isName('Simple')) ? value * 2 : value; // 特性「たんじゅん」
+        value = (this._ability.isName('Contrary')) ? value * -1 : value; // 特性「あまのじゃく」
         return value;
     }
     getRankVariable(para, value) {
@@ -1700,24 +1703,24 @@ class Pokemon {
         const abilityCheck = (para, real) => {
             if (real >= 0)
                 return true;
-            if (this._ability.isName('しろいけむり'))
-                return false;
-            if (this._ability.isName('クリアボディ'))
-                return false;
-            if (this._ability.isName('メタルプロテクト'))
-                return false;
-            if (main.isExistAbilityInSide(this.isMine(), 'フラワーベール') && this._type.has('Grass'))
-                return false;
-            if (this._ability.isName('ミラーアーマー')) {
+            if (this._ability.isName('White Smoke'))
+                return false; // 特性「しろいけむり」
+            if (this._ability.isName('Clear Body'))
+                return false; // 特性「クリアボディ」
+            if (this._ability.isName('Full Metal Body'))
+                return false; // 特性「メタルプロテクト」
+            if (main.isExistAbilityInSide(this.isMine(), 'Flower Veil') && this._type.has('Grass'))
+                return false; // 特性「フラワーベール」
+            if (this._ability.isName('Mirror Armor')) { // 特性「ミラーアーマー」
                 //changeTargetRank( target, pokemon, parameter, change );
                 // return;
             }
-            if (this._ability.isName('かいりきバサミ') && para === 'atk')
-                return false;
-            if (this._ability.isName('はとむね') && para === 'def')
-                return false;
-            if (this._ability.isName('するどいめ') && para === 'acc')
-                return false;
+            if (this._ability.isName('Hyper Cutter') && para === 'atk')
+                return false; // 特性「かいりきバサミ」
+            if (this._ability.isName('Big Pecks') && para === 'def')
+                return false; // 特性「はとむね」
+            if (this._ability.isName('Keen Eye') && para === 'acc')
+                return false; // 特性「するどいめ」
             return true;
         };
         const mistCheck = (real, other) => {
@@ -1725,8 +1728,8 @@ class Pokemon {
                 return true;
             if (!main.field.getSide(this.isMine()).mist.isTrue)
                 return true;
-            if (!other.ability.isName('すりぬけ'))
-                return true;
+            if (!other.ability.isName('Infiltrator'))
+                return true; // 特性「すりぬけ」
             return false;
         };
         return real !== 0 && mistCheck(real, other) && abilityCheck(para, real);
@@ -1747,11 +1750,11 @@ class Pokemon {
         const real = this.getRankVariable(para, setting);
         if (real >= 0)
             return;
-        if (this._ability.isName('まけんき') && this.isMine() !== other.isMine()) {
+        if (this._ability.isName('Defiant') && this.isMine() !== other.isMine()) { // 特性「まけんき」
             this.msgDeclareAbility();
             this.changeRank('atk', 2);
         }
-        if (this.ability.isName('かちき') && this.isMine() !== other.isMine()) {
+        if (this.ability.isName('Competitive') && this.isMine() !== other.isMine()) { // 特性「かちき」
             this.msgDeclareAbility();
             this.changeRank('spA', 2);
         }
@@ -1764,8 +1767,8 @@ class Pokemon {
     safeGuardCheck(other) {
         if (!main.field.getSide(this.isMine()).safeguard.isTrue)
             return true;
-        if (other.ability.isName('すりぬけ') && this.isMine() !== other.isMine())
-            return true;
+        if (other.ability.isName('Infiltrator') && this.isMine() !== other.isMine())
+            return true; // 特性「すりぬけ」
         return false;
     }
     mistTerrainCheck() {
@@ -1784,17 +1787,17 @@ class Pokemon {
         if (!this._statusAilment.isHealth())
             return false;
         const abilityCheck = () => {
-            if (this._ability.isName('りんぷん'))
-                return false;
-            if (this._ability.isName('きよめのしお'))
-                return false;
-            if (this._ability.isName('ぜったいねむり'))
-                return false;
-            if (this._ability.isName('リーフガード') && main.field.weather.isSunny(this))
-                return false;
+            if (this._ability.isName('Shield Dust'))
+                return false; // 特性「りんぷん」
+            if (this._ability.isName('Purifying Salt'))
+                return false; // 特性「きよめのしお」
+            if (this._ability.isName('Comatose'))
+                return false; // 特性「ぜったいねむり」
+            if (this._ability.isName('Leaf Guard') && main.field.weather.isSunny(this))
+                return false; // 特性「リーフガード」
             //if ( this._ability.isName( 'リミットシールド' ) && this._name === 'メテノ(流星)' ) return false;
-            if (main.isExistAbilityInSide(this.isMine(), 'フラワーベール') && this._type.has('Grass'))
-                return false;
+            if (main.isExistAbilityInSide(this.isMine(), 'Flower Veil') && this._type.has('Grass'))
+                return false; // 特性「フラワーベール」
             return true;
         };
         const eachCheck = (ailment) => {
@@ -1808,34 +1811,34 @@ class Pokemon {
                         return false;
                     if (main.field.weather.isSunny(this))
                         return false;
-                    if (this._ability.isName('マグマのよろい'))
-                        return false;
+                    if (this._ability.isName('Magma Armor'))
+                        return false; // 特性「マグマのよろい」
                     break;
                 case 'Burned':
                     if (this._type.has('Fire'))
                         return false;
-                    if (this._ability.isName('みずのベール'))
-                        return false;
-                    if (this._ability.isName('すいほう'))
-                        return false;
+                    if (this._ability.isName('Water Veil'))
+                        return false; // 特性「みずのベール」
+                    if (this._ability.isName('Water Bubble'))
+                        return false; // 特性「すいほう」
                     break;
                 case 'Poisoned':
-                    if (this._ability.isName('めんえき'))
-                        return false;
-                    if (main.isExistAbilityInSide(this.isMine(), 'パステルベール'))
-                        return false;
+                    if (this._ability.isName('Immunity'))
+                        return false; // 特性「めんえき」
+                    if (main.isExistAbilityInSide(this.isMine(), 'Pastel Veil'))
+                        return false; // 特性「パステルベール」
                     if (this._type.has('Poison'))
                         return false;
                     if (this._type.has('Steel'))
                         return false;
                     break;
                 case 'Asleep':
-                    if (this._ability.isName('やるき'))
-                        return false;
-                    if (this._ability.isName('ふみん'))
-                        return false;
-                    if (main.isExistAbilityInSide(this.isMine(), 'スイートベール'))
-                        return false;
+                    if (this._ability.isName('Vital Spirit'))
+                        return false; // 特性「やるき」
+                    if (this._ability.isName('Insomnia'))
+                        return false; // 特性「ふみん」
+                    if (main.isExistAbilityInSide(this.isMine(), 'Sweet Veil'))
+                        return false; // 特性「スイートベール」
                     if (main.field.terrain.isElectric() && this.isGround())
                         return false;
                     if (main.isUproar())
@@ -1890,8 +1893,8 @@ class Pokemon {
     isGetConfusionByAdditionalEffect(other) {
         if (this._stateChange.confuse.isTrue)
             return false;
-        if (this._ability.isName('マイペース'))
-            return false;
+        if (this._ability.isName('Own Tempo'))
+            return false; // 特性「マイペース」
         return this.safeGuardCheck(other) && this.mistTerrainCheck();
     }
     getConfusion() {
@@ -1911,10 +1914,10 @@ class Pokemon {
             return false;
         if (this._stateChange.attract.isTrue)
             return false;
-        if (this._ability.isName('どんかん'))
-            return false;
-        if (!isExistAbilityOneSide(this.isMine(), 'アロマベール'))
-            return false;
+        if (this._ability.isName('Oblivious'))
+            return false; // 特性「どんかん」
+        if (!main.isExistAbilityInSide(this.isMine(), 'Aroma Veil'))
+            return false; // 特性「アロマベール」
         return true;
     }
     getAttract(other) {
@@ -1957,7 +1960,7 @@ class Pokemon {
         this._name = nextForm;
         const pokemon = this.getMaster();
         this._type.list = pokemon.type;
-        this._ability.setOrg(pokemon.ability[0]);
+        this._ability.setOrg(abilityTextList.filter(name => name === pokemon.ability[0])[0]);
         this._status.formChange(pokemon.baseStatus, this._level, this.getNatureMaster());
     }
     msgAegislashSchild() {
@@ -1979,7 +1982,7 @@ class Pokemon {
     // きのみを食べる
     //-------------
     getRipen() {
-        return (this._ability.isName('じゅくせい')) ? 2 : 1;
+        return (this._ability.isName('Ripen')) ? 2 : 1; // 特性「じゅくせい」
     }
     getChangeValueByBerry(denominator) {
         const value = Math.floor(this.getOrgHP() / denominator) * this.getRipen();
@@ -2096,13 +2099,13 @@ class Pokemon {
     }
     toHand() {
         const naturalCure = () => {
-            if (!this._ability.isName('しぜんかいふく'))
-                return;
+            if (!this._ability.isName('Natural Cure'))
+                return; // 特性「しぜんかいふく」
             this._statusAilment.getHealth();
         };
         const regenerator = () => {
-            if (!this._ability.isName('さいせいりょく'))
-                return;
+            if (!this._ability.isName('Regenerator'))
+                return; // 特性「さいせいりょく」
             const value = Math.floor(this.getOrgHP() / 3);
             this._status.hp.value.add(value);
         };
@@ -2133,10 +2136,10 @@ class Pokemon {
         const master = this.getMaster();
         let weight = master.weight;
         // ボディパージ
-        if (this._ability.isName('ライトメタル')) {
+        if (this._ability.isName('Light Metal')) { // 特性「ライトメタル」
             weight = weight / 2;
         }
-        if (this._ability.isName('ヘヴィメタル')) {
+        if (this._ability.isName('Heavy Metal')) { // 特性「ヘヴィメタル」
             weight = weight * 2;
         }
         if (this._item.isName('かるいし')) {
@@ -2145,7 +2148,7 @@ class Pokemon {
         return Math.max(0.1, weight);
     }
     isContact() {
-        return this._move.selected.getMaster().contact && !this._ability.isName('えんかく');
+        return this._move.selected.getMaster().contact && !this._ability.isName('Long Reach'); // 特性「えんかく」
     }
     isGround() {
         if (this._stateChange.ingrain.isTrue === true)
@@ -2158,8 +2161,8 @@ class Pokemon {
             return true;
         if (this._type.has('Flying'))
             return false;
-        if (this._ability.isName('ふゆう'))
-            return false;
+        if (this._ability.isName('Levitate'))
+            return false; // 特性「ふゆう」
         if (this._item.isName('ふうせん'))
             return false;
         if (this._stateChange.magnetRise.isTrue)

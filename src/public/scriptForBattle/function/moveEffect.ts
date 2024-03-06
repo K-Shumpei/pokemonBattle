@@ -111,7 +111,7 @@ function calculateDamageForAll( pokemon: Pokemon ): void {
         return result - 1;
     }
 
-    if ( pokemon.ability.isName( 'がんじょう' ) ) {
+    if ( pokemon.ability.isName( 'Sturdy' ) ) { // 特性「がんじょう」
       if ( target.status.hp.value.isMax() ) {
         target.stateChange.endureMsg.isTrue === true;
         target.stateChange.endureMsg.text === 'がんじょう';
@@ -143,11 +143,11 @@ function calculateDamageForAll( pokemon: Pokemon ): void {
 
     // ばけのかわ/アイスフェイス
     if ( !attack.substitute ) {
-      if ( target.name === 'Mimikyu Disguised' && target.ability.isName( 'ばけのかわ' ) ) { // ミミッキュ(化けた姿)
+      if ( target.name === 'Mimikyu Disguised' && target.ability.isName( 'Disguise' ) ) { // ミミッキュ(化けた姿)、特性「ばけのかわ」
         target.stateChange.disguise.isTrue = true;
         continue;
       }
-      if ( target.name === 'Eiscue Ice' && target.ability.isName( 'アイスフェイス' ) && pokemon.move.selected.isPhysical() ) { // コオリッポ(アイス)
+      if ( target.name === 'Eiscue Ice' && target.ability.isName( 'Ice Face' ) && pokemon.move.selected.isPhysical() ) { // コオリッポ(アイス)、特性「アイスフェイス」
         target.stateChange.iceFace.isTrue = true;
         continue;
       }
@@ -507,8 +507,8 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const poisonTouch = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !pokemon.ability.isName( 'どくしゅ' ) ) return;
-    if ( target.ability.isName( 'りんぷん' ) ) return;
+    if ( !pokemon.ability.isName( 'Poison Touch' ) ) return; // 特性「どくしゅ」
+    if ( target.ability.isName( 'Shield Dust' ) ) return; // 特性「りんぷん」
     if ( getRandom() >= 30 ) return;
     if ( !target.isGetAilmentByOther( 'Poisoned', pokemon ) ) return;
 
@@ -518,7 +518,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   }
 
   const synchronize = ( pokemon: Pokemon, target: Pokemon ): void => {
-    if ( !target.ability.isName( 'シンクロ' ) ) return;
+    if ( !target.ability.isName( 'Synchronize' ) ) return; // 特性「シンクロ」
     if ( !target.stateChange.synchronize.isTrue ) return;
     const ailment = target.stateChange.synchronize.name;
     if ( ailment === 'Poisoned' || ailment === 'BadPoisoned' || ailment === 'Burned' || ailment === 'Paralysis' ) {
@@ -531,7 +531,8 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const roughSkin = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'さめはだ' ) && !target.ability.isName( 'てつのトゲ' ) ) return;
+    if ( !target.ability.isName( 'Rough Skin' ) // 特性「さめはだ」
+      && !target.ability.isName( 'Iron Barbs' ) ) return; // 特性「てつのトゲ」
 
     target.msgDeclareAbility();
 
@@ -539,7 +540,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
       pokemon.msgProtectivePads();
       return;
     }
-    if ( pokemon.ability.isName( 'マジックガード' ) ) {
+    if ( pokemon.ability.isName( 'Magic Guard' ) ) { // 特性「マジックガード」
       return;
     }
 
@@ -553,9 +554,9 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
 
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'ほうし' ) ) return;
+    if ( !target.ability.isName( 'Effect Spore' ) ) return; // 特性「ほうし」
     if ( pokemon.type.has( 'Grass' ) ) return;
-    if ( pokemon.ability.isName( 'ぼうじん' ) ) return;
+    if ( pokemon.ability.isName( 'Overcoat' ) ) return; // 特性「ぼうじん」
     if ( pokemon.item.isName( 'ぼうじんゴーグル' ) ) return;
     if ( pokemon.item.isName( 'ぼうごパット' ) ) return;
     if ( random >= 30 ) return;
@@ -578,7 +579,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const poisonPoint = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'どくのトゲ' ) ) return;
+    if ( !target.ability.isName( 'Poison Point' ) ) return; // 特性「どくのトゲ」
     if ( pokemon.item.isName( 'ぼうごパット' ) ) return;
     if ( getRandom() > 30 ) return;
     if ( !pokemon.isGetAilmentByOther( 'Poisoned', target ) ) return;
@@ -590,7 +591,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const staticElectricity = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'せいでんき' ) ) return;
+    if ( !target.ability.isName( 'Static' ) ) return; // 特性「せいでんき」
     if ( pokemon.item.isName( 'ぼうごパット' ) ) return;
     if ( getRandom() > 30 ) return;
     if ( !pokemon.isGetAilmentByOther( 'Paralysis', target ) ) return;
@@ -602,7 +603,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const flameBody = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'ほのおのからだ' ) ) return;
+    if ( !target.ability.isName( 'Flame Body' ) ) return; // 特性「ほのおのからだ」
     if ( pokemon.item.isName( 'ぼうごパット' ) ) return;
     if ( getRandom() > 30 ) return;
     if ( !pokemon.isGetAilmentByOther( 'Burned', target ) ) return;
@@ -614,7 +615,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const cuteCharm = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'メロメロボディ' ) ) return;
+    if ( !target.ability.isName( 'Cute Charm' ) ) return; // 特性「メロメロボディ」
     if ( pokemon.item.isName( 'ぼうごパット' ) ) return;
     if ( getRandom() >= 30 ) return;
     if ( !pokemon.isGetAttract( target ) ) return;
@@ -626,7 +627,8 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const mummy = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'ミイラ' ) && !target.ability.isName( 'とれないにおい' ) ) return;
+    if ( !target.ability.isName( 'Mummy' ) // 特性「ミイラ」
+      && !target.ability.isName( 'Lingering Aroma' ) ) return; // 特性「とれないにおい」
 
     const master: changeAbilityType = pokemon.ability.changeMaster();
     if ( master.exchange === 0 || master.exchange === 2 ) return;
@@ -639,10 +641,10 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     target.msgDeclareAbility();
     pokemon.ability.name = target.ability.name;
 
-    if ( target.ability.isName( 'ミイラ' ) ) {
+    if ( target.ability.isName( 'Mummy' ) ) { // 特性「ミイラ」
       pokemon.msgMummy();
     }
-    if ( target.ability.isName( 'とれないにおい' ) ) {
+    if ( target.ability.isName( 'Lingering Aroma' ) ) { // 特性「とれないにおい」
       pokemon.msgLingeringAroma();
     }
   }
@@ -650,7 +652,8 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const gooey = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'ぬめぬめ' ) && !target.ability.isName( 'カーリーヘアー' ) ) return;
+    if ( !target.ability.isName( 'Gooey' ) // 特性「ぬめぬめ」
+      && !target.ability.isName( 'Tangling Hair' ) ) return; // 特性「カーリーヘアー」
 
     target.msgDeclareAbility();
 
@@ -665,7 +668,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const wanderingSpirit = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'さまようたましい' ) ) return;
+    if ( !target.ability.isName( 'Wandering Spirit' ) ) return; // 特性「さまようたましい」
     if ( pokemon.item.isName( 'ぼうごパット' ) ) return;
     if ( pokemon.stateChange.dynamax.isTrue ) return;
     if ( target.stateChange.dynamax.isTrue ) return;
@@ -687,7 +690,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const perishBody = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.isContact() ) return;
-    if ( !target.ability.isName( 'ほろびのボディ' ) ) return;
+    if ( !target.ability.isName( 'Perish Body' ) ) return; // 特性「ほろびのボディ」
     if ( pokemon.status.hp.value.isZero() ) return;
     if ( pokemon.item.isName( 'ぼうごパット' ) ) return;
     if ( pokemon.stateChange.perishSong.isTrue && target.stateChange.perishSong.isTrue ) return;
@@ -716,11 +719,11 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
 
   const cursedBody = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'のろわれボディ' ) ) return;
+    if ( !target.ability.isName( 'Cursed Body' ) ) return; // 特性「のろわれボディ」
     if ( pokemon.status.hp.value.isZero() ) return;
     // if ( pokemon.stateChange.disable.isTrue ) return; ダイマックス技に対しては発動しない
     if ( pokemon.stateChange.disable.isTrue ) return;
-    if ( main.isExistAbilityInSide( pokemon.isMine(), 'アロマベール' ) ) return;
+    if ( main.isExistAbilityInSide( pokemon.isMine(), 'Aroma Veil' ) ) return; // 特性「アロマベール」
     if ( getRandom() >= 30 ) return;
 
     target.msgDeclareAbility();
@@ -735,7 +738,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const stamina = ( target: Pokemon, attack: Attack ): void => {
     if ( target.status.hp.value.isZero() ) return;
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'じきゅうりょく' ) ) return;
+    if ( !target.ability.isName( 'Stamina' ) ) return; // 特性「じきゅうりょく」
     if ( !target.isChangeRank( 'def', 1 ) ) return;
 
     target.msgDeclareAbility();
@@ -744,7 +747,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
 
   const sandSpit = ( target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'すなはき' ) ) return;
+    if ( !target.ability.isName( 'Sand Spit' ) ) return; // 特性「すなはき」
     if ( !fieldStatus.weather.isGetSandy() ) return;
 
     target.msgDeclareAbility();
@@ -753,7 +756,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
 
   const cottonDown = ( target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'わたげ' ) ) return;
+    if ( !target.ability.isName( 'Cotton Down' ) ) return; // 特性「わたげ」
 
     const valid: Pokemon[] = []
     for ( const poke of main.getPokemonInBattle() ) {
@@ -774,14 +777,14 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
 
   const gulpMissile = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'うのミサイル' ) ) return;
+    if ( !target.ability.isName( 'Gulp Missile' ) ) return; // 特性「うのミサイル」
     if ( target.name === 'Cramorant' ) return; // ウッウ
     if ( target.stateChange.isHide() ) return;
     if ( pokemon.status.hp.value.isZero() ) return;
 
     target.msgDeclareAbility();
 
-    if ( !pokemon.ability.isName( 'マジックガード' ) ) {
+    if ( !pokemon.ability.isName( 'Magic Guard' ) ) { // 特性「マジックガード」
       const value: number = Math.max( 1, Math.floor( pokemon.getOrgHP() / 4 ) );
       pokemon.status.hp.value.sub( value );
     }
@@ -790,7 +793,6 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     if ( target.name === 'Cramorant Gulping' ) { // ウッウ(鵜呑み)
       if ( !pokemon.isChangeRankByOther( 'def', -1, target ) ) break rank;
       pokemon.changeRankByOther( 'def', -1, target )
-      changeTargetRank( target, pokemon, 'defense', -1 )
     }
 
     ailment:
@@ -804,7 +806,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
 
   const seedSower = ( target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'こぼれダネ' ) ) return;
+    if ( !target.ability.isName( 'Seed Sower' ) ) return; // 特性「こぼれダネ」
     if ( main.field.terrain.isGrassy() ) return;
 
     target.msgDeclareAbility();
@@ -813,7 +815,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
 
   const electromorphosis = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'でんきにかえる' ) ) return;
+    if ( !target.ability.isName( 'Electromorphosis' ) ) return; // 特性「でんきにかえる」
     if ( target.status.hp.value.isZero() ) return;
 
     target.msgDeclareAbility();
@@ -824,7 +826,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const weakArmor = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.move.selected.isPhysical() ) return;
-    if ( !target.ability.isName( 'くだけるよろい' ) ) return;
+    if ( !target.ability.isName( 'Weak Armor' ) ) return; // 特性「くだけるよろい」
     if ( !target.isChangeRank( 'def', -1 ) && !target.isChangeRank( 'spe', -2 ) ) return;
 
     target.msgDeclareAbility();
@@ -835,7 +837,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const toxicDebris = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( !pokemon.move.selected.isPhysical() ) return;
-    if ( !target.ability.isName( 'どくげしょう' ) ) return;
+    if ( !target.ability.isName( 'Toxic Debris' ) ) return; // 特性「どくげしょう」
     if ( main.field.getSide( !target.isMine() ).toxicSpikes.count === 2 ) return;
 
     target.msgDeclareAbility();
@@ -845,7 +847,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const waterCompaction = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( target.status.hp.value.isZero() ) return;
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'みずがため' ) ) return;
+    if ( !target.ability.isName( 'Water Compaction' ) ) return; // 特性「みずがため」
     if ( pokemon.move.selected.type !== 'Water' ) return;
     if ( !target.isChangeRank( 'def', 2 ) ) return;
 
@@ -856,7 +858,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const justified = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( target.status.hp.value.isZero() ) return;
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'せいぎのこころ' ) ) return;
+    if ( !target.ability.isName( 'Justified' ) ) return; // 特性「せいぎのこころ」
     if ( pokemon.move.selected.type !== 'Dark' ) return;
     if ( !target.isChangeRank( 'atk', 1 ) ) return;
 
@@ -867,7 +869,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const rattled = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( target.status.hp.value.isZero() ) return;
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'びびり' ) ) return;
+    if ( !target.ability.isName( 'Rattled' ) ) return; // 特性「びびり」
     if ( pokemon.move.selected.type !== 'Dark'
       && pokemon.move.selected.type !== 'Ghost'
       && pokemon.move.selected.type !== 'Bug' ) return;
@@ -880,7 +882,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const steamEngine = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( target.status.hp.value.isZero() ) return;
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'じょうききかん' ) ) return;
+    if ( !target.ability.isName( 'Steam Engine' ) ) return; // 特性「じょうききかん」
     if ( pokemon.move.selected.type !== 'Water'
       && pokemon.move.selected.type !== 'Fire' ) return;
     if ( !target.isChangeRank( 'spe', 6 ) ) return;
@@ -892,7 +894,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const windPower = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( target.status.hp.value.isZero() ) return;
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'ふうりょくでんき' ) ) return;
+    if ( !target.ability.isName( 'Wind Power' ) ) return; // 特性「ふうりょくでんき」
     if ( !pokemon.move.selected.getAddOn().wind ) return;
 
     target.msgDeclareAbility();
@@ -903,7 +905,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const angerPoint = ( target: Pokemon, attack: Attack ): void => {
     if ( target.status.hp.value.isZero() ) return;
     if ( attack.substitute ) return;
-    if ( !target.ability.isName( 'いかりのつぼ' ) ) return;
+    if ( !target.ability.isName( 'Anger Point' ) ) return; // 特性「いかりのつぼ」
     if ( !attack.critical ) return;
 
     target.msgDeclareAbility();
@@ -991,7 +993,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     if ( !target.item.isName( 'ゴツゴツメット' ) ) return;
     if ( !pokemon.isContact() ) return;
     if ( pokemon.item.isName( 'ぼうごパット' ) ) return;
-    if ( pokemon.ability.isName( 'マジックガード' ) ) return;
+    if ( pokemon.ability.isName( 'Magic Guard' ) ) return; // 特性「マジックガード」
     if ( pokemon.status.hp.value.isZero() ) return;
 
     const value: number = Math.floor( pokemon.getOrgHP() / 8 );
@@ -1019,7 +1021,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
   const incinerate = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( attack.substitute ) return;
     if ( pokemon.move.selected.name !== 'Incinerate' ) return; // 技「やきつくす」
-    if ( target.ability.isName( 'ねんちゃく' ) ) return;
+    if ( target.ability.isName( 'Sticky Hold' ) ) return; // 特性「ねんちゃく」
     if ( target.item.getMaster().category !== 'jeweles'
       && target.item.getCategory().pocket !== 'berries' ) return;
 
@@ -1031,7 +1033,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     if ( attack.substitute ) return;
     if ( !target.item.isName( 'ジャポのみ' ) ) return;
     if ( !pokemon.move.selected.isPhysical() ) return;
-    if ( pokemon.ability.isName( 'マジックガード' ) ) return;
+    if ( pokemon.ability.isName( 'Magic Guard' ) ) return; // 特性「マジックガード」
     if ( pokemon.status.hp.value.isZero() ) return;
 
     const value: number = Math.floor( pokemon.getOrgHP() / 8 );
@@ -1044,7 +1046,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     if ( attack.substitute ) return;
     if ( !target.item.isName( 'レンブのみ' ) ) return;
     if ( !pokemon.move.selected.isSpecial() ) return;
-    if ( pokemon.ability.isName( 'マジックガード' ) ) return;
+    if ( pokemon.ability.isName( 'Magic Guard' ) ) return; // 特性「マジックガード」
     if ( pokemon.status.hp.value.isZero() ) return;
 
     const value: number = Math.floor( pokemon.getOrgHP() / 8 );
@@ -1206,7 +1208,7 @@ function activateSealedEffects( pokemon: Pokemon, isMe: boolean, isRange: boolea
 
   if ( pokemon.status.hp.value.isZero() === false ) return;
 
-  if ( pokemon.ability.isName( 'きんちょうかん' ) ) {
+  if ( pokemon.ability.isName( 'Unnerve' ) ) { // 特性「きんちょうかん」
     /*
     for ( const order of getSpeedOrder() ) {
       const target: Pokemon | false = getPokemonByBattle( order.isMe, order.battleNumber );
@@ -1217,7 +1219,7 @@ function activateSealedEffects( pokemon: Pokemon, isMe: boolean, isRange: boolea
     }
     */
   }
-  if ( pokemon.ability.isName( 'かがくへんかガス' ) ) {
+  if ( pokemon.ability.isName( 'Neutralizing Gas' ) ) { // 特性「かがくへんかガス」
 
   }
 
@@ -1232,8 +1234,8 @@ function activateMoveEffect( pokemon: Pokemon ): void {
   const recoil = ( pokemon: Pokemon, attack: Attack ): void => {
     // わるあがきの反動ダメージは無視されない
     if ( pokemon.move.selected.name !== 'Struggle' ) { // 技「わるあがき」
-      if ( pokemon.ability.isName( 'マジックガード' ) ) return;
-      if ( pokemon.ability.isName( 'いしあたま' ) ) return;
+      if ( pokemon.ability.isName( 'Magic Guard' ) ) return; // 特性「マジックガード」
+      if ( pokemon.ability.isName( 'Rock Head' ) ) return; // 特性「いしあたま」
     }
 
     // 与ダメージ依存の反動技
@@ -1320,7 +1322,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
   const knockOff = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
     if ( pokemon.move.selected.name !== 'Knock Off' ) return; // 技「はたきおとす」
     if ( target.item.name === null ) return;
-    if ( target.ability.isName( 'ねんちゃく' ) ) return;
+    if ( target.ability.isName( 'Sticky Hold' ) ) return; // 特性「ねんちゃく」
     if ( attack.substitute ) return;
 
     pokemon.msgKnockOff( target.getArticle(), target.item.name );
@@ -1334,7 +1336,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
     if ( target.item.name === null ) return;
     if ( attack.substitute ) return;
 
-    if ( target.ability.isName( 'ねんちゃく' ) ) {
+    if ( target.ability.isName( 'Sticky Hold' ) ) { // 特性「ねんちゃく」
       target.msgDeclareAbility();
       pokemon.msgNotThief( target.getArticle() );
       return;
@@ -1356,7 +1358,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
     if ( pokemon.item.name !== null ) return;
     if ( target.item.name === null ) return;
     if ( attack.substitute ) return;
-    if ( target.ability.isName( 'ねんちゃく' ) ) return;
+    if ( target.ability.isName( 'Sticky Hold' ) ) return; // 特性「ねんちゃく」
     if ( target.item.getCategory().pocket !== 'berries' ) return;
 
     const isActivate = ( berry: string, pokemon: Pokemon ): boolean => {
@@ -1724,7 +1726,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
 function activateAbilityEffectPart1( pokemon: Pokemon ): void {
 
   const magician = ( pokemon: Pokemon ): void => {
-    if ( !pokemon.ability.isName( 'マジシャン' ) ) return;
+    if ( !pokemon.ability.isName( 'Magician' ) ) return; // 特性「マジシャン」
     if ( pokemon.item.isNull() ) return;
     if ( pokemon.move.selected.isStatus() ) return;
     if ( pokemon.move.selected.name === 'Fling' ) return; // 技「なげつける」
@@ -1737,13 +1739,13 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
       if ( attack.substitute ) return;
       if ( !pokemon.item.isReleasable( pokemon.name, pokemon.ability.name ) ) return;
       if ( !target.item.isReleasable( target.name, target.ability.name ) ) return;
-      if ( target.ability.isName( 'ねんちゃく' ) && target.order.battle !== null ) return;
+      if ( target.ability.isName( 'Sticky Hold' ) && target.order.battle !== null ) return; // 特性「ねんちゃく」
     }
 
   }
 
   const moxie = ( pokemon: Pokemon ): void => {
-    if ( !pokemon.ability.isName( 'じしんかじょう' ) ) return;
+    if ( !pokemon.ability.isName( 'Moxie' ) ) return; // 特性「じしんかじょう」
 
     let number: number = 0;
     for ( const attack of pokemon.attack.getTargetToPokemon() ) {
@@ -1759,7 +1761,7 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
   }
 
   const beastBoost = ( pokemon: Pokemon ): void => {
-    if ( !pokemon.ability.isName( 'ビーストブースト' ) ) return;
+    if ( !pokemon.ability.isName( 'Beast Boost' ) ) return; // 特性「ビーストブースト」
 
     let number: number = 0;
     for ( const attack of pokemon.attack.getTargetToPokemon() ) {
@@ -1794,7 +1796,7 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
   }
 
   const grimNeigh = ( pokemon: Pokemon ): void => {
-    if ( !pokemon.ability.isName( 'くろのいななき' ) ) return;
+    if ( !pokemon.ability.isName( 'Grim Neigh' ) ) return; // 特性「くろのいななき」
 
     let number: number = 0;
     for ( const attack of pokemon.attack.getTargetToPokemon() ) {
@@ -1810,7 +1812,7 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
   }
 
   const chillingNeigh = ( pokemon: Pokemon ): void => {
-    if ( !pokemon.ability.isName( 'しろのいななき' ) ) return;
+    if ( !pokemon.ability.isName( 'Chilling Neigh' ) ) return; // 特性「しろのいななき」
 
     let number: number = 0;
     for ( const attack of pokemon.attack.getTargetToPokemon() ) {
@@ -1826,7 +1828,7 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
   }
 
   const colorChange = ( pokemon: Pokemon, target: Pokemon ): void => {
-    if ( !target.ability.isName( 'へんしょく' ) ) return;
+    if ( !target.ability.isName( 'Color Change' ) ) return; // 特性「へんしょく」
     if ( pokemon.move.selected.isStatus() ) return;
     if ( target.type.has( pokemon.move.selected.type ) ) return;
     if ( pokemon.move.selected.name === 'Struggle' ) return; // 技「わるあがき」
@@ -1840,12 +1842,12 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
   }
 
   const berserk = ( pokemon: Pokemon, target: Pokemon ): void => {
-    if ( !target.ability.isName( 'ぎゃくじょう' ) ) return;
+    if ( !target.ability.isName( 'Berserk' ) ) return; // 特性「ぎゃくじょう」
 
   }
 
   const angerShell = ( pokemon: Pokemon, target: Pokemon ): void => {
-    if ( !target.ability.isName( 'いかりのこうら' ) ) return;
+    if ( !target.ability.isName( 'Anger Shell' ) ) return; // 特性「いかりのこうら」
 
   }
 
@@ -1947,7 +1949,7 @@ function formChangeByMove( pokemon: Pokemon ): void {
   }
 
   const battleBond = ( pokemon: Pokemon ) => {
-    if ( !pokemon.ability.isName( 'きずなへんげ' ) ) return;
+    if ( !pokemon.ability.isName( 'Battle Bond' ) ) return; // 特性「きずなへんげ」
     if ( pokemon.name !== 'Greninja Ash' ) return; // サトシゲッコウガ
     if ( !pokemon.isChangeRank( 'atk', 1 )
       && !pokemon.isChangeRank( 'spA', 1 )
@@ -1982,7 +1984,7 @@ function lifeOrbShellBell( pokemon: Pokemon ): void {
     if ( pokemon.status.hp.value.isZero() ) return;
     if ( pokemon.move.selected.isStatus() ) return;
     if ( pokemon.order.battle === null ) return;
-    if ( pokemon.ability.isName( 'マジックガード' ) ) return;
+    if ( pokemon.ability.isName( 'Magic Guard' ) ) return; // 特性「マジックガード」
     if ( pokemon.stateChange.sheerForce.isTrue ) return;
 
     const damage: number = Math.max( 1, Math.floor( pokemon.getOrgHP() / 10 ) );
@@ -2277,13 +2279,13 @@ function activatePickpocket( pokemon: Pokemon ): void {
     const target: Pokemon = row.target;
     const attack: Attack = row.attack;
 
-    if ( !target.ability.isName( 'わるいてぐせ' ) ) continue;
+    if ( !target.ability.isName( 'Pickpocket' ) ) continue; // 特性「わるいてぐせ」
     if ( !pokemon.isContact() ) continue;
     if ( target.item.isNull() ) continue;
     if ( !pokemon.item.isNull() ) continue;
     if ( !target.item.isReleasable( target.name, target.ability.name ) ) continue;
     if ( pokemon.stateChange.sheerForce.isTrue ) continue;
-    if ( pokemon.ability.isName( 'ねんちゃく' ) ) continue;
+    if ( pokemon.ability.isName( 'Sticky Hold' ) ) continue; // 特性「ねんちゃく」
     if ( attack.substitute ) continue;
 
     [ pokemon.item, target.item ] = [ target.item, pokemon.item ];

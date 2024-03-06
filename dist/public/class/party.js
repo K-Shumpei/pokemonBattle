@@ -85,34 +85,34 @@ class Main {
     calcSpeed() {
         for (const pokemon of this.getPokemonInBattle()) {
             let corr = 4096;
-            if (pokemon.ability.isName('ようりょくそ') && this._field.weather.isSunny(pokemon)) {
+            if (pokemon.ability.isName('Chlorophyll') && this._field.weather.isSunny(pokemon)) { // 特性「ようりょくそ」
                 corr = Math.round(corr * 8192 / 4096);
             }
-            if (pokemon.ability.isName('すいすい') && this._field.weather.isRainy(pokemon)) {
+            if (pokemon.ability.isName('Swift Swim') && this._field.weather.isRainy(pokemon)) { // 特性「すいすい」
                 corr = Math.round(corr * 8192 / 4096);
             }
-            if (pokemon.ability.isName('すなかき') && this._field.weather.isSandy()) {
+            if (pokemon.ability.isName('Sand Rush') && this._field.weather.isSandy()) { // 特性「すなかき」
                 corr = Math.round(corr * 8192 / 4096);
             }
-            if (pokemon.ability.isName('ゆきかき') && this._field.weather.isSnowy()) {
+            if (pokemon.ability.isName('Slush Rush') && this._field.weather.isSnowy()) { // 特性「ゆきかき」
                 corr = Math.round(corr * 8192 / 4096);
             }
-            if (pokemon.ability.isName('サーフテール') && this._field.terrain.isElectric()) {
+            if (pokemon.ability.isName('Surge Surfer') && this._field.terrain.isElectric()) { // 特性「サーフテール」
                 corr = Math.round(corr * 8192 / 4096);
             }
-            if (pokemon.ability.isName('スロースタート')) {
+            if (pokemon.ability.isName('Slow Start')) { // 特性「スロースタート」
                 corr = Math.round(corr * 2048 / 4096);
             }
-            if (pokemon.ability.isName('かるわざ')) {
+            if (pokemon.ability.isName('Unburden')) { // 特性「かるわざ」
                 corr = Math.round(corr * 8192 / 4096);
             }
-            if (pokemon.ability.isName('はやあし') && !pokemon.statusAilment.isHealth()) {
+            if (pokemon.ability.isName('Quick Feet') && !pokemon.statusAilment.isHealth()) { // 特性「はやあし」
                 corr = Math.round(corr * 6144 / 4096);
             }
-            if (pokemon.ability.isName('こだいかっせい')) {
+            if (pokemon.ability.isName('Protosynthesis')) { // 特性「こだいかっせい」
                 corr = Math.round(corr * 6144 / 4096);
             }
-            if (pokemon.ability.isName('クォークチャージ')) {
+            if (pokemon.ability.isName('Quark Drive')) { // 特性「クォークチャージ」
                 corr = Math.round(corr * 6144 / 4096);
             }
             if (pokemon.item.isName('スピードパウダー') && pokemon.name === 'Ditto') { // メタモン

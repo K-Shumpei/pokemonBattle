@@ -5,7 +5,7 @@ function actionBeforeTurn() {
     // 技選択したポケモンの効果
     for (const pokemon of main.getPokemonToAttack()) {
         quickDraw: // クイックドロウ
-         if (pokemon.ability.isName('クイックドロウ')) {
+         if (pokemon.ability.isName('Quick Draw')) { // 特性「クイックドロウ」
             if (pokemon.move.selected.isStatus())
                 break quickDraw;
             if (getRandom() >= 30)
@@ -41,7 +41,7 @@ function actionBeforeTurn() {
         if (reserve === null)
             continue;
         //writeLog( `${translateENintoJP( pokemon.isMe )}は ${pokemon.name}を 引っこめた!` );
-        toReserve(pokemon);
+        pokemon.toHand();
         const next = getPokemonByParty(pokemon.isMine(), reserve);
         toBattleField(next, battle);
     }

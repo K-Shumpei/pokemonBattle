@@ -1,151 +1,133 @@
 "use strict";
 // 状態異常変化
 function giveAilment(pokemon, target, ailment, isOtherMsg) {
-    var _a;
-    if (ailment === null)
-        return false;
+    /*
+    if ( ailment === null ) return false;
+  
     // すでに状態異常
-    if (!target.statusAilment.isHealth())
-        return false;
+    if ( !target.statusAilment.isHealth() ) return false;
     // しんぴのまもり
-    if (fieldStatus.getSide(target.isMine()).safeguard.isTrue === true) {
-        if (pokemon.ability.isName('すりぬけ') || pokemon.isMine() === target.isMine())
-            return false;
+    if ( fieldStatus.getSide( target.isMine() ).safeguard.isTrue === true ) {
+      if ( pokemon.ability.isName( 'すりぬけ' ) || pokemon.isMine() === target.isMine() ) return false;
     }
     // ミストフィールド
-    if (fieldStatus.terrain.isMisty()) {
-        if (target.isGround() === true)
-            return false;
+    if ( fieldStatus.terrain.isMisty() ) {
+      if ( target.isGround() === true ) return false;
     }
     // 特性
-    if (target.ability.isName('りんぷん'))
-        return false;
-    if (target.ability.isName('きよめのしお'))
-        return false;
-    if (target.ability.isName('ぜったいねむり'))
-        return false;
-    if (target.ability.isName('リーフガード') && fieldStatus.weather.isSunny(target))
-        return false;
-    if (target.ability.isName('リミットシールド') && ((_a = target.name) === null || _a === void 0 ? void 0 : _a.includes('Meteor')))
-        return false;
-    if (isExistAbilityOneSide(target.isMine(), 'フラワーベール') && target.type.has('Grass'))
-        return false;
+    if ( target.ability.isName( 'りんぷん' ) ) return false;
+    if ( target.ability.isName( 'きよめのしお' ) ) return false;
+    if ( target.ability.isName( 'ぜったいねむり' ) ) return false;
+    if ( target.ability.isName( 'リーフガード' )  && fieldStatus.weather.isSunny( target ) ) return false;
+    if ( target.ability.isName( 'リミットシールド' ) && target.name?.includes( 'Meteor' ) ) return false;
+    if ( isExistAbilityOneSide( target.isMine(), 'フラワーベール' ) && target.type.has( 'Grass' ) ) return false;
     // 個別の無効化
-    if (ailment === 'Paralysis') {
-        if (target.type.has('Electric'))
-            return false;
+    if ( ailment === 'Paralysis' ) {
+      if ( target.type.has( 'Electric' ) ) return false;
     }
-    if (ailment === 'Frozen') {
-        if (target.type.has('Ice'))
-            return false;
-        if (fieldStatus.weather.isSunny(target))
-            return false;
-        if (target.ability.isName('マグマのよろい'))
-            return false;
+    if ( ailment === 'Frozen' ) {
+      if ( target.type.has( 'Ice' ) ) return false;
+      if ( fieldStatus.weather.isSunny( target ) ) return false;
+      if ( target.ability.isName( 'マグマのよろい' ) ) return false;
     }
-    if (ailment === 'Burned') {
-        if (target.type.has('Fire'))
-            return false;
-        if (target.ability.isName('みずのベール'))
-            return false;
-        if (target.ability.isName('すいほう'))
-            return false;
+    if ( ailment === 'Burned' ) {
+      if ( target.type.has( 'Fire' ) ) return false;
+      if ( target.ability.isName( 'みずのベール' ) ) return false;
+      if ( target.ability.isName( 'すいほう' ) ) return false;
     }
-    if (ailment === 'Poisoned') {
-        if (target.ability.isName('めんえき'))
-            return false;
-        if (isExistAbilityOneSide(target.isMine(), 'パステルベール'))
-            return false;
-        if (target.type.has('Poison'))
-            return false;
-        if (target.type.has('Steel'))
-            return false;
+    if ( ailment === 'Poisoned' ) {
+      if ( target.ability.isName( 'めんえき' ) ) return false;
+      if ( isExistAbilityOneSide( target.isMine(), 'パステルベール' ) ) return false;
+      if ( target.type.has( 'Poison' ) ) return false;
+      if ( target.type.has( 'Steel' ) ) return false;
     }
-    if (ailment === 'Asleep') {
-        if (target.ability.isName('やるき'))
-            return false;
-        if (target.ability.isName('ふみん'))
-            return false;
-        if (isExistAbilityOneSide(target.isMine(), 'スイートベール'))
-            return false;
-        if (fieldStatus.terrain.isElectric() && target.isGround())
-            return false;
-        for (const _pokemon of allPokemonInBattlefield()) {
-            if (_pokemon.stateChange.uproar.isTrue === true)
-                return false;
-        }
+    if ( ailment === 'Asleep' ) {
+      if ( target.ability.isName( 'やるき' ) ) return false;
+      if ( target.ability.isName( 'ふみん' ) ) return false;
+      if ( isExistAbilityOneSide( target.isMine(), 'スイートベール' ) ) return false;
+      if ( fieldStatus.terrain.isElectric() && target.isGround() ) return false;
+      for ( const _pokemon of allPokemonInBattlefield() ) {
+        if ( _pokemon.stateChange.uproar.isTrue === true ) return false;
+      }
     }
+  
     // 状態異常になる
     // target.statusAilment.name = ailment;
+  
     // シンクロ用
-    if (target.ability.isName('シンクロ')) {
-        target.stateChange.synchronize.isTrue = true;
-        target.stateChange.synchronize.text = ailment;
+    if ( target.ability.isName( 'シンクロ' ) ) {
+      target.stateChange.synchronize.isTrue = true;
+      target.stateChange.synchronize.text = ailment;
     }
+  
     // 特殊メッセージ
-    if (isOtherMsg === true) {
-        return true;
+    if ( isOtherMsg === true ) {
+      return true;
     }
+  
     // メッセージ
-    if (ailment === 'Paralysis') {
-        writeLog(`${getArticle(target)}は まひして 技が でにくくなった!`);
+    if ( ailment === 'Paralysis' ) {
+      writeLog( `${getArticle( target )}は まひして 技が でにくくなった!` );
     }
-    if (ailment === 'Frozen') {
-        writeLog(`${getArticle(target)}は 凍りついた!`);
+    if ( ailment === 'Frozen' ) {
+      writeLog( `${getArticle( target )}は 凍りついた!` );
     }
-    if (ailment === 'Burned') {
-        writeLog(`${getArticle(target)}は やけどを 負った!`);
+    if ( ailment === 'Burned' ) {
+      writeLog( `${getArticle( target )}は やけどを 負った!` );
     }
-    if (ailment === 'Poisoned') {
-        writeLog(`${getArticle(target)}は 毒を あびた!`);
+    if ( ailment === 'Poisoned' ) {
+      writeLog( `${getArticle( target )}は 毒を あびた!` );
     }
     /*
     if ( ailment === 'sp-poisoned' ) {
       writeLog( `${getArticle( target )}は 猛毒を あびた!` );
     }
-    */
-    if (ailment === 'Asleep') {
-        writeLog(`${getArticle(target)}は 眠ってしまった!`);
+    if ( ailment === 'Asleep' ) {
+      writeLog( `${getArticle( target )}は 眠ってしまった!` );
     }
+  
     return false;
+    */
+    return true;
 }
 // こんらん
 function giveConfuse(pokemon, target, type) {
-    if (target.stateChange.confuse.isTrue === true)
-        return;
+    /*
+  
+    if ( target.stateChange.confuse.isTrue === true ) return;
+  
     // 追加効果で状態異常になる場合
-    if (type === 'additional') {
-        // しんぴのまもり
-        if (fieldStatus.getSide(target.isMine()).safeguard.isTrue === true) {
-            if (!pokemon.ability.isName('すりぬけ') || pokemon.isMine() === target.isMine())
-                return;
-        }
-        // ミストフィールド
-        if (fieldStatus.terrain.isMisty()) {
-            if (target.isGround() === true)
-                return;
-        }
-        // 特性
-        if (target.ability.isName('マイペース'))
-            return;
+    if ( type === 'additional' ) {
+      // しんぴのまもり
+      if ( fieldStatus.getSide( target.isMine() ).safeguard.isTrue === true ) {
+        if ( !pokemon.ability.isName( 'すりぬけ' ) || pokemon.isMine() === target.isMine() ) return;
+      }
+      // ミストフィールド
+      if ( fieldStatus.terrain.isMisty() ) {
+        if ( target.isGround() === true ) return;
+      }
+      // 特性
+      if ( target.ability.isName( 'マイペース' ) ) return;
     }
+  
     // アイテムによる
-    if (type === 'item') {
-        // ミストフィールド
-        if (fieldStatus.terrain.isMisty()) {
-            if (target.isGround() === true)
-                return;
-        }
-        // 特性
-        if (target.ability.isName('マイペース'))
-            return;
+    if ( type === 'item' ) {
+      // ミストフィールド
+      if ( fieldStatus.terrain.isMisty() ) {
+        if ( target.isGround() === true ) return;
+      }
+      // 特性
+      if ( target.ability.isName( 'マイペース' ) ) return;
     }
+  
     // こんらん状態になる
-    const turn = Math.floor(getRandom() * 0.04) + 2; // 2,3,4,5のいずれか
+    const turn: number = Math.floor( getRandom() * 0.04 ) + 2; // 2,3,4,5のいずれか
     target.stateChange.confuse.isTrue = true;
     target.stateChange.confuse.turn = turn;
+  
     // メッセージ
-    writeLog(`${getArticle(target)}は 混乱した!`);
+    writeLog( `${getArticle( target )}は 混乱した!`)
+    */
 }
 function giveConfuseByItem(pokemon, item) {
     /*

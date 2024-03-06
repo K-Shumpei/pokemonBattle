@@ -64,33 +64,6 @@ type MoveData = {
   dance: boolean;
 }
 
-type MoveFlagData = {
-  id: number;
-  nameEN: string;
-  nameJA: string;
-  contact: boolean;
-  charge: boolean;
-  recharge: boolean;
-  protect: boolean;
-  reflectable: boolean;
-  snatch: boolean;
-  mirror: boolean;
-  punch: boolean;
-  sound: boolean;
-  gravity: boolean;
-  defrost: boolean;
-  distance: boolean;
-  heal: boolean;
-  authentic: boolean;
-  powder: boolean;
-  bite: boolean;
-  pulse: boolean;
-  ballistics: boolean;
-  mental: boolean;
-  nonSkyBattle: boolean;
-  dance: boolean;
-}
-
 type MoveAddOnData = {
   id: number;
   nameJA: string;

@@ -41,9 +41,10 @@ function registerGender() {
 // 特性変更
 function registerAbility() {
     // 適切な名前でなければ処理なし
-    if (regPokemon.isUnreg())
+    const nameEN = regPokemon.ability.isValidName();
+    if (nameEN.length === 0)
         return;
-    regPokemon.ability.set();
+    regPokemon.ability.set(nameEN[0]);
     regPokemon.calculateActualValue();
     regPokemon.showOnScreen();
 }

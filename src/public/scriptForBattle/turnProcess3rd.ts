@@ -7,7 +7,7 @@ function actionBeforeTurn(): void {
   for ( const pokemon of main.getPokemonToAttack() ) {
 
     quickDraw: // クイックドロウ
-    if ( pokemon.ability.isName( 'クイックドロウ' ) ) {
+    if ( pokemon.ability.isName( 'Quick Draw' ) ) { // 特性「クイックドロウ」
       if ( pokemon.move.selected.isStatus() ) break quickDraw;
       if ( getRandom() >= 30 ) break quickDraw;
 
@@ -44,7 +44,7 @@ function actionBeforeTurn(): void {
     if ( reserve === null ) continue;
 
     //writeLog( `${translateENintoJP( pokemon.isMe )}は ${pokemon.name}を 引っこめた!` );
-    toReserve( pokemon );
+    pokemon.toHand();
 
     const next: Pokemon = getPokemonByParty( pokemon.isMine(), reserve );
     toBattleField( next, battle );

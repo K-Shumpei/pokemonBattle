@@ -19,32 +19,9 @@ function getValueWithRankCorrection( actualValue: number, rank: number, critical
   return Math.floor( actualValue * rankCorr );
 }
 
-
-// バトル場の特性存在判定
-function isExistAbility( ability: string ): Pokemon | false {
-
-  for ( const pokemon of allPokemonInBattlefield() ) {
-    if ( pokemon.ability.isName( ability ) ) {
-      return pokemon;
-    }
-  }
-  return false;
-}
-
-// 片側の場の特性存在判定
- function isExistAbilityOneSide( trainer: boolean , ability: string ): Pokemon | false {
-
-  for ( const pokemon of allPokemonInSide( trainer ) ) {
-    if ( pokemon.ability.isName( ability ) ) {
-      return pokemon;
-    }
-  }
-  return false;
-}
-
 // 技の追加効果によるHP変化
 function drainHP( pokemon: Pokemon, target: Pokemon, drain: number ): void {
-
+  /*
   let value: number = drain;
 
   if ( pokemon.item.isName( 'おおきなねっこ' ) ) {
@@ -64,6 +41,7 @@ function drainHP( pokemon: Pokemon, target: Pokemon, drain: number ): void {
     pokemon.status.hp.value.add( value );
     pokemon.msgDrain( target.getArticle() );
   }
+  */
 }
 
 
@@ -408,92 +386,6 @@ function toBattleField( pokemon: Pokemon, battle: number ): void {
   pokemon.msgToBattleField();
 }
 
-// 手持ちに戻る
-function toReserve( pokemon: Pokemon ): void {
-
-  pokemon.order.battle = null;
-
-  const hand: number = pokemon.order.hand;
-  pokemon.order.hand = fieldStatus.numberOfPokemon;
-  for ( const _pokemon of getParty( pokemon.isMine() ) ) {
-    if ( _pokemon.order.hand > hand ) {
-      _pokemon.order.hand -= 1;
-    }
-  }
-
-  // ひんし処理
-  if ( pokemon.status.hp.value.isZero() ) {
-    writeLog( `${getArticle( pokemon )}は たおれた!` );
-  }
-
-  naturalCure:
-  if ( pokemon.ability.isName( 'しぜんかいふく' ) ) {
-    pokemon.statusAilment.getHealth();
-  }
-
-  regenerator:
-  if ( pokemon.ability.isName( 'さいせいりょく' ) ) {
-    const value: number = Math.floor( pokemon.status.hp.av / 3 );
-    pokemon.status.hp.value.add( value );
-  }
-
-
-  // 情報のリセット
-  // pokemon.ability = pokemon.statusOrg.ability;
-  // pokemon.type1 = pokemon.statusOrg.type1;
-  // pokemon.type2 = pokemon.statusOrg.type2;
-  // pokemon.command = new Command;
-  // pokemon.damage = [];
-  // pokemon.moveUsed = new AvailableMove;
-  pokemon.status.resetRank();
-}
-
-// きのみを食べるかどうか
-function isEnableEatBerry( pokemon: Pokemon ): boolean {
-
-  const berry = pokemon.item.name;
-  const confuse = pokemon.stateChange.confuse.isTrue;
-  const hitPoint = pokemon.status.hp.av;
-  const remaining = pokemon.status.hp.value.value;
-  const gluttony = ( pokemon.ability.isName( 'くいしんぼう' ) )? 2 : 1;
-
-  if ( berry === null ) return false;
-  if ( pokemon.item.isName( berry ) === false ) return false;
-
-  if ( berry === 'クラボのみ' && pokemon.statusAilment.isParalysis() ) return true;
-  if ( berry === 'カゴのみ' && pokemon.statusAilment.isAsleep() ) return true;
-  if ( berry === 'モモンのみ' && pokemon.statusAilment.isPoisoned() ) return true;
-  if ( berry === 'チーゴのみ' && pokemon.statusAilment.isBurned() ) return true;
-  if ( berry === 'ナナシのみ' && pokemon.statusAilment.isFrozen() ) return true;
-  /*
-  if ( berry === 'ヒメリのみ' ) {
-    for ( const move of pokemon.learnedMove ) {
-      if ( move.remainingPP < move.powerPoint ) return true;
-    }
-  }
-  */
-  if ( berry === 'オレンのみ' && remaining <= hitPoint / 2 ) return true;
-  if ( berry === 'キーのみ' && confuse === true ) return true;
-  if ( berry === 'ラムのみ' && !pokemon.statusAilment.isHealth() ) return true;
-  if ( berry === 'ラムのみ' && confuse === true ) return true;
-  if ( berry === 'オボンのみ' && remaining <= hitPoint / 2 ) return true;
-  if ( berry === 'フィラのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
-  if ( berry === 'ウイのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
-  if ( berry === 'マゴのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
-  if ( berry === 'バンジのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
-  if ( berry === 'イアのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
-  if ( berry === 'チイラのみ' && remaining <= hitPoint * gluttony / 4 && getRankVariation( pokemon, 'attack', 1 ) !== 0 ) return true;
-  if ( berry === 'リュガのみ' && remaining <= hitPoint * gluttony / 4 && getRankVariation( pokemon, 'defense', 1 ) !== 0 ) return true;
-  if ( berry === 'カムラのみ' && remaining <= hitPoint * gluttony / 4 && getRankVariation( pokemon, 'speed', 1 ) !== 0 ) return true;
-  if ( berry === 'ヤタピのみ' && remaining <= hitPoint * gluttony / 4 && getRankVariation( pokemon, 'specialAttack', 1 ) !== 0 ) return true;
-  if ( berry === 'ズアのみ' && remaining <= hitPoint * gluttony / 4 && getRankVariation( pokemon, 'specialDefnese', 1 ) !== 0 ) return true;
-  if ( berry === 'サンのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
-  if ( berry === 'スターのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
-  if ( berry === 'ミクルのみ' && remaining <= hitPoint * gluttony / 4 ) return true;
-
-  return false;
-}
-
 
 
 
@@ -520,87 +412,6 @@ function giveCannotEscape( pokemon: Pokemon, target: Pokemon, move: string ): vo
   }
 }
 
-function isReleasableItem( pokemon: Pokemon, target: Pokemon ): boolean {
-
-  const atkName: PokemonText = pokemon.name;
-  const defName: PokemonText = target.name;
-  const item: string | null = target.item.name;
-
-  if ( item === null ) return false;
-  if ( atkName === null ) return false;
-  if ( defName === null ) return false;
-
-  if ( atkName.includes( 'ギラティナ' ) || defName.includes( 'ギラティナ' ) ) {
-    if ( item === 'はっきんだま' ) {
-      return false;
-    }
-  }
-  if ( atkName === 'Arceus' || defName === 'Arceus' ) {
-    for ( const plate of plateTable ) {
-      if ( plate.name === item ) {
-        return false;
-      }
-    }
-  }
-  if ( atkName === 'Genesect' || defName === 'Genesect' ) {
-    for ( const drive of driveTable ) {
-      if ( drive.name === item ) {
-        return false;
-      }
-    }
-  }
-  if ( atkName === 'Silvally' || defName === 'Silvally' ) {
-    for ( const memory of memoryTable ) {
-      if ( memory.name === item ) {
-        return false;
-      }
-    }
-  }
-  if ( atkName.includes( 'ザシアン' ) || defName.includes( 'ザシアン' ) ) {
-    if ( item === 'くちたけん' ) {
-      return false;
-    }
-  }
-  if ( atkName.includes( 'ザマゼンタ' ) || defName.includes( 'マゼンタ' ) ) {
-    if ( item === 'くちたたて' ) {
-      return false;
-    }
-  }
-  for ( const mega of megaStoneTable ) {
-    if ( mega.pokemon === atkName || mega.pokemon === defName || mega.mega === atkName || mega.mega === defName ) {
-      if ( mega.name === item ) {
-        return false;
-      }
-    }
-  }
-  if ( atkName.includes( 'カイオーガ' ) || defName.includes( 'カイオーガ' ) ) {
-    if ( item === 'あいいろのたま' ) {
-      return false;
-    }
-  }
-  if ( atkName.includes( 'グラードン' ) || defName.includes( 'グラードン' ) ) {
-    if ( item === 'べにいろのたま' ) {
-      return false;
-    }
-  }
-  if ( pokemon.ability.isName( 'こだいかっせい' ) || target.ability.isName( 'こだいかっせい' ) ) {
-    if ( item === 'ブーストエナジー' ) {
-      return false;
-    }
-  }
-  if ( pokemon.ability.isName( 'クォークチャージ' ) || target.ability.isName( 'クォークチャージ' ) ) {
-    if ( item === 'ブーストエナジー' ) {
-      return false;
-    }
-  }
-  for ( const zCrystal of zCrystalTable ) {
-    if ( zCrystal.name === item ) {
-      return false;
-    }
-  }
-
-  return true;
-}
 
 function activateSeed( pokemon: Pokemon ): void {
 

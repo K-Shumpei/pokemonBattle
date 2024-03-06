@@ -1,6 +1,6 @@
 // 状態異常変化
 function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentText, isOtherMsg?: boolean ): boolean {
-
+  /*
   if ( ailment === null ) return false;
 
   // すでに状態異常
@@ -81,16 +81,18 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
   if ( ailment === 'sp-poisoned' ) {
     writeLog( `${getArticle( target )}は 猛毒を あびた!` );
   }
-  */
   if ( ailment === 'Asleep' ) {
     writeLog( `${getArticle( target )}は 眠ってしまった!` );
   }
 
   return false;
+  */
+ return true;
 }
 
 // こんらん
 function giveConfuse( pokemon: Pokemon, target: Pokemon, type: string ): void {
+  /*
 
   if ( target.stateChange.confuse.isTrue === true ) return;
 
@@ -125,6 +127,7 @@ function giveConfuse( pokemon: Pokemon, target: Pokemon, type: string ): void {
 
   // メッセージ
   writeLog( `${getArticle( target )}は 混乱した!`)
+  */
 }
 
 function giveConfuseByItem( pokemon: Pokemon, item: string ): void {
