@@ -22,9 +22,9 @@ class Main {
     sortUnique(pokeList) {
         const result = pokeList.sort((a, b) => {
             // トレーナー
-            if (a.host)
+            if (a.order.host)
                 return -1;
-            if (b.host)
+            if (b.order.host)
                 return 1;
             // パーティの並び順
             if (a.order.party > b.order.party)
@@ -148,12 +148,12 @@ class Main {
 class Player {
     constructor(isMe) {
         this._party = [
-            new Pokemon(0, isMe),
-            new Pokemon(1, isMe),
-            new Pokemon(2, isMe),
-            new Pokemon(3, isMe),
-            new Pokemon(4, isMe),
-            new Pokemon(5, isMe)
+            new Pokemon(isMe, 0),
+            new Pokemon(isMe, 1),
+            new Pokemon(isMe, 2),
+            new Pokemon(isMe, 3),
+            new Pokemon(isMe, 4),
+            new Pokemon(isMe, 5)
         ];
         this._pokemon = [];
     }
@@ -165,7 +165,7 @@ class Player {
     }
     setHost(host) {
         for (const pokemon of this._pokemon) {
-            pokemon._host = host;
+            pokemon._order._host = host;
         }
     }
     showHandInfo() {

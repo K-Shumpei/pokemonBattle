@@ -43,6 +43,7 @@ function actionBeforeTurn(): void {
     if ( battle === null ) continue;
     if ( reserve === null ) continue;
 
+
     //writeLog( `${translateENintoJP( pokemon.isMe )}は ${pokemon.name}を 引っこめた!` );
     pokemon.toHand();
 

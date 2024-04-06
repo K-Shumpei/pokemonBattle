@@ -1,41 +1,29 @@
 "use strict";
 class Weather {
     constructor() {
-        this._name = null;
-        this._turn = 0;
-        this._extend = false;
-        this._strong = false;
-    }
-    set name(name) {
-        this._name = name;
-    }
-    set turn(turn) {
-        this._turn = turn;
-    }
-    set extend(extend) {
-        this._extend = extend;
-    }
-    set strong(strong) {
-        this._strong = strong;
+        this.name = null;
+        this.turn = 0;
+        this.extend = false;
+        this.strong = false;
     }
     reset() {
-        this._name = null;
-        this._turn = 0;
-        this._extend = false;
-        this._strong = false;
+        this.name = null;
+        this.turn = 0;
+        this.extend = false;
+        this.strong = false;
     }
     isNoWeather() {
         return main.isExistAbility('Cloud Nine') || main.isExistAbility('Air Lock'); // 特性「ノーてんき」、特性「エアロック」
     }
     isPlaim() {
-        return this._name === null || this.isNoWeather();
+        return this.name === null || this.isNoWeather();
     }
     isSunny(pokemon) {
         if (pokemon.item.isName('ばんのうがさ') || this.isNoWeather()) {
             return false;
         }
         else {
-            return this._name === 'HarshSunlight';
+            return this.name === 'HarshSunlight';
         }
     }
     isRainy(pokemon) {
@@ -43,7 +31,7 @@ class Weather {
             return false;
         }
         else {
-            return this._name === 'Rain';
+            return this.name === 'Rain';
         }
     }
     isSandy() {
@@ -51,7 +39,7 @@ class Weather {
             return false;
         }
         else {
-            return this._name === 'Sandstorm';
+            return this.name === 'Sandstorm';
         }
     }
     isSnowy() {
@@ -59,7 +47,7 @@ class Weather {
             return false;
         }
         else {
-            return this._name === 'Hail';
+            return this.name === 'Hail';
         }
     }
     isBadSunny(pokemon) {
@@ -67,7 +55,7 @@ class Weather {
             return false;
         }
         else {
-            return this._name === 'HarshSunlight' && this._strong === true;
+            return this.name === 'HarshSunlight' && this.strong === true;
         }
     }
     isBadRainy(pokemon) {
@@ -75,7 +63,7 @@ class Weather {
             return false;
         }
         else {
-            return this._name === 'Rain' && this._strong === true;
+            return this.name === 'Rain' && this.strong === true;
         }
     }
     isTurbulence() {
@@ -83,49 +71,49 @@ class Weather {
             return false;
         }
         else {
-            return this._name === 'Turbulence';
+            return this.name === 'Turbulence';
         }
     }
     isGetSunny() {
-        if (this._name === 'HarshSunlight')
+        if (this.name === 'HarshSunlight')
             return false;
-        if (this._strong)
+        if (this.strong)
             return false;
         return true;
     }
     isGetRainy() {
-        if (this._name === 'Rain')
+        if (this.name === 'Rain')
             return false;
-        if (this._strong)
+        if (this.strong)
             return false;
         return true;
     }
     isGetSandy() {
-        if (this._name === 'Sandstorm')
+        if (this.name === 'Sandstorm')
             return false;
-        if (this._strong)
+        if (this.strong)
             return false;
         return true;
     }
     isGetSnowy() {
-        if (this._name === 'Hail')
+        if (this.name === 'Hail')
             return false;
-        if (this._strong)
+        if (this.strong)
             return false;
         return true;
     }
     isGetBadSunny() {
-        if (this._name === 'HarshSunlight' && this._strong)
+        if (this.name === 'HarshSunlight' && this.strong)
             return false;
         return true;
     }
     isGetBadRainy() {
-        if (this._name === 'Rain' && this._strong)
+        if (this.name === 'Rain' && this.strong)
             return false;
         return true;
     }
     isGetTurbulence() {
-        if (this._name === 'Turbulence' && this._strong)
+        if (this.name === 'Turbulence' && this.strong)
             return false;
         return true;
     }
@@ -201,383 +189,608 @@ class Weather {
         fieldStatus.weather.strong = true;
         writeLog('謎の乱気流が ひこうポケモンを 護る!');
     }
+    advance() {
+        if (this.turn === 0)
+            return;
+        this.turn -= 1;
+        if (this.turn > 0)
+            return;
+        switch (this.name) {
+            case 'HarshSunlight':
+                writeLog('日差しが 元に戻った!');
+                break;
+            case 'Rain':
+                writeLog('雨が 上がった!');
+                break;
+            case 'Sandstorm':
+                writeLog('砂あらしが おさまった!');
+                break;
+            case 'Hail':
+                writeLog('雪が 止んだ!');
+                break;
+            default:
+                ;
+        }
+        this.reset();
+    }
 }
 class Terrain {
     constructor() {
-        this._name = null;
-        this._turn = 0;
-        this._extend = false;
-    }
-    set turn(turn) {
-        this._turn = turn;
-    }
-    set extend(extend) {
-        this._extend = extend;
+        this.name = null;
+        this.turn = 0;
+        this.extend = false;
     }
     resetWithMessage() {
         if (this.isElectric())
             writeLog(`足下の 電気が 消え去った!`);
         if (this.isGrassy())
-            writeLog(`足下の 電気が 消え去った!`);
+            writeLog(`足下の 草が 消え去った!`);
         if (this.isMisty())
-            writeLog(`足下の 電気が 消え去った!`);
+            writeLog(`足下の 霧霧が 消え去った!`);
         if (this.isPsychic())
-            writeLog(`足下の 電気が 消え去った!`);
+            writeLog(`足下の 不思議感が 消え去った!`);
         this.reset();
     }
     reset() {
-        this._name = null;
-        this._turn = 0;
-        this._extend = false;
+        this.name = null;
+        this.turn = 0;
+        this.extend = false;
     }
     setExtend(pokemon) {
         if (pokemon.item.isName('グランドコート')) {
-            this._turn = 8;
-            this._extend = true;
+            this.turn = 8;
+            this.extend = true;
         }
         else {
-            this._turn = 5;
-            this._extend = false;
+            this.turn = 5;
+            this.extend = false;
         }
     }
     getElectric(pokemon) {
         this.reset();
-        this._name = 'electric';
+        this.name = 'electric';
         this.setExtend(pokemon);
         writeLog(`足下に 電気が かけめぐる!`);
     }
     getGrassy(pokemon) {
         this.reset();
-        this._name = 'grassy';
+        this.name = 'grassy';
         this.setExtend(pokemon);
         writeLog(`足下に 草がおいしげった!`);
     }
     getMisty(pokemon) {
         this.reset();
-        this._name = 'misty';
+        this.name = 'misty';
         this.setExtend(pokemon);
         writeLog(`足下に 霧が立ち込めた!`);
     }
     getPsychic(pokemon) {
         this.reset();
-        this._name = 'psychic';
+        this.name = 'psychic';
         this.setExtend(pokemon);
         writeLog(`足下が 不思議な感じに なった!`);
     }
     isElectric() {
-        return this._name === 'electric';
+        return this.name === 'electric';
     }
     isGrassy() {
-        return this._name === 'grassy';
+        return this.name === 'grassy';
     }
     isMisty() {
-        return this._name === 'misty';
+        return this.name === 'misty';
     }
     isPsychic() {
-        return this._name === 'psychic';
+        return this.name === 'psychic';
     }
     isPlain() {
-        return this._name === null;
+        return this.name === null;
+    }
+}
+class WholeFieldStatus {
+    constructor() {
+        this.isTrue = false;
+        this.turn = new ValueWithRange();
+    }
+    reset() {
+        this.isTrue = false;
+        this.turn.value = this.turn.max;
+    }
+}
+class Gravity extends WholeFieldStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(5, 0);
+    }
+    onActivate() {
+        this.isTrue = true;
+        writeLog(`じゅうりょくが 強くなった!`);
+        this.msgDrop();
+    }
+    onElapse() {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            writeLog(`じゅうりょくが 元に戻った! `);
+        }
+    }
+    msgDrop() {
+        for (const pokemon of main.getPokemonInBattle()) {
+            if (!pokemon.isGround()) {
+                writeLog(`${pokemon.getArticle()}は じゅうりょくの 影響で 空中に いられなくなった!`);
+            }
+        }
+    }
+}
+class TrickRoom extends WholeFieldStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(5, 0);
+    }
+    onActivate(pokemon) {
+        this.isTrue = true;
+        writeLog(`${pokemon.getArticle()}は 時空を ゆがめた!`);
+    }
+    onElapse() {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            writeLog(`ゆがんだ 時空が 元に戻った! `);
+        }
+    }
+}
+class MagicRoom extends WholeFieldStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(5, 0);
+    }
+    onActivate() {
+        this.isTrue = true;
+        writeLog(`持たせた 道具の 効果が なくなる 空間を 作りだした!`);
+    }
+    onElapse() {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            writeLog(`マジックルームが 解除され 道具の 効果が 元に戻った! `);
+        }
+    }
+}
+class WonderRoom extends WholeFieldStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(5, 0);
+    }
+    onActivate() {
+        this.isTrue = true;
+        writeLog(`防御と 特防が 入れ替わる 空間を 作りだした!`);
+    }
+    onElapse() {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            writeLog(`ワンダールームが 解除され 防御と 特防が 元に戻った! `);
+        }
+    }
+}
+class MudSport extends WholeFieldStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(5, 0);
+    }
+    onActivate() {
+        this.isTrue = true;
+        writeLog(`電気の威力が 弱まった!`);
+    }
+    onElapse() {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            writeLog(`どろあそびの 効果が なくなった! `);
+        }
+    }
+}
+class WaterSport extends WholeFieldStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(5, 0);
+    }
+    onActivate() {
+        this.isTrue = true;
+        writeLog(`炎の威力が 弱まった!`);
+    }
+    onElapse() {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            writeLog(`みずあそびの 効果が なくなった! `);
+        }
+    }
+}
+class FairyLock extends WholeFieldStatus {
+    onActivate() {
+        this.isTrue = true;
+        writeLog(`次のターンは 逃げられない!`);
+    }
+}
+class IonDeluge extends WholeFieldStatus {
+    onActivate() {
+        this.isTrue = true;
+        writeLog(`電子のシャワーが 降りそそいだ!`);
     }
 }
 class WholeField {
     constructor() {
-        this._trickRoom = new StateChange('トリックルーム');
-        this._magicRoom = new StateChange('マジックルーム');
-        this._wonderRoom = new StateChange('ワンダールーム');
-        this._gravity = new StateChange('じゅうりょく');
-        this._mudSport = new StateChange('どろあそび');
-        this._fairyLock = new StateChange('フェアリーロック');
-        this._ionDeluge = new StateChange('プラズマシャワー');
-        this._waterSport = new StateChange('みずあそび');
-        this._futureSight = [];
+        this.trickRoom = new TrickRoom(); // トリックルーム
+        this.magicRoom = new MagicRoom(); // マジックルーム
+        this.wonderRoom = new WonderRoom(); // ワンダールーム
+        this.gravity = new Gravity(); // じゅうりょく
+        this.mudSport = new MudSport(); // どろあそび
+        this.waterSport = new WaterSport(); // みずあそび
+        this.fairyLock = new FairyLock(); // フェアリーロック
+        this.ionDeluge = new IonDeluge(); // プラズマシャワー
     }
-    set trickRoom(trickRoom) {
-        this._trickRoom = trickRoom;
+}
+class SideFieldStatus {
+    constructor(isMine) {
+        this.isMine = isMine;
+        this.isTrue = false;
+        this.turn = new ValueWithRange();
+        this.count = 0;
     }
-    set magicRoom(magicRoom) {
-        this._magicRoom = magicRoom;
+    getText() {
+        if (this.isMine) {
+            return `味方`;
+        }
+        else {
+            return `相手`;
+        }
     }
-    set wonderRoom(wonderRoom) {
-        this._wonderRoom = wonderRoom;
+    reset() {
+        this.isTrue = false;
+        this.turn.toZero();
+        this.count = 0;
     }
-    set gravity(gravity) {
-        this._gravity = gravity;
+}
+class AuroraVeil extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.isLightCray = false;
+        this.extendTurn = new ValueWithRange(3, 0);
+        this.turn = new ValueWithRange(5, 0);
     }
-    set mudSport(mudSport) {
-        this._mudSport = mudSport;
+    onActivate(isLightClay) {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        this.isLightCray = isLightClay;
+        writeLog(`${this.getText()}は オーロラベールで 物理と 特殊に 強くなった!`);
     }
-    set fairyLock(fairyLock) {
-        this._fairyLock = fairyLock;
+}
+class LightScreen extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.isLightCray = false;
+        this.extendTurn = new ValueWithRange(3, 0);
+        this.turn = new ValueWithRange(5, 0);
     }
-    set ionDeluge(ionDeluge) {
-        this._ionDeluge = ionDeluge;
+    onActivate(isLightClay) {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        this.isLightCray = isLightClay;
+        writeLog(`${this.getText()}は ひかりのかべで 特殊に 強くなった!`);
     }
-    set waterSport(waterSport) {
-        this._waterSport = waterSport;
+}
+class Reflect extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.isLightCray = false;
+        this.extendTurn = new ValueWithRange(3, 0);
+        this.turn = new ValueWithRange(5, 0);
     }
-    set futureSight(futureSight) {
-        this._futureSight = futureSight;
+    onActivate(isLightClay) {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        this.isLightCray = isLightClay;
+        writeLog(`${this.getText()}は リフレクターで 物理に 強くなった!`);
     }
-    get trickRoom() {
-        return this._trickRoom;
+}
+class TailWind extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(4, 0);
     }
-    get magicRoom() {
-        return this._magicRoom;
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}に 追い風が 吹き始めた!`);
     }
-    get wonderRoom() {
-        return this._wonderRoom;
+}
+class LuckyChant extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(5, 0);
     }
-    get gravity() {
-        return this._gravity;
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`おまじないの 力で ${this.getText()}の 急所が 隠れた!`);
     }
-    get mudSport() {
-        return this._mudSport;
+}
+class Mist extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(5, 0);
     }
-    get fairyLock() {
-        return this._fairyLock;
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}は 白い霧に 包まれた!`);
     }
-    get ionDeluge() {
-        return this._ionDeluge;
+}
+class Safeguard extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(5, 0);
     }
-    get waterSport() {
-        return this._waterSport;
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}は 白い霧に 包まれた!`);
     }
-    get futureSight() {
-        return this._futureSight;
+}
+class MatBlock extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate(pokemon) {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${pokemon.getArticle()}は たたみがえしを 狙っている!`);
+    }
+}
+class CraftyShield extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 周りを トリックガードが 守っている!`);
+    }
+}
+class QuickGuard extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 周りを ファストガードが 守っている!`);
+    }
+}
+class WideGuard extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 周りを ワイドガードが 守っている!`);
+    }
+}
+class Rainbow extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(4, 0);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 空に 虹が かかった!`);
+    }
+}
+class Wetlands extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(4, 0);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 周りに 湿原が 広がった!`);
+    }
+}
+class SeaOfFire extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(4, 0);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 周りが 火の海に 包まれた!`);
+    }
+}
+class StealthRock extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 周りに とがった岩が ただよい始めた! `);
+    }
+    onRemove() {
+        if (!this.isTrue)
+            return;
+        this.reset();
+        writeLog(`${this.getText()}の 周りの ステルスロックが 消え去った! `);
+    }
+}
+class ToxicSpikes extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.count === 2)
+            return;
+        this.isTrue = true;
+        this.count += 1;
+        writeLog(`${this.getText()}の 足元に どくびしが 散らばった!`);
+    }
+    onRemove() {
+        if (!this.isTrue)
+            return;
+        this.reset();
+        writeLog(`${this.getText()}の 足元の どくびしが 消え去った!`);
+    }
+}
+class StickyWeb extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 足元に ねばねばネットが 広がった!`);
+    }
+    onRemove() {
+        if (!this.isTrue)
+            return;
+        this.reset();
+        writeLog(`${this.getText()}の 足元の ねばねばネットが 消え去った!`);
+    }
+}
+class Spikes extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.count === 3)
+            return;
+        this.isTrue = true;
+        this.count += 1;
+        writeLog(`${this.getText()}の 足元に まきびしが 散らばった!`);
+    }
+    onRemove() {
+        if (!this.isTrue)
+            return;
+        this.reset();
+        writeLog(`${this.getText()}の 足元の まきびしが 消え去った!`);
+    }
+}
+class Steelsurge extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の 周りに 尖った鋼が ただよい始めた! `);
+    }
+    onRemove() {
+        if (!this.isTrue)
+            return;
+        this.reset();
+        writeLog(`${this.getText()}の 周りの キョダイコウジンが 消え去った! `);
+    }
+}
+class Wildfire extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の ポケモンが 炎に 包まれた! `);
+    }
+}
+class Volcalith extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(4, 0);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の ポケモンが 岩に 囲まれた! `);
+    }
+}
+class VineLash extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(4, 0);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の ポケモンが ムチの 猛打に 包まれた! `);
+    }
+}
+class Cannonade extends SideFieldStatus {
+    constructor(isMine) {
+        super(isMine);
+        this.turn = new ValueWithRange(4, 0);
+    }
+    onActivate() {
+        if (this.isTrue)
+            return;
+        this.isTrue = true;
+        writeLog(`${this.getText()}の ポケモンが 水の 流れに 包まれた! `);
     }
 }
 class SideField {
-    constructor(side) {
+    constructor(isMine) {
         this._host = true;
-        this._side = side;
-        this._auroraVeil = new StateChange('オーロラベール');
-        this._lightScreen = new StateChange('ひかりのかべ');
-        this._reflect = new StateChange('リフレクター');
-        this._matBlock = new StateChange('たたみがえし');
-        this._craftyShield = new StateChange('トリックガード');
-        this._quickGuard = new StateChange('ファストガード');
-        this._wideGuard = new StateChange('ワイドガード');
-        this._tailwind = new StateChange('おいかぜ');
-        this._luckyChant = new StateChange('おまじない');
-        this._mist = new StateChange('しろいきり');
-        this._safeguard = new StateChange('しんぴのまもり');
-        this._rainbow = new StateChange('にじ');
-        this._stealthRock = new StateChange('ステルスロック');
-        this._toxicSpikes = new StateChange('どくびし');
-        this._stickyWeb = new StateChange('ねばねばネット');
-        this._spikes = new StateChange('まきびし');
-        this._steelsurge = new StateChange('キョダイコウジン');
-        this._wildfire = new StateChange('キョダイゴクエン');
-        this._volcalith = new StateChange('キョダイフンセキ');
-        this._vineLash = new StateChange('キョダイベンタツ');
-        this._cannonade = new StateChange('キョダイホウゲキ');
-        this._wetlands = new StateChange('しつげん');
-        this._seaOfFire = new StateChange('ひのうみ');
+        this._isMine = isMine;
+        this.auroraVeil = new AuroraVeil(isMine);
+        this.lightScreen = new LightScreen(isMine);
+        this.reflect = new Reflect(isMine);
+        this.tailwind = new TailWind(isMine);
+        this.luckyChant = new LuckyChant(isMine);
+        this.mist = new Mist(isMine);
+        this.safeguard = new Safeguard(isMine);
+        this.matBlock = new MatBlock(isMine);
+        this.craftyShield = new CraftyShield(isMine);
+        this.quickGuard = new QuickGuard(isMine);
+        this.wideGuard = new WideGuard(isMine);
+        this.rainbow = new Rainbow(isMine);
+        this.stealthRock = new StealthRock(isMine);
+        this.toxicSpikes = new ToxicSpikes(isMine);
+        this.stickyWeb = new StickyWeb(isMine);
+        this.spikes = new Spikes(isMine);
+        this.steelsurge = new Steelsurge(isMine);
+        this.wildfire = new Wildfire(isMine);
+        this.volcalith = new Volcalith(isMine);
+        this.vineLash = new VineLash(isMine);
+        this.cannonade = new Cannonade(isMine);
+        this.wetlands = new Wetlands(isMine);
+        this.seaOfFire = new SeaOfFire(isMine);
     }
-    set host(host) {
-        this._host = host;
-    }
-    /*
-    set auroraVeil( auroraVeil: StateChange ) {
-      this._auroraVeil = auroraVeil;
-    }
-    set lightScreen( lightScreen: StateChange ) {
-      this._lightScreen = lightScreen;
-    }
-    set reflect( reflect: StateChange ) {
-      this._reflect = reflect;
-    }
-    set matBlock( matBlock: StateChange ) {
-      this._matBlock = matBlock;
-    }
-    set craftyShield( craftyShield: StateChange ) {
-      this._craftyShield = craftyShield;
-    }
-    set quickGuard( quickGuard: StateChange ) {
-      this._quickGuard = quickGuard;
-    }
-    set wideGuard( wideGuard: StateChange ) {
-      this._wideGuard = wideGuard;
-    }
-    set tailwind( tailwind: StateChange ) {
-      this._tailwind = tailwind;
-    }
-    set luckyChant( luckyChant: StateChange ) {
-      this._luckyChant = luckyChant;
-    }
-    set mist( mist: StateChange ) {
-      this._mist = mist;
-    }
-    set safeguard( safeguard: StateChange ) {
-      this._safeguard = safeguard;
-    }
-    set rainbow( rainbow: StateChange ) {
-      this._rainbow = rainbow;
-    }
-    set stealthRock( stealthRock: StateChange ) {
-      this._stealthRock = stealthRock;
-    }
-    set toxicSpikes( toxicSpikes: StateChange ) {
-      this._toxicSpikes = toxicSpikes;
-    }
-    set stickyWeb( stickyWeb: StateChange ) {
-      this._stickyWeb = stickyWeb;
-    }
-    set spikes( spikes: StateChange ) {
-      this._spikes = spikes;
-    }
-    set steelsurge( steelsurge: StateChange ) {
-      this._steelsurge = steelsurge;
-    }
-    set wildfire( wildfire: StateChange ) {
-      this._wildfire = wildfire;
-    }
-    set volcalith( volcalith: StateChange ) {
-      this._volcalith = volcalith;
-    }
-    set vineLash( vineLash: StateChange ) {
-      this._vineLash = vineLash;
-    }
-    set cannonade( cannonade: StateChange ) {
-      this._cannonade = cannonade;
-    }
-    set wetlands( wetlands: StateChange ) {
-      this._wetlands = wetlands;
-    }
-    set seaOfFire( seaOfFire: StateChange ) {
-      this._seaOfFire = seaOfFire;
-    }
-    */
     get host() {
         return this._host;
     }
-    get auroraVeil() {
-        return this._auroraVeil;
-    }
-    get lightScreen() {
-        return this._lightScreen;
-    }
-    get reflect() {
-        return this._reflect;
-    }
-    get matBlock() {
-        return this._matBlock;
-    }
-    get craftyShield() {
-        return this._craftyShield;
-    }
-    get quickGuard() {
-        return this._quickGuard;
-    }
-    get wideGuard() {
-        return this._wideGuard;
-    }
-    get tailwind() {
-        return this._tailwind;
-    }
-    get luckyChant() {
-        return this._luckyChant;
-    }
-    get mist() {
-        return this._mist;
-    }
-    get safeguard() {
-        return this._safeguard;
-    }
-    get rainbow() {
-        return this._rainbow;
-    }
-    get stealthRock() {
-        return this._stealthRock;
-    }
-    get toxicSpikes() {
-        return this._toxicSpikes;
-    }
-    get stickyWeb() {
-        return this._stickyWeb;
-    }
-    get spikes() {
-        return this._spikes;
-    }
-    get steelsurge() {
-        return this._steelsurge;
-    }
-    get wildfire() {
-        return this._wildfire;
-    }
-    get volcalith() {
-        return this._volcalith;
-    }
-    get vineLash() {
-        return this._vineLash;
-    }
-    get cannonade() {
-        return this._cannonade;
-    }
-    get wetlands() {
-        return this._wetlands;
-    }
-    get seaOfFire() {
-        return this._seaOfFire;
-    }
-    getArticle() {
-        if (this._side) {
-            return '味方の';
-        }
-        else {
-            return '相手の';
-        }
-    }
-    beToxicSpikes() {
-        if (this._toxicSpikes.count === 2)
-            return;
-        this._toxicSpikes.isTrue = true;
-        this._toxicSpikes.count += 1;
-        writeLog(`${this.getArticle()}足元に どくびしが 散らばった!`);
-    }
-    beSpikes() {
-        if (this._spikes.count === 3)
-            return;
-        this._spikes.isTrue = true;
-        this._spikes.count += 1;
-        writeLog(`${this.getArticle()}足元に まきびしが 散らばった!`);
-    }
-    beStealthRock() {
-        if (this._stealthRock.isTrue)
-            return;
-        this._stealthRock.isTrue = true;
-        writeLog(`${this.getArticle()}周りに とがった岩が ただよい始めた!`);
-    }
-    beStickyWeb() {
-        if (this._stickyWeb.isTrue)
-            return;
-        this._stickyWeb.isTrue = true;
-        writeLog(`${this.getArticle()}足元に ねばねばネットが 広がった!`);
-    }
-    resetToxicSpikes() {
-        if (!this._toxicSpikes.isTrue)
-            return;
-        this._toxicSpikes.reset();
-        writeLog(`${this.getArticle()}足元の どくびしが 消え去った!`);
-    }
-    resetSpikes() {
-        if (!this._spikes.isTrue)
-            return;
-        this._spikes.reset();
-        writeLog(`${this.getArticle()}足元の まきびしが 消え去った!`);
-    }
-    resetStealthRock() {
-        if (!this._stealthRock.isTrue)
-            return;
-        this._stealthRock.reset();
-        writeLog(`${this.getArticle()}周りの ステルスロックが 消え去った!`);
-    }
-    resetStickyWeb() {
-        if (!this._stickyWeb.isTrue)
-            return;
-        this._stickyWeb.reset();
-        writeLog(`${this.getArticle()}足元の ねばねばネットが 消え去った!`);
+    setHost(host) {
+        this._host = host;
     }
 }
 class Field {
@@ -612,11 +825,11 @@ class Field {
         return this._whole;
     }
     setHost(host) {
-        this._myField.host = host;
-        this._opponentField.host = !host;
+        this._myField = new SideField(host);
+        this._opponentField = new SideField(!host);
     }
-    getSide(host) {
-        if (host === this._myField.host) {
+    getSide(isMine) {
+        if (isMine === this._myField._isMine) {
             return this._myField;
         }
         else {

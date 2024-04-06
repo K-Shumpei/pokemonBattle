@@ -962,11 +962,11 @@ function effectAlwaysActivate( pokemon: Pokemon ): boolean {
     if ( pokemon.move.selected.name !== 'Future Sight'
       && pokemon.move.selected.name !== 'Doom Desire' ) return false;
 
-    const futureSight = new StateChange( 'みらいにこうげき' );
+    const futureSight = new StateChange();
     futureSight.isTrue = true;
     //futureSight.target.isMine() = one.target.isMe;
     //futureSight.target.battle = one.target.order.battle;
-    main.field.whole.futureSight.push( futureSight );
+    // main.field.whole.futureSight.push( futureSight );
 
     if ( pokemon.move.selected.name === 'Future Sight' ) {
       pokemon.msgFutureSight();

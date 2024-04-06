@@ -2,56 +2,49 @@
 // 範囲のある値
 // -------------------------
 class ValueWithRange {
-  _value: number;
-  _max: number;
-  _min: number;
+  value: number = 0;
 
-  constructor( max: number, min: number ) {
-    this._value = 0;
-    this._max = max;
-    this._min = min;
-  }
-
-  get value(): number {
-    return this._value;
-  }
-  get max(): number {
-    return this._max;
-  }
+  constructor(
+    public max: number = 0,
+    public min: number = 0
+  ) {}
 
   add( value: number ): void {
-    this._value = Math.max( this._min, Math.min( this._max, this._value + value ) );
+    this.value = Math.max( this.min, Math.min( this.max, this.value + value ) );
   }
 
   sub( value: number ): void {
-    this._value = Math.min( this._max, Math.max( this._min, this._value - value ) );
+    this.value = Math.min( this.max, Math.max( this.min, this.value - value ) );
   }
 
   toZero(): void {
-    this._value = 0;
+    this.value = 0;
   }
 
   isMax(): boolean {
-    return this._value === this._max;
+    return this.value === this.max;
   }
 
   isMin(): boolean {
-    return this._value === this._min;
+    return this.value === this.min;
   }
 
   isZero(): boolean {
-    return this._value === 0;
+    return this.value === 0;
   }
 
   isPlus(): boolean {
-    return this._value > 0;
+    return this.value > 0;
   }
 
   isMinus(): boolean {
-    return this._value < 0;
+    return this.value < 0;
   }
 
-
+  setInitial( value: number ): void {
+    this.value = value;
+    this.max = value;
+  }
 
 }
 
@@ -172,7 +165,7 @@ class Status {
     this._spA.register( stat.spA );
     this._spD.register( stat.spD );
     this._spe.register( stat.spe );
-    this._hp.value.setActualValue( stat.hp.av );
+    this._hp.value.setInitial( stat.hp.av );
   }
 
   edit(): void {
@@ -222,7 +215,7 @@ class Status {
     this._spA.copy( status._spA );
     this._spD.copy( status._spD );
     this._spe.copy( status._spe );
-    this._hp.value.setActualValue( status._hp._av );
+    this._hp.value.setInitial( status._hp._av );
   }
 
   calcRankCorrValue( critical: boolean ): void {
@@ -345,30 +338,24 @@ class HitPointValue extends ValueWithRange {
     super( 175, 0 );
   }
 
-
-  setActualValue( value: number ) {
-    this._value = value;
-    this._max = value;
-  }
-
   rate(): number {
-    return this._value / this._max;
+    return this.value / this.max;
   }
 
   isGreaterThan( denominator: number ): boolean {
-    return this._value > this._max / denominator;
+    return this.value > this.max / denominator;
   }
 
   isGreaterEqual( denominator: number ): boolean {
-    return this._value >= this._max / denominator;
+    return this.value >= this.max / denominator;
   }
 
   isLessThan( denominator: number ): boolean {
-    return this._value < this._max / denominator;
+    return this.value < this.max / denominator;
   }
 
   isLessEqual( denominator: number ): boolean {
-    return this._value <= this._max / denominator;
+    return this.value <= this.max / denominator;
   }
 }
 
@@ -462,8 +449,8 @@ class Rank extends ValueWithRange {
   }
 
   getVariable( value: number ): number {
-    if ( value > 0 ) return Math.min( value, this._max - this._value );
-    if ( value < 0 ) return Math.max( value, this._min + this._value );
+    if ( value > 0 ) return Math.min( value, this.max - this.value );
+    if ( value < 0 ) return Math.max( value, this.min + this.value );
     return value;
   }
 
@@ -511,7 +498,7 @@ class Rank extends ValueWithRange {
   }
 
   useWhiteHerb(): boolean {
-    if ( this._value < 0 ) {
+    if ( this.value < 0 ) {
       this.toZero();
       return true;
     }

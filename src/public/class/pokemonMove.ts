@@ -87,7 +87,7 @@ class LearnedMove {
 
   register( move: RegisterMove ): void {
     this._name = move._name;
-    this._powerPoint.setMaxPP( move.powerPoint );
+    this._powerPoint.setInitial( move.powerPoint );
   }
 
 
@@ -103,7 +103,7 @@ class LearnedMove {
 
   copyFromOpp( move: LearnedMove ): void {
     this._name = move._name;
-    this._powerPoint.setMaxPP( move._powerPoint._value );
+    this._powerPoint.setInitial( move._powerPoint.value );
   }
 
   showCommand1st( battleOrder: number ): void {
@@ -116,11 +116,6 @@ class LearnedMove {
 class PowerPoint extends ValueWithRange {
   constructor() {
     super( 0, 0 );
-  }
-
-  setMaxPP( PP: number ): void {
-    this._max = PP;
-    this._value = PP;
   }
 
   /*
@@ -164,7 +159,7 @@ class SelectedMove {
     this._accuracy = 0;
     this._priority = 0;
     this._critical = 0;
-    this._skin = new StateChange( 'スキン' );
+    this._skin = new StateChange();
     this._store = null
   }
 

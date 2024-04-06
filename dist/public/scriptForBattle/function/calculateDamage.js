@@ -1,17 +1,9 @@
 "use strict";
 function calculateDamage(pokemon, target, attack) {
-    /*
-    // ダメージ固定技の時
-      if ( fixedDamage.includes(poke.myMove.name) ) {
-        tgt.damage    = isDamageByFixedDamageMove(poke, tgt)
-        tgt.effective = 1     // タイプ相性
-        tgt.critical  = false // 急所
-        return
+    // 固定ダメージ
+    if (pokemon.move.selected.getAddOn().fixedDamage) {
+        return getFixedDamage(pokemon, target);
     }
-    */
-    const fixedDamage = isFixedDamage(pokemon, target);
-    if (fixedDamage)
-        return fixedDamage;
     // 最終威力
     const power = getPower(pokemon, target);
     // 攻撃と防御の実数値取得　A/D
@@ -20,9 +12,44 @@ function calculateDamage(pokemon, target, attack) {
     const finalDamage = getDamage(pokemon, target, power, status, attack);
     return finalDamage;
 }
-function isFixedDamage(pokemon, target) {
-    const move = pokemon.move.selected;
-    return 0;
+function getFixedDamage(pokemon, target) {
+    switch (pokemon.move.selected.name) {
+        case 'Sonic Boom': // 技「ソニックブーム」
+            return 20;
+        case 'Dragon Rage': // 技「りゅうのいかり」
+            return 40;
+        case 'Seismic Toss': // 技「ちきゅうなげ」
+        case 'Night Shade': // 技「ナイトヘッド」
+            return pokemon.level;
+        case 'Psywave': // 技「サイコウェーブ」
+            const rate = Math.floor(getRandom() * 101) * 0.01 + 0.5;
+            return Math.max(Math.floor(pokemon.level * rate), 1);
+        case 'Super Fang': // 技「いかりのまえば」
+        case 'Nature’s Madness': // 技「しぜんのいかり」
+        case 'Ruination': // 技「カタストロフィ」
+            return Math.floor(target.getOrgHP() / 2);
+        case 'Endeavor': // 技「がむしゃら」
+            return target.getOrgHP() - pokemon.getOrgHP();
+        case 'Counter': // 技「カウンター」
+        case 'Mirror Coat': // 技「ミラーコート」
+            return 0;
+        case 'Bide': // 技「がまん」
+            return 0;
+        case 'Metal Burst': // 技「メタルバースト」
+        case 'Comeuppance': // 技「ほうふく」
+            return 0;
+        case 'Final Gambit': // 技「いのちがけ」
+            return pokemon.getOrgHP();
+        case 'Guillotine': // 技「ハサミギロチン」
+        case 'Horn Drill': // 技「つのドリル」
+        case 'Fissure': // 技「じわれ」
+        case 'Sheer Cold': // 技「ぜったいれいど」
+            return target.getOrgHP();
+        case 'Guardian of Alola': // 技「ガーディアン・デ・アローラ」
+            return Math.floor(target.getOrgHP() * 3 / 4);
+        default:
+            return 1;
+    }
 }
 // 威力計算
 function getPower(pokemon, target) {
@@ -30,18 +57,18 @@ function getPower(pokemon, target) {
         const move = pokemon.move.selected;
         if (move.name === 'Reversal' // 技「きしかいせい」
             || move.name === 'Flail') { // 技「じたばた」
-            if (pokemon.status.hp.value.rate() >= 0)
-                return 200;
-            if (pokemon.status.hp.value.rate() >= 2 / 48)
-                return 150;
-            if (pokemon.status.hp.value.rate() >= 5 / 48)
-                return 100;
-            if (pokemon.status.hp.value.rate() >= 10 / 48)
-                return 80;
-            if (pokemon.status.hp.value.rate() >= 17 / 48)
-                return 40;
             if (pokemon.status.hp.value.rate() >= 33 / 48)
                 return 20;
+            if (pokemon.status.hp.value.rate() >= 17 / 48)
+                return 40;
+            if (pokemon.status.hp.value.rate() >= 10 / 48)
+                return 80;
+            if (pokemon.status.hp.value.rate() >= 5 / 48)
+                return 100;
+            if (pokemon.status.hp.value.rate() >= 2 / 48)
+                return 150;
+            if (pokemon.status.hp.value.rate() >= 0)
+                return 200;
         }
         if (move.name === 'Water Spout' // 技「しおふき」
             || move.name === 'Eruption' // 技「ふんか」
@@ -250,7 +277,7 @@ function getPower(pokemon, target) {
             ;
         }
         // 基礎威力が定義されていない場合、1を返す
-        if (move.power == null)
+        if (move.power === null)
             return 1;
         else
             return move.power;

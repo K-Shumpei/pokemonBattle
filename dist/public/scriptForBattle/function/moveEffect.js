@@ -506,7 +506,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return; // 特性「シンクロ」
         if (!target.stateChange.synchronize.isTrue)
             return;
-        const ailment = target.stateChange.synchronize.name;
+        const ailment = target.stateChange.synchronize.text;
         if (ailment === 'Poisoned' || ailment === 'BadPoisoned' || ailment === 'Burned' || ailment === 'Paralysis') {
             target.msgDeclareAbility();
             pokemon.statusAilment.getBurned();
@@ -868,7 +868,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
         if (main.field.getSide(!target.isMine()).toxicSpikes.count === 2)
             return;
         target.msgDeclareAbility();
-        main.field.getSide(!target.isMine()).beToxicSpikes();
+        main.field.getSide(!target.isMine()).toxicSpikes.onActivate();
     };
     const waterCompaction = (pokemon, target, attack) => {
         if (target.status.hp.value.isZero())
@@ -1697,10 +1697,10 @@ function activateMoveEffect(pokemon) {
             pokemon.stateChange.ingrain.reset();
             writeLog(``);
         }
-        main.field.getSide(pokemon.isMine()).resetSpikes();
-        main.field.getSide(pokemon.isMine()).resetToxicSpikes();
-        main.field.getSide(pokemon.isMine()).resetStealthRock();
-        main.field.getSide(pokemon.isMine()).resetStickyWeb();
+        main.field.getSide(pokemon.isMine()).spikes.onRemove();
+        main.field.getSide(pokemon.isMine()).toxicSpikes.onRemove();
+        main.field.getSide(pokemon.isMine()).stealthRock.onRemove();
+        main.field.getSide(pokemon.isMine()).stickyWeb.onRemove();
     };
     const splinteredStormshards = (pokemon) => {
         if (pokemon.move.selected.name !== 'Splintered Stormshards')
@@ -1802,6 +1802,10 @@ function activateMoveEffect(pokemon) {
         wakeUpSlap(pokemon, target, attack); // めざましビンタ
         sparklingAria(pokemon, target, attack); // うたかたのアリア
         eerieSpell(pokemon, target, attack); // ぶきみなじゅもん
+    }
+    // 変化技の効果
+    if (pokemon.move.selected.getMaster().class === 'status') {
+        statusMoveEffect(pokemon);
     }
 }
 // 特性の効果（その1）

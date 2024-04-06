@@ -74,6 +74,7 @@ type MoveAddOnData = {
   reckLess: boolean;
   explosion: boolean;
   changeType: boolean;
+  fixedDamage: boolean;
 }
 
 type MoveLearned = {

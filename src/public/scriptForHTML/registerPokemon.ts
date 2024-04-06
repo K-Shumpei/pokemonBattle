@@ -469,7 +469,7 @@ class RegisterAbility {
 
   setMaster( master: PokemonData ): void {
     const abilityList: AbilityText[] = []
-    for ( const ability in master ) {
+    for ( const ability of master.ability ) {
       const nameEN = abilityTextList.filter( name => name === ability );
       if ( nameEN.length === 0 ) continue;
       abilityList.push( nameEN[0])

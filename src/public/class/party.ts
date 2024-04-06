@@ -28,8 +28,8 @@ class Main {
   sortUnique( pokeList: Pokemon[] ): Pokemon[] {
     const result = pokeList.sort( ( a, b ) => {
       // トレーナー
-      if ( a.host ) return -1;
-      if ( b.host ) return 1;
+      if ( a.order.host ) return -1;
+      if ( b.order.host ) return 1;
       // パーティの並び順
       if ( a.order.party > b.order.party ) return -1;
       return 1;
@@ -171,12 +171,12 @@ class Player {
 
   constructor( isMe: boolean ) {
     this._party = [
-      new Pokemon( 0, isMe ),
-      new Pokemon( 1, isMe ),
-      new Pokemon( 2, isMe ),
-      new Pokemon( 3, isMe ),
-      new Pokemon( 4, isMe ),
-      new Pokemon( 5, isMe )
+      new Pokemon( isMe, 0 ),
+      new Pokemon( isMe, 1 ),
+      new Pokemon( isMe, 2 ),
+      new Pokemon( isMe, 3 ),
+      new Pokemon( isMe, 4 ),
+      new Pokemon( isMe, 5 )
     ]
     this._pokemon = [];
   }
@@ -190,7 +190,7 @@ class Player {
 
   setHost( host: boolean ): void {
     for ( const pokemon of this._pokemon ) {
-      pokemon._host = host;
+      pokemon._order._host = host;
     }
   }
 
@@ -217,7 +217,7 @@ class Player {
 
 
       // 控え
-      const reserve = this._pokemon.filter( poke => poke.order.battle === null && !poke.status.hp.value.isZero() );
+      const reserve: Pokemon[] = this._pokemon.filter( poke => poke.order.battle === null && !poke.status.hp.value.isZero() );
       for ( let j = 0; j < reserve.length; j++ ) {
         if ( reserve[j].name === null ) continue;
         getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).disabled = false;

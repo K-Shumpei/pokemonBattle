@@ -68,7 +68,7 @@ class LearnedMove {
     }
     register(move) {
         this._name = move._name;
-        this._powerPoint.setMaxPP(move.powerPoint);
+        this._powerPoint.setInitial(move.powerPoint);
     }
     show(handOrder) {
         getHTMLInputElement('party' + handOrder + '_move' + this._slot).textContent = (this._name === null) ? '技' : this.translate();
@@ -80,7 +80,7 @@ class LearnedMove {
     }
     copyFromOpp(move) {
         this._name = move._name;
-        this._powerPoint.setMaxPP(move._powerPoint._value);
+        this._powerPoint.setInitial(move._powerPoint.value);
     }
     showCommand1st(battleOrder) {
         if (this._name === null)
@@ -92,10 +92,6 @@ class LearnedMove {
 class PowerPoint extends ValueWithRange {
     constructor() {
         super(0, 0);
-    }
-    setMaxPP(PP) {
-        this._max = PP;
-        this._value = PP;
     }
 }
 // -------------------------
@@ -112,7 +108,7 @@ class SelectedMove {
         this._accuracy = 0;
         this._priority = 0;
         this._critical = 0;
-        this._skin = new StateChange('スキン');
+        this._skin = new StateChange();
         this._store = null;
     }
     set type(type) {

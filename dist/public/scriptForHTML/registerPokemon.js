@@ -400,7 +400,7 @@ class RegisterAbility {
     }
     setMaster(master) {
         const abilityList = [];
-        for (const ability in master) {
+        for (const ability of master.ability) {
             const nameEN = abilityTextList.filter(name => name === ability);
             if (nameEN.length === 0)
                 continue;

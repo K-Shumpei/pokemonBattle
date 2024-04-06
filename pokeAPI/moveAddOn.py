@@ -20,7 +20,8 @@ with open("../src/public/master/moveAddOn.ts", "w") as o:
       "stomp: {},".format(str(a["stomp"]).lower()),
       "reckLess: {},".format(str(a["reckLess"]).lower()),
       "explosion: {},".format(str(a["explosion"]).lower()),
-      "changeType: {}".format(str(a["changeType"]).lower()),
+      "changeType: {},".format(str(a["changeType"]).lower()),
+      "fixedDamage: {}".format(str(a["fixedDamage"]).lower()),
       "},",
       file=o
     )

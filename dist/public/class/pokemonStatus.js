@@ -3,40 +3,38 @@
 // 範囲のある値
 // -------------------------
 class ValueWithRange {
-    constructor(max, min) {
-        this._value = 0;
-        this._max = max;
-        this._min = min;
-    }
-    get value() {
-        return this._value;
-    }
-    get max() {
-        return this._max;
+    constructor(max = 0, min = 0) {
+        this.max = max;
+        this.min = min;
+        this.value = 0;
     }
     add(value) {
-        this._value = Math.max(this._min, Math.min(this._max, this._value + value));
+        this.value = Math.max(this.min, Math.min(this.max, this.value + value));
     }
     sub(value) {
-        this._value = Math.min(this._max, Math.max(this._min, this._value - value));
+        this.value = Math.min(this.max, Math.max(this.min, this.value - value));
     }
     toZero() {
-        this._value = 0;
+        this.value = 0;
     }
     isMax() {
-        return this._value === this._max;
+        return this.value === this.max;
     }
     isMin() {
-        return this._value === this._min;
+        return this.value === this.min;
     }
     isZero() {
-        return this._value === 0;
+        return this.value === 0;
     }
     isPlus() {
-        return this._value > 0;
+        return this.value > 0;
     }
     isMinus() {
-        return this._value < 0;
+        return this.value < 0;
+    }
+    setInitial(value) {
+        this.value = value;
+        this.max = value;
     }
 }
 // -------------------------
@@ -129,7 +127,7 @@ class Status {
         this._spA.register(stat.spA);
         this._spD.register(stat.spD);
         this._spe.register(stat.spe);
-        this._hp.value.setActualValue(stat.hp.av);
+        this._hp.value.setInitial(stat.hp.av);
     }
     edit() {
         this._hp.edit('hitPoint');
@@ -173,7 +171,7 @@ class Status {
         this._spA.copy(status._spA);
         this._spD.copy(status._spD);
         this._spe.copy(status._spe);
-        this._hp.value.setActualValue(status._hp._av);
+        this._hp.value.setInitial(status._hp._av);
     }
     calcRankCorrValue(critical) {
         this._atk.calcRankCorrValue(critical);
@@ -275,24 +273,20 @@ class HitPointValue extends ValueWithRange {
     constructor() {
         super(175, 0);
     }
-    setActualValue(value) {
-        this._value = value;
-        this._max = value;
-    }
     rate() {
-        return this._value / this._max;
+        return this.value / this.max;
     }
     isGreaterThan(denominator) {
-        return this._value > this._max / denominator;
+        return this.value > this.max / denominator;
     }
     isGreaterEqual(denominator) {
-        return this._value >= this._max / denominator;
+        return this.value >= this.max / denominator;
     }
     isLessThan(denominator) {
-        return this._value < this._max / denominator;
+        return this.value < this.max / denominator;
     }
     isLessEqual(denominator) {
-        return this._value <= this._max / denominator;
+        return this.value <= this.max / denominator;
     }
 }
 // -------------------------
@@ -364,9 +358,9 @@ class Rank extends ValueWithRange {
     }
     getVariable(value) {
         if (value > 0)
-            return Math.min(value, this._max - this._value);
+            return Math.min(value, this.max - this.value);
         if (value < 0)
-            return Math.max(value, this._min + this._value);
+            return Math.max(value, this.min + this.value);
         return value;
     }
     change(name, real, setting, item) {
@@ -431,7 +425,7 @@ class Rank extends ValueWithRange {
             writeLog(`${name}の ${this._text}が がくーんと下がった!`);
     }
     useWhiteHerb() {
-        if (this._value < 0) {
+        if (this.value < 0) {
             this.toZero();
             return true;
         }
