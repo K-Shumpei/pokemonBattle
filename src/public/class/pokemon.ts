@@ -1,48 +1,22 @@
 class Order {
-  _host: boolean;
-  _isMe: boolean;
-  _party: number;
-  _hand: number;
-  _battle: number | null;
+  host: boolean = true;
+  isMe: boolean;
+  party: number;
+  hand: number;
+  battle: number | null = null;
 
   constructor( isMe: boolean, slot: number ) {
-    this._host = true;
-    this._isMe = isMe;
-    this._party = slot;
-    this._hand = slot;
-    this._battle = null;
+    this.isMe = isMe;
+    this.party = slot;
+    this.hand = slot;
   }
 
-  set host( host: boolean ) {
-    this._host = host;
-  }
-  set isMe( isMe: boolean ) {
-    this._isMe = isMe;
-  }
-  set party( party: number ) {
-    this._party = party;
-  }
-  set hand( hand: number ) {
-    this._hand = hand;
-  }
-  set battle( battle: number | null ) {
-    this._battle = battle;
-  }
-
-  get host(): boolean {
-    return this._host;
-  }
-  get isMe(): boolean {
-    return this._isMe;
-  }
-  get party(): number {
-    return this._party;
-  }
-  get hand(): number {
-    return this._hand
-  }
-  get battle(): number | null {
-    return this._battle;
+  setInfo( order: Order ): void {
+    this.host = order.host;
+    this.isMe = order.isMe;
+    this.party = order.party;
+    this.hand = order.hand;
+    this.battle = order.battle;
   }
 }
 
@@ -358,20 +332,6 @@ class Transform extends StateChange {
   }
 }
 
-class CannotEscape extends StateChange {
-  _order: Order;
-
-  constructor() {
-    super();
-    this._order = new Order( true, 0 );
-  }
-
-  beTrue( order: Order ): void {
-    this._isTrue = true;
-    this._order.isMe = order.isMe;
-    this._order.party = order.party;
-  }
-}
 
 class Attract extends StateChange {
   _order: Order;
@@ -524,6 +484,10 @@ class Item {
 
     return true;
   }
+
+  translate(): string {
+    return String( this.name );
+  }
 }
 
 
@@ -553,6 +517,16 @@ class Type {
   toType( type: PokemonType ): void {
     this._list = [ type ];
   }
+
+  getCompatibility( type: PokemonType ): number {
+    const comp = typeCompatibility.filter( t => t.atkType === type )[0];
+    const result: number = this.get().reduce( ( acc, value ) => {
+      const rate = comp.rate.filter( r => r.defType === value )[0].rate
+      return acc * rate;
+    }, 1.0 );
+
+    return result;
+  }
 }
 
 
@@ -579,6 +553,8 @@ class Pokemon {
   _command: Command; // コマンド
   _stateChange: StateChangeSummary; // 状態変化
   _actionOrder: ActionOrder; // 行動順
+
+  extraParameter = new ExtraParameter();
 
   constructor( isMe: boolean, slot: number ) {
     this._id = 0;
@@ -1085,9 +1061,6 @@ class Pokemon {
   msgPerishBodyAll(): void {
     writeLog( `おたがいは 3ターン後に 滅びてしまう!` );
   }
-  msgCursedBody(): void {
-    writeLog( `${this.getArticle()}の ${this._stateChange.disable.text}を 封じこめた!` );
-  }
   msgElectromorphosis( moveName: string ): void {
     writeLog( `${this.getArticle()}は ${moveName}を 受けて 充電した!` );
   }
@@ -1508,10 +1481,20 @@ class Pokemon {
         this._statusAilment.getPoisoned();
         break;
 
+      case 'confusion':
+        this.getConfusion();
+        break;
+
+      case 'tar-shot':
+        this.stateChange.tarShot.onActivate( this );
+        break;
+
       default:
         break;
     }
   }
+
+
 
 
 
@@ -1760,6 +1743,30 @@ class Pokemon {
     main.getPlayer( this.isMine() ).cycleHand( hand );
   }
 
+  //-------------
+  // バトル場に出る
+  //-------------
+  toBattleField( battle: number ): void {
+    this.order.battle = battle;
+
+    const hand: number = this.order.hand;
+    for ( const pokemon of main.getParty( this.isMine() ) ) {
+      if ( pokemon.order.hand < hand ) {
+        pokemon.order.hand += 1;
+      }
+    }
+    this.order.hand = 0;
+
+    if ( this.isMine() ) {
+      getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().id + '.png';
+    } else {
+      getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().id + '.png';
+    }
+
+    this.msgToBattleField();
+  }
+
+
   //--------------
   // 追加効果発動判定
   //--------------
@@ -1847,6 +1854,285 @@ class Pokemon {
     if ( this._stateChange.telekinesis.isTrue ) return false;
 
     return true;
+  }
+
+  onActivateWhenLanding(): void {
+    if ( !this.ability.isValid() ) return;
+
+    switch ( this.ability.name ) {
+      // 場に出たときに発動する特性
+      case 'Drizzle': // 特性「あめふらし」
+        if ( main.field.weather.isGetRainy() ) {
+          this.msgDeclareAbility();
+          main.field.weather.getRainy( this );
+        }
+        break;
+
+      case 'Intimidate': // 特性「いかく」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Air Lock': // 特性「エアロック」
+        this.msgDeclareAbility();
+        writeLog( `天候の影響が なくなった!` );
+        break;
+
+      case 'Electric Surge': // 特性「エレキメイカー」
+        if ( !main.field.terrain.isElectric() ) {
+          this.msgDeclareAbility();
+          main.field.terrain.getElectric( this );
+        }
+        break;
+
+      case 'Aura Break': // 特性「オーラブレイク」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}は すべての オーラを 制圧する!` );
+        break;
+
+      case 'Frisk': // 特性「おみとおし」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Desolate Land': // 特性「おわりのだいち」
+        if ( main.field.weather.isGetBadSunny() ) {
+          this.msgDeclareAbility();
+          main.field.weather.getBadSunny();
+        }
+        break;
+
+      case 'Mold Breaker': // 特性「かたやぶり」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}は かたやぶりだ!` );
+        break;
+
+      case 'Imposter': // 特性「かわりもの」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Anticipation': // 特性「きけんよち」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Curious Medicine': // 特性「きみょうなくすり」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Grassy Surge': // 特性「グラスメイカー」
+        if ( !main.field.terrain.isGrassy() ) {
+          this.msgDeclareAbility();
+          main.field.terrain.getGrassy( this );
+        }
+        break;
+
+      case 'Psychic Surge': // 特性「サイコメイカー」
+        if ( !main.field.terrain.isPsychic() ) {
+          this.msgDeclareAbility();
+          main.field.terrain.getPsychic( this );
+        }
+        break;
+
+      case 'Slow Start': // 特性「スロースタート」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Sand Stream': // 特性「すなあらし」
+        if ( main.field.weather.isGetSandy() ) {
+          this.msgDeclareAbility();
+          main.field.weather.getSandy( this );
+        }
+        break;
+
+      case 'Comatose': // 特性「ぜったいねむり」
+        this.msgDeclareAbility();
+        break;
+
+      /* case 'Feldherr': // 特性「そうだいしょう」
+        this.msgDeclareAbility();
+        break;
+      */
+
+      case 'Dark Aura': // 特性「ダークオーラ」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}は ダークオーラを 放っている!` );
+        break;
+
+      case 'Turboblaze': // 特性「ターボブレイズ」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}は 燃え盛る オーラを 放っている!` );
+        break;
+
+      case 'Download': // 特性「ダウンロード」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Teravolt': // 特性「テラボルテージ」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}は 弾ける オーラを 放っている!` );
+        break;
+
+      case 'Delta Stream': // 特性「デルタストリーム」
+        if ( main.field.weather.isGetTurbulence() ) {
+          this.msgDeclareAbility();
+          main.field.weather.getTurbulence();
+        }
+        break;
+
+      case 'Trace': // 特性「トレース」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Cloud Nine': // 特性「ノーてんき」
+        this.msgDeclareAbility();
+        writeLog( `天候の影響が なくなった!` );
+        break;
+
+      case 'Primordial Sea': // 特性「はじまりのうみ」
+        if ( main.field.weather.isGetBadRainy() ) {
+          this.msgDeclareAbility();
+          main.field.weather.getBadRainy();
+        }
+        break;
+
+      case 'Hadron Engine': // 特性「ハドロンエンジン」
+        if ( !main.field.terrain.isElectric() ) {
+          this.msgDeclareAbility();
+          main.field.terrain.getElectric( this );
+          writeLog( `${this.getArticle()}は エレキフィールドを はり 未来の機関を 躍動させる!!` );
+        } else {
+          writeLog( `${this.getArticle()}は エレキフィールドで 未来の機関を 躍動させる!!` );
+        }
+        break;
+
+      case 'Screen Cleaner': // 特性「バリアフリー」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Drought': // 特性「ひでり」
+        if ( main.field.weather.isGetSunny() ) {
+          this.msgDeclareAbility();
+          main.field.weather.getSunny( this );
+        }
+        break;
+
+      case 'Orichalcum Pulse': // 特性「ひひいろのこどう」
+        if ( main.field.weather.isGetSunny() ) {
+          this.msgDeclareAbility();
+          main.field.weather.getSunny( this );
+          writeLog( `${this.getArticle()}は ひざしを 強め 古代の鼓動が 暴れ出す!!` );
+        } else {
+          writeLog( `${this.getArticle()}は ひざしを 受けて 古代の鼓動が 暴れ出す!!` );
+        }
+        break;
+
+      case 'Fairy Aura': // 特性「フェアリーオーラ」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}は フェアリーオーラを 放っている!` );
+        break;
+
+      case 'Dauntless Shield': // 特性「ふくつのたて」
+        if ( this.isChangeRank( 'def', 1 ) ) {
+          this.changeRank( 'def', 1 );
+          this.msgDeclareAbility();
+        }
+        break;
+
+      case 'Intrepid Sword': // 特性「ふとうのけん」
+        if ( this.isChangeRank( 'atk', 1 ) ) {
+          this.changeRank( 'atk', 1 );
+          this.msgDeclareAbility();
+        }
+        break;
+
+      case 'Pressure': // 特性「プレッシャー」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}は プレッシャーを 放っている!` );
+        break;
+
+      case 'Zero to Hero': // 特性「マイティチェンジ」
+        if ( this.extraParameter.zeroToHero ) {
+          this.msgDeclareAbility();
+          writeLog( `${this.getArticle()}は 変身して 帰ってきた!` );
+        }
+        break;
+
+      case 'Misty Surge': // 特性「ミストメイカー」
+        if ( !main.field.terrain.isMisty() ) {
+          this.msgDeclareAbility();
+          main.field.terrain.getMisty( this );
+        }
+        break;
+
+      case 'Snow Warning': // 特性「ゆきふらし」
+        if ( main.field.weather.isGetSnowy() ) {
+          this.msgDeclareAbility();
+          main.field.weather.getSnowy( this );
+        }
+        break;
+
+      case 'Forewarn': // 特性「よちむ」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Vessel of Ruin': // 特性「わざわいのうつわ」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}の わざわいのうつわで まわりの 特攻が 弱まった!` );
+        break;
+
+      case 'Tablets of Ruin': // 特性「わざわいのおふだ」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}の わざわいのおふだで まわりの 攻撃が 弱まった!` );
+        break;
+
+      case 'Beads of Ruin': // 特性「わざわいのたま」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}の わざわいのたまで まわりの 特防が 弱まった!` );
+        break;
+
+      case 'Sword of Ruin': // 特性「わざわいのつるぎ」
+        this.msgDeclareAbility();
+        writeLog( `${this.getArticle()}の わざわいのつるぎで まわりの 防御が 弱まった!` );
+        break;
+
+      // 状態異常を治す特性
+      case 'Limber': // 特性「じゅうなん」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Water Bubble': // 特性「すいほう」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Thermal Exchange': // 特性「ねつこうかん」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Pastel Veil': // 特性「パステルベール」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Insomnia': // 特性「ふみん」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Magma Armor': // 特性「マグマのよろい」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Water Veil': // 特性「みずのベール」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Immunity': // 特性「めんえき」
+        this.msgDeclareAbility();
+        break;
+
+      case 'Vital Spirit': // 特性「やるき」
+        this.msgDeclareAbility();
+        break;
+
+      default:
+        break;
+    }
   }
 }
 

@@ -4,12 +4,70 @@ class StateChangeStatus {
         this.isTrue = false;
         this.turn = new ValueWithRange();
         this.count = 0;
+        this.move = null;
+        this.order = new Order(true, 0);
     }
     reset() {
         this.isTrue = false;
         this.turn.value = this.turn.max;
         this.count = 0;
+        this.move = null;
+        this.order = new Order(true, 0);
     }
+}
+class CannotEscape extends StateChangeStatus {
+    onActivate(pokemon, target) {
+        this.isTrue = true;
+        this.order = new Order(pokemon.order.isMe, pokemon.order.hand);
+        writeLog(`${target.getArticle()}は もう 逃げられない!`);
+    }
+}
+class Curse extends StateChangeStatus {
+    onActivate(pokemon, target) {
+        this.isTrue = true;
+        writeLog(`${pokemon.getArticle()}は 自分の体力を 削って ${target.getArticle()}に のろいを かけた!`);
+    }
+    onElapse(pokemon) {
+        writeLog(`${pokemon.getArticle()}は のろわれている! `);
+    }
+}
+class Disable extends StateChangeStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(4, 0);
+    }
+    onActivate(pokemon) {
+        this.isTrue = true;
+        // this.move = pokemon.move.selected.name;
+        // writeLog( `${pokemon.getArticle()}の ${pokemon.move.selected.translate()}を 封じこめた! ` );
+    }
+    onElapse(pokemon) {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            writeLog(`${pokemon.getArticle()}の かなしばりが 解けた! `);
+        }
+    }
+}
+class Encore extends StateChangeStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(3, 0);
+    }
+    onActivate(pokemon) {
+        this.isTrue = true;
+        // this.move = pokemon.move.selected.name;
+        writeLog(`${pokemon.getArticle()}は アンコールを受けた! `);
+    }
+    onElapse(pokemon) {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            // writeLog( `${pokemon.getArticle()}の アンコールが 解けた! ` );
+        }
+    }
+}
+class FocusEnergy extends StateChangeStatus {
 }
 class HealBlock extends StateChangeStatus {
     constructor() {
@@ -39,6 +97,13 @@ class HelpingHand extends StateChangeStatus {
         writeLog(`${pokemon.getArticle()}は ${target.getArticle()}を 手助けする 体勢に入った!`);
     }
 }
+class LockOn extends StateChangeStatus {
+    onActivate(pokemon, target) {
+        this.isTrue = true;
+        this.order.setInfo(target.order);
+        writeLog(`${pokemon.getArticle()}は ${target.getArticle()}に ねらいを さだめた!`);
+    }
+}
 class PerishSong extends StateChangeStatus {
     constructor() {
         super();
@@ -48,37 +113,60 @@ class PerishSong extends StateChangeStatus {
         this.isTrue = true;
     }
 }
+class TarShot extends StateChangeStatus {
+    onActivate(pokemon) {
+        this.isTrue = true;
+        writeLog(`${pokemon.getArticle()}は ほのおに 弱くなった!`);
+    }
+}
+class Taunt extends StateChangeStatus {
+    constructor() {
+        super();
+        this.turn = new ValueWithRange(3, 0);
+    }
+    onActivate(pokemon) {
+        this.isTrue = true;
+        writeLog(`${pokemon.getArticle()}は 挑発に 乗ってしまった!`);
+    }
+    onElapse(pokemon) {
+        this.turn.sub(1);
+        if (this.turn.isZero()) {
+            this.reset();
+            writeLog(`${pokemon.getArticle()}は 挑発の効果が 解けた! `);
+        }
+    }
+}
 class StateChangeSummary {
     constructor() {
+        this.cannotEscape = new CannotEscape(); // にげられない
+        this.curse = new Curse(); // のろい
+        this.disable = new Disable(); // かなしばり
+        this.encore = new Encore(); // アンコール
+        this.focusEnergy = new FocusEnergy(); // きゅうしょアップ
         this.healBlock = new HealBlock(); // かいふくふうじ
         this.helpingHand = new HelpingHand(); // てだすけ
+        this.lockOn = new LockOn(); // ロックオン
         this.perishSong = new PerishSong(); // ほろびのうた
+        this.tarShot = new TarShot(); // タールショット
+        this.taunt = new Taunt(); // ちょうはつ
         this._flinch = new StateChange();
         this._bind = new StateChange();
-        this._curse = new StateChange();
         this._attract = new Attract();
         this._leechSeed = new StateChange();
         this._yawn = new StateChange();
         this._noAbility = new StateChange();
         this._embargo = new StateChange();
-        this._encore = new StateChange();
         this._torment = new StateChange();
-        this._taunt = new StateChange();
-        this._disable = new StateChange();
         this._foresight = new StateChange();
         this._miracleEye = new StateChange();
         this._smackDown = new StateChange();
         this._telekinesis = new StateChange();
-        this._cannotEscape = new CannotEscape();
         this._electrify = new StateChange();
         this._powder = new StateChange();
         this._throatChop = new StateChange();
-        this._tarShot = new StateChange();
         this._saltCure = new StateChange();
-        this._focusEnergy = new StateChange();
         this._substitute = new StateChange();
         this._protect = new StateChange();
-        this._lockOn = new StateChange();
         this._minimize = new StateChange();
         this._destinyBond = new StateChange();
         this._grudge = new StateChange();
@@ -128,9 +216,6 @@ class StateChangeSummary {
     set bind(bind) {
         this._bind = bind;
     }
-    set curse(curse) {
-        this._curse = curse;
-    }
     set attract(attract) {
         this._attract = attract;
     }
@@ -146,17 +231,8 @@ class StateChangeSummary {
     set embargo(embargo) {
         this._embargo = embargo;
     }
-    set encore(encore) {
-        this._encore = encore;
-    }
     set torment(torment) {
         this._torment = torment;
-    }
-    set taunt(taunt) {
-        this._taunt = taunt;
-    }
-    set disable(disable) {
-        this._disable = disable;
     }
     set foresight(foresight) {
         this._foresight = foresight;
@@ -170,9 +246,6 @@ class StateChangeSummary {
     set telekinesis(telekinesis) {
         this._telekinesis = telekinesis;
     }
-    set cannotEscape(cannotEscape) {
-        this._cannotEscape = cannotEscape;
-    }
     set electrify(electrify) {
         this._electrify = electrify;
     }
@@ -182,23 +255,14 @@ class StateChangeSummary {
     set throatChop(throatChop) {
         this._throatChop = throatChop;
     }
-    set tarShot(tarShot) {
-        this._tarShot = tarShot;
-    }
     set saltCure(saltCure) {
         this._saltCure = saltCure;
-    }
-    set focusEnergy(focusEnergy) {
-        this._focusEnergy = focusEnergy;
     }
     set substitute(substitute) {
         this._substitute = substitute;
     }
     set protect(protect) {
         this._protect = protect;
-    }
-    set lockOn(lockOn) {
-        this._lockOn = lockOn;
     }
     set minimize(minimize) {
         this._minimize = minimize;
@@ -332,9 +396,6 @@ class StateChangeSummary {
     get bind() {
         return this._bind;
     }
-    get curse() {
-        return this._curse;
-    }
     get attract() {
         return this._attract;
     }
@@ -350,17 +411,8 @@ class StateChangeSummary {
     get embargo() {
         return this._embargo;
     }
-    get encore() {
-        return this._encore;
-    }
     get torment() {
         return this._torment;
-    }
-    get taunt() {
-        return this._taunt;
-    }
-    get disable() {
-        return this._disable;
     }
     get foresight() {
         return this._foresight;
@@ -374,9 +426,6 @@ class StateChangeSummary {
     get telekinesis() {
         return this._telekinesis;
     }
-    get cannotEscape() {
-        return this._cannotEscape;
-    }
     get electrify() {
         return this._electrify;
     }
@@ -386,23 +435,14 @@ class StateChangeSummary {
     get throatChop() {
         return this._throatChop;
     }
-    get tarShot() {
-        return this._tarShot;
-    }
     get saltCure() {
         return this._saltCure;
-    }
-    get focusEnergy() {
-        return this._focusEnergy;
     }
     get substitute() {
         return this._substitute;
     }
     get protect() {
         return this._protect;
-    }
-    get lockOn() {
-        return this._lockOn;
     }
     get minimize() {
         return this._minimize;

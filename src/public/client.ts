@@ -140,14 +140,14 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
     for ( const pokemon of main.opp.pokemon ) {
       if ( pokemon.order.battle === i ) {
-        toBattleField( pokemon, i );
+        pokemon.toBattleField( i );
       }
     }
   }
   for ( let i = 0; i < fieldStatus.battleStyle; i++ ) {
     for ( const pokemon of main.me.pokemon ) {
       if ( pokemon.order.battle === i ) {
-        toBattleField( pokemon, i );
+        pokemon.toBattleField( i );
       }
     }
   }

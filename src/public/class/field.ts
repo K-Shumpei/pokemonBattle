@@ -737,6 +737,14 @@ class StealthRock extends SideFieldStatus {
     this.reset();
     writeLog( `${this.getText()}の 周りの ステルスロックが 消え去った! ` );
   }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    const damage: number = Math.floor( pokemon.status.hp.value.max * pokemon.type.getCompatibility( 'Rock' ) / 8 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は とがった岩が 食いこんだ!` );
+  }
 }
 
 class ToxicSpikes extends SideFieldStatus {
@@ -757,6 +765,21 @@ class ToxicSpikes extends SideFieldStatus {
     this.reset();
     writeLog( `${this.getText()}の 足元の どくびしが 消え去った!` );
   }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( !pokemon.isGround() ) return;
+    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    if ( !pokemon.isGetAilmentByOther( 'Poisoned', pokemon ) ) return;
+
+    if ( this.count === 1 ) {
+      pokemon.statusAilment.getPoisoned();
+    }
+
+    if ( this.count === 2 ) {
+      pokemon.statusAilment.getBadPoisoned();
+    }
+  }
 }
 
 class StickyWeb extends SideFieldStatus {
@@ -775,6 +798,16 @@ class StickyWeb extends SideFieldStatus {
     if ( !this.isTrue ) return;
     this.reset();
     writeLog( `${this.getText()}の 足元の ねばねばネットが 消え去った!` );
+  }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( !pokemon.isGround() ) return;
+    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    if ( !pokemon.isChangeRank( 'spe', -1 ) ) return;
+
+    writeLog( `${this.getText()}は ねばねばネットに ひっかかった!` );
+    pokemon.changeRank( 'spe', -1 );
   }
 }
 
@@ -796,6 +829,15 @@ class Spikes extends SideFieldStatus {
     this.reset();
     writeLog( `${this.getText()}の 足元の まきびしが 消え去った!` );
   }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( !pokemon.isGround() ) return;
+    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    const damage: number = Math.floor( pokemon.status.hp.value.max / ( 10 - this.count * 2 ) );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は まきびしの ダメージを受けた!` );
+  }
 }
 
 class Steelsurge extends SideFieldStatus { // テキスト未検証
@@ -807,13 +849,21 @@ class Steelsurge extends SideFieldStatus { // テキスト未検証
   onActivate(): void {
     if ( this.isTrue ) return;
     this.isTrue = true;
-    writeLog( `${this.getText()}の 周りに 尖った鋼が ただよい始めた! `);
+    writeLog( `${this.getText()}の 周りに とがった はがねが ただよい始めた! `);
   }
 
   onRemove(): void {
     if ( !this.isTrue ) return;
     this.reset();
     writeLog( `${this.getText()}の 周りの キョダイコウジンが 消え去った! ` );
+  }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    const damage: number = Math.floor( pokemon.status.hp.value.max * pokemon.type.getCompatibility( 'Steel' ) / 8 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は とがった はがねが 食いこんだ!` );
   }
 }
 

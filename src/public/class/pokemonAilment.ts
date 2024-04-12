@@ -1,118 +1,115 @@
 
 class StatusAilment {
-  _name: StatusAilmentText;
-  _turn: number;
-  _pokeName: string;
-
-  constructor() {
-    this._name = null;
-    this._turn = 0;
-    this._pokeName = '';
-  }
-
-  get turn(): number {
-    return this._turn;
-  }
-
-  set turn( turn: number ) {
-    this._turn = turn;
-  }
+  name: StatusAilmentText = null;
+  turn: number = 0;
+  pokeName: string = '';
 
   isHealth(): boolean {
-    return this._name === null;
+    return this.name === null;
   }
 
   isParalysis(): boolean {
-    return this._name === 'Paralysis';
+    return this.name === 'Paralysis';
   }
 
   isFrozen(): boolean {
-    return this._name === 'Frozen';
+    return this.name === 'Frozen';
   }
 
   isBurned(): boolean {
-    return this._name === 'Burned';
+    return this.name === 'Burned';
   }
 
   isPoisoned(): boolean {
-    return this._name === 'Poisoned';
+    return this.name === 'Poisoned';
   }
 
   isBadPoisoned(): boolean {
-    return this._name === 'Poisoned' && this._turn > 0;
+    return this.name === 'Poisoned' && this.turn > 0;
   }
 
   isAsleep(): boolean {
-    return this._name === 'Asleep';
+    return this.name === 'Asleep';
   }
 
   getHealth( item?: string ): void {
-    switch ( this._name ) {
+    switch ( this.name ) {
       case 'Paralysis':
-        if ( item ) writeLog( `${this._pokeName}は ${item}で まひが 治った!` );
-        else writeLog( `${this._pokeName}は まひが 治った!` );
+        if ( item ) writeLog( `${this.pokeName}は ${item}で まひが 治った!` );
+        else writeLog( `${this.pokeName}は まひが 治った!` );
         break;
 
       case 'Frozen':
-        if ( item ) writeLog( `${this._pokeName}は ${item}で こおり状態が 治った!` );
-        else writeLog( `${this._pokeName}は こおり状態が 治った!` );
+        if ( item ) writeLog( `${this.pokeName}は ${item}で こおり状態が 治った!` );
+        else writeLog( `${this.pokeName}は こおり状態が 治った!` );
         break;
 
       case 'Burned':
-        if ( item ) writeLog( `${this._pokeName}は ${item}で やけどが 治った!` );
-        else writeLog( `${this._pokeName}は やけどが 治った!` );
+        if ( item ) writeLog( `${this.pokeName}は ${item}で やけどが 治った!` );
+        else writeLog( `${this.pokeName}は やけどが 治った!` );
         break;
 
       case 'Poisoned':
-        if ( item ) writeLog( `${this._pokeName}は ${item}で 毒が 治った!` );
-        else writeLog( `${this._pokeName}は 毒が 治った!` );
+        if ( item ) writeLog( `${this.pokeName}は ${item}で 毒が 治った!` );
+        else writeLog( `${this.pokeName}は 毒が 治った!` );
         break;
 
       case 'Asleep':
         if ( item )
-        writeLog( `${this._pokeName}は 目を 覚ました!` );
+        writeLog( `${this.pokeName}は 目を 覚ました!` );
         break;
 
       default:
         break;
     }
 
-    this._name = null;
-    this._turn = 0;
+    this.name = null;
+    this.turn = 0;
   }
 
   getParalysis(): void {
-    this._name = 'Paralysis';
-    writeLog( `${this._pokeName}は まひして 技が でにくくなった!` );
+    this.name = 'Paralysis';
+    writeLog( `${this.pokeName}は まひして 技が でにくくなった!` );
   }
 
   getFrozen(): void {
-    this._name = 'Frozen';
-    writeLog( `${this._pokeName}は 凍りついた!` );
+    this.name = 'Frozen';
+    writeLog( `${this.pokeName}は 凍りついた!` );
   }
 
   getBurned(): void {
-    this._name = 'Burned';
-    writeLog( `${this._pokeName}は やけどを 負った!` );
+    this.name = 'Burned';
+    writeLog( `${this.pokeName}は やけどを 負った!` );
   }
 
   getPoisoned(): void {
-    this._name = 'Poisoned';
-    writeLog( `${this._pokeName}は 毒を あびた!` );
+    this.name = 'Poisoned';
+    writeLog( `${this.pokeName}は 毒を あびた!` );
   }
 
   getBadPoisoned(): void {
-    this._name = 'Poisoned';
-    this._turn = 1;
-    writeLog( `${this._pokeName}は 猛毒を あびた!` );
+    this.name = 'Poisoned';
+    this.turn = 1;
+    writeLog( `${this.pokeName}は 猛毒を あびた!` );
   }
 
   getAsleep(): void {
-    this._name = 'Asleep';
-    writeLog( `${this._pokeName}は 眠ってしまった!` );
+    this.name = 'Asleep';
+    writeLog( `${this.pokeName}は 眠ってしまった!` );
   }
 
   countPoisoned(): void {
-    this._turn += 1;
+    this.turn += 1;
+  }
+
+  copyAilment( ailment: StatusAilment ): void {
+    if ( ailment.isAsleep() ) this.getAsleep();
+    if ( ailment.isBurned() ) this.getBurned();
+    if ( ailment.isFrozen() ) this.getFrozen();
+    if ( ailment.isParalysis() ) this.getParalysis();
+    if ( ailment.isPoisoned() ) this.getPoisoned();
+    if ( ailment.isBadPoisoned() ) this.getBadPoisoned();
+
+    this.turn = ailment.turn;
   }
 }

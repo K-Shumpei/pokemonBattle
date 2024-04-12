@@ -48,6 +48,6 @@ function actionBeforeTurn(): void {
     pokemon.toHand();
 
     const next: Pokemon = getPokemonByParty( pokemon.isMine(), reserve );
-    toBattleField( next, battle );
+    next.toBattleField( battle );
   }
 }

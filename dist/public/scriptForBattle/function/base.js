@@ -344,24 +344,6 @@ function activateCharge(pokemon, move) {
     pokemon.stateChange.charge.isTrue = true;
     writeLog(`${getArticle(pokemon)}は ${move}を 受けて 充電した!`);
 }
-// バトル場に出す
-function toBattleField(pokemon, battle) {
-    pokemon.order.battle = battle;
-    const hand = pokemon.order.hand;
-    for (const _pokemon of getParty(pokemon.isMine())) {
-        if (_pokemon.order.hand < hand) {
-            _pokemon.order.hand += 1;
-        }
-    }
-    pokemon.order.hand = 0;
-    if (pokemon.isMine()) {
-        getHTMLInputElement('battleMyImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
-    }
-    else {
-        getHTMLInputElement('battleOpponentImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
-    }
-    pokemon.msgToBattleField();
-}
 function giveCannotEscape(pokemon, target, move) {
     if (move === 'くらいつく') {
         target.stateChange.cannotEscape.isTrue = true;

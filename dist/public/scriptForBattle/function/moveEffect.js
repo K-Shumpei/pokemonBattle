@@ -51,6 +51,9 @@ function moveEffect(pokemon) {
         // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
         activateSealedEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
     }
+    else {
+        statusMoveEffect(pokemon);
+    }
     // 技の効果
     activateMoveEffect(pokemon);
     // 特性の効果（その1）
@@ -290,7 +293,7 @@ function activateAdditionalEffects(pokemon, isMe, isRange) {
             return;
         if (target.stateChange.cannotEscape.isTrue)
             return;
-        target.stateChange.cannotEscape.beTrue(pokemon.order);
+        target.stateChange.cannotEscape.onActivate(pokemon, target);
         target.msgCannotEscape();
     };
     const saltCure = (pokemon, target, attack) => {
@@ -746,10 +749,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
         if (getRandom() >= 30)
             return;
         target.msgDeclareAbility();
-        pokemon.stateChange.disable.isTrue = true;
-        pokemon.stateChange.disable.turn = 4;
-        //pokemon.stateChange.disable.text = pokemon.move.selected.name;
-        pokemon.msgCursedBody();
+        pokemon.stateChange.disable.onActivate(pokemon);
     };
     const stamina = (target, attack) => {
         if (target.status.hp.value.isZero())
@@ -1170,7 +1170,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
         gooey(pokemon, target, attack); // ぬめぬめ、カーリーヘアー
         wanderingSpirit(pokemon, target, attack); // さまようたましい
         perishBody(pokemon, target, attack); // ほろびのボディ
-        // cursedBody( pokemon, target, attack );     // のろわれボディ
+        cursedBody(pokemon, target, attack); // のろわれボディ
         stamina(target, attack); // じきゅうりょく
         sandSpit(target, attack); // すなはき
         cottonDown(target, attack); // わたげ
@@ -1648,7 +1648,7 @@ function activateMoveEffect(pokemon) {
             return;
         if (target.stateChange.cannotEscape.isTrue)
             return;
-        target.stateChange.cannotEscape.beTrue(pokemon.order);
+        target.stateChange.cannotEscape.onActivate(pokemon, target);
         target.msgThousandWaves();
     };
     const jawLock = (pokemon, target, attack) => {
@@ -1666,8 +1666,8 @@ function activateMoveEffect(pokemon) {
             return;
         if (target.type.has('Ghost'))
             return;
-        pokemon.stateChange.cannotEscape.beTrue(target.order);
-        target.stateChange.cannotEscape.beTrue(pokemon.order);
+        pokemon.stateChange.cannotEscape.onActivate(target, pokemon);
+        target.stateChange.cannotEscape.onActivate(pokemon, target);
         pokemon.msgJawLock();
     };
     const plasmaFists = (pokemon) => {

@@ -79,6 +79,11 @@ class Main {
     return pokemon.filter( p => p.order.battle === attack.battle )[0];
   }
 
+  getPokemonOnLanding(): Pokemon[] {
+    const pokeList: Pokemon[] = this.getPokemonInBattle().filter( p => p.extraParameter.landing );
+    return sortByActionOrder( pokeList );
+  }
+
   isExistByBattle( isMe: boolean, battle: number ): boolean {
     const pokemon: Pokemon[] = this.getParty( isMe );
     return pokemon.filter( p => p.order.battle === battle ).length === 1;
@@ -190,7 +195,7 @@ class Player {
 
   setHost( host: boolean ): void {
     for ( const pokemon of this._pokemon ) {
-      pokemon._order._host = host;
+      pokemon._order.host = host;
     }
   }
 

@@ -2,12 +2,85 @@ class StateChangeStatus {
   isTrue = false;
   turn = new ValueWithRange();
   count = 0;
+  move: MoveText = null;
+  order = new Order( true, 0 );
 
   reset(): void {
     this.isTrue = false;
     this.turn.value = this.turn.max;
     this.count = 0;
+    this.move = null;
+    this.order = new Order( true, 0 );
   }
+}
+
+class CannotEscape extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, target: Pokemon ): void {
+    this.isTrue = true;
+    this.order = new Order( pokemon.order.isMe, pokemon.order.hand );
+    writeLog( `${target.getArticle()}は もう 逃げられない!` );
+  }
+}
+
+class Curse extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, target: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 自分の体力を 削って ${target.getArticle()}に のろいを かけた!` );
+  }
+
+  onElapse( pokemon: Pokemon ): void {
+    writeLog( `${pokemon.getArticle()}は のろわれている! ` );
+  }
+}
+
+class Disable extends StateChangeStatus {
+
+  constructor() {
+    super();
+    this.turn = new ValueWithRange( 4, 0 );
+  }
+
+  onActivate( pokemon: Pokemon ): void { // 対象の技の特定
+    this.isTrue = true;
+    // this.move = pokemon.move.selected.name;
+    // writeLog( `${pokemon.getArticle()}の ${pokemon.move.selected.translate()}を 封じこめた! ` );
+  }
+
+  onElapse( pokemon: Pokemon ): void {
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${pokemon.getArticle()}の かなしばりが 解けた! ` );
+    }
+  }
+}
+
+class Encore extends StateChangeStatus {
+
+  constructor() {
+    super();
+    this.turn = new ValueWithRange( 3, 0 );
+  }
+
+  onActivate( pokemon: Pokemon ): void { // 対象の技の特定
+    this.isTrue = true;
+    // this.move = pokemon.move.selected.name;
+    writeLog( `${pokemon.getArticle()}は アンコールを受けた! ` );
+  }
+
+  onElapse( pokemon: Pokemon ): void {
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      // writeLog( `${pokemon.getArticle()}の アンコールが 解けた! ` );
+    }
+  }
+}
+
+class FocusEnergy extends StateChangeStatus {
+
 }
 
 class HealBlock extends StateChangeStatus {
@@ -45,6 +118,23 @@ class HelpingHand extends StateChangeStatus {
   }
 }
 
+class LockOn extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, target: Pokemon ): void {
+    this.isTrue = true;
+    this.order.setInfo( target.order );
+    writeLog( `${pokemon.getArticle()}は ${target.getArticle()}に ねらいを さだめた!` );
+  }
+}
+
+class NoAbility extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 特性が 効かなくなった!` );
+  }
+}
+
 class PerishSong extends StateChangeStatus {
 
   constructor() {
@@ -57,33 +147,71 @@ class PerishSong extends StateChangeStatus {
   }
 }
 
+class TarShot extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は ほのおに 弱くなった!` );
+  }
+}
+
+class Taunt extends StateChangeStatus {
+
+  constructor() {
+    super();
+    this.turn = new ValueWithRange( 3, 0 );
+  }
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 挑発に 乗ってしまった!` );
+  }
+
+  onElapse( pokemon: Pokemon ): void {
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${pokemon.getArticle()}は 挑発の効果が 解けた! ` );
+    }
+  }
+}
+
 
 class StateChangeSummary {
 
-  healBlock = new HealBlock(); // かいふくふうじ
-  helpingHand = new HelpingHand(); // てだすけ
-  perishSong = new PerishSong(); // ほろびのうた
+  cannotEscape = new CannotEscape(); // にげられない
+  curse        = new Curse();        // のろい
+  disable      = new Disable();      // かなしばり
+  encore       = new Encore();       // アンコール
+  focusEnergy  = new FocusEnergy();  // きゅうしょアップ
+  healBlock    = new HealBlock();    // かいふくふうじ
+  helpingHand  = new HelpingHand();  // てだすけ
+  lockOn       = new LockOn();       // ロックオン
+  noAbility    = new NoAbility();    // とくせいなし
+  perishSong   = new PerishSong();   // ほろびのうた
+  tarShot      = new TarShot();      // タールショット
+  taunt        = new Taunt();        // ちょうはつ
 
   _flinch: StateChange; // ひるみ
   _bind: StateChange; // バインド
-  _curse: StateChange; // のろい
+
   // あくむ
   _attract: Attract; // メロメロ
   _leechSeed: StateChange; // やどりぎのタネ
   _yawn: StateChange; // ねむけ
-  _noAbility: StateChange; // とくせいなし
+
   _embargo: StateChange; //さしおさえ
-  _encore: StateChange; // アンコール
+
   _torment: StateChange; // いちゃもん
-  _taunt: StateChange; // ちょうはつ
-  _disable: StateChange; // かなしばり
+
+
   _foresight: StateChange; // みやぶられている
   _miracleEye: StateChange; // ミラクルアイ
   _smackDown: StateChange; // うちおとす
   _telekinesis: StateChange; // テレキネシス
 
 
-  _cannotEscape: CannotEscape; // にげられない
+
   _electrify: StateChange; // そうでん
 
   _powder: StateChange; // ふんじん
@@ -94,18 +222,17 @@ class StateChangeSummary {
   ちゅうもくのまと
   */
 
-  _tarShot: StateChange; // タールショット
+
 
 
   // たこがため
   _saltCure: StateChange; // しおづけ
 
   // わざを使ったポケモンに発生
-  _focusEnergy: StateChange; // きゅうしょアップ
   // ちゅうもくのまと
   _substitute: StateChange; // みがわり
   _protect: StateChange; // まもる
-  _lockOn: StateChange; //ロックオン (第五世代以降)
+
 
   /*
   キングシールド
@@ -188,31 +315,22 @@ class StateChangeSummary {
   constructor() {
     this._flinch = new StateChange();
     this._bind = new StateChange();
-    this._curse = new StateChange();
     this._attract = new Attract();
     this._leechSeed = new StateChange();
     this._yawn = new StateChange();
-    this._noAbility = new StateChange();
     this._embargo = new StateChange();
-    this._encore = new StateChange();
     this._torment = new StateChange();
-    this._taunt = new StateChange();
-    this._disable = new StateChange();
     this._foresight = new StateChange();
     this._miracleEye = new StateChange();
     this._smackDown = new StateChange();
     this._telekinesis = new StateChange();
-    this._cannotEscape = new CannotEscape();
     this._electrify = new StateChange();
     this._powder = new StateChange();
     this._throatChop = new StateChange();
-    this._tarShot = new StateChange();
     this._saltCure = new StateChange();
 
-    this._focusEnergy = new StateChange();
     this._substitute = new StateChange();
     this._protect = new StateChange();
-    this._lockOn = new StateChange();
     this._minimize = new StateChange();
     this._destinyBond = new StateChange();
     this._grudge = new StateChange();
@@ -264,9 +382,6 @@ class StateChangeSummary {
   set bind( bind: StateChange ) {
     this._bind = bind;
   }
-  set curse( curse: StateChange ) {
-    this._curse = curse;
-  }
   set attract( attract: Attract ) {
     this._attract = attract;
   }
@@ -276,23 +391,11 @@ class StateChangeSummary {
   set yawn( yawn: StateChange ) {
     this._yawn = yawn;
   }
-  set noAbility( noAbility: StateChange ) {
-    this._noAbility = noAbility;
-  }
   set embargo( embargo: StateChange ) {
     this._embargo = embargo;
   }
-  set encore( encore: StateChange ) {
-    this._encore = encore;
-  }
   set torment( torment: StateChange ) {
     this._torment = torment;
-  }
-  set taunt( taunt: StateChange ) {
-    this._taunt = taunt;
-  }
-  set disable( disable: StateChange ) {
-    this._disable = disable;
   }
   set foresight( foresight: StateChange ) {
     this._foresight = foresight;
@@ -306,9 +409,6 @@ class StateChangeSummary {
   set telekinesis( telekinesis: StateChange ) {
     this._telekinesis = telekinesis;
   }
-  set cannotEscape( cannotEscape: CannotEscape ) {
-    this._cannotEscape = cannotEscape;
-  }
   set electrify( electrify: StateChange ) {
     this._electrify = electrify;
   }
@@ -318,23 +418,14 @@ class StateChangeSummary {
   set throatChop( throatChop: StateChange ) {
     this._throatChop = throatChop;
   }
-  set tarShot( tarShot: StateChange ) {
-    this._tarShot = tarShot;
-  }
   set saltCure( saltCure: StateChange ) {
     this._saltCure = saltCure;
-  }
-  set focusEnergy( focusEnergy: StateChange ) {
-    this._focusEnergy = focusEnergy;
   }
   set substitute( substitute: StateChange ) {
     this._substitute = substitute;
   }
   set protect( protect: StateChange ) {
     this._protect = protect;
-  }
-  set lockOn( lockOn: StateChange ) {
-    this._lockOn = lockOn;
   }
   set minimize( minimize: StateChange ) {
     this._minimize = minimize;
@@ -469,9 +560,6 @@ class StateChangeSummary {
   get bind(): StateChange {
     return this._bind;
   }
-  get curse(): StateChange {
-    return this._curse;
-  }
   get attract(): Attract {
     return this._attract;
   }
@@ -481,24 +569,11 @@ class StateChangeSummary {
   get yawn(): StateChange {
     return this._yawn;
   }
-  get noAbility(): StateChange {
-    return this._noAbility;
-  }
-
   get embargo(): StateChange {
     return this._embargo;
   }
-  get encore(): StateChange {
-    return this._encore;
-  }
   get torment(): StateChange {
     return this._torment;
-  }
-  get taunt(): StateChange {
-    return this._taunt;
-  }
-  get disable(): StateChange {
-    return this._disable;
   }
   get foresight(): StateChange {
     return this._foresight;
@@ -512,9 +587,6 @@ class StateChangeSummary {
   get telekinesis(): StateChange {
     return this._telekinesis;
   }
-  get cannotEscape(): CannotEscape {
-    return this._cannotEscape;
-  }
   get electrify(): StateChange {
     return this._electrify;
   }
@@ -524,23 +596,15 @@ class StateChangeSummary {
   get throatChop(): StateChange {
     return this._throatChop;
   }
-  get tarShot(): StateChange {
-    return this._tarShot;
-  }
   get saltCure(): StateChange {
     return this._saltCure;
   }
-  get focusEnergy(): StateChange {
-    return this._focusEnergy;
-  }
+
   get substitute(): StateChange {
     return this._substitute;
   }
   get protect(): StateChange {
     return this._protect;
-  }
-  get lockOn(): StateChange {
-    return this._lockOn;
   }
   get minimize(): StateChange {
     return this._minimize;

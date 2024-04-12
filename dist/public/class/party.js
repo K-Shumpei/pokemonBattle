@@ -165,7 +165,7 @@ class Player {
     }
     setHost(host) {
         for (const pokemon of this._pokemon) {
-            pokemon._order._host = host;
+            pokemon._order.host = host;
         }
     }
     showHandInfo() {

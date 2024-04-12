@@ -87,134 +87,110 @@ class ActualWithThreeValue {
 // -------------------------
 class Status {
     constructor() {
-        this._hp = new HitPoint();
-        this._atk = new MainStatus('攻撃');
-        this._def = new MainStatus('防御');
-        this._spA = new MainStatus('特攻');
-        this._spD = new MainStatus('特防');
-        this._spe = new Speed('素早さ');
-        this._acc = new Rank('命中率');
-        this._eva = new Rank('回避率');
-    }
-    get hp() {
-        return this._hp;
-    }
-    get atk() {
-        return this._atk;
-    }
-    get def() {
-        return this._def;
-    }
-    get spA() {
-        return this._spA;
-    }
-    get spD() {
-        return this._spD;
-    }
-    get spe() {
-        return this._spe;
-    }
-    get acc() {
-        return this._acc;
-    }
-    get eva() {
-        return this._eva;
+        this.hp = new HitPoint();
+        this.atk = new MainStatus('攻撃');
+        this.def = new MainStatus('防御');
+        this.spA = new MainStatus('特攻');
+        this.spD = new MainStatus('特防');
+        this.spe = new Speed('素早さ');
+        this.acc = new Rank('命中率');
+        this.eva = new Rank('回避率');
     }
     register(stat) {
-        this._hp.register(stat.hp);
-        this._atk.register(stat.atk);
-        this._def.register(stat.def);
-        this._spA.register(stat.spA);
-        this._spD.register(stat.spD);
-        this._spe.register(stat.spe);
-        this._hp.value.setInitial(stat.hp.av);
+        this.hp.register(stat.hp);
+        this.atk.register(stat.atk);
+        this.def.register(stat.def);
+        this.spA.register(stat.spA);
+        this.spD.register(stat.spD);
+        this.spe.register(stat.spe);
+        this.hp.value.setInitial(stat.hp.av);
     }
     edit() {
-        this._hp.edit('hitPoint');
-        this._atk.edit('attack');
-        this._def.edit('defense');
-        this._spA.edit('specialAttack');
-        this._spD.edit('specialDefense');
-        this._spe.edit('speed');
+        this.hp.edit('hitPoint');
+        this.atk.edit('attack');
+        this.def.edit('defense');
+        this.spA.edit('specialAttack');
+        this.spD.edit('specialDefense');
+        this.spe.edit('speed');
     }
     getAllEffort() {
         let allEffort = 0;
-        allEffort += this._hp.ev;
-        allEffort += this._atk.ev;
-        allEffort += this._def.ev;
-        allEffort += this._spA.ev;
-        allEffort += this._spD.ev;
-        allEffort += this._spe.ev;
+        allEffort += this.hp.ev;
+        allEffort += this.atk.ev;
+        allEffort += this.def.ev;
+        allEffort += this.spA.ev;
+        allEffort += this.spD.ev;
+        allEffort += this.spe.ev;
         return allEffort;
     }
     show(name, handOrder) {
-        this._hp.showAcrual(name, 'hitPoint', handOrder);
-        this._atk.showAcrual(name, 'attack', handOrder);
-        this._def.showAcrual(name, 'defense', handOrder);
-        this._spA.showAcrual(name, 'specialAttack', handOrder);
-        this._spD.showAcrual(name, 'specialDefense', handOrder);
-        this._spe.showAcrual(name, 'speed', handOrder);
+        this.hp.showAcrual(name, 'hitPoint', handOrder);
+        this.atk.showAcrual(name, 'attack', handOrder);
+        this.def.showAcrual(name, 'defense', handOrder);
+        this.spA.showAcrual(name, 'specialAttack', handOrder);
+        this.spD.showAcrual(name, 'specialDefense', handOrder);
+        this.spe.showAcrual(name, 'speed', handOrder);
     }
     resetRank() {
-        this._atk.rank.toZero();
-        this._def.rank.toZero();
-        this._spA.rank.toZero();
-        this._spD.rank.toZero();
-        this._spe.rank.toZero();
-        this._acc.toZero();
-        this._eva.toZero();
+        this.atk.rank.toZero();
+        this.def.rank.toZero();
+        this.spA.rank.toZero();
+        this.spD.rank.toZero();
+        this.spe.rank.toZero();
+        this.acc.toZero();
+        this.eva.toZero();
     }
     copyFromOpp(status) {
-        this._hp.copy(status._hp);
-        this._atk.copy(status._atk);
-        this._def.copy(status._def);
-        this._spA.copy(status._spA);
-        this._spD.copy(status._spD);
-        this._spe.copy(status._spe);
-        this._hp.value.setInitial(status._hp._av);
+        this.hp.copy(status.hp);
+        this.atk.copy(status.atk);
+        this.def.copy(status.def);
+        this.spA.copy(status.spA);
+        this.spD.copy(status.spD);
+        this.spe.copy(status.spe);
+        this.hp.value.setInitial(status.hp._av);
     }
     calcRankCorrValue(critical) {
-        this._atk.calcRankCorrValue(critical);
-        this._def.calcRankCorrValue(critical);
-        this._spA.calcRankCorrValue(critical);
-        this._spD.calcRankCorrValue(critical);
+        this.atk.calcRankCorrValue(critical);
+        this.def.calcRankCorrValue(critical);
+        this.spA.calcRankCorrValue(critical);
+        this.spD.calcRankCorrValue(critical);
     }
     formChange(bs, level, nature) {
-        this._hp.bs = bs.hp;
-        this._atk.bs = bs.atk;
-        this._def.bs = bs.def;
-        this._spA.bs = bs.spA;
-        this._spD.bs = bs.spD;
-        this._spe.bs = bs.spe;
-        this._hp.calcAct(level);
-        this._atk.calcAct(level, nature.atk);
-        this._def.calcAct(level, nature.def);
-        this._spA.calcAct(level, nature.spA);
-        this._spD.calcAct(level, nature.spD);
-        this._spe.calcAct(level, nature.spe);
+        this.hp.bs = bs.hp;
+        this.atk.bs = bs.atk;
+        this.def.bs = bs.def;
+        this.spA.bs = bs.spA;
+        this.spD.bs = bs.spD;
+        this.spe.bs = bs.spe;
+        this.hp.calcAct(level);
+        this.atk.calcAct(level, nature.atk);
+        this.def.calcAct(level, nature.def);
+        this.spA.calcAct(level, nature.spA);
+        this.spD.calcAct(level, nature.spD);
+        this.spe.calcAct(level, nature.spe);
     }
     changeRank(para, real, setting, name, item) {
         switch (para) {
             case 'atk':
-                this._atk.rank.change(name, real, setting, item);
+                this.atk.rank.change(name, real, setting, item);
                 break;
             case 'def':
-                this._def.rank.change(name, real, setting, item);
+                this.def.rank.change(name, real, setting, item);
                 break;
             case 'spA':
-                this._spA.rank.change(name, real, setting, item);
+                this.spA.rank.change(name, real, setting, item);
                 break;
             case 'spD':
-                this._spD.rank.change(name, real, setting, item);
+                this.spD.rank.change(name, real, setting, item);
                 break;
             case 'spe':
-                this._spe.rank.change(name, real, setting, item);
+                this.spe.rank.change(name, real, setting, item);
                 break;
             case 'acc':
-                this._acc.change(name, real, setting, item);
+                this.acc.change(name, real, setting, item);
                 break;
             case 'eva':
-                this._eva.change(name, real, setting, item);
+                this.eva.change(name, real, setting, item);
                 break;
             default:
                 break;
@@ -222,34 +198,43 @@ class Status {
     }
     countRank() {
         let count = 0;
-        count += this._atk.rank.value;
-        count += this._def.rank.value;
-        count += this._spA.rank.value;
-        count += this._spD.rank.value;
-        count += this._spe.rank.value;
-        count += this._acc.value;
-        count += this._eva.value;
+        count += this.atk.rank.value;
+        count += this.def.rank.value;
+        count += this.spA.rank.value;
+        count += this.spD.rank.value;
+        count += this.spe.rank.value;
+        count += this.acc.value;
+        count += this.eva.value;
         return count;
     }
     useWhiteHerb() {
         let result = false;
-        result = this._atk.rank.useWhiteHerb();
-        result = this._def.rank.useWhiteHerb();
-        result = this._spA.rank.useWhiteHerb();
-        result = this._spD.rank.useWhiteHerb();
-        result = this._spe.rank.useWhiteHerb();
-        result = this._acc.useWhiteHerb();
-        result = this._eva.useWhiteHerb();
+        result = this.atk.rank.useWhiteHerb();
+        result = this.def.rank.useWhiteHerb();
+        result = this.spA.rank.useWhiteHerb();
+        result = this.spD.rank.useWhiteHerb();
+        result = this.spe.rank.useWhiteHerb();
+        result = this.acc.useWhiteHerb();
+        result = this.eva.useWhiteHerb();
         return result;
     }
     toZeroAllRank() {
-        this._atk.rank.toZero();
-        this._def.rank.toZero();
-        this._spA.rank.toZero();
-        this._spD.rank.toZero();
-        this._spe.rank.toZero();
-        this._acc.toZero();
-        this._eva.toZero();
+        this.atk.rank.toZero();
+        this.def.rank.toZero();
+        this.spA.rank.toZero();
+        this.spD.rank.toZero();
+        this.spe.rank.toZero();
+        this.acc.toZero();
+        this.eva.toZero();
+    }
+    copyRank(status) {
+        this.atk.rank.value = status.atk.rank.value;
+        this.def.rank.value = status.def.rank.value;
+        this.spA.rank.value = status.spA.rank.value;
+        this.spD.rank.value = status.spD.rank.value;
+        this.spe.rank.value = status.spe.rank.value;
+        this.acc.value = status.acc.value;
+        this.eva.value = status.eva.value;
     }
 }
 // -------------------------

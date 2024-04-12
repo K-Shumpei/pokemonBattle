@@ -56,6 +56,8 @@ function moveEffect( pokemon: Pokemon ): void {
     faintingJudgment( pokemon, !pokemon.isMine(), isRange( pokemon ) );
     // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
     activateSealedEffects( pokemon, !pokemon.isMine(), isRange( pokemon ) );
+  } else {
+    statusMoveEffect( pokemon );
   }
 
   // 技の効果
@@ -316,7 +318,7 @@ function activateAdditionalEffects( pokemon: Pokemon, isMe: boolean, isRange: bo
     if ( target.type.has( 'Ghost' ) ) return;
     if ( target.stateChange.cannotEscape.isTrue ) return;
 
-    target.stateChange.cannotEscape.beTrue( pokemon.order );
+    target.stateChange.cannotEscape.onActivate( pokemon, target );
     target.msgCannotEscape();
   }
 
@@ -727,12 +729,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     if ( getRandom() >= 30 ) return;
 
     target.msgDeclareAbility();
-
-    pokemon.stateChange.disable.isTrue = true;
-    pokemon.stateChange.disable.turn = 4;
-    //pokemon.stateChange.disable.text = pokemon.move.selected.name;
-
-    pokemon.msgCursedBody();
+    pokemon.stateChange.disable.onActivate( pokemon );
   }
 
   const stamina = ( target: Pokemon, attack: Attack ): void => {
@@ -1104,7 +1101,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     gooey( pokemon, target, attack );             // ぬめぬめ、カーリーヘアー
     wanderingSpirit( pokemon, target, attack );   // さまようたましい
     perishBody( pokemon, target, attack );        // ほろびのボディ
-    // cursedBody( pokemon, target, attack );     // のろわれボディ
+    cursedBody( pokemon, target, attack );        // のろわれボディ
     stamina( target, attack );                    // じきゅうりょく
     sandSpit( target, attack );                   // すなはき
     cottonDown( target, attack );                 // わたげ
@@ -1569,7 +1566,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
     if ( target.type.has( 'Ghost' ) ) return;
     if ( target.stateChange.cannotEscape.isTrue ) return;
 
-    target.stateChange.cannotEscape.beTrue( pokemon.order );
+    target.stateChange.cannotEscape.onActivate( pokemon, target );
     target.msgThousandWaves();
   }
 
@@ -1582,8 +1579,8 @@ function activateMoveEffect( pokemon: Pokemon ): void {
     if ( pokemon.type.has( 'Ghost' ) ) return;
     if ( target.type.has( 'Ghost' ) ) return;
 
-    pokemon.stateChange.cannotEscape.beTrue( target.order );
-    target.stateChange.cannotEscape.beTrue( pokemon.order );
+    pokemon.stateChange.cannotEscape.onActivate( target, pokemon );
+    target.stateChange.cannotEscape.onActivate( pokemon, target );
     pokemon.msgJawLock();
   }
 

@@ -364,28 +364,6 @@ function activateCharge( pokemon: Pokemon, move: string ): void {
   writeLog( `${getArticle( pokemon )}は ${move}を 受けて 充電した!` );
 }
 
-// バトル場に出す
-function toBattleField( pokemon: Pokemon, battle: number ): void {
-
-  pokemon.order.battle = battle;
-
-  const hand: number = pokemon.order.hand;
-  for ( const _pokemon of getParty( pokemon.isMine() ) ) {
-    if ( _pokemon.order.hand < hand ) {
-      _pokemon.order.hand += 1;
-    }
-  }
-  pokemon.order.hand = 0;
-
-  if ( pokemon.isMine() ) {
-    getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
-  } else {
-    getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png';
-  }
-
-  pokemon.msgToBattleField();
-}
-
 
 
 

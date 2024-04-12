@@ -1,8 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const socket_io_client_1 = require("socket.io-client");
-const socket = (0, socket_io_client_1.io)();
-//const socket = (0, io)();
+
+const socket = (0, io)();
 // パスワード送信
 function sendPassword() {
     const inputPassword = getHTMLInputElement('inputPassword').value;
@@ -105,14 +103,14 @@ socket.on('sendOrder', (myOrder, opponentOrder) => {
     for (let i = 0; i < fieldStatus.battleStyle; i++) {
         for (const pokemon of main.opp.pokemon) {
             if (pokemon.order.battle === i) {
-                toBattleField(pokemon, i);
+                pokemon.toBattleField(i);
             }
         }
     }
     for (let i = 0; i < fieldStatus.battleStyle; i++) {
         for (const pokemon of main.me.pokemon) {
             if (pokemon.order.battle === i) {
-                toBattleField(pokemon, i);
+                pokemon.toBattleField(i);
             }
         }
     }

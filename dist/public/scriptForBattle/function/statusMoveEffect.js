@@ -22,13 +22,21 @@ function statusMoveEffect(pokemon) {
         case "all-pokemon": // 全体
             statusMoveToAllPokemon(pokemon);
             break;
-        case "specific-move":
-        case "selected-pokemon-me-first":
+        case "specific-move": // 技「のろい」
+            statusMoveToSpecificMove(pokemon);
+            break;
+        case "selected-pokemon-me-first": // 技「さきどり」
+            statusMoveToSelectedPokemonMeFirst(pokemon);
+            break;
+        case "all-other-pokemon": // 自分以外
+            statusMoveToAllOtherPokemon(pokemon);
+            break;
+        case "selected-pokemon": // 1体選択
+            statusMoveToSelectedPokemon(pokemon);
+            break;
         case "user-or-ally":
         case "user":
         case "random-opponent":
-        case "all-other-pokemon":
-        case "selected-pokemon":
         case "all-allies":
         case "fainting-pokemon":
     }
@@ -238,10 +246,151 @@ function statusMoveToAllPokemon(pokemon) {
             });
             break;
         case 'Flower Shield': // 技「フラワーガード」
+            pokemon.attack.getTargetToPokemon().map(tgt => {
+                const target = main.getPokemonByBattle(tgt);
+                master.stat.changes.map(stat => target.changeRank(stat.stat, stat.change));
+            });
             break;
         case 'Teatime': // 技「おちゃかい」
             break;
         default:
+            break;
+    }
+}
+function statusMoveToSpecificMove(pokemon) {
+    const attack = pokemon.attack.getTargetToPokemon()[0];
+    const target = main.getPokemonByBattle(attack);
+    if (pokemon.move.selected.name === 'Curse') { // 技「のろい」
+        if (pokemon.type.has('Ghost')) {
+            target.stateChange.curse.onActivate(pokemon, target);
+        }
+        else {
+            target.changeRank('atk', 1);
+            target.changeRank('def', 1);
+            target.changeRank('spe', 1);
+        }
+    }
+}
+function statusMoveToSelectedPokemonMeFirst(pokemon) {
+    if (pokemon.move.selected.name === 'Me First') { // 技「さきどり」
+    }
+}
+function statusMoveToAllOtherPokemon(pokemon) {
+    const master = pokemon.move.selected.getMaster();
+    if (pokemon.move.selected.name === 'Teeter Dance') { // 技「フラフラダンス」
+        pokemon.attack.getTargetToPokemon().map(tgt => {
+            const target = main.getPokemonByBattle(tgt);
+            target.getAilmentByStatusMove(master.ailment.name);
+        });
+    }
+    if (pokemon.move.selected.name === 'Corrosive Gas') { // 技「ふしょくガス」
+    }
+}
+function statusMoveToSelectedPokemon(pokemon) {
+    const master = pokemon.move.selected.getMaster();
+    const attack = pokemon.attack.getTargetToPokemon()[0];
+    const target = main.getPokemonByBattle(attack);
+    const unique = () => {
+        switch (pokemon.move.selected.name) {
+            case 'Disable': // 技「かなしばり」
+                target.stateChange.disable.onActivate(target);
+                break;
+            case 'Mimic': // 技「ものまね」
+                break;
+            case 'Mirror Move': // 技「オウムがえし」
+                break;
+            case 'Transform': // 技「へんしん」
+                break;
+            case 'Sketch': // 技「スケッチ」
+                break;
+            case 'Spider Web': // 技「クモのす」
+            case 'Mean Look': // 技「くろいまなざし」
+                target.stateChange.cannotEscape.onActivate(pokemon, target);
+                break;
+            case 'Mind Reader': // 技「こころのめ」
+            case 'Lock-On': // 技「ロックオン」
+                pokemon.stateChange.lockOn.onActivate(pokemon, target);
+                break;
+            case 'Conversion 2': // 技「テクスチャー２」
+                break;
+            case 'Spite': // 技「うらみ」
+                break;
+            case 'Pain Split': // 技「いたみわけ」
+                const base = Math.floor((pokemon.getOrgHP() + target.getOrgHP()) / 2);
+                pokemon.status.hp.value.add(base - pokemon.getOrgHP());
+                target.status.hp.value.add(base - target.getOrgHP());
+                writeLog(`おたがいの体力を 分かちあった!`);
+                break;
+            case 'Encore': // 技「アンコール」
+                target.stateChange.encore.onActivate(target);
+                break;
+            case 'Psych Up': // 技「じこあんじ」
+                pokemon.status.copyRank(target.status);
+                // きゅうしょアップ、キョダイシンゲキ、とぎすます　未実装
+                writeLog(`${pokemon.getArticle()}は ${target.getArticle()}の 能力変化を コピーした!`);
+                break;
+            case 'Memento': // 技「おきみやげ」
+                break;
+            case 'Nature Power': // 技「しぜんのちから」
+                break;
+            case 'Taunt': // 技「ちょうはつ」
+                target.stateChange.taunt.onActivate(target);
+                break;
+            case 'Trick': // 技「トリック」
+                [pokemon.item.name, target.item.name] = [target.item.name, pokemon.item.name];
+                writeLog(`${pokemon.getArticle()}は おたがいの 道具を入れ替えた!`);
+                writeLog(`${target.getArticle()}は ${target.item.translate()}を 手に入れた!`);
+                writeLog(`${pokemon.getArticle()}は ${pokemon.item.translate()}を 手に入れた!`);
+                break;
+            case 'Role Play': // 技「なりきり」
+                pokemon.ability.name = target.ability.name;
+                writeLog(`${pokemon.getArticle()}は ${target.getArticle()}の ${target.ability.translate()}を コピーした!`);
+                break;
+            case 'Skill Swap': // 技「スキルスワップ」
+                [pokemon.ability.name, target.ability.name] = [target.ability.name, pokemon.ability.name];
+                writeLog(`${pokemon.getArticle()}は おたがいの 特性を 入れ替えた!`);
+                break;
+        }
+    };
+    switch (master.category) {
+        case 'ailment': // 状態異常付与
+            target.getAilmentByStatusMove(master.ailment.name);
+            break;
+        case 'net-good-stats': // ランク変化
+            master.stat.changes.map(stat => target.changeRank(stat.stat, stat.change));
+            break;
+        case 'force-switch': // 強制交代　ふきとばし、ほえる
+            break;
+        case 'swagger': // ランク変化＋状態異常付与
+            master.stat.changes.map(stat => target.changeRank(stat.stat, stat.change));
+            target.getAilmentByStatusMove(master.ailment.name);
+            break;
+        case 'heal': // 回復
+            if (pokemon.move.selected.name === 'Heal Pulse') { // 技「いやしのはどう」
+                const healing = () => {
+                    if (pokemon.ability.isName('Mega Launcher')) {
+                        return fiveRoundEntry(target.getOrgHP() * 75 / 100);
+                    }
+                    else {
+                        return Math.ceil(target.getOrgHP() * master.healing / 100);
+                    }
+                };
+                target.status.hp.value.add(healing());
+            }
+            if (pokemon.move.selected.name === 'Floral Healing') { // 技「フラワーヒール」
+                const healing = () => {
+                    if (main.field.terrain.isGrassy()) {
+                        return fiveRoundEntry(target.getOrgHP() * 2732 / 4096);
+                    }
+                    else {
+                        return Math.ceil(target.getOrgHP() * master.healing / 100);
+                    }
+                };
+                target.status.hp.value.add(healing());
+            }
+            break;
+        default:
+            unique();
             break;
     }
 }

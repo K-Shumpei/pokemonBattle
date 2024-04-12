@@ -1,41 +1,18 @@
 "use strict";
 class Order {
     constructor(isMe, slot) {
-        this._host = true;
-        this._isMe = isMe;
-        this._party = slot;
-        this._hand = slot;
-        this._battle = null;
+        this.host = true;
+        this.battle = null;
+        this.isMe = isMe;
+        this.party = slot;
+        this.hand = slot;
     }
-    set host(host) {
-        this._host = host;
-    }
-    set isMe(isMe) {
-        this._isMe = isMe;
-    }
-    set party(party) {
-        this._party = party;
-    }
-    set hand(hand) {
-        this._hand = hand;
-    }
-    set battle(battle) {
-        this._battle = battle;
-    }
-    get host() {
-        return this._host;
-    }
-    get isMe() {
-        return this._isMe;
-    }
-    get party() {
-        return this._party;
-    }
-    get hand() {
-        return this._hand;
-    }
-    get battle() {
-        return this._battle;
+    setInfo(order) {
+        this.host = order.host;
+        this.isMe = order.isMe;
+        this.party = order.party;
+        this.hand = order.hand;
+        this.battle = order.battle;
     }
 }
 class ParameterSix {
@@ -286,17 +263,6 @@ class Transform extends StateChange {
         //return this._isTrue && this._name === name;
     }
 }
-class CannotEscape extends StateChange {
-    constructor() {
-        super();
-        this._order = new Order(true, 0);
-    }
-    beTrue(order) {
-        this._isTrue = true;
-        this._order.isMe = order.isMe;
-        this._order.party = order.party;
-    }
-}
 class Attract extends StateChange {
     constructor() {
         super();
@@ -428,6 +394,9 @@ class Item {
         if (master.category === 'z-crystals')
             return false;
         return true;
+    }
+    translate() {
+        return String(this.name);
     }
 }
 class Type {
@@ -984,9 +953,6 @@ class Pokemon {
     msgPerishBodyAll() {
         writeLog(`おたがいは 3ターン後に 滅びてしまう!`);
     }
-    msgCursedBody() {
-        writeLog(`${this.getArticle()}の ${this._stateChange.disable.text}を 封じこめた!`);
-    }
     msgElectromorphosis(moveName) {
         writeLog(`${this.getArticle()}は ${moveName}を 受けて 充電した!`);
     }
@@ -1400,6 +1366,12 @@ class Pokemon {
             case 'poison':
                 this._statusAilment.getPoisoned();
                 break;
+            case 'confusion':
+                this.getConfusion();
+                break;
+            case 'tar-shot':
+                this.stateChange.tarShot.onActivate(this);
+                break;
             default:
                 break;
         }
@@ -1643,6 +1615,26 @@ class Pokemon {
         const hand = this._order.hand;
         this._order.hand = main.field.numberOfPokemon;
         main.getPlayer(this.isMine()).cycleHand(hand);
+    }
+    //-------------
+    // バトル場に出る
+    //-------------
+    toBattleField(battle) {
+        this.order.battle = battle;
+        const hand = this.order.hand;
+        for (const pokemon of main.getParty(this.isMine())) {
+            if (pokemon.order.hand < hand) {
+                pokemon.order.hand += 1;
+            }
+        }
+        this.order.hand = 0;
+        if (this.isMine()) {
+            getHTMLInputElement('battleMyImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().id + '.png';
+        }
+        else {
+            getHTMLInputElement('battleOpponentImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().id + '.png';
+        }
+        this.msgToBattleField();
     }
     getMaster() {
         return pokemonMaster.filter(p => p.nameEN === this._name)[0];

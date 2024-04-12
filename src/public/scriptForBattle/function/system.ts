@@ -171,11 +171,7 @@ function getRandom(): number {
 // 5捨6入
 function fiveRoundEntry( number: number ) {
 
-  if ( number % 1 > 0.5 ) {
-      return Math.floor(number) + 1;
-  } else {
-      return Math.floor(number);
-  }
+  return Math.ceil( number - 0.5 );
 }
 
 // トレーナー判断
