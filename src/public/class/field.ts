@@ -531,6 +531,14 @@ class AuroraVeil extends SideFieldStatus {
     this.isLightCray = isLightClay;
     writeLog( `${this.getText()}は オーロラベールで 物理と 特殊に 強くなった!` );
   }
+
+  onRemove(): void {
+    if ( !this.isTrue ) return;
+    this.reset();
+    this.isLightCray = false;
+    this.extendTurn.toZero();
+    writeLog( `${this.getText()}の オーロラベールが なくなった!` );
+  }
 }
 
 class LightScreen extends SideFieldStatus {
@@ -549,6 +557,14 @@ class LightScreen extends SideFieldStatus {
     this.isLightCray = isLightClay;
     writeLog( `${this.getText()}は ひかりのかべで 特殊に 強くなった!` );
   }
+
+  onRemove(): void {
+    if ( !this.isTrue ) return;
+    this.reset();
+    this.isLightCray = false;
+    this.extendTurn.toZero();
+    writeLog( `${this.getText()}の ひかりのかべが なくなった!` );
+  }
 }
 
 class Reflect extends SideFieldStatus {
@@ -566,6 +582,14 @@ class Reflect extends SideFieldStatus {
     this.isTrue = true;
     this.isLightCray = isLightClay;
     writeLog( `${this.getText()}は リフレクターで 物理に 強くなった!` );
+  }
+
+  onRemove(): void {
+    if ( !this.isTrue ) return;
+    this.reset();
+    this.isLightCray = false;
+    this.extendTurn.toZero();
+    writeLog( `${this.getText()}の リフレクターが なくなった!` );
   }
 }
 
@@ -610,6 +634,12 @@ class Mist extends SideFieldStatus {
     this.isTrue = true;
     writeLog( `${this.getText()}は 白い霧に 包まれた!` );
   }
+
+  onRemove(): void {
+    if ( !this.isTrue ) return;
+    this.reset();
+    writeLog( `${this.getText()}の 白い霧が なくなった!` );
+  }
 }
 
 class Safeguard extends SideFieldStatus {
@@ -622,7 +652,13 @@ class Safeguard extends SideFieldStatus {
   onActivate(): void {
     if ( this.isTrue ) return;
     this.isTrue = true;
-    writeLog( `${this.getText()}は 白い霧に 包まれた!` );
+    writeLog( `${this.getText()}は 神秘の守りに 包まれた!` );
+  }
+
+  onRemove(): void {
+    if ( !this.isTrue ) return;
+    this.reset();
+    writeLog( `${this.getText()}の 神秘の守りが なくなった!` );
   }
 }
 

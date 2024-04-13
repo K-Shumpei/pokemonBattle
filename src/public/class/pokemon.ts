@@ -353,24 +353,13 @@ class Attract extends StateChange {
 
 
 class Ability {
-  _name: AbilityText;
-  _org: AbilityText;
+  name: AbilityText = null;
+  org: AbilityText = null;
+  pokeName: string = '';
 
-  constructor() {
-    this._name = null;
-    this._org = null;
-  }
-
-  set name( name: AbilityText ) {
-    this._name = name;
-  }
-
-  get name(): AbilityText {
-    return this._name;
-  }
 
   isName( ability: AbilityText ): boolean {
-    return this.isValid() && this._name === ability;
+    return this.isValid() && this.name === ability;
   }
 
   isValid(): boolean {
@@ -378,18 +367,18 @@ class Ability {
   }
 
   setOrg( ability: AbilityText ): void {
-    this._name = ability;
-    this._org = ability;
+    this.name = ability;
+    this.org = ability;
   }
 
   translate(): string {
-    return abilityMaster.filter( a => a.nameEN === this._name )[0].nameJA;
+    return abilityMaster.filter( a => a.nameEN === this.name )[0].nameJA;
   }
 
   changeMaster(): changeAbilityType {
 
     for ( const info of changeAbilityTable ) {
-      if ( info.name === this._name ) {
+      if ( info.name === this.name ) {
         return info;
       }
     }
@@ -405,6 +394,11 @@ class Ability {
       transform: 4 };
 
     return sample;
+  }
+
+  onChangeWithMsg( ability: AbilityText ): void {
+    this.name = ability;
+    writeLog( `${this.pokeName}は ${this.translate()}に なった!` );
   }
 }
 
@@ -490,32 +484,45 @@ class Item {
   }
 }
 
+class TrickOrTreat extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}に ゴーストタイプが 追加された!` );
+  }
+}
+
+class ForestsCurse extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}に くさタイプが 追加された!` );
+  }
+}
+
 
 class Type {
-  _list: PokemonType[];
-
-  constructor() {
-    this._list = [];
-  }
-
-  set list( list: PokemonType[] ) {
-    this._list = list;
-  }
+  list: PokemonType[] = [];
+  trickOrTreat = new TrickOrTreat(); // ハロウィン
+  forestCurse = new ForestsCurse(); // もりののろい
 
   copyFromOpp( list: PokemonType[] ): void {
-    this._list = list;
+    this.list = list;
   }
   get(): PokemonType[] {
-    return this._list;
+    let result = this.list;
+    if ( this.trickOrTreat.isTrue ) result.push( 'Ghost' );
+    if ( this.forestCurse.isTrue ) result.push( 'Grass' );
+    return this.list;
   }
   has( type: PokemonType ): boolean {
-    return this._list.includes( type );
+    return this.list.includes( type );
   }
   isOnly( type: PokemonType ): boolean {
     return this.get().length === 1 && this.get()[0] === type;
   }
   toType( type: PokemonType ): void {
-    this._list = [ type ];
+    this.list = [ type ];
   }
 
   getCompatibility( type: PokemonType ): number {
@@ -527,6 +534,7 @@ class Type {
 
     return result;
   }
+
 }
 
 
@@ -713,9 +721,9 @@ class Pokemon {
   copyFromOpp( opp: Pokemon ): void {
     this._id = opp._id;
     this._name = opp._name;
-    this._type.copyFromOpp( opp._type._list );
+    this._type.copyFromOpp( opp._type.list );
     this._gender = opp._gender;
-    this._ability.setOrg( opp._ability._name );
+    this._ability.setOrg( opp._ability.name );
     this._level = opp._level;
     this._item.copyFromOpp( opp._item._name, opp._item._pokeName );
     this._nature = opp._nature;
@@ -1487,6 +1495,10 @@ class Pokemon {
 
       case 'tar-shot':
         this.stateChange.tarShot.onActivate( this );
+        break;
+
+      case 'ingrain':
+        this.stateChange.ingrain.onActivate( this );
         break;
 
       default:

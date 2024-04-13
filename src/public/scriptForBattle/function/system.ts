@@ -174,6 +174,12 @@ function fiveRoundEntry( number: number ) {
   return Math.ceil( number - 0.5 );
 }
 
+// ランダムで要素を取り出す
+function getOneAtRandom( array: any[] ): any {
+  const index: number = Math.floor( getRandom() * array.length );
+  return array[index];
+}
+
 // トレーナー判断
 function getArticle( pokemon: Pokemon ): string {
 

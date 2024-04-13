@@ -52,56 +52,32 @@ class ValueWithRange {
 // 実数値・種族値・個体値・努力値
 // -------------------------
 class ActualWithThreeValue {
-  _av: number;
-  _bs: number;
-  _iv: number;
-  _ev: number;
-
-  constructor() {
-    this._av = 0;
-    this._bs = 0;
-    this._iv = 0;
-    this._ev = 0;
-  }
-
-  set bs( bs: number ) {
-    this._bs = bs;
-  }
-
-  get av(): number {
-    return this._av;
-  }
-  get bs(): number {
-    return this._bs;
-  }
-  get iv(): number {
-    return this._iv;
-  }
-  get ev(): number {
-    return this._ev;
-  }
+  av: number = 0;
+  bs: number = 0;
+  iv: number = 0;
+  ev: number = 0;
 
   register( stat: RegisterFiveStatus ): void {
-    this._av = stat.av;
-    this._bs = stat.bs;
-    this._iv = stat.iv;
-    this._ev = stat.ev;
+    this.av = stat.av;
+    this.bs = stat.bs;
+    this.iv = stat.iv;
+    this.ev = stat.ev;
   }
 
   edit( parameter: string ): void {
-    getHTMLInputElement( 'register_' + parameter + 'IndividualValue' ).value = String( this._iv );
-    getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value = String( this._ev );
+    getHTMLInputElement( 'register_' + parameter + 'IndividualValue' ).value = String( this.iv );
+    getHTMLInputElement( 'register_' + parameter + 'EffortValue' ).value = String( this.ev );
   }
 
   showAcrual( name: PokemonText, parameter: string, handOrder: number ): void {
-    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = ( name === null )? '' : String( this._av );
+    getHTMLInputElement( 'party' + handOrder + '_' + parameter ).textContent = ( name === null )? '' : String( this.av );
   }
 
   copy( status: ActualWithThreeValue ): void {
-    this._av = status._av;
-    this._bs = status._bs;
-    this._iv = status._iv;
-    this._ev = status._ev;
+    this.av = status.av;
+    this.bs = status.bs;
+    this.iv = status.iv;
+    this.ev = status.ev;
   }
 }
 
@@ -179,7 +155,7 @@ class Status {
     this.spA.copy( status.spA );
     this.spD.copy( status.spD );
     this.spe.copy( status.spe );
-    this.hp.value.setInitial( status.hp._av );
+    this.hp.value.setInitial( status.hp.av );
   }
 
   calcRankCorrValue( critical: boolean ): void {
@@ -278,6 +254,26 @@ class Status {
     this.acc.value = status.acc.value;
     this.eva.value = status.eva.value;
   }
+
+  swapRank( pokemon: Pokemon ): void {
+    [ this.atk.rank.value, pokemon.status.atk.rank.value ] = [ pokemon.status.atk.rank.value, this.atk.rank.value ];
+    [ this.def.rank.value, pokemon.status.def.rank.value ] = [ pokemon.status.def.rank.value, this.def.rank.value ];
+    [ this.spA.rank.value, pokemon.status.spA.rank.value ] = [ pokemon.status.spA.rank.value, this.spA.rank.value ];
+    [ this.spD.rank.value, pokemon.status.spD.rank.value ] = [ pokemon.status.spD.rank.value, this.spD.rank.value ];
+    [ this.spe.rank.value, pokemon.status.spe.rank.value ] = [ pokemon.status.spe.rank.value, this.spe.rank.value ];
+    [ this.acc.value, pokemon.status.acc.value ] = [ pokemon.status.acc.value, this.acc.value ];
+    [ this.eva.value, pokemon.status.eva.value ] = [ pokemon.status.eva.value, this.eva.value ];
+  }
+
+  reverseRank(): void {
+    this.atk.rank.value *= -1;
+    this.def.rank.value *= -1;
+    this.spA.rank.value *= -1;
+    this.spD.rank.value *= -1;
+    this.spe.rank.value *= -1;
+    this.acc.value *= -1;
+    this.eva.value *= -1;
+  }
 }
 
 
@@ -299,9 +295,9 @@ class HitPoint extends ActualWithThreeValue {
   }
 
   calcAct( level: number ): void {
-    const step1: number = this._bs * 2 + this._iv + Math.floor( this._ev / 4 );
+    const step1: number = this.bs * 2 + this.iv + Math.floor( this.ev / 4 );
     const step2: number = step1 * level;
-    this._av = Math.floor( step2 / 100 ) + level + 10;
+    this.av = Math.floor( step2 / 100 ) + level + 10;
   }
 
 }
@@ -356,14 +352,14 @@ class MainStatus extends ActualWithThreeValue {
   calcRankCorrValue( critical: boolean ): void {
     const rank: number = ( critical )? Math.max( this._rank.value, 0 ) : this._rank.value;
     const corr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
-    this._value = Math.floor( this._av * corr );
+    this._value = Math.floor( this.av * corr );
   }
 
   calcAct( level: number, corr: number ): void {
-    const step1: number = this._bs * 2 + this._iv + Math.floor( this._ev / 4 );
+    const step1: number = this.bs * 2 + this.iv + Math.floor( this.ev / 4 );
     const step2: number = step1 * level;
     const step3: number = Math.floor( step2 / 100 );
-    this._av = Math.floor( ( step3 + 5 ) * corr );
+    this.av = Math.floor( ( step3 + 5 ) * corr );
   }
 
 }
@@ -394,7 +390,7 @@ class Speed extends MainStatus {
     // ランク補正値の計算
     const rank: number = this._rank.value;
     const rankCorr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
-    this._value = Math.floor( this._av * rankCorr );
+    this._value = Math.floor( this.av * rankCorr );
 
     // 各種補正
     const corr1: number = fiveRoundEntry( this._value * corr / 4096 )
