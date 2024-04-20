@@ -21,6 +21,10 @@ class ValueWithRange {
     this.value = 0;
   }
 
+  toMax(): void {
+    this.value = this.max;
+  }
+
   isMax(): boolean {
     return this.value === this.max;
   }
@@ -333,26 +337,18 @@ class HitPointValue extends ValueWithRange {
 // 攻撃・防御・特攻・特防・素早さ
 // -------------------------
 class MainStatus extends ActualWithThreeValue {
-  _rank: Rank;
-  _value: number;
+  value: number = 0;
+  rank: Rank;
 
   constructor( text: string ) {
     super();
-    this._rank = new Rank( text );
-    this._value = 0;
-  }
-
-  get rank(): Rank {
-    return this._rank;
-  }
-  get value(): number {
-    return this._value;
+    this.rank = new Rank( text );
   }
 
   calcRankCorrValue( critical: boolean ): void {
-    const rank: number = ( critical )? Math.max( this._rank.value, 0 ) : this._rank.value;
+    const rank: number = ( critical )? Math.max( this.rank.value, 0 ) : this.rank.value;
     const corr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
-    this._value = Math.floor( this.av * corr );
+    this.value = Math.floor( this.av * corr );
   }
 
   calcAct( level: number, corr: number ): void {
@@ -365,44 +361,31 @@ class MainStatus extends ActualWithThreeValue {
 }
 
 class Speed extends MainStatus {
-  _actionOrder: number; // 行動順に影響のある値
-  _forPowerCalc: number; // ジャイロボール・エレキボールの威力計算に関わる値
-  _random: number; // 乱数
+  actionOrder: number = 0; // 行動順に影響のある値
+  forPowerCalc: number = 0; // ジャイロボール・エレキボールの威力計算に関わる値
+  random: number = 0; // 乱数
 
   constructor( text: string ) {
     super( text );
-    this._actionOrder = 0;
-    this._forPowerCalc = 0;
-    this._random = 0;
-  }
-
-  get actionOrder(): number {
-    return this._actionOrder;
-  }
-  get forPowerCalc(): number {
-    return this._forPowerCalc;
-  }
-  get random(): number {
-    return this._random;
   }
 
   calcSpeed( corr: number, paralysis: number, trickRoom: boolean ): void {
     // ランク補正値の計算
-    const rank: number = this._rank.value;
+    const rank: number = this.rank.value;
     const rankCorr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
-    this._value = Math.floor( this.av * rankCorr );
+    this.value = Math.floor( this.av * rankCorr );
 
     // 各種補正
-    const corr1: number = fiveRoundEntry( this._value * corr / 4096 )
+    const corr1: number = fiveRoundEntry( this.value * corr / 4096 )
     const corr2: number = Math.floor( corr1 * paralysis )
-    this._forPowerCalc = Math.min( 10000, corr2 );
+    this.forPowerCalc = Math.min( 10000, corr2 );
 
     // トリックルーム
-    const corr3: number = ( trickRoom )? 10000 - this._forPowerCalc : this._forPowerCalc;
-    this._actionOrder = corr3 % 8192;
+    const corr3: number = ( trickRoom )? 10000 - this.forPowerCalc : this.forPowerCalc;
+    this.actionOrder = corr3 % 8192;
 
     // 乱数
-    this._random = getRandom();
+    this.random = getRandom();
   }
 }
 

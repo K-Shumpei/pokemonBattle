@@ -403,56 +403,37 @@ class Ability {
 }
 
 class Item {
-  _name: string | null;
-  _recycle: string | null;
-  _belch: boolean;
-  _pokeName: string;
-
-  constructor() {
-    this._name = null;
-    this._recycle = null;
-    this._belch = false;
-    this._pokeName = '';
-  }
-
-  set name( name: string | null ) {
-    this._name = name;
-  }
-  set belch( belch: boolean ) {
-    this._belch = belch;
-  }
-
-  get name(): string | null {
-    return this._name;
-  }
-  get belch(): boolean {
-    return this._belch;
-  }
+  name: string | null = null;
+  recycle: string | null = null;
+  belch: boolean = false;
+  pokeName: string = '';
 
   copyFromOpp( name: string | null, pokeName: string ): void {
-    this._name = name;
-    this._pokeName = pokeName;
+    this.name = name;
+    this.pokeName = pokeName;
   }
 
   isNull(): boolean {
-    return this._name === null;
+    return this.name === null;
   }
   isValid(): boolean {
     return true;
   }
   isName( name: string ): boolean {
-    return this.isValid() && this._name === name;
+    return this.isValid() && this.name === name;
   }
   isBerry(): boolean {
     // return this._name ===
     return false;
   }
   recyclable(): void {
-    if ( this._recycle === null ) this._recycle = this._name;
-    this._name = null;
+    if ( this.recycle === null ) {
+      this.recycle = this.name;
+    }
+    this.name = null;
   }
   getMaster(): ItemData {
-    return itemMaster.filter( i => i.nameEN === this._name )[0];
+    return itemMaster.filter( i => i.nameEN === this.name )[0];
   }
   getCategory() {
     return categoryList.filter( c => c.name === this.getMaster().category )[0];
@@ -505,24 +486,30 @@ class Type {
   list: PokemonType[] = [];
   trickOrTreat = new TrickOrTreat(); // ハロウィン
   forestCurse = new ForestsCurse(); // もりののろい
+  pokeName: string = '';
 
   copyFromOpp( list: PokemonType[] ): void {
     this.list = list;
   }
+
   get(): PokemonType[] {
     let result = this.list;
     if ( this.trickOrTreat.isTrue ) result.push( 'Ghost' );
     if ( this.forestCurse.isTrue ) result.push( 'Grass' );
     return this.list;
   }
+
   has( type: PokemonType ): boolean {
     return this.list.includes( type );
   }
+
   isOnly( type: PokemonType ): boolean {
     return this.get().length === 1 && this.get()[0] === type;
   }
+
   toType( type: PokemonType ): void {
     this.list = [ type ];
+    writeLog( `${this.pokeName}は ${type}タイプに なった!` );
   }
 
   getCompatibility( type: PokemonType ): number {
@@ -725,7 +712,7 @@ class Pokemon {
     this._gender = opp._gender;
     this._ability.setOrg( opp._ability.name );
     this._level = opp._level;
-    this._item.copyFromOpp( opp._item._name, opp._item._pokeName );
+    this._item.copyFromOpp( opp._item.name, opp._item.pokeName );
     this._nature = opp._nature;
     this._status.copyFromOpp( opp._status );
     this._move.copyFromOpp( opp._move._learned );
@@ -907,9 +894,6 @@ class Pokemon {
   }
   msgDoomDesire(): void {
     writeLog( `${this.getArticle()}は はめつのねがいを 未来に託した!` );
-  }
-  msgProtean(): void {
-    writeLog( `${this.getArticle()}は ${this._type.get()[0]}タイプに なった!` );
   }
   msgPreliminary(): void {
     if ( this._move.selected.name === 'Razor Wind' ) { // 技「かまいたち」
@@ -1154,9 +1138,6 @@ class Pokemon {
   }
   msgJawLock(): void {
     writeLog( `おたがいの ポケモンは 逃げることが できなくなった!` );
-  }
-  msgColorChange( type: string ): void {
-    writeLog( `${this.getArticle()}は ${type}タイプに なった!` );
   }
   msgBattleBond(): void {
     writeLog( `${this.getArticle()}に きずなの 力が みなぎった!` );

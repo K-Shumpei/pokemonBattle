@@ -312,6 +312,14 @@ class Terrain {
   isPlain(): boolean {
     return this.name === null;
   }
+
+  onActivateGrassy( pokemon: Pokemon ): void {
+    if ( this.name !== 'grassy' ) return;
+    if ( !pokemon.isGround() ) return;
+    const heal: number = Math.floor( pokemon.getOrgHP() / 16 );
+    pokemon.status.hp.value.add( Math.max( 1, heal ) );
+    writeLog( `${pokemon.getArticle()}の 体力が 回復した!` );
+  }
 }
 
 
@@ -754,6 +762,22 @@ class SeaOfFire extends SideFieldStatus {
     this.isTrue = true;
     writeLog( `${this.getText()}の 周りが 火の海に 包まれた!` );
   }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.type.has( 'Fire' ) ) return;
+    const damage: number = Math.floor( pokemon.getOrgHP() / 8 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は 火の海の ダメージを受けた!` );
+  }
+
+  onElapse(): void {
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${this.getText()}の 周りの 火の海が 消え去った!` );
+    }
+  }
 }
 
 class StealthRock extends SideFieldStatus {
@@ -915,6 +939,20 @@ class Wildfire extends SideFieldStatus {
     writeLog( `${this.getText()}の ポケモンが 炎に 包まれた! `);
   }
 
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.type.has( 'Fire' ) ) return;
+    const damage: number = Math.floor( pokemon.getOrgHP() / 6 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は キョダイゴクエンの 炎に 包まれていて 熱い!` );
+  }
+
+  onElapse(): void {
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+    }
+  }
 }
 
 class Volcalith extends SideFieldStatus {
@@ -930,6 +968,20 @@ class Volcalith extends SideFieldStatus {
     writeLog( `${this.getText()}の ポケモンが 岩に 囲まれた! `);
   }
 
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.type.has( 'Rock' ) ) return;
+    const damage: number = Math.floor( pokemon.getOrgHP() / 6 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は キョダイフンセキの 岩に 囲まれていて 痛い!` );
+  }
+
+  onElapse(): void {
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+    }
+  }
 }
 
 class VineLash extends SideFieldStatus {
@@ -945,6 +997,20 @@ class VineLash extends SideFieldStatus {
     writeLog( `${this.getText()}の ポケモンが ムチの 猛打に 包まれた! `);
   }
 
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.type.has( 'Grass' ) ) return;
+    const damage: number = Math.floor( pokemon.getOrgHP() / 6 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は キョダイベンタツの 猛打に さらされていて 痛い!` );
+  }
+
+  onElapse(): void {
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+    }
+  }
 }
 
 class Cannonade extends SideFieldStatus {
@@ -960,6 +1026,20 @@ class Cannonade extends SideFieldStatus {
     writeLog( `${this.getText()}の ポケモンが 水の 流れに 包まれた! `);
   }
 
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.type.has( 'Water' ) ) return;
+    const damage: number = Math.floor( pokemon.getOrgHP() / 6 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は キョダイホウゲキの 流れに 飲みこまれていて 苦しい!` );
+  }
+
+  onElapse(): void {
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+    }
+  }
 }
 
 

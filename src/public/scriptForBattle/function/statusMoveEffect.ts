@@ -48,7 +48,7 @@ function statusMoveEffect( pokemon: Pokemon ): void {
       statusMoveToSelectedPokemon( pokemon );
       break;
 
-    case "user":
+    case "user": // 自分
       statusMoveToUser( pokemon );
       break;
 
@@ -627,7 +627,6 @@ function statusMoveToSelectedPokemon( pokemon: Pokemon ): void {
 
         case 'Soak': // 技「みずびたし」
           target.type.toType( 'Water' );
-          writeLog( `${target.getArticle()}は みずタイプに なった!` );
           break;
 
         case 'Simple Beam': // 技「シンプルビーム」
@@ -699,7 +698,6 @@ function statusMoveToSelectedPokemon( pokemon: Pokemon ): void {
 
         case 'Magic Powder': // 技「まほうのこな」
           target.type.toType( 'Psychic' );
-          writeLog( `${target.getArticle()}は エスパータイプに なった!` );
           break;
 
         case 'Octolock': // 技「たこがため」
@@ -721,8 +719,6 @@ function statusMoveToUser( pokemon: Pokemon ): void {
   const master: MoveData = pokemon.move.selected.getMaster();
   const attack: Attack = pokemon.attack.getTargetToPokemon()[0];
   const target: Pokemon = main.getPokemonByBattle( attack );
-  const myField: SideField = main.field.getSide( pokemon.isMine() );
-  const tgtField: SideField = main.field.getSide( target.isMine() );
 
   switch ( master.category ) {
     case 'ailment': // 状態異常付与
@@ -736,11 +732,225 @@ function statusMoveToUser( pokemon: Pokemon ): void {
         case 'Charge': // 技「じゅうでん」
           target.stateChange.charge.onActivate( target );
           break;
+
+        case 'Autotomize': // 技「ボディパージ」
+          target.stateChange.autotomize.onActivate( target );
+          break;
+
+        case 'Stuff Cheeks': // 技「ほおばる」
+          break;
+
+        case 'No Retreat': // 技「はいすいのじん」
+          target.stateChange.cannotEscape.onActivateNoRetreat( pokemon, target );
+          break;
+
+        case 'Clangorous Soul': // 技「ソウルビート」
+          target.status.hp.value.sub( Math.floor( target.getOrgHP() / 3 ) );
+          break;
+
+        default:
+          break;
       }
       break;
 
     case 'heal':
-      Math.floor( target.getOrgHP() * master.healing / 100 )
+      const ceil: number = Math.ceil( target.getOrgHP() * master.healing / 100 );
+      const weatherS: number = fiveRoundEntry( target.getOrgHP() / 4 );
+      const weatherM: number = fiveRoundEntry( target.getOrgHP() * master.healing / 100 );
+      const weatherL: number = fiveRoundEntry( target.getOrgHP() * 2732 / 4096 );
+
+      switch( pokemon.move.selected.name ) {
+        case 'Recover':     // 技「じこさいせい」
+        case 'Soft-Boiled': // 技「タマゴうみ」
+        case 'Milk Drink':  // 技「ミルクのみ」
+        case 'Slack Off':   // 技「なまける」
+        case 'Heal Order':  // 技「かいふくしれい」
+          target.status.hp.value.add( ceil );
+          break;
+
+        case 'Morning Sun': // 技「あさのひざし」
+        case 'Synthesis':   // 技「こうごうせい」
+        case 'Moonlight':   // 技「つきのひかり」
+          if ( main.field.weather.isSunny( target ) ) {
+            target.status.hp.value.add( weatherL );
+          } else if ( main.field.weather.isRainy( target ) || main.field.weather.isSandy() || main.field.weather.isSnowy() ) {
+            target.status.hp.value.add( weatherS );
+          } else {
+            target.status.hp.value.add( weatherM );
+          }
+          break;
+
+        case 'Swallow': // 技「のみこむ」
+          target.status.hp.value.add( ceil );
+          break;
+
+        case 'Roost': // 技「はねやすめ」
+          target.status.hp.value.add( ceil );
+          break;
+
+        case 'Shore Up': // 技「すなあつめ」
+          if ( main.field.weather.isSandy() ) {
+            target.status.hp.value.add( weatherL );
+          } else {
+            target.status.hp.value.add( weatherM );
+          }
+          break;
+
+        default:
+          break;
+      }
+      break;
+
+    case 'unique':
+      switch ( pokemon.move.selected.name ) {
+        case 'Teleport': // 技「テレポート」
+          break;
+
+        case 'Focus Energy': // 技「きあいだめ」
+          target.stateChange.focusEnergy.onActivate( target );
+          break;
+
+        case 'Metronome': // 技「ゆびをふる」
+          break;
+
+        case 'Splash': // 技「はねる」
+          writeLog( `しかし なにも起こらない!` );
+          break;
+
+        case 'Rest': // 技「ねむる」
+          target.status.hp.value.toMax();
+          target.statusAilment.reset();
+          target.statusAilment.onRest();
+          break;
+
+        case 'Conversion': // 技「テクスチャー」
+          const firstType: PokemonType = getMoveDataByName( String(target.move.learned[0].name) ).type;
+          target.type.toType( firstType );
+          break;
+
+        case 'Substitute': // 技「みがわり」
+          const substituteHP: number = Math.floor( target.getOrgHP() / 4 )
+          target.status.hp.value.sub( substituteHP );
+          target.stateChange.substitute.onActivate( target, substituteHP );
+          break;
+
+        case 'Protect':        // 技「まもる」
+        case 'Detect':         // 技「みきり」
+        case 'King’s Shield':  // 技「キングシールド」
+        case 'Spiky Shield':   // 技「ニードルガード」
+        case 'Baneful Bunker': // 技「トーチカ」
+        case 'Max Guard':      // 技「ダイウォール」
+        case 'Obstruct':       // 技「ブロッキング」
+          target.stateChange.protect.onActivate( target, target.move.selected.name );
+          break;
+
+        case 'Belly Drum': // 技「はらだいこ」
+          target.status.hp.value.sub( Math.floor( target.getOrgHP() / 2 ) );
+          target.status.atk.rank.toMax();
+          writeLog( `${target.getArticle()}は 体力を削って パワー全開!` );
+          break;
+
+        case 'Destiny Bond': // 技「みちづれ」
+          target.stateChange.destinyBond.onActivate( target );
+          break;
+
+        case 'Endure': // 技「こらえる」
+          target.stateChange.endure.onActivate( target );
+          break;
+
+        case 'Sleep Talk': // 技「ねごと」
+          break;
+
+        case 'Baton Pass': // 技「バトンタッチ」
+          break;
+
+        case 'Stockpile': // 技「たくわえる」
+          target.stateChange.stockpile.onActivate( target );
+          break;
+
+        case 'Follow Me': // 技「このゆびとまれ」
+        case 'Rage Powder': // 技「いかりのこな」
+          target.stateChange.spotlight.onActivate( target );
+          break;
+
+        case 'Wish': // 技「ねがいごと」
+          break;
+
+        case 'Assist': // 技「ねこのて」
+          break;
+
+        case 'Magic Coat': // 技「マジックコート」
+          target.stateChange.magicCoat.onActivate( target );
+          break;
+
+        case 'Recycle': // 技「リサイクル」
+          target.item.name = target.item.recycle;
+          target.item.recycle = null;
+          writeLog( `${target.getArticle()}は ${target.item.translate()}を 拾ってきた!` );
+          break;
+
+        case 'Imprison': // 技「ふういん」
+          target.stateChange.imprison.onActivate( target );
+          break;
+
+        case 'Refresh': // 技「リフレッシュ」
+          target.statusAilment.getHealth();
+          break;
+
+        case 'Grudge': // 技「おんねん」
+          target.stateChange.grudge.onActivate( target );
+          break;
+
+        case 'Snatch': // 技「スナッチ」
+          break;
+
+        case 'Camouflage': // 技「ほごしょく」
+          if ( main.field.terrain.isElectric() ) target.type.toType( 'Electric' );
+          else if ( main.field.terrain.isGrassy() ) target.type.toType( 'Grass' );
+          else if ( main.field.terrain.isMisty() ) target.type.toType( 'Fairy' );
+          else if ( main.field.terrain.isPsychic() ) target.type.toType( 'Psychic' );
+          else target.type.toType( 'Normal' );
+          break;
+
+        case 'Healing Wish': // 技「みかづきのまい」
+          break;
+
+        case 'Power Trick': // 技「パワートリック」
+          [ target.status.atk.value, target.status.def.value ] = [ target.status.def.value, target.status.atk.value ];
+          writeLog( `${target.getArticle()}は 攻撃と 防御を 入れ替えた!` );
+          break;
+
+        case 'Copycat': // 技「まねっこ」
+          break;
+
+        case 'Aqua Ring': // 技「アクアリング」
+          target.stateChange.aquaRing.onActivate( target );
+          break;
+
+        case 'Magnet Rise': // 技「でんじふゆう」
+          target.stateChange.magnetRise.onActivate( target );
+          break;
+
+        case 'Lunar Dance': // 技「みかづきのまい」
+          break;
+
+        case 'Ally Switch': // 技「サイドチェンジ」
+          break;
+
+        case 'Shell Smash': // 技「からをやぶる」
+          master.stat.changes.map( stat => target.changeRank( stat.stat, stat.change ) );
+          break;
+
+        case 'Celebrate': // 技「おいわい」
+          break;
+
+        case 'Laser Focus': // 技「とぎすます」
+          target.stateChange.laserFocus.onActivate( target );
+          break;
+      }
+      break;
+
+    default:
       break;
   }
 }

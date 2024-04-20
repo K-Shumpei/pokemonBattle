@@ -79,6 +79,11 @@ class Main {
     return pokemon.filter( p => p.order.battle === attack.battle )[0];
   }
 
+  getPokemonByOrder( order: Order ): Pokemon {
+    const pokemon: Pokemon[] = this.getParty( order.isMe );
+    return pokemon.filter( p => p.order.battle === order.battle )[0];
+  }
+
   getPokemonOnLanding(): Pokemon[] {
     const pokeList: Pokemon[] = this.getPokemonInBattle().filter( p => p.extraParameter.landing );
     return sortByActionOrder( pokeList );

@@ -811,7 +811,7 @@ function failureByMoveSpec( pokemon: Pokemon ): boolean {
 
   const noRetreat = ( pokemon: Pokemon ): boolean => {
     if ( pokemon.move.selected.name !== 'No Retreat' ) return false;
-    if ( !pokemon.stateChange.noRetreat.isTrue ) return false;
+    if ( !pokemon.stateChange.cannotEscape.noRetreat ) return false;
 
     pokemon.attack.reset();
     pokemon.msgDeclareFailure();
@@ -1007,7 +1007,6 @@ function abilityChangeType( pokemon : Pokemon ): void {
   pokemon.msgDeclareAbility();
   pokemon.type.toType( pokemon.move.selected.type );
   pokemon.stateChange.protean.isTrue = true;
-  pokemon.msgProtean();
 }
 
 // 溜め技の溜めターンでの動作
@@ -1215,14 +1214,14 @@ function disableByProtect( pokemon: Pokemon ): boolean {
     if ( !pokemon.move.selected.getMaster().protect ) continue;
     if ( pokemon.ability.isName( 'Unseen Fist' ) // 特性「ふかしのこぶし」
       && pokemon.move.selected.getMaster().contact ) continue;
-    if ( target.stateChange.protect.text === 'キングシールド' && pokemon.move.selected.isStatus() ) continue;
-    if ( target.stateChange.protect.text === 'ブロッキング' && pokemon.move.selected.isStatus() ) continue;
+    if ( target.stateChange.protect.move === 'King’s Shield' && pokemon.move.selected.isStatus() ) continue; // 技「キングシールド」
+    if ( target.stateChange.protect.move === 'Obstruct' && pokemon.move.selected.isStatus() ) continue; // 技「ブロッキング」
 
     attack.success = false;
     target.msgProtect();
 
     spikyShield:
-    if ( target.stateChange.protect.text === 'ニードルガード' ) {
+    if ( target.stateChange.protect.move === 'Spiky Shield' ) { // 技「ニードルガード」
       if ( !pokemon.move.selected.getMaster().contact ) break spikyShield;
       if ( pokemon.move.selected.name === 'Sky Drop' ) break spikyShield; // 技「フリーフォール」
       if ( pokemon.ability.isName( 'Magic Guard' ) ) break spikyShield; // 特性「マジックガード」
@@ -1234,7 +1233,7 @@ function disableByProtect( pokemon: Pokemon ): boolean {
     }
 
     banefulBunker:
-    if ( target.stateChange.protect.text === 'トーチカ' ) {
+    if ( target.stateChange.protect.move === 'Baneful Bunker' ) { // 技「トーチカ」
       if ( !pokemon.move.selected.getMaster().contact ) break banefulBunker;
       if ( pokemon.move.selected.name === 'Sky Drop' ) break banefulBunker; // 技「フリーフォール」
       if ( !pokemon.isGetAilmentByOther( 'Poisoned', target ) ) break banefulBunker;
@@ -1243,7 +1242,7 @@ function disableByProtect( pokemon: Pokemon ): boolean {
     }
 
     kingsShield:
-    if ( target.stateChange.protect.text === 'キングシールド' ) {
+    if ( target.stateChange.protect.move === 'King’s Shield' ) { // 技「キングシールド」
       if ( !pokemon.move.selected.getMaster().contact ) break kingsShield;
       if ( !pokemon.isChangeRankByOther( 'atk', -1, target ) ) break kingsShield;
 
@@ -1251,7 +1250,7 @@ function disableByProtect( pokemon: Pokemon ): boolean {
     }
 
     obstruct:
-    if ( target.stateChange.protect.text === 'ブロッキング' ) {
+    if ( target.stateChange.protect.move === 'Obstruct' ) { // 技「ブロッキング」
       if ( pokemon.move.selected.getMaster().contact === false ) break obstruct;
       if ( !pokemon.isChangeRankByOther( 'def', -2, target ) ) break obstruct;
 
@@ -1286,7 +1285,7 @@ function disableByMaxGuard( pokemon: Pokemon ): boolean {
   for ( const attack of pokemon.attack.getTargetToPokemon() ) {
     const target: Pokemon = main.getPokemonByBattle( attack );
 
-    if ( target.stateChange.protect.text !== 'ダイウォール' ) continue;
+    if ( target.stateChange.protect.move !== 'Max Guard' ) continue; // 技「ダイウォール」
     //if ( notMaxGuardMoveList.includes( pokemon.move.selected.name ) === false && pokemon.move.selected.getMaster().protect === false ) continue;
 
     attack.success = false;

@@ -4,6 +4,8 @@ class StateChangeStatus {
   count = 0;
   move: MoveText = null;
   order = new Order( true, 0 );
+  hp = new ValueWithRange();
+  protect: MoveText = null;
 
   reset(): void {
     this.isTrue = false;
@@ -11,12 +13,39 @@ class StateChangeStatus {
     this.count = 0;
     this.move = null;
     this.order = new Order( true, 0 );
+    this.hp = new ValueWithRange();
+    this.protect = null;
+  }
+}
+
+class AquaRing extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 水のリングを まとった!` );
+  }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.status.hp.value.isMax() ) return;
+    const heal: number = Math.floor( pokemon.getOrgHP() / 16 );
+    pokemon.status.hp.value.add( Math.max( 1, heal ) );
+    writeLog( `${pokemon.getArticle()}は 水のリングで 体力を回復!` );
+  }
+}
+
+class Autotomize extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 身軽になった!` );
   }
 }
 
 class CannotEscape extends StateChangeStatus {
 
   octolock: boolean = false;
+  noRetreat: boolean = false;
 
   onActivate( pokemon: Pokemon, target: Pokemon ): void {
     this.isTrue = true;
@@ -29,6 +58,13 @@ class CannotEscape extends StateChangeStatus {
     this.order = new Order( pokemon.order.isMe, pokemon.order.hand );
     this.octolock = true;
     writeLog( `${target.getArticle()}は たこがためで 逃げられなくなった!` )
+  }
+
+  onActivateNoRetreat( pokemon: Pokemon, target: Pokemon ): void {
+    this.isTrue = true;
+    this.order = new Order( pokemon.order.isMe, pokemon.order.hand );
+    this.noRetreat = true;
+    writeLog( `${target.getArticle()}は はいすいのじんで 逃げることが できなくなった!` )
   }
 }
 
@@ -47,8 +83,20 @@ class Curse extends StateChangeStatus {
     writeLog( `${pokemon.getArticle()}は 自分の体力を 削って ${target.getArticle()}に のろいを かけた!` );
   }
 
-  onElapse( pokemon: Pokemon ): void {
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+
+    const damage: number = Math.floor( pokemon.getOrgHP() / 4 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
     writeLog( `${pokemon.getArticle()}は のろわれている! ` );
+  }
+}
+
+class DestinyBond extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 相手を 道連れに しようとしている!` );
   }
 }
 
@@ -66,6 +114,7 @@ class Disable extends StateChangeStatus {
   }
 
   onElapse( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
     this.turn.sub( 1 );
     if ( this.turn.isZero() ) {
       this.reset();
@@ -96,6 +145,7 @@ class Encore extends StateChangeStatus {
   }
 
   onElapse( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
     this.turn.sub( 1 );
     if ( this.turn.isZero() ) {
       this.reset();
@@ -104,8 +154,29 @@ class Encore extends StateChangeStatus {
   }
 }
 
+class Endure extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は こらえる 体勢に 入った!` );
+  }
+
+}
+
 class FocusEnergy extends StateChangeStatus {
 
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 張り切っている!` );
+  }
+}
+
+class Grudge extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 相手に おんねんを かけようとしている!` );
+  }
 }
 
 class HealBlock extends StateChangeStatus {
@@ -121,6 +192,7 @@ class HealBlock extends StateChangeStatus {
   }
 
   onElapse( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
     this.turn.sub( 1 );
     if ( this.turn.isZero() ) {
       this.reset();
@@ -143,11 +215,60 @@ class HelpingHand extends StateChangeStatus {
   }
 }
 
+class Imprison extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 相手の技を 封印した!` );
+  }
+}
+
 class Ingrain extends StateChangeStatus {
 
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
     writeLog( `${pokemon.getArticle()}は 根を はった!` );
+  }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( pokemon.status.hp.value.isMax() ) return;
+    const heal: number = Math.floor( pokemon.getOrgHP() / 16 );
+    pokemon.status.hp.value.add( Math.max( 1, heal ) );
+    writeLog( `${pokemon.getArticle()}は 根から 養分を 吸い取った!` );
+  }
+}
+
+class LaserFocus extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 精神を 研ぎ澄ました!` );
+  }
+}
+
+class LeechSeed extends StateChangeStatus {
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+
+    const calcDamage = (): number => {
+      let base: number = Math.floor( pokemon.getOrgHP() / 16 );
+      let rest: number = pokemon.status.hp.value.value;
+      if ( rest < base ) {
+        return rest;
+      } else {
+        return Math.max( 1, base );
+      }
+    }
+
+    const damage = calcDamage();
+    const target: Pokemon = main.getPokemonByOrder( this.order );
+    if ( !target ) return;
+
+    pokemon.status.hp.value.sub( damage );
+    target.status.hp.value.add( damage );
+    writeLog( `やどりぎが ${pokemon.getArticle()}の 体力を奪う!` );
   }
 }
 
@@ -157,6 +278,37 @@ class LockOn extends StateChangeStatus {
     this.isTrue = true;
     this.order.setInfo( target.order );
     writeLog( `${pokemon.getArticle()}は ${target.getArticle()}に ねらいを さだめた!` );
+  }
+}
+
+class MagicCoat extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は マジックコートに つつまれた!` );
+  }
+}
+
+class MagnetRise extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 電磁力で 浮かびあがった!` );
+  }
+}
+
+class Nightmare extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は あくむを 見始めた!` );
+  }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    const damage: number = Math.floor( pokemon.getOrgHP() / 4 );
+    pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+    writeLog( `${pokemon.getArticle()}は あくむに うなされている!` );
   }
 }
 
@@ -188,11 +340,41 @@ class Powder extends StateChangeStatus {
   }
 }
 
+class Protect extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, move: MoveText ): void {
+    this.isTrue = true;
+    this.protect = move;
+    writeLog( `${pokemon.getArticle()}は 守りの 体勢に 入った!` );
+  }
+}
+
 class Spotlight extends StateChangeStatus {
 
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
     writeLog( `${pokemon.getArticle()}は 注目の的に なった!` );
+  }
+}
+
+class Stockpile extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    this.count += 1;
+    writeLog( `${pokemon.getArticle()}は ${this.count}つ たくわえた!` );
+
+    pokemon.changeRank( 'def', 1 );
+    pokemon.changeRank( 'spD', 1 );
+  }
+}
+
+class Substitute extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, hp: number ): void {
+    this.isTrue = true;
+    this.hp = new ValueWithRange( hp, 0 );
+    writeLog( `${pokemon.getArticle()}の 身代わりが 現れた!` );
   }
 }
 
@@ -217,6 +399,7 @@ class Taunt extends StateChangeStatus {
   }
 
   onElapse( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
     this.turn.sub( 1 );
     if ( this.turn.isZero() ) {
       this.reset();
@@ -230,90 +413,63 @@ class Taunt extends StateChangeStatus {
 
 class StateChangeSummary {
 
+  aquaRing     = new AquaRing();     // アクアリング
+  autotomize   = new Autotomize();   // ボディパージ
   cannotEscape = new CannotEscape(); // にげられない
   charge       = new Charge();       // じゅうでん
   curse        = new Curse();        // のろい
+  destinyBond  = new DestinyBond();  // みちづれ
   disable      = new Disable();      // かなしばり
   electrify    = new Electrify();    // そうでん
   encore       = new Encore();       // アンコール
+  endure       = new Endure();       // こらえる
   focusEnergy  = new FocusEnergy();  // きゅうしょアップ
+  grudge       = new Grudge();       // おんねん
   healBlock    = new HealBlock();    // かいふくふうじ
   helpingHand  = new HelpingHand();  // てだすけ
+  imprison     = new Imprison();     // ふういん
   ingrain      = new Ingrain();      // ねをはる
+  laserFocus   = new LaserFocus();   // とぎすます
+  leechSeed    = new LeechSeed();    // やどりぎのタネ
   lockOn       = new LockOn();       // ロックオン
+  magicCoat    = new MagicCoat();    // マジックコート
+  magnetRise   = new MagnetRise();   // でんじふゆう
+  nightmare    = new Nightmare();    // あくむ
   noAbility    = new NoAbility();    // とくせいなし
   perishSong   = new PerishSong();   // ほろびのうた
   powder       = new Powder();       // ふんじん
+  protect      = new Protect();      // まもる
   spotlight    = new Spotlight();    // ちゅうもくのまと
+  stockpile    = new Stockpile();    // たくわえる
+  substitute   = new Substitute();   // みがわり
   tarShot      = new TarShot();      // タールショット
   taunt        = new Taunt();        // ちょうはつ
 
   _flinch: StateChange; // ひるみ
   _bind: StateChange; // バインド
-
-  // あくむ
   _attract: Attract; // メロメロ
-  _leechSeed: StateChange; // やどりぎのタネ
   _yawn: StateChange; // ねむけ
-
   _embargo: StateChange; //さしおさえ
-
   _torment: StateChange; // いちゃもん
-
-
   _foresight: StateChange; // みやぶられている
   _miracleEye: StateChange; // ミラクルアイ
   _smackDown: StateChange; // うちおとす
   _telekinesis: StateChange; // テレキネシス
-
-
-
-
-
-
   _throatChop: StateChange; // じごくづき
   /*
   ハロウィン
   もりののろい
   ちゅうもくのまと
   */
-
-
-
-
   // たこがため
   _saltCure: StateChange; // しおづけ
 
   // わざを使ったポケモンに発生
-
-  _substitute: StateChange; // みがわり
-  _protect: StateChange; // まもる
-
-
-  /*
-  キングシールド
-  トーチカ
-  ブロッキング
-  */
   _minimize: StateChange; //ちいさくなる
-
-
   // まるくなる
-  _destinyBond: StateChange; // みちづれ
-  _grudge: StateChange; // おんねん
-
   _uproar: StateChange; // さわぐ
   // あばれる
-  _imprison: StateChange;// ふういん
   _rage: StateChange; // いかり
-  // マジックコート
-
-
-  _aquaRing: StateChange; //アクアリング
-
-  _stockpile: StateChange; // たくわえる
-  _magnetRise: StateChange; // でんじふゆう
-
   /*
   がまん
   パワートリック
@@ -323,11 +479,6 @@ class StateChangeSummary {
   _dig: StateChange; // あなをほる
   _dive: StateChange; // ダイビング
   _shadowForce: StateChange;// シャドーダイブ
-
-
-  // ボディパージ
-  // ほろびのうた
-
   _confuse: StateChange; // こんらん
   /*
   にげられない
@@ -357,10 +508,8 @@ class StateChangeSummary {
   _micleBerry: StateChange; // ミクルのみ
   _halfBerry: StateChange; // 半減きのみ
   _cannotMove: StateChange; // 反動で動けない
-  _endure: StateChange; // こらえる
   _beakBlast: StateChange; // くちばしキャノン
   _focusPunch: StateChange; // きあいパンチ
-  _noRetreat: StateChange; // はいすいのじん
   _someProtect: StateChange // まもる連続使用
   _endureMsg: StateChange; // HP1で耐える効果の保存
   _fling: StateChange; // なげつける
@@ -372,7 +521,6 @@ class StateChangeSummary {
     this._flinch = new StateChange();
     this._bind = new StateChange();
     this._attract = new Attract();
-    this._leechSeed = new StateChange();
     this._yawn = new StateChange();
     this._embargo = new StateChange();
     this._torment = new StateChange();
@@ -383,17 +531,9 @@ class StateChangeSummary {
     this._throatChop = new StateChange();
     this._saltCure = new StateChange();
 
-    this._substitute = new StateChange();
-    this._protect = new StateChange();
     this._minimize = new StateChange();
-    this._destinyBond = new StateChange();
-    this._grudge = new StateChange();
     this._uproar = new StateChange();
-    this._imprison = new StateChange();
     this._rage = new StateChange();
-    this._aquaRing = new StateChange();
-    this._stockpile = new StateChange();
-    this._magnetRise = new StateChange();
     this._transform = new Transform();
     this._fly = new StateChange();
     this._dig = new StateChange();
@@ -416,10 +556,8 @@ class StateChangeSummary {
     this._micleBerry = new StateChange();
     this._halfBerry = new StateChange();
     this._cannotMove = new StateChange();
-    this._endure = new StateChange();
     this._beakBlast = new StateChange();
     this._focusPunch = new StateChange();
-    this._noRetreat = new StateChange();
     this._someProtect = new StateChange();
     this._endureMsg = new StateChange();
     this._fling = new StateChange();
@@ -436,9 +574,6 @@ class StateChangeSummary {
   }
   set attract( attract: Attract ) {
     this._attract = attract;
-  }
-  set leechSeed( leechSeed: StateChange ) {
-    this._leechSeed = leechSeed;
   }
   set yawn( yawn: StateChange ) {
     this._yawn = yawn;
@@ -467,38 +602,14 @@ class StateChangeSummary {
   set saltCure( saltCure: StateChange ) {
     this._saltCure = saltCure;
   }
-  set substitute( substitute: StateChange ) {
-    this._substitute = substitute;
-  }
-  set protect( protect: StateChange ) {
-    this._protect = protect;
-  }
   set minimize( minimize: StateChange ) {
     this._minimize = minimize;
-  }
-  set destinyBond( destinyBond: StateChange ) {
-    this._destinyBond = destinyBond;
-  }
-  set grudge( grudge: StateChange ) {
-    this._grudge = grudge;
   }
   set uproar( uproar: StateChange ) {
     this._uproar = uproar;
   }
-  set imprison( imprison: StateChange ) {
-    this._imprison = imprison;
-  }
   set rage( rage: StateChange ) {
     this._rage = rage;
-  }
-  set aquaRing( aquaRing: StateChange ) {
-    this._aquaRing = aquaRing;
-  }
-  set stockpile( stockpile: StateChange ) {
-    this._stockpile = stockpile;
-  }
-  set magnetRise( magnetRise: StateChange ) {
-    this._magnetRise = magnetRise;
   }
   set transform( transform: Transform ) {
     this._transform = transform;
@@ -563,17 +674,11 @@ class StateChangeSummary {
   set cannotMove( cannotMove: StateChange ) {
     this._cannotMove = cannotMove;
   }
-  set endure( endure: StateChange ) {
-    this._endure = endure;
-  }
   set beakBlast( beakBlast: StateChange ) {
     this._beakBlast = beakBlast;
   }
   set focusPunch( focusPunch: StateChange ) {
     this._focusPunch = focusPunch;
-  }
-  set noRetreat( noRetreat: StateChange ) {
-    this._noRetreat = noRetreat;
   }
   set someProtect( someProtect: StateChange ) {
     this._someProtect = someProtect;
@@ -603,9 +708,6 @@ class StateChangeSummary {
   get attract(): Attract {
     return this._attract;
   }
-  get leechSeed(): StateChange {
-    return this._leechSeed;
-  }
   get yawn(): StateChange {
     return this._yawn;
   }
@@ -633,39 +735,14 @@ class StateChangeSummary {
   get saltCure(): StateChange {
     return this._saltCure;
   }
-
-  get substitute(): StateChange {
-    return this._substitute;
-  }
-  get protect(): StateChange {
-    return this._protect;
-  }
   get minimize(): StateChange {
     return this._minimize;
-  }
-  get destinyBond(): StateChange {
-    return this._destinyBond;
-  }
-  get grudge(): StateChange {
-    return this._grudge;
   }
   get uproar(): StateChange {
     return this._uproar;
   }
-  get imprison(): StateChange {
-    return this._imprison;
-  }
   get rage(): StateChange {
     return this._rage;
-  }
-  get aquaRing(): StateChange {
-    return this._aquaRing;
-  }
-  get stockpile(): StateChange {
-    return this._stockpile;
-  }
-  get magnetRise(): StateChange {
-    return this._magnetRise;
   }
   get transform(): Transform {
     return this._transform;
@@ -730,17 +807,11 @@ class StateChangeSummary {
   get cannotMove(): StateChange {
     return this._cannotMove;
   }
-  get endure(): StateChange {
-    return this._endure;
-  }
   get beakBlast(): StateChange {
     return this._beakBlast;
   }
   get focusPunch(): StateChange {
     return this._focusPunch;
-  }
-  get noRetreat(): StateChange {
-    return this._noRetreat;
   }
   get someProtect(): StateChange {
     return this._someProtect;

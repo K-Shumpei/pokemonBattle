@@ -93,7 +93,7 @@ function calculateDamageForAll( pokemon: Pokemon ): void {
     result = Math.min( result, target.status.hp.value.value );
 
     if ( attack.substitute ) {
-      return Math.min( result, target.stateChange.substitute.count );
+      return Math.min( result, target.stateChange.substitute.hp.value );
     }
 
     if ( result !== target.status.hp.value.value ) {
@@ -1840,7 +1840,6 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
     const type: PokemonType = pokemon.move.selected.type;
     target.msgDeclareAbility();
     target.type.toType( type );
-    target.msgColorChange( type );
   }
 
   const berserk = ( pokemon: Pokemon, target: Pokemon ): void => {
