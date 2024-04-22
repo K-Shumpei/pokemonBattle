@@ -142,16 +142,16 @@ class Main {
       if ( pokemon.ability.isName( 'Quark Drive' ) ) { // 特性「クォークチャージ」
         corr = Math.round( corr * 6144 / 4096 );
       }
-      if ( pokemon.item.isName( 'スピードパウダー' ) && pokemon.name === 'Ditto' ) { // メタモン
+      if ( pokemon.isItem( 'スピードパウダー' ) && pokemon.name === 'Ditto' ) { // メタモン
         corr = Math.round( corr * 8192 / 4096 );
       }
-      if ( pokemon.item.isName( 'こだわりスカーフ' ) ) {
+      if ( pokemon.isItem( 'こだわりスカーフ' ) ) {
         corr = Math.round( corr * 6144 / 4096 );
       }
-      if ( pokemon.item.isName( 'くろいてっきゅう' ) ) {
+      if ( pokemon.isItem( 'くろいてっきゅう' ) ) {
         corr = Math.round( corr * 2048 / 4096 );
       }
-      if ( pokemon.item.isName( 'きょうせいギプス' ) ) {
+      if ( pokemon.isItem( 'きょうせいギプス' ) ) {
         corr = Math.round( corr * 2048 / 4096 );
       }
       if ( this._field.getSide( pokemon.isMine() ).tailwind.isTrue ) {

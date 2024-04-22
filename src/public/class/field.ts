@@ -20,7 +20,7 @@ class Weather {
   }
 
   isSunny( pokemon: Pokemon ): boolean {
-    if ( pokemon.item.isName( 'ばんのうがさ' ) || this.isNoWeather() ) {
+    if ( pokemon.isItem( 'ばんのうがさ' ) || this.isNoWeather() ) {
       return false;
     } else {
       return this.name === 'HarshSunlight';
@@ -28,7 +28,7 @@ class Weather {
   }
 
   isRainy( pokemon: Pokemon ): boolean {
-    if ( pokemon.item.isName( 'ばんのうがさ' ) || this.isNoWeather() ) {
+    if ( pokemon.isItem( 'ばんのうがさ' ) || this.isNoWeather() ) {
       return false;
     } else {
       return this.name === 'Rain';
@@ -52,7 +52,7 @@ class Weather {
   }
 
   isBadSunny( pokemon: Pokemon ): boolean {
-    if ( pokemon.item.isName( 'ばんのうがさ' ) || this.isNoWeather() ) {
+    if ( pokemon.isItem( 'ばんのうがさ' ) || this.isNoWeather() ) {
       return false;
     } else {
       return this.name === 'HarshSunlight' && this.strong === true;
@@ -60,7 +60,7 @@ class Weather {
   }
 
   isBadRainy( pokemon: Pokemon ): boolean {
-    if ( pokemon.item.isName( 'ばんのうがさ' ) || this.isNoWeather() ) {
+    if ( pokemon.isItem( 'ばんのうがさ' ) || this.isNoWeather() ) {
       return false;
     } else {
       return this.name === 'Rain' && this.strong === true;
@@ -121,7 +121,7 @@ class Weather {
     fieldStatus.weather.name = 'HarshSunlight';
     fieldStatus.weather.turn = 5;
 
-    if ( pokemon.item.isName( 'あついいわ' ) ) {
+    if ( pokemon.isItem( 'あついいわ' ) ) {
       fieldStatus.weather.turn = 8;
       fieldStatus.weather.extend = true;
     }
@@ -136,7 +136,7 @@ class Weather {
     fieldStatus.weather.name = 'Rain';
     fieldStatus.weather.turn = 5;
 
-    if ( pokemon.item.isName( 'しめったいわ' ) ) {
+    if ( pokemon.isItem( 'しめったいわ' ) ) {
       fieldStatus.weather.turn = 8;
       fieldStatus.weather.extend = true;
     }
@@ -151,7 +151,7 @@ class Weather {
     fieldStatus.weather.name = 'Sandstorm';
     fieldStatus.weather.turn = 5;
 
-    if ( pokemon.item.isName( 'さらさらいわ' ) ) {
+    if ( pokemon.isItem( 'さらさらいわ' ) ) {
       fieldStatus.weather.turn = 8;
       fieldStatus.weather.extend = true;
     }
@@ -166,7 +166,7 @@ class Weather {
     fieldStatus.weather.name = 'Hail';
     fieldStatus.weather.turn = 5;
 
-    if ( pokemon.item.isName( 'つめたいいわ' ) ) {
+    if ( pokemon.isItem( 'つめたいいわ' ) ) {
       fieldStatus.weather.turn = 8;
       fieldStatus.weather.extend = true;
     }
@@ -234,6 +234,24 @@ class Weather {
 
     this.reset()
   }
+
+  onActivateSandstorm( pokemon: Pokemon ): void {
+    if ( !this.isSandy() ) return;
+    if ( pokemon.ability.isName( 'Overcoat' ) ) return; // 特性「ぼうじん」
+    if ( pokemon.isItem( 'ぼうじんゴーグル' ) ) return;
+    if ( pokemon.stateChange.dig.isTrue ) return;
+    if ( pokemon.stateChange.dive.isTrue ) return;
+    if ( pokemon.type.has( 'Rock' ) ) return;
+    if ( pokemon.type.has( 'Ground' ) ) return;
+    if ( pokemon.type.has( 'Steel' ) ) return;
+    if ( pokemon.ability.isName( 'Sand Veil' ) ) return; // 特性「すながくれ」
+    if ( pokemon.ability.isName( 'Sand Rush' ) ) return; // 特性「すなかき」
+    if ( pokemon.ability.isName( 'Sand Force' ) ) return; // 特性「すなのちから」
+
+    const damage: number = Math.floor( pokemon.getOrgHP() / 16 );
+    pokemon.status.hp.value.add( Math.max( 1, damage ) );
+    writeLog( `砂あらしが ${pokemon.getArticle()}を 襲う!` );
+  }
 }
 
 class Terrain {
@@ -256,7 +274,7 @@ class Terrain {
   }
 
   setExtend( pokemon: Pokemon ): void {
-    if ( pokemon.item.isName( 'グランドコート' ) ) {
+    if ( pokemon.isItem( 'グランドコート' ) ) {
       this.turn = 8;
       this.extend = true;
     } else {
@@ -311,6 +329,14 @@ class Terrain {
 
   isPlain(): boolean {
     return this.name === null;
+  }
+
+  onElapse(): void {
+    if ( this.name === null ) return;
+    this.turn -= 1;
+    if ( this.turn === 0 ) {
+      this.resetWithMessage();
+    }
   }
 
   onActivateGrassy( pokemon: Pokemon ): void {
@@ -525,9 +551,6 @@ class SideFieldStatus {
 
 class AuroraVeil extends SideFieldStatus {
 
-  isLightCray: boolean = false;
-  extendTurn = new ValueWithRange( 3, 0 );
-
   constructor ( isMine: boolean ) {
     super( isMine )
     this.turn = new ValueWithRange( 5, 0 );
@@ -536,23 +559,28 @@ class AuroraVeil extends SideFieldStatus {
   onActivate( isLightClay: boolean ): void {
     if ( this.isTrue ) return;
     this.isTrue = true;
-    this.isLightCray = isLightClay;
+    if ( isLightClay ) {
+      this.turn = new ValueWithRange( 8, 0 );
+    }
     writeLog( `${this.getText()}は オーロラベールで 物理と 特殊に 強くなった!` );
   }
 
   onRemove(): void {
     if ( !this.isTrue ) return;
     this.reset();
-    this.isLightCray = false;
-    this.extendTurn.toZero();
     writeLog( `${this.getText()}の オーロラベールが なくなった!` );
+  }
+
+  onElapse(): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.onRemove();
+    }
   }
 }
 
 class LightScreen extends SideFieldStatus {
-
-  isLightCray: boolean = false;
-  extendTurn = new ValueWithRange( 3, 0 );
 
   constructor ( isMine: boolean ) {
     super( isMine )
@@ -562,23 +590,28 @@ class LightScreen extends SideFieldStatus {
   onActivate( isLightClay: boolean ): void {
     if ( this.isTrue ) return;
     this.isTrue = true;
-    this.isLightCray = isLightClay;
+    if ( isLightClay ) {
+      this.turn = new ValueWithRange( 8, 0 );
+    }
     writeLog( `${this.getText()}は ひかりのかべで 特殊に 強くなった!` );
   }
 
   onRemove(): void {
     if ( !this.isTrue ) return;
     this.reset();
-    this.isLightCray = false;
-    this.extendTurn.toZero();
     writeLog( `${this.getText()}の ひかりのかべが なくなった!` );
+  }
+
+  onElapse(): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.onRemove();
+    }
   }
 }
 
 class Reflect extends SideFieldStatus {
-
-  isLightCray: boolean = false;
-  extendTurn = new ValueWithRange( 3, 0 );
 
   constructor ( isMine: boolean ) {
     super( isMine )
@@ -588,16 +621,24 @@ class Reflect extends SideFieldStatus {
   onActivate( isLightClay: boolean ): void {
     if ( this.isTrue ) return;
     this.isTrue = true;
-    this.isLightCray = isLightClay;
+    if ( isLightClay ) {
+      this.turn = new ValueWithRange( 8, 0 );
+    }
     writeLog( `${this.getText()}は リフレクターで 物理に 強くなった!` );
   }
 
   onRemove(): void {
     if ( !this.isTrue ) return;
     this.reset();
-    this.isLightCray = false;
-    this.extendTurn.toZero();
     writeLog( `${this.getText()}の リフレクターが なくなった!` );
+  }
+
+  onElapse(): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.onRemove();
+    }
   }
 }
 
@@ -614,6 +655,15 @@ class TailWind extends SideFieldStatus {
     this.isTrue = true;
     writeLog( `${this.getText()}に 追い風が 吹き始めた!` );
   }
+
+  onElapse(): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${this.getText()}の 追い風が 止んだ!` );
+    }
+  }
 }
 
 class LuckyChant extends SideFieldStatus {
@@ -627,6 +677,15 @@ class LuckyChant extends SideFieldStatus {
     if ( this.isTrue ) return;
     this.isTrue = true;
     writeLog( `おまじないの 力で ${this.getText()}の 急所が 隠れた!` );
+  }
+
+  onElapse(): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      // writeLog( `${this.getText()}の !` );
+    }
   }
 }
 
@@ -647,6 +706,14 @@ class Mist extends SideFieldStatus {
     if ( !this.isTrue ) return;
     this.reset();
     writeLog( `${this.getText()}の 白い霧が なくなった!` );
+  }
+
+  onElapse(): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.onRemove();
+    }
   }
 }
 
@@ -734,6 +801,15 @@ class Rainbow extends SideFieldStatus {
     this.isTrue = true;
     writeLog( `${this.getText()}の 空に 虹が かかった!` );
   }
+
+  onElapse(): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${this.getText()}の 虹が 消え去った!` );
+    }
+  }
 }
 
 class Wetlands extends SideFieldStatus {
@@ -747,6 +823,15 @@ class Wetlands extends SideFieldStatus {
     if ( this.isTrue ) return;
     this.isTrue = true;
     writeLog( `${this.getText()}の 周りに 湿原が 広がった!` );
+  }
+
+  onElapse(): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${this.getText()}の 湿原が 消え去った!` );
+    }
   }
 }
 
@@ -772,6 +857,7 @@ class SeaOfFire extends SideFieldStatus {
   }
 
   onElapse(): void {
+    if ( !this.isTrue ) return;
     this.turn.sub( 1 );
     if ( this.turn.isZero() ) {
       this.reset();
@@ -800,7 +886,7 @@ class StealthRock extends SideFieldStatus {
 
   onEffective( pokemon: Pokemon ): void {
     if ( !this.isTrue ) return;
-    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    if ( pokemon.isItem( 'あつぞこブーツ' ) ) return;
     const damage: number = Math.floor( pokemon.status.hp.value.max * pokemon.type.getCompatibility( 'Rock' ) / 8 );
     pokemon.status.hp.value.sub( Math.max( 1, damage ) );
     writeLog( `${pokemon.getArticle()}は とがった岩が 食いこんだ!` );
@@ -829,7 +915,7 @@ class ToxicSpikes extends SideFieldStatus {
   onEffective( pokemon: Pokemon ): void {
     if ( !this.isTrue ) return;
     if ( !pokemon.isGround() ) return;
-    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    if ( pokemon.isItem( 'あつぞこブーツ' ) ) return;
     if ( !pokemon.isGetAilmentByOther( 'Poisoned', pokemon ) ) return;
 
     if ( this.count === 1 ) {
@@ -863,7 +949,7 @@ class StickyWeb extends SideFieldStatus {
   onEffective( pokemon: Pokemon ): void {
     if ( !this.isTrue ) return;
     if ( !pokemon.isGround() ) return;
-    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    if ( pokemon.isItem( 'あつぞこブーツ' ) ) return;
     if ( !pokemon.isChangeRank( 'spe', -1 ) ) return;
 
     writeLog( `${this.getText()}は ねばねばネットに ひっかかった!` );
@@ -893,7 +979,7 @@ class Spikes extends SideFieldStatus {
   onEffective( pokemon: Pokemon ): void {
     if ( !this.isTrue ) return;
     if ( !pokemon.isGround() ) return;
-    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    if ( pokemon.isItem( 'あつぞこブーツ' ) ) return;
     const damage: number = Math.floor( pokemon.status.hp.value.max / ( 10 - this.count * 2 ) );
     pokemon.status.hp.value.sub( Math.max( 1, damage ) );
     writeLog( `${pokemon.getArticle()}は まきびしの ダメージを受けた!` );
@@ -920,7 +1006,7 @@ class Steelsurge extends SideFieldStatus { // テキスト未検証
 
   onEffective( pokemon: Pokemon ): void {
     if ( !this.isTrue ) return;
-    if ( pokemon.item.isName( 'あつぞこブーツ' ) ) return;
+    if ( pokemon.isItem( 'あつぞこブーツ' ) ) return;
     const damage: number = Math.floor( pokemon.status.hp.value.max * pokemon.type.getCompatibility( 'Steel' ) / 8 );
     pokemon.status.hp.value.sub( Math.max( 1, damage ) );
     writeLog( `${pokemon.getArticle()}は とがった はがねが 食いこんだ!` );
@@ -1165,6 +1251,14 @@ class Field {
 
   getSide( isMine: boolean ): SideField {
     if ( isMine === this._myField._isMine ) {
+      return this._myField;
+    } else {
+      return this._opponentField;
+    }
+  }
+
+  getSideByHost( host: boolean ): SideField {
+    if ( this._myField.host === host ) {
       return this._myField;
     } else {
       return this._opponentField;

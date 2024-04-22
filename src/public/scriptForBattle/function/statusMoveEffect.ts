@@ -65,7 +65,7 @@ function statusMoveEffect( pokemon: Pokemon ): void {
 function statusMoveToUsersField( pokemon: Pokemon ): void {
 
   const usersField: SideField = main.field.getSide( pokemon.isMine() );
-  const isLightClay: boolean = pokemon.item.isName( 'ひかりのねんど' );
+  const isLightClay: boolean = pokemon.isItem( 'ひかりのねんど' );
 
   switch ( pokemon.move.selected.name ) {
     case 'Aurora Veil': // 技「オーロラベール」
@@ -701,7 +701,7 @@ function statusMoveToSelectedPokemon( pokemon: Pokemon ): void {
           break;
 
         case 'Octolock': // 技「たこがため」
-          target.stateChange.cannotEscape.onActivateOctolock( pokemon, target );
+          target.stateChange.octolock.onActivate( pokemon, target );
           break;
 
         default:

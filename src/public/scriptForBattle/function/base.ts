@@ -24,7 +24,7 @@ function drainHP( pokemon: Pokemon, target: Pokemon, drain: number ): void {
   /*
   let value: number = drain;
 
-  if ( pokemon.item.isName( 'おおきなねっこ' ) ) {
+  if ( pokemon.isItem( 'おおきなねっこ' ) ) {
     value = fiveRoundEntry( value * 5324 / 4096 );
   }
 
@@ -258,7 +258,7 @@ function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void 
 
   writeLog( `${getArticle( target )}は メロメロに なった!` );
 
-  if ( target.item.isName( 'あかいいと' ) ) {
+  if ( target.isItem( 'あかいいと' ) ) {
     attractTarget( target, pokemon, 'あかいいと' );
   }
 }
@@ -405,7 +405,7 @@ function activateSeed( pokemon: Pokemon ): void {
   ]
 
   for ( const seed of seedTable ) {
-    if ( pokemon.item.isName( seed.item ) === false ) continue;
+    if ( pokemon.isItem( seed.item ) === false ) continue;
     //if ( fieldStatus.terrain.name !== seed.terrain ) continue;
     if ( getRankVariation( pokemon, seed.parameter, 1 ) === 0 ) continue;
 
@@ -416,7 +416,7 @@ function activateSeed( pokemon: Pokemon ): void {
 
 function activateRoomService( pokemon: Pokemon ): void {
 
-  if ( pokemon.item.isName( 'ルームサービス' )  ) return;
+  if ( pokemon.isItem( 'ルームサービス' )  ) return;
   if ( fieldStatus.whole.trickRoom.isTrue === false ) return;
   if ( getRankVariation( pokemon, 'speed', -1 ) === 0 ) return;
 

@@ -5,7 +5,8 @@ class StateChangeStatus {
   move: MoveText = null;
   order = new Order( true, 0 );
   hp = new ValueWithRange();
-  protect: MoveText = null;
+  protect: MoveText = null; // まもる系統
+  strong: boolean = false; // しめつけバンド
 
   reset(): void {
     this.isTrue = false;
@@ -15,6 +16,7 @@ class StateChangeStatus {
     this.order = new Order( true, 0 );
     this.hp = new ValueWithRange();
     this.protect = null;
+    this.strong = false;
   }
 }
 
@@ -42,6 +44,94 @@ class Autotomize extends StateChangeStatus {
   }
 }
 
+class Bind extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, target: Pokemon ): void {
+
+    const getTurn = (): number => {
+      if ( pokemon.isItem( 'ねばりのかぎづめ' ) ) return 7;
+      if ( getRandom() < 50 ) return 5;
+      return 4;
+    }
+
+    this.isTrue = true;
+    this.turn.setInitial( getTurn() );
+    this.move = pokemon.move.selected.name;
+
+    if ( pokemon.isItem( 'しめつけバンド' ) ) {
+      this.strong = true;
+    }
+
+
+    switch ( pokemon.move.selected.name ) {
+      case 'Whirlpool': // 技「うずしお」
+        writeLog( `${target.getArticle()}は 渦の中に 閉じこめられた!` );
+        break;
+
+      case 'Clamp': // 技「からではさむ」
+        writeLog( `${target.getArticle()}は ${pokemon.getArticle()}の からに はさまれた!` );
+        break;
+
+      case 'Thunder Cage': // 技「サンダープリズン」
+        writeLog( `${target.getArticle()}は ${pokemon.getArticle()}に 閉じこめられた!` );
+        break;
+
+      case 'Bind': // 技「しめつける」
+        writeLog( `${target.getArticle()}は ${pokemon.getArticle()}に しめつけられた!` );
+        break;
+
+      case 'Sand Tomb': // 技「すなじごく」
+        writeLog( `${target.getArticle()}は 砂じごくに 捕らわれた!` );
+        break;
+
+      case 'Snap Trap': // 技「トラバサミ」
+        writeLog( `${target.getArticle()}は トラバサミに 捕らわれた!` );
+        break;
+
+      case 'Fire Spin': // 技「ほのおのうず」
+        writeLog( `${target.getArticle()}は 炎の渦に 閉じこめられた!` );
+        break;
+
+      case 'Wrap': // 技「まきつく」
+        writeLog( `${target.getArticle()}は ${pokemon.getArticle()}に 巻きつかれた!` );
+        break;
+
+      case 'Magma Storm': // 技「マグマストーム」
+        writeLog( `${target.getArticle()}は マグマの渦に 閉じこめられた!` );
+        break;
+
+      case 'Infestation': // 技「まとわりつく」
+        writeLog( `${target.getArticle()}は ${pokemon.getArticle()}に まとわりつかれた!` );
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+
+    const getDamage = (): number => {
+      if ( this.strong ) {
+        return Math.floor( pokemon.getOrgHP() / 6 );
+      } else {
+        return Math.floor( pokemon.getOrgHP() / 8 );
+      }
+    }
+
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      writeLog( `${pokemon.getArticle()}は ${this.move}から 解放された!` );
+      this.reset();
+      return;
+    }
+
+    pokemon.status.hp.value.sub( Math.max( 1, getDamage() ) );
+    writeLog( `${pokemon.getArticle()}は ${this.move}の ダメージを 受けている` );
+  }
+}
+
 class CannotEscape extends StateChangeStatus {
 
   octolock: boolean = false;
@@ -53,11 +143,9 @@ class CannotEscape extends StateChangeStatus {
     writeLog( `${target.getArticle()}は もう 逃げられない!` );
   }
 
-  onActivateOctolock( pokemon: Pokemon, target: Pokemon ): void {
+  onActivateNoMessage( pokemon: Pokemon ): void {
     this.isTrue = true;
     this.order = new Order( pokemon.order.isMe, pokemon.order.hand );
-    this.octolock = true;
-    writeLog( `${target.getArticle()}は たこがためで 逃げられなくなった!` )
   }
 
   onActivateNoRetreat( pokemon: Pokemon, target: Pokemon ): void {
@@ -131,6 +219,28 @@ class Electrify extends StateChangeStatus {
   }
 }
 
+class Embargo extends StateChangeStatus {
+
+  constructor() {
+    super();
+    this.turn = new ValueWithRange( 5, 0 );
+  }
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は 道具が 使えなくなった! ` );
+  }
+
+  onElapse( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${pokemon.getArticle()}は 道具が 使えるようになった! ` );
+    }
+  }
+}
+
 class Encore extends StateChangeStatus {
 
   constructor() {
@@ -149,7 +259,7 @@ class Encore extends StateChangeStatus {
     this.turn.sub( 1 );
     if ( this.turn.isZero() ) {
       this.reset();
-      // writeLog( `${pokemon.getArticle()}の アンコールが 解けた! ` );
+      writeLog( `${pokemon.getArticle()}の アンコール状態が 解けた! ` );
     }
   }
 }
@@ -202,11 +312,6 @@ class HealBlock extends StateChangeStatus {
 }
 
 class HelpingHand extends StateChangeStatus {
-
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 5, 0 );
-  }
 
   onActivate( pokemon: Pokemon, target: Pokemon ): void {
     this.isTrue = true;
@@ -291,9 +396,23 @@ class MagicCoat extends StateChangeStatus {
 
 class MagnetRise extends StateChangeStatus {
 
+  constructor() {
+    super();
+    this.turn = new ValueWithRange( 5, 0 );
+  }
+
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
     writeLog( `${pokemon.getArticle()}は 電磁力で 浮かびあがった!` );
+  }
+
+  onElapse( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${pokemon.getArticle()}の 電磁力が なくなった! ` );
+    }
   }
 }
 
@@ -320,6 +439,24 @@ class NoAbility extends StateChangeStatus {
   }
 }
 
+class Octolock extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, target: Pokemon ): void {
+    this.isTrue = true;
+    this.order = new Order( pokemon.order.isMe, pokemon.order.hand );
+    writeLog( `${target.getArticle()}は たこがためで 逃げられなくなった!` );
+
+    target.stateChange.cannotEscape.onActivateNoMessage( pokemon );
+  }
+
+  onEffective( pokemon: Pokemon ):void {
+    if ( !this.isTrue ) return;
+    const target: Pokemon = main.getPokemonByOrder( this.order );
+    pokemon.changeRankByOther( 'def', -1, target );
+    pokemon.changeRankByOther( 'spD', -1, target );
+  }
+}
+
 class PerishSong extends StateChangeStatus {
 
   constructor() {
@@ -329,6 +466,17 @@ class PerishSong extends StateChangeStatus {
 
   onActivate(): void {
     this.isTrue = true;
+  }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    writeLog( `${pokemon.getArticle()}の 滅びのカウントが ${this.turn.value}になった!` );
+    this.turn.sub( 1 );
+
+    if ( this.turn.isZero() ) {
+      this.reset();
+      pokemon.status.hp.value.toZero();
+    }
   }
 }
 
@@ -346,6 +494,29 @@ class Protect extends StateChangeStatus {
     this.isTrue = true;
     this.protect = move;
     writeLog( `${pokemon.getArticle()}は 守りの 体勢に 入った!` );
+  }
+}
+
+class SaltCure extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}は しおづけに なった!` );
+  }
+
+  onEffective( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+
+    const damage = (): number => {
+      if ( pokemon.type.has( 'Water' ) || pokemon.type.has( 'Steel' ) ) {
+        return Math.floor( pokemon.getOrgHP() / 4 );
+      } else {
+        return Math.floor( pokemon.getOrgHP() / 8 );
+      }
+    }
+
+    pokemon.status.hp.value.sub( Math.max( 1, damage() ) );
+    writeLog( `${pokemon.getArticle()}は しおづけの ダメージを 受けている` );
   }
 }
 
@@ -408,6 +579,53 @@ class Taunt extends StateChangeStatus {
   }
 }
 
+class Telekinesis extends StateChangeStatus {
+
+  constructor() {
+    super();
+    this.turn = new ValueWithRange( 3, 0 );
+  }
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    writeLog( `${pokemon.getArticle()}を 宙に 浮かせた!` );
+  }
+
+  onElapse( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${pokemon.getArticle()}は テレキネシスから 解放された! ` );
+    }
+  }
+}
+
+class Torment extends StateChangeStatus {
+
+  constructor() {
+    super();
+    this.turn = new ValueWithRange( 3, 0 );
+  }
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    this.move = pokemon.move.selected.name;
+    writeLog( `${pokemon.getArticle()}は いちゃもんを つけられた!` );
+  }
+
+  onElapse( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    // if ( pokemon.move.selected.name !== 'G-Max Meltdown' ) return; // 技「キョダイユウゲキ」
+
+    this.turn.sub( 1 );
+    if ( this.turn.isZero() ) {
+      this.reset();
+      writeLog( `${pokemon.getArticle()}の いちゃもんの 効果が切れた! ` );
+    }
+  }
+}
+
 
 
 
@@ -415,12 +633,14 @@ class StateChangeSummary {
 
   aquaRing     = new AquaRing();     // アクアリング
   autotomize   = new Autotomize();   // ボディパージ
+  bind         = new Bind();         // バインド
   cannotEscape = new CannotEscape(); // にげられない
   charge       = new Charge();       // じゅうでん
   curse        = new Curse();        // のろい
   destinyBond  = new DestinyBond();  // みちづれ
   disable      = new Disable();      // かなしばり
   electrify    = new Electrify();    // そうでん
+  embargo      = new Embargo();      // さしおさえ
   encore       = new Encore();       // アンコール
   endure       = new Endure();       // こらえる
   focusEnergy  = new FocusEnergy();  // きゅうしょアップ
@@ -436,25 +656,29 @@ class StateChangeSummary {
   magnetRise   = new MagnetRise();   // でんじふゆう
   nightmare    = new Nightmare();    // あくむ
   noAbility    = new NoAbility();    // とくせいなし
+  octolock     = new Octolock();     // たこがため
   perishSong   = new PerishSong();   // ほろびのうた
   powder       = new Powder();       // ふんじん
   protect      = new Protect();      // まもる
+  saltCure     = new SaltCure();     // しおづけ
   spotlight    = new Spotlight();    // ちゅうもくのまと
   stockpile    = new Stockpile();    // たくわえる
   substitute   = new Substitute();   // みがわり
   tarShot      = new TarShot();      // タールショット
   taunt        = new Taunt();        // ちょうはつ
+  telekinesis  = new Telekinesis();  // テレキネシス
+  torment      = new Torment();      // いちゃもん
 
   _flinch: StateChange; // ひるみ
-  _bind: StateChange; // バインド
+
   _attract: Attract; // メロメロ
   _yawn: StateChange; // ねむけ
-  _embargo: StateChange; //さしおさえ
-  _torment: StateChange; // いちゃもん
+
+
   _foresight: StateChange; // みやぶられている
   _miracleEye: StateChange; // ミラクルアイ
   _smackDown: StateChange; // うちおとす
-  _telekinesis: StateChange; // テレキネシス
+
   _throatChop: StateChange; // じごくづき
   /*
   ハロウィン
@@ -519,15 +743,11 @@ class StateChangeSummary {
 
   constructor() {
     this._flinch = new StateChange();
-    this._bind = new StateChange();
     this._attract = new Attract();
     this._yawn = new StateChange();
-    this._embargo = new StateChange();
-    this._torment = new StateChange();
     this._foresight = new StateChange();
     this._miracleEye = new StateChange();
     this._smackDown = new StateChange();
-    this._telekinesis = new StateChange();
     this._throatChop = new StateChange();
     this._saltCure = new StateChange();
 
@@ -569,20 +789,11 @@ class StateChangeSummary {
   set flinch( flinch: StateChange ) {
     this._flinch = flinch;
   }
-  set bind( bind: StateChange ) {
-    this._bind = bind;
-  }
   set attract( attract: Attract ) {
     this._attract = attract;
   }
   set yawn( yawn: StateChange ) {
     this._yawn = yawn;
-  }
-  set embargo( embargo: StateChange ) {
-    this._embargo = embargo;
-  }
-  set torment( torment: StateChange ) {
-    this._torment = torment;
   }
   set foresight( foresight: StateChange ) {
     this._foresight = foresight;
@@ -593,14 +804,8 @@ class StateChangeSummary {
   set smackDown( smackDown: StateChange ) {
     this._smackDown = smackDown;
   }
-  set telekinesis( telekinesis: StateChange ) {
-    this._telekinesis = telekinesis;
-  }
   set throatChop( throatChop: StateChange ) {
     this._throatChop = throatChop;
-  }
-  set saltCure( saltCure: StateChange ) {
-    this._saltCure = saltCure;
   }
   set minimize( minimize: StateChange ) {
     this._minimize = minimize;
@@ -702,20 +907,11 @@ class StateChangeSummary {
   get flinch(): StateChange {
     return this._flinch;
   }
-  get bind(): StateChange {
-    return this._bind;
-  }
   get attract(): Attract {
     return this._attract;
   }
   get yawn(): StateChange {
     return this._yawn;
-  }
-  get embargo(): StateChange {
-    return this._embargo;
-  }
-  get torment(): StateChange {
-    return this._torment;
   }
   get foresight(): StateChange {
     return this._foresight;
@@ -726,14 +922,8 @@ class StateChangeSummary {
   get smackDown(): StateChange {
     return this._smackDown;
   }
-  get telekinesis(): StateChange {
-    return this._telekinesis;
-  }
   get throatChop(): StateChange {
     return this._throatChop;
-  }
-  get saltCure(): StateChange {
-    return this._saltCure;
   }
   get minimize(): StateChange {
     return this._minimize;

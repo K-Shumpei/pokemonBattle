@@ -16,38 +16,30 @@ function endProcess(): void {
   endProcessBurned(); // やけど
   endProcessNightmare(); // あくむ
   endProcessCurse(); // のろい
-  // バインド
-  // たこがため
-  // しおづけ
-  // ちょうはつの終了
-  // いちゃもんの終了: キョダイユウゲキによるいちゃもん状態のみターン経過で解除される
-  // アンコールの終了
-  // かなしばりの終了
-  // でんじふゆうの終了
-  // テレキネシスの終了
-  // かいふくふうじの終了
-  // さしおさえの終了
+  endProcessBind(); // バインド
+  endProcessOctolock(); // たこがため
+  endProcessSaltCure(); // しおづけ
+  endProcessTaunt(); // ちょうはつの終了
+  endProcessTorment(); // いちゃもんの終了: キョダイユウゲキによるいちゃもん状態のみターン経過で解除される
+  endProcessEncore(); // アンコールの終了
+  endProcessDisable(); // かなしばりの終了
+  endProcessMagnetRise(); // でんじふゆうの終了
+  endProcessTelekinesis(); // テレキネシスの終了
+  endProcessHealBlock(); // かいふくふうじの終了
+  endProcessEmbargo(); // さしおさえの終了
   // ねむけ
-  // ほろびのうた
+  endProcessPerishSong(); // ほろびのうた
+  // はねやすめを使用していたひこうタイプは地面から離れる
+  // ききかいひ/にげごしによる交代先の選択・繰り出し (3)
+  endProcessElapseSideField(); // 片側の場の状態の継続/終了
+  endProcessElapseWholeField(); // 全体の場の状態の継続/終了
+  endProcessEventBlock2nd(); // イベントブロック (その2
 }
 
 function endProcessWeatherEffect(): void {
 
   const weatherDamage = ( pokemon: Pokemon ): void => {
-    if ( !main.field.weather.isSandy() ) return;
-    if ( pokemon.ability.isName( 'Overcoat' ) ) return; // 特性「ぼうじん」
-    if ( pokemon.item.isName( 'ぼうじんゴーグル' ) ) return;
-    if ( pokemon.stateChange.dig.isTrue ) return;
-    if ( pokemon.stateChange.dive.isTrue ) return;
-    if ( pokemon.type.has( 'Rock' ) ) return;
-    if ( pokemon.type.has( 'Ground' ) ) return;
-    if ( pokemon.type.has( 'Steel' ) ) return;
-    if ( pokemon.ability.isName( 'Sand Veil' ) ) return; // 特性「すながくれ」
-    if ( pokemon.ability.isName( 'Sand Rush' ) ) return; // 特性「すなかき」
-    if ( pokemon.ability.isName( 'Sand Force' ) ) return; // 特性「すなのちから」
-
-    pokemon.msgSandstorm();
-    pokemon.status.hp.value.sub( Math.max( Math.floor( pokemon.getOrgHP() / 16 ), 1 ) )
+    main.field.weather.onActivateSandstorm( pokemon );
   }
 
   const activateAbility = ( pokemon: Pokemon ): void => {
@@ -123,7 +115,7 @@ function endProcessEventBlock1st(): void {
     }
 
     if ( pokemon.ability.isName( 'Shed Skin' ) ) { // 特性「だっぴ」
-      if ( getRandom() < 0.3 && !pokemon.statusAilment.isHealth() ) {
+      if ( getRandom() < 30 && !pokemon.statusAilment.isHealth() ) {
         pokemon.msgDeclareAbility();
         pokemon.statusAilment.getHealth();
       }
@@ -138,12 +130,12 @@ function endProcessEventBlock1st(): void {
     const HP_8: number = Math.floor( pokemon.getOrgHP() / 8 );
     const HP_16: number = Math.floor( pokemon.getOrgHP() / 16 );
 
-    if ( pokemon.item.isName( 'たべのこし' ) ) {
+    if ( pokemon.isItem( 'たべのこし' ) ) {
       pokemon.status.hp.value.add( Math.max( 1, HP_16 ) );
       writeLog( `${pokemon.getArticle()}は たべのこしで 少し 回復` );
     }
 
-    if ( pokemon.item.isName( 'くろいヘドロ' ) ) {
+    if ( pokemon.isItem( 'くろいヘドロ' ) ) {
       if ( pokemon.type.has( 'Poison' ) ) {
         pokemon.status.hp.value.add( Math.max( 1, HP_8 ) );
       } else {
@@ -202,5 +194,128 @@ function endProcessNightmare(): void {
 function endProcessCurse(): void {
   for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
     pokemon.stateChange.curse.onEffective( pokemon );
+  }
+}
+
+function endProcessBind(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.bind.onEffective( pokemon );
+  }
+}
+
+function endProcessOctolock(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.octolock.onEffective( pokemon );
+  }
+}
+
+function endProcessSaltCure(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.saltCure.onEffective( pokemon );
+  }
+}
+
+function endProcessTaunt(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.taunt.onElapse( pokemon );
+  }
+}
+
+function endProcessTorment(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.torment.onElapse( pokemon );
+  }
+}
+
+function endProcessEncore(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.encore.onElapse( pokemon );
+  }
+}
+
+function endProcessDisable(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.disable.onElapse( pokemon );
+  }
+}
+
+function endProcessMagnetRise(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.magnetRise.onElapse( pokemon );
+  }
+}
+
+function endProcessTelekinesis(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.telekinesis.onElapse( pokemon );
+  }
+}
+
+function endProcessHealBlock(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.healBlock.onElapse( pokemon );
+  }
+}
+
+function endProcessEmbargo(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.embargo.onElapse( pokemon );
+  }
+}
+
+function endProcessPerishSong(): void {
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+    pokemon.stateChange.perishSong.onEffective( pokemon );
+  }
+}
+
+function endProcessElapseSideField(): void {
+  // ホスト側の状態が先にすべて解除された後に、ホストでない側の状態が解除される。
+  // コートチェンジされていても関係なくホスト側から消える。
+  const hostField: SideField = main.field.getSideByHost( true );
+  const guestField: SideField = main.field.getSideByHost( false );
+
+  for ( const field of [ hostField, guestField ] ) {
+    field.reflect.onElapse();     // a. リフレクター
+    field.lightScreen.onElapse(); // b. ひかりのかべ
+    field.auroraVeil.onElapse();  // c. しんぴのまもり
+    field.mist.onElapse();        // d. しろいきり
+    field.tailwind.onElapse();    // e. おいかぜ
+    field.luckyChant.onElapse();  // f. おまじない
+    field.rainbow.onElapse();     // g. にじ
+    field.seaOfFire.onElapse();   // h. ひのうみ
+    field.wetlands.onElapse();    // i. しつげん
+    field.auroraVeil.onElapse();  // j. オーロラベール
+  }
+}
+
+function endProcessElapseWholeField(): void {
+  main.field.whole.trickRoom.onElapse();  // a. トリックルーム
+  main.field.whole.gravity.onElapse();    // b. じゅうりょく
+  main.field.whole.waterSport.onElapse(); // c. みずあそび
+  main.field.whole.magicRoom.onElapse();  // d. どろあそび
+  main.field.whole.wonderRoom.onElapse(); // e. ワンダールーム
+  main.field.whole.magicRoom.onElapse();  // f. マジックルーム
+  main.field.terrain.onElapse();          // g. エレキフィールド/グラスフィールド/ミストフィールド/サイコフィールド
+}
+
+function endProcessEventBlock2nd(): void {
+
+  const item2nd = ( pokemon: Pokemon ): void => {
+    if ( pokemon.isItem( 'くっつきバリ' ) ) {
+      const damage: number = Math.floor( pokemon.getOrgHP() / 8 );
+      pokemon.status.hp.value.sub( Math.max( 1, damage ) );
+      writeLog( `` );
+    }
+  }
+
+  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+
+    // a. さわぐ
+    // b. ねむりによるあばれるの中断
+    // c. かそく/ムラっけ/スロースタート/ナイトメア/はんすう
+    item2nd( pokemon ); // d. くっつきバリ/どくどくだま/かえんだま
+    // e. ものひろい/しゅうかく/たまひろい
+    // f. しろいハーブ
   }
 }

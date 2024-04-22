@@ -25,7 +25,7 @@ function getFixedDamage( pokemon: Pokemon, target: Pokemon ): number {
       return 40;
 
     case 'Seismic Toss': // 技「ちきゅうなげ」
-    case 'Night Shade':  // 技「ナイトヘッド」
+    case 'Night Shade': // 技「ナイトヘッド」
       return pokemon.level;
 
     case 'Psywave': // 技「サイコウェーブ」
@@ -213,7 +213,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
 
     if ( move.name === 'Natural Gift' ) { // 技「しぜんのめぐみ」
       for ( const berry of berryTable ) {
-        if ( pokemon.item.isName( berry.name ) === true ) {
+        if ( pokemon.isItem( berry.name ) === true ) {
           return berry.naturalGift.power;
         }
       }
@@ -487,49 +487,49 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
       }
     }
 
-    if ( pokemon.item.isName( 'ちからのハチマキ' ) ) {
+    if ( pokemon.isItem( 'ちからのハチマキ' ) ) {
       if ( move.isPhysical() ) {
         correction = Math.round( correction * 4505 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'ものしりメガネ' ) ) {
+    if ( pokemon.isItem( 'ものしりメガネ' ) ) {
       if ( move.isSpecial() ) {
         correction = Math.round( correction * 4505 / 4096 );
       }
     }
 
     for ( const plate of plateTable ) {
-      if ( pokemon.item.isName( plate.name ) && move.type === plate.type ) {
+      if ( pokemon.isItem( plate.name ) && move.type === plate.type ) {
         correction = Math.round( correction * 4915 / 4096 );
       }
     }
 
     for ( const incense of incenseTable ) {
-      if ( pokemon.item.isName( incense.name ) && move.type === incense.type ) {
+      if ( pokemon.isItem( incense.name ) && move.type === incense.type ) {
         correction = Math.round( correction * 4915 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'こころのしずく' ) ) {
+    if ( pokemon.isItem( 'こころのしずく' ) ) {
       if ( ( pokemon.name === 'Latias' || pokemon.name === 'Latios' ) && ( move.type === 'Dragon' || move.type === 'Psychic' ) && !pokemon.stateChange.transform.isTrue ) {
         correction = Math.round( correction * 4915 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'こんごうだま' ) ) {
+    if ( pokemon.isItem( 'こんごうだま' ) ) {
       if ( pokemon.name === 'Dialga' && ( move.type === 'Steel' || move.type === 'Dragon' ) && !pokemon.stateChange.transform.isTrue ) {
         correction = Math.round( correction * 4915 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'しらたま' ) ) {
+    if ( pokemon.isItem( 'しらたま' ) ) {
       if ( pokemon.name === 'Palkia' && ( move.type === 'Water' || move.type === 'Dragon' ) && !pokemon.stateChange.transform.isTrue ) {
         correction = Math.round( correction * 4915 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'はっきんだま' ) ) {
+    if ( pokemon.isItem( 'はっきんだま' ) ) {
       if ( ( pokemon.name === 'Giratina Altered' || pokemon.name === 'Giratina Origin' ) && ( move.type === 'Steel' || move.type === 'Dragon' ) && !pokemon.stateChange.transform.isTrue ) {
         correction = Math.round( correction * 4915 / 4096 );
       }
@@ -856,31 +856,31 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
       }
     }
 
-    if ( pokemon.item.isName( 'こだわりハチマキ' ) ) {
+    if ( pokemon.isItem( 'こだわりハチマキ' ) ) {
       if ( pokemon.move.selected.isPhysical() ) {
         correction = Math.round( correction * 6144 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'こだわりメガネ' ) ) {
+    if ( pokemon.isItem( 'こだわりメガネ' ) ) {
       if ( pokemon.move.selected.isSpecial() ) {
         correction = Math.round( correction * 6144 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'ふといホネ' ) ) {
+    if ( pokemon.isItem( 'ふといホネ' ) ) {
       if ( ( pokemon.name === 'Cubone' || pokemon.name === 'Marowak' || pokemon.name === 'Marowak Alola' ) && pokemon.move.selected.isPhysical() ) {
         correction = Math.round( correction * 8192 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'しんかいのキバ' ) ) {
+    if ( pokemon.isItem( 'しんかいのキバ' ) ) {
       if ( pokemon.name === 'Clamperl' && pokemon.move.selected.isSpecial() ) {
         correction = Math.round( correction * 8192 / 4096 );
       }
     }
 
-    if ( pokemon.item.isName( 'でんきだま' ) ) {
+    if ( pokemon.isItem( 'でんきだま' ) ) {
       if ( pokemon.name === 'Pikachu' ) {
         correction = Math.round( correction * 8192 / 4096 );
       }
@@ -971,19 +971,19 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
       }
     }
 
-    if ( target.item.isName( 'とつげきチョッキ' ) ) {
+    if ( target.isItem( 'とつげきチョッキ' ) ) {
       if ( pokemon.move.selected.isSpecial() ) {
         correction = Math.round( correction * 6144 / 4096 );
       }
     }
 
-    if ( target.item.isName( 'しんかいのウロコ' ) ) {
+    if ( target.isItem( 'しんかいのウロコ' ) ) {
       if ( target.name === 'Clamperl' && pokemon.move.selected.isSpecial() ) {
         correction = Math.round( correction * 8192 / 4096 );
       }
     }
 
-    if ( target.item.isName( 'メタルパウダー' ) ) {
+    if ( target.isItem( 'メタルパウダー' ) ) {
       if ( target.name === 'Ditto' && pokemon.move.selected.isPhysical() ) {
         correction = Math.round( correction * 8192 / 4096 );
       }
@@ -1156,24 +1156,24 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
   }
 
   // たつじんのおび補正
-  if ( pokemon.item.isName( 'たつじんのおび' ) ) {
+  if ( pokemon.isItem( 'たつじんのおび' ) ) {
     if ( attack.effective > 1 ) {
       corrM = Math.round( corrM * 4915 / 4096 );
     }
   }
 
   // いのちのたま補正
-  if ( pokemon.item.isName( 'いのちのたま' ) ) {
+  if ( pokemon.isItem( 'いのちのたま' ) ) {
     corrM = Math.round( corrM * 5324 / 4096 );
   }
 
   // 半減の実補正
   let isHalfBerry: boolean = false;
-  if ( target.item.isName( 'ホズのみ' ) && pokemon.move.selected.type === 'Normal' ) {
+  if ( target.isItem( 'ホズのみ' ) && pokemon.move.selected.type === 'Normal' ) {
     isHalfBerry = true;
   }
   for ( const berry of berryTable ) {
-    if ( target.item.isName( berry.name ) && berry.half === pokemon.move.selected.type && attack.effective > 1 ) {
+    if ( target.isItem( berry.name ) && berry.half === pokemon.move.selected.type && attack.effective > 1 ) {
       isHalfBerry = true;
     }
   }

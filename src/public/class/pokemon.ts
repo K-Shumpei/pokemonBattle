@@ -156,7 +156,7 @@ class Attack {
     const rate = ( comp: TypeCompatibilityType, defType: PokemonType ): number => {
       const rate = comp.rate.filter( r => r.defType === defType )[0].rate;
 
-      if ( rate === 0.0 && target.item.isName( 'ねらいのまと' ) ) {
+      if ( rate === 0.0 && target.isItem( 'ねらいのまと' ) ) {
         return 1.0;
       }
       if ( move.name === 'Freeze-Dry' && defType === 'Water' ) { // 技「フリーズドライ」
@@ -416,11 +416,9 @@ class Item {
   isNull(): boolean {
     return this.name === null;
   }
-  isValid(): boolean {
-    return true;
-  }
+
   isName( name: string ): boolean {
-    return this.isValid() && this.name === name;
+    return this.name === name;
   }
   isBerry(): boolean {
     // return this._name ===
@@ -785,6 +783,22 @@ class Pokemon {
     return this._order.isMe;
   }
 
+  //-----------
+  // 有効化どうか
+  //-----------
+  isAbility( ability: AbilityText ): boolean {
+    if ( !this.ability.isName( ability ) ) return false;
+    if ( this.stateChange.noAbility.isTrue ) return false;
+    return true;
+  }
+
+  isItem( item: string ): boolean {
+    if ( !this.item.isName( item ) ) return false;
+    if ( this.stateChange.embargo.isTrue ) return false;
+    if ( main.field.whole.magicRoom.isTrue ) return false;
+    return true;
+  }
+
   //----------
   // メッセージ
   //----------
@@ -1086,38 +1100,7 @@ class Pokemon {
   msgRecoil(): void {
     writeLog( `${this.getArticle()}は 反動による ダメージを 受けた!` );
   }
-  msgBind( targetName: string ): void {
-    if ( this._move.selected.name === 'Whirlpool' ) { // 技「うずしお」
-      writeLog( `${this.getArticle()}は 渦の中に 閉じこめられた!` );
-    }
-    if ( this._move.selected.name === 'Clamp' ) { // 技「からではさむ」
-      writeLog( `${this.getArticle()}は ${targetName}の からに はさまれた!` );
-    }
-    if ( this._move.selected.name === 'Thunder Cage' ) { // 技「サンダープリズン」
-      writeLog( `${this.getArticle()}は ${targetName}に 閉じこめられた!` );
-    }
-    if ( this._move.selected.name === 'Bind' ) { // 技「しめつける」
-      writeLog( `${this.getArticle()}は ${targetName}に しめつけられた!` );
-    }
-    if ( this._move.selected.name === 'Sand Tomb' ) { // 技「すなじごく」
-      writeLog( `${this.getArticle()}は 砂じごくに 捕らわれた!` );
-    }
-    if ( this._move.selected.name === 'Snap Trap' ) { // 技「トラバサミ」
-      writeLog( `${this.getArticle()}は トラバサミに 捕らわれた!` );
-    }
-    if ( this._move.selected.name === 'Fire Spin' ) { // 技「ほのおのうず」
-      writeLog( `${this.getArticle()}は 炎の渦に 閉じこめられた!` );
-    }
-    if ( this._move.selected.name === 'Wrap' ) { // 技「まきつく」
-      writeLog( `${this.getArticle()}は ${targetName}に 巻きつかれた!` );
-    }
-    if ( this._move.selected.name === 'Magma Storm' ) { // 技「マグマストーム」
-      writeLog( `${this.getArticle()}は マグマの渦に 閉じこめられた!` );
-    }
-    if ( this._move.selected.name === 'Infestation' ) { // 技「まとわりつく」
-      writeLog( `${this.getArticle()}は ${targetName}に まとわりつかれた!` );
-    }
-  }
+
   msgKnockOff( targetName: string, targetItem: string ): void {
     writeLog( `${this.getArticle()}は ${targetName}の ${targetItem}を はたき落とした!` );
   }
@@ -1158,9 +1141,7 @@ class Pokemon {
   msgAddHPByItem( item: string ): void {
     writeLog( `${this.getArticle()}は ${item}で 体力を 回復した!` );
   }
-  msgSandstorm(): void {
-    writeLog( `砂あらしが ${this.getArticle()}を 襲う!` );
-  }
+
 
 
   msgCureConfuse(): void {
@@ -1528,7 +1509,7 @@ class Pokemon {
     this._stateChange.attract.beTrue( other.order );
     this.msgAttract();
 
-    if ( !this._item.isName( 'あかいいと' ) ) return;
+    if ( !this.isItem( 'あかいいと' ) ) return;
     if ( !other.isGetAttract( this ) ) return;
 
     other.getAttract( this );
@@ -1768,7 +1749,7 @@ class Pokemon {
     if ( target.status.hp.value.isZero() ) return false;
     if ( attack.substitute ) return false ;
     if ( target.ability.isName( 'Shield Dust' ) ) return false; // 特性「りんぷん」
-    if ( target.item.isName( 'おんみつマント' ) ) return false;
+    if ( target.isItem( 'おんみつマント' ) ) return false;
 
     return true;
   }
@@ -1822,7 +1803,7 @@ class Pokemon {
     if ( this._ability.isName( 'Heavy Metal' ) ) { // 特性「ヘヴィメタル」
       weight = weight * 2;
     }
-    if ( this._item.isName( 'かるいし' ) ) {
+    if ( this.isItem( 'かるいし' ) ) {
       weight = weight - 100;
     }
 
@@ -1838,11 +1819,11 @@ class Pokemon {
     if ( this._stateChange.ingrain.isTrue === true ) return true;
     if ( this._stateChange.smackDown.isTrue === true ) return true;
     if ( main.field.whole.gravity.isTrue === true ) return true;
-    if ( this._item.isName( 'くろいてっきゅう' ) ) return true;
+    if ( this.isItem( 'くろいてっきゅう' ) ) return true;
 
     if ( this._type.has( 'Flying' ) ) return false;
     if ( this._ability.isName( 'Levitate' ) ) return false; // 特性「ふゆう」
-    if ( this._item.isName( 'ふうせん' ) ) return false;
+    if ( this.isItem( 'ふうせん' ) ) return false;
     if ( this._stateChange.magnetRise.isTrue ) return false;
     if ( this._stateChange.telekinesis.isTrue ) return false;
 
