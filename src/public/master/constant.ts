@@ -563,12 +563,6 @@ const meltMoveList: string[] = [
   'もえつきる'
 ]
 
-// ねむり状態でも使用可能な技
-const sleepingMoveList: string[] = [
-  'いびき',
-  'ねごと'
-]
-
 // 重力で使えなくなるわざ
 const flyingMoveList: string[] = [
   'はねる',

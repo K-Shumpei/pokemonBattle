@@ -278,6 +278,30 @@ class Status {
     this.acc.value *= -1;
     this.eva.value *= -1;
   }
+
+  getNotMaxRank(): RankStrings[] {
+    const result: RankStrings[] = [];
+    if ( !this.atk.rank.isMax() ) result.push( 'atk' );
+    if ( !this.def.rank.isMax() ) result.push( 'def' );
+    if ( !this.spA.rank.isMax() ) result.push( 'spA' );
+    if ( !this.spD.rank.isMax() ) result.push( 'spD' );
+    if ( !this.spe.rank.isMax() ) result.push( 'spe' );
+    if ( !this.acc.isMax() ) result.push( 'acc' );
+    if ( !this.eva.isMax() ) result.push( 'eva' );
+    return result;
+  }
+
+  getNotMinRank(): RankStrings[] {
+    const result: RankStrings[] = [];
+    if ( !this.atk.rank.isMin() ) result.push( 'atk' );
+    if ( !this.def.rank.isMin() ) result.push( 'def' );
+    if ( !this.spA.rank.isMin() ) result.push( 'spA' );
+    if ( !this.spD.rank.isMin() ) result.push( 'spD' );
+    if ( !this.spe.rank.isMin() ) result.push( 'spe' );
+    if ( !this.acc.isMin() ) result.push( 'acc' );
+    if ( !this.eva.isMin() ) result.push( 'eva' );
+    return result;
+  }
 }
 
 
@@ -337,7 +361,7 @@ class HitPointValue extends ValueWithRange {
 // 攻撃・防御・特攻・特防・素早さ
 // -------------------------
 class MainStatus extends ActualWithThreeValue {
-  value: number = 0;
+  rankCorrVal: number = 0;
   rank: Rank;
 
   constructor( text: string ) {
@@ -348,7 +372,7 @@ class MainStatus extends ActualWithThreeValue {
   calcRankCorrValue( critical: boolean ): void {
     const rank: number = ( critical )? Math.max( this.rank.value, 0 ) : this.rank.value;
     const corr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
-    this.value = Math.floor( this.av * corr );
+    this.rankCorrVal = Math.floor( this.av * corr );
   }
 
   calcAct( level: number, corr: number ): void {
@@ -373,10 +397,10 @@ class Speed extends MainStatus {
     // ランク補正値の計算
     const rank: number = this.rank.value;
     const rankCorr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
-    this.value = Math.floor( this.av * rankCorr );
+    this.rankCorrVal = Math.floor( this.av * rankCorr );
 
     // 各種補正
-    const corr1: number = fiveRoundEntry( this.value * corr / 4096 )
+    const corr1: number = fiveRoundEntry( this.rankCorrVal * corr / 4096 )
     const corr2: number = Math.floor( corr1 * paralysis )
     this.forPowerCalc = Math.min( 10000, corr2 );
 
@@ -417,37 +441,39 @@ class Rank extends ValueWithRange {
     if ( real === -2 ) this.msgSuperDown( name, item );
     if ( real >= 3 ) this.msgHyperUp( name, item );
     if ( real <= -3 ) this.msgHyperDown( name, item );
+
+
   }
 
   msgNoUp( name: string ): void {
-    writeLog( `${name}の ${this._text}は もう上がらない!` );
+    battleLog.write( `${name}の ${this._text}は もう上がらない!` );
   }
   msgNoDown( name: string ): void {
-    writeLog( `${name}の ${this._text}は もう下がらない!` );
+    battleLog.write( `${name}の ${this._text}は もう下がらない!` );
   }
   msgUp( name: string, item?: string ): void {
-    if ( item ) writeLog( `${name}は ${item}で ${this._text}が 上がった!` );
-    else writeLog( `${name}の ${this._text}が 上がった!` );
+    if ( item ) battleLog.write( `${name}は ${item}で ${this._text}が 上がった!` );
+    else battleLog.write( `${name}の ${this._text}が 上がった!` );
   }
   msgDown( name: string, item?: string ): void {
-    if ( item ) writeLog( `${name}は ${item}で ${this._text}が 下がった!` );
-    else writeLog( `${name}の ${this._text}が 下がった!` );
+    if ( item ) battleLog.write( `${name}は ${item}で ${this._text}が 下がった!` );
+    else battleLog.write( `${name}の ${this._text}が 下がった!` );
   }
   msgSuperUp( name: string, item?: string ): void {
-    if ( item ) writeLog( `${name}は ${item}で ${this._text}が ぐーんと上がった!` );
-    else writeLog( `${name}の ${this._text}が ぐーんと上がった!` );
+    if ( item ) battleLog.write( `${name}は ${item}で ${this._text}が ぐーんと上がった!` );
+    else battleLog.write( `${name}の ${this._text}が ぐーんと上がった!` );
   }
   msgSuperDown( name: string, item?: string ): void {
-    if ( item ) writeLog( `${name}は ${item}で ${this._text}が がくっと下がった!` );
-    else writeLog( `${name}の ${this._text}が がくっと下がった!` );
+    if ( item ) battleLog.write( `${name}は ${item}で ${this._text}が がくっと下がった!` );
+    else battleLog.write( `${name}の ${this._text}が がくっと下がった!` );
   }
   msgHyperUp( name: string, item?: string ): void {
-    if ( item ) writeLog( `${name}は ${item}で ${this._text}が ぐぐーんと上がった!` );
-    else writeLog( `${name}の ${this._text}が ぐぐーんと上がった!` );
+    if ( item ) battleLog.write( `${name}は ${item}で ${this._text}が ぐぐーんと上がった!` );
+    else battleLog.write( `${name}の ${this._text}が ぐぐーんと上がった!` );
   }
   msgHyperDown( name: string, item?: string ): void {
-    if ( item ) writeLog( `${name}は ${item}で ${this._text}が がくーんと下がった!` );
-    else writeLog( `${name}の ${this._text}が がくーんと下がった!` );
+    if ( item ) battleLog.write( `${name}は ${item}で ${this._text}が がくーんと下がった!` );
+    else battleLog.write( `${name}の ${this._text}が がくーんと下がった!` );
   }
 
   useWhiteHerb(): boolean {

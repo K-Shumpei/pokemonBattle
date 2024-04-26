@@ -53,6 +53,13 @@ class Move {
     this._learned[2].showCommand1st( battleOrder );
     this._learned[3].showCommand1st( battleOrder );
   }
+
+  isNoPPLeft(): boolean {
+    if ( !this.learned[this.selected.slot].powerPoint.isZero() ) return false;
+    //battleLog.write( `${this.pokeName}の ${this.selected.translate()}!` );
+    battleLog.write( `しかし 技の 残りポイントが なかった!` );
+    return true;
+  }
 }
 
 
@@ -114,16 +121,13 @@ class LearnedMove {
 }
 
 class PowerPoint extends ValueWithRange {
-  constructor() {
-    super( 0, 0 );
-  }
 
   /*
   curePPByLeppaBerry( pokemon: Pokemon, value: number ): void {
     // PP回復
     this._remainingPP = Math.min( this._remainingPP + value, this._powerPoint );
     // メッセージ
-    writeLog( `${getArticle( pokemon )}は ヒメリのみで ${this._name}のPPを 回復した!` );
+    battleLog.write( `${getArticle( pokemon )}は ヒメリのみで ${this._name}のPPを 回復した!` );
     // なげつける・むしくい・ついばむ
     if ( pokemon.stateChange.memo.isTrue === true ) {
       pokemon.stateChange.memo.count += 1;
@@ -137,83 +141,28 @@ class PowerPoint extends ValueWithRange {
 // 使用する技
 // -------------------------
 class SelectedMove {
-  _slot: number;
-  _name: MoveText;
-  _type: PokemonType;
-  _class: MoveClass;
-  _target: MoveTarget;
-  _power: number | null;
-  _accuracy: number | null;
-  _priority: number;
-  _critical: number;
-  _skin: StateChange;
-  _store: MoveText;
-
-  constructor() {
-    this._slot = 0;
-    this._name = null;
-    this._type = null;
-    this._class = 'physical';
-    this._target = 'user';
-    this._power = 0;
-    this._accuracy = 0;
-    this._priority = 0;
-    this._critical = 0;
-    this._skin = new StateChange();
-    this._store = null
-  }
-
-  set type( type: PokemonType ) {
-    this._type = type;
-  }
-  set power( power: number | null ) {
-    this._power = power;
-  }
-  set priority( priority: number ) {
-    this._priority = priority;
-  }
-
-  get name(): MoveText {
-    return this._name;
-  }
-  get slot(): number {
-    return this._slot;
-  }
-  get type(): PokemonType {
-    return this._type;
-  }
-  get class(): string {
-    return this._class;
-  }
-  get target(): MoveTarget {
-    return this._target;
-  }
-  get power(): number | null {
-    return this._power;
-  }
-  get accuracy(): number | null {
-    return this._accuracy;
-  }
-  get priority(): number {
-    return this._priority;
-  }
-  get critical(): number {
-    return this._critical;
-  }
-  get skin(): StateChange {
-    return this._skin;
-  }
+  slot: number = 0;
+  name: MoveText = null;
+  type: PokemonType = null;
+  class: MoveClass = 'physical';
+  target: MoveTarget = 'user';
+  power: number | null = null;
+  accuracy: number | null = null;
+  priority: number = 0;
+  critical: number = 0;
+  skin = new StateChange();
+  store: MoveText = null;
 
   translate(): string {
-    return moveMaster.filter( m => m.nameEN === this._name )[0].nameJA;
+    return moveMaster.filter( m => m.nameEN === this.name )[0].nameJA;
   }
 
   getMaster(): MoveData {
-    return moveMaster.filter( m => m.nameEN === this._name )[0];
+    return moveMaster.filter( m => m.nameEN === this.name )[0];
   }
 
   getAddOn(): MoveAddOnData {
-    return moveAddOnMaster.filter( add => add.nameEN === this._name )[0]
+    return moveAddOnMaster.filter( add => add.nameEN === this.name )[0]
   }
 
   setSelected( move: LearnedMove ): void {
@@ -222,30 +171,30 @@ class SelectedMove {
     })
     if ( !master ) return;
 
-    this._name = move.name;
-    this._type = master.type;
-    this._class = master.class;
-    this._target = master.target;
-    this._power = master.power;
-    this._accuracy = master.accuracy;
-    this._priority = master.priority;
-    this._critical = master.priority;
+    this.name = move.name;
+    this.type = master.type;
+    this.class = master.class;
+    this.target = master.target;
+    this.power = master.power;
+    this.accuracy = master.accuracy;
+    this.priority = master.priority;
+    this.critical = master.priority;
   }
 
 
 
   isType( type: PokemonType ): boolean {
-    return this._type === type;
+    return this.type === type;
   }
 
   isPhysical(): boolean {
-    return this._class === 'physical';
+    return this.class === 'physical';
   }
   isSpecial(): boolean {
-    return this._class === 'special';
+    return this.class === 'special';
   }
   isStatus(): boolean {
-    return this._class === 'status';
+    return this.class === 'status';
   }
 
   //---------------------
@@ -253,78 +202,78 @@ class SelectedMove {
   //---------------------
   isActivateSkin( type: PokemonType ): boolean {
     if ( this.getAddOn().changeType ) return false;
-    if ( this._name === 'Struggle' ) return false; // 技「わるあがき」
+    if ( this.name === 'Struggle' ) return false; // 技「わるあがき」
 
-    if ( type === 'Normal' && this._type === 'Normal' ) return false;
-    if ( type !== 'Normal' && this._type !== 'Normal' ) return false;
+    if ( type === 'Normal' && this.type === 'Normal' ) return false;
+    if ( type !== 'Normal' && this.type !== 'Normal' ) return false;
 
     return true;
   }
 
   activateSkin( type: PokemonType ): void {
     if ( !this.isActivateSkin( type ) ) return;
-    this._type = type;
-    this._skin.isTrue = true;
-    this._skin.text = String( this._type );
+    this.type = type;
+    this.skin.isTrue = true;
+    this.skin.text = String( this.type );
   }
 
   //-------
   // ため技
   //-------
   setStore(): void {
-    this._store = this._name;
+    this.store = this.name;
   }
   isStore(): boolean {
-    return this._store !== null;
+    return this.store !== null;
   }
 
   //-------------
   // マグニチュード
   //-------------
   fixMagnitudePower(): void {
-    if ( this._name !=='Magnitude' ) return; // 技「マグニチュード」
+    if ( this.name !=='Magnitude' ) return; // 技「マグニチュード」
 
     const random: number = getRandom();
 
     if ( random >= 95 ) {
-      this._power = 150;
-      writeLog( `マグニチュード10!`);
+      this.power = 150;
+      battleLog.write( `マグニチュード10!`);
       return;
     }
 
     if ( random >= 85 ) {
-      this._power = 110;
-      writeLog( `マグニチュード9!`);
+      this.power = 110;
+      battleLog.write( `マグニチュード9!`);
       return;
     }
 
     if ( random >= 65 ) {
-      this._power = 90;
-      writeLog( `マグニチュード8!`);
+      this.power = 90;
+      battleLog.write( `マグニチュード8!`);
       return;
     }
 
     if ( random >= 35 ) {
-      this._power = 70;
-      writeLog( `マグニチュード7!`);
+      this.power = 70;
+      battleLog.write( `マグニチュード7!`);
       return;
     }
 
     if ( random >= 15 ) {
-      this._power = 50;
-      writeLog( `マグニチュード6!`);
+      this.power = 50;
+      battleLog.write( `マグニチュード6!`);
       return;
     }
 
     if ( random >= 5 ) {
-      this._power = 30;
-      writeLog( `マグニチュード5!`);
+      this.power = 30;
+      battleLog.write( `マグニチュード5!`);
       return;
     }
 
     if ( random >= 0 ) {
-      this._power = 10;
-      writeLog( `マグニチュード4!`);
+      this.power = 10;
+      battleLog.write( `マグニチュード4!`);
       return;
     }
   }

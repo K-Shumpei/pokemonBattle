@@ -225,37 +225,37 @@ class SelectedMove {
         const random = getRandom();
         if (random >= 95) {
             this._power = 150;
-            writeLog(`マグニチュード10!`);
+            battleLog.write(`マグニチュード10!`);
             return;
         }
         if (random >= 85) {
             this._power = 110;
-            writeLog(`マグニチュード9!`);
+            battleLog.write(`マグニチュード9!`);
             return;
         }
         if (random >= 65) {
             this._power = 90;
-            writeLog(`マグニチュード8!`);
+            battleLog.write(`マグニチュード8!`);
             return;
         }
         if (random >= 35) {
             this._power = 70;
-            writeLog(`マグニチュード7!`);
+            battleLog.write(`マグニチュード7!`);
             return;
         }
         if (random >= 15) {
             this._power = 50;
-            writeLog(`マグニチュード6!`);
+            battleLog.write(`マグニチュード6!`);
             return;
         }
         if (random >= 5) {
             this._power = 30;
-            writeLog(`マグニチュード5!`);
+            battleLog.write(`マグニチュード5!`);
             return;
         }
         if (random >= 0) {
             this._power = 10;
-            writeLog(`マグニチュード4!`);
+            battleLog.write(`マグニチュード4!`);
             return;
         }
     }

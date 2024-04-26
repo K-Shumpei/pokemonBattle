@@ -66,6 +66,14 @@ class Main {
         const pokemon = this.getParty(attack.isMe);
         return pokemon.filter(p => p.order.battle === attack.battle)[0];
     }
+    getPokemonByOrder(order) {
+        const pokemon = this.getParty(order.isMe);
+        return pokemon.filter(p => p.order.battle === order.battle)[0];
+    }
+    getPokemonOnLanding() {
+        const pokeList = this.getPokemonInBattle().filter(p => p.extraParameter.landing);
+        return sortByActionOrder(pokeList);
+    }
     isExistByBattle(isMe, battle) {
         const pokemon = this.getParty(isMe);
         return pokemon.filter(p => p.order.battle === battle).length === 1;
@@ -115,16 +123,16 @@ class Main {
             if (pokemon.ability.isName('Quark Drive')) { // 特性「クォークチャージ」
                 corr = Math.round(corr * 6144 / 4096);
             }
-            if (pokemon.item.isName('スピードパウダー') && pokemon.name === 'Ditto') { // メタモン
+            if (pokemon.isItem('スピードパウダー') && pokemon.name === 'Ditto') { // メタモン
                 corr = Math.round(corr * 8192 / 4096);
             }
-            if (pokemon.item.isName('こだわりスカーフ')) {
+            if (pokemon.isItem('こだわりスカーフ')) {
                 corr = Math.round(corr * 6144 / 4096);
             }
-            if (pokemon.item.isName('くろいてっきゅう')) {
+            if (pokemon.isItem('くろいてっきゅう')) {
                 corr = Math.round(corr * 2048 / 4096);
             }
-            if (pokemon.item.isName('きょうせいギプス')) {
+            if (pokemon.isItem('きょうせいギプス')) {
                 corr = Math.round(corr * 2048 / 4096);
             }
             if (this._field.getSide(pokemon.isMine()).tailwind.isTrue) {
@@ -246,3 +254,25 @@ class ElectOrder {
 }
 const main = new Main();
 const electedOrder = new ElectOrder();
+class BattleLog {
+    constructor() {
+        this.log = [];
+        // 非同期関数としてタイマーを実装
+        this.sleep = (ms) => {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        };
+        // 上記の関数をasync/awaitと組み合わせて使用
+        this.output = async () => {
+            for (const log of this.log) {
+                const output = document.getElementById('battle_log');
+                output.value += log + "\n";
+                await this.sleep(2000); // 2秒待機
+            }
+            this.log = [];
+        };
+    }
+    write(msg) {
+        this.log.push(msg);
+    }
+}
+const battleLog = new BattleLog();

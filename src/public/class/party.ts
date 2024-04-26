@@ -296,3 +296,29 @@ class ElectOrder {
 
 const main = new Main();
 const electedOrder = new ElectOrder();
+
+
+class BattleLog {
+  log: string[] = [];
+
+  write( msg: string ): void {
+    this.log.push( msg );
+  }
+
+  // 非同期関数としてタイマーを実装
+  sleep = (ms: number): Promise<void> => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // 上記の関数をasync/awaitと組み合わせて使用
+  output = async () => {
+    for ( const log of this.log ) {
+      const output = <HTMLInputElement>document.getElementById( 'battle_log' );
+      output.value += log + "\n";
+      await this.sleep(2000);  // 2秒待機
+    }
+    this.log = [];
+  }
+}
+
+const battleLog = new BattleLog();

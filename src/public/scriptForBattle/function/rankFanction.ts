@@ -4,8 +4,8 @@ function changeMyRank( pokemon: Pokemon, parameter: string, change: number ): vo
   const parameterJP: string = translateENintoJP( parameter );
 
   if ( value === 0 ) {
-    if ( change > 0 ) writeLog( `${getArticle( pokemon )}の ${parameterJP}は もう上がらない!` );
-    if ( change < 0 ) writeLog( `${getArticle( pokemon )}の ${parameterJP}は もう下がらない!` );
+    if ( change > 0 ) battleLog.write( `${getArticle( pokemon )}の ${parameterJP}は もう上がらない!` );
+    if ( change < 0 ) battleLog.write( `${getArticle( pokemon )}の ${parameterJP}は もう下がらない!` );
     return;
   }
 
@@ -13,12 +13,12 @@ function changeMyRank( pokemon: Pokemon, parameter: string, change: number ): vo
   //pokemon.rank[parameter].add( value );
 
   // メッセージ
-  if ( value >= 3 )   writeLog( `${getArticle( pokemon )}の ${parameterJP}が ぐぐーんと上がった!` );
-  if ( value === 2 )  writeLog( `${getArticle( pokemon )}の ${parameterJP}が ぐーんと上がった!` );
-  if ( value === 1 )  writeLog( `${getArticle( pokemon )}の ${parameterJP}が 上がった!` );
-  if ( value === -1 ) writeLog( `${getArticle( pokemon )}の ${parameterJP}が 下がった!` );
-  if ( value === -2 ) writeLog( `${getArticle( pokemon )}の ${parameterJP}が がくっと下がった!` );
-  if ( value <= -3 )  writeLog( `${getArticle( pokemon )}の ${parameterJP}が がくーんと下がった!` );
+  if ( value >= 3 )   battleLog.write( `${getArticle( pokemon )}の ${parameterJP}が ぐぐーんと上がった!` );
+  if ( value === 2 )  battleLog.write( `${getArticle( pokemon )}の ${parameterJP}が ぐーんと上がった!` );
+  if ( value === 1 )  battleLog.write( `${getArticle( pokemon )}の ${parameterJP}が 上がった!` );
+  if ( value === -1 ) battleLog.write( `${getArticle( pokemon )}の ${parameterJP}が 下がった!` );
+  if ( value === -2 ) battleLog.write( `${getArticle( pokemon )}の ${parameterJP}が がくっと下がった!` );
+  if ( value <= -3 )  battleLog.write( `${getArticle( pokemon )}の ${parameterJP}が がくーんと下がった!` );
 }
 
 function changeMyRankByItem( pokemon: Pokemon, parameter: string, change: number, item: string ): void {
@@ -27,8 +27,8 @@ function changeMyRankByItem( pokemon: Pokemon, parameter: string, change: number
   const parameterJP: string = translateENintoJP( parameter );
 
   if ( value === 0 ) {
-    if ( change > 0 ) writeLog( `${getArticle( pokemon )}の ${parameterJP}は もう上がらない!` );
-    if ( change < 0 ) writeLog( `${getArticle( pokemon )}の ${parameterJP}は もう下がらない!` );
+    if ( change > 0 ) battleLog.write( `${getArticle( pokemon )}の ${parameterJP}は もう上がらない!` );
+    if ( change < 0 ) battleLog.write( `${getArticle( pokemon )}の ${parameterJP}は もう下がらない!` );
     return;
   }
 
@@ -36,12 +36,12 @@ function changeMyRankByItem( pokemon: Pokemon, parameter: string, change: number
   //pokemon.rank[parameter].add( value );
 
   // メッセージ
-  if ( value >= 3 )   writeLog( `${getArticle( pokemon )}は ${item}で ${parameterJP}が ぐぐーんと上がった!` );
-  if ( value === 2 )  writeLog( `${getArticle( pokemon )}は ${item}で ${parameterJP}が ぐーんと上がった!` );
-  if ( value === 1 )  writeLog( `${getArticle( pokemon )}は ${item}で ${parameterJP}が 上がった!` );
-  if ( value === -1 ) writeLog( `${getArticle( pokemon )}は ${item}で ${parameterJP}が 下がった!` );
-  if ( value === -2 ) writeLog( `${getArticle( pokemon )}は ${item}で ${parameterJP}が がくっと下がった!` );
-  if ( value <= -3 )  writeLog( `${getArticle( pokemon )}は ${item}で ${parameterJP}が がくーんと下がった!` );
+  if ( value >= 3 )   battleLog.write( `${getArticle( pokemon )}は ${item}で ${parameterJP}が ぐぐーんと上がった!` );
+  if ( value === 2 )  battleLog.write( `${getArticle( pokemon )}は ${item}で ${parameterJP}が ぐーんと上がった!` );
+  if ( value === 1 )  battleLog.write( `${getArticle( pokemon )}は ${item}で ${parameterJP}が 上がった!` );
+  if ( value === -1 ) battleLog.write( `${getArticle( pokemon )}は ${item}で ${parameterJP}が 下がった!` );
+  if ( value === -2 ) battleLog.write( `${getArticle( pokemon )}は ${item}で ${parameterJP}が がくっと下がった!` );
+  if ( value <= -3 )  battleLog.write( `${getArticle( pokemon )}は ${item}で ${parameterJP}が がくーんと下がった!` );
 
   // なげつける・むしくい・ついばむ
   if ( pokemon.stateChange.memo.isTrue === true ) {
@@ -59,7 +59,7 @@ function changeMyRankByRage( pokemon: Pokemon, parameter: string, change: number
   //pokemon.rank[parameter].add( value );
 
   // メッセージ
-  writeLog( `${pokemon}の いかりのボルテージが 上がっていく!` );
+  battleLog.write( `${pokemon}の いかりのボルテージが 上がっていく!` );
 }
 
 function getRankVariation( pokemon: Pokemon, parameter: string, value: number ): number {

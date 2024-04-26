@@ -133,10 +133,6 @@ function getParty(trainer) {
     else
         return main.opp.pokemon;
 }
-function writeLog(text) {
-    const battleLog = getHTMLInputElement('battle_log');
-    battleLog.value += text + "\n";
-}
 // 乱数 0以上100未満の整数
 function getRandom() {
     const first = randomList[0];
@@ -146,6 +142,11 @@ function getRandom() {
 // 5捨6入
 function fiveRoundEntry(number) {
     return Math.ceil(number - 0.5);
+}
+// ランダムで要素を取り出す
+function getOneAtRandom(array) {
+    const index = Math.floor(getRandom() * array.length);
+    return array[index];
 }
 // トレーナー判断
 function getArticle(pokemon) {

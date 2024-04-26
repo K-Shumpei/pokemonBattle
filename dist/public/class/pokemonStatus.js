@@ -17,6 +17,9 @@ class ValueWithRange {
     toZero() {
         this.value = 0;
     }
+    toMax() {
+        this.value = this.max;
+    }
     isMax() {
         return this.value === this.max;
     }
@@ -42,44 +45,29 @@ class ValueWithRange {
 // -------------------------
 class ActualWithThreeValue {
     constructor() {
-        this._av = 0;
-        this._bs = 0;
-        this._iv = 0;
-        this._ev = 0;
-    }
-    set bs(bs) {
-        this._bs = bs;
-    }
-    get av() {
-        return this._av;
-    }
-    get bs() {
-        return this._bs;
-    }
-    get iv() {
-        return this._iv;
-    }
-    get ev() {
-        return this._ev;
+        this.av = 0;
+        this.bs = 0;
+        this.iv = 0;
+        this.ev = 0;
     }
     register(stat) {
-        this._av = stat.av;
-        this._bs = stat.bs;
-        this._iv = stat.iv;
-        this._ev = stat.ev;
+        this.av = stat.av;
+        this.bs = stat.bs;
+        this.iv = stat.iv;
+        this.ev = stat.ev;
     }
     edit(parameter) {
-        getHTMLInputElement('register_' + parameter + 'IndividualValue').value = String(this._iv);
-        getHTMLInputElement('register_' + parameter + 'EffortValue').value = String(this._ev);
+        getHTMLInputElement('register_' + parameter + 'IndividualValue').value = String(this.iv);
+        getHTMLInputElement('register_' + parameter + 'EffortValue').value = String(this.ev);
     }
     showAcrual(name, parameter, handOrder) {
-        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = (name === null) ? '' : String(this._av);
+        getHTMLInputElement('party' + handOrder + '_' + parameter).textContent = (name === null) ? '' : String(this.av);
     }
     copy(status) {
-        this._av = status._av;
-        this._bs = status._bs;
-        this._iv = status._iv;
-        this._ev = status._ev;
+        this.av = status.av;
+        this.bs = status.bs;
+        this.iv = status.iv;
+        this.ev = status.ev;
     }
 }
 // -------------------------
@@ -147,7 +135,7 @@ class Status {
         this.spA.copy(status.spA);
         this.spD.copy(status.spD);
         this.spe.copy(status.spe);
-        this.hp.value.setInitial(status.hp._av);
+        this.hp.value.setInitial(status.hp.av);
     }
     calcRankCorrValue(critical) {
         this.atk.calcRankCorrValue(critical);
@@ -236,6 +224,60 @@ class Status {
         this.acc.value = status.acc.value;
         this.eva.value = status.eva.value;
     }
+    swapRank(pokemon) {
+        [this.atk.rank.value, pokemon.status.atk.rank.value] = [pokemon.status.atk.rank.value, this.atk.rank.value];
+        [this.def.rank.value, pokemon.status.def.rank.value] = [pokemon.status.def.rank.value, this.def.rank.value];
+        [this.spA.rank.value, pokemon.status.spA.rank.value] = [pokemon.status.spA.rank.value, this.spA.rank.value];
+        [this.spD.rank.value, pokemon.status.spD.rank.value] = [pokemon.status.spD.rank.value, this.spD.rank.value];
+        [this.spe.rank.value, pokemon.status.spe.rank.value] = [pokemon.status.spe.rank.value, this.spe.rank.value];
+        [this.acc.value, pokemon.status.acc.value] = [pokemon.status.acc.value, this.acc.value];
+        [this.eva.value, pokemon.status.eva.value] = [pokemon.status.eva.value, this.eva.value];
+    }
+    reverseRank() {
+        this.atk.rank.value *= -1;
+        this.def.rank.value *= -1;
+        this.spA.rank.value *= -1;
+        this.spD.rank.value *= -1;
+        this.spe.rank.value *= -1;
+        this.acc.value *= -1;
+        this.eva.value *= -1;
+    }
+    getNotMaxRank() {
+        const result = [];
+        if (!this.atk.rank.isMax())
+            result.push('atk');
+        if (!this.def.rank.isMax())
+            result.push('def');
+        if (!this.spA.rank.isMax())
+            result.push('spA');
+        if (!this.spD.rank.isMax())
+            result.push('spD');
+        if (!this.spe.rank.isMax())
+            result.push('spe');
+        if (!this.acc.isMax())
+            result.push('acc');
+        if (!this.eva.isMax())
+            result.push('eva');
+        return result;
+    }
+    getNotMinRank() {
+        const result = [];
+        if (!this.atk.rank.isMin())
+            result.push('atk');
+        if (!this.def.rank.isMin())
+            result.push('def');
+        if (!this.spA.rank.isMin())
+            result.push('spA');
+        if (!this.spD.rank.isMin())
+            result.push('spD');
+        if (!this.spe.rank.isMin())
+            result.push('spe');
+        if (!this.acc.isMin())
+            result.push('acc');
+        if (!this.eva.isMin())
+            result.push('eva');
+        return result;
+    }
 }
 // -------------------------
 // HP
@@ -249,9 +291,9 @@ class HitPoint extends ActualWithThreeValue {
         return this._value;
     }
     calcAct(level) {
-        const step1 = this._bs * 2 + this._iv + Math.floor(this._ev / 4);
+        const step1 = this.bs * 2 + this.iv + Math.floor(this.ev / 4);
         const step2 = step1 * level;
-        this._av = Math.floor(step2 / 100) + level + 10;
+        this.av = Math.floor(step2 / 100) + level + 10;
     }
 }
 class HitPointValue extends ValueWithRange {
@@ -280,57 +322,42 @@ class HitPointValue extends ValueWithRange {
 class MainStatus extends ActualWithThreeValue {
     constructor(text) {
         super();
-        this._rank = new Rank(text);
-        this._value = 0;
-    }
-    get rank() {
-        return this._rank;
-    }
-    get value() {
-        return this._value;
+        this.value = 0;
+        this.rank = new Rank(text);
     }
     calcRankCorrValue(critical) {
-        const rank = (critical) ? Math.max(this._rank.value, 0) : this._rank.value;
+        const rank = (critical) ? Math.max(this.rank.value, 0) : this.rank.value;
         const corr = (rank > 0) ? (2 + rank) / 2 : 2 / (2 - rank);
-        this._value = Math.floor(this._av * corr);
+        this.value = Math.floor(this.av * corr);
     }
     calcAct(level, corr) {
-        const step1 = this._bs * 2 + this._iv + Math.floor(this._ev / 4);
+        const step1 = this.bs * 2 + this.iv + Math.floor(this.ev / 4);
         const step2 = step1 * level;
         const step3 = Math.floor(step2 / 100);
-        this._av = Math.floor((step3 + 5) * corr);
+        this.av = Math.floor((step3 + 5) * corr);
     }
 }
 class Speed extends MainStatus {
     constructor(text) {
         super(text);
-        this._actionOrder = 0;
-        this._forPowerCalc = 0;
-        this._random = 0;
-    }
-    get actionOrder() {
-        return this._actionOrder;
-    }
-    get forPowerCalc() {
-        return this._forPowerCalc;
-    }
-    get random() {
-        return this._random;
+        this.actionOrder = 0; // 行動順に影響のある値
+        this.forPowerCalc = 0; // ジャイロボール・エレキボールの威力計算に関わる値
+        this.random = 0; // 乱数
     }
     calcSpeed(corr, paralysis, trickRoom) {
         // ランク補正値の計算
-        const rank = this._rank.value;
+        const rank = this.rank.value;
         const rankCorr = (rank > 0) ? (2 + rank) / 2 : 2 / (2 - rank);
-        this._value = Math.floor(this._av * rankCorr);
+        this.value = Math.floor(this.av * rankCorr);
         // 各種補正
-        const corr1 = fiveRoundEntry(this._value * corr / 4096);
+        const corr1 = fiveRoundEntry(this.value * corr / 4096);
         const corr2 = Math.floor(corr1 * paralysis);
-        this._forPowerCalc = Math.min(10000, corr2);
+        this.forPowerCalc = Math.min(10000, corr2);
         // トリックルーム
-        const corr3 = (trickRoom) ? 10000 - this._forPowerCalc : this._forPowerCalc;
-        this._actionOrder = corr3 % 8192;
+        const corr3 = (trickRoom) ? 10000 - this.forPowerCalc : this.forPowerCalc;
+        this.actionOrder = corr3 % 8192;
         // 乱数
-        this._random = getRandom();
+        this.random = getRandom();
     }
 }
 // -------------------------
@@ -368,46 +395,46 @@ class Rank extends ValueWithRange {
             this.msgHyperDown(name, item);
     }
     msgNoUp(name) {
-        writeLog(`${name}の ${this._text}は もう上がらない!`);
+        battleLog.write(`${name}の ${this._text}は もう上がらない!`);
     }
     msgNoDown(name) {
-        writeLog(`${name}の ${this._text}は もう下がらない!`);
+        battleLog.write(`${name}の ${this._text}は もう下がらない!`);
     }
     msgUp(name, item) {
         if (item)
-            writeLog(`${name}は ${item}で ${this._text}が 上がった!`);
+            battleLog.write(`${name}は ${item}で ${this._text}が 上がった!`);
         else
-            writeLog(`${name}の ${this._text}が 上がった!`);
+            battleLog.write(`${name}の ${this._text}が 上がった!`);
     }
     msgDown(name, item) {
         if (item)
-            writeLog(`${name}は ${item}で ${this._text}が 下がった!`);
+            battleLog.write(`${name}は ${item}で ${this._text}が 下がった!`);
         else
-            writeLog(`${name}の ${this._text}が 下がった!`);
+            battleLog.write(`${name}の ${this._text}が 下がった!`);
     }
     msgSuperUp(name, item) {
         if (item)
-            writeLog(`${name}は ${item}で ${this._text}が ぐーんと上がった!`);
+            battleLog.write(`${name}は ${item}で ${this._text}が ぐーんと上がった!`);
         else
-            writeLog(`${name}の ${this._text}が ぐーんと上がった!`);
+            battleLog.write(`${name}の ${this._text}が ぐーんと上がった!`);
     }
     msgSuperDown(name, item) {
         if (item)
-            writeLog(`${name}は ${item}で ${this._text}が がくっと下がった!`);
+            battleLog.write(`${name}は ${item}で ${this._text}が がくっと下がった!`);
         else
-            writeLog(`${name}の ${this._text}が がくっと下がった!`);
+            battleLog.write(`${name}の ${this._text}が がくっと下がった!`);
     }
     msgHyperUp(name, item) {
         if (item)
-            writeLog(`${name}は ${item}で ${this._text}が ぐぐーんと上がった!`);
+            battleLog.write(`${name}は ${item}で ${this._text}が ぐぐーんと上がった!`);
         else
-            writeLog(`${name}の ${this._text}が ぐぐーんと上がった!`);
+            battleLog.write(`${name}の ${this._text}が ぐぐーんと上がった!`);
     }
     msgHyperDown(name, item) {
         if (item)
-            writeLog(`${name}は ${item}で ${this._text}が がくーんと下がった!`);
+            battleLog.write(`${name}は ${item}で ${this._text}が がくーんと下がった!`);
         else
-            writeLog(`${name}の ${this._text}が がくーんと下がった!`);
+            battleLog.write(`${name}の ${this._text}が がくーんと下がった!`);
     }
     useWhiteHerb() {
         if (this.value < 0) {

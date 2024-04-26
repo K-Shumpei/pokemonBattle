@@ -667,7 +667,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
 
   const getFinalAttack = ( pokemon: Pokemon, target: Pokemon ): number => {
 
-    let attack: number = ( pokemon.move.selected.isPhysical() )? pokemon.status.atk.value : pokemon.status.spA.value;
+    let attack: number = ( pokemon.move.selected.isPhysical() )? pokemon.status.atk.rankCorrVal : pokemon.status.spA.rankCorrVal;
 
     // はりきり
     if ( pokemon.ability.isName( 'Hustle' ) ) { // 特性「はりきり」
@@ -894,7 +894,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
 
   const getFinalDefense = ( pokemon: Pokemon, target: Pokemon ): number => {
 
-    let defense: number = ( pokemon.move.selected.isPhysical() )? target.status.def.value : target.status.spD.value;
+    let defense: number = ( pokemon.move.selected.isPhysical() )? target.status.def.rankCorrVal : target.status.spD.rankCorrVal;
 
     // すなあらし
     if ( fieldStatus.weather.isSandy() ) {

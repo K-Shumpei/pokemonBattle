@@ -1,99 +1,168 @@
 "use strict";
 class StatusAilment {
     constructor() {
-        this._name = null;
-        this._turn = 0;
-        this._pokeName = '';
+        this.name = null;
+        this.turn = 0;
+        this.rest = false; // 技「ねむる」により眠った場合
+        this.pokeName = '';
     }
-    get turn() {
-        return this._turn;
-    }
-    set turn(turn) {
-        this._turn = turn;
+    reset() {
+        this.name = null;
+        this.turn = 0;
+        this.rest = false;
     }
     isHealth() {
-        return this._name === null;
+        return this.name === null;
     }
     isParalysis() {
-        return this._name === 'Paralysis';
+        return this.name === 'Paralysis';
     }
     isFrozen() {
-        return this._name === 'Frozen';
+        return this.name === 'Frozen';
     }
     isBurned() {
-        return this._name === 'Burned';
+        return this.name === 'Burned';
     }
     isPoisoned() {
-        return this._name === 'Poisoned';
+        return this.name === 'Poisoned';
     }
     isBadPoisoned() {
-        return this._name === 'Poisoned' && this._turn > 0;
+        return this.name === 'Poisoned' && this.turn > 0;
     }
     isAsleep() {
-        return this._name === 'Asleep';
+        return this.name === 'Asleep';
     }
     getHealth(item) {
-        switch (this._name) {
+        switch (this.name) {
             case 'Paralysis':
                 if (item)
-                    writeLog(`${this._pokeName}は ${item}で まひが 治った!`);
+                    battleLog.write(`${this.pokeName}は ${item}で まひが 治った!`);
                 else
-                    writeLog(`${this._pokeName}は まひが 治った!`);
+                    battleLog.write(`${this.pokeName}は まひが 治った!`);
                 break;
             case 'Frozen':
                 if (item)
-                    writeLog(`${this._pokeName}は ${item}で こおり状態が 治った!`);
+                    battleLog.write(`${this.pokeName}は ${item}で こおり状態が 治った!`);
                 else
-                    writeLog(`${this._pokeName}は こおり状態が 治った!`);
+                    battleLog.write(`${this.pokeName}は こおり状態が 治った!`);
                 break;
             case 'Burned':
                 if (item)
-                    writeLog(`${this._pokeName}は ${item}で やけどが 治った!`);
+                    battleLog.write(`${this.pokeName}は ${item}で やけどが 治った!`);
                 else
-                    writeLog(`${this._pokeName}は やけどが 治った!`);
+                    battleLog.write(`${this.pokeName}は やけどが 治った!`);
                 break;
             case 'Poisoned':
                 if (item)
-                    writeLog(`${this._pokeName}は ${item}で 毒が 治った!`);
+                    battleLog.write(`${this.pokeName}は ${item}で 毒が 治った!`);
                 else
-                    writeLog(`${this._pokeName}は 毒が 治った!`);
+                    battleLog.write(`${this.pokeName}は 毒が 治った!`);
                 break;
             case 'Asleep':
                 if (item)
-                    writeLog(`${this._pokeName}は 目を 覚ました!`);
+                    battleLog.write(`${this.pokeName}は 目を 覚ました!`);
                 break;
             default:
                 break;
         }
-        this._name = null;
-        this._turn = 0;
+        this.reset();
     }
     getParalysis() {
-        this._name = 'Paralysis';
-        writeLog(`${this._pokeName}は まひして 技が でにくくなった!`);
+        this.name = 'Paralysis';
+        battleLog.write(`${this.pokeName}は まひして 技が でにくくなった!`);
     }
     getFrozen() {
-        this._name = 'Frozen';
-        writeLog(`${this._pokeName}は 凍りついた!`);
+        this.name = 'Frozen';
+        battleLog.write(`${this.pokeName}は 凍りついた!`);
     }
-    getBurned() {
-        this._name = 'Burned';
-        writeLog(`${this._pokeName}は やけどを 負った!`);
+    getBurned(item) {
+        this.name = 'Burned';
+        if (item) {
+            battleLog.write(`${this.pokeName}は ${item}で やけどを 負った!`);
+        }
+        else {
+            battleLog.write(`${this.pokeName}は やけどを 負った!`);
+        }
     }
     getPoisoned() {
-        this._name = 'Poisoned';
-        writeLog(`${this._pokeName}は 毒を あびた!`);
+        this.name = 'Poisoned';
+        battleLog.write(`${this.pokeName}は 毒を あびた!`);
     }
-    getBadPoisoned() {
-        this._name = 'Poisoned';
-        this._turn = 1;
-        writeLog(`${this._pokeName}は 猛毒を あびた!`);
+    getBadPoisoned(item) {
+        this.name = 'Poisoned';
+        this.turn = 1;
+        if (item) {
+            battleLog.write(`${this.pokeName}は ${item}で 猛毒を あびた!`);
+        }
+        else {
+            battleLog.write(`${this.pokeName}は 猛毒を あびた!`);
+        }
     }
     getAsleep() {
-        this._name = 'Asleep';
-        writeLog(`${this._pokeName}は 眠ってしまった!`);
+        this.name = 'Asleep';
+        battleLog.write(`${this.pokeName}は 眠ってしまった!`);
     }
     countPoisoned() {
-        this._turn += 1;
+        this.turn += 1;
+    }
+    copyAilment(ailment) {
+        if (ailment.isAsleep())
+            this.getAsleep();
+        if (ailment.isBurned())
+            this.getBurned();
+        if (ailment.isFrozen())
+            this.getFrozen();
+        if (ailment.isParalysis())
+            this.getParalysis();
+        if (ailment.isPoisoned())
+            this.getPoisoned();
+        if (ailment.isBadPoisoned())
+            this.getBadPoisoned();
+        this.turn = ailment.turn;
+    }
+    onRest() {
+        this.name = 'Asleep';
+        this.rest = true;
+        battleLog.write(`${this.pokeName}は 眠って 元気に なった!`);
+    }
+    onEffectivePoisoned(pokemon) {
+        if (!this.isPoisoned())
+            return;
+        const damage = () => {
+            if (pokemon.ability.isName('Poison Heal')) { // 特性「ポイズンヒール」
+                return Math.floor(pokemon.getOrgHP() / 8);
+            }
+            if (this.isBadPoisoned()) {
+                return Math.floor(pokemon.getOrgHP() * Math.min(this.turn, 15) / 16);
+            }
+            else {
+                return Math.floor(pokemon.getOrgHP() / 8);
+            }
+        };
+        if (pokemon.ability.isName('Poison Heal')) { // 特性「ポイズンヒール」
+            pokemon.msgDeclareAbility();
+            pokemon.status.hp.value.add(Math.max(1, damage()));
+        }
+        else {
+            pokemon.status.hp.value.sub(Math.max(1, damage()));
+            battleLog.write(`${pokemon.getArticle()}は 毒の ダメージを受けた!`);
+        }
+        if (this.isBadPoisoned()) {
+            this.turn += 1;
+        }
+    }
+    onEffectiveBurned(pokemon) {
+        if (!this.isBurned())
+            return;
+        const damage = () => {
+            if (pokemon.ability.isName('Heatproof')) { // 特性「たいねつ」
+                return Math.floor(pokemon.getOrgHP() / 32);
+            }
+            else {
+                return Math.floor(pokemon.getOrgHP() / 16);
+            }
+        };
+        pokemon.status.hp.value.sub(Math.max(1, damage()));
+        battleLog.write(`${pokemon.getArticle()}は やけどの ダメージを 受けた!`);
     }
 }

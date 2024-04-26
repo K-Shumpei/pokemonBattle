@@ -300,7 +300,7 @@ function activateAdditionalEffects( pokemon: Pokemon, isMe: boolean, isRange: bo
     if ( !pokemon.isAdditionalRate( master.ailment.chance ) ) return;
     if ( !target.isGetConfusionByAdditionalEffect( pokemon ) ) return;
 
-    target.getConfusion();
+    target.stateChange.confuse.onActivate( target );
   }
 
   const flinch = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
@@ -516,7 +516,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
 
     pokemon.msgDeclareAbility();
     target.statusAilment.getPoisoned();
-    // writeLog( `${getArticle( target )}に 毒を あびせた!` );
+    // battleLog.write( `${getArticle( target )}に 毒を あびせた!` );
   }
 
   const synchronize = ( pokemon: Pokemon, target: Pokemon ): void => {
@@ -620,10 +620,10 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     if ( !target.ability.isName( 'Cute Charm' ) ) return; // 特性「メロメロボディ」
     if ( pokemon.isItem( 'ぼうごパット' ) ) return;
     if ( getRandom() >= 30 ) return;
-    if ( !pokemon.isGetAttract( target ) ) return;
+    if ( !pokemon.stateChange.attract.isActivate( pokemon, target ) ) return;
 
     target.msgDeclareAbility();
-    pokemon.getAttract( target );
+    pokemon.stateChange.attract.onActivate( pokemon, target );
   }
 
   const mummy = ( pokemon: Pokemon, target: Pokemon, attack: Attack ): void => {
@@ -1576,7 +1576,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
     if ( pokemon.status.hp.value.isZero() ) return;
 
     fieldStatus.whole.ionDeluge.isTrue = true;
-    writeLog( `電子のシャワーが 降りそそいだ!` );
+    battleLog.write( `電子のシャワーが 降りそそいだ!` );
   }
 
   const genesisSupernova = ( pokemon: Pokemon ): void => {
@@ -1594,7 +1594,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
 
     if ( pokemon.stateChange.ingrain.isTrue ) {
       pokemon.stateChange.ingrain.reset();
-      writeLog( `` );
+      battleLog.write( `` );
     }
 
     main.field.getSide( pokemon.isMine() ).spikes.onRemove();
@@ -1661,7 +1661,7 @@ function activateMoveEffect( pokemon: Pokemon ): void {
     if ( pokemon.move.selected.name !== 'Eerie Spell' ) return; // 技「ぶきみなじゅもん」
     if ( !pokemon.isAdditionalEffect( target, attack ) ) return;
 
-    // writeLog( `${getArticle( one.target)}の ${}を ${}削った!` );
+    // battleLog.write( `${getArticle( one.target)}の ${}を ${}削った!` );
   }
 
 
@@ -2290,7 +2290,7 @@ function otherEffect( pokemon: Pokemon ): void {
     // if ( pokemon.type1 === 'FIRE' ) pokemon.type1 = null;
     // if ( pokemon.type2 === 'FIRE' ) pokemon.type2 = null;
 
-    writeLog( `${getArticle( pokemon )}の 炎は 燃え尽きた!` );
+    battleLog.write( `${getArticle( pokemon )}の 炎は 燃え尽きた!` );
   }
 
   naturalGift:

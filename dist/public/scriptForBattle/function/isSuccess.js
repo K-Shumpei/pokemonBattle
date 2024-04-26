@@ -425,14 +425,14 @@ function changeMoveType(pokemon) {
     }
     if (pokemon.move.selected.name === 'Judgment') { // 技「さばきのつぶて」
         for (const plate of plateTable) {
-            if (pokemon.item.isName(plate.name)) {
+            if (pokemon.isItem(plate.name)) {
                 pokemon.move.selected.type = plate.type;
             }
         }
     }
     if (pokemon.move.selected.name === 'Natural Gift') { // 技「しぜんのめぐみ」
         for (const berry of berryTable) {
-            if (pokemon.item.isName(berry.name)) {
+            if (pokemon.isItem(berry.name)) {
                 pokemon.move.selected.type = berry.naturalGift.type;
             }
         }
@@ -453,14 +453,14 @@ function changeMoveType(pokemon) {
     }
     if (pokemon.move.selected.name === 'Techno Blast') { // 技「テクノバスター」
         for (const drive of driveTable) {
-            if (pokemon.item.isName(drive.name) === true) {
+            if (pokemon.isItem(drive.name) === true) {
                 pokemon.move.selected.type = drive.type;
             }
         }
     }
     if (pokemon.move.selected.name === 'Multi-Attack') { // 技「マルチアタック」
         for (const memory of memoryTable) {
-            if (pokemon.item.isName(memory.name) === true) {
+            if (pokemon.isItem(memory.name) === true) {
                 pokemon.move.selected.type = memory.type;
             }
         }
@@ -733,26 +733,25 @@ function failureByMoveSpec(pokemon) {
         // 持ち物がない
         if (pokemon.item.isNull())
             return false;
-        if (!pokemon.item.isValid())
-            return false;
+        // if ( !pokemon.item.isValid() ) return false;
         // 不適格な持ち物である
-        if (pokemon.item.isName('べにいろのたま'))
+        if (pokemon.isItem('べにいろのたま'))
             return false;
-        if (pokemon.item.isName('あいいろのたま'))
+        if (pokemon.isItem('あいいろのたま'))
             return false;
-        if (pokemon.item.isName('くちたけん'))
+        if (pokemon.isItem('くちたけん'))
             return false;
-        if (pokemon.item.isName('くちたたて'))
+        if (pokemon.isItem('くちたたて'))
             return false;
-        if (pokemon.item.isName('だいこんごうだま'))
+        if (pokemon.isItem('だいこんごうだま'))
             return false;
-        if (pokemon.item.isName('だいしらたま'))
+        if (pokemon.isItem('だいしらたま'))
             return false;
-        if (pokemon.item.isName('だいはっきんだま'))
+        if (pokemon.isItem('だいはっきんだま'))
             return false;
-        if (pokemon.name === 'Giratina Altered' && pokemon.item.isName('はっきんだま'))
+        if (pokemon.name === 'Giratina Altered' && pokemon.isItem('はっきんだま'))
             return false;
-        if (pokemon.name === 'Giratina Origin' && pokemon.item.isName('はっきんだま'))
+        if (pokemon.name === 'Giratina Origin' && pokemon.isItem('はっきんだま'))
             return false;
         if (pokemon.name === 'Arceus' && plateTable.filter(plate => plate.name === pokemon.name).length === 1)
             return false;
@@ -764,7 +763,7 @@ function failureByMoveSpec(pokemon) {
             return false;
         if (megaStoneTable.filter(mega => mega.name === pokemon.item.name && mega.name === pokemon.name).length === 1)
             return false;
-        //if ( paradoxPokemonList.includes( pokemon.name ) && pokemon.item.isName( 'ブーストエナジー' ) ) return false;
+        //if ( paradoxPokemonList.includes( pokemon.name ) && pokemon.isItem( 'ブーストエナジー' ) ) return false;
         pokemon.attack.reset();
         pokemon.msgDeclareFailure();
         return true;
@@ -790,7 +789,7 @@ function failureByMoveSpec(pokemon) {
     const noRetreat = (pokemon) => {
         if (pokemon.move.selected.name !== 'No Retreat')
             return false;
-        if (!pokemon.stateChange.noRetreat.isTrue)
+        if (!pokemon.stateChange.cannotEscape.noRetreat)
             return false;
         pokemon.attack.reset();
         pokemon.msgDeclareFailure();
@@ -998,7 +997,6 @@ function abilityChangeType(pokemon) {
     pokemon.msgDeclareAbility();
     pokemon.type.toType(pokemon.move.selected.type);
     pokemon.stateChange.protean.isTrue = true;
-    pokemon.msgProtean();
 }
 // 溜め技の溜めターンでの動作
 function preliminaryAction(pokemon) {
@@ -1062,7 +1060,7 @@ function preliminaryAction(pokemon) {
         || pokemon.move.selected.name === 'Shadow Force') { // 技「シャドーダイブ」
         pokemon.stateChange.shadowForce.isTrue = true;
     }
-    if (!pokemon.item.isName('パワフルハーブ')) {
+    if (!pokemon.isItem('パワフルハーブ')) {
         pokemon.move.selected.setStore();
         return true;
     }
@@ -1207,26 +1205,26 @@ function disableByProtect(pokemon) {
         if (pokemon.ability.isName('Unseen Fist') // 特性「ふかしのこぶし」
             && pokemon.move.selected.getMaster().contact)
             continue;
-        if (target.stateChange.protect.text === 'キングシールド' && pokemon.move.selected.isStatus())
-            continue;
-        if (target.stateChange.protect.text === 'ブロッキング' && pokemon.move.selected.isStatus())
-            continue;
+        if (target.stateChange.protect.move === 'King’s Shield' && pokemon.move.selected.isStatus())
+            continue; // 技「キングシールド」
+        if (target.stateChange.protect.move === 'Obstruct' && pokemon.move.selected.isStatus())
+            continue; // 技「ブロッキング」
         attack.success = false;
         target.msgProtect();
-        spikyShield: if (target.stateChange.protect.text === 'ニードルガード') {
+        spikyShield: if (target.stateChange.protect.move === 'Spiky Shield') { // 技「ニードルガード」
             if (!pokemon.move.selected.getMaster().contact)
                 break spikyShield;
             if (pokemon.move.selected.name === 'Sky Drop')
                 break spikyShield; // 技「フリーフォール」
             if (pokemon.ability.isName('Magic Guard'))
                 break spikyShield; // 特性「マジックガード」
-            if (target.item.isName('ぼうごパット'))
+            if (target.isItem('ぼうごパット'))
                 break spikyShield;
             const damage = Math.max(1, Math.floor(pokemon.getOrgHP() / 8));
             pokemon.status.hp.value.sub(damage);
             pokemon.msgHurt();
         }
-        banefulBunker: if (target.stateChange.protect.text === 'トーチカ') {
+        banefulBunker: if (target.stateChange.protect.move === 'Baneful Bunker') { // 技「トーチカ」
             if (!pokemon.move.selected.getMaster().contact)
                 break banefulBunker;
             if (pokemon.move.selected.name === 'Sky Drop')
@@ -1235,14 +1233,14 @@ function disableByProtect(pokemon) {
                 break banefulBunker;
             pokemon.statusAilment.getPoisoned();
         }
-        kingsShield: if (target.stateChange.protect.text === 'キングシールド') {
+        kingsShield: if (target.stateChange.protect.move === 'King’s Shield') { // 技「キングシールド」
             if (!pokemon.move.selected.getMaster().contact)
                 break kingsShield;
             if (!pokemon.isChangeRankByOther('atk', -1, target))
                 break kingsShield;
             pokemon.changeRankByOther('atk', -1, target);
         }
-        obstruct: if (target.stateChange.protect.text === 'ブロッキング') {
+        obstruct: if (target.stateChange.protect.move === 'Obstruct') { // 技「ブロッキング」
             if (pokemon.move.selected.getMaster().contact === false)
                 break obstruct;
             if (!pokemon.isChangeRankByOther('def', -2, target))
@@ -1272,8 +1270,8 @@ function disableByMatBlock(pokemon) {
 function disableByMaxGuard(pokemon) {
     for (const attack of pokemon.attack.getTargetToPokemon()) {
         const target = main.getPokemonByBattle(attack);
-        if (target.stateChange.protect.text !== 'ダイウォール')
-            continue;
+        if (target.stateChange.protect.move !== 'Max Guard')
+            continue; // 技「ダイウォール」
         //if ( notMaxGuardMoveList.includes( pokemon.move.selected.name ) === false && pokemon.move.selected.getMaster().protect === false ) continue;
         attack.success = false;
         target.msgProtect();
@@ -1431,7 +1429,7 @@ function disableGroundMove2nd(pokemon) {
             continue;
         if (!target.stateChange.magnetRise.isTrue &&
             !target.stateChange.telekinesis.isTrue &&
-            !target.item.isName('ふうせん'))
+            !target.isItem('ふうせん'))
             continue;
         attack.success = false;
         target.msgInvalid();
@@ -1444,7 +1442,7 @@ function disablePowder(pokemon) {
         const target = main.getPokemonByBattle(attack);
         if (!pokemon.move.selected.getMaster().powder)
             continue;
-        if (!target.item.isName('ぼうじんゴーグル'))
+        if (!target.isItem('ぼうじんゴーグル'))
             continue;
         target.msgSafetyGoggles(pokemon.move.selected.translate());
         attack.success = false;
@@ -1879,18 +1877,18 @@ function disableByHitJudgment(pokemon) {
         }
         for (const tgt of calcOrder()) {
             if (isSame(tgt, target)) {
-                if (tgt.item.isName('ひかりのこな')) {
+                if (tgt.isItem('ひかりのこな')) {
                     corrM = Math.round(corrM * 3686 / 4096);
                 }
-                if (tgt.item.isName('のんきのおこう')) {
+                if (tgt.isItem('のんきのおこう')) {
                     corrM = Math.round(corrM * 3686 / 4096);
                 }
             }
             if (isSame(tgt, pokemon)) {
-                if (tgt.item.isName('こうかくレンズ')) {
+                if (tgt.isItem('こうかくレンズ')) {
                     corrM = Math.round(corrM * 4505 / 4096);
                 }
-                if (tgt.item.isName('フォーカスレンズ')) {
+                if (tgt.isItem('フォーカスレンズ')) {
                     ;
                 }
             }
@@ -2009,9 +2007,9 @@ function disableByMoveSpec3rd(pokemon) {
                 return true;
         }
         if (pokemon.move.selected.name === 'Corrosive Gas') { // 技「ふしょくガス」
-            if (target.name === 'Giratina Origin' && target.item.isName('はっきんだま'))
+            if (target.name === 'Giratina Origin' && target.isItem('はっきんだま'))
                 return true; // ギラティナ(オリジン)
-            if (target.name === 'Giratina Altered' && target.item.isName('はっきんだま'))
+            if (target.name === 'Giratina Altered' && target.isItem('はっきんだま'))
                 return true; // ギラティナ(アナザー)
             if (target.name === 'Genesect') { // ゲノセクト
                 for (const drive of driveTable) {
@@ -2025,13 +2023,13 @@ function disableByMoveSpec3rd(pokemon) {
                         return true;
                 }
             }
-            if (target.name === 'Zacian' && target.item.isName('くちたけん'))
+            if (target.name === 'Zacian' && target.isItem('くちたけん'))
                 return true; // ザシアン
-            if (target.name === 'Zacian Crowned' && target.item.isName('くちたけん'))
+            if (target.name === 'Zacian Crowned' && target.isItem('くちたけん'))
                 return true; // ザシアン(王)
-            if (target.name === 'Zamazenta' && target.item.isName('くちたたて'))
+            if (target.name === 'Zamazenta' && target.isItem('くちたたて'))
                 return true; // ザマゼンタ
-            if (target.name === 'Zamazenta Crowned' && target.item.isName('くちたたて'))
+            if (target.name === 'Zamazenta Crowned' && target.isItem('くちたたて'))
                 return true; // ザマゼンタ(王)
         }
         if (pokemon.move.selected.name === 'Recycle') { // 技「リサイクル」

@@ -144,7 +144,7 @@ class Attack {
 
   failure(): void {
     this._success === false;
-    writeLog( `しかし うまく決まらなかった...` );
+    battleLog.write( `しかし うまく決まらなかった...` );
   }
 
   isField(): boolean {
@@ -333,22 +333,6 @@ class Transform extends StateChange {
 }
 
 
-class Attract extends StateChange {
-  _order: Order;
-
-  constructor() {
-    super();
-    this._order = new Order( true, 0 );
-  }
-
-  beTrue( order: Order ): void {
-    this._isTrue = true;
-    this._order.isMe = order.isMe;
-    this._order.party = order.party;
-  }
-}
-
-
 
 
 
@@ -398,7 +382,7 @@ class Ability {
 
   onChangeWithMsg( ability: AbilityText ): void {
     this.name = ability;
-    writeLog( `${this.pokeName}は ${this.translate()}に なった!` );
+    battleLog.write( `${this.pokeName}は ${this.translate()}に なった!` );
   }
 }
 
@@ -467,7 +451,7 @@ class TrickOrTreat extends StateChangeStatus {
 
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
-    writeLog( `${pokemon.getArticle()}に ゴーストタイプが 追加された!` );
+    battleLog.write( `${pokemon.getArticle()}に ゴーストタイプが 追加された!` );
   }
 }
 
@@ -475,7 +459,7 @@ class ForestsCurse extends StateChangeStatus {
 
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
-    writeLog( `${pokemon.getArticle()}に くさタイプが 追加された!` );
+    battleLog.write( `${pokemon.getArticle()}に くさタイプが 追加された!` );
   }
 }
 
@@ -507,7 +491,7 @@ class Type {
 
   toType( type: PokemonType ): void {
     this.list = [ type ];
-    writeLog( `${this.pokeName}は ${type}タイプに なった!` );
+    battleLog.write( `${this.pokeName}は ${type}タイプに なった!` );
   }
 
   getCompatibility( type: PokemonType ): number {
@@ -807,7 +791,7 @@ class Pokemon {
     else return '相手';
   }
   msgToBattleField(): void {
-    writeLog( `${this.isMeToStr()}は ${this.translateName( String(this._name) )}を くりだした!` );
+    battleLog.write( `${this.isMeToStr()}は ${this.translateName( String(this._name) )}を くりだした!` );
   }
   getArticle(): string {
     if ( this._name === null ) return ''
@@ -816,339 +800,277 @@ class Pokemon {
   }
 
   msgQuickDraw(): void {
-    writeLog( `${this.getArticle()}は クイックドロウで 行動が はやくなった!` );
+    battleLog.write( `${this.getArticle()}は クイックドロウで 行動が はやくなった!` );
   }
   msgQuickClaw(): void {
-    writeLog( `${this.getArticle()}は せんせいのつめで 行動が はやくなった!` );
+    battleLog.write( `${this.getArticle()}は せんせいのつめで 行動が はやくなった!` );
   }
   msgCustapBerry(): void {
-    writeLog( `${this.getArticle()}は イバンのみで 行動が はやくなった!` );
-  }
-  msgCannotMove(): void {
-    writeLog( `${this.getArticle()}は 攻撃の 反動で 動けない!` );
-  }
-  msgStillAsleep(): void {
-    writeLog( `${this.getArticle()}は ぐうぐう 眠っている` );
-  }
-  msgStillFrozen(): void {
-    writeLog( `${this.getArticle()}は 凍ってしまって 動けない!` );
-  }
-  msgNoPowerPoint(): void {
-    writeLog( `しかし 技の 残りポイントが なかった!` );
-  }
-  msgTruant(): void {
-    writeLog( `${this.getArticle()}は なまけている` );
-  }
-  msgFocusPunch(): void {
-    writeLog( `${this.getArticle()}は 集中が 途切れて 技が 出せない!` );
-  }
-  msgFlinch(): void {
-    writeLog( `${this.getArticle()}は ひるんで 技が 出せない!` );
-  }
-  msgDisable(): void {
-    writeLog( `${this.getArticle()}は かなしばりで 技が 出せない!` );
-  }
-  msgGravity(): void {
-    writeLog( `${this.getArticle()}は じゅうりょくが 強くて ${this._move.selected.translate()}が 出せない!` );
-  }
-  msgHealBlock(): void {
-    writeLog( `${this.getArticle()}は かいふくふうじで 技が 出せない!` );
-  }
-  msgThroatChop(): void {
-    writeLog( `${this.getArticle()}は じごくづきの効果で 技が 出せない!` );
-  }
-  msgTaunt(): void {
-    writeLog( `${this.getArticle()}は ちょうはつされて 技が 出せない!` );
-  }
-  msgImprison(): void {
-    writeLog( `${this.getArticle()}は ふういんで 技が 出せない!` );
-  }
-  msgStillConfuse(): void {
-    writeLog( `${this.getArticle()}は 混乱している!` );
-  }
-  msgAttackMyself(): void {
-    writeLog( `わけも わからず 自分を 攻撃した!` );
-  }
-  msgParalysis(): void {
-    writeLog( `${this.getArticle()}は 体がしびれて 動かない!` );
-  }
-  msgMeltByMove(): void {
-    writeLog( `${this.getArticle()}の ${this._move.selected.translate()}で こおりがとけた!` );
+    battleLog.write( `${this.getArticle()}は イバンのみで 行動が はやくなった!` );
   }
   msgDeclareMove(): void {
-    writeLog( `${this.getArticle()}の ${this._move.selected.translate()}!` );
+    battleLog.write( `${this.getArticle()}の ${this._move.selected.translate()}!` );
   }
   msgDeclareAbility(): void {
-    writeLog( `${this.translateName( String(this._name) )}の ${this._ability.translate()}` );
+    battleLog.write( `${this.translateName( String(this._name) )}の ${this._ability.translate()}` );
   }
   msgDeclareFailure(): void {
-    writeLog( `しかし うまく決まらなかった....` );
-  }
-  msgBadRainy(): void {
-    writeLog( `強い雨の 影響で ほのおタイプの 攻撃が 消失した!` );
-  }
-  msgBadSunny(): void {
-    writeLog( `強い日差しの 影響で みずタイプの 攻撃が 蒸発した!` );
-  }
-  msgPowder(): void {
-    writeLog( `${this._move.selected.translate()}に 反応して ふんじんが 爆発した!` );
+    battleLog.write( `しかし うまく決まらなかった....` );
   }
   msgInvalidUser(): void {
-    writeLog( `しかし ${this.getArticle()}には 使うことが できなかった!` );
+    battleLog.write( `しかし ${this.getArticle()}には 使うことが できなかった!` );
   }
   msgRefWeight(): void {
-    writeLog( `${this.getArticle()}は 首を 横に振った` );
-    writeLog( `この技を しかけることが できないようだ......` );
+    battleLog.write( `${this.getArticle()}は 首を 横に振った` );
+    battleLog.write( `この技を しかけることが できないようだ......` );
   }
   msgCannotUse(): void {
-    writeLog( `${this.getArticle()}は ${this._move.selected.translate()}が 使えない!` );
+    battleLog.write( `${this.getArticle()}は ${this._move.selected.translate()}が 使えない!` );
   }
   msgFutureSight(): void {
-    writeLog( `${this.getArticle()}は 未来に 攻撃を予知した!` );
+    battleLog.write( `${this.getArticle()}は 未来に 攻撃を予知した!` );
   }
   msgDoomDesire(): void {
-    writeLog( `${this.getArticle()}は はめつのねがいを 未来に託した!` );
+    battleLog.write( `${this.getArticle()}は はめつのねがいを 未来に託した!` );
   }
   msgPreliminary(): void {
     if ( this._move.selected.name === 'Razor Wind' ) { // 技「かまいたち」
-      writeLog( `${this.getArticle()}の 周りで 空気が 渦を巻く!` );
+      battleLog.write( `${this.getArticle()}の 周りで 空気が 渦を巻く!` );
     }
     if ( this._move.selected.name === 'Ice Burn' ) { // 技「コールドフレア」
-      writeLog( `${this.getArticle()}は 凍える空気に 包まれた!` );
+      battleLog.write( `${this.getArticle()}は 凍える空気に 包まれた!` );
     }
     if ( this._move.selected.name === 'Sky Attack' ) { // 技「ゴッドバード」
-      writeLog( `${this.getArticle()}を 激しい光が 包む!` );
+      battleLog.write( `${this.getArticle()}を 激しい光が 包む!` );
     }
     if ( this._move.selected.name === 'Geomancy' ) { // 技「ジオコントロール」
-      writeLog( `${this.getArticle()}は パワーを ためこんでいる!` );
+      battleLog.write( `${this.getArticle()}は パワーを ためこんでいる!` );
     }
     if ( this._move.selected.name === 'Solar Beam' // 技「ソーラービーム」
       || this._move.selected.name === 'Solar Blade' ) { // 技「ソーラーブレード」
-      writeLog( `${this.getArticle()}は 光を 吸収した!` );
+      battleLog.write( `${this.getArticle()}は 光を 吸収した!` );
     }
     if ( this._move.selected.name === 'Freeze Shock' ) { // 技「フリーズボルト」
-      writeLog( `${this.getArticle()}は 冷たい光に 包まれた!` );
+      battleLog.write( `${this.getArticle()}は 冷たい光に 包まれた!` );
     }
     if ( this._move.selected.name === 'Meteor Beam' ) { // 技「メテオビーム」
-      writeLog( `${this.getArticle()}に 宇宙の 力が あふれだす!` );
+      battleLog.write( `${this.getArticle()}に 宇宙の 力が あふれだす!` );
     }
     if ( this._move.selected.name === 'Skull Bash' ) { // 技「ロケットずつき」
-      writeLog( `${this.getArticle()}は 首を 引っ込めた!` );
+      battleLog.write( `${this.getArticle()}は 首を 引っ込めた!` );
     }
     if ( this._move.selected.name === 'Dig' ) { // 技「あなをほる」
-      writeLog( `${this.getArticle()}は 地面に 潜った!` );
+      battleLog.write( `${this.getArticle()}は 地面に 潜った!` );
     }
     if ( this._move.selected.name === 'Fly' ) { // 技「そらをとぶ」
-      writeLog( `${this.getArticle()}は 空高く 飛び上がった!` );
+      battleLog.write( `${this.getArticle()}は 空高く 飛び上がった!` );
     }
     if ( this._move.selected.name === 'Bounce' ) { // 技「とびはねる」
-      writeLog( `${this.getArticle()}は 高く 飛び跳ねた!` );
+      battleLog.write( `${this.getArticle()}は 高く 飛び跳ねた!` );
     }
     if ( this._move.selected.name === 'Dive' ) { // 技「ダイビング」
-      writeLog( `${this.getArticle()}は 水中に 身を潜めた!` );
+      battleLog.write( `${this.getArticle()}は 水中に 身を潜めた!` );
     }
     if ( this._move.selected.name === 'Phantom Force' // 技「ゴーストダイブ」
       || this._move.selected.name === 'Shadow Force' ) { // 技「シャドーダイブ」
-      writeLog( `${this.getArticle()}の姿が 一瞬にして 消えた!` );
+      battleLog.write( `${this.getArticle()}の姿が 一瞬にして 消えた!` );
     }
   }
   msgPowerHerb(): void {
-    writeLog( `${this.getArticle()}は パワフルハーブで 力が みなぎった!` );
+    battleLog.write( `${this.getArticle()}は パワフルハーブで 力が みなぎった!` );
   }
   msgNotHit(): void {
-    writeLog( `${this.getArticle()}には 当たらなかった!` );
+    battleLog.write( `${this.getArticle()}には 当たらなかった!` );
   }
   msgPsychicTerrain(): void {
-    writeLog( `${this.getArticle()}は サイコフィールドに 守られている!` );
+    battleLog.write( `${this.getArticle()}は サイコフィールドに 守られている!` );
   }
   msgQuickGuard(): void {
-    writeLog( `${this.getArticle()}は ファストガードで 守られた!` );
+    battleLog.write( `${this.getArticle()}は ファストガードで 守られた!` );
   }
   msgWideGuard(): void {
-    writeLog( `${this.getArticle()}は ワイドガードで 守られた!` );
+    battleLog.write( `${this.getArticle()}は ワイドガードで 守られた!` );
   }
   msgCraftyShield(): void {
-    writeLog( `${this.getArticle()}は トリックガードで 守られた!` );
+    battleLog.write( `${this.getArticle()}は トリックガードで 守られた!` );
   }
   msgProtect(): void {
-    writeLog( `${this.getArticle()}は 攻撃から 身を守った!` );
+    battleLog.write( `${this.getArticle()}は 攻撃から 身を守った!` );
   }
   msgHurt(): void {
-    writeLog( `${this.getArticle()}は 傷ついた!` );
+    battleLog.write( `${this.getArticle()}は 傷ついた!` );
   }
   msgMatBlock(): void {
-    writeLog( `${this._move.selected.translate()}は たたみがえしで 防がれた!` );
+    battleLog.write( `${this._move.selected.translate()}は たたみがえしで 防がれた!` );
   }
   msgInvalid(): void {
-    writeLog( `${this.getArticle()}には 効果がないようだ...` );
+    battleLog.write( `${this.getArticle()}には 効果がないようだ...` );
   }
   msgSafetyGoggles( move: string ): void {
-    writeLog( `${this.getArticle()}は ぼうじんゴーグルで ${move}を 受けない!` );
+    battleLog.write( `${this.getArticle()}は ぼうじんゴーグルで ${move}を 受けない!` );
   }
 
   msgDamage( damage: number ): void {
-    writeLog( `${damage}の ダメージ!` );
+    battleLog.write( `${damage}の ダメージ!` );
   }
   msgSuperEffective( targetName: string ): void {
     if ( this._attack.getTarget().length === 1 ) {
-      writeLog( `効果は バツグンだ!` );
+      battleLog.write( `効果は バツグンだ!` );
     } else {
-      writeLog( `${targetName}に 効果は バツグンだ!` );
+      battleLog.write( `${targetName}に 効果は バツグンだ!` );
     }
   }
   msgNotEffective( targetName: string ): void {
     if ( this._attack.getTarget().length === 1 ) {
-      writeLog( `${targetName}に 効果は 今ひとつのようだ......` );
+      battleLog.write( `${targetName}に 効果は 今ひとつのようだ......` );
     } else {
-      writeLog( `${targetName}に 効果は いまひとつだ` );
+      battleLog.write( `${targetName}に 効果は いまひとつだ` );
     }
   }
   msgCritical( targetName: string ): void {
     if ( this._attack.getTarget().length === 1 ) {
-      writeLog( `急所に 当たった!` );
+      battleLog.write( `急所に 当たった!` );
     } else {
-      writeLog( `${targetName}に 急所に 当たった!` );
+      battleLog.write( `${targetName}に 急所に 当たった!` );
     }
   }
   msgEndure(): void {
-    writeLog( `${this.getArticle()}は 攻撃を こらえた!` );
+    battleLog.write( `${this.getArticle()}は 攻撃を こらえた!` );
   }
   msgFocusSash(): void {
-    writeLog( `${this.getArticle()}は きあいのタスキで 持ちこたえた!` );
+    battleLog.write( `${this.getArticle()}は きあいのタスキで 持ちこたえた!` );
   }
   msgFocusBand(): void {
-    writeLog( `${this.getArticle()}は きあいのハチマキで 持ちこたえた!` );
+    battleLog.write( `${this.getArticle()}は きあいのハチマキで 持ちこたえた!` );
   }
   msgCannotEscape(): void {
-    writeLog( `${this.getArticle()}は もう 逃げられない!` );
+    battleLog.write( `${this.getArticle()}は もう 逃げられない!` );
   }
   msgSaltCure(): void {
-    writeLog( `${this.getArticle()}は しおづけに なった!` );
+    battleLog.write( `${this.getArticle()}は しおづけに なった!` );
   }
   msgWhiteHerb(): void {
-    writeLog( `${this.getArticle()}は しろいハーブで ステータスを 元に戻した!` );
+    battleLog.write( `${this.getArticle()}は しろいハーブで ステータスを 元に戻した!` );
   }
   msgLiquidOoze(): void {
-    writeLog( `${this.getArticle()}は ヘドロえきを 吸い取った!` );
+    battleLog.write( `${this.getArticle()}は ヘドロえきを 吸い取った!` );
   }
   msgDrain( targetName: string ): void {
-    writeLog( `${targetName}から 体力を 吸い取った!` );
+    battleLog.write( `${targetName}から 体力を 吸い取った!` );
   }
   msgRage(): void {
-    writeLog( `${this.getArticle()}の いかりのボルテージが 上がっていく!` );
+    battleLog.write( `${this.getArticle()}の いかりのボルテージが 上がっていく!` );
   }
   msgClearSmog(): void {
-    writeLog( `全ての ステータスが 元に 戻った!` );
+    battleLog.write( `全ての ステータスが 元に 戻った!` );
   }
   msgGrudge(): void {
-    writeLog( `${this.getArticle()}の ${this._move.learned[this._move.selected.slot].translate()}は おんねんで PPが0になった!` );
+    battleLog.write( `${this.getArticle()}の ${this._move.learned[this._move.selected.slot].translate()}は おんねんで PPが0になった!` );
   }
   msgProtectivePads(): void {
-    writeLog( `${this.getArticle()}は ぼうごパットで 防いだ!` );
+    battleLog.write( `${this.getArticle()}は ぼうごパットで 防いだ!` );
   }
   msgRoughSkin(): void {
-    writeLog( `${this.getArticle()}は 傷ついた!` );
+    battleLog.write( `${this.getArticle()}は 傷ついた!` );
   }
   msgAttract(): void {
-    writeLog( `${this.getArticle()}は メロメロに なった!` );
+    battleLog.write( `${this.getArticle()}は メロメロに なった!` );
   }
   msgMummy(): void {
-    writeLog( `${this.getArticle()}は とくせいが ミイラになっちゃった!` );
+    battleLog.write( `${this.getArticle()}は とくせいが ミイラになっちゃった!` );
   }
   msgLingeringAroma(): void {
-    writeLog( `${this.getArticle()}は においが うつって とれなくなっちゃった!` );
+    battleLog.write( `${this.getArticle()}は においが うつって とれなくなっちゃった!` );
   }
   msgExchangeAbility(): void {
-    writeLog( `${this.getArticle()}は おたがいの とくせいを 入れ替えた!` );
+    battleLog.write( `${this.getArticle()}は おたがいの とくせいを 入れ替えた!` );
   }
   msgPerishBodySide(): void {
-    writeLog( `${this.getArticle()}は 3ターン後に 滅びてしまう!` );
+    battleLog.write( `${this.getArticle()}は 3ターン後に 滅びてしまう!` );
   }
   msgPerishBodyAll(): void {
-    writeLog( `おたがいは 3ターン後に 滅びてしまう!` );
+    battleLog.write( `おたがいは 3ターン後に 滅びてしまう!` );
   }
   msgElectromorphosis( moveName: string ): void {
-    writeLog( `${this.getArticle()}は ${moveName}を 受けて 充電した!` );
+    battleLog.write( `${this.getArticle()}は ${moveName}を 受けて 充電した!` );
   }
   msgAngerPoint(): void {
-    writeLog( `${this.getArticle()}は 攻撃が 最大まで 上がった!` );
+    battleLog.write( `${this.getArticle()}は 攻撃が 最大まで 上がった!` );
   }
   msgHalfBerry(): void {
-    writeLog( `${this.getArticle()}への ダメージを ${this._stateChange.halfBerry.text}が 弱めた!` );
+    battleLog.write( `${this.getArticle()}への ダメージを ${this._stateChange.halfBerry.text}が 弱めた!` );
   }
   msgRockyHelmet(): void {
-    writeLog( `${this.getArticle()}は ゴツゴツメットで ダメージを受けた!` );
+    battleLog.write( `${this.getArticle()}は ゴツゴツメットで ダメージを受けた!` );
   }
   msgAirBalloon(): void {
-    writeLog( `${this.getArticle()}の ふうせんが 割れた!` );
+    battleLog.write( `${this.getArticle()}の ふうせんが 割れた!` );
   }
   msgIncinerate(): void {
-    writeLog( `${this.getArticle()}の ${this._item.name}は 焼けてなくなった!` );
+    battleLog.write( `${this.getArticle()}の ${this._item.name}は 焼けてなくなった!` );
   }
   msgJabocaBerry( targetName: string ): void {
-    writeLog( `${this.getArticle()}は ${targetName}の ジャポのみで ダメージを 受けた!` );
+    battleLog.write( `${this.getArticle()}は ${targetName}の ジャポのみで ダメージを 受けた!` );
   }
   msgRowapBerry( targetName: string ): void {
-    writeLog( `${this.getArticle()}は ${targetName}の レンブのみで ダメージを 受けた!` );
+    battleLog.write( `${this.getArticle()}は ${targetName}の レンブのみで ダメージを 受けた!` );
   }
   msgFainted(): void {
-    writeLog( `${this.getArticle()}は たおれた!` );
+    battleLog.write( `${this.getArticle()}は たおれた!` );
   }
   msgDestinyBond(): void {
-    writeLog( `${this.getArticle()}は 相手を 道連れに した!` );
+    battleLog.write( `${this.getArticle()}は 相手を 道連れに した!` );
   }
   msgRecoil(): void {
-    writeLog( `${this.getArticle()}は 反動による ダメージを 受けた!` );
+    battleLog.write( `${this.getArticle()}は 反動による ダメージを 受けた!` );
   }
 
   msgKnockOff( targetName: string, targetItem: string ): void {
-    writeLog( `${this.getArticle()}は ${targetName}の ${targetItem}を はたき落とした!` );
+    battleLog.write( `${this.getArticle()}は ${targetName}の ${targetItem}を はたき落とした!` );
   }
   msgNotThief( targetName: string ): void {
-    writeLog( `${targetName}の 道具を 奪えない!` );
+    battleLog.write( `${targetName}の 道具を 奪えない!` );
   }
   msgThief( targetName: string, targetItem: string ): void {
-    writeLog( `${this.getArticle()}は ${targetName}から ${targetItem}を 奪い取った!` );
+    battleLog.write( `${this.getArticle()}は ${targetName}から ${targetItem}を 奪い取った!` );
   }
   msgBugBote( berryName: string ): void {
-    writeLog( `${this.getArticle()}は ${berryName}を 奪って 食べた!` );
+    battleLog.write( `${this.getArticle()}は ${berryName}を 奪って 食べた!` );
   }
   msgSmackDown(): void {
-    writeLog( `${this.getArticle()}は 撃ち落とされて 地面に 落ちた!` );
+    battleLog.write( `${this.getArticle()}は 撃ち落とされて 地面に 落ちた!` );
   }
   msgThousandWaves(): void {
-    writeLog( `${this.getArticle()}は もう 逃げられない!` );
+    battleLog.write( `${this.getArticle()}は もう 逃げられない!` );
   }
   msgJawLock(): void {
-    writeLog( `おたがいの ポケモンは 逃げることが できなくなった!` );
+    battleLog.write( `おたがいの ポケモンは 逃げることが できなくなった!` );
   }
   msgBattleBond(): void {
-    writeLog( `${this.getArticle()}に きずなの 力が みなぎった!` );
+    battleLog.write( `${this.getArticle()}に きずなの 力が みなぎった!` );
   }
   msgLifeOrb(): void {
-    writeLog( `${this.getArticle()}は 命が 少し削られた!` );
+    battleLog.write( `${this.getArticle()}は 命が 少し削られた!` );
   }
   msgShellBell(): void {
-    writeLog( `${this.getArticle()}は かいがらのすずで 少し 回復` );
+    battleLog.write( `${this.getArticle()}は かいがらのすずで 少し 回復` );
   }
   msgPickpocket(): void {
-    writeLog( `${this.getArticle()}の ${this._item.name}を 奪った!` );
+    battleLog.write( `${this.getArticle()}の ${this._item.name}を 奪った!` );
   }
 
   msgAddHPByAbility(): void {
-    writeLog( `${this.getArticle()}の 体力が 回復した!` );
+    battleLog.write( `${this.getArticle()}の 体力が 回復した!` );
   }
   msgAddHPByItem( item: string ): void {
-    writeLog( `${this.getArticle()}は ${item}で 体力を 回復した!` );
+    battleLog.write( `${this.getArticle()}は ${item}で 体力を 回復した!` );
   }
 
 
 
-  msgCureConfuse(): void {
-    writeLog( `${this.getArticle()}の 混乱が 解けた!` );
-  }
+
   msgToHand(): void {
-    writeLog( `${this.getArticle()}を 引っ込めた!` ); // メッセージ確認不足
+    battleLog.write( `${this.getArticle()}を 引っ込めた!` ); // メッセージ確認不足
   }
 
 
@@ -1428,7 +1350,7 @@ class Pokemon {
     }
   }
 
-  getAilmentByStatusMove( ailmentName: string ): void {
+  getAilmentByStatusMove( ailmentName: string, pokemon: Pokemon ): void {
 
     switch ( ailmentName ) {
       case 'paralysis':
@@ -1452,16 +1374,54 @@ class Pokemon {
         break;
 
       case 'confusion':
-        this.getConfusion();
+        this.stateChange.confuse.onActivate( this );
         break;
 
-      case 'tar-shot':
+      case 'leech-seed': // やどりぎのタネ
+        this.stateChange.leechSeed.onActivate( pokemon, this );
+        break;
+
+      case 'nightmare': // あくむ
+        break;
+
+      case 'no-type-immunity': // みやぶる、かぎわける、ミラクルアイ
+        break;
+
+      case 'perish-song': // ほろびのうた
+        this.stateChange.perishSong.onActivate();
+        break;
+
+      case 'infatuation': // メロメロ
+        break;
+
+      case 'torment': // いちゃもん
+        this.stateChange.torment.onActivate( this );
+        break;
+
+      case 'ingrain': // ねをはる
+        this.stateChange.ingrain.onActivate( this );
+        break;
+
+      case 'yawn': // あくび
+        break;
+
+      case 'embargo': // さしおさえ
+        this.stateChange.embargo.onActivate( this );
+        break;
+
+      case 'heal-block': // かいふくふうじ
+        this.stateChange.healBlock.onActivate( this );
+        break;
+
+      case 'tar-shot': // タールショット
         this.stateChange.tarShot.onActivate( this );
         break;
 
-      case 'ingrain':
-        this.stateChange.ingrain.onActivate( this );
+      case 'unknown': // テレキネシス
+        this.stateChange.telekinesis.onActivate( this );
         break;
+
+
 
       default:
         break;
@@ -1484,36 +1444,6 @@ class Pokemon {
     return this.safeGuardCheck( other ) && this.mistTerrainCheck();
   }
 
-  getConfusion(): void {
-    this._stateChange.getConfusion( this.getArticle() );
-  }
-
-
-
-  //--------
-  // メロメロ
-  //--------
-  isGetAttract( other: Pokemon ): boolean {
-    if ( this._gender === 'genderless' ) return false;
-    if ( other.gender === 'genderless' ) return false;
-    if ( this._gender === other.gender ) return false;
-    if ( this.isMine() === other.isMine() ) return false;
-    if ( this._stateChange.attract.isTrue ) return false;
-    if ( this._ability.isName( 'Oblivious' ) ) return false; // 特性「どんかん」
-    if ( !main.isExistAbilityInSide( this.isMine(), 'Aroma Veil' ) ) return false; // 特性「アロマベール」
-
-    return true;
-  }
-
-  getAttract( other: Pokemon ): void {
-    this._stateChange.attract.beTrue( other.order );
-    this.msgAttract();
-
-    if ( !this.isItem( 'あかいいと' ) ) return;
-    if ( !other.isGetAttract( this ) ) return;
-
-    other.getAttract( this );
-  }
 
 
   //--------------
@@ -1545,19 +1475,19 @@ class Pokemon {
   }
 
   msgAegislashSchild(): void {
-    writeLog( `ブレードフォルム チェンジ!` );
+    battleLog.write( `ブレードフォルム チェンジ!` );
   }
   msgAegislashBlade(): void {
-    writeLog( `シールドフォルム チェンジ!` );
+    battleLog.write( `シールドフォルム チェンジ!` );
   }
   msgRelicSong(): void {
-    writeLog( `${this.getArticle()}の 姿が 変化した!` );
+    battleLog.write( `${this.getArticle()}の 姿が 変化した!` );
   }
   msgDisguise(): void {
-    writeLog( `${this.getArticle()}の ばけのかわが はがれた!` );
+    battleLog.write( `${this.getArticle()}の ばけのかわが はがれた!` );
   }
   msgIceFace(): void {
-    writeLog( `${this.getArticle()}の 姿が 変化した!` );
+    battleLog.write( `${this.getArticle()}の 姿が 変化した!` );
   }
 
 
@@ -1848,7 +1778,7 @@ class Pokemon {
 
       case 'Air Lock': // 特性「エアロック」
         this.msgDeclareAbility();
-        writeLog( `天候の影響が なくなった!` );
+        battleLog.write( `天候の影響が なくなった!` );
         break;
 
       case 'Electric Surge': // 特性「エレキメイカー」
@@ -1860,7 +1790,7 @@ class Pokemon {
 
       case 'Aura Break': // 特性「オーラブレイク」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}は すべての オーラを 制圧する!` );
+        battleLog.write( `${this.getArticle()}は すべての オーラを 制圧する!` );
         break;
 
       case 'Frisk': // 特性「おみとおし」
@@ -1876,7 +1806,7 @@ class Pokemon {
 
       case 'Mold Breaker': // 特性「かたやぶり」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}は かたやぶりだ!` );
+        battleLog.write( `${this.getArticle()}は かたやぶりだ!` );
         break;
 
       case 'Imposter': // 特性「かわりもの」
@@ -1927,12 +1857,12 @@ class Pokemon {
 
       case 'Dark Aura': // 特性「ダークオーラ」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}は ダークオーラを 放っている!` );
+        battleLog.write( `${this.getArticle()}は ダークオーラを 放っている!` );
         break;
 
       case 'Turboblaze': // 特性「ターボブレイズ」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}は 燃え盛る オーラを 放っている!` );
+        battleLog.write( `${this.getArticle()}は 燃え盛る オーラを 放っている!` );
         break;
 
       case 'Download': // 特性「ダウンロード」
@@ -1941,7 +1871,7 @@ class Pokemon {
 
       case 'Teravolt': // 特性「テラボルテージ」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}は 弾ける オーラを 放っている!` );
+        battleLog.write( `${this.getArticle()}は 弾ける オーラを 放っている!` );
         break;
 
       case 'Delta Stream': // 特性「デルタストリーム」
@@ -1957,7 +1887,7 @@ class Pokemon {
 
       case 'Cloud Nine': // 特性「ノーてんき」
         this.msgDeclareAbility();
-        writeLog( `天候の影響が なくなった!` );
+        battleLog.write( `天候の影響が なくなった!` );
         break;
 
       case 'Primordial Sea': // 特性「はじまりのうみ」
@@ -1971,9 +1901,9 @@ class Pokemon {
         if ( !main.field.terrain.isElectric() ) {
           this.msgDeclareAbility();
           main.field.terrain.getElectric( this );
-          writeLog( `${this.getArticle()}は エレキフィールドを はり 未来の機関を 躍動させる!!` );
+          battleLog.write( `${this.getArticle()}は エレキフィールドを はり 未来の機関を 躍動させる!!` );
         } else {
-          writeLog( `${this.getArticle()}は エレキフィールドで 未来の機関を 躍動させる!!` );
+          battleLog.write( `${this.getArticle()}は エレキフィールドで 未来の機関を 躍動させる!!` );
         }
         break;
 
@@ -1992,15 +1922,15 @@ class Pokemon {
         if ( main.field.weather.isGetSunny() ) {
           this.msgDeclareAbility();
           main.field.weather.getSunny( this );
-          writeLog( `${this.getArticle()}は ひざしを 強め 古代の鼓動が 暴れ出す!!` );
+          battleLog.write( `${this.getArticle()}は ひざしを 強め 古代の鼓動が 暴れ出す!!` );
         } else {
-          writeLog( `${this.getArticle()}は ひざしを 受けて 古代の鼓動が 暴れ出す!!` );
+          battleLog.write( `${this.getArticle()}は ひざしを 受けて 古代の鼓動が 暴れ出す!!` );
         }
         break;
 
       case 'Fairy Aura': // 特性「フェアリーオーラ」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}は フェアリーオーラを 放っている!` );
+        battleLog.write( `${this.getArticle()}は フェアリーオーラを 放っている!` );
         break;
 
       case 'Dauntless Shield': // 特性「ふくつのたて」
@@ -2019,13 +1949,13 @@ class Pokemon {
 
       case 'Pressure': // 特性「プレッシャー」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}は プレッシャーを 放っている!` );
+        battleLog.write( `${this.getArticle()}は プレッシャーを 放っている!` );
         break;
 
       case 'Zero to Hero': // 特性「マイティチェンジ」
         if ( this.extraParameter.zeroToHero ) {
           this.msgDeclareAbility();
-          writeLog( `${this.getArticle()}は 変身して 帰ってきた!` );
+          battleLog.write( `${this.getArticle()}は 変身して 帰ってきた!` );
         }
         break;
 
@@ -2049,22 +1979,22 @@ class Pokemon {
 
       case 'Vessel of Ruin': // 特性「わざわいのうつわ」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}の わざわいのうつわで まわりの 特攻が 弱まった!` );
+        battleLog.write( `${this.getArticle()}の わざわいのうつわで まわりの 特攻が 弱まった!` );
         break;
 
       case 'Tablets of Ruin': // 特性「わざわいのおふだ」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}の わざわいのおふだで まわりの 攻撃が 弱まった!` );
+        battleLog.write( `${this.getArticle()}の わざわいのおふだで まわりの 攻撃が 弱まった!` );
         break;
 
       case 'Beads of Ruin': // 特性「わざわいのたま」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}の わざわいのたまで まわりの 特防が 弱まった!` );
+        battleLog.write( `${this.getArticle()}の わざわいのたまで まわりの 特防が 弱まった!` );
         break;
 
       case 'Sword of Ruin': // 特性「わざわいのつるぎ」
         this.msgDeclareAbility();
-        writeLog( `${this.getArticle()}の わざわいのつるぎで まわりの 防御が 弱まった!` );
+        battleLog.write( `${this.getArticle()}の わざわいのつるぎで まわりの 防御が 弱まった!` );
         break;
 
       // 状態異常を治す特性

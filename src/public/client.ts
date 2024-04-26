@@ -154,6 +154,8 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
 
   // コマンド欄の表示
   main.me.showCommand1stField();
+
+  battleLog.output();
 });
 
 
@@ -283,6 +285,8 @@ socket.on( 'returnCommand', ( myCommand: Command[], opponentCommand: Command[], 
   pokemonAction();
   // 5. ターン終了時の効果
   endProcess();
+
+  battleLog.output();
 
   // 画面表示
   // 選出されたポケモンの情報・表示

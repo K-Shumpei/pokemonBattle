@@ -3,12 +3,14 @@ class StatusAilment {
   name: StatusAilmentText = null;
   turn: number = 0;
   rest: boolean = false; // 技「ねむる」により眠った場合
+  defrost: boolean = false; // 氷を解かす技
   pokeName: string = '';
 
   reset(): void {
     this.name = null;
     this.turn = 0;
     this.rest = false;
+    this.defrost = false;
   }
 
   isHealth(): boolean {
@@ -39,31 +41,32 @@ class StatusAilment {
     return this.name === 'Asleep';
   }
 
-  getHealth( item?: string ): void {
+  getHealth( item?: string, move?: string ): void {
     switch ( this.name ) {
       case 'Paralysis':
-        if ( item ) writeLog( `${this.pokeName}は ${item}で まひが 治った!` );
-        else writeLog( `${this.pokeName}は まひが 治った!` );
+        if ( item ) battleLog.write( `${this.pokeName}は ${item}で まひが 治った!` );
+        else battleLog.write( `${this.pokeName}は まひが 治った!` );
         break;
 
       case 'Frozen':
-        if ( item ) writeLog( `${this.pokeName}は ${item}で こおり状態が 治った!` );
-        else writeLog( `${this.pokeName}は こおり状態が 治った!` );
+        if ( item ) battleLog.write( `${this.pokeName}は ${item}で こおり状態が 治った!` );
+        else if ( move ) battleLog.write( `${this.pokeName}の ${item}で こおりが 解けた!` );
+        else battleLog.write( `${this.pokeName}は こおり状態が 治った!` );
         break;
 
       case 'Burned':
-        if ( item ) writeLog( `${this.pokeName}は ${item}で やけどが 治った!` );
-        else writeLog( `${this.pokeName}は やけどが 治った!` );
+        if ( item ) battleLog.write( `${this.pokeName}は ${item}で やけどが 治った!` );
+        else battleLog.write( `${this.pokeName}は やけどが 治った!` );
         break;
 
       case 'Poisoned':
-        if ( item ) writeLog( `${this.pokeName}は ${item}で 毒が 治った!` );
-        else writeLog( `${this.pokeName}は 毒が 治った!` );
+        if ( item ) battleLog.write( `${this.pokeName}は ${item}で 毒が 治った!` );
+        else battleLog.write( `${this.pokeName}は 毒が 治った!` );
         break;
 
       case 'Asleep':
         if ( item )
-        writeLog( `${this.pokeName}は 目を 覚ました!` );
+        battleLog.write( `${this.pokeName}は 目を 覚ました!` );
         break;
 
       default:
@@ -75,33 +78,41 @@ class StatusAilment {
 
   getParalysis(): void {
     this.name = 'Paralysis';
-    writeLog( `${this.pokeName}は まひして 技が でにくくなった!` );
+    battleLog.write( `${this.pokeName}は まひして 技が でにくくなった!` );
   }
 
   getFrozen(): void {
     this.name = 'Frozen';
-    writeLog( `${this.pokeName}は 凍りついた!` );
+    battleLog.write( `${this.pokeName}は 凍りついた!` );
   }
 
-  getBurned(): void {
+  getBurned( item?: string ): void {
     this.name = 'Burned';
-    writeLog( `${this.pokeName}は やけどを 負った!` );
+    if ( item ) {
+      battleLog.write( `${this.pokeName}は ${item}で やけどを 負った!` );
+    } else {
+      battleLog.write( `${this.pokeName}は やけどを 負った!` );
+    }
   }
 
   getPoisoned(): void {
     this.name = 'Poisoned';
-    writeLog( `${this.pokeName}は 毒を あびた!` );
+    battleLog.write( `${this.pokeName}は 毒を あびた!` );
   }
 
-  getBadPoisoned(): void {
+  getBadPoisoned( item?: string ): void {
     this.name = 'Poisoned';
     this.turn = 1;
-    writeLog( `${this.pokeName}は 猛毒を あびた!` );
+    if ( item ) {
+      battleLog.write( `${this.pokeName}は ${item}で 猛毒を あびた!` );
+    } else {
+      battleLog.write( `${this.pokeName}は 猛毒を あびた!` );
+    }
   }
 
   getAsleep(): void {
     this.name = 'Asleep';
-    writeLog( `${this.pokeName}は 眠ってしまった!` );
+    battleLog.write( `${this.pokeName}は 眠ってしまった!` );
   }
 
   countPoisoned(): void {
@@ -122,7 +133,7 @@ class StatusAilment {
   onRest(): void {
     this.name = 'Asleep';
     this.rest = true;
-    writeLog( `${this.pokeName}は 眠って 元気に なった!` );
+    battleLog.write( `${this.pokeName}は 眠って 元気に なった!` );
   }
 
   onEffectivePoisoned( pokemon: Pokemon ): void {
@@ -145,7 +156,7 @@ class StatusAilment {
       pokemon.status.hp.value.add( Math.max( 1, damage() ) );
     } else {
       pokemon.status.hp.value.sub( Math.max( 1, damage() ) );
-      writeLog( `${pokemon.getArticle()}は 毒の ダメージを受けた!` );
+      battleLog.write( `${pokemon.getArticle()}は 毒の ダメージを受けた!` );
     }
 
     if ( this.isBadPoisoned() ) {
@@ -165,6 +176,79 @@ class StatusAilment {
     }
 
     pokemon.status.hp.value.sub( Math.max( 1, damage() ) );
-    writeLog( `${pokemon.getArticle()}は やけどの ダメージを 受けた!` );
+    battleLog.write( `${pokemon.getArticle()}は やけどの ダメージを 受けた!` );
+  }
+
+  isEffectiveAsleep( pokemon: Pokemon ): boolean {
+    if ( !this.isAsleep() ) return false;
+
+    const turn = (): number => {
+      if ( pokemon.ability.isName( 'Early Bird' ) ) { // 特性「はやおき」
+        return 2;
+      } else {
+        return 1;
+      }
+    }
+
+    this.turn -= turn();
+
+    if ( this.turn <= 0 ) {
+      this.getHealth();
+      return false;
+    }
+
+    if ( pokemon.move.selected.getAddOn().sleepingMove ) {
+      return false;
+    } else {
+      battleLog.write( `${pokemon.getArticle()}は ぐうぐう 眠っている` );
+      return true;
+    }
+  }
+
+  onSleepingMoveMsg( pokemon: Pokemon ): void {
+    if ( pokemon.move.selected.getAddOn().sleepingMove ) {
+      battleLog.write( `${pokemon.getArticle()}は ぐうぐう 眠っている` );
+    }
+  }
+
+  isEffectiveFrozen( pokemon: Pokemon ): boolean {
+    if ( !this.isFrozen() ) return false;
+
+    const isBurnUp = (): boolean => {
+      if ( pokemon.move.selected.name === 'Burn Up' && !pokemon.type.has( 'Fire' ) ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    // 確率で回復
+    if ( getRandom() < 20 ) {
+      pokemon.statusAilment.getHealth();
+      return false;
+    }
+
+    // 氷を解かす技
+    if ( pokemon.move.selected.getMaster().defrost && isBurnUp() ) {
+      this.defrost = true;
+      return false;
+    }
+
+    // 解けない
+    battleLog.write( `${pokemon.getArticle()}は 凍ってしまって 動けない!` );
+    return true;
+  }
+
+  onDefrost( pokemon: Pokemon ): void {
+    if ( !this.defrost ) return;
+    this.getHealth( undefined, pokemon.move.selected.translate() );
+  }
+
+  isEffectiveParalysis( pokemon: Pokemon ): boolean {
+    if ( !this.isParalysis() ) return false;
+    if ( getRandom() < 3/4 * 100 ) return false;
+
+    battleLog.write( `${pokemon.getArticle()}は 体がしびれて 動かない!` );
+    return true;
   }
 }

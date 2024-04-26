@@ -16,7 +16,7 @@ function actionBeforeTurn() {
             continue;
         }
         quickClaw: // せんせいのつめ
-         if (pokemon.item.isName('せんせいのツメ')) {
+         if (pokemon.isItem('せんせいのツメ')) {
             if (getRandom() >= 20)
                 break quickClaw;
             pokemon.actionOrder.raise = true;
@@ -24,7 +24,7 @@ function actionBeforeTurn() {
             continue;
         }
         custapBerry: // イバンのみ
-         if (pokemon.item.isName('イバンのみ')) {
+         if (pokemon.isItem('イバンのみ')) {
             if (!pokemon.isActivateBerryByHP(4))
                 break custapBerry;
             pokemon.actionOrder.raise = true;

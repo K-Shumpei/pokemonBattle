@@ -75,6 +75,7 @@ type MoveAddOnData = {
   explosion: boolean;
   changeType: boolean;
   fixedDamage: boolean;
+  sleepingMove: boolean;
 }
 
 type MoveLearned = {

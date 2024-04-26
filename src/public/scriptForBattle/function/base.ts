@@ -162,7 +162,7 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
   if ( berry === 'サンのみ' ) {
     if ( pokemon.stateChange.focusEnergy.isTrue === false ) {
       pokemon.stateChange.focusEnergy.isTrue = true;
-      writeLog( `${getArticle( pokemon )}は サンのみを 使って 張り切り出した!` );
+      battleLog.write( `${getArticle( pokemon )}は サンのみを 使って 張り切り出した!` );
 
       // なげつける・むしくい・ついばむ
       if ( pokemon.stateChange.memo.isTrue === true ) {
@@ -184,7 +184,7 @@ function eatBerry( pokemon: Pokemon, berry: string | null ): void {
   if ( berry === 'ミクルのみ' ) {
     if ( pokemon.stateChange.micleBerry.isTrue === false ) {
       pokemon.stateChange.micleBerry.isTrue = true;
-      writeLog( `${getArticle( pokemon )}は ミクルのみで 次にくりだす 技が 当たりやすくなった!` );
+      battleLog.write( `${getArticle( pokemon )}は ミクルのみで 次にくりだす 技が 当たりやすくなった!` );
 
       // なげつける・むしくい・ついばむ
       if ( pokemon.stateChange.memo.isTrue === true ) {
@@ -256,7 +256,7 @@ function attractTarget( pokemon: Pokemon, target: Pokemon, type: string ): void 
   // if ( type === 'あかいいと' )
   // if ( type === 'キョダイホーヨー' )
 
-  writeLog( `${getArticle( target )}は メロメロに なった!` );
+  battleLog.write( `${getArticle( target )}は メロメロに なった!` );
 
   if ( target.isItem( 'あかいいと' ) ) {
     attractTarget( target, pokemon, 'あかいいと' );
@@ -311,11 +311,11 @@ function changeOpponentField( trainer: boolean, state: string, sign: SignType ):
       if ( field.toxicSpikes.count === 2 ) return;
       field.toxicSpikes.isTrue = true;
       field.toxicSpikes.count += 1;
-      writeLog( `${article}足元に どくびしが 散らばった!` );
+      battleLog.write( `${article}足元に どくびしが 散らばった!` );
     } else {
       if ( field.toxicSpikes.isTrue === false ) return;
       field.toxicSpikes.reset();
-      writeLog( `${article}足元の どくびしが 消え去った!` );
+      battleLog.write( `${article}足元の どくびしが 消え去った!` );
     }
   }
 
@@ -324,11 +324,11 @@ function changeOpponentField( trainer: boolean, state: string, sign: SignType ):
       if ( field.spikes.count === 3 ) return;
       field.spikes.isTrue = true;
       field.spikes.count += 1;
-      writeLog( `${article}足元に まきびしが 散らばった!` );
+      battleLog.write( `${article}足元に まきびしが 散らばった!` );
     } else {
       if ( field.spikes.isTrue === false ) return;
       field.spikes.reset();
-      writeLog( `${article}足元の まきびしが 消え去った!` );
+      battleLog.write( `${article}足元の まきびしが 消え去った!` );
     }
   }
 
@@ -336,11 +336,11 @@ function changeOpponentField( trainer: boolean, state: string, sign: SignType ):
     if ( sign === '+' ) {
       if ( field.stealthRock.isTrue === true ) return;
       field.stealthRock.isTrue = true;
-      writeLog( `${article}周りに とがった岩が ただよい始めた!`);
+      battleLog.write( `${article}周りに とがった岩が ただよい始めた!`);
     } else {
       if ( field.stealthRock.isTrue === false ) return;
       field.stealthRock.reset();
-      writeLog( `${article}周りの ステルスロックが 消え去った!` );
+      battleLog.write( `${article}周りの ステルスロックが 消え去った!` );
     }
   }
 
@@ -348,11 +348,11 @@ function changeOpponentField( trainer: boolean, state: string, sign: SignType ):
     if ( sign === '+' ) {
       if ( field.stickyWeb.isTrue === true ) return;
       field.stickyWeb.isTrue = true;
-      writeLog( `${article}足元に ねばねばネットが 広がった!` );
+      battleLog.write( `${article}足元に ねばねばネットが 広がった!` );
     } else {
       if ( field.stickyWeb.isTrue === false ) return;
       field.stickyWeb.reset();
-      writeLog( `${article}足元の ねばねばネットが 消え去った!` );
+      battleLog.write( `${article}足元の ねばねばネットが 消え去った!` );
     }
   }
 }
@@ -361,7 +361,7 @@ function changeOpponentField( trainer: boolean, state: string, sign: SignType ):
 function activateCharge( pokemon: Pokemon, move: string ): void {
 
   pokemon.stateChange.charge.isTrue = true;
-  writeLog( `${getArticle( pokemon )}は ${move}を 受けて 充電した!` );
+  battleLog.write( `${getArticle( pokemon )}は ${move}を 受けて 充電した!` );
 }
 
 
@@ -380,13 +380,13 @@ function giveCannotEscape( pokemon: Pokemon, target: Pokemon, move: string ): vo
    // pokemon.stateChange.cannotEscape.target.isMe = target.isMe;
     //pokemon.stateChange.cannotEscape.target.party = target.order.party;
 
-    writeLog( `おたがいの ポケモンは 逃げることが できなくなった!` );
+    battleLog.write( `おたがいの ポケモンは 逃げることが できなくなった!` );
   } else {
     target.stateChange.cannotEscape.isTrue = true;
     //target.stateChange.cannotEscape.target.isMe = pokemon.isMe;
     //target.stateChange.cannotEscape.target.party = pokemon.order.party;
 
-    writeLog( `${getArticle( target )}は もう 逃げられない!` );
+    battleLog.write( `${getArticle( target )}は もう 逃げられない!` );
   }
 }
 

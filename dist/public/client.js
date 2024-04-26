@@ -116,6 +116,7 @@ socket.on('sendOrder', (myOrder, opponentOrder) => {
     }
     // コマンド欄の表示
     main.me.showCommand1stField();
+    battleLog.output();
 });
 // コマンド送信
 function sendCommand() {
@@ -229,6 +230,7 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
     pokemonAction();
     // 5. ターン終了時の効果
     endProcess();
+    battleLog.output();
     // 画面表示
     // 選出されたポケモンの情報・表示
     for (const pokemon of main.me.pokemon) {

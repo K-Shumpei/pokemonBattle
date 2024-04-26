@@ -33,7 +33,15 @@ function endProcess(): void {
   // ききかいひ/にげごしによる交代先の選択・繰り出し (3)
   endProcessElapseSideField(); // 片側の場の状態の継続/終了
   endProcessElapseWholeField(); // 全体の場の状態の継続/終了
-  endProcessEventBlock2nd(); // イベントブロック (その2
+  endProcessEventBlock2nd(); // イベントブロック (その2）
+  // ききかいひ/にげごしによる交代先の選択・繰り出し (4)
+  // ダルマモード/リミットシールド/スワームチェンジ/ぎょぐんによるフォルムチェンジ: すばやさ補正を考慮しない。ボールから出た直後のフォルムのすばやさ実数値が発動順に影響する。
+  // イベントブロック (その3)
+  // だっしゅつパックによる交代先の選択・繰り出し
+  // 仲間呼び
+  // ひんしになったポケモンの代わりのポケモンを繰り出す
+  // ダイマックスの終了判定
+  // 2.行動選択に戻る
 }
 
 function endProcessWeatherEffect(): void {
@@ -132,7 +140,7 @@ function endProcessEventBlock1st(): void {
 
     if ( pokemon.isItem( 'たべのこし' ) ) {
       pokemon.status.hp.value.add( Math.max( 1, HP_16 ) );
-      writeLog( `${pokemon.getArticle()}は たべのこしで 少し 回復` );
+      battleLog.write( `${pokemon.getArticle()}は たべのこしで 少し 回復` );
     }
 
     if ( pokemon.isItem( 'くろいヘドロ' ) ) {
@@ -301,21 +309,85 @@ function endProcessElapseWholeField(): void {
 
 function endProcessEventBlock2nd(): void {
 
-  const item2nd = ( pokemon: Pokemon ): void => {
+  const ability1st = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.ability.isValid() ) return;
+
+    switch ( pokemon.ability.name ) {
+      case 'Speed Boost': // 特性「かそく」
+        if ( !pokemon.isChangeRank( 'spe', 1 ) ) break;
+        pokemon.msgDeclareAbility();
+        pokemon.changeRank( 'spe', 1 );
+        break;
+
+      case 'Moody': // 特性「ムラっけ」
+        const rankForUp: RankStrings[] = pokemon.status.getNotMaxRank();
+        const rankForDown: RankStrings[] = pokemon.status.getNotMinRank();
+
+        pokemon.msgDeclareAbility();
+
+        if ( rankForUp.length > 0 ) {
+          pokemon.changeRank( getOneAtRandom( rankForUp ), 2 );
+        }
+
+        if ( rankForDown.length > 0 ) {
+          pokemon.changeRank( getOneAtRandom( rankForDown ), -1 );
+        }
+        break;
+
+      case 'Slow Start': // 特性「スロースタート」
+        pokemon.stateChange.slowStart.onElapse( pokemon );
+        break;
+
+      case 'Bad Dreams': // 特性「ナイトメア」
+        const opponent: Pokemon[] = main.getPokemonInSide( !pokemon.isMine() );
+        for ( const poke of opponent ) {
+          if ( !poke.statusAilment.isAsleep() ) continue;
+          const damage: number = Math.floor( poke.getOrgHP() / 8 );
+          poke.status.hp.value.sub( Math.max( 1, damage ) );
+          battleLog.write( `${poke.getArticle()}は うなされている!` );
+        }
+        break;
+
+      case 'Cud Chew': // 特性「はんすう」
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  const item1st = ( pokemon: Pokemon ): void => {
     if ( pokemon.isItem( 'くっつきバリ' ) ) {
       const damage: number = Math.floor( pokemon.getOrgHP() / 8 );
       pokemon.status.hp.value.sub( Math.max( 1, damage ) );
-      writeLog( `` );
+      battleLog.write( `${pokemon.getArticle()}は くっつきバリで dダメージを 受けた!` );
+    }
+
+    if ( pokemon.isItem( 'どくどくだま' ) && pokemon.statusAilment.isHealth() ) {
+      pokemon.statusAilment.getBadPoisoned( 'どくどくだま' );
+    }
+
+    if ( pokemon.isItem( 'かえんだま' ) && pokemon.statusAilment.isHealth() ) {
+      pokemon.statusAilment.getBurned( 'かえんだま' );
     }
   }
+
+  const ability2nd = ( pokemon: Pokemon ): void => {
+    if ( !pokemon.ability.isValid() ) return;
+  }
+
+  const item2nd = ( pokemon: Pokemon ): void => {
+
+  }
+
 
   for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
 
     // a. さわぐ
     // b. ねむりによるあばれるの中断
-    // c. かそく/ムラっけ/スロースタート/ナイトメア/はんすう
-    item2nd( pokemon ); // d. くっつきバリ/どくどくだま/かえんだま
-    // e. ものひろい/しゅうかく/たまひろい
-    // f. しろいハーブ
+    ability1st( pokemon ); // c. かそく/ムラっけ/スロースタート/ナイトメア/はんすう
+    item1st( pokemon );    // d. くっつきバリ/どくどくだま/かえんだま
+    ability2nd( pokemon ); // e. ものひろい/しゅうかく/たまひろい
+    item2nd( pokemon );    // f. しろいハーブ
   }
 }

@@ -66,23 +66,23 @@ function giveAilment( pokemon: Pokemon, target: Pokemon, ailment: StatusAilmentT
 
   // メッセージ
   if ( ailment === 'Paralysis' ) {
-    writeLog( `${getArticle( target )}は まひして 技が でにくくなった!` );
+    battleLog.write( `${getArticle( target )}は まひして 技が でにくくなった!` );
   }
   if ( ailment === 'Frozen' ) {
-    writeLog( `${getArticle( target )}は 凍りついた!` );
+    battleLog.write( `${getArticle( target )}は 凍りついた!` );
   }
   if ( ailment === 'Burned' ) {
-    writeLog( `${getArticle( target )}は やけどを 負った!` );
+    battleLog.write( `${getArticle( target )}は やけどを 負った!` );
   }
   if ( ailment === 'Poisoned' ) {
-    writeLog( `${getArticle( target )}は 毒を あびた!` );
+    battleLog.write( `${getArticle( target )}は 毒を あびた!` );
   }
   /*
   if ( ailment === 'sp-poisoned' ) {
-    writeLog( `${getArticle( target )}は 猛毒を あびた!` );
+    battleLog.write( `${getArticle( target )}は 猛毒を あびた!` );
   }
   if ( ailment === 'Asleep' ) {
-    writeLog( `${getArticle( target )}は 眠ってしまった!` );
+    battleLog.write( `${getArticle( target )}は 眠ってしまった!` );
   }
 
   return false;
@@ -126,7 +126,7 @@ function giveConfuse( pokemon: Pokemon, target: Pokemon, type: string ): void {
   target.stateChange.confuse.turn = turn;
 
   // メッセージ
-  writeLog( `${getArticle( target )}は 混乱した!`)
+  battleLog.write( `${getArticle( target )}は 混乱した!`)
   */
 }
 
@@ -177,7 +177,7 @@ function cureConfuseByItem( pokemon: Pokemon, item: string ): void {
   if ( pokemon.stateChange.confuse.isTrue === false ) return;
 
   pokemon.stateChange.confuse.reset();
-  writeLog( `${getArticle( pokemon )}は ${item}で 混乱が 治った!`);
+  battleLog.write( `${getArticle( pokemon )}は ${item}で 混乱が 治った!`);
 
   // なげつける
   pokemon.stateChange.memo.isTrue = true;
@@ -201,19 +201,19 @@ function cureAilmentByItem( pokemon: Pokemon, ailment: StatusAilmentText, item: 
 
   // メッセージ
   if ( ailment === 'Paralysis' ) {
-    writeLog( `${getArticle( pokemon )}は ${item}で まひが 治った!` );
+    battleLog.write( `${getArticle( pokemon )}は ${item}で まひが 治った!` );
   }
   if ( ailment === 'Asleep' ) {
-    writeLog( `${getArticle( pokemon )}は ${item}で 目を 覚ました!` );
+    battleLog.write( `${getArticle( pokemon )}は ${item}で 目を 覚ました!` );
   }
   if ( ailment === 'Poisoned' ) {
-    writeLog( `${getArticle( pokemon )}は ${item}で 毒が 治った!` );
+    battleLog.write( `${getArticle( pokemon )}は ${item}で 毒が 治った!` );
   }
   if ( ailment === 'Burned' ) {
-    writeLog( `${getArticle( pokemon )}は ${item}で やけどが 治った!` );
+    battleLog.write( `${getArticle( pokemon )}は ${item}で やけどが 治った!` );
   }
   if ( ailment === 'Frozen' ) {
-    writeLog( `${getArticle( pokemon )}は ${item}で こおり状態が 治った!` );
+    battleLog.write( `${getArticle( pokemon )}は ${item}で こおり状態が 治った!` );
   }
 
   // なげつける・むしくい・ついばむ
@@ -231,18 +231,18 @@ function cureAilment( pokemon: Pokemon, ailment: StatusAilmentText ): void {
 
   // メッセージ
   if ( ailment === 'Paralysis' ) {
-    writeLog( `${getArticle( pokemon )}は まひが 治った!` );
+    battleLog.write( `${getArticle( pokemon )}は まひが 治った!` );
   }
   if ( ailment === 'Asleep' ) {
-    writeLog( `${getArticle( pokemon )}は 目を 覚ました!` );
+    battleLog.write( `${getArticle( pokemon )}は 目を 覚ました!` );
   }
   if ( ailment === 'Poisoned' ) {
-    writeLog( `${getArticle( pokemon )}は 毒が 治った!` );
+    battleLog.write( `${getArticle( pokemon )}は 毒が 治った!` );
   }
   if ( ailment === 'Burned' ) {
-    writeLog( `${getArticle( pokemon )}は やけどが 治った!` );
+    battleLog.write( `${getArticle( pokemon )}は やけどが 治った!` );
   }
   if ( ailment === 'Frozen' ) {
-    writeLog( `${getArticle( pokemon )}は こおり状態が 治った!` );
+    battleLog.write( `${getArticle( pokemon )}は こおり状態が 治った!` );
   }
 }

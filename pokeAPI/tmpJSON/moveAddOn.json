@@ -10,7 +10,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No2":
 {
@@ -23,7 +24,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No3":
 {
@@ -36,7 +38,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No4":
 {
@@ -49,7 +52,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No5":
 {
@@ -62,7 +66,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No6":
 {
@@ -75,7 +80,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No7":
 {
@@ -88,7 +94,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No8":
 {
@@ -101,7 +108,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No9":
 {
@@ -114,7 +122,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No10":
 {
@@ -127,7 +136,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No11":
 {
@@ -140,7 +150,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No12":
 {
@@ -153,7 +164,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No13":
 {
@@ -166,7 +178,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No14":
 {
@@ -179,7 +192,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No15":
 {
@@ -192,7 +206,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No16":
 {
@@ -205,7 +220,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No17":
 {
@@ -218,7 +234,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No18":
 {
@@ -231,7 +248,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No19":
 {
@@ -244,7 +262,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No20":
 {
@@ -257,7 +276,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No21":
 {
@@ -270,7 +290,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No22":
 {
@@ -283,7 +304,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No23":
 {
@@ -296,7 +318,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No24":
 {
@@ -309,7 +332,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No25":
 {
@@ -322,7 +346,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No26":
 {
@@ -335,7 +360,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No27":
 {
@@ -348,7 +374,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No28":
 {
@@ -361,7 +388,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No29":
 {
@@ -374,7 +402,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No30":
 {
@@ -387,7 +416,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No31":
 {
@@ -400,7 +430,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No32":
 {
@@ -413,7 +444,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No33":
 {
@@ -426,7 +458,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No34":
 {
@@ -439,7 +472,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No35":
 {
@@ -452,7 +486,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No36":
 {
@@ -465,7 +500,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No37":
 {
@@ -478,7 +514,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No38":
 {
@@ -491,7 +528,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No39":
 {
@@ -504,7 +542,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No40":
 {
@@ -517,7 +556,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No41":
 {
@@ -530,7 +570,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No42":
 {
@@ -543,7 +584,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No43":
 {
@@ -556,7 +598,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No44":
 {
@@ -569,7 +612,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No45":
 {
@@ -582,7 +626,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No46":
 {
@@ -595,7 +640,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No47":
 {
@@ -608,7 +654,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No48":
 {
@@ -621,7 +668,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No49":
 {
@@ -634,7 +682,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No50":
 {
@@ -647,7 +696,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No51":
 {
@@ -660,7 +710,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No52":
 {
@@ -673,7 +724,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No53":
 {
@@ -686,7 +738,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No54":
 {
@@ -699,7 +752,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No55":
 {
@@ -712,7 +766,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No56":
 {
@@ -725,7 +780,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No57":
 {
@@ -738,7 +794,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No58":
 {
@@ -751,7 +808,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No59":
 {
@@ -764,7 +822,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No60":
 {
@@ -777,7 +836,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No61":
 {
@@ -790,7 +850,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No62":
 {
@@ -803,7 +864,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No63":
 {
@@ -816,7 +878,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No64":
 {
@@ -829,7 +892,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No65":
 {
@@ -842,7 +906,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No66":
 {
@@ -855,7 +920,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No67":
 {
@@ -868,7 +934,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No68":
 {
@@ -881,7 +948,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No69":
 {
@@ -894,7 +962,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No70":
 {
@@ -907,7 +976,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No71":
 {
@@ -920,7 +990,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No72":
 {
@@ -933,7 +1004,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No73":
 {
@@ -946,7 +1018,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No74":
 {
@@ -959,7 +1032,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No75":
 {
@@ -972,7 +1046,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No76":
 {
@@ -985,7 +1060,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No77":
 {
@@ -998,7 +1074,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No78":
 {
@@ -1011,7 +1088,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No79":
 {
@@ -1024,7 +1102,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No80":
 {
@@ -1037,7 +1116,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No81":
 {
@@ -1050,7 +1130,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No82":
 {
@@ -1063,7 +1144,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No83":
 {
@@ -1076,7 +1158,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No84":
 {
@@ -1089,7 +1172,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No85":
 {
@@ -1102,7 +1186,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No86":
 {
@@ -1115,7 +1200,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No87":
 {
@@ -1128,7 +1214,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No88":
 {
@@ -1141,7 +1228,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No89":
 {
@@ -1154,7 +1242,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No90":
 {
@@ -1167,7 +1256,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No91":
 {
@@ -1180,7 +1270,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No92":
 {
@@ -1193,7 +1284,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No93":
 {
@@ -1206,7 +1298,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No94":
 {
@@ -1219,7 +1312,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No95":
 {
@@ -1232,7 +1326,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No96":
 {
@@ -1245,7 +1340,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No97":
 {
@@ -1258,7 +1354,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No98":
 {
@@ -1271,7 +1368,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No99":
 {
@@ -1284,7 +1382,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No100":
 {
@@ -1297,7 +1396,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No101":
 {
@@ -1310,7 +1410,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No102":
 {
@@ -1323,7 +1424,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No103":
 {
@@ -1336,7 +1438,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No104":
 {
@@ -1349,7 +1452,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No105":
 {
@@ -1362,7 +1466,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No106":
 {
@@ -1375,7 +1480,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No107":
 {
@@ -1388,7 +1494,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No108":
 {
@@ -1401,7 +1508,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No109":
 {
@@ -1414,7 +1522,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No110":
 {
@@ -1427,7 +1536,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No111":
 {
@@ -1440,7 +1550,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No112":
 {
@@ -1453,7 +1564,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No113":
 {
@@ -1466,7 +1578,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No114":
 {
@@ -1479,7 +1592,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No115":
 {
@@ -1492,7 +1606,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No116":
 {
@@ -1505,7 +1620,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No117":
 {
@@ -1518,7 +1634,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No118":
 {
@@ -1531,7 +1648,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No119":
 {
@@ -1544,7 +1662,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No120":
 {
@@ -1557,7 +1676,8 @@
   "reckLess": false,
   "explosion": true,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No121":
 {
@@ -1570,7 +1690,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No122":
 {
@@ -1583,7 +1704,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No123":
 {
@@ -1596,7 +1718,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No124":
 {
@@ -1609,7 +1732,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No125":
 {
@@ -1622,7 +1746,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No126":
 {
@@ -1635,7 +1760,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No127":
 {
@@ -1648,7 +1774,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No128":
 {
@@ -1661,7 +1788,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No129":
 {
@@ -1674,7 +1802,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No130":
 {
@@ -1687,7 +1816,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No131":
 {
@@ -1700,7 +1830,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No132":
 {
@@ -1713,7 +1844,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No133":
 {
@@ -1726,7 +1858,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No134":
 {
@@ -1739,7 +1872,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No135":
 {
@@ -1752,7 +1886,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No136":
 {
@@ -1765,7 +1900,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No137":
 {
@@ -1778,7 +1914,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No138":
 {
@@ -1791,7 +1928,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No139":
 {
@@ -1804,7 +1942,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No140":
 {
@@ -1817,7 +1956,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No141":
 {
@@ -1830,7 +1970,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No142":
 {
@@ -1843,7 +1984,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No143":
 {
@@ -1856,7 +1998,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No144":
 {
@@ -1869,7 +2012,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No145":
 {
@@ -1882,7 +2026,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No146":
 {
@@ -1895,7 +2040,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No147":
 {
@@ -1908,7 +2054,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No148":
 {
@@ -1921,7 +2068,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No149":
 {
@@ -1934,7 +2082,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No150":
 {
@@ -1947,7 +2096,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No151":
 {
@@ -1960,7 +2110,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No152":
 {
@@ -1973,7 +2124,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No153":
 {
@@ -1986,7 +2138,8 @@
   "reckLess": false,
   "explosion": true,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No154":
 {
@@ -1999,7 +2152,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No155":
 {
@@ -2012,7 +2166,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No156":
 {
@@ -2025,7 +2180,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No157":
 {
@@ -2038,7 +2194,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No158":
 {
@@ -2051,7 +2208,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No159":
 {
@@ -2064,7 +2222,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No160":
 {
@@ -2077,7 +2236,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No161":
 {
@@ -2090,7 +2250,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No162":
 {
@@ -2103,7 +2264,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No163":
 {
@@ -2116,7 +2278,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No164":
 {
@@ -2129,7 +2292,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No165":
 {
@@ -2142,7 +2306,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No166":
 {
@@ -2155,7 +2320,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No167":
 {
@@ -2168,7 +2334,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No168":
 {
@@ -2181,7 +2348,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No169":
 {
@@ -2194,7 +2362,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No170":
 {
@@ -2207,7 +2376,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No171":
 {
@@ -2220,7 +2390,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No172":
 {
@@ -2233,7 +2404,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No173":
 {
@@ -2246,7 +2418,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": true
 },
 "No174":
 {
@@ -2259,7 +2432,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No175":
 {
@@ -2272,7 +2446,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No176":
 {
@@ -2285,7 +2460,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No177":
 {
@@ -2298,7 +2474,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No178":
 {
@@ -2311,7 +2488,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No179":
 {
@@ -2324,7 +2502,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No180":
 {
@@ -2337,7 +2516,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No181":
 {
@@ -2350,7 +2530,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No182":
 {
@@ -2363,7 +2544,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No183":
 {
@@ -2376,7 +2558,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No184":
 {
@@ -2389,7 +2572,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No185":
 {
@@ -2402,7 +2586,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No186":
 {
@@ -2415,7 +2600,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No187":
 {
@@ -2428,7 +2614,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No188":
 {
@@ -2441,7 +2628,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No189":
 {
@@ -2454,7 +2642,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No190":
 {
@@ -2467,7 +2656,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No191":
 {
@@ -2480,7 +2670,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No192":
 {
@@ -2493,7 +2684,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No193":
 {
@@ -2506,7 +2698,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No194":
 {
@@ -2519,7 +2712,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No195":
 {
@@ -2532,7 +2726,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No196":
 {
@@ -2545,7 +2740,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No197":
 {
@@ -2558,7 +2754,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No198":
 {
@@ -2571,7 +2768,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No199":
 {
@@ -2584,7 +2782,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No200":
 {
@@ -2597,7 +2796,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No201":
 {
@@ -2610,7 +2810,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No202":
 {
@@ -2623,7 +2824,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No203":
 {
@@ -2636,7 +2838,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No204":
 {
@@ -2649,7 +2852,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No205":
 {
@@ -2662,7 +2866,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No206":
 {
@@ -2675,7 +2880,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No207":
 {
@@ -2688,7 +2894,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No208":
 {
@@ -2701,7 +2908,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No209":
 {
@@ -2714,7 +2922,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No210":
 {
@@ -2727,7 +2936,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No211":
 {
@@ -2740,7 +2950,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No212":
 {
@@ -2753,7 +2964,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No213":
 {
@@ -2766,7 +2978,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No214":
 {
@@ -2779,7 +2992,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": true
 },
 "No215":
 {
@@ -2792,7 +3006,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No216":
 {
@@ -2805,7 +3020,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No217":
 {
@@ -2818,7 +3034,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No218":
 {
@@ -2831,7 +3048,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No219":
 {
@@ -2844,7 +3062,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No220":
 {
@@ -2857,7 +3076,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No221":
 {
@@ -2870,7 +3090,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No222":
 {
@@ -2883,7 +3104,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No223":
 {
@@ -2896,7 +3118,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No224":
 {
@@ -2909,7 +3132,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No225":
 {
@@ -2922,7 +3146,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No226":
 {
@@ -2935,7 +3160,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No227":
 {
@@ -2948,7 +3174,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No228":
 {
@@ -2961,7 +3188,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No229":
 {
@@ -2974,7 +3202,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No230":
 {
@@ -2987,7 +3216,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No231":
 {
@@ -3000,7 +3230,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No232":
 {
@@ -3013,7 +3244,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No233":
 {
@@ -3026,7 +3258,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No234":
 {
@@ -3039,7 +3272,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No235":
 {
@@ -3052,7 +3286,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No236":
 {
@@ -3065,7 +3300,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No237":
 {
@@ -3078,7 +3314,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No238":
 {
@@ -3091,7 +3328,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No239":
 {
@@ -3104,7 +3342,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No240":
 {
@@ -3117,7 +3356,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No241":
 {
@@ -3130,7 +3370,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No242":
 {
@@ -3143,7 +3384,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No243":
 {
@@ -3156,7 +3398,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No244":
 {
@@ -3169,7 +3412,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No245":
 {
@@ -3182,7 +3426,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No246":
 {
@@ -3195,7 +3440,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No247":
 {
@@ -3208,7 +3454,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No248":
 {
@@ -3221,7 +3468,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No249":
 {
@@ -3234,7 +3482,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No250":
 {
@@ -3247,7 +3496,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No251":
 {
@@ -3260,7 +3510,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No252":
 {
@@ -3273,7 +3524,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No253":
 {
@@ -3286,7 +3538,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No254":
 {
@@ -3299,7 +3552,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No255":
 {
@@ -3312,7 +3566,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No256":
 {
@@ -3325,7 +3580,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No257":
 {
@@ -3338,7 +3594,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No258":
 {
@@ -3351,7 +3608,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No259":
 {
@@ -3364,7 +3622,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No260":
 {
@@ -3377,7 +3636,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No261":
 {
@@ -3390,7 +3650,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No262":
 {
@@ -3403,7 +3664,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No263":
 {
@@ -3416,7 +3678,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No264":
 {
@@ -3429,7 +3692,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No265":
 {
@@ -3442,7 +3706,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No266":
 {
@@ -3455,7 +3720,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No267":
 {
@@ -3468,7 +3734,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No268":
 {
@@ -3481,7 +3748,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No269":
 {
@@ -3494,7 +3762,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No270":
 {
@@ -3507,7 +3776,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No271":
 {
@@ -3520,7 +3790,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No272":
 {
@@ -3533,7 +3804,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No273":
 {
@@ -3546,7 +3818,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No274":
 {
@@ -3559,7 +3832,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No275":
 {
@@ -3572,7 +3846,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No276":
 {
@@ -3585,7 +3860,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No277":
 {
@@ -3598,7 +3874,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No278":
 {
@@ -3611,7 +3888,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No279":
 {
@@ -3624,7 +3902,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No280":
 {
@@ -3637,7 +3916,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No281":
 {
@@ -3650,7 +3930,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No282":
 {
@@ -3663,7 +3944,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No283":
 {
@@ -3676,7 +3958,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No284":
 {
@@ -3689,7 +3972,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No285":
 {
@@ -3702,7 +3986,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No286":
 {
@@ -3715,7 +4000,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No287":
 {
@@ -3728,7 +4014,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No288":
 {
@@ -3741,7 +4028,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No289":
 {
@@ -3754,7 +4042,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No290":
 {
@@ -3767,7 +4056,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No291":
 {
@@ -3780,7 +4070,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No292":
 {
@@ -3793,7 +4084,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No293":
 {
@@ -3806,7 +4098,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No294":
 {
@@ -3819,7 +4112,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No295":
 {
@@ -3832,7 +4126,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No296":
 {
@@ -3845,7 +4140,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No297":
 {
@@ -3858,7 +4154,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No298":
 {
@@ -3871,7 +4168,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No299":
 {
@@ -3884,7 +4182,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No300":
 {
@@ -3897,7 +4196,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No301":
 {
@@ -3910,7 +4210,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No302":
 {
@@ -3923,7 +4224,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No303":
 {
@@ -3936,7 +4238,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No304":
 {
@@ -3949,7 +4252,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No305":
 {
@@ -3962,7 +4266,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No306":
 {
@@ -3975,7 +4280,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No307":
 {
@@ -3988,7 +4294,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No308":
 {
@@ -4001,7 +4308,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No309":
 {
@@ -4014,7 +4322,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No310":
 {
@@ -4027,7 +4336,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No311":
 {
@@ -4040,7 +4350,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No312":
 {
@@ -4053,7 +4364,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No313":
 {
@@ -4066,7 +4378,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No314":
 {
@@ -4079,7 +4392,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No315":
 {
@@ -4092,7 +4406,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No316":
 {
@@ -4105,7 +4420,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No317":
 {
@@ -4118,7 +4434,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No318":
 {
@@ -4131,7 +4448,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No319":
 {
@@ -4144,7 +4462,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No320":
 {
@@ -4157,7 +4476,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No321":
 {
@@ -4170,7 +4490,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No322":
 {
@@ -4183,7 +4504,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No323":
 {
@@ -4196,7 +4518,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No324":
 {
@@ -4209,7 +4532,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No325":
 {
@@ -4222,7 +4546,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No326":
 {
@@ -4235,7 +4560,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No327":
 {
@@ -4248,7 +4574,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No328":
 {
@@ -4261,7 +4588,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No329":
 {
@@ -4274,7 +4602,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No330":
 {
@@ -4287,7 +4616,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No331":
 {
@@ -4300,7 +4630,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No332":
 {
@@ -4313,7 +4644,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No333":
 {
@@ -4326,7 +4658,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No334":
 {
@@ -4339,7 +4672,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No335":
 {
@@ -4352,7 +4686,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No336":
 {
@@ -4365,7 +4700,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No337":
 {
@@ -4378,7 +4714,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No338":
 {
@@ -4391,7 +4728,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No339":
 {
@@ -4404,7 +4742,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No340":
 {
@@ -4417,7 +4756,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No341":
 {
@@ -4430,7 +4770,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No342":
 {
@@ -4443,7 +4784,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No343":
 {
@@ -4456,7 +4798,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No344":
 {
@@ -4469,7 +4812,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No345":
 {
@@ -4482,7 +4826,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No346":
 {
@@ -4495,7 +4840,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No347":
 {
@@ -4508,7 +4854,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No348":
 {
@@ -4521,7 +4868,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No349":
 {
@@ -4534,7 +4882,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No350":
 {
@@ -4547,7 +4896,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No351":
 {
@@ -4560,7 +4910,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No352":
 {
@@ -4573,7 +4924,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No353":
 {
@@ -4586,7 +4938,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No354":
 {
@@ -4599,7 +4952,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No355":
 {
@@ -4612,7 +4966,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No356":
 {
@@ -4625,7 +4980,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No357":
 {
@@ -4638,7 +4994,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No358":
 {
@@ -4651,7 +5008,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No359":
 {
@@ -4664,7 +5022,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No360":
 {
@@ -4677,7 +5036,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No361":
 {
@@ -4690,7 +5050,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No362":
 {
@@ -4703,7 +5064,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No363":
 {
@@ -4716,7 +5078,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No364":
 {
@@ -4729,7 +5092,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No365":
 {
@@ -4742,7 +5106,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No366":
 {
@@ -4755,7 +5120,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No367":
 {
@@ -4768,7 +5134,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No368":
 {
@@ -4781,7 +5148,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No369":
 {
@@ -4794,7 +5162,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No370":
 {
@@ -4807,7 +5176,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No371":
 {
@@ -4820,7 +5190,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No372":
 {
@@ -4833,7 +5204,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No373":
 {
@@ -4846,7 +5218,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No374":
 {
@@ -4859,7 +5232,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No375":
 {
@@ -4872,7 +5246,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No376":
 {
@@ -4885,7 +5260,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No377":
 {
@@ -4898,7 +5274,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No378":
 {
@@ -4911,7 +5288,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No379":
 {
@@ -4924,7 +5302,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No380":
 {
@@ -4937,7 +5316,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No381":
 {
@@ -4950,7 +5330,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No382":
 {
@@ -4963,7 +5344,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No383":
 {
@@ -4976,7 +5358,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No384":
 {
@@ -4989,7 +5372,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No385":
 {
@@ -5002,7 +5386,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No386":
 {
@@ -5015,7 +5400,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No387":
 {
@@ -5028,7 +5414,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No388":
 {
@@ -5041,7 +5428,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No389":
 {
@@ -5054,7 +5442,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No390":
 {
@@ -5067,7 +5456,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No391":
 {
@@ -5080,7 +5470,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No392":
 {
@@ -5093,7 +5484,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No393":
 {
@@ -5106,7 +5498,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No394":
 {
@@ -5119,7 +5512,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No395":
 {
@@ -5132,7 +5526,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No396":
 {
@@ -5145,7 +5540,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No397":
 {
@@ -5158,7 +5554,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No398":
 {
@@ -5171,7 +5568,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No399":
 {
@@ -5184,7 +5582,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No400":
 {
@@ -5197,7 +5596,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No401":
 {
@@ -5210,7 +5610,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No402":
 {
@@ -5223,7 +5624,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No403":
 {
@@ -5236,7 +5638,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No404":
 {
@@ -5249,7 +5652,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No405":
 {
@@ -5262,7 +5666,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No406":
 {
@@ -5275,7 +5680,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No407":
 {
@@ -5288,7 +5694,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No408":
 {
@@ -5301,7 +5708,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No409":
 {
@@ -5314,7 +5722,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No410":
 {
@@ -5327,7 +5736,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No411":
 {
@@ -5340,7 +5750,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No412":
 {
@@ -5353,7 +5764,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No413":
 {
@@ -5366,7 +5778,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No414":
 {
@@ -5379,7 +5792,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No415":
 {
@@ -5392,7 +5806,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No416":
 {
@@ -5405,7 +5820,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No417":
 {
@@ -5418,7 +5834,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No418":
 {
@@ -5431,7 +5848,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No419":
 {
@@ -5444,7 +5862,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No420":
 {
@@ -5457,7 +5876,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No421":
 {
@@ -5470,7 +5890,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No422":
 {
@@ -5483,7 +5904,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No423":
 {
@@ -5496,7 +5918,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No424":
 {
@@ -5509,7 +5932,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No425":
 {
@@ -5522,7 +5946,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No426":
 {
@@ -5535,7 +5960,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No427":
 {
@@ -5548,7 +5974,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No428":
 {
@@ -5561,7 +5988,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No429":
 {
@@ -5574,7 +6002,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No430":
 {
@@ -5587,7 +6016,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No431":
 {
@@ -5600,7 +6030,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No432":
 {
@@ -5613,7 +6044,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No433":
 {
@@ -5626,7 +6058,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No434":
 {
@@ -5639,7 +6072,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No435":
 {
@@ -5652,7 +6086,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No436":
 {
@@ -5665,7 +6100,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No437":
 {
@@ -5678,7 +6114,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No438":
 {
@@ -5691,7 +6128,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No439":
 {
@@ -5704,7 +6142,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No440":
 {
@@ -5717,7 +6156,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No441":
 {
@@ -5730,7 +6170,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No442":
 {
@@ -5743,7 +6184,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No443":
 {
@@ -5756,7 +6198,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No444":
 {
@@ -5769,7 +6212,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No445":
 {
@@ -5782,7 +6226,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No446":
 {
@@ -5795,7 +6240,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No447":
 {
@@ -5808,7 +6254,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No448":
 {
@@ -5821,7 +6268,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No449":
 {
@@ -5834,7 +6282,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No450":
 {
@@ -5847,7 +6296,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No451":
 {
@@ -5860,7 +6310,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No452":
 {
@@ -5873,7 +6324,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No453":
 {
@@ -5886,7 +6338,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No454":
 {
@@ -5899,7 +6352,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No455":
 {
@@ -5912,7 +6366,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No456":
 {
@@ -5925,7 +6380,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No457":
 {
@@ -5938,7 +6394,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No458":
 {
@@ -5951,7 +6408,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No459":
 {
@@ -5964,7 +6422,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No460":
 {
@@ -5977,7 +6436,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No461":
 {
@@ -5990,7 +6450,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No462":
 {
@@ -6003,7 +6464,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No463":
 {
@@ -6016,7 +6478,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No464":
 {
@@ -6029,7 +6492,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No465":
 {
@@ -6042,7 +6506,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No466":
 {
@@ -6055,7 +6520,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No467":
 {
@@ -6068,7 +6534,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No468":
 {
@@ -6081,7 +6548,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No469":
 {
@@ -6094,7 +6562,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No470":
 {
@@ -6107,7 +6576,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No471":
 {
@@ -6120,7 +6590,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No472":
 {
@@ -6133,7 +6604,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No473":
 {
@@ -6146,7 +6618,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No474":
 {
@@ -6159,7 +6632,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No475":
 {
@@ -6172,7 +6646,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No476":
 {
@@ -6185,7 +6660,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No477":
 {
@@ -6198,7 +6674,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No478":
 {
@@ -6211,7 +6688,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No479":
 {
@@ -6224,7 +6702,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No480":
 {
@@ -6237,7 +6716,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No481":
 {
@@ -6250,7 +6730,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No482":
 {
@@ -6263,7 +6744,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No483":
 {
@@ -6276,7 +6758,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No484":
 {
@@ -6289,7 +6772,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No485":
 {
@@ -6302,7 +6786,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No486":
 {
@@ -6315,7 +6800,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No487":
 {
@@ -6328,7 +6814,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No488":
 {
@@ -6341,7 +6828,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No489":
 {
@@ -6354,7 +6842,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No490":
 {
@@ -6367,7 +6856,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No491":
 {
@@ -6380,7 +6870,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No492":
 {
@@ -6393,7 +6884,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No493":
 {
@@ -6406,7 +6898,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No494":
 {
@@ -6419,7 +6912,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No495":
 {
@@ -6432,7 +6926,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No496":
 {
@@ -6445,7 +6940,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No497":
 {
@@ -6458,7 +6954,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No498":
 {
@@ -6471,7 +6968,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No499":
 {
@@ -6484,7 +6982,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No500":
 {
@@ -6497,7 +6996,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No501":
 {
@@ -6510,7 +7010,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No502":
 {
@@ -6523,7 +7024,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No503":
 {
@@ -6536,7 +7038,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No504":
 {
@@ -6549,7 +7052,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No505":
 {
@@ -6562,7 +7066,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No506":
 {
@@ -6575,7 +7080,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No507":
 {
@@ -6588,7 +7094,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No508":
 {
@@ -6601,7 +7108,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No509":
 {
@@ -6614,7 +7122,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No510":
 {
@@ -6627,7 +7136,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No511":
 {
@@ -6640,7 +7150,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No512":
 {
@@ -6653,7 +7164,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No513":
 {
@@ -6666,7 +7178,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No514":
 {
@@ -6679,7 +7192,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No515":
 {
@@ -6692,7 +7206,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No516":
 {
@@ -6705,7 +7220,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No517":
 {
@@ -6718,7 +7234,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No518":
 {
@@ -6731,7 +7248,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No519":
 {
@@ -6744,7 +7262,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No520":
 {
@@ -6757,7 +7276,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No521":
 {
@@ -6770,7 +7290,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No522":
 {
@@ -6783,7 +7304,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No523":
 {
@@ -6796,7 +7318,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No524":
 {
@@ -6809,7 +7332,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No525":
 {
@@ -6822,7 +7346,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No526":
 {
@@ -6835,7 +7360,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No527":
 {
@@ -6848,7 +7374,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No528":
 {
@@ -6861,7 +7388,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No529":
 {
@@ -6874,7 +7402,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No530":
 {
@@ -6887,7 +7416,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No531":
 {
@@ -6900,7 +7430,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No532":
 {
@@ -6913,7 +7444,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No533":
 {
@@ -6926,7 +7458,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No534":
 {
@@ -6939,7 +7472,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No535":
 {
@@ -6952,7 +7486,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No536":
 {
@@ -6965,7 +7500,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No537":
 {
@@ -6978,7 +7514,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No538":
 {
@@ -6991,7 +7528,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No539":
 {
@@ -7004,7 +7542,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No540":
 {
@@ -7017,7 +7556,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No541":
 {
@@ -7030,7 +7570,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No542":
 {
@@ -7043,7 +7584,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No543":
 {
@@ -7056,7 +7598,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No544":
 {
@@ -7069,7 +7612,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No545":
 {
@@ -7082,7 +7626,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No546":
 {
@@ -7095,7 +7640,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No547":
 {
@@ -7108,7 +7654,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No548":
 {
@@ -7121,7 +7668,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No549":
 {
@@ -7134,7 +7682,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No550":
 {
@@ -7147,7 +7696,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No551":
 {
@@ -7160,7 +7710,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No552":
 {
@@ -7173,7 +7724,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No553":
 {
@@ -7186,7 +7738,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No554":
 {
@@ -7199,7 +7752,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No555":
 {
@@ -7212,7 +7766,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No556":
 {
@@ -7225,7 +7780,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No557":
 {
@@ -7238,7 +7794,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No558":
 {
@@ -7251,7 +7808,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No559":
 {
@@ -7264,7 +7822,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No560":
 {
@@ -7277,7 +7836,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No561":
 {
@@ -7290,7 +7850,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No562":
 {
@@ -7303,7 +7864,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No563":
 {
@@ -7316,7 +7878,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No564":
 {
@@ -7329,7 +7892,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No565":
 {
@@ -7342,7 +7906,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No566":
 {
@@ -7355,7 +7920,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No567":
 {
@@ -7368,7 +7934,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No568":
 {
@@ -7381,7 +7948,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No569":
 {
@@ -7394,7 +7962,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No570":
 {
@@ -7407,7 +7976,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No571":
 {
@@ -7420,7 +7990,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No572":
 {
@@ -7433,7 +8004,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No573":
 {
@@ -7446,7 +8018,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No574":
 {
@@ -7459,7 +8032,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No575":
 {
@@ -7472,7 +8046,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No576":
 {
@@ -7485,7 +8060,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No577":
 {
@@ -7498,7 +8074,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No578":
 {
@@ -7511,7 +8088,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No579":
 {
@@ -7524,7 +8102,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No580":
 {
@@ -7537,7 +8116,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No581":
 {
@@ -7550,7 +8130,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No582":
 {
@@ -7563,7 +8144,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No583":
 {
@@ -7576,7 +8158,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No584":
 {
@@ -7589,7 +8172,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No585":
 {
@@ -7602,7 +8186,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No586":
 {
@@ -7615,7 +8200,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No587":
 {
@@ -7628,7 +8214,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No588":
 {
@@ -7641,7 +8228,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No589":
 {
@@ -7654,7 +8242,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No590":
 {
@@ -7667,7 +8256,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No591":
 {
@@ -7680,7 +8270,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No592":
 {
@@ -7693,7 +8284,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No593":
 {
@@ -7706,7 +8298,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No594":
 {
@@ -7719,7 +8312,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No595":
 {
@@ -7732,7 +8326,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No596":
 {
@@ -7745,7 +8340,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No597":
 {
@@ -7758,7 +8354,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No598":
 {
@@ -7771,7 +8368,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No599":
 {
@@ -7784,7 +8382,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No600":
 {
@@ -7797,7 +8396,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No601":
 {
@@ -7810,7 +8410,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No602":
 {
@@ -7823,7 +8424,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No603":
 {
@@ -7836,7 +8438,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No604":
 {
@@ -7849,7 +8452,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No605":
 {
@@ -7862,7 +8466,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No606":
 {
@@ -7875,7 +8480,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No607":
 {
@@ -7888,7 +8494,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No608":
 {
@@ -7901,7 +8508,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No609":
 {
@@ -7914,7 +8522,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No610":
 {
@@ -7927,7 +8536,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No611":
 {
@@ -7940,7 +8550,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No612":
 {
@@ -7953,7 +8564,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No613":
 {
@@ -7966,7 +8578,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No614":
 {
@@ -7979,7 +8592,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No615":
 {
@@ -7992,7 +8606,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No616":
 {
@@ -8005,7 +8620,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No617":
 {
@@ -8018,7 +8634,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No618":
 {
@@ -8031,7 +8648,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No619":
 {
@@ -8044,7 +8662,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No620":
 {
@@ -8057,7 +8676,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No621":
 {
@@ -8070,7 +8690,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No622":
 {
@@ -8083,7 +8704,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No623":
 {
@@ -8096,7 +8718,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No624":
 {
@@ -8109,7 +8732,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No625":
 {
@@ -8122,7 +8746,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No626":
 {
@@ -8135,7 +8760,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No627":
 {
@@ -8148,7 +8774,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No628":
 {
@@ -8161,7 +8788,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No629":
 {
@@ -8174,7 +8802,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No630":
 {
@@ -8187,7 +8816,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No631":
 {
@@ -8200,7 +8830,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No632":
 {
@@ -8213,7 +8844,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No633":
 {
@@ -8226,7 +8858,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No634":
 {
@@ -8239,7 +8872,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No635":
 {
@@ -8252,7 +8886,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No636":
 {
@@ -8265,7 +8900,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No637":
 {
@@ -8278,7 +8914,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No638":
 {
@@ -8291,7 +8928,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No639":
 {
@@ -8304,7 +8942,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No640":
 {
@@ -8317,7 +8956,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No641":
 {
@@ -8330,7 +8970,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No642":
 {
@@ -8343,7 +8984,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No643":
 {
@@ -8356,7 +8998,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No644":
 {
@@ -8369,7 +9012,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No645":
 {
@@ -8382,7 +9026,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No646":
 {
@@ -8395,7 +9040,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No647":
 {
@@ -8408,7 +9054,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No648":
 {
@@ -8421,7 +9068,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No649":
 {
@@ -8434,7 +9082,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No650":
 {
@@ -8447,7 +9096,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No651":
 {
@@ -8460,7 +9110,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No652":
 {
@@ -8473,7 +9124,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No653":
 {
@@ -8486,7 +9138,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No654":
 {
@@ -8499,7 +9152,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No655":
 {
@@ -8512,7 +9166,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No656":
 {
@@ -8525,7 +9180,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No657":
 {
@@ -8538,7 +9194,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No658":
 {
@@ -8551,7 +9208,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No659":
 {
@@ -8564,7 +9222,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No660":
 {
@@ -8577,7 +9236,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No661":
 {
@@ -8590,7 +9250,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No662":
 {
@@ -8603,7 +9264,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No663":
 {
@@ -8616,7 +9278,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No664":
 {
@@ -8629,7 +9292,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No665":
 {
@@ -8642,7 +9306,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No666":
 {
@@ -8655,7 +9320,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No667":
 {
@@ -8668,7 +9334,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No668":
 {
@@ -8681,7 +9348,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No669":
 {
@@ -8694,7 +9362,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No670":
 {
@@ -8707,7 +9376,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No671":
 {
@@ -8720,7 +9390,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No672":
 {
@@ -8733,7 +9404,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No673":
 {
@@ -8746,7 +9418,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No674":
 {
@@ -8759,7 +9432,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No675":
 {
@@ -8772,7 +9446,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No676":
 {
@@ -8785,7 +9460,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No677":
 {
@@ -8798,7 +9474,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No678":
 {
@@ -8811,7 +9488,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No679":
 {
@@ -8824,7 +9502,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No680":
 {
@@ -8837,7 +9516,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No681":
 {
@@ -8850,7 +9530,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No682":
 {
@@ -8863,7 +9544,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No683":
 {
@@ -8876,7 +9558,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No684":
 {
@@ -8889,7 +9572,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No685":
 {
@@ -8902,7 +9586,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No686":
 {
@@ -8915,7 +9600,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No687":
 {
@@ -8928,7 +9614,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No688":
 {
@@ -8941,7 +9628,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No689":
 {
@@ -8954,7 +9642,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No690":
 {
@@ -8967,7 +9656,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No691":
 {
@@ -8980,7 +9670,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No692":
 {
@@ -8993,7 +9684,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No693":
 {
@@ -9006,7 +9698,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No694":
 {
@@ -9019,7 +9712,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No695":
 {
@@ -9032,7 +9726,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No696":
 {
@@ -9045,7 +9740,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No697":
 {
@@ -9058,7 +9754,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No698":
 {
@@ -9071,7 +9768,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No699":
 {
@@ -9084,7 +9782,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No700":
 {
@@ -9097,7 +9796,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No701":
 {
@@ -9110,7 +9810,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No702":
 {
@@ -9123,7 +9824,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No703":
 {
@@ -9136,7 +9838,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No704":
 {
@@ -9149,7 +9852,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No705":
 {
@@ -9162,7 +9866,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No706":
 {
@@ -9175,7 +9880,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No707":
 {
@@ -9188,7 +9894,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No708":
 {
@@ -9201,7 +9908,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No709":
 {
@@ -9214,7 +9922,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No710":
 {
@@ -9227,7 +9936,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No711":
 {
@@ -9240,7 +9950,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No712":
 {
@@ -9253,7 +9964,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No713":
 {
@@ -9266,7 +9978,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No714":
 {
@@ -9279,7 +9992,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No715":
 {
@@ -9292,7 +10006,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No716":
 {
@@ -9305,7 +10020,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No717":
 {
@@ -9318,7 +10034,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No718":
 {
@@ -9331,7 +10048,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No719":
 {
@@ -9344,7 +10062,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No720":
 {
@@ -9357,7 +10076,8 @@
   "reckLess": false,
   "explosion": true,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No721":
 {
@@ -9370,7 +10090,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No722":
 {
@@ -9383,7 +10104,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No723":
 {
@@ -9396,7 +10118,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No724":
 {
@@ -9409,7 +10132,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No725":
 {
@@ -9422,7 +10146,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No726":
 {
@@ -9435,7 +10160,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No727":
 {
@@ -9448,7 +10174,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No728":
 {
@@ -9461,7 +10188,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No729":
 {
@@ -9474,7 +10202,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No730":
 {
@@ -9487,7 +10216,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No731":
 {
@@ -9500,7 +10230,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No732":
 {
@@ -9513,7 +10244,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No733":
 {
@@ -9526,7 +10258,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No734":
 {
@@ -9539,7 +10272,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No735":
 {
@@ -9552,7 +10286,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No736":
 {
@@ -9565,7 +10300,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No737":
 {
@@ -9578,7 +10314,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No738":
 {
@@ -9591,7 +10328,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No739":
 {
@@ -9604,7 +10342,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No740":
 {
@@ -9617,7 +10356,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No741":
 {
@@ -9630,7 +10370,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No742":
 {
@@ -9643,7 +10384,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No743":
 {
@@ -9656,7 +10398,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No744":
 {
@@ -9669,7 +10412,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No745":
 {
@@ -9682,7 +10426,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No746":
 {
@@ -9695,7 +10440,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No747":
 {
@@ -9708,7 +10454,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No748":
 {
@@ -9721,7 +10468,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No749":
 {
@@ -9734,7 +10482,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No750":
 {
@@ -9747,7 +10496,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No751":
 {
@@ -9760,7 +10510,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No752":
 {
@@ -9773,7 +10524,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No753":
 {
@@ -9786,7 +10538,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No754":
 {
@@ -9799,7 +10552,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No755":
 {
@@ -9812,7 +10566,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No756":
 {
@@ -9825,7 +10580,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No757":
 {
@@ -9838,7 +10594,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No758":
 {
@@ -9851,7 +10608,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No759":
 {
@@ -9864,7 +10622,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No760":
 {
@@ -9877,7 +10636,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No761":
 {
@@ -9890,7 +10650,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No762":
 {
@@ -9903,7 +10664,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No763":
 {
@@ -9916,7 +10678,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No764":
 {
@@ -9929,7 +10692,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No765":
 {
@@ -9942,7 +10706,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No766":
 {
@@ -9955,7 +10720,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No767":
 {
@@ -9968,7 +10734,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No768":
 {
@@ -9981,7 +10748,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No769":
 {
@@ -9994,7 +10762,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No770":
 {
@@ -10007,7 +10776,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No771":
 {
@@ -10020,7 +10790,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No772":
 {
@@ -10033,7 +10804,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No773":
 {
@@ -10046,7 +10818,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No774":
 {
@@ -10059,7 +10832,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No775":
 {
@@ -10072,7 +10846,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No776":
 {
@@ -10085,7 +10860,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No777":
 {
@@ -10098,7 +10874,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No778":
 {
@@ -10111,7 +10888,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No779":
 {
@@ -10124,7 +10902,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No780":
 {
@@ -10137,7 +10916,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No781":
 {
@@ -10150,7 +10930,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No782":
 {
@@ -10163,7 +10944,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No783":
 {
@@ -10176,7 +10958,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No784":
 {
@@ -10189,7 +10972,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No785":
 {
@@ -10202,7 +10986,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No786":
 {
@@ -10215,7 +11000,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No787":
 {
@@ -10228,7 +11014,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No788":
 {
@@ -10241,7 +11028,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No789":
 {
@@ -10254,7 +11042,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No790":
 {
@@ -10267,7 +11056,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No791":
 {
@@ -10280,7 +11070,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No792":
 {
@@ -10293,7 +11084,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No793":
 {
@@ -10306,7 +11098,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No795":
 {
@@ -10319,7 +11112,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No796":
 {
@@ -10332,7 +11126,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No797":
 {
@@ -10345,7 +11140,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No798":
 {
@@ -10358,7 +11154,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No799":
 {
@@ -10371,7 +11168,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No800":
 {
@@ -10384,7 +11182,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No801":
 {
@@ -10397,7 +11196,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No802":
 {
@@ -10410,7 +11210,8 @@
   "reckLess": false,
   "explosion": true,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No803":
 {
@@ -10423,7 +11224,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No804":
 {
@@ -10436,7 +11238,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No805":
 {
@@ -10449,7 +11252,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No806":
 {
@@ -10462,7 +11266,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No807":
 {
@@ -10475,7 +11280,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No808":
 {
@@ -10488,7 +11294,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No809":
 {
@@ -10501,7 +11308,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No810":
 {
@@ -10514,7 +11322,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No811":
 {
@@ -10527,7 +11336,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No812":
 {
@@ -10540,7 +11350,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No813":
 {
@@ -10553,7 +11364,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No815":
 {
@@ -10566,7 +11378,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No816":
 {
@@ -10579,7 +11392,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No817":
 {
@@ -10592,7 +11406,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No818":
 {
@@ -10605,7 +11420,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No819":
 {
@@ -10618,7 +11434,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No820":
 {
@@ -10631,7 +11448,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No821":
 {
@@ -10644,7 +11462,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No822":
 {
@@ -10657,7 +11476,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No823":
 {
@@ -10670,7 +11490,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No824":
 {
@@ -10683,7 +11504,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No825":
 {
@@ -10696,7 +11518,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No826":
 {
@@ -10709,7 +11532,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No827":
 {
@@ -10722,7 +11546,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No828":
 {
@@ -10735,7 +11560,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No829":
 {
@@ -10748,7 +11574,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No830":
 {
@@ -10761,7 +11588,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No831":
 {
@@ -10774,7 +11602,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No832":
 {
@@ -10787,7 +11616,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No833":
 {
@@ -10800,7 +11630,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No834":
 {
@@ -10813,7 +11644,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No835":
 {
@@ -10826,7 +11658,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No836":
 {
@@ -10839,7 +11672,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No837":
 {
@@ -10852,7 +11686,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No838":
 {
@@ -10865,7 +11700,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No839":
 {
@@ -10878,7 +11714,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No840":
 {
@@ -10891,7 +11728,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No841":
 {
@@ -10904,7 +11742,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No842":
 {
@@ -10917,7 +11756,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No843":
 {
@@ -10930,7 +11770,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No844":
 {
@@ -10943,7 +11784,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No845":
 {
@@ -10956,7 +11798,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No846":
 {
@@ -10969,7 +11812,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No847":
 {
@@ -10982,7 +11826,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No848":
 {
@@ -10995,7 +11840,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No849":
 {
@@ -11008,7 +11854,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No850":
 {
@@ -11021,7 +11868,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No851":
 {
@@ -11034,7 +11882,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No852":
 {
@@ -11047,7 +11896,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No853":
 {
@@ -11060,7 +11910,8 @@
   "reckLess": true,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No854":
 {
@@ -11073,7 +11924,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No855":
 {
@@ -11086,7 +11938,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No856":
 {
@@ -11099,7 +11952,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No857":
 {
@@ -11112,7 +11966,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No858":
 {
@@ -11125,7 +11980,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No859":
 {
@@ -11138,7 +11994,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No860":
 {
@@ -11151,7 +12008,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No861":
 {
@@ -11164,7 +12022,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No862":
 {
@@ -11177,7 +12036,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No863":
 {
@@ -11190,7 +12050,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No864":
 {
@@ -11203,7 +12064,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No865":
 {
@@ -11216,7 +12078,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No866":
 {
@@ -11229,7 +12092,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No867":
 {
@@ -11242,7 +12106,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No868":
 {
@@ -11255,7 +12120,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No869":
 {
@@ -11268,7 +12134,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No870":
 {
@@ -11281,7 +12148,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No871":
 {
@@ -11294,7 +12162,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No872":
 {
@@ -11307,7 +12176,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No873":
 {
@@ -11320,7 +12190,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": true,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No875":
 {
@@ -11333,7 +12204,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No876":
 {
@@ -11346,7 +12218,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No877":
 {
@@ -11359,7 +12232,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No878":
 {
@@ -11372,7 +12246,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No879":
 {
@@ -11385,7 +12260,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No880":
 {
@@ -11398,7 +12274,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No881":
 {
@@ -11411,7 +12288,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No882":
 {
@@ -11424,7 +12302,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No883":
 {
@@ -11437,7 +12316,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No884":
 {
@@ -11450,7 +12330,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No885":
 {
@@ -11463,7 +12344,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No886":
 {
@@ -11476,7 +12358,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No887":
 {
@@ -11489,7 +12372,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No888":
 {
@@ -11502,7 +12386,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No889":
 {
@@ -11515,7 +12400,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No890":
 {
@@ -11528,7 +12414,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No891":
 {
@@ -11541,7 +12428,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No892":
 {
@@ -11554,7 +12442,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No893":
 {
@@ -11567,7 +12456,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No894":
 {
@@ -11580,7 +12470,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": true
+  "fixedDamage": true,
+  "sleepingMove": false
 },
 "No895":
 {
@@ -11593,7 +12484,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No896":
 {
@@ -11606,7 +12498,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No897":
 {
@@ -11619,7 +12512,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No898":
 {
@@ -11632,7 +12526,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No899":
 {
@@ -11645,7 +12540,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No900":
 {
@@ -11658,7 +12554,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No901":
 {
@@ -11671,7 +12568,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No902":
 {
@@ -11684,7 +12582,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No903":
 {
@@ -11697,7 +12596,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No904":
 {
@@ -11710,7 +12610,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No905":
 {
@@ -11723,7 +12624,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No906":
 {
@@ -11736,7 +12638,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No907":
 {
@@ -11749,7 +12652,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No908":
 {
@@ -11762,7 +12666,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No909":
 {
@@ -11775,7 +12680,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No910":
 {
@@ -11788,7 +12694,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No911":
 {
@@ -11801,7 +12708,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No912":
 {
@@ -11814,7 +12722,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No913":
 {
@@ -11827,7 +12736,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No914":
 {
@@ -11840,7 +12750,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No915":
 {
@@ -11853,7 +12764,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No916":
 {
@@ -11866,7 +12778,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No917":
 {
@@ -11879,7 +12792,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No918":
 {
@@ -11892,7 +12806,8 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 },
 "No919":
 {
@@ -11905,6 +12820,7 @@
   "reckLess": false,
   "explosion": false,
   "changeType": false,
-  "fixedDamage": false
+  "fixedDamage": false,
+  "sleepingMove": false
 }
 }

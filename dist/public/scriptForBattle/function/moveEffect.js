@@ -81,7 +81,7 @@ function calculateDamageForAll(pokemon) {
         result = result % 65536;
         result = Math.min(result, target.status.hp.value.value);
         if (attack.substitute) {
-            return Math.min(result, target.stateChange.substitute.count);
+            return Math.min(result, target.stateChange.substitute.hp.value);
         }
         if (result !== target.status.hp.value.value) {
             return result;
@@ -104,14 +104,14 @@ function calculateDamageForAll(pokemon) {
                 return result - 1;
             }
         }
-        if (target.item.isName('きあいのタスキ')) {
+        if (target.isItem('きあいのタスキ')) {
             if (target.status.hp.value.isMax()) {
                 target.stateChange.endureMsg.isTrue === true;
                 target.stateChange.endureMsg.text === 'きあいのタスキ';
                 return result - 1;
             }
         }
-        if (target.item.isName('きあいのタスキ')) {
+        if (target.isItem('きあいのタスキ')) {
             if (getRandom() < 10) {
                 target.stateChange.endureMsg.isTrue === true;
                 target.stateChange.endureMsg.text === 'きあいのハチマキ';
@@ -502,7 +502,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         pokemon.msgDeclareAbility();
         target.statusAilment.getPoisoned();
-        // writeLog( `${getArticle( target )}に 毒を あびせた!` );
+        // battleLog.write( `${getArticle( target )}に 毒を あびせた!` );
     };
     const synchronize = (pokemon, target) => {
         if (!target.ability.isName('Synchronize'))
@@ -525,7 +525,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             && !target.ability.isName('Iron Barbs'))
             return; // 特性「てつのトゲ」
         target.msgDeclareAbility();
-        if (pokemon.item.isName('ぼうごパット')) {
+        if (pokemon.isItem('ぼうごパット')) {
             pokemon.msgProtectivePads();
             return;
         }
@@ -548,9 +548,9 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (pokemon.ability.isName('Overcoat'))
             return; // 特性「ぼうじん」
-        if (pokemon.item.isName('ぼうじんゴーグル'))
+        if (pokemon.isItem('ぼうじんゴーグル'))
             return;
-        if (pokemon.item.isName('ぼうごパット'))
+        if (pokemon.isItem('ぼうごパット'))
             return;
         if (random >= 30)
             return;
@@ -580,7 +580,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (!target.ability.isName('Poison Point'))
             return; // 特性「どくのトゲ」
-        if (pokemon.item.isName('ぼうごパット'))
+        if (pokemon.isItem('ぼうごパット'))
             return;
         if (getRandom() > 30)
             return;
@@ -596,7 +596,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (!target.ability.isName('Static'))
             return; // 特性「せいでんき」
-        if (pokemon.item.isName('ぼうごパット'))
+        if (pokemon.isItem('ぼうごパット'))
             return;
         if (getRandom() > 30)
             return;
@@ -612,7 +612,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (!target.ability.isName('Flame Body'))
             return; // 特性「ほのおのからだ」
-        if (pokemon.item.isName('ぼうごパット'))
+        if (pokemon.isItem('ぼうごパット'))
             return;
         if (getRandom() > 30)
             return;
@@ -628,7 +628,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (!target.ability.isName('Cute Charm'))
             return; // 特性「メロメロボディ」
-        if (pokemon.item.isName('ぼうごパット'))
+        if (pokemon.isItem('ぼうごパット'))
             return;
         if (getRandom() >= 30)
             return;
@@ -648,7 +648,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
         const master = pokemon.ability.changeMaster();
         if (master.exchange === 0 || master.exchange === 2)
             return;
-        if (pokemon.item.isName('ぼうごパット')) {
+        if (pokemon.isItem('ぼうごパット')) {
             pokemon.msgProtectivePads();
             return;
         }
@@ -670,7 +670,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             && !target.ability.isName('Tangling Hair'))
             return; // 特性「カーリーヘアー」
         target.msgDeclareAbility();
-        if (pokemon.item.isName('ぼうごパット')) {
+        if (pokemon.isItem('ぼうごパット')) {
             pokemon.msgProtectivePads();
             return;
         }
@@ -683,7 +683,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (!target.ability.isName('Wandering Spirit'))
             return; // 特性「さまようたましい」
-        if (pokemon.item.isName('ぼうごパット'))
+        if (pokemon.isItem('ぼうごパット'))
             return;
         if (pokemon.stateChange.dynamax.isTrue)
             return;
@@ -709,7 +709,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return; // 特性「ほろびのボディ」
         if (pokemon.status.hp.value.isZero())
             return;
-        if (pokemon.item.isName('ぼうごパット'))
+        if (pokemon.isItem('ぼうごパット'))
             return;
         if (pokemon.stateChange.perishSong.isTrue && target.stateChange.perishSong.isTrue)
             return;
@@ -967,7 +967,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (attack.substitute)
             return;
-        if (!target.item.isName('ナゾのみ'))
+        if (!target.isItem('ナゾのみ'))
             return;
         if (attack.effective <= 1)
             return;
@@ -981,7 +981,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (attack.substitute)
             return;
-        if (!target.item.isName('じゃくてんほけん'))
+        if (!target.isItem('じゃくてんほけん'))
             return;
         if (attack.effective <= 1)
             return;
@@ -996,7 +996,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (attack.substitute)
             return;
-        if (!target.item.isName('じゅうでんち'))
+        if (!target.isItem('じゅうでんち'))
             return;
         if (pokemon.move.selected.type !== 'Electric')
             return;
@@ -1010,7 +1010,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (attack.substitute)
             return;
-        if (!target.item.isName('ゆきだま'))
+        if (!target.isItem('ゆきだま'))
             return;
         if (pokemon.move.selected.type !== 'Ice')
             return;
@@ -1024,7 +1024,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (attack.substitute)
             return;
-        if (!target.item.isName('きゅうこん'))
+        if (!target.isItem('きゅうこん'))
             return;
         if (pokemon.move.selected.type !== 'Water')
             return;
@@ -1038,7 +1038,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
             return;
         if (attack.substitute)
             return;
-        if (!target.item.isName('ひかりごけ'))
+        if (!target.isItem('ひかりごけ'))
             return;
         if (pokemon.move.selected.type !== 'Water')
             return;
@@ -1050,11 +1050,11 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
     const rockyHelmet = (pokemon, target, attack) => {
         if (attack.substitute)
             return;
-        if (!target.item.isName('ゴツゴツメット'))
+        if (!target.isItem('ゴツゴツメット'))
             return;
         if (!pokemon.isContact())
             return;
-        if (pokemon.item.isName('ぼうごパット'))
+        if (pokemon.isItem('ぼうごパット'))
             return;
         if (pokemon.ability.isName('Magic Guard'))
             return; // 特性「マジックガード」
@@ -1067,7 +1067,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
     const stickyBarb = (pokemon, target, attack) => {
         if (attack.substitute)
             return;
-        if (!target.item.isName('くっつきバリ'))
+        if (!target.isItem('くっつきバリ'))
             return;
         if (!pokemon.isContact())
             return;
@@ -1078,7 +1078,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
     const airBalloon = (target, attack) => {
         if (attack.substitute)
             return;
-        if (!target.item.isName('ふうせん'))
+        if (!target.isItem('ふうせん'))
             return;
         target.item.name = null;
         target.msgAirBalloon();
@@ -1099,7 +1099,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
     const jabocaBerry = (pokemon, target, attack) => {
         if (attack.substitute)
             return;
-        if (!target.item.isName('ジャポのみ'))
+        if (!target.isItem('ジャポのみ'))
             return;
         if (!pokemon.move.selected.isPhysical())
             return;
@@ -1115,7 +1115,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
     const rowapBerry = (pokemon, target, attack) => {
         if (attack.substitute)
             return;
-        if (!target.item.isName('レンブのみ'))
+        if (!target.isItem('レンブのみ'))
             return;
         if (!pokemon.move.selected.isSpecial())
             return;
@@ -1319,20 +1319,7 @@ function activateMoveEffect(pokemon) {
             // if ( pokemon.move.selected.name === 'キョダイサジン) ) return;
             // if ( pokemon.move.selected.name === 'キョダイヒャッカ) ) return;
         }
-        const getTurn = (pokemon) => {
-            let turn = 4;
-            if (getRandom() < 50)
-                turn = 5;
-            if (pokemon.item.isName('ねばりのかぎづめ'))
-                turn = 7;
-            return turn;
-        };
-        target.stateChange.bind.isTrue = true;
-        target.stateChange.bind.turn = getTurn(pokemon);
-        if (pokemon.item.isName('しめつけバンド')) {
-            target.stateChange.bind.text = 'しめつけバンド';
-        }
-        target.msgBind(pokemon.getArticle());
+        target.stateChange.bind.onActivate(pokemon, target);
     };
     const secretPower = (pokemon, target, attack) => {
         if (pokemon.move.selected.name !== 'Secret Power')
@@ -1676,7 +1663,7 @@ function activateMoveEffect(pokemon) {
         if (pokemon.status.hp.value.isZero())
             return;
         fieldStatus.whole.ionDeluge.isTrue = true;
-        writeLog(`電子のシャワーが 降りそそいだ!`);
+        battleLog.write(`電子のシャワーが 降りそそいだ!`);
     };
     const genesisSupernova = (pokemon) => {
         if (pokemon.move.selected.name !== 'Genesis Supernova')
@@ -1695,7 +1682,7 @@ function activateMoveEffect(pokemon) {
             return;
         if (pokemon.stateChange.ingrain.isTrue) {
             pokemon.stateChange.ingrain.reset();
-            writeLog(``);
+            battleLog.write(``);
         }
         main.field.getSide(pokemon.isMine()).spikes.onRemove();
         main.field.getSide(pokemon.isMine()).toxicSpikes.onRemove();
@@ -1751,7 +1738,7 @@ function activateMoveEffect(pokemon) {
             return;
         /*
         for ( const data of targetList ) {
-          if ( data.target.item.isName( 'おんみつマント' ) === true ) continue;
+          if ( data.target.isItem( 'おんみつマント' ) === true ) continue;
           if ( data.target.ability.isName( 'りんぷん' ) && targetList.length === 1 ) continue;
     
           cureAilment( data.target, 'ASLEEP' );
@@ -1764,7 +1751,7 @@ function activateMoveEffect(pokemon) {
             return; // 技「ぶきみなじゅもん」
         if (!pokemon.isAdditionalEffect(target, attack))
             return;
-        // writeLog( `${getArticle( one.target)}の ${}を ${}削った!` );
+        // battleLog.write( `${getArticle( one.target)}の ${}を ${}削った!` );
     };
     // 炎技を受けたポケモンの氷を溶かす
     for (const attack of pokemon.attack.getTargetToPokemon()) {
@@ -1932,7 +1919,6 @@ function activateAbilityEffectPart1(pokemon) {
         const type = pokemon.move.selected.type;
         target.msgDeclareAbility();
         target.type.toType(type);
-        target.msgColorChange(type);
     };
     const berserk = (pokemon, target) => {
         if (!target.ability.isName('Berserk'))
@@ -1981,7 +1967,7 @@ function activateAbilityEffectPart1(pokemon) {
 // 防御側の持ち物の効果 (その4)
 function targetItemEffectPart3(pokemon) {
     const keeBerry = (pokemon, target, attack) => {
-        if (!target.item.isName('アッキのみ'))
+        if (!target.isItem('アッキのみ'))
             return;
         if (!pokemon.move.selected.isPhysical())
             return;
@@ -1994,7 +1980,7 @@ function targetItemEffectPart3(pokemon) {
         target.eatKeeBerry();
     };
     const marangaBerry = (pokemon, target, attack) => {
-        if (!target.item.isName('タラプのみ'))
+        if (!target.isItem('タラプのみ'))
             return;
         if (!pokemon.move.selected.isSpecial())
             return;
@@ -2007,7 +1993,7 @@ function targetItemEffectPart3(pokemon) {
         target.eatMarangaBerry();
     };
     const ejectButton = (pokemon, target, attack) => {
-        if (!target.item.isName('だっしゅつボタン'))
+        if (!target.isItem('だっしゅつボタン'))
             return;
     };
     for (const attack of pokemon.attack.getTargetToPokemon()) {
@@ -2063,7 +2049,7 @@ function formChangeByMove(pokemon) {
 // いのちのたまの反動/かいがらのすずの回復
 function lifeOrbShellBell(pokemon) {
     const lifeOrb = (pokemon) => {
-        if (!pokemon.item.isName('いのちのたま'))
+        if (!pokemon.isItem('いのちのたま'))
             return;
         if (pokemon.status.hp.value.isZero())
             return;
@@ -2080,7 +2066,7 @@ function lifeOrbShellBell(pokemon) {
         pokemon.msgLifeOrb();
     };
     const shellBell = (pokemon) => {
-        if (!pokemon.item.isName('かいがらのすず'))
+        if (!pokemon.isItem('かいがらのすず'))
             return;
         if (pokemon.status.hp.value.isZero())
             return;
@@ -2104,7 +2090,7 @@ function lifeOrbShellBell(pokemon) {
 // 防御側の持ち物の効果 (その4)
 function targetItemEffectPart4(pokemon) {
     const oranBerry = (target) => {
-        if (!target.item.isName('オボンのみ'))
+        if (!target.isItem('オボンのみ'))
             return;
         if (!target.isActivateBerryByHP(2))
             return;
@@ -2114,7 +2100,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const sitrusBerry = (target) => {
-        if (!target.item.isName('オボンのみ'))
+        if (!target.isItem('オボンのみ'))
             return;
         if (!target.isActivateBerryByHP(2))
             return;
@@ -2124,7 +2110,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const figyBerry = (target) => {
-        if (!target.item.isName('フィラのみ'))
+        if (!target.isItem('フィラのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2134,7 +2120,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const wikiBerry = (target) => {
-        if (!target.item.isName('ウイのみ'))
+        if (!target.isItem('ウイのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2144,7 +2130,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const magoBerry = (target) => {
-        if (!target.item.isName('マゴのみ'))
+        if (!target.isItem('マゴのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2154,7 +2140,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const aguavBerry = (target) => {
-        if (!target.item.isName('バンジのみ'))
+        if (!target.isItem('バンジのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2164,7 +2150,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const iapapaBerry = (target) => {
-        if (!target.item.isName('イアのみ'))
+        if (!target.isItem('イアのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2174,7 +2160,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const liechiBerry = (target) => {
-        if (!target.item.isName('チイラのみ'))
+        if (!target.isItem('チイラのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2184,7 +2170,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const ganlonBerry = (target) => {
-        if (!target.item.isName('リュガのみ'))
+        if (!target.isItem('リュガのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2194,7 +2180,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const salacBerry = (target) => {
-        if (!target.item.isName('カムラのみ'))
+        if (!target.isItem('カムラのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2204,7 +2190,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const petayaBerry = (target) => {
-        if (!target.item.isName('ヤタピのみ'))
+        if (!target.isItem('ヤタピのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2214,7 +2200,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const apicotBerry = (target) => {
-        if (!target.item.isName('ズアのみ'))
+        if (!target.isItem('ズアのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2224,7 +2210,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const lansatBerry = (target) => {
-        if (!target.item.isName('サンのみ'))
+        if (!target.isItem('サンのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2234,7 +2220,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const starfBerry = (target) => {
-        if (!target.item.isName('スターのみ'))
+        if (!target.isItem('スターのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2248,7 +2234,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const micleBerry = (target) => {
-        if (!target.item.isName('ミクルのみ'))
+        if (!target.isItem('ミクルのみ'))
             return;
         if (!target.isActivateBerryByHP(4))
             return;
@@ -2256,7 +2242,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const berryJuice = (target) => {
-        if (!target.item.isName('きのみジュース'))
+        if (!target.isItem('きのみジュース'))
             return;
         if (!target.isActivateBerryByHP(2))
             return;
@@ -2266,7 +2252,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const electricSeed = (target) => {
-        if (!target.item.isName('エレキシード'))
+        if (!target.isItem('エレキシード'))
             return;
         if (!main.field.terrain.isElectric())
             return;
@@ -2276,7 +2262,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const grassySeed = (target) => {
-        if (!target.item.isName('グラスシード'))
+        if (!target.isItem('グラスシード'))
             return;
         if (!main.field.terrain.isGrassy())
             return;
@@ -2286,7 +2272,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const psychicSeed = (target) => {
-        if (!target.item.isName('サイコシード'))
+        if (!target.isItem('サイコシード'))
             return;
         if (!main.field.terrain.isPsychic())
             return;
@@ -2296,7 +2282,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const mistySeed = (target) => {
-        if (!target.item.isName('ミストシード'))
+        if (!target.isItem('ミストシード'))
             return;
         if (!main.field.terrain.isMisty())
             return;
@@ -2306,7 +2292,7 @@ function targetItemEffectPart4(pokemon) {
         target.consumeItem();
     };
     const roomService = (target) => {
-        if (!target.item.isName('ルームサービス'))
+        if (!target.isItem('ルームサービス'))
             return;
         if (main.field.whole.trickRoom.isTrue)
             return;
@@ -2405,7 +2391,7 @@ function otherEffect(pokemon) {
     if (pokemon.move.selected.name === 'Burn Up') { // 技「もえつきる」
         // if ( pokemon.type1 === 'FIRE' ) pokemon.type1 = null;
         // if ( pokemon.type2 === 'FIRE' ) pokemon.type2 = null;
-        writeLog(`${getArticle(pokemon)}の 炎は 燃え尽きた!`);
+        battleLog.write(`${getArticle(pokemon)}の 炎は 燃え尽きた!`);
     }
     naturalGift: if (pokemon.move.selected.name === 'Natural Gift') { // 技「しぜんのめぐみ」
         if (pokemon.order.battle === null)
@@ -2424,7 +2410,7 @@ function otherEffect(pokemon) {
 // 攻撃側の持ち物の効果
 function myItemEffect(pokemon) {
     const leppaBerry = (pokemon) => {
-        if (!pokemon.item.isName('ヒメリのみ'))
+        if (!pokemon.isItem('ヒメリのみ'))
             return;
         if (pokemon.move.learned[pokemon.move.selected.slot].powerPoint.isPlus())
             return;
@@ -2432,7 +2418,7 @@ function myItemEffect(pokemon) {
         pokemon.consumeItem();
     };
     const throatSpray = (pokemon) => {
-        if (!pokemon.item.isName('のどスプレー'))
+        if (!pokemon.isItem('のどスプレー'))
             return;
         if (!pokemon.isChangeRank('spA', 1))
             return;

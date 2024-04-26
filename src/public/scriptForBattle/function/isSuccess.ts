@@ -3,17 +3,17 @@ function isSuccess( pokemon: Pokemon ): boolean {
   // フリーフォールで行動順を飛ばされる
   skipBySkyDrop();
   // 自身のおんねん/いかり状態の解除
-  liftingMyStatus();
+  liftingMyStatus( pokemon );
   // 行動の失敗
   if ( isActionFailure( pokemon ) ) return false;
   // ねごと/いびき使用時「ぐうぐう 眠っている」メッセージ
-  sleepyMessage( pokemon );
+  pokemon.statusAilment.onSleepingMoveMsg( pokemon );
   // 自分のこおりを回復するわざにより自身のこおり状態が治る
-  meltMeByMove( pokemon );
+  pokemon.statusAilment.onDefrost( pokemon );
   // 特性バトルスイッチによるフォルムチェンジ
   stanceChange( pokemon );
   // 「<ポケモン>の <技>!」のメッセージ。PPが減少することが確約される
-  moveDeclareMessage( pokemon );
+  battleLog.write( `${pokemon.getArticle()}の ${pokemon.move.selected.translate()}!` );
   // 技のタイプが変わる。
   changeMoveType( pokemon );
   // 技の対象が決まる。若い番号の対象が優先される。
@@ -23,9 +23,10 @@ function isSuccess( pokemon: Pokemon ): boolean {
   // ほのおタイプではないことによるもえつきるの失敗
   if ( burnUpFailure( pokemon ) ) return false;
   // おおあめ/おおひでりによるほのお/みず技の失敗
-  if ( failureByWeather( pokemon ) ) return false;
+  if ( main.field.weather.isBadRainy( pokemon ) ) return false;
+  if ( main.field.weather.isBadSunny( pokemon ) ) return false;
   // ふんじんによるほのお技の失敗とダメージ
-  if ( failureByPowder( pokemon ) ) return false;
+  if ( pokemon.stateChange.powder.isEffective( pokemon ) ) return false;
   // ミクルのみによる命中補正効果が消費される
   hitCorrConsumance( pokemon );
   // 技の仕様による失敗
@@ -96,265 +97,54 @@ function skipBySkyDrop(): void {
 }
 
 // 自身のおんねん/いかり状態の解除
-function liftingMyStatus(): void {
-
+function liftingMyStatus( pokemon: Pokemon ): void {
+  pokemon.stateChange.grudge.reset();
+  pokemon.stateChange.rage.reset();
 }
 
 // 行動の失敗
 function isActionFailure( pokemon: Pokemon ): boolean {
 
-  const cannotMove = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.stateChange.cannotMove.isTrue ) return false;
-
-    pokemon.stateChange.cannotMove.reset();
-    pokemon.msgCannotMove();
-
-    if ( pokemon.ability.isName( 'Truant' ) ) { // 特性「なまけ」
-      pokemon.stateChange.truant.count += 1;
-    }
-
-    return true;
-  }
-
-  const sleep = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.statusAilment.isAsleep() ) return false;
-
-    const turn: number = ( pokemon.ability.isName( 'Early Bird' ) )? 2 : 1; // 特性「はやおき」
-    pokemon.statusAilment.turn -= turn;
-
-    if ( pokemon.statusAilment.turn <= 0 ) {
-      pokemon.statusAilment.getHealth();
-      return false;
-    } else {
-      //if ( sleepingMoveList.includes( pokemon.move.selected.name ) ) break sleep;
-      pokemon.msgStillAsleep();
+  // 反動で動けない
+  if ( pokemon.stateChange.cannotMove.isEffective( pokemon ) ) return true;
+  // ねむり状態
+  if ( pokemon.statusAilment.isEffectiveAsleep( pokemon ) ) return true;
+  // こおり状態
+  if ( pokemon.statusAilment.isEffectiveFrozen( pokemon ) ) return true;
+  // 残りPP
+  if ( pokemon.move.isNoPPLeft() ) return true;
+  // 特性「なまけ」
+  if ( pokemon.stateChange.truant.isEffective( pokemon ) ) return true;
+  // 技「きあいパンチ」
+  if ( pokemon.stateChange.focusPunch.isEffective( pokemon ) ) return true;
+  // ひるみ状態
+  if ( pokemon.stateChange.flinch.isEffective( pokemon ) ) return true;
+  // かなしばり状態
+  if ( pokemon.stateChange.disable.isEffective( pokemon ) ) return true;
+  // じゅうりょく状態
+  if ( main.field.whole.gravity.isEffective( pokemon ) ) return true;
+  // かいふくふうじ状態
+  if ( pokemon.stateChange.healBlock.isEffective( pokemon ) ) return true;
+  // じごくづき状態
+  if ( pokemon.stateChange.throatChop.isEffective( pokemon ) ) return true;
+  // ちょうはつ状態
+  if ( pokemon.stateChange.taunt.isEffective( pokemon ) ) return true;
+  // ふういん状態
+  for ( const oppPoke of main.getPokemonInSide( !pokemon.isMine() ) ) {
+    if ( oppPoke.stateChange.imprison.isEffective( oppPoke, pokemon ) ) {
       return true;
     }
   }
-
-  const frozen = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.statusAilment.isFrozen() ) return false;
-    if ( getRandom() < 20 ) {
-      pokemon.statusAilment.getHealth();
-      return false;
-    }
-    if ( pokemon.move.selected.getMaster().defrost ) {
-      if ( pokemon.move.selected.name !== 'Burn Up' ) return false; // 技「もえつきる」
-      if ( pokemon.type.has( 'Fire' ) ) return false;
-    }
-
-    pokemon.msgStillFrozen();
-    return true;
-  }
-
-  const remainingPP = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.move.learned[pokemon.move.selected.slot].powerPoint.isZero() ) return false;
-
-    pokemon.msgDeclareMove();
-    pokemon.msgNoPowerPoint();
-    return true;
-  }
-
-  const truant = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.ability.isName( 'Truant' ) ) return false; // 特性「なまけ」
-    pokemon.stateChange.truant.count += 1;
-    if ( pokemon.stateChange.truant.count % 2 === 1 ) return false;
-
-    pokemon.msgDeclareAbility();
-    pokemon.msgTruant();
-    return true;
-  }
-
-  const focusPunch = ( pokemon: Pokemon ): boolean => {
-    if ( pokemon.move.selected.name !== 'Focus Punch' ) return false; // 技「きあいパンチ」
-    if ( !pokemon.stateChange.focusPunch.isTrue ) return false;
-
-    const judge = pokemon.stateChange.focusPunch.text;
-    pokemon.stateChange.focusPunch.reset();
-    if ( judge === '集中' ) return false;
-
-    pokemon.msgFocusPunch();
-    return true;
-  }
-
-  const flinch = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.stateChange.flinch.isTrue ) return false;
-
-    pokemon.msgFlinch();
-
-    if ( !pokemon.ability.isName( 'Steadfast' ) ) return true; // 特性「ふくつのこころ」
-    if ( !pokemon.isChangeRank( 'spe', 1 ) ) return true;
-
-    pokemon.msgDeclareAbility();
-    pokemon.changeRank( 'spe', 1 );
-    return true;
-  }
-
-  const disable = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.stateChange.disable.isTrue ) return false;
-    // if ( !pokemon.move.selected.isName( pokemon.stateChange.disable.text ) ) return false;
-
-    pokemon.msgDisable();
-    return true;
-  }
-
-  const gravity = ( pokemon: Pokemon ): boolean => {
-    if ( !main.field.whole.gravity.isTrue ) return false;
-    if ( !pokemon.move.selected.getMaster().gravity ) return false;
-
-    pokemon.msgGravity();
-    return true;
-  }
-
-  const healBlock = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.stateChange.healBlock.isTrue ) return false;
-    if ( !pokemon.move.selected.getMaster().heal ) return false;
-    if ( pokemon.move.selected.name === 'Pollen Puff' // 技「かふんだんご」
-      && pokemon.attack.getValidTarget()[0].isMe !== pokemon.isMine() ) {
-        return false;
-    }
-
-    pokemon.msgHealBlock();
-    return true;
-  }
-
-  const throatChop = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.stateChange.throatChop.isTrue ) return false;
-    if ( !pokemon.move.selected.getMaster().sound ) return false;
-
-    pokemon.msgThroatChop();
-    return true;
-  }
-
-  const taunt = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.stateChange.taunt.isTrue ) return false;
-    if ( pokemon.move.selected.name === 'Me First' ) return false; // 技「さきどり」
-    if ( !pokemon.move.selected.isStatus() ) return false;
-
-    pokemon.msgTaunt();
-    return true;
-  }
-
-  const imprison = ( pokemon: Pokemon ): boolean => {
-
-    return false;
-
-    for ( const target of main.getPokemonInSide( !pokemon.isMine() ) ) {
-      if ( !target.stateChange.imprison.isTrue ) continue;
-      for ( const move of target.move.learned ) {
-        if ( !move.name ) continue;
-        if ( pokemon.move.selected.name === move.name ) {
-          pokemon.msgImprison();
-          return true;
-        }
-      }
-    }
-  }
-
-  const confuse = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.stateChange.confuse.isTrue ) return false;
-
-    pokemon.stateChange.confuse.count -= 1;
-
-    if ( pokemon.stateChange.confuse.count === 0 ) {
-      pokemon.msgCureConfuse();
-      pokemon.stateChange.confuse.reset()
-      return false;
-    }
-
-    pokemon.msgStillConfuse();
-    if ( getRandom() < 2/3 * 100 ) return false;
-
-    pokemon.msgAttackMyself();
-
-    const power: number = 40;
-    const attack: number = getValueWithRankCorrection( pokemon.status.atk.av, pokemon.status.atk.rank.value, false );
-    const defense: number = getValueWithRankCorrection( pokemon.status.def.av, pokemon.status.def.rank.value, false );
-
-    // 最終ダメージ
-    const damage = Math.floor( Math.floor( Math.floor( pokemon.level * 2 / 5 + 2 ) * power * attack / defense ) / 50 + 2 );
-    // 乱数補正
-    const randomCorrection = Math.floor( getRandom() * 16 ) + 8500;
-    const finalDamage: number = Math.floor( damage * randomCorrection / 10000 );
-
-    // 本体にダメージを与える
-    /*
-    const damageType = new Attack;
-    damageType.damage = processAfterCalculation( pokemon, pokemon, finalDamage, damageType );
-    damageToBody( pokemon, damageType );
-    // ダメージをHP1で耐える効果のメッセージなど
-    enduringEffectsMessage( pokemon );
-    */
-    return true;
-  }
-
-  const paralusis = ( pokemon: Pokemon ): boolean => {
-    if ( !pokemon.statusAilment.isParalysis() ) return false;
-    if ( getRandom() < 3/4 * 100 ) return false;
-
-    pokemon.msgParalysis();
-    return true;
-  }
-
-  const attract = ( pokemon: Pokemon ): boolean => {
-
-    return false;
-
-    /*
-    if ( pokemon.stateChange.attract.isTrue ) {
-      const target: Target = pokemon.stateChange.attract.target;
-      const attractTarget: Pokemon | false = getPokemonByBattle( target.isMe, target.battle );
-      if ( attractTarget === false ) break attract
-
-      writeLog( `${getArticle( pokemon )}は ${getArticle( attractTarget )}に メロメロだ!` );
-
-      if ( getRandom() < 50 ) break attract;
-
-      writeLog( `${getArticle( pokemon )}は メロメロで 技が だせなかった!` );
-      return true;
-    }
-    */
-  }
-
-
-  if ( cannotMove( pokemon ) ) return true; // 反動で動けない
-  if ( sleep( pokemon ) ) return true; // ねむり状態
-  if ( frozen( pokemon ) ) return true; // こおり状態
-  if ( remainingPP( pokemon ) ) return true; // 残りPP
-  if ( truant( pokemon ) ) return true; // 特性「なまけ」
-  if ( focusPunch( pokemon ) ) return true; // 技「きあいパンチ」
-  if ( flinch( pokemon ) ) return true; // ひるみ状態
-  if ( disable( pokemon ) ) return true; // かなしばり状態
-  if ( gravity( pokemon ) ) return true; // じゅうりょく状態
-  if ( healBlock( pokemon ) ) return true; // かいふくふうじ状態
-  if ( throatChop( pokemon ) ) return true; // じごくづき状態
-  if ( taunt( pokemon ) ) return true; // ちょうはつ状態
-  if ( imprison( pokemon ) ) return true; // ふういん状態
-  if ( confuse( pokemon ) ) return true; // こんらん状態
-  if ( paralusis( pokemon ) ) return true; // まひ状態
-  if ( attract( pokemon ) ) return true; // メロメロ状態
+  // こんらん状態
+  if ( pokemon.stateChange.confuse.isEffective( pokemon ) ) return true;
+  // まひ状態
+  if ( pokemon.statusAilment.isEffectiveParalysis( pokemon ) ) return true;
+  // メロメロ状態
+  if ( pokemon.stateChange.attract.isEffective( pokemon ) ) return true;
 
   return false;
 }
 
-// ねごと/いびき使用時「ぐうぐう 眠っている」メッセージ
-function sleepyMessage( pokemon: Pokemon ): void {
-
-  /*
-  if ( sleepingMoveList.includes( pokemon.move.selected.name ) ) {
-    pokemon.msgStillAsleep();
-  }
-  */
-}
-
-// 自分のこおりを回復するわざにより自身のこおり状態が治る
-function meltMeByMove( pokemon: Pokemon ): void {
-
-  if ( pokemon.statusAilment.isFrozen() ) {
-    pokemon.statusAilment.getHealth();
-    pokemon.msgMeltByMove();
-  }
-}
 
 // 特性バトルスイッチによるフォルムチェンジ
 function stanceChange( pokemon: Pokemon ): void {
@@ -376,10 +166,6 @@ function stanceChange( pokemon: Pokemon ): void {
   }
 }
 
-// 「<ポケモン>の <技>!」のメッセージ。PPが減少することが確約される
-function moveDeclareMessage( pokemon: Pokemon ): void {
-  pokemon.msgDeclareMove();
-}
 
 // 技のタイプが変わる。
 function changeMoveType( pokemon: Pokemon ): void {
@@ -390,27 +176,22 @@ function changeMoveType( pokemon: Pokemon ): void {
     }
   }
 
-  galvanize:
   if ( pokemon.ability.isName( 'Galvanize' ) ) { // 特性「エレキスキン」
     pokemon.move.selected.activateSkin( 'Electric' );
   }
 
-  aerilate:
   if ( pokemon.ability.isName( 'Aerilate' ) ) { // 特性「スカイスキン」
     pokemon.move.selected.activateSkin( 'Flying' );
   }
 
-  normalize:
   if ( pokemon.ability.isName( 'Normalize' ) ) { // 特性「ノーマルスキン」
     pokemon.move.selected.activateSkin( 'Normal' );
   }
 
-  pixilate:
   if ( pokemon.ability.isName( 'Pixilate' ) ) { // 特性「フェアリースキン」
     pokemon.move.selected.activateSkin( 'Fairy' );
   }
 
-  refrigerate:
   if ( pokemon.ability.isName( 'Refrigerate' ) ) { // 特性「フリーズスキン」
     pokemon.move.selected.activateSkin( 'Ice' );
   }
@@ -596,47 +377,6 @@ function burnUpFailure( pokemon: Pokemon ): boolean {
 
   pokemon.attack.reset();
   pokemon.msgDeclareFailure();
-
-  return true;
-}
-
-// おおあめ/おおひでりによるほのお/みず技の失敗
-function failureByWeather( pokemon: Pokemon ): boolean {
-
-  if ( pokemon.move.selected.isStatus() ) return false;
-
-  if ( main.field.weather.isBadRainy( pokemon ) ) {
-    if ( pokemon.move.selected.type === 'Fire' ) {
-      pokemon.attack.reset();
-      pokemon.msgBadRainy();
-      return true;
-    }
-  }
-
-  if ( main.field.weather.isBadSunny( pokemon ) ) {
-    if ( pokemon.move.selected.type === 'Water' ) {
-      pokemon.attack.reset();
-      pokemon.msgBadSunny();
-      return true;
-    }
-  }
-
-  return false;
-}
-
-// ふんじんによるほのお技の失敗とダメージ
-function failureByPowder( pokemon: Pokemon ): boolean {
-
-  if ( !pokemon.stateChange.powder.isTrue ) return false;
-  if ( pokemon.move.selected.type !== 'Fire' ) return false;
-
-  pokemon.attack.reset();
-  pokemon.msgPowder();
-
-  if ( pokemon.ability.isName( 'Magic Guard' ) ) return true; // 特性「マジックガード」
-
-  const damage: number = Math.floor( pokemon.getOrgHP() / 4 );
-  pokemon.status.hp.value.sub( damage );
 
   return true;
 }

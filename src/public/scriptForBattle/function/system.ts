@@ -153,11 +153,6 @@ function getParty( trainer: boolean ): Pokemon[] {
   else return main.opp.pokemon;
 }
 
-function writeLog( text: string ): void {
-
-  const battleLog = getHTMLInputElement( 'battle_log' );
-  battleLog.value += text + "\n";
-}
 
 // 乱数 0以上100未満の整数
 function getRandom(): number {
