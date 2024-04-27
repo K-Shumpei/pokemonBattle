@@ -60,6 +60,11 @@ class Move {
     battleLog.write( `しかし 技の 残りポイントが なかった!` );
     return true;
   }
+
+  onSpendPP( pokemon: Pokemon ): void {
+    const slot: number = this.selected.slot;
+    this.learned[slot].powerPoint.onSpend( pokemon );
+  }
 }
 
 
@@ -121,6 +126,51 @@ class LearnedMove {
 }
 
 class PowerPoint extends ValueWithRange {
+
+  onSpend( pokemon: Pokemon ): void {
+    const NumOfTarget: number = pokemon.attack.getTargetToPokemon().reduce( ( acc, val ) => {
+      const target: Pokemon = main.getPokemonByBattle( val );
+      if ( target.isAbility( 'Pressure' ) && target.isMine() !== pokemon.isMine() ) {
+        return acc + 1;
+      } else {
+        return acc;
+      }
+    }, 1 );
+
+    const NumOfside: number = main.getPokemonInSide( !pokemon.isMine() ).reduce( ( acc, val ) => {
+      if ( val.isAbility( 'Pressure' ) ) {
+        return acc + 1;
+      } else {
+        return acc;
+      }
+    }, 1 );
+
+    const value = ( pokemon: Pokemon ): number => {
+      switch ( pokemon.move.selected.target ) {
+        case 'users-field':
+          return 1;
+
+        case 'opponents-field':
+          if ( pokemon.move.selected.name === 'Sticky Web' ) { // 技「ねばねばネット」
+            return 1;
+          } else {
+            return NumOfside;
+          }
+
+        case 'entire-field':
+          return NumOfside;
+
+        default:
+          if ( pokemon.move.selected.name === 'Imprison' || pokemon.move.selected.name === 'Tera Blast' ) { // 技「ふういん」「テラバースト」
+            return NumOfside;
+          } else {
+            return NumOfTarget;
+          }
+      }
+    }
+
+    this.sub( Math.max( 1, value( pokemon ) ) );
+  }
 
   /*
   curePPByLeppaBerry( pokemon: Pokemon, value: number ): void {

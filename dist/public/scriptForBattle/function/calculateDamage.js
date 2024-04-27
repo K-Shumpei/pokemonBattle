@@ -592,7 +592,7 @@ function getStatus(pokemon, target, attack) {
         return false;
     };
     const getFinalAttack = (pokemon, target) => {
-        let attack = (pokemon.move.selected.isPhysical()) ? pokemon.status.atk.value : pokemon.status.spA.value;
+        let attack = (pokemon.move.selected.isPhysical()) ? pokemon.status.atk.rankCorrVal : pokemon.status.spA.rankCorrVal;
         // はりきり
         if (pokemon.ability.isName('Hustle')) { // 特性「はりきり」
             if (pokemon.move.selected.isPhysical()) {
@@ -788,7 +788,7 @@ function getStatus(pokemon, target, attack) {
         return Math.max(attack, 1);
     };
     const getFinalDefense = (pokemon, target) => {
-        let defense = (pokemon.move.selected.isPhysical()) ? target.status.def.value : target.status.spD.value;
+        let defense = (pokemon.move.selected.isPhysical()) ? target.status.def.rankCorrVal : target.status.spD.rankCorrVal;
         // すなあらし
         if (fieldStatus.weather.isSandy()) {
             if (target.type.has('Rock') && pokemon.move.selected.isSpecial()) {

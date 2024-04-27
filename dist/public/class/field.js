@@ -240,6 +240,28 @@ class Weather {
         pokemon.status.hp.value.add(Math.max(1, damage));
         battleLog.write(`砂あらしが ${pokemon.getArticle()}を 襲う!`);
     }
+    isEffectiveBadRainy(pokemon) {
+        if (!this.isBadRainy(pokemon))
+            return false;
+        if (pokemon.move.selected.isStatus())
+            return false;
+        if (pokemon.move.selected.type !== 'Fire')
+            return false;
+        pokemon.attack.reset();
+        battleLog.write(`強い雨の 影響で ほのおタイプの 攻撃が 消失した!`);
+        return true;
+    }
+    isEffectiveBadSunny(pokemon) {
+        if (!this.isBadSunny(pokemon))
+            return false;
+        if (pokemon.move.selected.isStatus())
+            return false;
+        if (pokemon.move.selected.type !== 'Water')
+            return false;
+        pokemon.attack.reset();
+        battleLog.write(`強い日差しの 影響で みずタイプの 攻撃が 蒸発した!`);
+        return true;
+    }
 }
 class Terrain {
     constructor() {
@@ -365,6 +387,14 @@ class Gravity extends WholeFieldStatus {
                 battleLog.write(`${pokemon.getArticle()}は じゅうりょくの 影響で 空中に いられなくなった!`);
             }
         }
+    }
+    isEffective(pokemon) {
+        if (!this.isTrue)
+            return false;
+        if (!pokemon.move.selected.getMaster().gravity)
+            return false;
+        battleLog.write(`${pokemon.getArticle()}は じゅうりょくが 強くて ${pokemon.move.selected.translate()}が 出せない!`);
+        return true;
     }
 }
 class TrickRoom extends WholeFieldStatus {

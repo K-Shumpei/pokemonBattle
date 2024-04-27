@@ -543,11 +543,6 @@ const meltMoveList = [
     'めらめらバーン',
     'もえつきる'
 ];
-// ねむり状態でも使用可能な技
-const sleepingMoveList = [
-    'いびき',
-    'ねごと'
-];
 // 重力で使えなくなるわざ
 const flyingMoveList = [
     'はねる',

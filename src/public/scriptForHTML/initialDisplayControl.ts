@@ -40,3 +40,6 @@ for ( let i = 0; i < 3; i++ ) {
   // 攻撃対象
   getHTMLInputElement( 'command2nd_' + i ).style.visibility = 'collapse';
 }
+
+// 途中コマンド
+getHTMLInputElement( 'sendExtraCommandButton' ).disabled = true;

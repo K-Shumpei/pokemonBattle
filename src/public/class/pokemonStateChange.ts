@@ -8,6 +8,7 @@ class StateChangeStatus {
   protect: MoveText = null; // まもる系統
   strong: boolean = false; // しめつけバンド
   flag: boolean = false; // なまけ、きあいパンチ
+  item: string | null = null;
 
   reset(): void {
     this.isTrue = false;
@@ -19,11 +20,14 @@ class StateChangeStatus {
     this.protect = null;
     this.strong = false;
     this.flag = false;
+    this.item = null;
   }
 }
 
 class Attract extends StateChangeStatus {
 
+  // pokemon → メロメロになる方
+  // target → メロメロにする方
   isActivate( pokemon: Pokemon, target: Pokemon ): boolean {
     if ( this.isTrue ) return false;
     if ( pokemon.gender === 'genderless' ) return false;
@@ -46,6 +50,20 @@ class Attract extends StateChangeStatus {
     if ( pokemon.isItem( 'あかいいと' ) ) {
       target.stateChange.attract.onActivate( target, pokemon );
     }
+  }
+
+  // pokemon → メロメロボディ
+  // target → 攻撃側
+  onActivateByCuteCharm( pokemon: Pokemon, target: Pokemon, attack: Attack ): void {
+    if ( attack.substitute ) return;
+    if ( !target.isContact() ) return;
+    if ( !pokemon.isAbility( 'Cute Charm' ) ) return; // 特性「メロメロボディ」
+    if ( target.isItem( 'ぼうごパット' ) ) return;
+    if ( getRandom() >= 30 ) return;
+    if ( !this.isActivate( pokemon, target ) ) return;
+
+    pokemon.msgDeclareAbility();
+    this.onActivate( target, pokemon );
   }
 
   isEffective( pokemon: Pokemon ): boolean {
@@ -81,6 +99,19 @@ class Autotomize extends StateChangeStatus {
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
     battleLog.write( `${pokemon.getArticle()}は 身軽になった!` );
+  }
+}
+
+class BeakBlast extends StateChangeStatus {
+
+  onEffective( pokemon: Pokemon, target: Pokemon, attack: Attack ): void {
+    if ( attack.substitute ) return;
+    if ( !target.isContact() ) return;
+    if ( !this.isTrue ) return;
+    if ( target.move.selected.name === 'Sky Drop' ) return; // 技「フリーフォール」
+    if ( !target.isGetAilmentByOther( 'Burned', pokemon ) ) return;
+
+    target.statusAilment.getBurned();
   }
 }
 
@@ -177,22 +208,27 @@ class CannotEscape extends StateChangeStatus {
   octolock: boolean = false;
   noRetreat: boolean = false;
 
-  onActivate( pokemon: Pokemon, target: Pokemon ): void {
+  onActivateNoMessage( serve: Pokemon ): void {
+    if ( this.isTrue ) return;
     this.isTrue = true;
-    this.order = new Order( pokemon.order.isMe, pokemon.order.hand );
-    battleLog.write( `${target.getArticle()}は もう 逃げられない!` );
+    this.order.setInfo( serve.order );
   }
 
-  onActivateNoMessage( pokemon: Pokemon ): void {
-    this.isTrue = true;
-    this.order = new Order( pokemon.order.isMe, pokemon.order.hand );
+  onActivate( serve: Pokemon, receive: Pokemon ): void {
+    this.onActivateNoMessage( serve );
+    battleLog.write( `${receive.getArticle()}は もう 逃げられない!` );
   }
 
-  onActivateNoRetreat( pokemon: Pokemon, target: Pokemon ): void {
-    this.isTrue = true;
-    this.order = new Order( pokemon.order.isMe, pokemon.order.hand );
+  onActivateNoRetreat( serve: Pokemon, receive: Pokemon ): void {
+    this.onActivateNoMessage( serve );
     this.noRetreat = true;
-    battleLog.write( `${target.getArticle()}は はいすいのじんで 逃げることが できなくなった!` )
+    battleLog.write( `${receive.getArticle()}は はいすいのじんで 逃げることが できなくなった!` )
+  }
+
+  onActivateJawLock( serve: Pokemon, receive: Pokemon ): void {
+    this.onActivateNoMessage( serve );
+    serve.stateChange.cannotEscape.onActivateNoMessage( receive );
+    battleLog.write( `おたがいの ポケモンは 逃げることが できなくなった!` );
   }
 }
 
@@ -382,6 +418,10 @@ class Endure extends StateChangeStatus {
 
 class Flinch extends StateChangeStatus {
 
+  onActivate(): void {
+    this.isTrue = true;
+  }
+
   isEffective( pokemon: Pokemon ): boolean {
     if ( !this.isTrue ) return false;
     battleLog.write( `${pokemon.getArticle()}は ひるんで 技が 出せない!` );
@@ -394,6 +434,15 @@ class Flinch extends StateChangeStatus {
     return true;
   }
 
+}
+
+class Fling extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon ): void {
+    this.isTrue = true;
+    this.item = pokemon.item.name;
+    pokemon.item.recyclable();
+  }
 }
 
 class FocusEnergy extends StateChangeStatus {
@@ -424,6 +473,15 @@ class Grudge extends StateChangeStatus {
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
     battleLog.write( `${pokemon.getArticle()}は 相手に おんねんを かけようとしている!` );
+  }
+
+  onEffective( pokemon: Pokemon, target: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( !pokemon.status.hp.value.isZero() ) return;
+    if ( target.move.learned[target.move.selected.slot].powerPoint.isZero() ) return;
+
+    target.move.learned[target.move.selected.slot].powerPoint.toZero();
+    battleLog.write( `${target.getArticle()}の ${target.move.learned[target.move.selected.slot].translate()}は おんねんで PPが0になった!` );
   }
 }
 
@@ -636,6 +694,32 @@ class PerishSong extends StateChangeStatus {
     this.isTrue = true;
   }
 
+  // pokemon → ほろびのボディ
+  // target → 攻撃側
+  onActivateByPerishBody( pokemon: Pokemon, target: Pokemon, attack: Attack ): void {
+    if ( attack.substitute ) return;
+    if ( target.isContact() ) return;
+    if ( !pokemon.ability.isName( 'Perish Body' ) ) return; // 特性「ほろびのボディ」
+    if ( target.status.hp.value.isZero() ) return;
+    if ( target.isItem( 'ぼうごパット' ) ) return;
+    if ( this.isTrue && target.stateChange.perishSong.isTrue ) return;
+
+    pokemon.msgDeclareAbility();
+
+    if ( !this.isTrue && !target.stateChange.perishSong.isTrue ) {
+      battleLog.write( `おたがいは 3ターン後に 滅びてしまう!` );
+    } else {
+      if ( !this.isTrue ) {
+        battleLog.write( `${pokemon.getArticle()}は 3ターン後に 滅びてしまう!` );
+      } else {
+        battleLog.write( `${target.getArticle()}は 3ターン後に 滅びてしまう!` );
+      }
+    }
+
+    this.onActivate();
+    target.stateChange.perishSong.onActivate();
+  }
+
   onEffective( pokemon: Pokemon ): void {
     if ( !this.isTrue ) return;
     battleLog.write( `${pokemon.getArticle()}の 滅びのカウントが ${this.turn.value}になった!` );
@@ -682,6 +766,18 @@ class Protect extends StateChangeStatus {
 
 class Rage extends StateChangeStatus {
 
+  onEffective( pokemon: Pokemon, attack: Attack ): void {
+    if ( pokemon.status.hp.value.isZero() ) return;
+    if ( attack.substitute ) return;
+    if ( !this.isTrue ) return;
+    if ( !pokemon.isChangeRank( 'atk', 1 ) ) return;
+
+    const setting: number = pokemon.getRankVariableOrg( 1 );
+    const real: number = pokemon.getRankVariable( 'atk', setting );
+
+    pokemon.status.atk.rank.add( real );
+    battleLog.write( `${pokemon.getArticle()}の いかりのボルテージが 上がっていく!` );
+  }
 }
 
 class SaltCure extends StateChangeStatus {
@@ -826,6 +922,10 @@ class ThroatChop extends StateChangeStatus {
     this.turn = new ValueWithRange( 2, 0 );
   }
 
+  onActivate(): void {
+    this.isTrue = true;
+  }
+
   isEffective( pokemon: Pokemon ): boolean {
     if ( !this.isTrue ) return false;
     if ( !pokemon.move.selected.getMaster().sound ) return false;
@@ -890,6 +990,7 @@ class StateChangeSummary {
   attract      = new Attract();      // メロメロ
   aquaRing     = new AquaRing();     // アクアリング
   autotomize   = new Autotomize();   // ボディパージ
+  beakBlast    = new BeakBlast(); // くちばしキャノン
   bind         = new Bind();         // バインド
   cannotEscape = new CannotEscape(); // にげられない
   cannotMove   = new CannotMove();   // 反動で動けない
@@ -903,6 +1004,7 @@ class StateChangeSummary {
   encore       = new Encore();       // アンコール
   endure       = new Endure();       // こらえる
   flinch       = new Flinch();       // ひるみ
+  fling        = new Fling();        // なげつける
   focusEnergy  = new FocusEnergy();  // きゅうしょアップ
   focusPunch   = new FocusPunch();   // きあいパンチ
   grudge       = new Grudge();       // おんねん
@@ -996,11 +1098,11 @@ class StateChangeSummary {
   _gem: StateChange; // ジュエル
   _micleBerry: StateChange; // ミクルのみ
   _halfBerry: StateChange; // 半減きのみ
-  _beakBlast: StateChange; // くちばしキャノン
+
 
   _someProtect: StateChange // まもる連続使用
   _endureMsg: StateChange; // HP1で耐える効果の保存
-  _fling: StateChange; // なげつける
+
   _dynamax: StateChange; // ダイマックス
   _rangeCorr: StateChange; // 範囲補正
   _memo: StateChange; // メモ
@@ -1032,10 +1134,8 @@ class StateChangeSummary {
     this._gem = new StateChange();
     this._micleBerry = new StateChange();
     this._halfBerry = new StateChange();
-    this._beakBlast = new StateChange();
     this._someProtect = new StateChange();
     this._endureMsg = new StateChange();
-    this._fling = new StateChange();
     this._dynamax = new StateChange();
     this._rangeCorr = new StateChange();
     this._memo = new StateChange();
@@ -1110,17 +1210,11 @@ class StateChangeSummary {
   set halfBerry( halfBerry: StateChange ) {
     this._halfBerry = halfBerry;
   }
-  set beakBlast( beakBlast: StateChange ) {
-    this._beakBlast = beakBlast;
-  }
   set someProtect( someProtect: StateChange ) {
     this._someProtect = someProtect;
   }
   set endureMsg( endureMsg: StateChange ) {
     this._endureMsg = endureMsg;
-  }
-  set fling( fling: StateChange ) {
-    this._fling = fling;
   }
   set dynamax( dynamax: StateChange ) {
     this._dynamax = dynamax;
@@ -1201,17 +1295,11 @@ class StateChangeSummary {
   get halfBerry(): StateChange {
     return this._halfBerry;
   }
-  get beakBlast(): StateChange {
-    return this._beakBlast;
-  }
   get someProtect(): StateChange {
     return this._someProtect;
   }
   get endureMsg(): StateChange {
     return this._endureMsg;
-  }
-  get fling(): StateChange {
-    return this._fling;
   }
   get dynamax(): StateChange {
     return this._dynamax;

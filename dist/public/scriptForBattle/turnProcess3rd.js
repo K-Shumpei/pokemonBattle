@@ -42,7 +42,7 @@ function actionBeforeTurn() {
             continue;
         //writeLog( `${translateENintoJP( pokemon.isMe )}は ${pokemon.name}を 引っこめた!` );
         pokemon.toHand();
-        const next = getPokemonByParty(pokemon.isMine(), reserve);
+        const next = main.getPokemonByParty(pokemon.isMine(), reserve);
         next.toBattleField(battle);
     }
 }

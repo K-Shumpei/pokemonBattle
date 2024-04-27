@@ -322,13 +322,13 @@ class HitPointValue extends ValueWithRange {
 class MainStatus extends ActualWithThreeValue {
     constructor(text) {
         super();
-        this.value = 0;
+        this.rankCorrVal = 0;
         this.rank = new Rank(text);
     }
     calcRankCorrValue(critical) {
         const rank = (critical) ? Math.max(this.rank.value, 0) : this.rank.value;
         const corr = (rank > 0) ? (2 + rank) / 2 : 2 / (2 - rank);
-        this.value = Math.floor(this.av * corr);
+        this.rankCorrVal = Math.floor(this.av * corr);
     }
     calcAct(level, corr) {
         const step1 = this.bs * 2 + this.iv + Math.floor(this.ev / 4);
@@ -348,9 +348,9 @@ class Speed extends MainStatus {
         // ランク補正値の計算
         const rank = this.rank.value;
         const rankCorr = (rank > 0) ? (2 + rank) / 2 : 2 / (2 - rank);
-        this.value = Math.floor(this.av * rankCorr);
+        this.rankCorrVal = Math.floor(this.av * rankCorr);
         // 各種補正
-        const corr1 = fiveRoundEntry(this.value * corr / 4096);
+        const corr1 = fiveRoundEntry(this.rankCorrVal * corr / 4096);
         const corr2 = Math.floor(corr1 * paralysis);
         this.forPowerCalc = Math.min(10000, corr2);
         // トリックルーム

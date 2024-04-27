@@ -198,10 +198,10 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
             if (pokemon.order.battle !== i) {
                 continue;
             }
-            pokemon.command.move = myCommand[i]._move;
-            pokemon.command.reserve = myCommand[i]._reserve;
-            pokemon.command.myTarget = myCommand[i]._myTarget;
-            pokemon.command.opponentTarget = myCommand[i]._opponentTarget;
+            pokemon.command.move = myCommand[i].move;
+            pokemon.command.reserve = myCommand[i].reserve;
+            pokemon.command.myTarget = myCommand[i].myTarget;
+            pokemon.command.opponentTarget = myCommand[i].opponentTarget;
             // 使用する技
             pokemon.move.setSelcted(pokemon.command.move);
         }
@@ -209,10 +209,10 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
             if (pokemon.order.battle !== i) {
                 continue;
             }
-            pokemon.command.move = opponentCommand[i]._move;
-            pokemon.command.reserve = opponentCommand[i]._reserve;
-            pokemon.command.myTarget = opponentCommand[i]._myTarget;
-            pokemon.command.opponentTarget = opponentCommand[i]._opponentTarget;
+            pokemon.command.move = opponentCommand[i].move;
+            pokemon.command.reserve = opponentCommand[i].reserve;
+            pokemon.command.myTarget = opponentCommand[i].myTarget;
+            pokemon.command.opponentTarget = opponentCommand[i].opponentTarget;
             // 使用する技
             pokemon.move.setSelcted(pokemon.command.move);
             ;
@@ -228,14 +228,12 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
     actionBeforeTurn();
     // 4. ポケモンの行動
     pokemonAction();
+    if (main.me.extraCommand) {
+        main.getPlayer(true).showCommandOnlyMe();
+        return;
+    }
     // 5. ターン終了時の効果
     endProcess();
-    battleLog.output();
-    // 画面表示
-    // 選出されたポケモンの情報・表示
-    for (const pokemon of main.me.pokemon) {
-        pokemon.showHandInfo();
-    }
-    // コマンド欄の表示
-    main.me.showCommand1stField();
+    // 画面出力
+    outputScreen();
 });

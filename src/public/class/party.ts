@@ -1,28 +1,12 @@
 class Main {
-  _me: Player;
-  _opp: Player;
-  _field: Field;
-
-  constructor() {
-    this._me = new Player( true );
-    this._opp = new Player( false );
-    this._field = new Field();
-  }
-
-  get me(): Player {
-    return this._me;
-  }
-  get opp(): Player {
-    return this._opp;
-  }
-  get field(): Field {
-    return this._field;
-  }
+  me = new Player( true );
+  opp = new Player( false );
+  field = new Field();
 
   setHost( host: boolean ): void {
-    this._me.setHost( host );
-    this._opp.setHost( !host );
-    this._field.setHost( host );
+    this.me.setHost( host );
+    this.opp.setHost( !host );
+    this.field.setHost( host );
   }
 
   sortUnique( pokeList: Pokemon[] ): Pokemon[] {
@@ -39,16 +23,16 @@ class Main {
   }
 
   getPlayer( isMe: boolean ): Player {
-    return ( isMe )? this._me : this._opp;
+    return ( isMe )? this.me : this.opp;
   }
 
   getParty( isMe: boolean ): Pokemon[] {
-    return ( isMe )? this._me.pokemon : this._opp.pokemon;
+    return ( isMe )? this.me.pokemon : this.opp.pokemon;
   }
 
   getPokemonInBattle(): Pokemon[] {
-    const me: Pokemon[] = this._me.pokemon.filter( p => p.order.battle !== null );
-    const opp: Pokemon[] = this._opp.pokemon.filter( p => p.order.battle !== null );
+    const me: Pokemon[] = this.me.pokemon.filter( p => p.order.battle !== null );
+    const opp: Pokemon[] = this.opp.pokemon.filter( p => p.order.battle !== null );
     const result: Pokemon[] = me.concat( opp );
     return this.sortUnique( result );
   }
@@ -112,19 +96,19 @@ class Main {
     for ( const pokemon of this.getPokemonInBattle() ) {
       let corr: number = 4096;
 
-      if ( pokemon.ability.isName( 'Chlorophyll' ) && this._field.weather.isSunny( pokemon ) ) { // 特性「ようりょくそ」
+      if ( pokemon.ability.isName( 'Chlorophyll' ) && this.field.weather.isSunny( pokemon ) ) { // 特性「ようりょくそ」
         corr = Math.round( corr * 8192 / 4096 );
       }
-      if ( pokemon.ability.isName( 'Swift Swim' ) && this._field.weather.isRainy( pokemon ) ) { // 特性「すいすい」
+      if ( pokemon.ability.isName( 'Swift Swim' ) && this.field.weather.isRainy( pokemon ) ) { // 特性「すいすい」
         corr = Math.round( corr * 8192 / 4096 );
       }
-      if ( pokemon.ability.isName( 'Sand Rush' ) && this._field.weather.isSandy() ) { // 特性「すなかき」
+      if ( pokemon.ability.isName( 'Sand Rush' ) && this.field.weather.isSandy() ) { // 特性「すなかき」
         corr = Math.round( corr * 8192 / 4096 );
       }
-      if ( pokemon.ability.isName( 'Slush Rush' ) && this._field.weather.isSnowy() ) { // 特性「ゆきかき」
+      if ( pokemon.ability.isName( 'Slush Rush' ) && this.field.weather.isSnowy() ) { // 特性「ゆきかき」
         corr = Math.round( corr * 8192 / 4096 );
       }
-      if ( pokemon.ability.isName( 'Surge Surfer' ) && this._field.terrain.isElectric() ) { // 特性「サーフテール」
+      if ( pokemon.ability.isName( 'Surge Surfer' ) && this.field.terrain.isElectric() ) { // 特性「サーフテール」
         corr = Math.round( corr * 8192 / 4096 );
       }
       if ( pokemon.ability.isName( 'Slow Start' ) ) { // 特性「スロースタート」
@@ -154,16 +138,16 @@ class Main {
       if ( pokemon.isItem( 'きょうせいギプス' ) ) {
         corr = Math.round( corr * 2048 / 4096 );
       }
-      if ( this._field.getSide( pokemon.isMine() ).tailwind.isTrue ) {
+      if ( this.field.getSide( pokemon.isMine() ).tailwind.isTrue ) {
         corr = Math.round( corr * 8192 / 4096 );
       }
-      if ( this._field.getSide( pokemon.isMine() ).wetlands.isTrue ) {
+      if ( this.field.getSide( pokemon.isMine() ).wetlands.isTrue ) {
         corr = Math.round( corr * 1024 / 4096 );
       }
 
       const paralysis: number = ( pokemon.statusAilment.isParalysis() )? 2048 / 4096 : 1;
 
-      pokemon.status.spe.calcSpeed( corr, paralysis, this._field.whole.trickRoom.isTrue );
+      pokemon.status.spe.calcSpeed( corr, paralysis, this.field.whole.trickRoom.isTrue );
     }
   }
 
@@ -176,11 +160,12 @@ class Main {
 }
 
 class Player {
-  _party: Pokemon[];
-  _pokemon: Pokemon[];
+  party: Pokemon[];
+  pokemon: Pokemon[] = [];
+  extraCommand: boolean = false;
 
   constructor( isMe: boolean ) {
-    this._party = [
+    this.party = [
       new Pokemon( isMe, 0 ),
       new Pokemon( isMe, 1 ),
       new Pokemon( isMe, 2 ),
@@ -188,24 +173,16 @@ class Player {
       new Pokemon( isMe, 4 ),
       new Pokemon( isMe, 5 )
     ]
-    this._pokemon = [];
-  }
-
-  get party(): Pokemon[] {
-    return this._party;
-  }
-  get pokemon(): Pokemon[] {
-    return this._pokemon;
   }
 
   setHost( host: boolean ): void {
-    for ( const pokemon of this._pokemon ) {
-      pokemon._order.host = host;
+    for ( const pokemon of this.pokemon ) {
+      pokemon.order.host = host;
     }
   }
 
   showHandInfo(): void {
-    for ( const pokemon of this._pokemon ) {
+    for ( const pokemon of this.pokemon ) {
       pokemon.showHandInfo();
     }
   }
@@ -214,10 +191,10 @@ class Player {
     // 送信ボタンの非活性化
     getHTMLInputElement( 'sendCommandButton' ).disabled = false;
 
-    for ( let i = 0; i < this._pokemon.length; i++ ) {
+    for ( let i = 0; i < this.pokemon.length; i++ ) {
 
-      if ( this._pokemon.filter( poke => poke.order.battle === i ).length === 0 ) continue;
-      const pokemon: Pokemon = this._pokemon.filter( poke => poke.order.battle === i )[0]
+      if ( this.pokemon.filter( poke => poke.order.battle === i ).length === 0 ) continue;
+      const pokemon: Pokemon = this.pokemon.filter( poke => poke.order.battle === i )[0]
 
       // 技・控え
       getHTMLInputElement( 'command1st_' + i ).style.visibility = 'visible';
@@ -227,7 +204,24 @@ class Player {
 
 
       // 控え
-      const reserve: Pokemon[] = this._pokemon.filter( poke => poke.order.battle === null && !poke.status.hp.value.isZero() );
+      const reserve: Pokemon[] = this.pokemon.filter( poke => poke.order.battle === null && !poke.status.hp.value.isZero() );
+      for ( let j = 0; j < reserve.length; j++ ) {
+        if ( reserve[j].name === null ) continue;
+        getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).disabled = false;
+        getHTMLInputElement( 'reserveText_' + i + '_' + j ).textContent = reserve[j].translateName( String( reserve[j].name ) );
+        getHTMLInputElement( 'reserveText_' + i + '_' + j ).value = String( reserve[j].order.party );
+      }
+    }
+  }
+
+  showCommandOnlyMe(): void {
+    // 途中コマンド
+    getHTMLInputElement( 'sendExtraCommandButton' ).disabled = false;
+
+    // 控え
+    const reserve: Pokemon[] = this.pokemon.filter( poke => poke.order.battle === null && !poke.status.hp.value.isZero() );
+
+    for ( let i = 0; i < this.pokemon.length; i++ ) {
       for ( let j = 0; j < reserve.length; j++ ) {
         if ( reserve[j].name === null ) continue;
         getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).disabled = false;
@@ -238,11 +232,11 @@ class Player {
   }
 
   isExcangable(): boolean {
-    return this._pokemon.filter( p => p.order.battle === null && !p.status.hp.value.isZero() ).length > 0;
+    return this.pokemon.filter( p => p.order.battle === null && !p.status.hp.value.isZero() ).length > 0;
   }
 
   cycleHand( hand: number ): void {
-    for ( const pokemon of this._pokemon ) {
+    for ( const pokemon of this.pokemon ) {
       if ( pokemon.order.hand > hand ) {
         pokemon.order.hand -= 1;
       }
@@ -312,11 +306,12 @@ class BattleLog {
 
   // 上記の関数をasync/awaitと組み合わせて使用
   output = async () => {
+    const output = <HTMLInputElement>document.getElementById( 'battle_log' );
     for ( const log of this.log ) {
-      const output = <HTMLInputElement>document.getElementById( 'battle_log' );
       output.value += log + "\n";
-      await this.sleep(2000);  // 2秒待機
+      await this.sleep(1000);  // 2秒待機
     }
+    output.value += "終了" + "\n\n";
     this.log = [];
   }
 }

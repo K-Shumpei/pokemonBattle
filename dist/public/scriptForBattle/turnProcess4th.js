@@ -13,5 +13,8 @@ function pokemonAction() {
         }
         // 技の効果
         moveEffect(pokemon);
+        if (main.me.extraCommand || main.opp.extraCommand) {
+            break;
+        }
     }
 }

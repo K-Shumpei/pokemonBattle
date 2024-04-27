@@ -532,7 +532,7 @@ function statusMoveToSelectedPokemon(pokemon) {
                     target.stateChange.powder.onActivate(target);
                     break;
                 case 'Strength Sap': // 技「ちからをすいとる」
-                    const strengthSapValue = target.status.atk.value;
+                    const strengthSapValue = target.status.atk.rankCorrVal;
                     master.stat.changes.map(stat => target.changeRankByOther(stat.stat, stat.change, pokemon));
                     pokemon.status.hp.value.add(strengthSapValue);
                     battleLog.write(`${pokemon.getArticle()}の 体力が 回復した!`);
@@ -732,7 +732,7 @@ function statusMoveToUser(pokemon) {
                 case 'Healing Wish': // 技「みかづきのまい」
                     break;
                 case 'Power Trick': // 技「パワートリック」
-                    [target.status.atk.value, target.status.def.value] = [target.status.def.value, target.status.atk.value];
+                    [target.status.atk.av, target.status.def.av] = [target.status.def.av, target.status.atk.av];
                     battleLog.write(`${target.getArticle()}は 攻撃と 防御を 入れ替えた!`);
                     break;
                 case 'Copycat': // 技「まねっこ」

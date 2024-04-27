@@ -19,7 +19,7 @@ function isSuccess( pokemon: Pokemon ): boolean {
   // 技の対象が決まる。若い番号の対象が優先される。
   decideTarget( pokemon );
   // PPが適切な量引かれる
-  deductPowerPoint( pokemon );
+  pokemon.move.onSpendPP( pokemon );
   // ほのおタイプではないことによるもえつきるの失敗
   if ( burnUpFailure( pokemon ) ) return false;
   // おおあめ/おおひでりによるほのお/みず技の失敗
@@ -326,47 +326,6 @@ function decideTarget( pokemon: Pokemon ): void {
     pokemon.stateChange.rangeCorr.isTrue = true;
   }
   */
-}
-
-// PPが適切な量引かれる
-function deductPowerPoint( pokemon: Pokemon ): void {
-
-  const sub = { value: 0, slot: pokemon.move.selected.slot };
-  const pressureSide: number = main.getPokemonInSide( !pokemon.isMine() )?.filter( p => p.ability.isName( 'Pressure' ) ).length;
-  let pressureTarget: number = 0;
-
-  for ( const attack of pokemon.attack.getTargetToPokemon() ) {
-    if ( attack.isField() ) break;
-    if ( attack.isMe === pokemon.isMine() ) continue;
-    if ( main.getPokemonByBattle( attack ).ability.isName( 'Pressure' ) ) { // 特性「プレッシャー」
-      pressureTarget += 1;
-    }
-  }
-
-  switch ( pokemon.move.selected.target ) {
-    case 'users-field':
-      sub.value = 1;
-      break;
-
-    case 'opponents-field':
-      if ( pokemon.move.selected.name === 'Sticky Web' ) sub.value = 1 // 技「ねばねばネット」
-      else sub.value = pressureSide;
-      break;
-
-    case 'entire-field':
-      sub.value = pressureSide;
-      break;
-
-    default:
-      if ( pokemon.move.selected.name === 'Imprison' || pokemon.move.selected.name === 'Tera Blast' ) {
-        sub.value = pressureSide;
-      } else {
-        sub.value = pressureTarget;
-      }
-
-  }
-
-  pokemon.move.learned[sub.slot].powerPoint.sub( Math.max( 1, sub.value )  );
 }
 
 // ほのおタイプではないことによるもえつきるの失敗
@@ -760,15 +719,15 @@ function preliminaryAction( pokemon: Pokemon ): boolean {
   if ( pokemon.move.selected.name === 'Solar Beam' // 技「ソーラービーム」
     || pokemon.move.selected.name === 'Solar Blade' ) { // 技「ソーラーブレード」
       if ( main.field.weather.isSunny( pokemon ) ) {
-        moveDeclareMessage( pokemon );
+        //moveDeclareMessage( pokemon );
         return false;
       }
   }
   if ( pokemon.move.selected.name === 'Meteor Beam' ) { // 技「メテオビーム」
-    changeMyRank( pokemon, 'specialAttack', 1 );
+    pokemon.changeRank( 'spA', 1 );
   }
   if ( pokemon.move.selected.name === 'Skull Bash' ) { // 技「ロケットずつき」
-    changeMyRank( pokemon, 'defense', 1 );
+    pokemon.changeRank( 'def', 1 );
   }
   if ( pokemon.move.selected.name === 'Dig' ) { // 技「あなをほる」
     pokemon.stateChange.dig.isTrue = true;
@@ -1533,7 +1492,7 @@ function disableBySubstitute( pokemon: Pokemon ): boolean {
       }
     }
     if ( pokemon.move.selected.getMaster().sound ) {
-      if ( pokemon.move.selected.name === 'Howl' && isFriend( pokemon, target ) ) { // 技「とおぼえ」
+      if ( pokemon.move.selected.name === 'Howl' && pokemon.isMine() === target.isMine() ) { // 技「とおぼえ」
         ;
       } else {
         return false;
@@ -1572,7 +1531,7 @@ function disableByHitJudgment( pokemon: Pokemon ): boolean {
       if ( target.stateChange.minimize.isTrue ) return true;
     }
     if ( target.stateChange.telekinesis.isTrue ) {
-      if ( pokemon.move.selected.class !== 'ohko' ) return true;
+      if ( pokemon.move.selected.getMaster().category !== 'ohko' ) return true;
     }
     if ( pokemon.stateChange.lockOn.isTrue ) return true;
     if ( pokemon.ability.isName( 'No Guard' ) ) return true; // 特性「ノーガード」
@@ -1600,7 +1559,7 @@ function disableByHitJudgment( pokemon: Pokemon ): boolean {
         accuracy = Math.min( accuracy, 50 );
       }
     }
-    if ( pokemon.move.selected.class === 'ohko' ) {
+    if ( pokemon.move.selected.getMaster().category  === 'ohko' ) {
       accuracy = accuracy + pokemon.level - target.level;
     }
     if ( pokemon.move.selected.name === 'Sheer Cold' && !pokemon.type.has( 'Ice' ) ) { // 技「ぜったいれいど」
@@ -1729,7 +1688,7 @@ function disableByHitJudgment( pokemon: Pokemon ): boolean {
     const accVal: number = getAccuracy( pokemon, target );
 
     // 一撃必殺技の場合、命中判定
-    if ( pokemon.move.selected.class === 'ohko' ) {
+    if ( pokemon.move.selected.getMaster().category  === 'ohko' ) {
       if ( random >= accVal ) {
         attack.success = false;
         target.msgNotHit();
@@ -2011,16 +1970,16 @@ function disableByMoveSpec3rd( pokemon: Pokemon ): boolean {
       if ( main.field.getSide( pokemon.isMine() ).safeguard.isTrue ) return true;
     }
     if ( pokemon.move.selected.name === 'Stealth Rock' ) { // 技「ステルスロック」
-      if ( main.field.getSide( getOpponentTrainer( pokemon.isMine() ) ).stealthRock.isTrue ) return true;
+      if ( main.field.getSide( !pokemon.isMine() ).stealthRock.isTrue ) return true;
     }
     if ( pokemon.move.selected.name === 'Toxic Spikes' ) { // 技「どくびし」
-      if ( main.field.getSide( getOpponentTrainer( pokemon.isMine() ) ).toxicSpikes.count === 2 ) return true;
+      if ( main.field.getSide( !pokemon.isMine() ).toxicSpikes.count === 2 ) return true;
     }
     if ( pokemon.move.selected.name === 'Sticky Web' ) { // 技「ねばねばネット」
-      if ( main.field.getSide( getOpponentTrainer( pokemon.isMine() ) ).stickyWeb.isTrue ) return true;
+      if ( main.field.getSide( !pokemon.isMine() ).stickyWeb.isTrue ) return true;
     }
     if ( pokemon.move.selected.name === 'Spikes' ) { // 技「まきびし」
-      if ( main.field.getSide( getOpponentTrainer( pokemon.isMine() ) ).spikes.count === 3 ) return true;
+      if ( main.field.getSide( !pokemon.isMine() ).spikes.count === 3 ) return true;
     }
 
     return false;

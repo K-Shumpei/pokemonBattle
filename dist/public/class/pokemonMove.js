@@ -44,6 +44,17 @@ class Move {
         this._learned[2].showCommand1st(battleOrder);
         this._learned[3].showCommand1st(battleOrder);
     }
+    isNoPPLeft() {
+        if (!this.learned[this.selected.slot].powerPoint.isZero())
+            return false;
+        //battleLog.write( `${this.pokeName}の ${this.selected.translate()}!` );
+        battleLog.write(`しかし 技の 残りポイントが なかった!`);
+        return true;
+    }
+    onSpendPP(pokemon) {
+        const slot = this.selected.slot;
+        this.learned[slot].powerPoint.onSpend(pokemon);
+    }
 }
 // -------------------------
 // 覚えている技
@@ -90,8 +101,47 @@ class LearnedMove {
     }
 }
 class PowerPoint extends ValueWithRange {
-    constructor() {
-        super(0, 0);
+    onSpend(pokemon) {
+        const NumOfTarget = pokemon.attack.getTargetToPokemon().reduce((acc, val) => {
+            const target = main.getPokemonByBattle(val);
+            if (target.isAbility('Pressure') && target.isMine() !== pokemon.isMine()) {
+                return acc + 1;
+            }
+            else {
+                return acc;
+            }
+        }, 1);
+        const NumOfside = main.getPokemonInSide(!pokemon.isMine()).reduce((acc, val) => {
+            if (val.isAbility('Pressure')) {
+                return acc + 1;
+            }
+            else {
+                return acc;
+            }
+        }, 1);
+        const value = (pokemon) => {
+            switch (pokemon.move.selected.target) {
+                case 'users-field':
+                    return 1;
+                case 'opponents-field':
+                    if (pokemon.move.selected.name === 'Sticky Web') { // 技「ねばねばネット」
+                        return 1;
+                    }
+                    else {
+                        return NumOfside;
+                    }
+                case 'entire-field':
+                    return NumOfside;
+                default:
+                    if (pokemon.move.selected.name === 'Imprison' || pokemon.move.selected.name === 'Tera Blast') { // 技「ふういん」「テラバースト」
+                        return NumOfside;
+                    }
+                    else {
+                        return NumOfTarget;
+                    }
+            }
+        };
+        this.sub(Math.max(1, value(pokemon)));
     }
 }
 // -------------------------
@@ -99,65 +149,26 @@ class PowerPoint extends ValueWithRange {
 // -------------------------
 class SelectedMove {
     constructor() {
-        this._slot = 0;
-        this._name = null;
-        this._type = null;
-        this._class = 'physical';
-        this._target = 'user';
-        this._power = 0;
-        this._accuracy = 0;
-        this._priority = 0;
-        this._critical = 0;
-        this._skin = new StateChange();
-        this._store = null;
-    }
-    set type(type) {
-        this._type = type;
-    }
-    set power(power) {
-        this._power = power;
-    }
-    set priority(priority) {
-        this._priority = priority;
-    }
-    get name() {
-        return this._name;
-    }
-    get slot() {
-        return this._slot;
-    }
-    get type() {
-        return this._type;
-    }
-    get class() {
-        return this._class;
-    }
-    get target() {
-        return this._target;
-    }
-    get power() {
-        return this._power;
-    }
-    get accuracy() {
-        return this._accuracy;
-    }
-    get priority() {
-        return this._priority;
-    }
-    get critical() {
-        return this._critical;
-    }
-    get skin() {
-        return this._skin;
+        this.slot = 0;
+        this.name = null;
+        this.type = null;
+        this.class = 'physical';
+        this.target = 'user';
+        this.power = null;
+        this.accuracy = null;
+        this.priority = 0;
+        this.critical = 0;
+        this.skin = new StateChange();
+        this.store = null;
     }
     translate() {
-        return moveMaster.filter(m => m.nameEN === this._name)[0].nameJA;
+        return moveMaster.filter(m => m.nameEN === this.name)[0].nameJA;
     }
     getMaster() {
-        return moveMaster.filter(m => m.nameEN === this._name)[0];
+        return moveMaster.filter(m => m.nameEN === this.name)[0];
     }
     getAddOn() {
-        return moveAddOnMaster.filter(add => add.nameEN === this._name)[0];
+        return moveAddOnMaster.filter(add => add.nameEN === this.name)[0];
     }
     setSelected(move) {
         const master = moveMaster.find((m) => {
@@ -165,26 +176,26 @@ class SelectedMove {
         });
         if (!master)
             return;
-        this._name = move.name;
-        this._type = master.type;
-        this._class = master.class;
-        this._target = master.target;
-        this._power = master.power;
-        this._accuracy = master.accuracy;
-        this._priority = master.priority;
-        this._critical = master.priority;
+        this.name = move.name;
+        this.type = master.type;
+        this.class = master.class;
+        this.target = master.target;
+        this.power = master.power;
+        this.accuracy = master.accuracy;
+        this.priority = master.priority;
+        this.critical = master.priority;
     }
     isType(type) {
-        return this._type === type;
+        return this.type === type;
     }
     isPhysical() {
-        return this._class === 'physical';
+        return this.class === 'physical';
     }
     isSpecial() {
-        return this._class === 'special';
+        return this.class === 'special';
     }
     isStatus() {
-        return this._class === 'status';
+        return this.class === 'status';
     }
     //---------------------
     // スキン系特性が発動するか
@@ -192,69 +203,69 @@ class SelectedMove {
     isActivateSkin(type) {
         if (this.getAddOn().changeType)
             return false;
-        if (this._name === 'Struggle')
+        if (this.name === 'Struggle')
             return false; // 技「わるあがき」
-        if (type === 'Normal' && this._type === 'Normal')
+        if (type === 'Normal' && this.type === 'Normal')
             return false;
-        if (type !== 'Normal' && this._type !== 'Normal')
+        if (type !== 'Normal' && this.type !== 'Normal')
             return false;
         return true;
     }
     activateSkin(type) {
         if (!this.isActivateSkin(type))
             return;
-        this._type = type;
-        this._skin.isTrue = true;
-        this._skin.text = String(this._type);
+        this.type = type;
+        this.skin.isTrue = true;
+        this.skin.text = String(this.type);
     }
     //-------
     // ため技
     //-------
     setStore() {
-        this._store = this._name;
+        this.store = this.name;
     }
     isStore() {
-        return this._store !== null;
+        return this.store !== null;
     }
     //-------------
     // マグニチュード
     //-------------
     fixMagnitudePower() {
-        if (this._name !== 'Magnitude')
+        if (this.name !== 'Magnitude')
             return; // 技「マグニチュード」
         const random = getRandom();
         if (random >= 95) {
-            this._power = 150;
+            this.power = 150;
             battleLog.write(`マグニチュード10!`);
             return;
         }
         if (random >= 85) {
-            this._power = 110;
+            this.power = 110;
             battleLog.write(`マグニチュード9!`);
             return;
         }
         if (random >= 65) {
-            this._power = 90;
+            this.power = 90;
             battleLog.write(`マグニチュード8!`);
             return;
         }
         if (random >= 35) {
-            this._power = 70;
+            this.power = 70;
             battleLog.write(`マグニチュード7!`);
             return;
         }
         if (random >= 15) {
-            this._power = 50;
+            this.power = 50;
             battleLog.write(`マグニチュード6!`);
             return;
         }
         if (random >= 5) {
-            this._power = 30;
+            this.power = 30;
             battleLog.write(`マグニチュード5!`);
             return;
         }
         if (random >= 0) {
-            this._power = 10;
+            this.power = 10;
             battleLog.write(`マグニチュード4!`);
             return;
         }

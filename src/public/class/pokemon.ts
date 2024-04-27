@@ -45,7 +45,7 @@ class ParameterSix {
     this._hitPoint = hitPoint;
   }
   set attack( attack: number ) {
-    this._attack = attack;
+    this.attack = attack;
   }
   set defense( defense: number ) {
     this._defense = defense;
@@ -64,7 +64,7 @@ class ParameterSix {
     return this._hitPoint;
   }
   get attack(): number {
-    return this._attack;
+    return this.attack;
   }
   get defense(): number {
     return this._defense;
@@ -230,49 +230,16 @@ class AttackList {
 }
 
 class Command {
-  _move: number | null;
-  _reserve: number | null;
-  _myTarget: number | null;
-  _opponentTarget: number | null;
-
-  constructor() {
-    this._move = null;
-    this._reserve = null;
-    this._myTarget = null;
-    this._opponentTarget = null;
-  }
-
-  set move( move: number | null ) {
-    this._move = move;
-  }
-  set reserve( reserve: number | null ) {
-    this._reserve = reserve;
-  }
-  set myTarget( myTarget: number | null ) {
-    this._myTarget = myTarget;
-  }
-  set opponentTarget( opponentTarget: number | null ) {
-    this._opponentTarget = opponentTarget;
-  }
-
-  get move(): number | null {
-    return this._move;
-  }
-  get reserve(): number | null {
-    return this._reserve;
-  }
-  get myTarget(): number | null {
-    return this._myTarget;
-  }
-  get opponentTarget(): number | null {
-    return this._opponentTarget;
-  }
+  move: number | null = null;
+  reserve: number | null = null;
+  myTarget: number | null = null;
+  opponentTarget: number | null = null;
 
   isAttack(): boolean {
-    return this._move !== null;
+    return this.move !== null;
   }
   isExchange(): boolean {
-    return this._reserve !== null;
+    return this.reserve !== null;
   }
 }
 
@@ -328,7 +295,7 @@ class StateChange {
 class Transform extends StateChange {
   isTransform( name: PokemonText ): boolean {
     return true;
-    //return this._isTrue && this._name === name;
+    //return this._isTrue && this.name === name;
   }
 }
 
@@ -405,7 +372,7 @@ class Item {
     return this.name === name;
   }
   isBerry(): boolean {
-    // return this._name ===
+    // return this.name ===
     return false;
   }
   recyclable(): void {
@@ -510,224 +477,115 @@ class Type {
 
 
 class Pokemon {
-  _id: number;
-  _order: Order;
+  id: number = 0;
+  order = new Order( true, 0 );
 
-  _name: PokemonText; // 名前
-  _level: number; // レベル
-  _type: Type; // タイプ
-  _gender: Gender; // 性別
-  _ability: Ability; // 特性
-  _item: Item; // 持ち物
-  _nature: NatureText; // 性格
-  _status: Status; // ステータス
-  _move: Move; // 技
+  name: PokemonText = null; // 名前
+  level: number = 50; // レベル
+  gender: Gender = 'genderless'; // 性別
+  nature: NatureText = 'Bashful'; // 性格
+  happiness: number = 255; // なつき度
 
-  _happiness: number; // なつき度
-  _statusAilment: StatusAilment; // 状態異常
+  type    = new Type();    // タイプ
+  ability = new Ability(); // 特性
+  item    = new Item();    // 持ち物
+  status  = new Status();  // ステータス
+  move    = new Move();     // 技
 
-  _attack: AttackList; // 攻撃情報
-  _command: Command; // コマンド
-  _stateChange: StateChangeSummary; // 状態変化
-  _actionOrder: ActionOrder; // 行動順
+  attack        = new AttackList();         // 攻撃情報
+  command       = new Command();            // コマンド
+  stateChange   = new StateChangeSummary(); // 状態変化
+  statusAilment = new StatusAilment();      // 状態異常
+  actionOrder   = new ActionOrder();        // 行動順
 
   extraParameter = new ExtraParameter();
 
   constructor( isMe: boolean, slot: number ) {
-    this._id = 0;
-    this._order = new Order( isMe, slot );
-
-    this._name = null;
-    this._level = 50;
-    this._type = new Type();
-    this._gender = 'genderless';
-    this._ability = new Ability();
-    this._item = new Item();
-    this._nature = 'Bashful';
-    this._status = new Status();
-    this._move = new Move();
-
-    this._happiness = 255;
-    this._statusAilment = new StatusAilment();
-
-    this._attack = new AttackList();
-    this._command = new Command;
-    this._stateChange = new StateChangeSummary();
-    this._actionOrder = new ActionOrder();
+    this.order = new Order( isMe, slot );
   }
 
-  set id( id: number ) {
-    this._id = id;
-  }
-  set command( command: Command ) {
-    this._command = command;
-  }
-  set stateChange( stateChange: StateChangeSummary ) {
-    this._stateChange = stateChange;
-  }
-
-  set name( name: PokemonText ) {
-    this._name = name;
-  }
-  set type( type: Type ) {
-    this._type = type;
-  }
-  set gender( gender: Gender ) {
-    this._gender = gender;
-  }
-
-  set level( level: number ) {
-    this._level = level;
-  }
-  set item( item: Item ) {
-    this._item = item;
-  }
-  set nature( nature: NatureText ) {
-    this._nature = nature;
-  }
-  set happiness( happiness: number ) {
-    this._happiness = happiness;
-  }
-  set statusAilment( statusAilment: StatusAilment ) {
-    this._statusAilment = statusAilment;
-  }
-
-  get id(): number {
-    return this._id;
-  }
-  get order(): Order {
-    return this._order;
-  }
-
-  get status(): Status {
-    return this._status;
-  }
-  get name(): PokemonText {
-    return this._name;
-  }
-
-  get move(): Move {
-    return this._move;
-  }
-  get attack(): AttackList {
-    return this._attack;
-  }
-  get command(): Command {
-    return this._command;
-  }
-  get stateChange(): StateChangeSummary {
-    return this._stateChange;
-  }
-
-  get type(): Type {
-    return this._type;
-  }
-  get gender(): Gender {
-    return this._gender;
-  }
-  get ability(): Ability {
-    return this._ability;
-  }
-  get level(): number {
-    return this._level;
-  }
-  get item(): Item {
-    return this._item;
-  }
-  get nature(): NatureText {
-    return this._nature;
-  }
-  get happiness(): number {
-    return this._happiness;
-  }
-  get statusAilment(): StatusAilment {
-    return this._statusAilment;
-  }
-  get actionOrder(): ActionOrder {
-    return this._actionOrder;
-  }
 
   reset(): void {
-    const partyOrder: number = this._order.party;
-    const isMe: boolean = this._order.isMe;
+    const partyOrder: number = this.order.party;
+    const isMe: boolean = this.order.isMe;
     const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
     imageHTML.src = '';
 
-    this._order = new Order( isMe, partyOrder );
+    this.order = new Order( isMe, partyOrder );
 
-    this._name = null;
-    this._level = 50;
-    this._type = new Type();
-    this._gender = 'genderless';
-    this._ability = new Ability();
-    this._item = new Item();
-    this._nature = 'Bashful';
-    this._status = new Status();
-    this._move = new Move();
+    this.name = null;
+    this.level = 50;
+    this.type = new Type();
+    this.gender = 'genderless';
+    this.ability = new Ability();
+    this.item = new Item();
+    this.nature = 'Bashful';
+    this.status = new Status();
+    this.move = new Move();
 
-    this._happiness = 255;
-    this._statusAilment = new StatusAilment();
+    this.happiness = 255;
+    this.statusAilment = new StatusAilment();
 
-    this._attack = new AttackList();
-    this._command = new Command();
-    this._stateChange = new StateChangeSummary();
+    this.attack = new AttackList();
+    this.command = new Command();
+    this.stateChange = new StateChangeSummary();
   }
 
 
   register( reg: Register ): void {
-    this._id = reg.id;
-    this._name = reg.name;
-    this._level = reg.level;
-    this._type.list = reg.type;
-    this._gender = reg.gender.value;
-    this._ability.setOrg( reg.ability.value );
-    this._item.name = reg.item;
-    this._nature = reg.nature;
-    this._status.register( reg.stat );
-    this._move.register( reg.move );
+    this.id = reg.id;
+    this.name = reg.name;
+    this.level = reg.level;
+    this.type.list = reg.type;
+    this.gender = reg.gender.value;
+    this.ability.setOrg( reg.ability.value );
+    this.item.name = reg.item;
+    this.nature = reg.nature;
+    this.status.register( reg.stat );
+    this.move.register( reg.move );
   }
 
   copyFromOpp( opp: Pokemon ): void {
-    this._id = opp._id;
-    this._name = opp._name;
-    this._type.copyFromOpp( opp._type.list );
-    this._gender = opp._gender;
-    this._ability.setOrg( opp._ability.name );
-    this._level = opp._level;
-    this._item.copyFromOpp( opp._item.name, opp._item.pokeName );
-    this._nature = opp._nature;
-    this._status.copyFromOpp( opp._status );
-    this._move.copyFromOpp( opp._move._learned );
+    this.id = opp.id;
+    this.name = opp.name;
+    this.type.copyFromOpp( opp.type.list );
+    this.gender = opp.gender;
+    this.ability.setOrg( opp.ability.name );
+    this.level = opp.level;
+    this.item.copyFromOpp( opp.item.name, opp.item.pokeName );
+    this.nature = opp.nature;
+    this.status.copyFromOpp( opp.status );
+    this.move.copyFromOpp( opp.move._learned );
   }
 
   showHandInfo(): void {
-    getHTMLInputElement( 'party' + this._order.hand + '_name' ).textContent = ( this._name === null )? '名前' : this.translateName( this._name );
-    getHTMLInputElement( 'party' + this._order.hand + '_gender' ).textContent = ( this._name === null )? '性別' : this.translateGender();
-    getHTMLInputElement( 'party' + this._order.hand + '_level' ).textContent = ( this._name === null )? '' : String( this._level );
-    getHTMLInputElement( 'party' + this._order.hand + '_ability' ).textContent = ( this._name === null )? '特性' : this._ability.translate();
-    getHTMLInputElement( 'party' + this._order.hand + '_remainingHP' ).textContent = ( this._name === null )? '' : String( this._status.hp.value.value );
-    getHTMLInputElement( 'party' + this._order.hand + '_item' ).textContent = ( this._name === null )? '持ち物' : String( this._item.name );
+    getHTMLInputElement( 'party' + this.order.hand + '_name' ).textContent = ( this.name === null )? '名前' : this.translateName( this.name );
+    getHTMLInputElement( 'party' + this.order.hand + '_gender' ).textContent = ( this.name === null )? '性別' : this.translateGender();
+    getHTMLInputElement( 'party' + this.order.hand + '_level' ).textContent = ( this.name === null )? '' : String( this.level );
+    getHTMLInputElement( 'party' + this.order.hand + '_ability' ).textContent = ( this.name === null )? '特性' : this.ability.translate();
+    getHTMLInputElement( 'party' + this.order.hand + '_remainingHP' ).textContent = ( this.name === null )? '' : String( this.status.hp.value.value );
+    getHTMLInputElement( 'party' + this.order.hand + '_item' ).textContent = ( this.name === null )? '持ち物' : String( this.item.name );
 
-    if ( this._type.get().length === 0 ) {
-      getHTMLInputElement( 'party' + this._order.hand + '_type1' ).textContent = 'タイプ';
-      getHTMLInputElement( 'party' + this._order.hand + '_type2' ).textContent = '';
-    } else if ( this._type.get().length === 1 ) {
-      getHTMLInputElement( 'party' + this._order.hand + '_type1' ).textContent = this.translateType( String( this._type.get()[0] ) );
-      getHTMLInputElement( 'party' + this._order.hand + '_type2' ).textContent = '';
-    } else if ( this._type.get().length === 2 ) {
-      getHTMLInputElement( 'party' + this._order.hand + '_type1' ).textContent = this.translateType( String( this._type.get()[0] ) );
-      getHTMLInputElement( 'party' + this._order.hand + '_type2' ).textContent = this.translateType( String( this._type.get()[1] ) );
+    if ( this.type.get().length === 0 ) {
+      getHTMLInputElement( 'party' + this.order.hand + '_type1' ).textContent = 'タイプ';
+      getHTMLInputElement( 'party' + this.order.hand + '_type2' ).textContent = '';
+    } else if ( this.type.get().length === 1 ) {
+      getHTMLInputElement( 'party' + this.order.hand + '_type1' ).textContent = this.translateType( String( this.type.get()[0] ) );
+      getHTMLInputElement( 'party' + this.order.hand + '_type2' ).textContent = '';
+    } else if ( this.type.get().length === 2 ) {
+      getHTMLInputElement( 'party' + this.order.hand + '_type1' ).textContent = this.translateType( String( this.type.get()[0] ) );
+      getHTMLInputElement( 'party' + this.order.hand + '_type2' ).textContent = this.translateType( String( this.type.get()[1] ) );
     }
 
-    this._status.show( this._name, this._order.hand );
-    this._move.show( this._order.hand );
+    this.status.show( this.name, this.order.hand );
+    this.move.show( this.order.hand );
   }
 
   showPartyImage(): void {
-    const partyOrder: number = this._order.party;
+    const partyOrder: number = this.order.party;
     const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
 
-    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this._id + '.png';
+    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.id + '.png';
   }
 
   translateName( name: string ): string {
@@ -748,9 +606,9 @@ class Pokemon {
   }
 
   translateGender(): string {
-    if ( this._gender === 'male' ) return '♂';
-    if ( this._gender === 'female' ) return '♀';
-    if ( this._gender === 'genderless' ) return '-';
+    if ( this.gender === 'male' ) return '♂';
+    if ( this.gender === 'female' ) return '♀';
+    if ( this.gender === 'genderless' ) return '-';
 
     return '-'
   }
@@ -764,7 +622,7 @@ class Pokemon {
   }
 
   isMine(): boolean {
-    return this._order.isMe;
+    return this.order.isMe;
   }
 
   //-----------
@@ -791,12 +649,12 @@ class Pokemon {
     else return '相手';
   }
   msgToBattleField(): void {
-    battleLog.write( `${this.isMeToStr()}は ${this.translateName( String(this._name) )}を くりだした!` );
+    battleLog.write( `${this.isMeToStr()}は ${this.translateName( String(this.name) )}を くりだした!` );
   }
   getArticle(): string {
-    if ( this._name === null ) return ''
-    if ( this.isMine() ) return this.translateName( this._name );
-    else return '相手の' + this.translateName( this._name );
+    if ( this.name === null ) return ''
+    if ( this.isMine() ) return this.translateName( this.name );
+    else return '相手の' + this.translateName( this.name );
   }
 
   msgQuickDraw(): void {
@@ -809,10 +667,10 @@ class Pokemon {
     battleLog.write( `${this.getArticle()}は イバンのみで 行動が はやくなった!` );
   }
   msgDeclareMove(): void {
-    battleLog.write( `${this.getArticle()}の ${this._move.selected.translate()}!` );
+    battleLog.write( `${this.getArticle()}の ${this.move.selected.translate()}!` );
   }
   msgDeclareAbility(): void {
-    battleLog.write( `${this.translateName( String(this._name) )}の ${this._ability.translate()}` );
+    battleLog.write( `${this.translateName( String(this.name) )}の ${this.ability.translate()}` );
   }
   msgDeclareFailure(): void {
     battleLog.write( `しかし うまく決まらなかった....` );
@@ -825,7 +683,7 @@ class Pokemon {
     battleLog.write( `この技を しかけることが できないようだ......` );
   }
   msgCannotUse(): void {
-    battleLog.write( `${this.getArticle()}は ${this._move.selected.translate()}が 使えない!` );
+    battleLog.write( `${this.getArticle()}は ${this.move.selected.translate()}が 使えない!` );
   }
   msgFutureSight(): void {
     battleLog.write( `${this.getArticle()}は 未来に 攻撃を予知した!` );
@@ -834,45 +692,45 @@ class Pokemon {
     battleLog.write( `${this.getArticle()}は はめつのねがいを 未来に託した!` );
   }
   msgPreliminary(): void {
-    if ( this._move.selected.name === 'Razor Wind' ) { // 技「かまいたち」
+    if ( this.move.selected.name === 'Razor Wind' ) { // 技「かまいたち」
       battleLog.write( `${this.getArticle()}の 周りで 空気が 渦を巻く!` );
     }
-    if ( this._move.selected.name === 'Ice Burn' ) { // 技「コールドフレア」
+    if ( this.move.selected.name === 'Ice Burn' ) { // 技「コールドフレア」
       battleLog.write( `${this.getArticle()}は 凍える空気に 包まれた!` );
     }
-    if ( this._move.selected.name === 'Sky Attack' ) { // 技「ゴッドバード」
+    if ( this.move.selected.name === 'Sky Attack' ) { // 技「ゴッドバード」
       battleLog.write( `${this.getArticle()}を 激しい光が 包む!` );
     }
-    if ( this._move.selected.name === 'Geomancy' ) { // 技「ジオコントロール」
+    if ( this.move.selected.name === 'Geomancy' ) { // 技「ジオコントロール」
       battleLog.write( `${this.getArticle()}は パワーを ためこんでいる!` );
     }
-    if ( this._move.selected.name === 'Solar Beam' // 技「ソーラービーム」
-      || this._move.selected.name === 'Solar Blade' ) { // 技「ソーラーブレード」
+    if ( this.move.selected.name === 'Solar Beam' // 技「ソーラービーム」
+      || this.move.selected.name === 'Solar Blade' ) { // 技「ソーラーブレード」
       battleLog.write( `${this.getArticle()}は 光を 吸収した!` );
     }
-    if ( this._move.selected.name === 'Freeze Shock' ) { // 技「フリーズボルト」
+    if ( this.move.selected.name === 'Freeze Shock' ) { // 技「フリーズボルト」
       battleLog.write( `${this.getArticle()}は 冷たい光に 包まれた!` );
     }
-    if ( this._move.selected.name === 'Meteor Beam' ) { // 技「メテオビーム」
+    if ( this.move.selected.name === 'Meteor Beam' ) { // 技「メテオビーム」
       battleLog.write( `${this.getArticle()}に 宇宙の 力が あふれだす!` );
     }
-    if ( this._move.selected.name === 'Skull Bash' ) { // 技「ロケットずつき」
+    if ( this.move.selected.name === 'Skull Bash' ) { // 技「ロケットずつき」
       battleLog.write( `${this.getArticle()}は 首を 引っ込めた!` );
     }
-    if ( this._move.selected.name === 'Dig' ) { // 技「あなをほる」
+    if ( this.move.selected.name === 'Dig' ) { // 技「あなをほる」
       battleLog.write( `${this.getArticle()}は 地面に 潜った!` );
     }
-    if ( this._move.selected.name === 'Fly' ) { // 技「そらをとぶ」
+    if ( this.move.selected.name === 'Fly' ) { // 技「そらをとぶ」
       battleLog.write( `${this.getArticle()}は 空高く 飛び上がった!` );
     }
-    if ( this._move.selected.name === 'Bounce' ) { // 技「とびはねる」
+    if ( this.move.selected.name === 'Bounce' ) { // 技「とびはねる」
       battleLog.write( `${this.getArticle()}は 高く 飛び跳ねた!` );
     }
-    if ( this._move.selected.name === 'Dive' ) { // 技「ダイビング」
+    if ( this.move.selected.name === 'Dive' ) { // 技「ダイビング」
       battleLog.write( `${this.getArticle()}は 水中に 身を潜めた!` );
     }
-    if ( this._move.selected.name === 'Phantom Force' // 技「ゴーストダイブ」
-      || this._move.selected.name === 'Shadow Force' ) { // 技「シャドーダイブ」
+    if ( this.move.selected.name === 'Phantom Force' // 技「ゴーストダイブ」
+      || this.move.selected.name === 'Shadow Force' ) { // 技「シャドーダイブ」
       battleLog.write( `${this.getArticle()}の姿が 一瞬にして 消えた!` );
     }
   }
@@ -901,7 +759,7 @@ class Pokemon {
     battleLog.write( `${this.getArticle()}は 傷ついた!` );
   }
   msgMatBlock(): void {
-    battleLog.write( `${this._move.selected.translate()}は たたみがえしで 防がれた!` );
+    battleLog.write( `${this.move.selected.translate()}は たたみがえしで 防がれた!` );
   }
   msgInvalid(): void {
     battleLog.write( `${this.getArticle()}には 効果がないようだ...` );
@@ -914,21 +772,21 @@ class Pokemon {
     battleLog.write( `${damage}の ダメージ!` );
   }
   msgSuperEffective( targetName: string ): void {
-    if ( this._attack.getTarget().length === 1 ) {
+    if ( this.attack.getTarget().length === 1 ) {
       battleLog.write( `効果は バツグンだ!` );
     } else {
       battleLog.write( `${targetName}に 効果は バツグンだ!` );
     }
   }
   msgNotEffective( targetName: string ): void {
-    if ( this._attack.getTarget().length === 1 ) {
+    if ( this.attack.getTarget().length === 1 ) {
       battleLog.write( `${targetName}に 効果は 今ひとつのようだ......` );
     } else {
       battleLog.write( `${targetName}に 効果は いまひとつだ` );
     }
   }
   msgCritical( targetName: string ): void {
-    if ( this._attack.getTarget().length === 1 ) {
+    if ( this.attack.getTarget().length === 1 ) {
       battleLog.write( `急所に 当たった!` );
     } else {
       battleLog.write( `${targetName}に 急所に 当たった!` );
@@ -946,9 +804,6 @@ class Pokemon {
   msgCannotEscape(): void {
     battleLog.write( `${this.getArticle()}は もう 逃げられない!` );
   }
-  msgSaltCure(): void {
-    battleLog.write( `${this.getArticle()}は しおづけに なった!` );
-  }
   msgWhiteHerb(): void {
     battleLog.write( `${this.getArticle()}は しろいハーブで ステータスを 元に戻した!` );
   }
@@ -958,14 +813,8 @@ class Pokemon {
   msgDrain( targetName: string ): void {
     battleLog.write( `${targetName}から 体力を 吸い取った!` );
   }
-  msgRage(): void {
-    battleLog.write( `${this.getArticle()}の いかりのボルテージが 上がっていく!` );
-  }
   msgClearSmog(): void {
     battleLog.write( `全ての ステータスが 元に 戻った!` );
-  }
-  msgGrudge(): void {
-    battleLog.write( `${this.getArticle()}の ${this._move.learned[this._move.selected.slot].translate()}は おんねんで PPが0になった!` );
   }
   msgProtectivePads(): void {
     battleLog.write( `${this.getArticle()}は ぼうごパットで 防いだ!` );
@@ -985,12 +834,6 @@ class Pokemon {
   msgExchangeAbility(): void {
     battleLog.write( `${this.getArticle()}は おたがいの とくせいを 入れ替えた!` );
   }
-  msgPerishBodySide(): void {
-    battleLog.write( `${this.getArticle()}は 3ターン後に 滅びてしまう!` );
-  }
-  msgPerishBodyAll(): void {
-    battleLog.write( `おたがいは 3ターン後に 滅びてしまう!` );
-  }
   msgElectromorphosis( moveName: string ): void {
     battleLog.write( `${this.getArticle()}は ${moveName}を 受けて 充電した!` );
   }
@@ -998,7 +841,7 @@ class Pokemon {
     battleLog.write( `${this.getArticle()}は 攻撃が 最大まで 上がった!` );
   }
   msgHalfBerry(): void {
-    battleLog.write( `${this.getArticle()}への ダメージを ${this._stateChange.halfBerry.text}が 弱めた!` );
+    battleLog.write( `${this.getArticle()}への ダメージを ${this.stateChange.halfBerry.text}が 弱めた!` );
   }
   msgRockyHelmet(): void {
     battleLog.write( `${this.getArticle()}は ゴツゴツメットで ダメージを受けた!` );
@@ -1007,7 +850,7 @@ class Pokemon {
     battleLog.write( `${this.getArticle()}の ふうせんが 割れた!` );
   }
   msgIncinerate(): void {
-    battleLog.write( `${this.getArticle()}の ${this._item.name}は 焼けてなくなった!` );
+    battleLog.write( `${this.getArticle()}の ${this.item.name}は 焼けてなくなった!` );
   }
   msgJabocaBerry( targetName: string ): void {
     battleLog.write( `${this.getArticle()}は ${targetName}の ジャポのみで ダメージを 受けた!` );
@@ -1040,12 +883,6 @@ class Pokemon {
   msgSmackDown(): void {
     battleLog.write( `${this.getArticle()}は 撃ち落とされて 地面に 落ちた!` );
   }
-  msgThousandWaves(): void {
-    battleLog.write( `${this.getArticle()}は もう 逃げられない!` );
-  }
-  msgJawLock(): void {
-    battleLog.write( `おたがいの ポケモンは 逃げることが できなくなった!` );
-  }
   msgBattleBond(): void {
     battleLog.write( `${this.getArticle()}に きずなの 力が みなぎった!` );
   }
@@ -1056,7 +893,7 @@ class Pokemon {
     battleLog.write( `${this.getArticle()}は かいがらのすずで 少し 回復` );
   }
   msgPickpocket(): void {
-    battleLog.write( `${this.getArticle()}の ${this._item.name}を 奪った!` );
+    battleLog.write( `${this.getArticle()}の ${this.item.name}を 奪った!` );
   }
 
   msgAddHPByAbility(): void {
@@ -1078,14 +915,14 @@ class Pokemon {
   // 特性による優先度変更
   //------------------
   changeMovePriority(): void {
-    if ( this._ability.isName( 'Prankster' ) && this._move.selected.isStatus() ) { // 特性「いたずらごころ」
-      this._move.selected.priority += 1;
+    if ( this.ability.isName( 'Prankster' ) && this.move.selected.isStatus() ) { // 特性「いたずらごころ」
+      this.move.selected.priority += 1;
     }
-    if ( this._ability.isName( 'Gale Wings' ) && this._status.hp.value.isMax() ) { // 特性「はやてのつばさ」
-      this._move.selected.priority += 1;
+    if ( this.ability.isName( 'Gale Wings' ) && this.status.hp.value.isMax() ) { // 特性「はやてのつばさ」
+      this.move.selected.priority += 1;
     }
-    if ( this._ability.isName( 'Triage' ) && this._move.selected.getMaster().heal ) { // 特性「ヒーリングシフト」
-      this._move.selected.priority += 3;
+    if ( this.ability.isName( 'Triage' ) && this.move.selected.getMaster().heal ) { // 特性「ヒーリングシフト」
+      this.move.selected.priority += 3;
     }
   }
 
@@ -1093,11 +930,11 @@ class Pokemon {
   // 残りHPによるきのみの発動判定
   //-------------------------
   isActivateBerryByHP( denominator: 2 | 4 ): boolean {
-    const gluttony: number = ( this._ability.isName( 'Gluttony' ) )? 2 : 1; // 特性「くいしんぼう」
+    const gluttony: number = ( this.ability.isName( 'Gluttony' ) )? 2 : 1; // 特性「くいしんぼう」
     if ( denominator === 2 ) {
-      return this._status.hp.value.isLessEqual( denominator );
+      return this.status.hp.value.isLessEqual( denominator );
     } else {
-      return this._status.hp.value.isLessEqual( denominator / gluttony );
+      return this.status.hp.value.isLessEqual( denominator / gluttony );
     }
   }
 
@@ -1105,27 +942,27 @@ class Pokemon {
   // 持ち物の消費
   //-----------
   consumeItem(): void {
-    if ( this._item.isNull() ) return;
+    if ( this.item.isNull() ) return;
 
-    if ( this._item.isBerry() ) {
-      this._item.belch = true;
+    if ( this.item.isBerry() ) {
+      this.item.belch = true;
       this.activateCheekPouch();
     }
 
-    this._item.recyclable();
+    this.item.recyclable();
   }
 
   //-------------
   // ほおぶくろ発動
   //-------------
   activateCheekPouch(): void {
-    if ( !this._ability.isName( 'Cheek Pouch' ) ) return; // 特性「ほおぶくろ」
-    if ( this._status.hp.value.isZero() )return;
-    if ( this._status.hp.value.isMax() ) return;
-    if ( this._stateChange.healBlock.isTrue ) return;
+    if ( !this.ability.isName( 'Cheek Pouch' ) ) return; // 特性「ほおぶくろ」
+    if ( this.status.hp.value.isZero() )return;
+    if ( this.status.hp.value.isMax() ) return;
+    if ( this.stateChange.healBlock.isTrue ) return;
 
     const value: number = Math.floor( this.getOrgHP() / 3 );
-    this._status.hp.value.add( value );
+    this.status.hp.value.add( value );
 
     this.msgDeclareAbility();
     this.msgAddHPByAbility();
@@ -1135,34 +972,34 @@ class Pokemon {
   // 実質HP
   //-----------
   getOrgHP(): number {
-    const dynamax: number = ( this._stateChange.dynamax.isTrue )? 0.5 : 1;
-    return this._status.hp.av * dynamax;
+    const dynamax: number = ( this.stateChange.dynamax.isTrue )? 0.5 : 1;
+    return this.status.hp.av * dynamax;
   }
 
   //--------------
   // ランク変化可能量
   //--------------
   getRankVariableOrg( value: number ): number {
-    value = ( this._ability.isName( 'Simple' ) )? value * 2 : value; // 特性「たんじゅん」
-    value = ( this._ability.isName( 'Contrary' ) )? value * -1 : value; // 特性「あまのじゃく」
+    value = ( this.ability.isName( 'Simple' ) )? value * 2 : value; // 特性「たんじゅん」
+    value = ( this.ability.isName( 'Contrary' ) )? value * -1 : value; // 特性「あまのじゃく」
     return value;
   }
   getRankVariable( para: RankStrings, value: number ): number {
     switch ( para ) {
       case 'atk':
-        return this._status.atk.rank.getVariable( value );
+        return this.status.atk.rank.getVariable( value );
       case 'def':
-        return this._status.def.rank.getVariable( value );
+        return this.status.def.rank.getVariable( value );
       case 'spA':
-        return this._status.spA.rank.getVariable( value );
+        return this.status.spA.rank.getVariable( value );
       case 'spD':
-        return this._status.spD.rank.getVariable( value );
+        return this.status.spD.rank.getVariable( value );
       case 'spe':
-        return this._status.spe.rank.getVariable( value );
+        return this.status.spe.rank.getVariable( value );
       case 'acc':
-        return this._status.acc.getVariable( value );
+        return this.status.acc.getVariable( value );
       case 'eva':
-        return this._status.eva.getVariable( value );
+        return this.status.eva.getVariable( value );
       default:
         return 0;
     }
@@ -1175,17 +1012,17 @@ class Pokemon {
     const abilityCheck = ( para: RankStrings, real: number ): boolean => {
       if ( real >= 0 ) return true;
 
-      if ( this._ability.isName( 'White Smoke' ) ) return false; // 特性「しろいけむり」
-      if ( this._ability.isName( 'Clear Body' ) ) return false; // 特性「クリアボディ」
-      if ( this._ability.isName( 'Full Metal Body' ) ) return false; // 特性「メタルプロテクト」
-      if ( main.isExistAbilityInSide( this.isMine(), 'Flower Veil' ) && this._type.has( 'Grass' ) ) return false; // 特性「フラワーベール」
-      if ( this._ability.isName( 'Mirror Armor' ) ) { // 特性「ミラーアーマー」
+      if ( this.ability.isName( 'White Smoke' ) ) return false; // 特性「しろいけむり」
+      if ( this.ability.isName( 'Clear Body' ) ) return false; // 特性「クリアボディ」
+      if ( this.ability.isName( 'Full Metal Body' ) ) return false; // 特性「メタルプロテクト」
+      if ( main.isExistAbilityInSide( this.isMine(), 'Flower Veil' ) && this.type.has( 'Grass' ) ) return false; // 特性「フラワーベール」
+      if ( this.ability.isName( 'Mirror Armor' ) ) { // 特性「ミラーアーマー」
         //changeTargetRank( target, pokemon, parameter, change );
         // return;
       }
-      if ( this._ability.isName( 'Hyper Cutter' ) && para === 'atk' ) return false; // 特性「かいりきバサミ」
-      if ( this._ability.isName( 'Big Pecks' ) && para === 'def' ) return false; // 特性「はとむね」
-      if ( this._ability.isName( 'Keen Eye' ) && para === 'acc' ) return false; // 特性「するどいめ」
+      if ( this.ability.isName( 'Hyper Cutter' ) && para === 'atk' ) return false; // 特性「かいりきバサミ」
+      if ( this.ability.isName( 'Big Pecks' ) && para === 'def' ) return false; // 特性「はとむね」
+      if ( this.ability.isName( 'Keen Eye' ) && para === 'acc' ) return false; // 特性「するどいめ」
 
       return true;
     }
@@ -1211,7 +1048,7 @@ class Pokemon {
     const setting: number = this.getRankVariableOrg( value );
     const real: number = this.getRankVariable( para, setting );
 
-    this._status.changeRank( para, real, setting, this.getArticle(), item );
+    this.status.changeRank( para, real, setting, this.getArticle(), item );
   }
 
   changeRankByOther( para: RankStrings, value: number, other: Pokemon ): void {
@@ -1222,7 +1059,7 @@ class Pokemon {
 
     if ( real >= 0 ) return;
 
-    if ( this._ability.isName( 'Defiant' ) && this.isMine() !== other.isMine() ) { // 特性「まけんき」
+    if ( this.ability.isName( 'Defiant' ) && this.isMine() !== other.isMine() ) { // 特性「まけんき」
       this.msgDeclareAbility();
       this.changeRank( 'atk', 2 );
     }
@@ -1230,13 +1067,6 @@ class Pokemon {
       this.msgDeclareAbility();
       this.changeRank( 'spA', 2 );
     }
-  }
-
-  changeRankByRage(): void {
-    const setting: number = this.getRankVariableOrg( 1 );
-    const real: number = this.getRankVariable( 'atk', setting );
-
-    this.status.atk.rank.add( real );
   }
 
   safeGuardCheck( other: Pokemon ): boolean {
@@ -1257,15 +1087,15 @@ class Pokemon {
   //-----------
   isGetAilmentByOther( ailment: StatusAilmentText, other: Pokemon ): boolean {
     if ( ailment === null ) return false;
-    if ( !this._statusAilment.isHealth() ) return false;
+    if ( !this.statusAilment.isHealth() ) return false;
 
     const abilityCheck = (): boolean => {
-      if ( this._ability.isName( 'Shield Dust' ) ) return false; // 特性「りんぷん」
-      if ( this._ability.isName( 'Purifying Salt' ) ) return false; // 特性「きよめのしお」
-      if ( this._ability.isName( 'Comatose' ) ) return false; // 特性「ぜったいねむり」
-      if ( this._ability.isName( 'Leaf Guard' )  && main.field.weather.isSunny( this ) ) return false; // 特性「リーフガード」
-      //if ( this._ability.isName( 'リミットシールド' ) && this._name === 'メテノ(流星)' ) return false;
-      if ( main.isExistAbilityInSide( this.isMine(), 'Flower Veil' ) && this._type.has( 'Grass' ) ) return false; // 特性「フラワーベール」
+      if ( this.ability.isName( 'Shield Dust' ) ) return false; // 特性「りんぷん」
+      if ( this.ability.isName( 'Purifying Salt' ) ) return false; // 特性「きよめのしお」
+      if ( this.ability.isName( 'Comatose' ) ) return false; // 特性「ぜったいねむり」
+      if ( this.ability.isName( 'Leaf Guard' )  && main.field.weather.isSunny( this ) ) return false; // 特性「リーフガード」
+      //if ( this.ability.isName( 'リミットシールド' ) && this.name === 'メテノ(流星)' ) return false;
+      if ( main.isExistAbilityInSide( this.isMine(), 'Flower Veil' ) && this.type.has( 'Grass' ) ) return false; // 特性「フラワーベール」
 
       return true;
     }
@@ -1273,31 +1103,31 @@ class Pokemon {
     const eachCheck = ( ailment: StatusAilmentText ): boolean => {
       switch ( ailment ) {
         case 'Paralysis':
-          if ( this._type.has( 'Electric' ) ) return false;
+          if ( this.type.has( 'Electric' ) ) return false;
           break;
 
         case 'Frozen':
-          if ( this._type.has( 'Ice' ) ) return false;
+          if ( this.type.has( 'Ice' ) ) return false;
           if ( main.field.weather.isSunny( this ) ) return false;
-          if ( this._ability.isName( 'Magma Armor' ) ) return false; // 特性「マグマのよろい」
+          if ( this.ability.isName( 'Magma Armor' ) ) return false; // 特性「マグマのよろい」
           break;
 
         case 'Burned':
-          if ( this._type.has( 'Fire' ) ) return false;
-          if ( this._ability.isName( 'Water Veil' ) ) return false; // 特性「みずのベール」
-          if ( this._ability.isName( 'Water Bubble' ) ) return false; // 特性「すいほう」
+          if ( this.type.has( 'Fire' ) ) return false;
+          if ( this.ability.isName( 'Water Veil' ) ) return false; // 特性「みずのベール」
+          if ( this.ability.isName( 'Water Bubble' ) ) return false; // 特性「すいほう」
           break;
 
         case 'Poisoned':
-          if ( this._ability.isName( 'Immunity' ) ) return false; // 特性「めんえき」
+          if ( this.ability.isName( 'Immunity' ) ) return false; // 特性「めんえき」
           if ( main.isExistAbilityInSide( this.isMine(), 'Pastel Veil' ) ) return false; // 特性「パステルベール」
-          if ( this._type.has( 'Poison' ) ) return false;
-          if ( this._type.has( 'Steel' ) ) return false;
+          if ( this.type.has( 'Poison' ) ) return false;
+          if ( this.type.has( 'Steel' ) ) return false;
           break;
 
         case 'Asleep':
-          if ( this._ability.isName( 'Vital Spirit' ) ) return false; // 特性「やるき」
-          if ( this._ability.isName( 'Insomnia' ) ) return false; // 特性「ふみん」
+          if ( this.ability.isName( 'Vital Spirit' ) ) return false; // 特性「やるき」
+          if ( this.ability.isName( 'Insomnia' ) ) return false; // 特性「ふみん」
           if ( main.isExistAbilityInSide( this.isMine(), 'Sweet Veil' ) ) return false; // 特性「スイートベール」
           if ( main.field.terrain.isElectric() && this.isGround() ) return false;
           if ( main.isUproar() ) return false;
@@ -1318,30 +1148,30 @@ class Pokemon {
     switch ( ailmentName ) {
       case 'paralysis':
         if ( !this.isGetAilmentByOther( 'Paralysis', other ) ) return;
-        this._statusAilment.getParalysis();
+        this.statusAilment.getParalysis();
         break;
 
       case 'burn':
         if ( !this.isGetAilmentByOther( 'Burned', other ) ) return;
-        this._statusAilment.getBurned( );
+        this.statusAilment.getBurned( );
         break;
 
       case 'freeze':
         if ( !this.isGetAilmentByOther( 'Frozen', other ) ) return;
-        this._statusAilment.getFrozen();
+        this.statusAilment.getFrozen();
         break;
 
       case 'sleep':
         if ( !this.isGetAilmentByOther( 'Asleep', other ) ) return;
-        this._statusAilment.getAsleep();
+        this.statusAilment.getAsleep();
         break;
 
       case 'poison':
         if ( !this.isGetAilmentByOther( 'Poisoned', other ) ) return;
         if ( other.move.selected.name === 'Poison Fang' ) { // どくどくのキバ
-          this._statusAilment.getBadPoisoned();
+          this.statusAilment.getBadPoisoned();
         } else {
-          this._statusAilment.getPoisoned();
+          this.statusAilment.getPoisoned();
         }
         break;
 
@@ -1354,23 +1184,23 @@ class Pokemon {
 
     switch ( ailmentName ) {
       case 'paralysis':
-        this._statusAilment.getParalysis();
+        this.statusAilment.getParalysis();
         break;
 
       case 'burn':
-        this._statusAilment.getBurned( );
+        this.statusAilment.getBurned( );
         break;
 
       case 'freeze':
-        this._statusAilment.getFrozen();
+        this.statusAilment.getFrozen();
         break;
 
       case 'sleep':
-        this._statusAilment.getAsleep();
+        this.statusAilment.getAsleep();
         break;
 
       case 'poison':
-        this._statusAilment.getPoisoned();
+        this.statusAilment.getPoisoned();
         break;
 
       case 'confusion':
@@ -1438,8 +1268,8 @@ class Pokemon {
   //--------
   isGetConfusionByAdditionalEffect( other: Pokemon ): boolean {
 
-    if ( this._stateChange.confuse.isTrue ) return false;
-    if ( this._ability.isName( 'Own Tempo' ) ) return false; // 特性「マイペース」
+    if ( this.stateChange.confuse.isTrue ) return false;
+    if ( this.ability.isName( 'Own Tempo' ) ) return false; // 特性「マイペース」
 
     return this.safeGuardCheck( other ) && this.mistTerrainCheck();
   }
@@ -1450,28 +1280,28 @@ class Pokemon {
   // フォルムチェンジ
   //--------------
   getNextForm(): PokemonText {
-    if ( this._name === 'Aegislash Shield' )   return 'Aegislash Blade';
-    if ( this._name === 'Aegislash Blade' )    return 'Aegislash Shield';
-    if ( this._name === 'Meloetta Aria' )      return 'Meloetta Pirouette';
-    if ( this._name === 'Meloetta Pirouette' ) return 'Meloetta Aria';
-    if ( this._name === 'Mimikyu Disguised' )  return 'Mimikyu Busted'
-    if ( this._name === 'Cramorant Gulping' )  return 'Cramorant';
-    if ( this._name === 'Cramorant Gorging' )  return 'Cramorant';
-    if ( this._name === 'Eiscue Ice' )         return 'Eiscue Noice';
-    if ( this._name === 'Eiscue Noice' )       return 'Eiscue Ice';
+    if ( this.name === 'Aegislash Shield' )   return 'Aegislash Blade';
+    if ( this.name === 'Aegislash Blade' )    return 'Aegislash Shield';
+    if ( this.name === 'Meloetta Aria' )      return 'Meloetta Pirouette';
+    if ( this.name === 'Meloetta Pirouette' ) return 'Meloetta Aria';
+    if ( this.name === 'Mimikyu Disguised' )  return 'Mimikyu Busted'
+    if ( this.name === 'Cramorant Gulping' )  return 'Cramorant';
+    if ( this.name === 'Cramorant Gorging' )  return 'Cramorant';
+    if ( this.name === 'Eiscue Ice' )         return 'Eiscue Noice';
+    if ( this.name === 'Eiscue Noice' )       return 'Eiscue Ice';
 
-    return this._name;
+    return this.name;
   }
 
   formChange(): void {
     const nextForm: PokemonText = this.getNextForm();
-    if ( nextForm === this._name ) return;
+    if ( nextForm === this.name ) return;
 
-    this._name = nextForm;
+    this.name = nextForm;
     const pokemon: PokemonData = this.getMaster();
-    this._type.list = pokemon.type;
-    this._ability.setOrg( abilityTextList.filter( name => name === pokemon.ability[0] )[0] );
-    this._status.formChange( pokemon.baseStatus, this._level, this.getNatureMaster() );
+    this.type.list = pokemon.type;
+    this.ability.setOrg( abilityTextList.filter( name => name === pokemon.ability[0] )[0] );
+    this.status.formChange( pokemon.baseStatus, this.level, this.getNatureMaster() );
   }
 
   msgAegislashSchild(): void {
@@ -1495,7 +1325,7 @@ class Pokemon {
   // きのみを食べる
   //-------------
   getRipen(): number {
-    return ( this._ability.isName( 'Ripen' ) )? 2 : 1; // 特性「じゅくせい」
+    return ( this.ability.isName( 'Ripen' ) )? 2 : 1; // 特性「じゅくせい」
   }
   getChangeValueByBerry( denominator: number ): number {
     const value: number = Math.floor( this.getOrgHP() / denominator ) * this.getRipen();
@@ -1503,67 +1333,66 @@ class Pokemon {
   }
 
   eatBerryJuice(): void {
-    this._status.hp.value.add( 10 );
+    this.status.hp.value.add( 10 );
     this.msgAddHPByItem( 'きのみジュース' );
   }
   eatCheriBerry(): void {
-    this._statusAilment.getHealth( 'クラボのみ' );
+    this.statusAilment.getHealth( 'クラボのみ' );
   }
   eatChestoBerry(): void {
-    this._statusAilment.getHealth( 'カゴのみ' );
+    this.statusAilment.getHealth( 'カゴのみ' );
   }
   eatPechaBerry(): void {
-    if ( !this._statusAilment.isPoisoned() && !this._statusAilment.isBadPoisoned() ) return;
-    this._statusAilment.getHealth( 'モモンのみ' );
+    this.statusAilment.getHealth( 'モモンのみ' );
   }
   eatRawstBerry(): void {
-    this._statusAilment.getHealth( 'チーゴのみ' );
+    this.statusAilment.getHealth( 'チーゴのみ' );
   }
   eatAspearBerry(): void {
-    this._statusAilment.getHealth( 'ナナシのみ' );
+    this.statusAilment.getHealth( 'ナナシのみ' );
   }
   eatLeppaBerry(): void {
     // ヒメリのみ
   }
   eatOranBerry(): void {
-    this._status.hp.value.add( 10 * this.getRipen() );
+    this.status.hp.value.add( 10 * this.getRipen() );
     this.msgAddHPByItem( 'オレンのみ' );
   }
   eatPersimBerry(): void {
     // キーのみ
   }
   eatLumBerry(): void {
-    this._statusAilment.getHealth( 'ラムのみ' );
+    this.statusAilment.getHealth( 'ラムのみ' );
     // 混乱を治す
   }
   eatSitrusBerry(): void {
     const value: number = this.getChangeValueByBerry( 4 );
-    this._status.hp.value.add( value );
+    this.status.hp.value.add( value );
     this.msgAddHPByItem( 'オボンのみ' );
   }
   eatFigyBerry(): void {
     const value: number = this.getChangeValueByBerry( 3 );
-    this._status.hp.value.add( value );
+    this.status.hp.value.add( value );
     this.msgAddHPByItem( 'フィラのみ' );
   }
   eatWikiBerry(): void {
     const value: number = this.getChangeValueByBerry( 3 );
-    this._status.hp.value.add( value );
+    this.status.hp.value.add( value );
     this.msgAddHPByItem( 'ウイのみ' );
   }
   eatMagoBerry(): void {
     const value: number = this.getChangeValueByBerry( 3 );
-    this._status.hp.value.add( value );
+    this.status.hp.value.add( value );
     this.msgAddHPByItem( 'マゴのみ' );
   }
   eatAguavBerry(): void {
     const value: number = this.getChangeValueByBerry( 3 );
-    this._status.hp.value.add( value );
+    this.status.hp.value.add( value );
     this.msgAddHPByItem( 'バンジのみ' );
   }
   eatIapapaBerry(): void {
     const value: number = this.getChangeValueByBerry( 3 );
-    this._status.hp.value.add( value );
+    this.status.hp.value.add( value );
     this.msgAddHPByItem( 'イアのみ' );
   }
   eatLiechiBerry(): void {
@@ -1589,7 +1418,7 @@ class Pokemon {
   }
   eatEnigmaBerry(): void {
     const value: number = this.getChangeValueByBerry( 4 );
-    this._status.hp.value.add( value );
+    this.status.hp.value.add( value );
     this.msgAddHPByItem( 'ナゾのみ' );
   }
   eatMicleBerry(): void {
@@ -1602,13 +1431,166 @@ class Pokemon {
     this.changeRank( 'spD', this.getRipen() , 'タラプのみ' );
   }
 
+  isEatBerryInstantly( berry: string | null ): boolean {
+
+    if ( berry === 'クラボのみ' ) {
+      if ( this.statusAilment.isParalysis() ) {
+        this.eatCheriBerry();
+        return true;
+      }
+    }
+    if ( berry === 'カゴのみ' ) {
+      if ( this.statusAilment.isAsleep() ) {
+        this.eatChestoBerry();
+        return true;
+      }
+    }
+    if ( berry === 'モモンのみ' ) {
+      if ( this.statusAilment.isPoisoned() || this.statusAilment.isBadPoisoned() ) {
+        this.eatPechaBerry();
+        return true;
+      }
+    }
+    if ( berry === 'チーゴのみ' ) {
+      if ( this.statusAilment.isBurned() ) {
+        this.eatRawstBerry();
+        return true;
+      }
+    }
+    if ( berry === 'ナナシのみ' ) {
+      if ( this.statusAilment.isFrozen() ) {
+        this.eatAspearBerry();
+        return true;
+      }
+    }
+    if ( berry === 'ヒメリのみ' ) {
+      this.eatLeppaBerry();
+      return true;
+    }
+    if ( berry === 'オレンのみ' ) {
+      if ( !this.status.hp.value.isMax() ) {
+        this.eatOranBerry();
+        return true;
+      }
+    }
+    if ( berry === 'キーのみ' ) {
+      if ( this.stateChange.confuse.isTrue ) {
+        this.eatPersimBerry();
+        return true;
+      }
+    }
+    if ( berry === 'ラムのみ' ) {
+      if ( !this.statusAilment.isHealth() || this.stateChange.confuse.isTrue ) {
+        this.eatLumBerry();
+        return true;
+      }
+    }
+    if ( berry === 'オボンのみ' ) {
+      if ( !this.status.hp.value.isMax() ) {
+        this.eatSitrusBerry();
+        return true;
+      }
+    }
+    if ( berry === 'フィラのみ' ) {
+      if ( !this.status.hp.value.isMax() ) {
+        this.eatFigyBerry();
+        return true;
+      }
+    }
+    if ( berry === 'ウイのみ' ) {
+      if ( !this.status.hp.value.isMax() ) {
+        this.eatWikiBerry();
+        return true;
+      }
+    }
+    if ( berry === 'マゴのみ' ) {
+      if ( !this.status.hp.value.isMax() ) {
+        this.eatMagoBerry();
+        return true;
+      }
+    }
+    if ( berry === 'バンジのみ' ) {
+      if ( !this.status.hp.value.isMax() ) {
+        this.eatAguavBerry();
+        return true;
+      }
+    }
+    if ( berry === 'イアのみ' ) {
+      if ( !this.status.hp.value.isMax() ) {
+        this.eatIapapaBerry();
+        return true;
+      }
+    }
+    if ( berry === 'チイラのみ' ) {
+      if ( this.isChangeRank( 'atk', 1 ) ) {
+        this.eatLiechiBerry();
+        return true;
+      }
+    }
+    if ( berry === 'リュガのみ' ) {
+      if ( this.isChangeRank( 'def', 1 ) ) {
+        this.eatGanlonBerry();
+        return true;
+      }
+    }
+    if ( berry === 'カムラのみ' ) {
+      if ( this.isChangeRank( 'spe', 1 ) ) {
+        this.eatSalacBerry();
+        return true;
+      }
+    }
+    if ( berry === 'ヤタピのみ' ) {
+      if ( this.isChangeRank( 'spA', 1 ) ) {
+        this.eatPetayaBerry();
+        return true;
+      }
+    }
+    if ( berry === 'ズアのみ' ) {
+      if ( this.isChangeRank( 'spD', 1 ) ) {
+        this.eatApicotBerry();
+        return true;
+      }
+    }
+    if ( berry === 'サンのみ' ) {
+    }
+
+    if ( berry === 'スターのみ' ) {
+    }
+
+    if ( berry === 'ナゾのみ' ) {
+      if ( !this.status.hp.value.isMax() ) {
+        this.eatEnigmaBerry();
+        return true;
+      }
+    }
+    if ( berry === 'ミクルのみ' ) {
+    }
+
+    if ( berry === 'アッキのみ' ) {
+      if ( this.isChangeRank( 'def', 1 ) ) {
+        this.eatKeeBerry();
+        return true;
+      }
+    }
+    if ( berry === 'タラプのみ' ) {
+      if ( this.isChangeRank( 'spD', 1 ) ) {
+        this.eatMarangaBerry();
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+
+
 
 
   //-----------
   // 手持ちに戻る
   //-----------
   isFainted(): boolean {
-    if ( !this._status.hp.value.isZero() ) return false;
+    if ( !this.status.hp.value.isZero() ) return false;
 
     this.msgFainted();
     return true;
@@ -1616,17 +1598,17 @@ class Pokemon {
 
   toHand(): void {
     const naturalCure = (): void => {
-      if ( !this._ability.isName( 'Natural Cure' ) ) return; // 特性「しぜんかいふく」
-      this._statusAilment.getHealth();
+      if ( !this.ability.isName( 'Natural Cure' ) ) return; // 特性「しぜんかいふく」
+      this.statusAilment.getHealth();
     }
 
     const regenerator = (): void => {
-      if ( !this._ability.isName( 'Regenerator' ) ) return; // 特性「さいせいりょく」
+      if ( !this.ability.isName( 'Regenerator' ) ) return; // 特性「さいせいりょく」
       const value: number = Math.floor( this.getOrgHP() / 3 );
-      this._status.hp.value.add( value );
+      this.status.hp.value.add( value );
     }
 
-    if ( !this._status.hp.value.isZero() ) {
+    if ( !this.status.hp.value.isZero() ) {
       naturalCure(); // しぜんかいふく
       regenerator(); // さいせいりょく
       this.msgToHand()
@@ -1639,11 +1621,11 @@ class Pokemon {
     // pokemon.command = new Command;
     // pokemon.damage = [];
     // pokemon.moveUsed = new AvailableMove;
-    this._status.resetRank();
+    this.status.resetRank();
 
-    this._order.battle = null;
-    const hand: number = this._order.hand;
-    this._order.hand = main.field.numberOfPokemon;
+    this.order.battle = null;
+    const hand: number = this.order.hand;
+    this.order.hand = main.field.numberOfPokemon;
     main.getPlayer( this.isMine() ).cycleHand( hand );
   }
 
@@ -1675,7 +1657,7 @@ class Pokemon {
   // 追加効果発動判定
   //--------------
   isAdditionalEffect = ( target: Pokemon, attack: Attack ): boolean => {
-    if ( this._stateChange.sheerForce.isTrue ) return false;
+    if ( this.stateChange.sheerForce.isTrue ) return false;
     if ( target.status.hp.value.isZero() ) return false;
     if ( attack.substitute ) return false ;
     if ( target.ability.isName( 'Shield Dust' ) ) return false; // 特性「りんぷん」
@@ -1685,12 +1667,12 @@ class Pokemon {
   }
 
   sereneGrace = (): number => {
-    if ( this._ability.isName( 'Serene Grace' ) ) return 2; // 特性「てんのめぐみ」
+    if ( this.ability.isName( 'Serene Grace' ) ) return 2; // 特性「てんのめぐみ」
     else return 1;
   }
 
   rainbow = (): number => {
-    if ( this._move.selected.name === 'Secret Power' ) return 1; // 技「ひみつのちから」
+    if ( this.move.selected.name === 'Secret Power' ) return 1; // 技「ひみつのちから」
     if ( main.field.getSide( this.isMine() ).rainbow.isTrue ) return 2;
     else return 1;
   }
@@ -1716,10 +1698,10 @@ class Pokemon {
 
 
   getMaster(): PokemonData {
-    return pokemonMaster.filter( p => p.nameEN === this._name )[0];
+    return pokemonMaster.filter( p => p.nameEN === this.name )[0];
   }
   getNatureMaster(): NatureData {
-    return natureMaster.filter( n => n.nameEN === this._nature )[0];
+    return natureMaster.filter( n => n.nameEN === this.nature )[0];
   }
 
   getWeight(): number {
@@ -1727,10 +1709,10 @@ class Pokemon {
     let weight = master.weight;
 
     // ボディパージ
-    if ( this._ability.isName( 'Light Metal' ) ) { // 特性「ライトメタル」
+    if ( this.ability.isName( 'Light Metal' ) ) { // 特性「ライトメタル」
       weight = weight / 2;
     }
-    if ( this._ability.isName( 'Heavy Metal' ) ) { // 特性「ヘヴィメタル」
+    if ( this.ability.isName( 'Heavy Metal' ) ) { // 特性「ヘヴィメタル」
       weight = weight * 2;
     }
     if ( this.isItem( 'かるいし' ) ) {
@@ -1742,20 +1724,20 @@ class Pokemon {
 
 
   isContact(): boolean {
-    return this._move.selected.getMaster().contact && !this._ability.isName( 'Long Reach' ); // 特性「えんかく」
+    return this.move.selected.getMaster().contact && !this.ability.isName( 'Long Reach' ); // 特性「えんかく」
   }
 
   isGround(): boolean {
-    if ( this._stateChange.ingrain.isTrue === true ) return true;
-    if ( this._stateChange.smackDown.isTrue === true ) return true;
+    if ( this.stateChange.ingrain.isTrue === true ) return true;
+    if ( this.stateChange.smackDown.isTrue === true ) return true;
     if ( main.field.whole.gravity.isTrue === true ) return true;
     if ( this.isItem( 'くろいてっきゅう' ) ) return true;
 
-    if ( this._type.has( 'Flying' ) ) return false;
-    if ( this._ability.isName( 'Levitate' ) ) return false; // 特性「ふゆう」
+    if ( this.type.has( 'Flying' ) ) return false;
+    if ( this.ability.isName( 'Levitate' ) ) return false; // 特性「ふゆう」
     if ( this.isItem( 'ふうせん' ) ) return false;
-    if ( this._stateChange.magnetRise.isTrue ) return false;
-    if ( this._stateChange.telekinesis.isTrue ) return false;
+    if ( this.stateChange.magnetRise.isTrue ) return false;
+    if ( this.stateChange.telekinesis.isTrue ) return false;
 
     return true;
   }
