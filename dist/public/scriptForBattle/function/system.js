@@ -49,7 +49,7 @@ function getOneAtRandom(array) {
     return array[index];
 }
 // 画面出力
-function outputScreen() {
+function outputScreen(me, opp) {
     // ログ表示
     battleLog.output();
     // 選出されたポケモンの情報・表示
@@ -57,5 +57,13 @@ function outputScreen() {
         pokemon.showHandInfo();
     }
     // コマンド欄の表示
+    if (me && !opp) {
+        main.me.showCommandOnlyMe();
+        return;
+    }
+    if (!me && opp) {
+        main.me.showCommandOnlyOpp();
+        return;
+    }
     main.me.showCommand1stField();
 }

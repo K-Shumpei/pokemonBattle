@@ -3,6 +3,14 @@ class Main {
   opp = new Player( false );
   field = new Field();
 
+  getHostPlayer( host: boolean ): Player {
+    if ( this.me.host === host ) {
+      return this.me;
+    } else {
+      return this.opp;
+    }
+  }
+
   setHost( host: boolean ): void {
     this.me.setHost( host );
     this.opp.setHost( !host );
@@ -160,9 +168,10 @@ class Main {
 }
 
 class Player {
+  host: boolean = false;
   party: Pokemon[];
   pokemon: Pokemon[] = [];
-  extraCommand: boolean = false;
+  extraCommand: { party: number, battle: number }[] = []
 
   constructor( isMe: boolean ) {
     this.party = [
@@ -176,9 +185,15 @@ class Player {
   }
 
   setHost( host: boolean ): void {
+    this.host = host;
     for ( const pokemon of this.pokemon ) {
       pokemon.order.host = host;
     }
+  }
+
+  setExtraCommand( order: Order ): void {
+    if ( order.battle === null ) return;
+    this.extraCommand.push( { party: order.party, battle: order.battle } );
   }
 
   showHandInfo(): void {
@@ -221,14 +236,20 @@ class Player {
     // 控え
     const reserve: Pokemon[] = this.pokemon.filter( poke => poke.order.battle === null && !poke.status.hp.value.isZero() );
 
-    for ( let i = 0; i < this.pokemon.length; i++ ) {
+    for ( let i = 0; i < this.extraCommand.length; i++ ) {
+      // 技・控え
+      getHTMLInputElement( 'command1st_' + i ).style.visibility = 'visible';
       for ( let j = 0; j < reserve.length; j++ ) {
         if ( reserve[j].name === null ) continue;
+        if ( reserve[j].order.party === this.extraCommand[0].party ) continue;
         getHTMLInputElement( 'reserveRadio_' + i + '_' + j ).disabled = false;
         getHTMLInputElement( 'reserveText_' + i + '_' + j ).textContent = reserve[j].translateName( String( reserve[j].name ) );
         getHTMLInputElement( 'reserveText_' + i + '_' + j ).value = String( reserve[j].order.party );
       }
     }
+  }
+
+  showCommandOnlyOpp(): void {
   }
 
   isExcangable(): boolean {

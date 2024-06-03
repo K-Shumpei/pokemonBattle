@@ -19,7 +19,7 @@ function pokemonAction(): void {
     // 技の効果
     moveEffect( pokemon );
 
-    if ( main.me.extraCommand || main.opp.extraCommand ) {
+    if ( main.me.extraCommand.length > 0 || main.opp.extraCommand.length > 0 ) {
       break;
     }
   }

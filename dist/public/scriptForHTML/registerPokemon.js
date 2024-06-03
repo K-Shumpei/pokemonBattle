@@ -1,49 +1,25 @@
 "use strict";
 class RegisterValue {
     constructor() {
-        this._av = 0;
-        this._bs = 0;
-        this._iv = 31;
-        this._ev = 0;
-    }
-    set av(val) {
-        this._av = val;
-    }
-    set bs(val) {
-        this._bs = val;
-    }
-    set iv(val) {
-        this._iv = val;
-    }
-    set ev(val) {
-        this._ev = val;
-    }
-    get av() {
-        return this._av;
-    }
-    get bs() {
-        return this._bs;
-    }
-    get iv() {
-        return this._iv;
-    }
-    get ev() {
-        return this._ev;
+        this.av = 0; // 実数値
+        this.bs = 0; // 種族値
+        this.iv = 31; // 個体値
+        this.ev = 0; // 努力値
     }
     show(para) {
-        getHTMLInputElement('register_' + para + 'ActualValue').value = String(this._av);
-        getHTMLInputElement('register_' + para + 'BaseStatus').textContent = String(this._bs);
-        getHTMLInputElement('register_' + para + 'IndividualValue').value = String(this._iv);
-        getHTMLInputElement('register_' + para + 'EffortValue').value = String(this._ev);
+        getHTMLInputElement('register_' + para + 'ActualValue').value = String(this.av);
+        getHTMLInputElement('register_' + para + 'BaseStatus').textContent = String(this.bs);
+        getHTMLInputElement('register_' + para + 'IndividualValue').value = String(this.iv);
+        getHTMLInputElement('register_' + para + 'EffortValue').value = String(this.ev);
     }
     getAV(para) {
         return Number(getHTMLInputElement('register_' + para + 'ActualValue').value);
     }
     copy(stat) {
-        this._av = stat.av;
-        this._bs = stat.bs;
-        this._iv = stat.iv;
-        this._ev = stat.ev;
+        this.av = stat.av;
+        this.bs = stat.bs;
+        this.iv = stat.iv;
+        this.ev = stat.ev;
     }
 }
 class RegisterHitPoint extends RegisterValue {
@@ -51,14 +27,14 @@ class RegisterHitPoint extends RegisterValue {
         super();
     }
     calcAct(level) {
-        const step1 = this._bs * 2 + this._iv + Math.floor(this._ev / 4);
+        const step1 = this.bs * 2 + this.iv + Math.floor(this.ev / 4);
         const step2 = step1 * level;
-        this._av = Math.floor(step2 / 100) + level + 10;
+        this.av = Math.floor(step2 / 100) + level + 10;
     }
     calcEffort(para, level) {
         const step3 = this.getAV(para) - level - 10;
         const step2 = 100 * step3 / level;
-        const step1 = Math.ceil(step2 - 2 * this._bs - this._iv);
+        const step1 = Math.ceil(step2 - 2 * this.bs - this.iv);
         let result = Math.max(0, 4 * step1);
         return Math.min(252, result);
     }
@@ -68,77 +44,59 @@ class RegisterFiveStatus extends RegisterValue {
         super();
     }
     calcAct(level, corr) {
-        const step1 = this._bs * 2 + this._iv + Math.floor(this._ev / 4);
+        const step1 = this.bs * 2 + this.iv + Math.floor(this.ev / 4);
         const step2 = step1 * level;
         const step3 = Math.floor(step2 / 100);
-        this._av = Math.floor((step3 + 5) * corr);
+        this.av = Math.floor((step3 + 5) * corr);
     }
     calcEffort(para, level, corr) {
         const step3 = Math.ceil(this.getAV(para) / corr - 5);
         const step2 = 100 * step3 / level;
-        const step1 = Math.ceil(step2 - 2 * this._bs - this._iv);
+        const step1 = Math.ceil(step2 - 2 * this.bs - this.iv);
         let result = Math.max(0, 4 * step1);
         return Math.min(252, result);
     }
 }
 class RegisterStatus {
     constructor() {
-        this._hp = new RegisterHitPoint();
-        this._atk = new RegisterFiveStatus();
-        this._def = new RegisterFiveStatus();
-        this._spA = new RegisterFiveStatus();
-        this._spD = new RegisterFiveStatus();
-        this._spe = new RegisterFiveStatus();
-    }
-    get hp() {
-        return this._hp;
-    }
-    get atk() {
-        return this._atk;
-    }
-    get def() {
-        return this._def;
-    }
-    get spA() {
-        return this._spA;
-    }
-    get spD() {
-        return this._spD;
-    }
-    get spe() {
-        return this._spe;
+        this.hp = new RegisterHitPoint();
+        this.atk = new RegisterFiveStatus();
+        this.def = new RegisterFiveStatus();
+        this.spA = new RegisterFiveStatus();
+        this.spD = new RegisterFiveStatus();
+        this.spe = new RegisterFiveStatus();
     }
     setMaster(master) {
-        this._hp.bs = master.baseStatus.hp;
-        this._atk.bs = master.baseStatus.atk;
-        this._def.bs = master.baseStatus.def;
-        this._spA.bs = master.baseStatus.spA;
-        this._spD.bs = master.baseStatus.spD;
-        this._spe.bs = master.baseStatus.spe;
+        this.hp.bs = master.baseStatus.hp;
+        this.atk.bs = master.baseStatus.atk;
+        this.def.bs = master.baseStatus.def;
+        this.spA.bs = master.baseStatus.spA;
+        this.spD.bs = master.baseStatus.spD;
+        this.spe.bs = master.baseStatus.spe;
     }
     show() {
-        this._hp.show('hitPoint');
-        this._atk.show('attack');
-        this._def.show('defense');
-        this._spA.show('specialAttack');
-        this._spD.show('specialDefense');
-        this._spe.show('speed');
+        this.hp.show('hitPoint');
+        this.atk.show('attack');
+        this.def.show('defense');
+        this.spA.show('specialAttack');
+        this.spD.show('specialDefense');
+        this.spe.show('speed');
     }
     setIVs() {
-        this._hp.iv = Number(getHTMLInputElement('register_hitPointIndividualValue').value);
-        this._atk.iv = Number(getHTMLInputElement('register_attackIndividualValue').value);
-        this._def.iv = Number(getHTMLInputElement('register_defenseIndividualValue').value);
-        this._spA.iv = Number(getHTMLInputElement('register_specialAttackIndividualValue').value);
-        this._spD.iv = Number(getHTMLInputElement('register_specialDefenseIndividualValue').value);
-        this._spe.iv = Number(getHTMLInputElement('register_speedIndividualValue').value);
+        this.hp.iv = Number(getHTMLInputElement('register_hitPointIndividualValue').value);
+        this.atk.iv = Number(getHTMLInputElement('register_attackIndividualValue').value);
+        this.def.iv = Number(getHTMLInputElement('register_defenseIndividualValue').value);
+        this.spA.iv = Number(getHTMLInputElement('register_specialAttackIndividualValue').value);
+        this.spD.iv = Number(getHTMLInputElement('register_specialDefenseIndividualValue').value);
+        this.spe.iv = Number(getHTMLInputElement('register_speedIndividualValue').value);
     }
     isChangableAV(level, nature) {
-        const hp = this._hp.calcEffort('hitPoint', level);
-        const atk = this._atk.calcEffort('attack', level, nature.atk);
-        const def = this._def.calcEffort('defense', level, nature.def);
-        const spA = this._spA.calcEffort('specialAttack', level, nature.spA);
-        const spD = this._spD.calcEffort('specialDefense', level, nature.spD);
-        const spe = this._spe.calcEffort('speed', level, nature.spe);
+        const hp = this.hp.calcEffort('hitPoint', level);
+        const atk = this.atk.calcEffort('attack', level, nature.atk);
+        const def = this.def.calcEffort('defense', level, nature.def);
+        const spA = this.spA.calcEffort('specialAttack', level, nature.spA);
+        const spD = this.spD.calcEffort('specialDefense', level, nature.spD);
+        const spe = this.spe.calcEffort('speed', level, nature.spe);
         return hp + atk + def + spA + spD + spe <= 510;
     }
     isChangableEV() {
@@ -153,30 +111,30 @@ class RegisterStatus {
     setEVs() {
         if (!this.isChangableEV())
             return;
-        this._hp.ev = Number(getHTMLInputElement('register_hitPointEffortValue').value);
-        this._atk.ev = Number(getHTMLInputElement('register_attackEffortValue').value);
-        this._def.ev = Number(getHTMLInputElement('register_defenseEffortValue').value);
-        this._spA.ev = Number(getHTMLInputElement('register_specialAttackEffortValue').value);
-        this._spD.ev = Number(getHTMLInputElement('register_specialDefenseEffortValue').value);
-        this._spe.ev = Number(getHTMLInputElement('register_speedEffortValue').value);
+        this.hp.ev = Number(getHTMLInputElement('register_hitPointEffortValue').value);
+        this.atk.ev = Number(getHTMLInputElement('register_attackEffortValue').value);
+        this.def.ev = Number(getHTMLInputElement('register_defenseEffortValue').value);
+        this.spA.ev = Number(getHTMLInputElement('register_specialAttackEffortValue').value);
+        this.spD.ev = Number(getHTMLInputElement('register_specialDefenseEffortValue').value);
+        this.spe.ev = Number(getHTMLInputElement('register_speedEffortValue').value);
     }
     setAVs(level, nature) {
         if (!this.isChangableAV(level, nature))
             return;
-        this._hp.ev = this._hp.calcEffort('hitPoint', level);
-        this._atk.ev = this._atk.calcEffort('attack', level, nature.atk);
-        this._def.ev = this._def.calcEffort('defense', level, nature.def);
-        this._spA.ev = this._spA.calcEffort('specialAttack', level, nature.spA);
-        this._spD.ev = this._spD.calcEffort('specialDefense', level, nature.spD);
-        this._spe.ev = this._spe.calcEffort('speed', level, nature.spe);
+        this.hp.ev = this.hp.calcEffort('hitPoint', level);
+        this.atk.ev = this.atk.calcEffort('attack', level, nature.atk);
+        this.def.ev = this.def.calcEffort('defense', level, nature.def);
+        this.spA.ev = this.spA.calcEffort('specialAttack', level, nature.spA);
+        this.spD.ev = this.spD.calcEffort('specialDefense', level, nature.spD);
+        this.spe.ev = this.spe.calcEffort('speed', level, nature.spe);
     }
     copy(stat) {
-        this._hp.copy(stat.hp);
-        this._atk.copy(stat.atk);
-        this._def.copy(stat.def);
-        this._spA.copy(stat.spA);
-        this._spD.copy(stat.spD);
-        this._spe.copy(stat.spe);
+        this.hp.copy(stat.hp);
+        this.atk.copy(stat.atk);
+        this.def.copy(stat.def);
+        this.spA.copy(stat.spA);
+        this.spD.copy(stat.spD);
+        this.spe.copy(stat.spe);
     }
 }
 class RegisterMove {
@@ -282,7 +240,7 @@ class RegisterMoveList {
             blunk.textContent = '';
             moveHTML.appendChild(blunk);
             // ポケモンが覚える技
-            for (const move of master.move) {
+            for (const move of master.move.sort()) {
                 const option = document.createElement('option');
                 option.value = this.translate(move);
                 option.textContent = this.translate(move);

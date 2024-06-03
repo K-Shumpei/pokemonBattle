@@ -52,7 +52,7 @@ function getOneAtRandom( array: any[] ): any {
 }
 
 // 画面出力
-function outputScreen(): void {
+function outputScreen( me: boolean, opp: boolean ): void {
   // ログ表示
   battleLog.output();
 
@@ -60,6 +60,16 @@ function outputScreen(): void {
   for ( const pokemon of main.me.pokemon ) {
     pokemon.showHandInfo();
   }
+
   // コマンド欄の表示
+  if ( me && !opp ) {
+    main.me.showCommandOnlyMe();
+    return;
+  }
+  if ( !me && opp ) {
+    main.me.showCommandOnlyOpp();
+    return;
+  }
+
   main.me.showCommand1stField();
 }

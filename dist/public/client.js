@@ -156,40 +156,7 @@ function sendCommand() {
     }
     // 送信
     socket.emit('sendCommand', myCommand);
-    // 送信ボタンの非活性化
-    getHTMLInputElement('sendCommandButton').disabled = true;
-    // コマンドボタンの非活性化
-    for (let i = 0; i < fieldStatus.battleStyle; i++) {
-        // 技
-        for (let j = 0; j < 4; j++) {
-            getHTMLInputElement('moveRadio_' + i + '_' + j).checked = false;
-            getHTMLInputElement('moveRadio_' + i + '_' + j).disabled = true;
-            getHTMLInputElement('moveText_' + i + '_' + j).textContent = null;
-        }
-        // 控え
-        for (let j = 0; j < 3; j++) {
-            getHTMLInputElement('reserveRadio_' + i + '_' + j).checked = false;
-            getHTMLInputElement('reserveRadio_' + i + '_' + j).disabled = true;
-            getHTMLInputElement('reserveText_' + i + '_' + j).textContent = null;
-            getHTMLInputElement('reserveText_' + i + '_' + j).value = "";
-        }
-        // 攻撃対象：相手の場
-        for (let j = 0; j < 3; j++) {
-            getHTMLInputElement('opponentTargetRadio_' + i + '_' + j).checked = false;
-            getHTMLInputElement('opponentTargetRadio_' + i + '_' + j).disabled = true;
-            getHTMLInputElement('opponentTargetText_' + i + '_' + j).textContent = null;
-        }
-        // 攻撃対象：自分の場
-        for (let j = 0; j < 2; j++) {
-            getHTMLInputElement('myTargetRadio_' + i + '_' + j).checked = false;
-            getHTMLInputElement('myTargetRadio_' + i + '_' + j).disabled = true;
-            getHTMLInputElement('myTargetText_' + i + '_' + j).textContent = null;
-        }
-        // 技・控え
-        getHTMLInputElement('command1st_' + i).style.visibility = 'collapse';
-        // 攻撃対象
-        getHTMLInputElement('command2nd_' + i).style.visibility = 'collapse';
-    }
+    buttonDisable();
 }
 // コマンド返還
 socket.on('returnCommand', (myCommand, opponentCommand, random) => {
@@ -228,12 +195,108 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
     actionBeforeTurn();
     // 4. ポケモンの行動
     pokemonAction();
-    if (main.me.extraCommand) {
-        main.getPlayer(true).showCommandOnlyMe();
+    if (main.me.extraCommand.length > 0 || main.opp.extraCommand.length > 0) {
+        console.log('exchange');
+        outputScreen(main.me.extraCommand.length > 0, main.opp.extraCommand.length > 0);
         return;
     }
     // 5. ターン終了時の効果
     endProcess();
     // 画面出力
-    outputScreen();
+    outputScreen(true, true);
 });
+// 途中交代コマンド送信
+function sendExtraCommand() {
+    const myCommand = new ExtraCommand();
+    myCommand.isCommand = {
+        host: main.getHostPlayer(true).extraCommand.length > 0,
+        guest: main.getHostPlayer(false).extraCommand.length > 0,
+    };
+    for (let i = 0; i < main.me.extraCommand.length; i++) {
+        // 控え
+        for (let j = 0; j < 3; j++) {
+            const reserveRadio = getHTMLInputElement('reserveRadio_' + i + '_' + j);
+            if (reserveRadio.checked) {
+                // 控えのパーティNoを取得
+                myCommand.command.push({
+                    party: Number(getHTMLInputElement('reserveText_' + i + '_' + j).value),
+                    battle: main.me.extraCommand[i].battle
+                });
+            }
+        }
+    }
+    // 送信
+    socket.emit('sendExtraCommand', myCommand);
+    buttonDisable();
+}
+// コマンド返還
+socket.on('returnExtraCommand', (myCommand, opponentCommand, random) => {
+    for (const myCom of myCommand.command) {
+        for (const pokemon of main.me.pokemon) {
+            if (pokemon.order.party === myCom.party) {
+                pokemon.toBattleField(myCom.battle);
+            }
+        }
+    }
+    for (const oppCom of opponentCommand.command) {
+        for (const pokemon of main.opp.pokemon) {
+            if (pokemon.order.party === oppCom.party) {
+                pokemon.toBattleField(oppCom.battle);
+            }
+        }
+    }
+    main.me.extraCommand = [];
+    main.opp.extraCommand = [];
+    // 乱数リセット
+    randomList = [];
+    for (const number of random) {
+        randomList.push(number);
+    }
+    // ターンの流れ
+    // 4. ポケモンの行動
+    pokemonAction();
+    if (main.me.extraCommand.length > 0 || main.opp.extraCommand.length > 0) {
+        outputScreen(main.me.extraCommand.length > 0, main.opp.extraCommand.length > 0);
+        return;
+    }
+    // 5. ターン終了時の効果
+    endProcess();
+    // 画面出力
+    outputScreen(main.me.extraCommand.length > 0, main.opp.extraCommand.length > 0);
+});
+function buttonDisable() {
+    // 送信ボタンの非活性化
+    getHTMLInputElement('sendCommandButton').disabled = true;
+    // コマンドボタンの非活性化
+    for (let i = 0; i < fieldStatus.battleStyle; i++) {
+        // 技
+        for (let j = 0; j < 4; j++) {
+            getHTMLInputElement('moveRadio_' + i + '_' + j).checked = false;
+            getHTMLInputElement('moveRadio_' + i + '_' + j).disabled = true;
+            getHTMLInputElement('moveText_' + i + '_' + j).textContent = null;
+        }
+        // 控え
+        for (let j = 0; j < 3; j++) {
+            getHTMLInputElement('reserveRadio_' + i + '_' + j).checked = false;
+            getHTMLInputElement('reserveRadio_' + i + '_' + j).disabled = true;
+            getHTMLInputElement('reserveText_' + i + '_' + j).textContent = null;
+            getHTMLInputElement('reserveText_' + i + '_' + j).value = "";
+        }
+        // 攻撃対象：相手の場
+        for (let j = 0; j < 3; j++) {
+            getHTMLInputElement('opponentTargetRadio_' + i + '_' + j).checked = false;
+            getHTMLInputElement('opponentTargetRadio_' + i + '_' + j).disabled = true;
+            getHTMLInputElement('opponentTargetText_' + i + '_' + j).textContent = null;
+        }
+        // 攻撃対象：自分の場
+        for (let j = 0; j < 2; j++) {
+            getHTMLInputElement('myTargetRadio_' + i + '_' + j).checked = false;
+            getHTMLInputElement('myTargetRadio_' + i + '_' + j).disabled = true;
+            getHTMLInputElement('myTargetText_' + i + '_' + j).textContent = null;
+        }
+        // 技・控え
+        getHTMLInputElement('command1st_' + i).style.visibility = 'collapse';
+        // 攻撃対象
+        getHTMLInputElement('command2nd_' + i).style.visibility = 'collapse';
+    }
+}

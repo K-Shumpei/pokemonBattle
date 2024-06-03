@@ -18,45 +18,22 @@ httpServer.listen(PORT, () => {
 });
 class PlayerInfo {
     constructor() {
-        this._socketID = '';
-        this._party = [];
+        this.socketID = '';
+        this.party = [];
     }
-    set socketID(socketID) {
-        this._socketID = socketID;
-    }
-    set party(party) {
-        this._party = party;
-    }
-    get socketID() {
-        return this._socketID;
-    }
-    get party() {
-        return this._party;
+}
+class ExtraCommand {
+    constructor() {
+        this.command = [];
+        this.isCommand = { host: false, guest: false };
     }
 }
 class BattlePlayerInfo {
     constructor() {
-        this._socketID = '';
-        this._battleOrder = [];
-        this._command = [];
-    }
-    set socketID(socketID) {
-        this._socketID = socketID;
-    }
-    set battleOrder(battleOrder) {
-        this._battleOrder = battleOrder;
-    }
-    set command(command) {
-        this._command = command;
-    }
-    get socketID() {
-        return this._socketID;
-    }
-    get battleOrder() {
-        return this._battleOrder;
-    }
-    get command() {
-        return this._command;
+        this.socketID = '';
+        this.battleOrder = [];
+        this.command = [];
+        this.extraCommand = new ExtraCommand();
     }
 }
 const waitingRoom = [
@@ -142,6 +119,46 @@ io.on("connection", (socket) => {
                 // コマンドリセット
                 room.player1.command = [];
                 room.player2.command = [];
+            }
+        }
+    });
+    // 途中交代コマンド受信
+    socket.on('sendExtraCommand', (command) => {
+        const generateRandom = () => {
+            const randomList = [];
+            for (let i = 0; i < 1000; i++) {
+                randomList.push(Math.floor(Math.random() * 100));
+            }
+            return randomList;
+        };
+        for (const room of battleRoom) {
+            if (room.player1.socketID === socket.id) {
+                room.player1.extraCommand = command;
+                if (!command.isCommand.guest) {
+                    io.to(room.player1.socketID).emit('returnExtraCommand', room.player1.extraCommand, room.player2.extraCommand, generateRandom());
+                    io.to(room.player2.socketID).emit('returnExtraCommand', room.player2.extraCommand, room.player1.extraCommand, generateRandom());
+                    room.player1.extraCommand = new ExtraCommand();
+                    room.player2.extraCommand = new ExtraCommand();
+                    return;
+                }
+            }
+            if (room.player2.socketID === socket.id) {
+                room.player2.extraCommand = command;
+                if (!command.isCommand.host) {
+                    io.to(room.player1.socketID).emit('returnExtraCommand', room.player1.extraCommand, room.player2.extraCommand, generateRandom());
+                    io.to(room.player2.socketID).emit('returnExtraCommand', room.player2.extraCommand, room.player1.extraCommand, generateRandom());
+                    room.player1.extraCommand = new ExtraCommand();
+                    room.player2.extraCommand = new ExtraCommand();
+                    return;
+                }
+            }
+            // コマンド送信
+            if (room.player1.extraCommand.command.length > 0 && room.player2.extraCommand.command.length > 0) {
+                io.to(room.player1.socketID).emit('returnExtraCommand', room.player1.extraCommand, room.player2.extraCommand, generateRandom());
+                io.to(room.player2.socketID).emit('returnExtraCommand', room.player2.extraCommand, room.player1.extraCommand, generateRandom());
+                // コマンドリセット
+                room.player1.extraCommand = new ExtraCommand();
+                room.player2.extraCommand = new ExtraCommand();
             }
         }
     });

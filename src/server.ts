@@ -8,6 +8,7 @@ interface ServerToClientEvents {
   selectPokemon: ( party: Pokemon[], host: boolean ) => void;
   sendOrder: ( myOrder: number[], opponentOrder: number[] ) => void;
   returnCommand: ( myCommand: Command[], opponentCommand: Command[], randomList: number[] ) => void;
+  returnExtraCommand: ( myCommand: ExtraCommand, opponentCommand: ExtraCommand, randomList: number[] ) => void;
 }
 
 interface ClientToServerEvents {
@@ -15,6 +16,7 @@ interface ClientToServerEvents {
   findOpponent: ( myParty: Pokemon[], battleStyle: number ) => void;
   decideOrder: ( order: number[] ) => void;
   sendCommand: ( myCommand: Command[] ) => void;
+  sendExtraCommand: ( myCommand: ExtraCommand ) => void;
 }
 
 
@@ -34,59 +36,20 @@ httpServer.listen( PORT, () => {
 
 
 class PlayerInfo {
-  _socketID: string;
-  _party: Pokemon[];
+  socketID: string = '';
+  party: Pokemon[] = [];
+}
 
-  constructor() {
-    this._socketID = '';
-    this._party = [];
-  }
-
-  set socketID( socketID: string ) {
-    this._socketID = socketID;
-  }
-  set party( party: Pokemon[] ) {
-    this._party = party;
-  }
-
-  get socketID(): string {
-    return this._socketID;
-  }
-  get party(): Pokemon[] {
-    return this._party;
-  }
+class ExtraCommand {
+  command: { party: number, battle: number }[] = [];
+  isCommand: { host: boolean, guest: boolean } = { host: false, guest: false };
 }
 
 class BattlePlayerInfo {
-  _socketID: string;
-  _battleOrder: number[];
-  _command: Command[];
-
-  constructor() {
-    this._socketID = '';
-    this._battleOrder = []
-    this._command = [];
-  }
-
-  set socketID( socketID: string ) {
-    this._socketID = socketID;
-  }
-  set battleOrder( battleOrder: number[] ) {
-    this._battleOrder = battleOrder;
-  }
-  set command( command: Command[] ) {
-    this._command = command;
-  }
-
-  get socketID(): string {
-    return this._socketID;
-  }
-  get battleOrder(): number[] {
-    return this._battleOrder;
-  }
-  get command(): Command[] {
-    return this._command;
-  }
+  socketID: string = '';
+  battleOrder: number[] = [];
+  command: Command[] = [];
+  extraCommand = new ExtraCommand();
 }
 
 type RoomType = {
@@ -206,6 +169,55 @@ io.on("connection", (socket) => {
       }
 
 
+    }
+  });
+
+  // 途中交代コマンド受信
+  socket.on( 'sendExtraCommand', ( command: ExtraCommand ) => {
+
+    const generateRandom = (): number[] => {
+      const randomList: number[] = [];
+      for ( let i = 0; i < 1000; i++ ) {
+        randomList.push( Math.floor( Math.random() * 100 ) )
+      }
+      return randomList;
+    }
+
+    for ( const room of battleRoom ) {
+      if ( room.player1.socketID === socket.id ) {
+        room.player1.extraCommand = command;
+
+        if ( !command.isCommand.guest ) {
+          io.to( room.player1.socketID ).emit( 'returnExtraCommand', room.player1.extraCommand, room.player2.extraCommand, generateRandom() );
+          io.to( room.player2.socketID ).emit( 'returnExtraCommand', room.player2.extraCommand, room.player1.extraCommand, generateRandom() );
+          room.player1.extraCommand = new ExtraCommand();
+          room.player2.extraCommand = new ExtraCommand();
+          return;
+        }
+      }
+
+      if ( room.player2.socketID === socket.id ) {
+        room.player2.extraCommand = command;
+
+        if ( !command.isCommand.host ) {
+          io.to( room.player1.socketID ).emit( 'returnExtraCommand', room.player1.extraCommand, room.player2.extraCommand, generateRandom() );
+          io.to( room.player2.socketID ).emit( 'returnExtraCommand', room.player2.extraCommand, room.player1.extraCommand, generateRandom() );
+          room.player1.extraCommand = new ExtraCommand();
+          room.player2.extraCommand = new ExtraCommand();
+          return;
+        }
+      }
+
+      // コマンド送信
+      if ( room.player1.extraCommand.command.length > 0 && room.player2.extraCommand.command.length > 0 ) {
+
+        io.to( room.player1.socketID ).emit( 'returnExtraCommand', room.player1.extraCommand, room.player2.extraCommand, generateRandom() );
+        io.to( room.player2.socketID ).emit( 'returnExtraCommand', room.player2.extraCommand, room.player1.extraCommand, generateRandom() );
+
+        // コマンドリセット
+        room.player1.extraCommand = new ExtraCommand();
+        room.player2.extraCommand = new ExtraCommand();
+      }
     }
   });
 });

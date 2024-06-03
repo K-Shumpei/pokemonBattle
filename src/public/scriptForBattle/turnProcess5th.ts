@@ -1,6 +1,13 @@
 function endProcess(): void {
 
+  console.log('end')
+
   main.calcSpeed();
+
+  main.me.pokemon.map( poke => poke.attack.reset() );
+  main.opp.pokemon.map( poke => poke.attack.reset() );
+
+  console.log(main.me.pokemon[0].attack)
 
   endProcessWeatherEffect(); // てんきの効果
   // ききかいひ/にげごしによる交代先の選択・繰り出し (1)

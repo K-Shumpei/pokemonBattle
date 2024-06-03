@@ -2,8 +2,7 @@ function moveEffect( pokemon: Pokemon ): void {
 
   // 範囲攻撃技
   const isRange = ( pokemon: Pokemon ): boolean => {
-    return pokemon.move.selected.getMaster().target === 'all-opponents'
-      || pokemon.move.selected.getMaster().target === 'all-other-pokemon';
+    return pokemon.attack.list.length > 1;
   }
 
   if ( !pokemon.move.selected.isStatus() ) {
@@ -19,6 +18,7 @@ function moveEffect( pokemon: Pokemon ): void {
 
 
     if ( isRange( pokemon ) ) {
+      console.log('range')
       // ダメージを本体に与える
       damageToBody( pokemon, pokemon.isMine() );
       // バツグンの相性判定のメッセージ
@@ -38,6 +38,7 @@ function moveEffect( pokemon: Pokemon ): void {
       // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
       activateSealedEffects( pokemon, pokemon.isMine(), isRange( pokemon ) );
     }
+    console.log('damage')
     // ダメージを本体に与える
     damageToBody( pokemon, !pokemon.isMine() );
     // バツグンの相性判定のメッセージ
@@ -2014,8 +2015,8 @@ function toHandByAttack( pokemon: Pokemon ): void {
     case 'U-turn':      // 技「とんぼがえり」
     case 'Volt Switch': // 技「ボルトチェンジ」
     case 'Flip Turn':   // 技「クイックターン」
+      main.getPlayer( pokemon.isMine() ).setExtraCommand( pokemon.order );
       pokemon.toHand();
-      main.getPlayer( pokemon.isMine() ).extraCommand = true;
       break;
 
     default:

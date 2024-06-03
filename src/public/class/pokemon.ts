@@ -194,38 +194,34 @@ class Attack {
 }
 
 class AttackList {
-  _list: Attack[];
-
-  constructor() {
-    this._list = [];
-  }
+  list: Attack[] = [];
 
   reset(): void {
-    this._list = [];
+    this.list = [];
   }
   setField(): void {
     const attack = new Attack( true, false, 0 );
-    this._list.push( attack );
+    this.list.push( attack );
   }
   setPokemon( isMe: boolean, battle: number ): void {
     if ( !main.isExistByBattle( isMe, battle ) ) return;
     const attack = new Attack( false, isMe, battle );
-    this._list.push( attack );
+    this.list.push( attack );
   }
   getTarget(): Attack[] {
-    return this._list;
+    return this.list;
   }
   getValidTarget(): Attack[] {
-    return this._list.filter( l => l.success );
+    return this.list.filter( l => l.success );
   }
   getTargetToPokemon(): Attack[] {
-    return this._list.filter( l => l.success && !l.isField() );
+    return this.list.filter( l => l.success && !l.isField() );
   }
   getTargetToField(): Attack[] {
-    return this._list.filter( l => l.success && l.isField() );
+    return this.list.filter( l => l.success && l.isField() );
   }
   isFailure(): boolean {
-    return !this._list.some( t => t.success );
+    return !this.list.some( t => t.success );
   }
 }
 
@@ -241,6 +237,11 @@ class Command {
   isExchange(): boolean {
     return this.reserve !== null;
   }
+}
+
+class ExtraCommand {
+  command: { party: number, battle: number }[] = [];
+  isCommand: { host: boolean, guest: boolean } = { host: false, guest: false };
 }
 
 class StateChange {
@@ -494,6 +495,7 @@ class Pokemon {
 
   attack        = new AttackList();         // 攻撃情報
   command       = new Command();            // コマンド
+  exCommnad     = new ExtraCommand();       // 途中交代コマンド
   stateChange   = new StateChangeSummary(); // 状態変化
   statusAilment = new StatusAilment();      // 状態異常
   actionOrder   = new ActionOrder();        // 行動順
@@ -528,6 +530,7 @@ class Pokemon {
 
     this.attack = new AttackList();
     this.command = new Command();
+    this.exCommnad = new ExtraCommand();
     this.stateChange = new StateChangeSummary();
   }
 

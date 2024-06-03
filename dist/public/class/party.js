@@ -5,6 +5,14 @@ class Main {
         this.opp = new Player(false);
         this.field = new Field();
     }
+    getHostPlayer(host) {
+        if (this.me.host === host) {
+            return this.me;
+        }
+        else {
+            return this.opp;
+        }
+    }
     setHost(host) {
         this.me.setHost(host);
         this.opp.setHost(!host);
@@ -146,8 +154,9 @@ class Main {
 }
 class Player {
     constructor(isMe) {
+        this.host = false;
         this.pokemon = [];
-        this.extraCommand = false;
+        this.extraCommand = [];
         this.party = [
             new Pokemon(isMe, 0),
             new Pokemon(isMe, 1),
@@ -158,9 +167,15 @@ class Player {
         ];
     }
     setHost(host) {
+        this.host = host;
         for (const pokemon of this.pokemon) {
             pokemon.order.host = host;
         }
+    }
+    setExtraCommand(order) {
+        if (order.battle === null)
+            return;
+        this.extraCommand.push({ party: order.party, battle: order.battle });
     }
     showHandInfo() {
         for (const pokemon of this.pokemon) {
@@ -195,15 +210,21 @@ class Player {
         getHTMLInputElement('sendExtraCommandButton').disabled = false;
         // 控え
         const reserve = this.pokemon.filter(poke => poke.order.battle === null && !poke.status.hp.value.isZero());
-        for (let i = 0; i < this.pokemon.length; i++) {
+        for (let i = 0; i < this.extraCommand.length; i++) {
+            // 技・控え
+            getHTMLInputElement('command1st_' + i).style.visibility = 'visible';
             for (let j = 0; j < reserve.length; j++) {
                 if (reserve[j].name === null)
+                    continue;
+                if (reserve[j].order.party === this.extraCommand[0].party)
                     continue;
                 getHTMLInputElement('reserveRadio_' + i + '_' + j).disabled = false;
                 getHTMLInputElement('reserveText_' + i + '_' + j).textContent = reserve[j].translateName(String(reserve[j].name));
                 getHTMLInputElement('reserveText_' + i + '_' + j).value = String(reserve[j].order.party);
             }
         }
+    }
+    showCommandOnlyOpp() {
     }
     isExcangable() {
         return this.pokemon.filter(p => p.order.battle === null && !p.status.hp.value.isZero()).length > 0;

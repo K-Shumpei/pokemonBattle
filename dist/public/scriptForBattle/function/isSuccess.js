@@ -865,7 +865,7 @@ function disableByConcealment(pokemon) {
 }
 // サイコフィールドによる無効化
 function disableByPsychofield(pokemon) {
-    if (main.field.terrain.isPsychic())
+    if (!main.field.terrain.isPsychic())
         return false;
     if (pokemon.move.selected.priority <= 0)
         return false;

@@ -864,13 +864,9 @@ class TarShot extends StateChangeStatus {
 
 class Taunt extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 3, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
+    this.turn.setInitial( 3 );
     battleLog.write( `${pokemon.getArticle()}は 挑発に 乗ってしまった!` );
   }
 
