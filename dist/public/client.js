@@ -194,6 +194,7 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
     // 3. トレーナーの行動、ポケモンの行動順に関する行動
     actionBeforeTurn();
     // 4. ポケモンの行動
+    main.status = 4;
     pokemonAction();
     if (main.me.extraCommand.length > 0 || main.opp.extraCommand.length > 0) {
         console.log('exchange');
@@ -201,9 +202,11 @@ socket.on('returnCommand', (myCommand, opponentCommand, random) => {
         return;
     }
     // 5. ターン終了時の効果
+    main.status = 5;
     endProcess();
     // 画面出力
-    outputScreen(true, true);
+    main.status = 6;
+    outputScreen(main.me.extraCommand.length > 0, main.opp.extraCommand.length > 0);
 });
 // 途中交代コマンド送信
 function sendExtraCommand() {
@@ -254,15 +257,23 @@ socket.on('returnExtraCommand', (myCommand, opponentCommand, random) => {
     }
     // ターンの流れ
     // 4. ポケモンの行動
-    pokemonAction();
-    if (main.me.extraCommand.length > 0 || main.opp.extraCommand.length > 0) {
-        outputScreen(main.me.extraCommand.length > 0, main.opp.extraCommand.length > 0);
-        return;
+    if (main.status === 4) {
+        pokemonAction();
+        if (main.me.extraCommand.length > 0 || main.opp.extraCommand.length > 0) {
+            outputScreen(main.me.extraCommand.length > 0, main.opp.extraCommand.length > 0);
+            return;
+        }
+        main.status = 5;
     }
     // 5. ターン終了時の効果
-    endProcess();
+    if (main.status === 5) {
+        endProcess();
+        main.status = 6;
+    }
     // 画面出力
-    outputScreen(main.me.extraCommand.length > 0, main.opp.extraCommand.length > 0);
+    if (main.status === 6) {
+        outputScreen(main.me.extraCommand.length > 0, main.opp.extraCommand.length > 0);
+    }
 });
 function buttonDisable() {
     // 送信ボタンの非活性化

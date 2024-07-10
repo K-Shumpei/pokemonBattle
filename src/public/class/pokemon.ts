@@ -82,73 +82,33 @@ class ParameterSix {
 
 
 class Attack {
-  _field: boolean;
-  _isMe: boolean;
-  _battle: number;
-  _party: number;
-  _success: boolean;
-  _damage: number;
-  _effective: number;
-  _critical: boolean;
-  _substitute: boolean;
+  field: boolean;
+  isMe: boolean;
+  battle: number;
 
-  constructor( field: boolean, isMe: boolean, battle: number ) {
-    this._field = field;
-    this._isMe = isMe;
-    this._battle = battle;
-    this._party = 0;
-    this._success = true;
-    this._damage = 0;
-    this._effective = 0;
-    this._critical = false;
-    this._substitute = false;
+  party: number;
+  success: boolean = true;
+  damage: number = 0;
+  effective: number = 0;
+  critical: boolean = false;
+  substitute: boolean = false;
+  fainted: boolean = false;
+
+  constructor( field: boolean, isMe: boolean, battle: number, party: number ) {
+    this.field = field;
+    this.isMe = isMe;
+    this.battle = battle;
+    this.party = party;
   }
 
-  set success( success: boolean ) {
-    this._success = success;
-  }
-  set damage( damage: number ) {
-    this._damage = damage;
-  }
-  set critical( critical: boolean ) {
-    this._critical = critical;
-  }
-  set substitute( substitute: boolean ) {
-    this._substitute = substitute;
-  }
-
-  get isMe(): boolean {
-    return this._isMe;
-  }
-  get battle(): number {
-    return this._battle;
-  }
-  get party(): number {
-    return this._party;
-  }
-  get success(): boolean {
-    return this._success;
-  }
-  get damage(): number {
-    return this._damage;
-  }
-  get effective(): number {
-    return this._effective;
-  }
-  get critical(): boolean {
-    return this._critical;
-  }
-  get substitute(): boolean {
-    return this._substitute;
-  }
 
   failure(): void {
-    this._success === false;
+    this.success === false;
     battleLog.write( `しかし うまく決まらなかった...` );
   }
 
   isField(): boolean {
-    return this._field;
+    return this.field;
   }
 
   calcEffective( move: SelectedMove, target: Pokemon ): void {
@@ -184,11 +144,11 @@ class Attack {
     }
 
     if ( move.type === null ) return;
-    this._effective = calcRate( move, target );
+    this.effective = calcRate( move, target );
   }
 
   isNotEffective(): boolean {
-    return this._effective === 0;
+    return this.effective === 0;
   }
 
 }
@@ -200,12 +160,12 @@ class AttackList {
     this.list = [];
   }
   setField(): void {
-    const attack = new Attack( true, false, 0 );
+    const attack = new Attack( true, false, 0, 0 );
     this.list.push( attack );
   }
-  setPokemon( isMe: boolean, battle: number ): void {
+  setPokemon( isMe: boolean, battle: number, party: number ): void {
     if ( !main.isExistByBattle( isMe, battle ) ) return;
-    const attack = new Attack( false, isMe, battle );
+    const attack = new Attack( false, isMe, battle, party );
     this.list.push( attack );
   }
   getTarget(): Attack[] {
@@ -215,7 +175,10 @@ class AttackList {
     return this.list.filter( l => l.success );
   }
   getTargetToPokemon(): Attack[] {
-    return this.list.filter( l => l.success && !l.isField() );
+    return this.list.filter( l => l.success && !l.isField() && !l.fainted );
+  }
+  getTargetToPokemonFainted(): Attack[] {
+    return this.list.filter( l => l.success && !l.isField() && l.fainted );
   }
   getTargetToField(): Attack[] {
     return this.list.filter( l => l.success && l.isField() );
@@ -558,7 +521,7 @@ class Pokemon {
     this.item.copyFromOpp( opp.item.name, opp.item.pokeName );
     this.nature = opp.nature;
     this.status.copyFromOpp( opp.status );
-    this.move.copyFromOpp( opp.move._learned );
+    this.move.copyFromOpp( opp.move.learned );
   }
 
   showHandInfo(): void {
@@ -1617,6 +1580,8 @@ class Pokemon {
       this.msgToHand()
     }
 
+    main.getPlayer( this.isMine() ).setExtraCommand( this.order );
+
     // 情報のリセット
     // pokemon.ability = pokemon.statusOrg.ability;
     // pokemon.type1 = pokemon.statusOrg.type1;
@@ -1636,6 +1601,7 @@ class Pokemon {
   // バトル場に出る
   //-------------
   toBattleField( battle: number ): void {
+    main.getPlayer( this.isMine() ).deleteExtraCommand( battle );
     this.order.battle = battle;
 
     const hand: number = this.order.hand;

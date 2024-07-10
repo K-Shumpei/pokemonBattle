@@ -303,17 +303,17 @@ function decideTarget(pokemon) {
             case 'ally':
             case 'user-or-ally':
             case 'user-and-allies':
-                pokemon.attack.setPokemon(pokemon.isMine(), 0);
+                pokemon.attack.setPokemon(pokemon.isMine(), 0, pokemon.order.party);
                 break;
             case 'selected-pokemon':
             case 'random-opponent':
             case 'all-opponents':
             case 'all-other-pokemon':
-                pokemon.attack.setPokemon(!pokemon.isMine(), 0);
+                pokemon.attack.setPokemon(!pokemon.isMine(), 0, pokemon.order.party);
                 break;
             case 'all-pokemon':
-                pokemon.attack.setPokemon(pokemon.isMine(), 0);
-                pokemon.attack.setPokemon(!pokemon.isMine(), 0);
+                pokemon.attack.setPokemon(pokemon.isMine(), 0, pokemon.order.party);
+                pokemon.attack.setPokemon(!pokemon.isMine(), 0, pokemon.order.party);
                 break;
             case 'specific-move':
             case 'selected-pokemon-me-first':

@@ -62,59 +62,24 @@ class ParameterSix {
     }
 }
 class Attack {
-    constructor(field, isMe, battle) {
-        this._field = field;
-        this._isMe = isMe;
-        this._battle = battle;
-        this._party = 0;
-        this._success = true;
-        this._damage = 0;
-        this._effective = 0;
-        this._critical = false;
-        this._substitute = false;
-    }
-    set success(success) {
-        this._success = success;
-    }
-    set damage(damage) {
-        this._damage = damage;
-    }
-    set critical(critical) {
-        this._critical = critical;
-    }
-    set substitute(substitute) {
-        this._substitute = substitute;
-    }
-    get isMe() {
-        return this._isMe;
-    }
-    get battle() {
-        return this._battle;
-    }
-    get party() {
-        return this._party;
-    }
-    get success() {
-        return this._success;
-    }
-    get damage() {
-        return this._damage;
-    }
-    get effective() {
-        return this._effective;
-    }
-    get critical() {
-        return this._critical;
-    }
-    get substitute() {
-        return this._substitute;
+    constructor(field, isMe, battle, party) {
+        this.success = true;
+        this.damage = 0;
+        this.effective = 0;
+        this.critical = false;
+        this.substitute = false;
+        this.fainted = false;
+        this.field = field;
+        this.isMe = isMe;
+        this.battle = battle;
+        this.party = party;
     }
     failure() {
-        this._success === false;
+        this.success === false;
         battleLog.write(`しかし うまく決まらなかった...`);
     }
     isField() {
-        return this._field;
+        return this.field;
     }
     calcEffective(move, target) {
         const rate = (comp, defType) => {
@@ -142,10 +107,10 @@ class Attack {
         };
         if (move.type === null)
             return;
-        this._effective = calcRate(move, target);
+        this.effective = calcRate(move, target);
     }
     isNotEffective() {
-        return this._effective === 0;
+        return this.effective === 0;
     }
 }
 class AttackList {
@@ -156,13 +121,13 @@ class AttackList {
         this.list = [];
     }
     setField() {
-        const attack = new Attack(true, false, 0);
+        const attack = new Attack(true, false, 0, 0);
         this.list.push(attack);
     }
-    setPokemon(isMe, battle) {
+    setPokemon(isMe, battle, party) {
         if (!main.isExistByBattle(isMe, battle))
             return;
-        const attack = new Attack(false, isMe, battle);
+        const attack = new Attack(false, isMe, battle, party);
         this.list.push(attack);
     }
     getTarget() {
@@ -172,7 +137,10 @@ class AttackList {
         return this.list.filter(l => l.success);
     }
     getTargetToPokemon() {
-        return this.list.filter(l => l.success && !l.isField());
+        return this.list.filter(l => l.success && !l.isField() && !l.fainted);
+    }
+    getTargetToPokemonFainted() {
+        return this.list.filter(l => l.success && !l.isField() && l.fainted);
     }
     getTargetToField() {
         return this.list.filter(l => l.success && l.isField());
@@ -510,7 +478,7 @@ class Pokemon {
         this.item.copyFromOpp(opp.item.name, opp.item.pokeName);
         this.nature = opp.nature;
         this.status.copyFromOpp(opp.status);
-        this.move.copyFromOpp(opp.move._learned);
+        this.move.copyFromOpp(opp.move.learned);
     }
     showHandInfo() {
         getHTMLInputElement('party' + this.order.hand + '_name').textContent = (this.name === null) ? '名前' : this.translateName(this.name);
@@ -1534,6 +1502,7 @@ class Pokemon {
             regenerator(); // さいせいりょく
             this.msgToHand();
         }
+        main.getPlayer(this.isMine()).setExtraCommand(this.order);
         // 情報のリセット
         // pokemon.ability = pokemon.statusOrg.ability;
         // pokemon.type1 = pokemon.statusOrg.type1;
@@ -1551,6 +1520,7 @@ class Pokemon {
     // バトル場に出る
     //-------------
     toBattleField(battle) {
+        main.getPlayer(this.isMine()).deleteExtraCommand(battle);
         this.order.battle = battle;
         const hand = this.order.hand;
         for (const pokemon of main.getParty(this.isMine())) {

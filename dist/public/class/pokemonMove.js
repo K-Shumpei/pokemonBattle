@@ -1,48 +1,42 @@
 "use strict";
 class Move {
     constructor() {
-        this._selected = new SelectedMove();
-        this._learned = [
+        this.selected = new SelectedMove();
+        this.learned = [
             new LearnedMove(0),
             new LearnedMove(1),
             new LearnedMove(2),
             new LearnedMove(3),
         ];
     }
-    get selected() {
-        return this._selected;
-    }
-    get learned() {
-        return this._learned;
-    }
     register(move) {
-        this._learned[0].register(move.slot[0]);
-        this._learned[1].register(move.slot[1]);
-        this._learned[2].register(move.slot[2]);
-        this._learned[3].register(move.slot[3]);
+        this.learned[0].register(move.slot[0]);
+        this.learned[1].register(move.slot[1]);
+        this.learned[2].register(move.slot[2]);
+        this.learned[3].register(move.slot[3]);
     }
     copyFromOpp(move) {
-        this._learned[0].copyFromOpp(move[0]);
-        this._learned[1].copyFromOpp(move[1]);
-        this._learned[2].copyFromOpp(move[2]);
-        this._learned[3].copyFromOpp(move[3]);
+        this.learned[0].copyFromOpp(move[0]);
+        this.learned[1].copyFromOpp(move[1]);
+        this.learned[2].copyFromOpp(move[2]);
+        this.learned[3].copyFromOpp(move[3]);
     }
     show(handOrder) {
-        this._learned[0].show(handOrder);
-        this._learned[1].show(handOrder);
-        this._learned[2].show(handOrder);
-        this._learned[3].show(handOrder);
+        this.learned[0].show(handOrder);
+        this.learned[1].show(handOrder);
+        this.learned[2].show(handOrder);
+        this.learned[3].show(handOrder);
     }
     setSelcted(slot) {
         if (slot === null)
             return;
-        this._selected.setSelected(this._learned[slot]);
+        this.selected.setSelected(this.learned[slot], slot);
     }
     showCommand1st(battleOrder) {
-        this._learned[0].showCommand1st(battleOrder);
-        this._learned[1].showCommand1st(battleOrder);
-        this._learned[2].showCommand1st(battleOrder);
-        this._learned[3].showCommand1st(battleOrder);
+        this.learned[0].showCommand1st(battleOrder);
+        this.learned[1].showCommand1st(battleOrder);
+        this.learned[2].showCommand1st(battleOrder);
+        this.learned[3].showCommand1st(battleOrder);
     }
     isNoPPLeft() {
         if (!this.learned[this.selected.slot].powerPoint.isZero())
@@ -170,7 +164,7 @@ class SelectedMove {
     getAddOn() {
         return moveAddOnMaster.filter(add => add.nameEN === this.name)[0];
     }
-    setSelected(move) {
+    setSelected(move, slot) {
         const master = moveMaster.find((m) => {
             return m.nameEN === move.name;
         });
@@ -184,6 +178,7 @@ class SelectedMove {
         this.accuracy = master.accuracy;
         this.priority = master.priority;
         this.critical = master.priority;
+        this.slot = slot;
     }
     isType(type) {
         return this.type === type;

@@ -1,57 +1,43 @@
 class Move {
-  _selected: SelectedMove;
-  _learned: LearnedMove[];
-
-  constructor() {
-    this._selected = new SelectedMove()
-    this._learned = [
-      new LearnedMove(0),
-      new LearnedMove(1),
-      new LearnedMove(2),
-      new LearnedMove(3),
-    ]
-  }
-
-  get selected(): SelectedMove {
-    return this._selected;
-  }
-
-  get learned(): LearnedMove[] {
-    return this._learned;
-  }
-
+  selected = new SelectedMove();
+  learned = [
+    new LearnedMove(0),
+    new LearnedMove(1),
+    new LearnedMove(2),
+    new LearnedMove(3),
+  ];
 
   register( move: RegisterMoveList ): void {
-    this._learned[0].register( move.slot[0] );
-    this._learned[1].register( move.slot[1] );
-    this._learned[2].register( move.slot[2] );
-    this._learned[3].register( move.slot[3] );
+    this.learned[0].register( move.slot[0] );
+    this.learned[1].register( move.slot[1] );
+    this.learned[2].register( move.slot[2] );
+    this.learned[3].register( move.slot[3] );
   }
 
   copyFromOpp( move: LearnedMove[] ): void {
-    this._learned[0].copyFromOpp( move[0] );
-    this._learned[1].copyFromOpp( move[1] );
-    this._learned[2].copyFromOpp( move[2] );
-    this._learned[3].copyFromOpp( move[3] );
+    this.learned[0].copyFromOpp( move[0] );
+    this.learned[1].copyFromOpp( move[1] );
+    this.learned[2].copyFromOpp( move[2] );
+    this.learned[3].copyFromOpp( move[3] );
   }
 
   show( handOrder: number ): void {
-    this._learned[0].show( handOrder );
-    this._learned[1].show( handOrder );
-    this._learned[2].show( handOrder );
-    this._learned[3].show( handOrder );
+    this.learned[0].show( handOrder );
+    this.learned[1].show( handOrder );
+    this.learned[2].show( handOrder );
+    this.learned[3].show( handOrder );
   }
 
   setSelcted( slot: number | null ): void {
     if ( slot === null ) return;
-    this._selected.setSelected( this._learned[slot] );
+    this.selected.setSelected( this.learned[slot], slot );
   }
 
   showCommand1st( battleOrder: number ): void {
-    this._learned[0].showCommand1st( battleOrder );
-    this._learned[1].showCommand1st( battleOrder );
-    this._learned[2].showCommand1st( battleOrder );
-    this._learned[3].showCommand1st( battleOrder );
+    this.learned[0].showCommand1st( battleOrder );
+    this.learned[1].showCommand1st( battleOrder );
+    this.learned[2].showCommand1st( battleOrder );
+    this.learned[3].showCommand1st( battleOrder );
   }
 
   isNoPPLeft(): boolean {
@@ -215,7 +201,7 @@ class SelectedMove {
     return moveAddOnMaster.filter( add => add.nameEN === this.name )[0]
   }
 
-  setSelected( move: LearnedMove ): void {
+  setSelected( move: LearnedMove, slot: number ): void {
     const master = moveMaster.find( ( m ) => {
       return m.nameEN === move.name;
     })
@@ -229,6 +215,7 @@ class SelectedMove {
     this.accuracy = master.accuracy;
     this.priority = master.priority;
     this.critical = master.priority;
+    this.slot = slot;
   }
 
 

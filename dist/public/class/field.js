@@ -365,7 +365,7 @@ class WholeFieldStatus {
 class Gravity extends WholeFieldStatus {
     constructor() {
         super();
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate() {
         this.isTrue = true;
@@ -400,7 +400,7 @@ class Gravity extends WholeFieldStatus {
 class TrickRoom extends WholeFieldStatus {
     constructor() {
         super();
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate(pokemon) {
         this.isTrue = true;
@@ -419,7 +419,7 @@ class TrickRoom extends WholeFieldStatus {
 class MagicRoom extends WholeFieldStatus {
     constructor() {
         super();
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate() {
         this.isTrue = true;
@@ -438,7 +438,7 @@ class MagicRoom extends WholeFieldStatus {
 class WonderRoom extends WholeFieldStatus {
     constructor() {
         super();
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate() {
         this.isTrue = true;
@@ -457,7 +457,7 @@ class WonderRoom extends WholeFieldStatus {
 class MudSport extends WholeFieldStatus {
     constructor() {
         super();
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate() {
         this.isTrue = true;
@@ -476,7 +476,7 @@ class MudSport extends WholeFieldStatus {
 class WaterSport extends WholeFieldStatus {
     constructor() {
         super();
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate() {
         this.isTrue = true;
@@ -540,14 +540,14 @@ class SideFieldStatus {
 class AuroraVeil extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate(isLightClay) {
         if (this.isTrue)
             return;
         this.isTrue = true;
         if (isLightClay) {
-            this.turn = new ValueWithRange(8, 0);
+            this.turn.setInitial(8);
         }
         battleLog.write(`${this.getText()}は オーロラベールで 物理と 特殊に 強くなった!`);
     }
@@ -569,14 +569,14 @@ class AuroraVeil extends SideFieldStatus {
 class LightScreen extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate(isLightClay) {
         if (this.isTrue)
             return;
         this.isTrue = true;
         if (isLightClay) {
-            this.turn = new ValueWithRange(8, 0);
+            this.turn.setInitial(8);
         }
         battleLog.write(`${this.getText()}は ひかりのかべで 特殊に 強くなった!`);
     }
@@ -598,14 +598,14 @@ class LightScreen extends SideFieldStatus {
 class Reflect extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate(isLightClay) {
         if (this.isTrue)
             return;
         this.isTrue = true;
         if (isLightClay) {
-            this.turn = new ValueWithRange(8, 0);
+            this.turn.setInitial(8);
         }
         battleLog.write(`${this.getText()}は リフレクターで 物理に 強くなった!`);
     }
@@ -627,7 +627,7 @@ class Reflect extends SideFieldStatus {
 class TailWind extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(4, 0);
+        this.turn.setInitial(4);
     }
     onActivate() {
         if (this.isTrue)
@@ -648,7 +648,7 @@ class TailWind extends SideFieldStatus {
 class LuckyChant extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate() {
         if (this.isTrue)
@@ -669,7 +669,7 @@ class LuckyChant extends SideFieldStatus {
 class Mist extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate() {
         if (this.isTrue)
@@ -695,7 +695,7 @@ class Mist extends SideFieldStatus {
 class Safeguard extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(5, 0);
+        this.turn.setInitial(5);
     }
     onActivate() {
         if (this.isTrue)
@@ -757,7 +757,7 @@ class WideGuard extends SideFieldStatus {
 class Rainbow extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(4, 0);
+        this.turn.setInitial(4);
     }
     onActivate() {
         if (this.isTrue)
@@ -778,7 +778,7 @@ class Rainbow extends SideFieldStatus {
 class Wetlands extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(4, 0);
+        this.turn.setInitial(4);
     }
     onActivate() {
         if (this.isTrue)
@@ -799,7 +799,7 @@ class Wetlands extends SideFieldStatus {
 class SeaOfFire extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(4, 0);
+        this.turn.setInitial(4);
     }
     onActivate() {
         if (this.isTrue)
@@ -973,6 +973,7 @@ class Steelsurge extends SideFieldStatus {
 class Wildfire extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
+        this.turn.setInitial(4);
     }
     onActivate() {
         if (this.isTrue)
@@ -999,7 +1000,7 @@ class Wildfire extends SideFieldStatus {
 class Volcalith extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(4, 0);
+        this.turn.setInitial(4);
     }
     onActivate() {
         if (this.isTrue)
@@ -1026,7 +1027,7 @@ class Volcalith extends SideFieldStatus {
 class VineLash extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(4, 0);
+        this.turn.setInitial(4);
     }
     onActivate() {
         if (this.isTrue)
@@ -1053,7 +1054,7 @@ class VineLash extends SideFieldStatus {
 class Cannonade extends SideFieldStatus {
     constructor(isMine) {
         super(isMine);
-        this.turn = new ValueWithRange(4, 0);
+        this.turn.setInitial(4);
     }
     onActivate() {
         if (this.isTrue)

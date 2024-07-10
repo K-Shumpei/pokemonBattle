@@ -4,57 +4,50 @@ function moveEffect(pokemon) {
     const isRange = (pokemon) => {
         return pokemon.attack.list.length > 1;
     };
-    if (!pokemon.move.selected.isStatus()) {
-        // 対象全員へのダメージ計算
-        calculateDamageForAll(pokemon);
-        if (isRange(pokemon)) {
-            // みがわり状態に攻撃技が防がれたときの効果: 本体がダメージを受けたとき(4)~(10)などより優先して処理される
-        }
-        // じばく/だいばくはつ/ミストバースト/ビックリヘッド/てっていこうせん使用時のダメージ: ひんしになるときは使用者のひんし判定
-        if (isRange(pokemon)) {
-            console.log('range');
-            // ダメージを本体に与える
-            damageToBody(pokemon, pokemon.isMine());
-            // バツグンの相性判定のメッセージ
-            goodCompatibilityMessage(pokemon, pokemon.isMine());
-            // 今ひとつの相性判定のメッセージ
-            badCompatibilityMessage(pokemon, pokemon.isMine());
-            // ダメージの判定に関するメッセージ
-            damageDeterminationMessage(pokemon, pokemon.isMine());
-            // ダメージをHP1で耐える効果のメッセージなど
-            enduringEffectsMessage(pokemon, pokemon.isMine());
-            // 追加効果などの発動
-            activateAdditionalEffects(pokemon, pokemon.isMine(), isRange(pokemon));
-            // ダメージが発生したときの効果
-            effectsWhenDamageOccurs(pokemon, pokemon.isMine());
-            // ひんし判定
-            faintingJudgment(pokemon, pokemon.isMine(), isRange(pokemon));
-            // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
-            activateSealedEffects(pokemon, pokemon.isMine(), isRange(pokemon));
-        }
-        console.log('damage');
+    // 対象全員へのダメージ計算
+    calculateDamageForAll(pokemon);
+    if (isRange(pokemon)) {
+        // みがわり状態に攻撃技が防がれたときの効果: 本体がダメージを受けたとき(4)~(10)などより優先して処理される
+    }
+    // じばく/だいばくはつ/ミストバースト/ビックリヘッド/てっていこうせん使用時のダメージ: ひんしになるときは使用者のひんし判定
+    if (isRange(pokemon)) {
         // ダメージを本体に与える
-        damageToBody(pokemon, !pokemon.isMine());
+        damageToBody(pokemon, pokemon.isMine());
         // バツグンの相性判定のメッセージ
-        goodCompatibilityMessage(pokemon, !pokemon.isMine());
+        goodCompatibilityMessage(pokemon, pokemon.isMine());
         // 今ひとつの相性判定のメッセージ
-        badCompatibilityMessage(pokemon, !pokemon.isMine());
+        badCompatibilityMessage(pokemon, pokemon.isMine());
         // ダメージの判定に関するメッセージ
-        damageDeterminationMessage(pokemon, !pokemon.isMine());
+        damageDeterminationMessage(pokemon, pokemon.isMine());
         // ダメージをHP1で耐える効果のメッセージなど
-        enduringEffectsMessage(pokemon, !pokemon.isMine());
+        enduringEffectsMessage(pokemon, pokemon.isMine());
         // 追加効果などの発動
-        activateAdditionalEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
+        activateAdditionalEffects(pokemon, pokemon.isMine(), isRange(pokemon));
         // ダメージが発生したときの効果
-        effectsWhenDamageOccurs(pokemon, !pokemon.isMine());
+        effectsWhenDamageOccurs(pokemon, pokemon.isMine());
         // ひんし判定
-        faintingJudgment(pokemon, !pokemon.isMine(), isRange(pokemon));
+        faintingJudgment(pokemon, pokemon.isMine(), isRange(pokemon));
         // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
-        activateSealedEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
+        activateSealedEffects(pokemon, pokemon.isMine(), isRange(pokemon));
     }
-    else {
-        statusMoveEffect(pokemon);
-    }
+    // ダメージを本体に与える
+    damageToBody(pokemon, !pokemon.isMine());
+    // バツグンの相性判定のメッセージ
+    goodCompatibilityMessage(pokemon, !pokemon.isMine());
+    // 今ひとつの相性判定のメッセージ
+    badCompatibilityMessage(pokemon, !pokemon.isMine());
+    // ダメージの判定に関するメッセージ
+    damageDeterminationMessage(pokemon, !pokemon.isMine());
+    // ダメージをHP1で耐える効果のメッセージなど
+    enduringEffectsMessage(pokemon, !pokemon.isMine());
+    // 追加効果などの発動
+    activateAdditionalEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
+    // ダメージが発生したときの効果
+    effectsWhenDamageOccurs(pokemon, !pokemon.isMine());
+    // ひんし判定
+    faintingJudgment(pokemon, !pokemon.isMine(), isRange(pokemon));
+    // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
+    activateSealedEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
     // 技の効果
     activateMoveEffect(pokemon);
     // 特性の効果（その1）
@@ -1144,6 +1137,7 @@ function faintingJudgment(pokemon, isMe, isRange) {
                 continue;
             if (!target.isFainted())
                 continue;
+            attack.fainted = true;
             target.toHand();
         }
         // 味方の特性や持ち物の効果による攻撃側のひんし
@@ -1165,17 +1159,16 @@ function faintingJudgment(pokemon, isMe, isRange) {
                 continue;
             if (target.isMine() !== isMe)
                 continue;
+            attack.fainted = true;
             target.toHand();
         }
         // みちづれによる攻撃側のひんし: 防御側にダメージを与え、特性や持ち物の効果が発動した後にひんしになる
-        for (const attack of pokemon.attack.getTargetToPokemon()) {
-            const target = main.getPokemonByBattle(attack);
+        for (const attack of pokemon.attack.getTargetToPokemonFainted()) {
+            const target = main.getPokemonByParty(attack.isMe, attack.party);
             if (target.isMine() !== isMe)
                 continue;
             if (!target.stateChange.destinyBond.isTrue)
                 continue;
-            if (!target.status.hp.value.isZero())
-                return;
             if (pokemon.stateChange.dynamax.isTrue)
                 return;
             target.msgDestinyBond();
@@ -1387,7 +1380,7 @@ function activateMoveEffect(pokemon) {
         target.stateChange.cannotEscape.onActivateJawLock(pokemon, target);
     };
     const plasmaFists = (pokemon) => {
-        if (pokemon.move.selected.name === 'Plasma Fists')
+        if (pokemon.move.selected.name !== 'Plasma Fists')
             return; // 技「プラズマフィスト」
         if (pokemon.status.hp.value.isZero())
             return;
@@ -1491,6 +1484,8 @@ function activateMoveEffect(pokemon) {
             return;
         if (target.status.hp.value.isZero())
             return;
+        if (!target.statusAilment.isFrozen())
+            return;
         target.statusAilment.getHealth();
     }
     // 以下の効果は攻撃側が瀕死なら発動しない
@@ -1556,13 +1551,7 @@ function activateAbilityEffectPart1(pokemon) {
     const moxie = (pokemon) => {
         if (!pokemon.ability.isName('Moxie'))
             return; // 特性「じしんかじょう」
-        let number = 0;
-        for (const attack of pokemon.attack.getTargetToPokemon()) {
-            const target = main.getPokemonByBattle(attack);
-            if (target.status.hp.value.isZero()) {
-                number += 1;
-            }
-        }
+        const number = pokemon.attack.getTargetToPokemonFainted().length;
         if (!pokemon.isChangeRank('atk', number))
             return;
         pokemon.msgDeclareAbility();
@@ -1571,13 +1560,8 @@ function activateAbilityEffectPart1(pokemon) {
     const beastBoost = (pokemon) => {
         if (!pokemon.ability.isName('Beast Boost'))
             return; // 特性「ビーストブースト」
-        let number = 0;
-        for (const attack of pokemon.attack.getTargetToPokemon()) {
-            const target = main.getPokemonByBattle(attack);
-            if (target.status.hp.value.isZero()) {
-                number += 1;
-            }
-        }
+        // 倒したポケモンの数
+        const number = pokemon.attack.getTargetToPokemonFainted().length;
         const statusValue = [
             { status: 'atk', value: pokemon.status.atk.rankCorrVal },
             { status: 'def', value: pokemon.status.def.rankCorrVal },
@@ -1596,7 +1580,6 @@ function activateAbilityEffectPart1(pokemon) {
                 return -1;
         });
         const status = statusValue[0].status;
-        const value = statusValue[0].value;
         if (!pokemon.isChangeRank(status, number))
             return;
         pokemon.msgDeclareAbility();
@@ -1605,13 +1588,7 @@ function activateAbilityEffectPart1(pokemon) {
     const grimNeigh = (pokemon) => {
         if (!pokemon.ability.isName('Grim Neigh'))
             return; // 特性「くろのいななき」
-        let number = 0;
-        for (const attack of pokemon.attack.getTargetToPokemon()) {
-            const target = main.getPokemonByBattle(attack);
-            if (target.status.hp.value.isZero()) {
-                number += 1;
-            }
-        }
+        const number = pokemon.attack.getTargetToPokemonFainted().length;
         if (!pokemon.isChangeRank('spA', number))
             return;
         pokemon.msgDeclareAbility();
@@ -1620,13 +1597,7 @@ function activateAbilityEffectPart1(pokemon) {
     const chillingNeigh = (pokemon) => {
         if (!pokemon.ability.isName('Chilling Neigh'))
             return; // 特性「しろのいななき」
-        let number = 0;
-        for (const attack of pokemon.attack.getTargetToPokemon()) {
-            const target = main.getPokemonByBattle(attack);
-            if (target.status.hp.value.isZero()) {
-                number += 1;
-            }
-        }
+        const number = pokemon.attack.getTargetToPokemonFainted().length;
         if (!pokemon.isChangeRank('atk', number))
             return;
         pokemon.msgDeclareAbility();
@@ -1757,13 +1728,7 @@ function formChangeByMove(pokemon) {
             && !pokemon.isChangeRank('spA', 1)
             && !pokemon.isChangeRank('spe', 1))
             return;
-        let number = 0;
-        for (const attack of pokemon.attack.getTargetToPokemon()) {
-            const target = main.getPokemonByBattle(attack);
-            if (target.status.hp.value.isZero()) {
-                number += 1;
-            }
-        }
+        const number = pokemon.attack.getTargetToPokemonFainted().length;
         if (number === 0)
             return;
         pokemon.changeRank('atk', 1);
@@ -2084,7 +2049,6 @@ function toHandByAttack(pokemon) {
         case 'U-turn': // 技「とんぼがえり」
         case 'Volt Switch': // 技「ボルトチェンジ」
         case 'Flip Turn': // 技「クイックターン」
-            main.getPlayer(pokemon.isMine()).setExtraCommand(pokemon.order);
             pokemon.toHand();
             break;
         default:

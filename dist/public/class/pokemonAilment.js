@@ -46,7 +46,7 @@ class StatusAilment {
                 if (item)
                     battleLog.write(`${this.pokeName}は ${item}で こおり状態が 治った!`);
                 else if (move)
-                    battleLog.write(`${this.pokeName}の ${item}で こおりが 解けた!`);
+                    battleLog.write(`${this.pokeName}の ${move}で こおりが 解けた!`);
                 else
                     battleLog.write(`${this.pokeName}は こおり状態が 治った!`);
                 break;

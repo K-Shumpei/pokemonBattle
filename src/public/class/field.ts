@@ -383,7 +383,7 @@ class Gravity extends WholeFieldStatus {
 
   constructor() {
     super();
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate(): void {
@@ -422,7 +422,7 @@ class TrickRoom extends WholeFieldStatus {
 
   constructor() {
     super();
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate( pokemon: Pokemon ): void {
@@ -444,7 +444,7 @@ class MagicRoom extends WholeFieldStatus {
 
   constructor() {
     super();
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate(): void {
@@ -466,7 +466,7 @@ class WonderRoom extends WholeFieldStatus {
 
   constructor() {
     super();
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate(): void {
@@ -488,7 +488,7 @@ class MudSport extends WholeFieldStatus {
 
   constructor() {
     super();
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate(): void {
@@ -510,7 +510,7 @@ class WaterSport extends WholeFieldStatus {
 
   constructor() {
     super();
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate(): void {
@@ -587,14 +587,14 @@ class AuroraVeil extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate( isLightClay: boolean ): void {
     if ( this.isTrue ) return;
     this.isTrue = true;
     if ( isLightClay ) {
-      this.turn = new ValueWithRange( 8, 0 );
+      this.turn.setInitial( 8 );
     }
     battleLog.write( `${this.getText()}は オーロラベールで 物理と 特殊に 強くなった!` );
   }
@@ -618,14 +618,14 @@ class LightScreen extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate( isLightClay: boolean ): void {
     if ( this.isTrue ) return;
     this.isTrue = true;
     if ( isLightClay ) {
-      this.turn = new ValueWithRange( 8, 0 );
+      this.turn.setInitial( 8 );
     }
     battleLog.write( `${this.getText()}は ひかりのかべで 特殊に 強くなった!` );
   }
@@ -649,14 +649,14 @@ class Reflect extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate( isLightClay: boolean ): void {
     if ( this.isTrue ) return;
     this.isTrue = true;
     if ( isLightClay ) {
-      this.turn = new ValueWithRange( 8, 0 );
+      this.turn.setInitial( 8 );
     }
     battleLog.write( `${this.getText()}は リフレクターで 物理に 強くなった!` );
   }
@@ -681,7 +681,7 @@ class TailWind extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 4, 0 );
+    this.turn.setInitial( 4 );
   }
 
   onActivate(): void {
@@ -704,7 +704,7 @@ class LuckyChant extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate(): void {
@@ -727,7 +727,7 @@ class Mist extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate(): void {
@@ -755,7 +755,7 @@ class Safeguard extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 5, 0 );
+    this.turn.setInitial( 5 );
   }
 
   onActivate(): void {
@@ -827,7 +827,7 @@ class Rainbow extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 4, 0 );
+    this.turn.setInitial( 4 );
   }
 
   onActivate(): void {
@@ -850,7 +850,7 @@ class Wetlands extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 4, 0 );
+    this.turn.setInitial( 4 );
   }
 
   onActivate(): void {
@@ -873,7 +873,7 @@ class SeaOfFire extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 4, 0 );
+    this.turn.setInitial( 4 );
   }
 
   onActivate(): void {
@@ -1050,7 +1050,8 @@ class Steelsurge extends SideFieldStatus { // テキスト未検証
 class Wildfire extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
-    super( isMine )
+    super( isMine );
+    this.turn.setInitial( 4 );
   }
 
   onActivate(): void {
@@ -1079,7 +1080,7 @@ class Volcalith extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 4, 0 );
+    this.turn.setInitial( 4 );
   }
 
   onActivate(): void {
@@ -1108,7 +1109,7 @@ class VineLash extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 4, 0 );
+    this.turn.setInitial( 4 );
   }
 
   onActivate(): void {
@@ -1137,7 +1138,7 @@ class Cannonade extends SideFieldStatus {
 
   constructor ( isMine: boolean ) {
     super( isMine )
-    this.turn = new ValueWithRange( 4, 0 );
+    this.turn.setInitial( 4 );
   }
 
   onActivate(): void {

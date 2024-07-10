@@ -4,6 +4,7 @@ class Main {
         this.me = new Player(true);
         this.opp = new Player(false);
         this.field = new Field();
+        this.status = 3;
     }
     getHostPlayer(host) {
         if (this.me.host === host) {
@@ -177,6 +178,9 @@ class Player {
             return;
         this.extraCommand.push({ party: order.party, battle: order.battle });
     }
+    deleteExtraCommand(battle) {
+        this.extraCommand = this.extraCommand.filter(e => e.battle !== battle);
+    }
     showHandInfo() {
         for (const pokemon of this.pokemon) {
             pokemon.showHandInfo();
@@ -288,6 +292,7 @@ class BattleLog {
             const output = document.getElementById('battle_log');
             for (const log of this.log) {
                 output.value += log + "\n";
+                output.scrollTop = output.scrollHeight;
                 await this.sleep(1000); // 2秒待機
             }
             output.value += "終了" + "\n\n";
