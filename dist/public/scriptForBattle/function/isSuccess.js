@@ -160,7 +160,7 @@ function isActionFailure(pokemon) {
     if (pokemon.stateChange.taunt.isEffective(pokemon))
         return true;
     // ふういん状態
-    for (const oppPoke of main.getPokemonInSide(!pokemon.isMine())) {
+    for (const oppPoke of getPokemonInSide(!pokemon.isMine())) {
         if (oppPoke.stateChange.imprison.isEffective(oppPoke, pokemon)) {
             return true;
         }
@@ -182,14 +182,12 @@ function stanceChange(pokemon) {
         && !pokemon.move.selected.isStatus()) {
         pokemon.msgDeclareAbility();
         pokemon.formChange();
-        pokemon.msgAegislashSchild();
         return;
     }
     if (pokemon.name === 'Aegislash Blade' // ギルガルド(剣)
         && pokemon.move.selected.name === 'King’s Shield') { // 技「キングシールド」
         pokemon.msgDeclareAbility();
         pokemon.formChange();
-        pokemon.msgAegislashBlade();
         return;
     }
 }
@@ -1561,29 +1559,13 @@ function disableByHitJudgment(pokemon) {
         }
         return accuracy;
     };
-    const calcOrder = () => {
-        const result = main.getPokemonInBattle();
-        result.sort((a, b) => {
-            // 素早さ
-            if (a.status.spe.actionOrder > b.status.spe.actionOrder)
-                return -1;
-            if (a.status.spe.actionOrder < b.status.spe.actionOrder)
-                return 1;
-            // 乱数
-            if (a.status.spe.random > b.status.spe.random)
-                return -1;
-            else
-                return 1;
-        });
-        return result;
-    };
     // 命中補正値M
     const getCorrM = (pokemon, target) => {
         let corrM = 4096;
         if (main.field.whole.gravity.isTrue) {
             corrM = Math.round(corrM * 6840 / 4096);
         }
-        for (const tgt of calcOrder()) {
+        for (const tgt of getPokemonInBattlefield('speed')) {
             if (isSame(tgt, pokemon)) {
                 if (tgt.ability.isName('Hustle') && tgt.move.selected.isPhysical()) { // 特性「はりきり」
                     corrM = Math.round(corrM * 3277 / 4096);
@@ -1609,7 +1591,7 @@ function disableByHitJudgment(pokemon) {
                 }
             }
         }
-        for (const tgt of calcOrder()) {
+        for (const tgt of getPokemonInBattlefield('speed')) {
             if (isSame(tgt, target)) {
                 if (tgt.isItem('ひかりのこな')) {
                     corrM = Math.round(corrM * 3686 / 4096);

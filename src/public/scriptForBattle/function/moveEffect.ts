@@ -687,7 +687,7 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     if ( !target.ability.isName( 'Cotton Down' ) ) return; // 特性「わたげ」
 
     const valid: Pokemon[] = []
-    for ( const poke of main.getPokemonInBattle() ) {
+    for ( const poke of getPokemonInBattlefield( 'cottonDown' ) ) {
       if ( poke.isMine() == target.isMine() && poke.order.party === target.order.party ) continue;
       if ( poke.stateChange.substitute.isTrue ) continue;
       if ( poke.stateChange.isHide() ) continue;
@@ -989,7 +989,6 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     target.stateChange.disguise.reset();
     target.msgDeclareAbility();
     target.formChange();
-    target.msgDisguise();
 
     const value: number = Math.floor( target.getOrgHP() / 8 );
     target.status.hp.value.sub( value );
@@ -1001,7 +1000,6 @@ function effectsWhenDamageOccurs( pokemon: Pokemon, isMe: boolean ) {
     target.stateChange.iceFace.reset();
     target.msgDeclareAbility();
     target.formChange();
-    target.msgIceFace();
   }
 
 
@@ -1506,11 +1504,11 @@ function activateAbilityEffectPart1( pokemon: Pokemon ): void {
     const number: number = pokemon.attack.getTargetToPokemonFainted().length;
 
     const statusValue: { status: RankStrings, value: number }[] = [
-      { status: 'atk', value: pokemon.status.atk.rankCorrVal },
-      { status: 'def', value: pokemon.status.def.rankCorrVal },
-      { status: 'spA', value: pokemon.status.spA.rankCorrVal },
-      { status: 'spD', value: pokemon.status.spD.rankCorrVal },
-      { status: 'spe', value: pokemon.status.spe.rankCorrVal },
+      { status: 'atk', value: pokemon.status.atk.rankCorrectionValue },
+      { status: 'def', value: pokemon.status.def.rankCorrectionValue },
+      { status: 'spA', value: pokemon.status.spA.rankCorrectionValue },
+      { status: 'spD', value: pokemon.status.spD.rankCorrectionValue },
+      { status: 'spe', value: pokemon.status.spe.rankCorrectionValue },
     ]
 
     statusValue.sort( ( a, b ) => {
@@ -1665,7 +1663,6 @@ function formChangeByMove( pokemon: Pokemon ): void {
     if ( pokemon.status.hp.value.isZero() ) return;
 
     pokemon.formChange();
-    pokemon.msgRelicSong();
   }
 
   const battleBond = ( pokemon: Pokemon ) => {

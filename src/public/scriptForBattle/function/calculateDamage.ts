@@ -354,7 +354,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
       }
     }
 
-    for ( const poke of main.getPokemonInBattle() ) {
+    for ( const poke of getPokemonInSide( pokemon.isMine() ) ) {
       if ( !move.isPhysical() ) continue;
       if ( poke.isMine() !== pokemon.isMine() ) continue;
       if ( poke.order.battle === pokemon.order.battle ) continue;
@@ -363,7 +363,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
       }
     }
 
-    for ( const poke of main.getPokemonInBattle() ) {
+    for ( const poke of getPokemonInSide( pokemon.isMine() ) ) {
       if ( poke.isMine() !== pokemon.isMine() ) continue;
       if ( poke.order.battle === pokemon.order.battle ) continue;
       if ( poke.ability.isName( 'Power Spot' ) ) { // 特性「パワースポット」
@@ -462,7 +462,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
       }
     }
 
-    for ( const poke of main.getPokemonInBattle() ) {
+    for ( const poke of getPokemonInSide( pokemon.isMine() ) ) {
       if ( poke.isMine() !== pokemon.isMine() ) continue;
       if ( poke.ability.isName( 'Steely Spirit' ) ) { // 特性「はがねのせいしん」
         correction = Math.round( correction * 6144 / 4096 );
@@ -667,7 +667,17 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
 
   const getFinalAttack = ( pokemon: Pokemon, target: Pokemon ): number => {
 
-    let attack: number = ( pokemon.move.selected.isPhysical() )? pokemon.status.atk.rankCorrVal : pokemon.status.spA.rankCorrVal;
+    const getAttack = (): number => {
+      if ( pokemon.move.selected.isPhysical() ) {
+        if ( critical ) return pokemon.status.atk.rankCorrectionValueAsCritical;
+        else return pokemon.status.atk.rankCorrectionValue;
+      } else {
+        if ( critical ) return pokemon.status.spA.rankCorrectionValueAsCritical;
+        else return pokemon.status.spA.rankCorrectionValue;
+      }
+    }
+
+    let attack: number = getAttack();
 
     // はりきり
     if ( pokemon.ability.isName( 'Hustle' ) ) { // 特性「はりきり」
@@ -704,21 +714,21 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
     }
 
     if ( pokemon.ability.isName( 'Quark Drive' ) ) { // 特性「クォークチャージ」
-      const parameter: string = pokemon.stateChange.quarkDrive.text;
-      if ( parameter === 'attack' && pokemon.move.selected.isPhysical() ) {
+      const parameter: RankStrings = pokemon.stateChange.quarkDrive.rank;
+      if ( parameter === 'atk' && pokemon.move.selected.isPhysical() ) {
         correction = Math.round( correction * 5325 / 4096 );
       }
-      if ( parameter === 'specialAttack' && pokemon.move.selected.isSpecial() ) {
+      if ( parameter === 'spD' && pokemon.move.selected.isSpecial() ) {
         correction = Math.round( correction * 5325 / 4096 );
       }
     }
 
     if ( pokemon.ability.isName( 'Protosynthesis' ) ) { // 特性「こだいかっせい」
-      const parameter: string = pokemon.stateChange.protosynthesis.text;
-      if ( parameter === 'attack' && pokemon.move.selected.isPhysical() ) {
+      const parameter: RankStrings = pokemon.stateChange.protosynthesis.rank;
+      if ( parameter === 'atk' && pokemon.move.selected.isPhysical() ) {
         correction = Math.round( correction * 5325 / 4096 );
       }
-      if ( parameter === 'specialAttack' && pokemon.move.selected.isSpecial() ) {
+      if ( parameter === 'spA' && pokemon.move.selected.isSpecial() ) {
         correction = Math.round( correction * 5325 / 4096 );
       }
     }
@@ -735,7 +745,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
       }
     }
 
-    for ( const _pokemon of main.getPokemonInSide( pokemon.isMine() ) ) {
+    for ( const _pokemon of getPokemonInSide( pokemon.isMine() ) ) {
       if ( _pokemon.name !== 'Cherrim' ) continue;
       if ( !fieldStatus.weather.isSunny( _pokemon ) ) continue;
       if ( !_pokemon.ability.isName( 'Flower Gift' ) ) continue; // 特性「フラワーギフト」
@@ -786,7 +796,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
     }
 
     if ( pokemon.ability.isName( 'Plus' ) || pokemon.ability.isName( 'Minus' ) ) { // 特性「プラス」、特性「マイナス」
-      for ( const _pokemon of main.getPokemonInSide( pokemon.isMine() ) ) {
+      for ( const _pokemon of getPokemonInSide( pokemon.isMine() ) ) {
         if ( isSame( pokemon, _pokemon ) ) continue;
         if ( !_pokemon.ability.isName( 'Plus' ) && !_pokemon.ability.isName( 'Minus' ) ) continue;
         if ( !pokemon.move.selected.isSpecial() ) continue;
@@ -894,7 +904,17 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
 
   const getFinalDefense = ( pokemon: Pokemon, target: Pokemon ): number => {
 
-    let defense: number = ( pokemon.move.selected.isPhysical() )? target.status.def.rankCorrVal : target.status.spD.rankCorrVal;
+    const getDefense = (): number => {
+      if ( pokemon.move.selected.isPhysical() ) {
+        if ( critical ) return pokemon.status.def.rankCorrectionValueAsCritical;
+        else return pokemon.status.def.rankCorrectionValue;
+      } else {
+        if ( critical ) return pokemon.status.spD.rankCorrectionValueAsCritical;
+        else return pokemon.status.spD.rankCorrectionValue;
+      }
+    }
+
+    let defense: number = getDefense();
 
     // すなあらし
     if ( fieldStatus.weather.isSandy() ) {
@@ -910,7 +930,7 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
       }
     }
 
-    // 攻撃補正
+    // 防御補正
     let correction = 4096;
 
     if ( main.isExistAbility( 'Beads of Ruin' ) && !target.ability.isName( 'Beads of Ruin' ) ) { // 特性「わざわいのたま」
@@ -926,26 +946,26 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
     }
 
     if ( target.ability.isName( 'Quark Drive' ) ) { // 特性「クォークチャージ」
-      const parameter: string = target.stateChange.quarkDrive.text;
-      if ( parameter === 'defense' && pokemon.move.selected.isPhysical() ) {
+      const parameter: RankStrings = target.stateChange.quarkDrive.rank;
+      if ( parameter === 'def' && pokemon.move.selected.isPhysical() ) {
         correction = Math.round( correction * 5325 / 4096 );
       }
-      if ( parameter === 'specialDefense' && pokemon.move.selected.isSpecial() ) {
+      if ( parameter === 'spD' && pokemon.move.selected.isSpecial() ) {
         correction = Math.round( correction * 5325 / 4096 );
       }
     }
 
     if ( target.ability.isName( 'Protosynthesis' ) ) { // 特性「こだいかっせい」
-      const parameter: string = target.stateChange.protosynthesis.text;
-      if ( parameter === 'defense' && pokemon.move.selected.isPhysical() ) {
+      const parameter: RankStrings = target.stateChange.protosynthesis.rank;
+      if ( parameter === 'def' && pokemon.move.selected.isPhysical() ) {
         correction = Math.round( correction * 5325 / 4096 );
       }
-      if ( parameter === 'specialDefense' && pokemon.move.selected.isSpecial() ) {
+      if ( parameter === 'spD' && pokemon.move.selected.isSpecial() ) {
         correction = Math.round( correction * 5325 / 4096 );
       }
     }
 
-    for ( const _pokemon of main.getPokemonInSide( target.isMine() ) ) {
+    for ( const _pokemon of getPokemonInSide( target.isMine() ) ) {
       // if ( !_pokemon.isName( 'チェリム(ポジ)' ) ) continue;
       if ( !fieldStatus.weather.isSunny( _pokemon ) ) continue;
       if ( !_pokemon.ability.isName( 'Flower Gift' ) ) continue; // 特性「フラワーギフト」
@@ -998,10 +1018,6 @@ function getStatus( pokemon: Pokemon, target: Pokemon, attack: Attack ): number 
   // 急所判定
   const critical: boolean = getCritical( pokemon );
   attack.critical = critical;
-
-  // 実数値・ランク
-  pokemon.status.calcRankCorrValue( critical );
-  target.status.calcRankCorrValue( critical );
 
   const finalAttack: number = getFinalAttack( pokemon, target );
   const finalDefense: number = getFinalDefense( pokemon, target );
@@ -1148,7 +1164,7 @@ function getDamage( pokemon: Pokemon, target: Pokemon, power: number, status: nu
   }
 
   // フレンドガード補正
-  for ( const _pokemon of main.getPokemonInSide( target.isMine() ) ) {
+  for ( const _pokemon of getPokemonInSide( target.isMine() ) ) {
     if ( isSame( target, _pokemon ) ) continue;
     if ( _pokemon.ability.isName( 'Friend Guard' ) ) { // 特性「フレンドガード」
       corrM = Math.round( corrM * 0.75 );

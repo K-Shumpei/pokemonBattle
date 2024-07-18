@@ -18,48 +18,12 @@ class Main {
     this.field.setHost( host );
   }
 
-  sortUnique( pokeList: Pokemon[] ): Pokemon[] {
-    const result = pokeList.sort( ( a, b ) => {
-      // トレーナー
-      if ( a.order.host ) return -1;
-      if ( b.order.host ) return 1;
-      // パーティの並び順
-      if ( a.order.party > b.order.party ) return -1;
-      return 1;
-    })
-
-    return result;
-  }
-
   getPlayer( isMe: boolean ): Player {
     return ( isMe )? this.me : this.opp;
   }
 
   getParty( isMe: boolean ): Pokemon[] {
     return ( isMe )? this.me.pokemon : this.opp.pokemon;
-  }
-
-  getPokemonInBattle(): Pokemon[] {
-    const me: Pokemon[] = this.me.pokemon.filter( p => p.order.battle !== null );
-    const opp: Pokemon[] = this.opp.pokemon.filter( p => p.order.battle !== null );
-    const result: Pokemon[] = me.concat( opp );
-    return this.sortUnique( result );
-  }
-
-  getPokemonToAttack(): Pokemon[] {
-    const pokeList: Pokemon[] = this.getPokemonInBattle().filter( p => p.command.isAttack() );
-    return sortByActionOrder( pokeList );
-  }
-
-  getPokemonToExchange(): Pokemon[] {
-    const pokeList: Pokemon[] = this.getPokemonInBattle().filter( p => p.command.isExchange() );
-    return sortByActionOrder( pokeList );
-  }
-
-  getPokemonInSide( isMe: boolean ): Pokemon[] {
-    const pokemon: Pokemon[] = this.getParty( isMe );
-    const result: Pokemon[] = pokemon.filter( p => p.order.battle !== null );
-    return this.sortUnique( result );
   }
 
   getPokemonByParty( isMe: boolean, party: number ): Pokemon {
@@ -77,91 +41,33 @@ class Main {
     return pokemon.filter( p => p.order.battle === order.battle )[0];
   }
 
-  getPokemonOnLanding(): Pokemon[] {
-    const pokeList: Pokemon[] = this.getPokemonInBattle().filter( p => p.extraParameter.landing );
-    return sortByActionOrder( pokeList );
-  }
-
   isExistByBattle( isMe: boolean, battle: number ): boolean {
     const pokemon: Pokemon[] = this.getParty( isMe );
     return pokemon.filter( p => p.order.battle === battle ).length === 1;
   }
 
   isExistAbility( name: AbilityText ): boolean {
-    return this.getPokemonInBattle().filter( p => p.ability.isName( name ) ).length > 0;
+    return getPokemonInBattlefield( 'host-party' ).filter( p => p.ability.isName( name ) ).length > 0;
   }
   getExistAbility( name: AbilityText ): Pokemon {
-    return this.getPokemonInBattle().filter( p => p.ability.isName( name ) )[0];
+    return getPokemonInBattlefield( 'host-party' ).filter( p => p.ability.isName( name ) )[0];
   }
 
   isExistAbilityInSide( isMe: boolean, name: AbilityText ): boolean {
-    return this.getPokemonInSide( isMe ).filter( p => p.ability.isName( name ) ).length > 0;
+    return getPokemonInSide( isMe ).filter( p => p.ability.isName( name ) ).length > 0;
   }
   getExistAbilityInSide( isMe: boolean, name: AbilityText ): Pokemon {
-    return this.getPokemonInSide( isMe ).filter( p => p.ability.isName( name ) )[0];
+    return getPokemonInSide( isMe ).filter( p => p.ability.isName( name ) )[0];
   }
 
-  calcSpeed(): void {
-    for ( const pokemon of this.getPokemonInBattle() ) {
-      let corr: number = 4096;
-
-      if ( pokemon.ability.isName( 'Chlorophyll' ) && this.field.weather.isSunny( pokemon ) ) { // 特性「ようりょくそ」
-        corr = Math.round( corr * 8192 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Swift Swim' ) && this.field.weather.isRainy( pokemon ) ) { // 特性「すいすい」
-        corr = Math.round( corr * 8192 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Sand Rush' ) && this.field.weather.isSandy() ) { // 特性「すなかき」
-        corr = Math.round( corr * 8192 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Slush Rush' ) && this.field.weather.isSnowy() ) { // 特性「ゆきかき」
-        corr = Math.round( corr * 8192 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Surge Surfer' ) && this.field.terrain.isElectric() ) { // 特性「サーフテール」
-        corr = Math.round( corr * 8192 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Slow Start' ) ) { // 特性「スロースタート」
-        corr = Math.round( corr * 2048 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Unburden' ) ) { // 特性「かるわざ」
-        corr = Math.round( corr * 8192 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Quick Feet' ) && !pokemon.statusAilment.isHealth() ) { // 特性「はやあし」
-        corr = Math.round( corr * 6144 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Protosynthesis' ) ) { // 特性「こだいかっせい」
-        corr = Math.round( corr * 6144 / 4096 );
-      }
-      if ( pokemon.ability.isName( 'Quark Drive' ) ) { // 特性「クォークチャージ」
-        corr = Math.round( corr * 6144 / 4096 );
-      }
-      if ( pokemon.isItem( 'スピードパウダー' ) && pokemon.name === 'Ditto' ) { // メタモン
-        corr = Math.round( corr * 8192 / 4096 );
-      }
-      if ( pokemon.isItem( 'こだわりスカーフ' ) ) {
-        corr = Math.round( corr * 6144 / 4096 );
-      }
-      if ( pokemon.isItem( 'くろいてっきゅう' ) ) {
-        corr = Math.round( corr * 2048 / 4096 );
-      }
-      if ( pokemon.isItem( 'きょうせいギプス' ) ) {
-        corr = Math.round( corr * 2048 / 4096 );
-      }
-      if ( this.field.getSide( pokemon.isMine() ).tailwind.isTrue ) {
-        corr = Math.round( corr * 8192 / 4096 );
-      }
-      if ( this.field.getSide( pokemon.isMine() ).wetlands.isTrue ) {
-        corr = Math.round( corr * 1024 / 4096 );
-      }
-
-      const paralysis: number = ( pokemon.statusAilment.isParalysis() )? 2048 / 4096 : 1;
-
-      pokemon.status.spe.calcSpeed( corr, paralysis, this.field.whole.trickRoom.isTrue );
+  calcRankCorrectionValue(): void {
+    for ( const pokemon of getPokemonInBattlefield( 'host-party' ) ) {
+      pokemon.status.calcRankCorrectionValue( pokemon );
     }
   }
 
   isUproar(): boolean {
-    for ( const pokemon of this.getPokemonInBattle() ) {
+    for ( const pokemon of getPokemonInBattlefield( 'host-party' ) ) {
       if ( pokemon.stateChange.uproar.isTrue ) return true;
     }
     return false;

@@ -1,6 +1,6 @@
 function endProcess(): void {
 
-  main.calcSpeed();
+  main.calcRankCorrectionValue();
 
   main.me.pokemon.map( poke => poke.attack.reset() );
   main.opp.pokemon.map( poke => poke.attack.reset() );
@@ -97,7 +97,7 @@ function endProcessWeatherEffect(): void {
 
   main.field.weather.advance(); // a. にほんばれ/あめ/すなあらし/あられ/ゆきの終了
 
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     weatherDamage( pokemon );   // b. すなあらし/あられのダメージ
     activateAbility( pokemon ); // c. かんそうはだ/サンパワー/あめうけざら/アイスボディ
   }
@@ -158,7 +158,7 @@ function endProcessEventBlock1st(): void {
 
 
 
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     damage( pokemon );  // a. ひのうみ/キョダイベンタツ/キョダイゴクエン/キョダイホウゲキ/キョダイフンセキ(ダメージ): 状態が発生した順にダメージが発動する。
     heal( pokemon );    // b. グラスフィールド(回復)
     ability( pokemon ); // c. うるおいボディ/だっぴ/いやしのこころ
@@ -167,115 +167,115 @@ function endProcessEventBlock1st(): void {
 }
 
 function endProcessAquaRing(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.aquaRing.onEffective( pokemon );
   }
 }
 
 function endProcessIngrain(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.ingrain.onEffective( pokemon );
   }
 }
 
 function endProcessLeechSeed(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.leechSeed.onEffective( pokemon );
   }
 }
 
 function endProcessPoisoned(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.statusAilment.onEffectivePoisoned( pokemon );
   }
 }
 
 function endProcessBurned(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.statusAilment.onEffectiveBurned( pokemon );
   }
 }
 
 function endProcessNightmare(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.nightmare.onEffective( pokemon );
   }
 }
 
 function endProcessCurse(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.curse.onEffective( pokemon );
   }
 }
 
 function endProcessBind(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.bind.onEffective( pokemon );
   }
 }
 
 function endProcessOctolock(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.octolock.onEffective( pokemon );
   }
 }
 
 function endProcessSaltCure(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.saltCure.onEffective( pokemon );
   }
 }
 
 function endProcessTaunt(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.taunt.onElapse( pokemon );
   }
 }
 
 function endProcessTorment(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.torment.onElapse( pokemon );
   }
 }
 
 function endProcessEncore(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.encore.onElapse( pokemon );
   }
 }
 
 function endProcessDisable(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.disable.onElapse( pokemon );
   }
 }
 
 function endProcessMagnetRise(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.magnetRise.onElapse( pokemon );
   }
 }
 
 function endProcessTelekinesis(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.telekinesis.onElapse( pokemon );
   }
 }
 
 function endProcessHealBlock(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.healBlock.onElapse( pokemon );
   }
 }
 
 function endProcessEmbargo(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.embargo.onElapse( pokemon );
   }
 }
 
 function endProcessPerishSong(): void {
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
     pokemon.stateChange.perishSong.onEffective( pokemon );
   }
 }
@@ -342,8 +342,8 @@ function endProcessEventBlock2nd(): void {
         break;
 
       case 'Bad Dreams': // 特性「ナイトメア」
-        const opponent: Pokemon[] = main.getPokemonInSide( !pokemon.isMine() );
-        for ( const poke of opponent ) {
+        // ダメージを受ける順番が間違っている
+        for ( const poke of getPokemonInSide( !pokemon.isMine() ) ) {
           if ( !poke.statusAilment.isAsleep() ) continue;
           const damage: number = Math.floor( poke.getOrgHP() / 8 );
           poke.status.hp.value.sub( Math.max( 1, damage ) );
@@ -384,7 +384,7 @@ function endProcessEventBlock2nd(): void {
   }
 
 
-  for ( const pokemon of sortByActionOrder( main.getPokemonInBattle() ) ) {
+  for ( const pokemon of getPokemonInBattlefield( 'actionOrder' ) ) {
 
     // a. さわぐ
     // b. ねむりによるあばれるの中断

@@ -42,6 +42,7 @@ class StatusAilment {
   }
 
   getHealth( item?: string, move?: string ): void {
+
     switch ( this.name ) {
       case 'Paralysis':
         if ( item ) battleLog.write( `${this.pokeName}は ${item}で まひが 治った!` );

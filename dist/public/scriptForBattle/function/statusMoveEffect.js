@@ -112,6 +112,7 @@ function statusMoveToEntireField(pokemon) {
     switch (pokemon.move.selected.name) {
         case 'Sunny Day': // 技「にほんばれ」
             main.field.weather.getSunny(pokemon);
+            main.field.weather.onActivateWeatherEffect();
             break;
         case 'Rain Dance': // 技「あまごい」
             main.field.weather.getRainy(pokemon);
@@ -159,7 +160,7 @@ function statusMoveToEntireField(pokemon) {
             main.field.whole.ionDeluge.onActivate();
             break;
         case 'Haze': // 技「くろいきり」
-            main.getPokemonInBattle().map(poke => poke.status.resetRank());
+            getPokemonInBattlefield('host-party').map(poke => poke.status.resetRank());
             battleLog.write(`全ての ステータスが 元に 戻った!`);
             break;
         case 'Court Change': // 技「コートチェンジ」
@@ -419,13 +420,13 @@ function statusMoveToSelectedPokemon(pokemon) {
                 case 'Role Play': // 技「なりきり」
                     pokemon.ability.name = target.ability.name;
                     battleLog.write(`${pokemon.getArticle()}は ${target.getArticle()}の ${target.ability.translate()}を コピーした!`);
-                    pokemon.onActivateWhenLanding();
+                    pokemon.onActivateAbilityWhenLanding();
                     break;
                 case 'Skill Swap': // 技「スキルスワップ」
                     [pokemon.ability.name, target.ability.name] = [target.ability.name, pokemon.ability.name];
                     battleLog.write(`${pokemon.getArticle()}は おたがいの 特性を 入れ替えた!`);
-                    pokemon.onActivateWhenLanding();
-                    target.onActivateWhenLanding();
+                    pokemon.onActivateAbilityWhenLanding();
+                    target.onActivateAbilityWhenLanding();
                     break;
                 case 'Psycho Shift': // 技「サイコシフト」
                     target.statusAilment.copyAilment(pokemon.statusAilment);
@@ -532,7 +533,7 @@ function statusMoveToSelectedPokemon(pokemon) {
                     target.stateChange.powder.onActivate(target);
                     break;
                 case 'Strength Sap': // 技「ちからをすいとる」
-                    const strengthSapValue = target.status.atk.rankCorrVal;
+                    const strengthSapValue = target.status.atk.rankCorrectionValue;
                     master.stat.changes.map(stat => target.changeRankByOther(stat.stat, stat.change, pokemon));
                     pokemon.status.hp.value.add(strengthSapValue);
                     battleLog.write(`${pokemon.getArticle()}の 体力が 回復した!`);

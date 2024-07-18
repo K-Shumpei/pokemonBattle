@@ -57,12 +57,14 @@ class ValueWithRange {
 // -------------------------
 class ActualWithThreeValue {
   av: number = 0;
+  avOrg: number = 0;
   bs: number = 0;
   iv: number = 0;
   ev: number = 0;
 
   register( stat: RegisterFiveStatus ): void {
     this.av = stat.av;
+    this.avOrg = stat.av;
     this.bs = stat.bs;
     this.iv = stat.iv;
     this.ev = stat.ev;
@@ -79,6 +81,7 @@ class ActualWithThreeValue {
 
   copy( status: ActualWithThreeValue ): void {
     this.av = status.av;
+    this.avOrg = status.av;
     this.bs = status.bs;
     this.iv = status.iv;
     this.ev = status.ev;
@@ -162,11 +165,12 @@ class Status {
     this.hp.value.setInitial( status.hp.av );
   }
 
-  calcRankCorrValue( critical: boolean ): void {
-    this.atk.calcRankCorrValue( critical );
-    this.def.calcRankCorrValue( critical );
-    this.spA.calcRankCorrValue( critical );
-    this.spD.calcRankCorrValue( critical );
+  calcRankCorrectionValue( pokemon: Pokemon ): void {
+    this.atk.calcRankCorrectionValue();
+    this.def.calcRankCorrectionValue();
+    this.spA.calcRankCorrectionValue();
+    this.spD.calcRankCorrectionValue();
+    this.spe.calcSpeed( pokemon );
   }
 
   formChange( bs: { hp: number, atk: number, def: number, spA: number, spD: number, spe: number }, level: number, nature: NatureData ): void {
@@ -189,18 +193,24 @@ class Status {
     switch ( para ) {
       case 'atk':
         this.atk.rank.change( name, real, setting, item );
+        this.atk.calcRankCorrectionValue();
         break;
       case 'def':
         this.def.rank.change( name, real, setting, item );
+        this.def.calcRankCorrectionValue();
         break;
       case 'spA':
         this.spA.rank.change( name, real, setting, item );
+        this.spA.calcRankCorrectionValue();
         break;
       case 'spD':
         this.spD.rank.change( name, real, setting, item );
+        this.spD.calcRankCorrectionValue();
         break;
       case 'spe':
         this.spe.rank.change( name, real, setting, item );
+        // 素早さ補正値を全部計算したいが未実装
+        this.spe.calcRankCorrectionValue();
         break;
       case 'acc':
         this.acc.change( name, real, setting, item );
@@ -302,6 +312,17 @@ class Status {
     if ( !this.eva.isMin() ) result.push( 'eva' );
     return result;
   }
+
+  isChangeRank(): boolean {
+    if ( !this.atk.rank.isZero() ) return true;
+    if ( !this.def.rank.isZero() ) return true;
+    if ( !this.spA.rank.isZero() ) return true;
+    if ( !this.spD.rank.isZero() ) return true;
+    if ( !this.spe.rank.isZero() ) return true;
+    if ( !this.acc.isZero() ) return true;
+    if ( !this.eva.isZero() ) return true;
+    return false;
+  }
 }
 
 
@@ -361,7 +382,8 @@ class HitPointValue extends ValueWithRange {
 // 攻撃・防御・特攻・特防・素早さ
 // -------------------------
 class MainStatus extends ActualWithThreeValue {
-  rankCorrVal: number = 0;
+  rankCorrectionValue: number = 0;
+  rankCorrectionValueAsCritical: number = 0;
   rank: Rank;
 
   constructor( text: string ) {
@@ -369,10 +391,11 @@ class MainStatus extends ActualWithThreeValue {
     this.rank = new Rank( text );
   }
 
-  calcRankCorrValue( critical: boolean ): void {
-    const rank: number = ( critical )? Math.max( this.rank.value, 0 ) : this.rank.value;
+  calcRankCorrectionValue(): void {
+    const rank: number = this.rank.value;
     const corr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
-    this.rankCorrVal = Math.floor( this.av * corr );
+    this.rankCorrectionValue = Math.floor( this.av * corr );
+    this.rankCorrectionValueAsCritical = Math.floor( this.av * ( 2 + Math.max( this.rank.value, 0 ) ) );
   }
 
   calcAct( level: number, corr: number ): void {
@@ -393,19 +416,84 @@ class Speed extends MainStatus {
     super( text );
   }
 
-  calcSpeed( corr: number, paralysis: number, trickRoom: boolean ): void {
+  calcSpeed( pokemon: Pokemon ): void {
+
+    const getCorrection = (): number => {
+      let corr: number = 4096;
+
+      if ( pokemon.ability.isName( 'Chlorophyll' ) && main.field.weather.isSunny( pokemon ) ) { // 特性「ようりょくそ」
+        corr = Math.round( corr * 8192 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Swift Swim' ) && main.field.weather.isRainy( pokemon ) ) { // 特性「すいすい」
+        corr = Math.round( corr * 8192 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Sand Rush' ) && main.field.weather.isSandy() ) { // 特性「すなかき」
+        corr = Math.round( corr * 8192 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Slush Rush' ) && main.field.weather.isSnowy() ) { // 特性「ゆきかき」
+        corr = Math.round( corr * 8192 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Surge Surfer' ) && main.field.terrain.isElectric() ) { // 特性「サーフテール」
+        corr = Math.round( corr * 8192 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Slow Start' ) ) { // 特性「スロースタート」
+        corr = Math.round( corr * 2048 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Unburden' ) ) { // 特性「かるわざ」
+        corr = Math.round( corr * 8192 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Quick Feet' ) && !pokemon.statusAilment.isHealth() ) { // 特性「はやあし」
+        corr = Math.round( corr * 6144 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Protosynthesis' ) ) { // 特性「こだいかっせい」
+        corr = Math.round( corr * 6144 / 4096 );
+      }
+      if ( pokemon.ability.isName( 'Quark Drive' ) ) { // 特性「クォークチャージ」
+        corr = Math.round( corr * 6144 / 4096 );
+      }
+      if ( pokemon.isItem( 'スピードパウダー' ) && pokemon.name === 'Ditto' ) { // メタモン
+        corr = Math.round( corr * 8192 / 4096 );
+      }
+      if ( pokemon.isItem( 'こだわりスカーフ' ) ) {
+        corr = Math.round( corr * 6144 / 4096 );
+      }
+      if ( pokemon.isItem( 'くろいてっきゅう' ) ) {
+        corr = Math.round( corr * 2048 / 4096 );
+      }
+      if ( pokemon.isItem( 'きょうせいギプス' ) ) {
+        corr = Math.round( corr * 2048 / 4096 );
+      }
+      if ( main.field.getSide( pokemon.isMine() ).tailwind.isTrue ) {
+        corr = Math.round( corr * 8192 / 4096 );
+      }
+      if ( main.field.getSide( pokemon.isMine() ).wetlands.isTrue ) {
+        corr = Math.round( corr * 1024 / 4096 );
+      }
+
+      return corr;
+    }
+
+    const getParalysis = (): number => {
+      if ( pokemon.statusAilment.isParalysis() ) {
+        return 2048;
+      } else {
+        return 4096;
+      }
+    }
+
+
     // ランク補正値の計算
     const rank: number = this.rank.value;
     const rankCorr: number = ( rank > 0 )? ( 2 + rank ) / 2 : 2 / ( 2 - rank );
-    this.rankCorrVal = Math.floor( this.av * rankCorr );
+    this.rankCorrectionValue = Math.floor( this.av * rankCorr );
 
     // 各種補正
-    const corr1: number = fiveRoundEntry( this.rankCorrVal * corr / 4096 )
-    const corr2: number = Math.floor( corr1 * paralysis )
+    const corr1: number = fiveRoundEntry( this.rankCorrectionValue * getCorrection() / 4096 )
+    const corr2: number = Math.floor( corr1 * getParalysis() )
     this.forPowerCalc = Math.min( 10000, corr2 );
 
     // トリックルーム
-    const corr3: number = ( trickRoom )? 10000 - this.forPowerCalc : this.forPowerCalc;
+    const corr3: number = ( main.field.whole.trickRoom.isTrue )? 10000 - this.forPowerCalc : this.forPowerCalc;
     this.actionOrder = corr3 % 8192;
 
     // 乱数
@@ -441,8 +529,6 @@ class Rank extends ValueWithRange {
     if ( real === -2 ) this.msgSuperDown( name, item );
     if ( real >= 3 ) this.msgHyperUp( name, item );
     if ( real <= -3 ) this.msgHyperDown( name, item );
-
-
   }
 
   msgNoUp( name: string ): void {

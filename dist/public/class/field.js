@@ -15,7 +15,7 @@ class Weather {
     isNoWeather() {
         return main.isExistAbility('Cloud Nine') || main.isExistAbility('Air Lock'); // 特性「ノーてんき」、特性「エアロック」
     }
-    isPlaim() {
+    isPlain() {
         return this.name === null || this.isNoWeather();
     }
     isSunny(pokemon) {
@@ -140,6 +140,7 @@ class Weather {
             fieldStatus.weather.extend = true;
         }
         battleLog.write('雨が 降り始めた!');
+        this.onActivateWeatherEffect();
     }
     getSandy(pokemon) {
         if (!this.isGetSandy())
@@ -152,6 +153,7 @@ class Weather {
             fieldStatus.weather.extend = true;
         }
         battleLog.write('砂あらしが 吹き始めた!');
+        this.onActivateWeatherEffect();
     }
     getSnowy(pokemon) {
         if (!this.isGetSnowy())
@@ -164,6 +166,7 @@ class Weather {
             fieldStatus.weather.extend = true;
         }
         battleLog.write('雪が 降り始めた!');
+        this.onActivateWeatherEffect();
     }
     getBadSunny() {
         if (!this.isGetBadSunny())
@@ -212,6 +215,7 @@ class Weather {
                 ;
         }
         this.reset();
+        this.onActivateWeatherEffect();
     }
     onActivateSandstorm(pokemon) {
         if (!this.isSandy())
@@ -262,6 +266,54 @@ class Weather {
         battleLog.write(`強い日差しの 影響で みずタイプの 攻撃が 蒸発した!`);
         return true;
     }
+    // 天候が変化した時に発動する効果
+    onActivateWeatherEffect() {
+        // 特性「てんきや」
+        for (const poke of getPokemonInBattlefield('actionOrder')) {
+            this.onActivateForecast(poke);
+        }
+        // 特性「アイスフェイス」
+        for (const poke of getPokemonInBattlefield('originalSpeed')) {
+            this.onActivateIceFace(poke);
+        }
+        // 特性「こだいかっせい」発動
+        for (const pokemon of getPokemonInBattlefield('speed')) {
+            this.onActivateProtosynthesis(pokemon);
+        }
+        // 特性「こだいかっせい」消失
+        for (const pokemon of getPokemonInBattlefield('speed')) {
+            this.onRemoveProtosynthesis(pokemon);
+        }
+    }
+    onActivateIceFace(pokemon) {
+        if (!this.isSnowy())
+            return;
+        if (!pokemon.ability.isName('Ice Face'))
+            return;
+        if (pokemon.name !== 'Eiscue Noice')
+            return;
+        pokemon.formChange();
+    }
+    onActivateProtosynthesis(pokemon) {
+        if (!pokemon.ability.isName('Protosynthesis'))
+            return;
+        if (!pokemon.stateChange.protosynthesis.isTrue)
+            return;
+        if (main.field.weather.name === 'HarshSunlight') {
+            pokemon.stateChange.quarkDrive.onActivate(pokemon, false);
+        }
+        else if (pokemon.item.isName('ブーストエナジー')) {
+            pokemon.stateChange.quarkDrive.onActivate(pokemon, true);
+        }
+    }
+    onRemoveProtosynthesis(pokemon) {
+        pokemon.stateChange.protosynthesis.onRemove(pokemon);
+    }
+    onActivateForecast(pokemon) {
+        if (!pokemon.ability.isName('Forecast'))
+            return;
+        pokemon.formChange();
+    }
 }
 class Terrain {
     constructor() {
@@ -279,6 +331,7 @@ class Terrain {
         if (this.isPsychic())
             battleLog.write(`足下の 不思議感が 消え去った!`);
         this.reset();
+        this.onActivateTerrainEffect();
     }
     reset() {
         this.name = null;
@@ -300,24 +353,28 @@ class Terrain {
         this.name = 'electric';
         this.setExtend(pokemon);
         battleLog.write(`足下に 電気が かけめぐる!`);
+        this.onActivateTerrainEffect();
     }
     getGrassy(pokemon) {
         this.reset();
         this.name = 'grassy';
         this.setExtend(pokemon);
         battleLog.write(`足下に 草がおいしげった!`);
+        this.onActivateTerrainEffect();
     }
     getMisty(pokemon) {
         this.reset();
         this.name = 'misty';
         this.setExtend(pokemon);
         battleLog.write(`足下に 霧が立ち込めた!`);
+        this.onActivateTerrainEffect();
     }
     getPsychic(pokemon) {
         this.reset();
         this.name = 'psychic';
         this.setExtend(pokemon);
         battleLog.write(`足下が 不思議な感じに なった!`);
+        this.onActivateTerrainEffect();
     }
     isElectric() {
         return this.name === 'electric';
@@ -351,6 +408,91 @@ class Terrain {
         pokemon.status.hp.value.add(Math.max(1, heal));
         battleLog.write(`${pokemon.getArticle()}の 体力が 回復した!`);
     }
+    // フィールドが変化した時に発動する効果
+    onActivateTerrainEffect() {
+        // もちもの「シード系」
+        for (const poke of getPokemonInBattlefield('speed')) {
+            this.onActivateSeed(poke);
+        }
+        // 特性「ぎたい」
+        for (const poke of getPokemonInBattlefield('speed')) {
+            this.onActivateMimicry(poke);
+        }
+        // 特性「クォークチャージ」発動
+        for (const pokemon of getPokemonInBattlefield('speed')) {
+            this.onActivateQuarkDrive(pokemon);
+        }
+        // 特性「クォークチャージ」消失
+        for (const pokemon of getPokemonInBattlefield('speed')) {
+            this.onRemoveQuarkDrive(pokemon);
+        }
+    }
+    onActivateMimicry(pokemon) {
+        if (!pokemon.ability.isName('Mimicry'))
+            return; // 特性「ぎたい」
+        if (this.isElectric() && !pokemon.type.isOnly('Electric')) {
+            pokemon.msgDeclareAbility();
+            pokemon.type.toType('Electric');
+        }
+        if (this.isGrassy() && !pokemon.type.isOnly('Grass')) {
+            pokemon.msgDeclareAbility();
+            pokemon.type.toType('Grass');
+        }
+        if (this.isMisty() && !pokemon.type.isOnly('Fairy')) {
+            pokemon.msgDeclareAbility();
+            pokemon.type.toType('Fairy');
+        }
+        if (this.isPsychic() && !pokemon.type.isOnly('Psychic')) {
+            pokemon.msgDeclareAbility();
+            pokemon.type.toType('Psychic');
+        }
+        if (this.isPlain() && pokemon.type.get() !== pokemon.type.org) {
+            pokemon.msgDeclareAbility();
+            // battleLog.write( `${pokemon.getArticle()}の タイプが 元に戻った!` );
+            pokemon.type.toOrg();
+        }
+    }
+    onActivateSeed(pokemon) {
+        if (pokemon.item.isName('エレキシード') && this.isElectric()) {
+            if (pokemon.isChangeRank('def', 1)) {
+                pokemon.changeRank('def', 1, 'エレキシード');
+                pokemon.consumeItem();
+            }
+        }
+        if (pokemon.item.isName('グラスシード') && this.isGrassy()) {
+            if (pokemon.isChangeRank('def', 1)) {
+                pokemon.changeRank('def', 1, 'グラスシード');
+                pokemon.consumeItem();
+            }
+        }
+        if (pokemon.item.isName('ミストシード') && this.isMisty()) {
+            if (pokemon.isChangeRank('spD', 1)) {
+                pokemon.changeRank('spD', 1, 'ミストシード');
+                pokemon.consumeItem();
+            }
+        }
+        if (pokemon.item.isName('サイコシード') && this.isPsychic()) {
+            if (pokemon.isChangeRank('spD', 1)) {
+                pokemon.changeRank('spD', 1, 'サイコシード');
+                pokemon.consumeItem();
+            }
+        }
+    }
+    onActivateQuarkDrive(pokemon) {
+        if (!pokemon.ability.isName('Quark Drive'))
+            return;
+        if (!pokemon.stateChange.quarkDrive.isTrue)
+            return;
+        if (main.field.terrain.isElectric()) {
+            pokemon.stateChange.quarkDrive.onActivate(pokemon, false);
+        }
+        else if (pokemon.item.isName('ブーストエナジー')) {
+            pokemon.stateChange.quarkDrive.onActivate(pokemon, true);
+        }
+    }
+    onRemoveQuarkDrive(pokemon) {
+        pokemon.stateChange.quarkDrive.onRemove(pokemon);
+    }
 }
 class WholeFieldStatus {
     constructor() {
@@ -382,7 +524,7 @@ class Gravity extends WholeFieldStatus {
         }
     }
     msgDrop() {
-        for (const pokemon of main.getPokemonInBattle()) {
+        for (const pokemon of getPokemonInBattlefield('eachLeft')) {
             if (!pokemon.isGround()) {
                 battleLog.write(`${pokemon.getArticle()}は じゅうりょくの 影響で 空中に いられなくなった!`);
             }
@@ -405,6 +547,9 @@ class TrickRoom extends WholeFieldStatus {
     onActivate(pokemon) {
         this.isTrue = true;
         battleLog.write(`${pokemon.getArticle()}は 時空を ゆがめた!`);
+        for (const poke of getPokemonInBattlefield('originalSpeed')) {
+            this.onActivateRoomService(poke);
+        }
     }
     onElapse() {
         if (!this.isTrue)
@@ -414,6 +559,16 @@ class TrickRoom extends WholeFieldStatus {
             this.reset();
             battleLog.write(`ゆがんだ 時空が 元に戻った! `);
         }
+    }
+    onActivateRoomService(pokemon) {
+        if (!pokemon.item.isName('ルームサービス'))
+            return;
+        if (!this.isTrue)
+            return;
+        if (!pokemon.isChangeRank('spe', -1))
+            return;
+        pokemon.changeRank('spe', -1);
+        pokemon.consumeItem();
     }
 }
 class MagicRoom extends WholeFieldStatus {
@@ -1112,68 +1267,55 @@ class SideField {
     setHost(host) {
         this._host = host;
     }
+    isScreen() {
+        return this.reflect.isTrue || this.lightScreen.isTrue || this.auroraVeil.isTrue;
+    }
+    onRemoveScreen() {
+        this.reflect.onRemove();
+        this.lightScreen.onRemove();
+        this.auroraVeil.onRemove();
+    }
 }
 class Field {
     constructor() {
-        this._battleStyle = 1;
-        this._numberOfPokemon = 3;
-        this._weather = new Weather;
-        this._terrain = new Terrain;
-        this._whole = new WholeField;
-        this._myField = new SideField(true);
-        this._opponentField = new SideField(false);
-    }
-    set weather(weather) {
-        this._weather = weather;
-    }
-    set terrain(terrain) {
-        this._terrain = terrain;
-    }
-    get battleStyle() {
-        return this._battleStyle;
-    }
-    get numberOfPokemon() {
-        return this._numberOfPokemon;
-    }
-    get weather() {
-        return this._weather;
-    }
-    get terrain() {
-        return this._terrain;
-    }
-    get whole() {
-        return this._whole;
+        this.battleStyle = 1;
+        this.numberOfPokemon = 3;
+        this.weather = new Weather();
+        this.terrain = new Terrain();
+        this.whole = new WholeField();
+        this.myField = new SideField(true);
+        this.opponentField = new SideField(false);
     }
     setHost(host) {
-        this._myField = new SideField(host);
-        this._opponentField = new SideField(!host);
+        this.myField = new SideField(host);
+        this.opponentField = new SideField(!host);
     }
     getSide(isMine) {
-        if (isMine === this._myField._isMine) {
-            return this._myField;
+        if (isMine === this.myField._isMine) {
+            return this.myField;
         }
         else {
-            return this._opponentField;
+            return this.opponentField;
         }
     }
     getSideByHost(host) {
-        if (this._myField.host === host) {
-            return this._myField;
+        if (this.myField.host === host) {
+            return this.myField;
         }
         else {
-            return this._opponentField;
+            return this.opponentField;
         }
     }
     setNumberOfPokemon(battleStyle) {
-        this._battleStyle = battleStyle;
+        this.battleStyle = battleStyle;
         if (battleStyle === 1) {
-            this._numberOfPokemon = 3;
+            this.numberOfPokemon = 3;
         }
         else if (battleStyle === 2) {
-            this._numberOfPokemon = 4;
+            this.numberOfPokemon = 4;
         }
         else if (battleStyle === 3) {
-            this._numberOfPokemon = 6;
+            this.numberOfPokemon = 6;
         }
     }
 }

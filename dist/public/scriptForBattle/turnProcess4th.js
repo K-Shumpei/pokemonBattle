@@ -1,9 +1,9 @@
 "use strict";
 // 4. ポケモンの行動
 function pokemonAction() {
-    while (main.getPokemonToAttack().length > 0) {
-        main.calcSpeed();
-        const pokemon = main.getPokemonToAttack()[0];
+    while (getPokemonScheduledToAttack().length > 0) {
+        main.calcRankCorrectionValue();
+        const pokemon = getPokemonScheduledToAttack()[0];
         // 技の成功判定
         const judge = isSuccess(pokemon);
         // コマンドの削除

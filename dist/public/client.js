@@ -114,6 +114,8 @@ socket.on('sendOrder', (myOrder, opponentOrder) => {
             }
         }
     }
+    // 場に出した時の効果
+    onActivateLandingEffect();
     // コマンド欄の表示
     main.me.showCommand1stField();
     battleLog.output();
@@ -255,6 +257,8 @@ socket.on('returnExtraCommand', (myCommand, opponentCommand, random) => {
     for (const number of random) {
         randomList.push(number);
     }
+    // 場に出した時の効果
+    onActivateLandingEffect();
     // ターンの流れ
     // 4. ポケモンの行動
     if (main.status === 4) {
@@ -278,6 +282,7 @@ socket.on('returnExtraCommand', (myCommand, opponentCommand, random) => {
 function buttonDisable() {
     // 送信ボタンの非活性化
     getHTMLInputElement('sendCommandButton').disabled = true;
+    getHTMLInputElement('sendExtraCommandButton').disabled = true;
     // コマンドボタンの非活性化
     for (let i = 0; i < fieldStatus.battleStyle; i++) {
         // 技

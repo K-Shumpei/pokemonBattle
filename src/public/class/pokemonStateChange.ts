@@ -9,6 +9,7 @@ class StateChangeStatus {
   strong: boolean = false; // しめつけバンド
   flag: boolean = false; // なまけ、きあいパンチ
   item: string | null = null;
+  rank: RankStrings = 'acc'; // クォークチャージ、こだいかっせい
 
   reset(): void {
     this.isTrue = false;
@@ -21,6 +22,7 @@ class StateChangeStatus {
     this.strong = false;
     this.flag = false;
     this.item = null;
+    this.rank = 'acc';
   }
 }
 
@@ -279,8 +281,8 @@ class Confuse extends StateChangeStatus {
     battleLog.write( `わけも わからず 自分を 攻撃した!` );
 
     const power: number = 40;
-    const attack: number = pokemon.status.atk.rankCorrVal;
-    const defense: number = pokemon.status.def.rankCorrVal;
+    const attack: number = pokemon.status.atk.rankCorrectionValue;
+    const defense: number = pokemon.status.def.rankCorrectionValue;
 
     // 最終ダメージ
     const damage = Math.floor( Math.floor( Math.floor( pokemon.level * 2 / 5 + 2 ) * power * attack / defense ) / 50 + 2 );
@@ -326,13 +328,9 @@ class DestinyBond extends StateChangeStatus {
 
 class Disable extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 4, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void { // 対象の技の特定
     this.isTrue = true;
+    this.turn.setInitial( 4 );
     // this.move = pokemon.move.selected.name;
     // battleLog.write( `${pokemon.getArticle()}の ${pokemon.move.selected.translate()}を 封じこめた! ` );
   }
@@ -364,13 +362,9 @@ class Electrify extends StateChangeStatus {
 
 class Embargo extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 5, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
+    this.turn.setInitial( 5 );
     battleLog.write( `${pokemon.getArticle()}は 道具が 使えなくなった! ` );
   }
 
@@ -386,13 +380,9 @@ class Embargo extends StateChangeStatus {
 
 class Encore extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 3, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void { // 対象の技の特定
     this.isTrue = true;
+    this.turn.setInitial( 3 );
     // this.move = pokemon.move.selected.name;
     battleLog.write( `${pokemon.getArticle()}は アンコールを受けた! ` );
   }
@@ -487,13 +477,9 @@ class Grudge extends StateChangeStatus {
 
 class HealBlock extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 5, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
+    this.turn.setInitial( 5 );
     battleLog.write( `${pokemon.getArticle()}は 回復動作を 封じられた!` );
   }
 
@@ -622,13 +608,9 @@ class MagicCoat extends StateChangeStatus {
 
 class MagnetRise extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 5, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
+    this.turn.setInitial( 5 );
     battleLog.write( `${pokemon.getArticle()}は 電磁力で 浮かびあがった!` );
   }
 
@@ -685,13 +667,9 @@ class Octolock extends StateChangeStatus {
 
 class PerishSong extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 3, 0 );
-  }
-
   onActivate(): void {
     this.isTrue = true;
+    this.turn.setInitial( 3 );
   }
 
   // pokemon → ほろびのボディ
@@ -764,6 +742,84 @@ class Protect extends StateChangeStatus {
   }
 }
 
+class Protosynthesis extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, item: boolean ): void {
+    this.isTrue = true;
+
+    if ( item ) {
+      this.item = 'ブーストエナジー';
+      battleLog.write( `${pokemon.getArticle()}は ブーストエナジーで こだいかっせいを 発動した!` );
+    } else {
+      battleLog.write( `${pokemon.getArticle()}は にほんばれで こだいかっせいを 発動した!` );
+    }
+
+    const statusList: { text: string, en: RankStrings, value: number }[] = [
+      { text: '攻撃', en: 'atk', value: pokemon.status.atk.rankCorrectionValue },
+      { text: '防御', en: 'def', value: pokemon.status.def.rankCorrectionValue },
+      { text: '特攻', en: 'spA', value: pokemon.status.spA.rankCorrectionValue },
+      { text: '特防', en: 'spD', value: pokemon.status.spD.rankCorrectionValue },
+      { text: '素早さ', en: 'spe', value: pokemon.status.spe.rankCorrectionValue },
+    ];
+
+    const status = statusList.sort( (a, b) => {
+      if ( a.value >= b.value ) return -1;
+      else return 1;
+    })[0];
+
+    this.rank = status.en;
+    battleLog.write( `${pokemon.getArticle()}の ${status.text}が 高まった!` );
+  }
+
+  onRemove( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( main.field.weather.name === 'HarshSunlight' ) return;
+    if ( this.item === 'ブーストエナジー' ) return;
+
+    battleLog.write( `${pokemon.getArticle()}は こだいかっせいの 効果が 切れた!` );
+    this.reset();
+  }
+}
+
+class QuarkDrive extends StateChangeStatus {
+
+  onActivate( pokemon: Pokemon, item: boolean ): void {
+    this.isTrue = true;
+
+    if ( item ) {
+      this.item = 'ブーストエナジー';
+      battleLog.write( `${pokemon.getArticle()}は ブーストエナジーで クォークチャージを 発動した!` );
+    } else {
+      battleLog.write( `${pokemon.getArticle()}は エレキフィールドで クォークチャージを 発動した!` );
+    }
+
+    const statusList: { text: string, en: RankStrings, value: number }[] = [
+      { text: '攻撃', en: 'atk', value: pokemon.status.atk.rankCorrectionValue },
+      { text: '防御', en: 'def', value: pokemon.status.def.rankCorrectionValue },
+      { text: '特攻', en: 'spA', value: pokemon.status.spA.rankCorrectionValue },
+      { text: '特防', en: 'spD', value: pokemon.status.spD.rankCorrectionValue },
+      { text: '素早さ', en: 'spe', value: pokemon.status.spe.rankCorrectionValue },
+    ];
+
+    const status = statusList.sort( (a, b) => {
+      if ( a.value >= b.value ) return -1;
+      else return 1;
+    })[0];
+
+    this.rank = status.en;
+    battleLog.write( `${pokemon.getArticle()}の ${status.text}が 高まった!` );
+  }
+
+  onRemove( pokemon: Pokemon ): void {
+    if ( !this.isTrue ) return;
+    if ( main.field.terrain.isElectric() ) return;
+    if ( this.item === 'ブーストエナジー' ) return;
+
+    battleLog.write( `${pokemon.getArticle()}は クォークチャージの 効果が 切れた!` );
+    this.reset();
+  }
+}
+
 class Rage extends StateChangeStatus {
 
   onEffective( pokemon: Pokemon, attack: Attack ): void {
@@ -805,13 +861,9 @@ class SaltCure extends StateChangeStatus {
 
 class SlowStart extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 5, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
+    this.turn.setInitial( 5 );
     battleLog.write( `${pokemon.getArticle()}は 調子が 上がらない!` );
   }
 
@@ -891,13 +943,9 @@ class Taunt extends StateChangeStatus {
 
 class Telekinesis extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 3, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
+    this.turn.setInitial( 3 );
     battleLog.write( `${pokemon.getArticle()}を 宙に 浮かせた!` );
   }
 
@@ -913,13 +961,9 @@ class Telekinesis extends StateChangeStatus {
 
 class ThroatChop extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 2, 0 );
-  }
-
   onActivate(): void {
     this.isTrue = true;
+    this.turn.setInitial( 2 );
   }
 
   isEffective( pokemon: Pokemon ): boolean {
@@ -933,13 +977,9 @@ class ThroatChop extends StateChangeStatus {
 
 class Torment extends StateChangeStatus {
 
-  constructor() {
-    super();
-    this.turn = new ValueWithRange( 3, 0 );
-  }
-
   onActivate( pokemon: Pokemon ): void {
     this.isTrue = true;
+    this.turn.setInitial( 3 );
     this.move = pokemon.move.selected.name;
     battleLog.write( `${pokemon.getArticle()}は いちゃもんを つけられた!` );
   }
@@ -983,54 +1023,56 @@ class Truant extends StateChangeStatus {
 
 class StateChangeSummary {
 
-  attract      = new Attract();      // メロメロ
-  aquaRing     = new AquaRing();     // アクアリング
-  autotomize   = new Autotomize();   // ボディパージ
-  beakBlast    = new BeakBlast(); // くちばしキャノン
-  bind         = new Bind();         // バインド
-  cannotEscape = new CannotEscape(); // にげられない
-  cannotMove   = new CannotMove();   // 反動で動けない
-  charge       = new Charge();       // じゅうでん
-  confuse      = new Confuse();      // こんらん
-  curse        = new Curse();        // のろい
-  destinyBond  = new DestinyBond();  // みちづれ
-  disable      = new Disable();      // かなしばり
-  electrify    = new Electrify();    // そうでん
-  embargo      = new Embargo();      // さしおさえ
-  encore       = new Encore();       // アンコール
-  endure       = new Endure();       // こらえる
-  flinch       = new Flinch();       // ひるみ
-  fling        = new Fling();        // なげつける
-  focusEnergy  = new FocusEnergy();  // きゅうしょアップ
-  focusPunch   = new FocusPunch();   // きあいパンチ
-  grudge       = new Grudge();       // おんねん
-  healBlock    = new HealBlock();    // かいふくふうじ
-  helpingHand  = new HelpingHand();  // てだすけ
-  imprison     = new Imprison();     // ふういん
-  ingrain      = new Ingrain();      // ねをはる
-  laserFocus   = new LaserFocus();   // とぎすます
-  leechSeed    = new LeechSeed();    // やどりぎのタネ
-  lockOn       = new LockOn();       // ロックオン
-  magicCoat    = new MagicCoat();    // マジックコート
-  magnetRise   = new MagnetRise();   // でんじふゆう
-  nightmare    = new Nightmare();    // あくむ
-  noAbility    = new NoAbility();    // とくせいなし
-  octolock     = new Octolock();     // たこがため
-  perishSong   = new PerishSong();   // ほろびのうた
-  powder       = new Powder();       // ふんじん
-  protect      = new Protect();      // まもる
-  rage         = new Rage();         // いかり
-  saltCure     = new SaltCure();     // しおづけ
-  slowStart    = new SlowStart();    // スロースタート
-  spotlight    = new Spotlight();    // ちゅうもくのまと
-  stockpile    = new Stockpile();    // たくわえる
-  substitute   = new Substitute();   // みがわり
-  tarShot      = new TarShot();      // タールショット
-  taunt        = new Taunt();        // ちょうはつ
-  telekinesis  = new Telekinesis();  // テレキネシス
-  throatChop   = new ThroatChop();   // じごくづき
-  torment      = new Torment();      // いちゃもん
-  truant       = new Truant();       // なまけ
+  attract        = new Attract();      // メロメロ
+  aquaRing       = new AquaRing();     // アクアリング
+  autotomize     = new Autotomize();   // ボディパージ
+  beakBlast      = new BeakBlast();    // くちばしキャノン
+  bind           = new Bind();         // バインド
+  cannotEscape   = new CannotEscape(); // にげられない
+  cannotMove     = new CannotMove();   // 反動で動けない
+  charge         = new Charge();       // じゅうでん
+  confuse        = new Confuse();      // こんらん
+  curse          = new Curse();        // のろい
+  destinyBond    = new DestinyBond();  // みちづれ
+  disable        = new Disable();      // かなしばり
+  electrify      = new Electrify();    // そうでん
+  embargo        = new Embargo();      // さしおさえ
+  encore         = new Encore();       // アンコール
+  endure         = new Endure();       // こらえる
+  flinch         = new Flinch();       // ひるみ
+  fling          = new Fling();        // なげつける
+  focusEnergy    = new FocusEnergy();  // きゅうしょアップ
+  focusPunch     = new FocusPunch();   // きあいパンチ
+  grudge         = new Grudge();       // おんねん
+  healBlock      = new HealBlock();    // かいふくふうじ
+  helpingHand    = new HelpingHand();  // てだすけ
+  imprison       = new Imprison();     // ふういん
+  ingrain        = new Ingrain();      // ねをはる
+  laserFocus     = new LaserFocus();   // とぎすます
+  leechSeed      = new LeechSeed();    // やどりぎのタネ
+  lockOn         = new LockOn();       // ロックオン
+  magicCoat      = new MagicCoat();    // マジックコート
+  magnetRise     = new MagnetRise();   // でんじふゆう
+  nightmare      = new Nightmare();    // あくむ
+  noAbility      = new NoAbility();    // とくせいなし
+  octolock       = new Octolock();     // たこがため
+  perishSong     = new PerishSong();   // ほろびのうた
+  powder         = new Powder();       // ふんじん
+  protect        = new Protect();      // まもる
+  protosynthesis = new Protosynthesis(); // こだいかっせい
+  quarkDrive     = new QuarkDrive();   // クォークチャージ
+  rage           = new Rage();         // いかり
+  saltCure       = new SaltCure();     // しおづけ
+  slowStart      = new SlowStart();    // スロースタート
+  spotlight      = new Spotlight();    // ちゅうもくのまと
+  stockpile      = new Stockpile();    // たくわえる
+  substitute     = new Substitute();   // みがわり
+  tarShot        = new TarShot();      // タールショット
+  taunt          = new Taunt();        // ちょうはつ
+  telekinesis    = new Telekinesis();  // テレキネシス
+  throatChop     = new ThroatChop();   // じごくづき
+  torment        = new Torment();      // いちゃもん
+  truant         = new Truant();       // なまけ
 
 
 
@@ -1085,8 +1127,6 @@ class StateChangeSummary {
   _disguise: StateChange; // ばけのかわ
   _iceFace: StateChange; // アイスフェイス
   _protean: StateChange; // へんげんじざい
-  _quarkDrive: StateChange; // クォークチャージ
-  _protosynthesis: StateChange; // こだいかっせい
   _flashFire: StateChange; // もらいび
   _sheerForce: StateChange; // ちからずく
   _synchronize: StateChange; // シンクロ
@@ -1121,8 +1161,6 @@ class StateChangeSummary {
     this._disguise = new StateChange();
     this._iceFace = new StateChange();
     this._protean = new StateChange();
-    this._quarkDrive = new StateChange();
-    this._protosynthesis = new StateChange();
     this._flashFire = new StateChange();
     this._sheerForce = new StateChange();
     this._synchronize = new StateChange();
@@ -1178,12 +1216,6 @@ class StateChangeSummary {
   }
   set protean( protean: StateChange ) {
     this._protean = protean;
-  }
-  set quarkDrive( quarkDrive: StateChange ) {
-    this._quarkDrive = quarkDrive;
-  }
-  set protosynthesis( protosynthesis: StateChange ) {
-    this._protosynthesis = protosynthesis;
   }
   set flashFire( flashFire: StateChange ) {
     this._flashFire = flashFire;
@@ -1263,12 +1295,6 @@ class StateChangeSummary {
   }
   get protean(): StateChange {
     return this._protean;
-  }
-  get quarkDrive(): StateChange {
-    return this._quarkDrive;
-  }
-  get protosynthesis(): StateChange {
-    return this._protosynthesis;
   }
   get flashFire(): StateChange {
     return this._flashFire;

@@ -11,6 +11,7 @@ class StateChangeStatus {
         this.strong = false; // しめつけバンド
         this.flag = false; // なまけ、きあいパンチ
         this.item = null;
+        this.rank = 'acc'; // クォークチャージ、こだいかっせい
     }
     reset() {
         this.isTrue = false;
@@ -23,6 +24,7 @@ class StateChangeStatus {
         this.strong = false;
         this.flag = false;
         this.item = null;
+        this.rank = 'acc';
     }
 }
 class Attract extends StateChangeStatus {
@@ -255,8 +257,8 @@ class Confuse extends StateChangeStatus {
             return false;
         battleLog.write(`わけも わからず 自分を 攻撃した!`);
         const power = 40;
-        const attack = pokemon.status.atk.rankCorrVal;
-        const defense = pokemon.status.def.rankCorrVal;
+        const attack = pokemon.status.atk.rankCorrectionValue;
+        const defense = pokemon.status.def.rankCorrectionValue;
         // 最終ダメージ
         const damage = Math.floor(Math.floor(Math.floor(pokemon.level * 2 / 5 + 2) * power * attack / defense) / 50 + 2);
         // 乱数補正
@@ -293,12 +295,9 @@ class DestinyBond extends StateChangeStatus {
     }
 }
 class Disable extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(4, 0);
-    }
     onActivate(pokemon) {
         this.isTrue = true;
+        this.turn.setInitial(4);
         // this.move = pokemon.move.selected.name;
         // battleLog.write( `${pokemon.getArticle()}の ${pokemon.move.selected.translate()}を 封じこめた! ` );
     }
@@ -326,12 +325,9 @@ class Electrify extends StateChangeStatus {
     }
 }
 class Embargo extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(5, 0);
-    }
     onActivate(pokemon) {
         this.isTrue = true;
+        this.turn.setInitial(5);
         battleLog.write(`${pokemon.getArticle()}は 道具が 使えなくなった! `);
     }
     onElapse(pokemon) {
@@ -345,12 +341,9 @@ class Embargo extends StateChangeStatus {
     }
 }
 class Encore extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(3, 0);
-    }
     onActivate(pokemon) {
         this.isTrue = true;
+        this.turn.setInitial(3);
         // this.move = pokemon.move.selected.name;
         battleLog.write(`${pokemon.getArticle()}は アンコールを受けた! `);
     }
@@ -430,12 +423,9 @@ class Grudge extends StateChangeStatus {
     }
 }
 class HealBlock extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(5, 0);
-    }
     onActivate(pokemon) {
         this.isTrue = true;
+        this.turn.setInitial(5);
         battleLog.write(`${pokemon.getArticle()}は 回復動作を 封じられた!`);
     }
     onElapse(pokemon) {
@@ -547,12 +537,9 @@ class MagicCoat extends StateChangeStatus {
     }
 }
 class MagnetRise extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(5, 0);
-    }
     onActivate(pokemon) {
         this.isTrue = true;
+        this.turn.setInitial(5);
         battleLog.write(`${pokemon.getArticle()}は 電磁力で 浮かびあがった!`);
     }
     onElapse(pokemon) {
@@ -600,12 +587,9 @@ class Octolock extends StateChangeStatus {
     }
 }
 class PerishSong extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(3, 0);
-    }
     onActivate() {
         this.isTrue = true;
+        this.turn.setInitial(3);
     }
     // pokemon → ほろびのボディ
     // target → 攻撃側
@@ -674,6 +658,80 @@ class Protect extends StateChangeStatus {
         battleLog.write(`${pokemon.getArticle()}は 守りの 体勢に 入った!`);
     }
 }
+class Protosynthesis extends StateChangeStatus {
+    onActivate(pokemon, item) {
+        this.isTrue = true;
+        if (item) {
+            this.item = 'ブーストエナジー';
+            battleLog.write(`${pokemon.getArticle()}は ブーストエナジーで こだいかっせいを 発動した!`);
+        }
+        else {
+            battleLog.write(`${pokemon.getArticle()}は にほんばれで こだいかっせいを 発動した!`);
+        }
+        const statusList = [
+            { text: '攻撃', en: 'atk', value: pokemon.status.atk.rankCorrectionValue },
+            { text: '防御', en: 'def', value: pokemon.status.def.rankCorrectionValue },
+            { text: '特攻', en: 'spA', value: pokemon.status.spA.rankCorrectionValue },
+            { text: '特防', en: 'spD', value: pokemon.status.spD.rankCorrectionValue },
+            { text: '素早さ', en: 'spe', value: pokemon.status.spe.rankCorrectionValue },
+        ];
+        const status = statusList.sort((a, b) => {
+            if (a.value >= b.value)
+                return -1;
+            else
+                return 1;
+        })[0];
+        this.rank = status.en;
+        battleLog.write(`${pokemon.getArticle()}の ${status.text}が 高まった!`);
+    }
+    onRemove(pokemon) {
+        if (!this.isTrue)
+            return;
+        if (main.field.weather.name === 'HarshSunlight')
+            return;
+        if (this.item === 'ブーストエナジー')
+            return;
+        battleLog.write(`${pokemon.getArticle()}は こだいかっせいの 効果が 切れた!`);
+        this.reset();
+    }
+}
+class QuarkDrive extends StateChangeStatus {
+    onActivate(pokemon, item) {
+        this.isTrue = true;
+        if (item) {
+            this.item = 'ブーストエナジー';
+            battleLog.write(`${pokemon.getArticle()}は ブーストエナジーで クォークチャージを 発動した!`);
+        }
+        else {
+            battleLog.write(`${pokemon.getArticle()}は エレキフィールドで クォークチャージを 発動した!`);
+        }
+        const statusList = [
+            { text: '攻撃', en: 'atk', value: pokemon.status.atk.rankCorrectionValue },
+            { text: '防御', en: 'def', value: pokemon.status.def.rankCorrectionValue },
+            { text: '特攻', en: 'spA', value: pokemon.status.spA.rankCorrectionValue },
+            { text: '特防', en: 'spD', value: pokemon.status.spD.rankCorrectionValue },
+            { text: '素早さ', en: 'spe', value: pokemon.status.spe.rankCorrectionValue },
+        ];
+        const status = statusList.sort((a, b) => {
+            if (a.value >= b.value)
+                return -1;
+            else
+                return 1;
+        })[0];
+        this.rank = status.en;
+        battleLog.write(`${pokemon.getArticle()}の ${status.text}が 高まった!`);
+    }
+    onRemove(pokemon) {
+        if (!this.isTrue)
+            return;
+        if (main.field.terrain.isElectric())
+            return;
+        if (this.item === 'ブーストエナジー')
+            return;
+        battleLog.write(`${pokemon.getArticle()}は クォークチャージの 効果が 切れた!`);
+        this.reset();
+    }
+}
 class Rage extends StateChangeStatus {
     onEffective(pokemon, attack) {
         if (pokemon.status.hp.value.isZero())
@@ -711,12 +769,9 @@ class SaltCure extends StateChangeStatus {
     }
 }
 class SlowStart extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(5, 0);
-    }
     onActivate(pokemon) {
         this.isTrue = true;
+        this.turn.setInitial(5);
         battleLog.write(`${pokemon.getArticle()}は 調子が 上がらない!`);
     }
     onElapse(pokemon) {
@@ -784,12 +839,9 @@ class Taunt extends StateChangeStatus {
     }
 }
 class Telekinesis extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(3, 0);
-    }
     onActivate(pokemon) {
         this.isTrue = true;
+        this.turn.setInitial(3);
         battleLog.write(`${pokemon.getArticle()}を 宙に 浮かせた!`);
     }
     onElapse(pokemon) {
@@ -803,12 +855,9 @@ class Telekinesis extends StateChangeStatus {
     }
 }
 class ThroatChop extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(2, 0);
-    }
     onActivate() {
         this.isTrue = true;
+        this.turn.setInitial(2);
     }
     isEffective(pokemon) {
         if (!this.isTrue)
@@ -820,12 +869,9 @@ class ThroatChop extends StateChangeStatus {
     }
 }
 class Torment extends StateChangeStatus {
-    constructor() {
-        super();
-        this.turn = new ValueWithRange(3, 0);
-    }
     onActivate(pokemon) {
         this.isTrue = true;
+        this.turn.setInitial(3);
         this.move = pokemon.move.selected.name;
         battleLog.write(`${pokemon.getArticle()}は いちゃもんを つけられた!`);
     }
@@ -899,6 +945,8 @@ class StateChangeSummary {
         this.perishSong = new PerishSong(); // ほろびのうた
         this.powder = new Powder(); // ふんじん
         this.protect = new Protect(); // まもる
+        this.protosynthesis = new Protosynthesis(); // こだいかっせい
+        this.quarkDrive = new QuarkDrive(); // クォークチャージ
         this.rage = new Rage(); // いかり
         this.saltCure = new SaltCure(); // しおづけ
         this.slowStart = new SlowStart(); // スロースタート
@@ -926,8 +974,6 @@ class StateChangeSummary {
         this._disguise = new StateChange();
         this._iceFace = new StateChange();
         this._protean = new StateChange();
-        this._quarkDrive = new StateChange();
-        this._protosynthesis = new StateChange();
         this._flashFire = new StateChange();
         this._sheerForce = new StateChange();
         this._synchronize = new StateChange();
@@ -982,12 +1028,6 @@ class StateChangeSummary {
     }
     set protean(protean) {
         this._protean = protean;
-    }
-    set quarkDrive(quarkDrive) {
-        this._quarkDrive = quarkDrive;
-    }
-    set protosynthesis(protosynthesis) {
-        this._protosynthesis = protosynthesis;
     }
     set flashFire(flashFire) {
         this._flashFire = flashFire;
@@ -1066,12 +1106,6 @@ class StateChangeSummary {
     }
     get protean() {
         return this._protean;
-    }
-    get quarkDrive() {
-        return this._quarkDrive;
-    }
-    get protosynthesis() {
-        return this._protosynthesis;
     }
     get flashFire() {
         return this._flashFire;

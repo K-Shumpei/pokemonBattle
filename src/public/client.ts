@@ -154,6 +154,9 @@ socket.on( 'sendOrder', ( myOrder: number[], opponentOrder: number[] ) => {
     }
   }
 
+  // 場に出した時の効果
+  onActivateLandingEffect()
+
   // コマンド欄の表示
   main.me.showCommand1stField();
 
@@ -328,6 +331,9 @@ socket.on( 'returnExtraCommand', ( myCommand: ExtraCommand, opponentCommand: Ext
   for ( const number of random ) {
     randomList.push( number );
   }
+
+  // 場に出した時の効果
+  onActivateLandingEffect();
 
   // ターンの流れ
   // 4. ポケモンの行動

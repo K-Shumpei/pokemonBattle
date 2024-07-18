@@ -338,12 +338,13 @@ class ForestsCurse extends StateChangeStatus {
 class Type {
     constructor() {
         this.list = [];
+        this.org = [];
         this.trickOrTreat = new TrickOrTreat(); // ハロウィン
         this.forestCurse = new ForestsCurse(); // もりののろい
         this.pokeName = '';
     }
     copyFromOpp(list) {
-        this.list = list;
+        this.list = list.concat();
     }
     get() {
         let result = this.list;
@@ -354,7 +355,7 @@ class Type {
         return this.list;
     }
     has(type) {
-        return this.list.includes(type);
+        return this.get().includes(type);
     }
     isOnly(type) {
         return this.get().length === 1 && this.get()[0] === type;
@@ -370,6 +371,9 @@ class Type {
             return acc * rate;
         }, 1.0);
         return result;
+    }
+    toOrg() {
+        this.list = this.org.concat();
     }
 }
 class Pokemon {
@@ -1177,51 +1181,39 @@ class Pokemon {
     //--------------
     // フォルムチェンジ
     //--------------
-    getNextForm() {
-        if (this.name === 'Aegislash Shield')
-            return 'Aegislash Blade';
-        if (this.name === 'Aegislash Blade')
-            return 'Aegislash Shield';
-        if (this.name === 'Meloetta Aria')
-            return 'Meloetta Pirouette';
-        if (this.name === 'Meloetta Pirouette')
-            return 'Meloetta Aria';
-        if (this.name === 'Mimikyu Disguised')
-            return 'Mimikyu Busted';
-        if (this.name === 'Cramorant Gulping')
-            return 'Cramorant';
-        if (this.name === 'Cramorant Gorging')
-            return 'Cramorant';
-        if (this.name === 'Eiscue Ice')
-            return 'Eiscue Noice';
-        if (this.name === 'Eiscue Noice')
-            return 'Eiscue Ice';
-        return this.name;
-    }
     formChange() {
-        const nextForm = this.getNextForm();
-        if (nextForm === this.name)
+        var _a;
+        const getCastform = () => {
+            if (main.field.weather.isSunny(this))
+                return 'Castform Sunny';
+            if (main.field.weather.isRainy(this))
+                return 'Castform Rainy';
+            if (main.field.weather.isSnowy())
+                return 'Castform Snowy';
+            return 'Castform';
+        };
+        if (!formChangeMaster.some(poke => poke.name === this.name))
             return;
-        this.name = nextForm;
+        const formChange = formChangeMaster.filter(poke => poke.name === this.name)[0];
+        if ((_a = formChange.name) === null || _a === void 0 ? void 0 : _a.includes('Castform')) {
+            formChange.toName = getCastform();
+        }
+        if (this.name === formChange.toName)
+            return;
+        // メッセージ
+        if (formChange.article) {
+            battleLog.write(`${this.getArticle()}` + `${formChange.message}`);
+        }
+        else {
+            battleLog.write(`${formChange.message}`);
+        }
+        // ステータス変更
+        this.name = formChange.toName;
         const pokemon = this.getMaster();
         this.type.list = pokemon.type;
         this.ability.setOrg(abilityTextList.filter(name => name === pokemon.ability[0])[0]);
         this.status.formChange(pokemon.baseStatus, this.level, this.getNatureMaster());
-    }
-    msgAegislashSchild() {
-        battleLog.write(`ブレードフォルム チェンジ!`);
-    }
-    msgAegislashBlade() {
-        battleLog.write(`シールドフォルム チェンジ!`);
-    }
-    msgRelicSong() {
-        battleLog.write(`${this.getArticle()}の 姿が 変化した!`);
-    }
-    msgDisguise() {
-        battleLog.write(`${this.getArticle()}の ばけのかわが はがれた!`);
-    }
-    msgIceFace() {
-        battleLog.write(`${this.getArticle()}の 姿が 変化した!`);
+        this.onActivateAbilityWhenLanding();
     }
     //-------------
     // きのみを食べる
@@ -1522,6 +1514,7 @@ class Pokemon {
     toBattleField(battle) {
         main.getPlayer(this.isMine()).deleteExtraCommand(battle);
         this.order.battle = battle;
+        this.extraParameter.onLanding();
         const hand = this.order.hand;
         for (const pokemon of main.getParty(this.isMine())) {
             if (pokemon.order.hand < hand) {
@@ -1582,7 +1575,7 @@ class Pokemon {
             return false;
         return true;
     }
-    onActivateWhenLanding() {
+    onActivateAbilityWhenLanding() {
         if (!this.ability.isValid())
             return;
         switch (this.ability.name) {
@@ -1627,10 +1620,26 @@ class Pokemon {
                 this.msgDeclareAbility();
                 break;
             case 'Anticipation': // 特性「きけんよち」
-                this.msgDeclareAbility();
+                const anticipationCheck = getPokemonInSide(!this.isMine()).some(poke => {
+                    return poke.move.learned.some(move => {
+                        const master = move.getMaster();
+                        return master.class !== 'status' && (this.type.getCompatibility(master.type) > 1 || master.category === 'ohko');
+                    });
+                });
+                if (anticipationCheck) {
+                    battleLog.write(`${this.getArticle()}は 身震いした!`);
+                }
                 break;
             case 'Curious Medicine': // 特性「きみょうなくすり」
-                this.msgDeclareAbility();
+                const curiousMedicineList = getPokemonInSide(this.isMine()).filter(poke => {
+                    return poke.order.party !== this.order.party && poke.status.isChangeRank();
+                });
+                if (curiousMedicineList.length > 0) {
+                    this.msgDeclareAbility();
+                    const text = curiousMedicineList.map(poke => poke.getArticle());
+                    curiousMedicineList.map(poke => poke.status.toZeroAllRank());
+                    battleLog.write(`${text.join(' と ')}の 能力変化が 元に戻った!`);
+                }
                 break;
             case 'Grassy Surge': // 特性「グラスメイカー」
                 if (!main.field.terrain.isGrassy()) {
@@ -1645,7 +1654,7 @@ class Pokemon {
                 }
                 break;
             case 'Slow Start': // 特性「スロースタート」
-                this.msgDeclareAbility();
+                this.stateChange.slowStart.onActivate(this);
                 break;
             case 'Sand Stream': // 特性「すなあらし」
                 if (main.field.weather.isGetSandy()) {
@@ -1655,6 +1664,8 @@ class Pokemon {
                 break;
             case 'Comatose': // 特性「ぜったいねむり」
                 this.msgDeclareAbility();
+                battleLog.write(`${this.getArticle()}は 夢うつつの 状態!`);
+                // 未実装
                 break;
             /* case 'Feldherr': // 特性「そうだいしょう」
               this.msgDeclareAbility();
@@ -1705,7 +1716,11 @@ class Pokemon {
                 }
                 break;
             case 'Screen Cleaner': // 特性「バリアフリー」
-                this.msgDeclareAbility();
+                if (main.field.myField.isScreen() || main.field.opponentField.isScreen()) {
+                    this.msgDeclareAbility();
+                    main.field.myField.onRemoveScreen();
+                    main.field.opponentField.onRemoveScreen();
+                }
                 break;
             case 'Drought': // 特性「ひでり」
                 if (main.field.weather.isGetSunny()) {
@@ -1729,14 +1744,14 @@ class Pokemon {
                 break;
             case 'Dauntless Shield': // 特性「ふくつのたて」
                 if (this.isChangeRank('def', 1)) {
-                    this.changeRank('def', 1);
                     this.msgDeclareAbility();
+                    this.changeRank('def', 1);
                 }
                 break;
             case 'Intrepid Sword': // 特性「ふとうのけん」
                 if (this.isChangeRank('atk', 1)) {
-                    this.changeRank('atk', 1);
                     this.msgDeclareAbility();
+                    this.changeRank('atk', 1);
                 }
                 break;
             case 'Pressure': // 特性「プレッシャー」
@@ -1762,7 +1777,34 @@ class Pokemon {
                 }
                 break;
             case 'Forewarn': // 特性「よちむ」
+                const forewarnList = [];
+                const getForewarnPower = (move) => {
+                    const master = move.getMaster();
+                    if (master.class === 'status')
+                        return 0;
+                    if (master.category === 'ohko')
+                        return 150;
+                    if (master.power !== null)
+                        return master.power;
+                    switch (move.name) {
+                        case 'Counter':
+                        case 'Mirror Coat':
+                        case 'Metal Burst':
+                        case 'Comeuppance':
+                            return 100;
+                        default:
+                            return 80;
+                    }
+                };
+                for (const poke of getPokemonInSide(!this.isMine())) {
+                    for (const move of poke.move.learned) {
+                        const master = move.getMaster();
+                        forewarnList.push({ pokeName: poke.getArticle(), moveName: master.nameJA, power: getForewarnPower(move) });
+                    }
+                }
+                const forewarn = forewarnList.sort((a, b) => a.power > b.power ? -1 : 1)[0];
                 this.msgDeclareAbility();
+                battleLog.write(`${forewarn.pokeName}の ${forewarn.moveName} を 読み取った!`);
                 break;
             case 'Vessel of Ruin': // 特性「わざわいのうつわ」
                 this.msgDeclareAbility();
@@ -1782,31 +1824,55 @@ class Pokemon {
                 break;
             // 状態異常を治す特性
             case 'Limber': // 特性「じゅうなん」
-                this.msgDeclareAbility();
+                if (this.statusAilment.isParalysis()) {
+                    this.msgDeclareAbility();
+                    this.statusAilment.getHealth();
+                }
                 break;
             case 'Water Bubble': // 特性「すいほう」
-                this.msgDeclareAbility();
+                if (this.statusAilment.isBurned()) {
+                    this.msgDeclareAbility();
+                    this.statusAilment.getHealth();
+                }
                 break;
             case 'Thermal Exchange': // 特性「ねつこうかん」
-                this.msgDeclareAbility();
+                if (this.statusAilment.isBurned()) {
+                    this.msgDeclareAbility();
+                    this.statusAilment.getHealth();
+                }
                 break;
             case 'Pastel Veil': // 特性「パステルベール」
                 this.msgDeclareAbility();
                 break;
             case 'Insomnia': // 特性「ふみん」
-                this.msgDeclareAbility();
+                if (this.statusAilment.isAsleep()) {
+                    this.msgDeclareAbility();
+                    this.statusAilment.getHealth();
+                }
                 break;
             case 'Magma Armor': // 特性「マグマのよろい」
-                this.msgDeclareAbility();
+                if (this.statusAilment.isFrozen()) {
+                    this.msgDeclareAbility();
+                    this.statusAilment.getHealth();
+                }
                 break;
             case 'Water Veil': // 特性「みずのベール」
-                this.msgDeclareAbility();
+                if (this.statusAilment.isBurned()) {
+                    this.msgDeclareAbility();
+                    this.statusAilment.getHealth();
+                }
                 break;
             case 'Immunity': // 特性「めんえき」
-                this.msgDeclareAbility();
+                if (this.statusAilment.isPoisoned()) {
+                    this.msgDeclareAbility();
+                    this.statusAilment.getHealth();
+                }
                 break;
             case 'Vital Spirit': // 特性「やるき」
-                this.msgDeclareAbility();
+                if (this.statusAilment.isAsleep()) {
+                    this.msgDeclareAbility();
+                    this.statusAilment.getHealth();
+                }
                 break;
             default:
                 break;

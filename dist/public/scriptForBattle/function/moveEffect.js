@@ -696,7 +696,7 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
         if (!target.ability.isName('Cotton Down'))
             return; // 特性「わたげ」
         const valid = [];
-        for (const poke of main.getPokemonInBattle()) {
+        for (const poke of getPokemonInBattlefield('cottonDown')) {
             if (poke.isMine() == target.isMine() && poke.order.party === target.order.party)
                 continue;
             if (poke.stateChange.substitute.isTrue)
@@ -1051,7 +1051,6 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
         target.stateChange.disguise.reset();
         target.msgDeclareAbility();
         target.formChange();
-        target.msgDisguise();
         const value = Math.floor(target.getOrgHP() / 8);
         target.status.hp.value.sub(value);
     };
@@ -1061,7 +1060,6 @@ function effectsWhenDamageOccurs(pokemon, isMe) {
         target.stateChange.iceFace.reset();
         target.msgDeclareAbility();
         target.formChange();
-        target.msgIceFace();
     };
     for (const attack of pokemon.attack.getTargetToPokemon()) {
         const target = main.getPokemonByBattle(attack);
@@ -1563,11 +1561,11 @@ function activateAbilityEffectPart1(pokemon) {
         // 倒したポケモンの数
         const number = pokemon.attack.getTargetToPokemonFainted().length;
         const statusValue = [
-            { status: 'atk', value: pokemon.status.atk.rankCorrVal },
-            { status: 'def', value: pokemon.status.def.rankCorrVal },
-            { status: 'spA', value: pokemon.status.spA.rankCorrVal },
-            { status: 'spD', value: pokemon.status.spD.rankCorrVal },
-            { status: 'spe', value: pokemon.status.spe.rankCorrVal },
+            { status: 'atk', value: pokemon.status.atk.rankCorrectionValue },
+            { status: 'def', value: pokemon.status.def.rankCorrectionValue },
+            { status: 'spA', value: pokemon.status.spA.rankCorrectionValue },
+            { status: 'spD', value: pokemon.status.spD.rankCorrectionValue },
+            { status: 'spe', value: pokemon.status.spe.rankCorrectionValue },
         ];
         statusValue.sort((a, b) => {
             if (a.value > b.value)
@@ -1717,7 +1715,6 @@ function formChangeByMove(pokemon) {
         if (pokemon.status.hp.value.isZero())
             return;
         pokemon.formChange();
-        pokemon.msgRelicSong();
     };
     const battleBond = (pokemon) => {
         if (!pokemon.ability.isName('Battle Bond'))

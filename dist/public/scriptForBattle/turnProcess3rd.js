@@ -1,9 +1,9 @@
 "use strict";
 // 3.トレーナーの行動、ポケモンの行動順に関する行動
 function actionBeforeTurn() {
-    main.calcSpeed();
+    main.calcRankCorrectionValue();
     // 技選択したポケモンの効果
-    for (const pokemon of main.getPokemonToAttack()) {
+    for (const pokemon of getPokemonScheduledToAttack()) {
         quickDraw: // クイックドロウ
          if (pokemon.ability.isName('Quick Draw')) { // 特性「クイックドロウ」
             if (pokemon.move.selected.isStatus())
@@ -33,7 +33,7 @@ function actionBeforeTurn() {
         }
     }
     // 交代・よびかける
-    for (const pokemon of main.getPokemonToExchange()) {
+    for (const pokemon of getPokemonScheduledToExchange()) {
         const battle = pokemon.order.battle;
         const reserve = pokemon.command.reserve;
         if (battle === null)
@@ -45,4 +45,6 @@ function actionBeforeTurn() {
         const next = main.getPokemonByParty(pokemon.isMine(), reserve);
         next.toBattleField(battle);
     }
+    // 場に出した時の効果
+    onActivateLandingEffect();
 }

@@ -58,56 +58,43 @@ class Move {
 // 覚えている技
 // -------------------------
 class LearnedMove {
-  _slot: number
-  _name: MoveText;
-  _powerPoint: PowerPoint;
+  slot: number
+  name: MoveText = null;
+  powerPoint = new PowerPoint();
 
   constructor( slot: number ) {
-    this._slot = slot;
-    this._name = null;
-    this._powerPoint = new PowerPoint();
-  }
-
-
-  set name( name: MoveText ) {
-    this._name = name
-  }
-
-  get slot(): number {
-    return this._slot;
-  }
-  get name(): MoveText {
-    return this._name;
-  }
-  get powerPoint(): PowerPoint {
-    return this._powerPoint;
+    this.slot = slot;
   }
 
   register( move: RegisterMove ): void {
-    this._name = move._name;
-    this._powerPoint.setInitial( move.powerPoint );
+    this.name = move._name;
+    this.powerPoint.setInitial( move.powerPoint );
   }
 
 
   show( handOrder: number ): void {
-    getHTMLInputElement( 'party' + handOrder + '_move' + this._slot ).textContent = ( this._name === null )? '技' : this.translate();
-    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + this._slot ).textContent = ( this._name === null )? '' : String( this._powerPoint.value );
-    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + this._slot ).textContent = ( this._name === null )? 'PP' : String( this._powerPoint.max );
+    getHTMLInputElement( 'party' + handOrder + '_move' + this.slot ).textContent = ( this.name === null )? '技' : this.translate();
+    getHTMLInputElement( 'party' + handOrder + '_remainingPP' + this.slot ).textContent = ( this.name === null )? '' : String( this.powerPoint.value );
+    getHTMLInputElement( 'party' + handOrder + '_powerPoint' + this.slot ).textContent = ( this.name === null )? 'PP' : String( this.powerPoint.max );
   }
 
   translate(): string {
-    return moveMaster.filter( m => m.nameEN === this._name )[0].nameJA;
+    return moveMaster.filter( m => m.nameEN === this.name )[0].nameJA;
   }
 
   copyFromOpp( move: LearnedMove ): void {
-    this._name = move._name;
-    this._powerPoint.setInitial( move._powerPoint.value );
+    this.name = move.name;
+    this.powerPoint.setInitial( move.powerPoint.value );
   }
 
   showCommand1st( battleOrder: number ): void {
-    if ( this._name === null ) return;
-    getHTMLInputElement( 'moveText_' + battleOrder + '_' + this._slot ).textContent = this.translate();
-    getHTMLInputElement( 'moveRadio_' + battleOrder + '_' + this._slot ).disabled = false;
+    if ( this.name === null ) return;
+    getHTMLInputElement( 'moveText_' + battleOrder + '_' + this.slot ).textContent = this.translate();
+    getHTMLInputElement( 'moveRadio_' + battleOrder + '_' + this.slot ).disabled = false;
+  }
+
+  getMaster(): MoveData {
+    return moveMaster.filter( m => m.nameEN === this.name )[0];
   }
 }
 
@@ -123,7 +110,7 @@ class PowerPoint extends ValueWithRange {
       }
     }, 1 );
 
-    const NumOfside: number = main.getPokemonInSide( !pokemon.isMine() ).reduce( ( acc, val ) => {
+    const NumOfside: number = getPokemonInSide( !pokemon.isMine() ).reduce( ( acc, val ) => {
       if ( val.isAbility( 'Pressure' ) ) {
         return acc + 1;
       } else {

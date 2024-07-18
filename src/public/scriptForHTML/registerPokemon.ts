@@ -394,7 +394,7 @@ class RegisterAbility {
 
   isValidName(): AbilityText[] {
     // 適切な名前でなければ処理なし
-    const nameEN: string = this.translate( getHTMLInputElement( 'register_name' ).value );
+    const nameEN: string = this.translate( getHTMLInputElement( 'register_ability' ).value );
     return abilityTextList.filter( name => name === nameEN );
   }
 

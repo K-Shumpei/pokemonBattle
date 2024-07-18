@@ -13,41 +13,107 @@ function onActivateLandingEffect(): void {
     field.steelsurge.onEffective( pokemon );
   }
 
+  const event2a = ( pokemon: Pokemon ): void => {
 
-  const landingPokemon: Pokemon[] = main.getPokemonOnLanding()
-  for ( const pokemon of landingPokemon ) {
+    const schooling = (): void => {
+      if ( !pokemon.ability.isName( 'Schooling' ) ) return; // 特性「ぎょぐん」
+      if ( pokemon.level < 20 ) return;
+      if ( pokemon.status.hp.value.isLessEqual( 4 ) ) return;
+
+      pokemon.msgDeclareAbility();
+      pokemon.formChange();
+    }
+
+    const ShieldsDown = (): void => {
+      if ( !pokemon.ability.isName( 'Shields Down' ) ) return; // 特性「リミットシールド」
+      if ( pokemon.status.hp.value.isLessEqual( 2 ) ) return;
+
+      pokemon.msgDeclareAbility();
+      pokemon.formChange();
+    }
+
+    main.field.terrain.onActivateMimicry( pokemon );
+    schooling();
+    ShieldsDown();
+  }
+
+  const event2b = ( pokemon: Pokemon ): void => {
+    main.field.terrain.onActivateSeed( pokemon );
+    main.field.whole.trickRoom.onActivateRoomService( pokemon );
+  }
+
+  const event2c = ( pokemon: Pokemon ): void => {
+    if ( pokemon.name === 'Kyogre' && pokemon.item.isName( 'あいいろのたま' ) ) {
+      pokemon.formChange();
+    }
+    if ( pokemon.name === 'Groudon' && pokemon.item.isName( 'べにいろのたま' ) ) {
+      pokemon.formChange();
+    }
+  }
+
+  const event3a = ( pokemon: Pokemon ): void => {
+
+    const hospitality = (): void => {
+      if ( !pokemon.ability.isName( 'Hospitality' ) ) return;
+
+      const allies = getPokemonInSide( pokemon.isMine() ).filter( poke => !isSame( poke, pokemon ) && !poke.status.hp.value.isMax() );
+      if ( allies.length === 0 ) return;
+
+      pokemon.msgDeclareAbility();
+
+      for ( const poke of allies ) {
+        const value: number = Math.floor( poke.getOrgHP() / 4 );
+        poke.status.hp.value.add( value );
+        battleLog.write( `${pokemon.getArticle()}が たてた お茶を ${poke.getArticle()}は 飲みほした!` );
+      }
+    }
+
+    main.field.weather.onActivateIceFace( pokemon );
+    main.field.terrain.onActivateQuarkDrive( pokemon );
+    main.field.weather.onActivateProtosynthesis( pokemon );
+    hospitality();
+    main.field.weather.onActivateForecast( pokemon );
+
+  }
+
+
+
+  for ( const pokemon of getPokemonOnLanding( 'speed' ) ) {
+    // テラスシェルの発動
+  }
+
+  for ( const pokemon of getPokemonOnLanding( 'speed' ) ) {
     // かがくへんかガスの発動
   }
 
-  for ( const pokemon of landingPokemon ) {
+  for ( const pokemon of getPokemonOnLanding( 'actionOrder' ) ) {
     // きんちょうかん/じんばいったいの発動
   }
 
-  for ( const pokemon of landingPokemon ) {
+  for ( const pokemon of getPokemonOnLanding( 'speed' ) ) {
     // イベントブロック (その1) - 回復効果/設置技/特性/持ち物の発動
     event1a( pokemon ); // a. いやしのねがい/みかづきのまい/Zおきみやげ/Zすてゼリフによる回復
     event1b( pokemon ); // b. 設置技: 技が使用された順に発動
-    pokemon.onActivateWhenLanding(); // c. 特性の効果
+    pokemon.onActivateAbilityWhenLanding(); // c. 特性の効果
 
     // d. きのみ/きのみジュース/ふうせん/メンタルハーブ
 
   }
 
-  for ( const pokemon of landingPokemon ) {
+  for ( const pokemon of getPokemonOnLanding( 'speed' ) ) {
     // イベントブロック (その2) - 一部の特性/場の状態による持ち物/ゲンシカイキの発動
-    // a. ぎたい/ぎょぐん/リミットシールド
-    // b. エレキシード/グラスシード/サイコシード/ミストシード/ルームサービス
-    // c. ゲンシカイキ[4]
+    event2a( pokemon ); // a. ぎたい/ぎょぐん/リミットシールド
+    event2b( pokemon ); // b. エレキシード/グラスシード/サイコシード/ミストシード/ルームサービス
+    event2c( pokemon ); // c. ゲンシカイキ[4]
   }
 
-  for ( const pokemon of landingPokemon ) {
+  for ( const pokemon of getPokemonOnLanding( 'originalSpeed' ) ) {
     // イベントブロック (その3) - 一部の特性/場の状態による持ち物
-    // a. アイスフェイス/きょうえん/クォークチャージ/こだいかっせい/しれいとう/おもてなし/てんきや/フラワーギフト
+    event3a( pokemon ); // a. アイスフェイス/きょうえん/クォークチャージ/こだいかっせい/しれいとう/おもてなし/てんきや/フラワーギフト
     // b. ブーストエナジー
   }
 
-  for ( const pokemon of landingPokemon ) {
-    // かがくへんかガスの発動
-  }
 
+  main.me.pokemon.map( p => p.extraParameter.onLanded() );
+  main.opp.pokemon.map( p => p.extraParameter.onLanded() );
 }

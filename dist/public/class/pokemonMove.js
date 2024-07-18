@@ -55,43 +55,34 @@ class Move {
 // -------------------------
 class LearnedMove {
     constructor(slot) {
-        this._slot = slot;
-        this._name = null;
-        this._powerPoint = new PowerPoint();
-    }
-    set name(name) {
-        this._name = name;
-    }
-    get slot() {
-        return this._slot;
-    }
-    get name() {
-        return this._name;
-    }
-    get powerPoint() {
-        return this._powerPoint;
+        this.name = null;
+        this.powerPoint = new PowerPoint();
+        this.slot = slot;
     }
     register(move) {
-        this._name = move._name;
-        this._powerPoint.setInitial(move.powerPoint);
+        this.name = move._name;
+        this.powerPoint.setInitial(move.powerPoint);
     }
     show(handOrder) {
-        getHTMLInputElement('party' + handOrder + '_move' + this._slot).textContent = (this._name === null) ? '技' : this.translate();
-        getHTMLInputElement('party' + handOrder + '_remainingPP' + this._slot).textContent = (this._name === null) ? '' : String(this._powerPoint.value);
-        getHTMLInputElement('party' + handOrder + '_powerPoint' + this._slot).textContent = (this._name === null) ? 'PP' : String(this._powerPoint.max);
+        getHTMLInputElement('party' + handOrder + '_move' + this.slot).textContent = (this.name === null) ? '技' : this.translate();
+        getHTMLInputElement('party' + handOrder + '_remainingPP' + this.slot).textContent = (this.name === null) ? '' : String(this.powerPoint.value);
+        getHTMLInputElement('party' + handOrder + '_powerPoint' + this.slot).textContent = (this.name === null) ? 'PP' : String(this.powerPoint.max);
     }
     translate() {
-        return moveMaster.filter(m => m.nameEN === this._name)[0].nameJA;
+        return moveMaster.filter(m => m.nameEN === this.name)[0].nameJA;
     }
     copyFromOpp(move) {
-        this._name = move._name;
-        this._powerPoint.setInitial(move._powerPoint.value);
+        this.name = move.name;
+        this.powerPoint.setInitial(move.powerPoint.value);
     }
     showCommand1st(battleOrder) {
-        if (this._name === null)
+        if (this.name === null)
             return;
-        getHTMLInputElement('moveText_' + battleOrder + '_' + this._slot).textContent = this.translate();
-        getHTMLInputElement('moveRadio_' + battleOrder + '_' + this._slot).disabled = false;
+        getHTMLInputElement('moveText_' + battleOrder + '_' + this.slot).textContent = this.translate();
+        getHTMLInputElement('moveRadio_' + battleOrder + '_' + this.slot).disabled = false;
+    }
+    getMaster() {
+        return moveMaster.filter(m => m.nameEN === this.name)[0];
     }
 }
 class PowerPoint extends ValueWithRange {
@@ -105,7 +96,7 @@ class PowerPoint extends ValueWithRange {
                 return acc;
             }
         }, 1);
-        const NumOfside = main.getPokemonInSide(!pokemon.isMine()).reduce((acc, val) => {
+        const NumOfside = getPokemonInSide(!pokemon.isMine()).reduce((acc, val) => {
             if (val.isAbility('Pressure')) {
                 return acc + 1;
             }

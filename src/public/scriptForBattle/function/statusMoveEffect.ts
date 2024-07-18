@@ -211,7 +211,7 @@ function statusMoveToEntireField( pokemon: Pokemon ): void {
       break;
 
     case 'Haze': // 技「くろいきり」
-      main.getPokemonInBattle().map( poke => poke.status.resetRank() );
+      getPokemonInBattlefield( 'host-party' ).map( poke => poke.status.resetRank() );
       battleLog.write( `全ての ステータスが 元に 戻った!` );
       break;
 
@@ -534,14 +534,14 @@ function statusMoveToSelectedPokemon( pokemon: Pokemon ): void {
         case 'Role Play': // 技「なりきり」
           pokemon.ability.name = target.ability.name;
           battleLog.write( `${pokemon.getArticle()}は ${target.getArticle()}の ${target.ability.translate()}を コピーした!` );
-          pokemon.onActivateWhenLanding();
+          pokemon.onActivateAbilityWhenLanding();
           break;
 
         case 'Skill Swap': // 技「スキルスワップ」
           [ pokemon.ability.name, target.ability.name ] = [ target.ability.name, pokemon.ability.name ];
           battleLog.write( `${pokemon.getArticle()}は おたがいの 特性を 入れ替えた!` );
-          pokemon.onActivateWhenLanding();
-          target.onActivateWhenLanding();
+          pokemon.onActivateAbilityWhenLanding();
+          target.onActivateAbilityWhenLanding();
           break;
 
         case 'Psycho Shift': // 技「サイコシフト」
@@ -673,7 +673,7 @@ function statusMoveToSelectedPokemon( pokemon: Pokemon ): void {
           break;
 
         case 'Strength Sap': // 技「ちからをすいとる」
-          const strengthSapValue: number = target.status.atk.rankCorrVal;
+          const strengthSapValue: number = target.status.atk.rankCorrectionValue;
           master.stat.changes.map( stat => target.changeRankByOther( stat.stat, stat.change, pokemon ) );
           pokemon.status.hp.value.add( strengthSapValue );
           battleLog.write( `${pokemon.getArticle()}の 体力が 回復した!` );
