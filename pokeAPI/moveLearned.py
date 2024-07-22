@@ -36,7 +36,7 @@ def getInfo(i):
 
 def main():
   with open("../src/public/master/moveLearned.ts", "w") as o:
-    print('const', 'moveLearnedByPokemon', '= [', file=o)
+    print('const', 'moveLearnedByPokemon: MoveLearned[]', '= [', file=o)
 
     for i in range(1,1026):
       if i % 10 == 0: print(i)

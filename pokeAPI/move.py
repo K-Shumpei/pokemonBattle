@@ -8,12 +8,12 @@ def toCapital(string):
   return string
 
 
+# 技の最終番号
 stop = 920
 
 with open("tmpJSON/move.json", "w") as f:
   print("{", file=f)
 
-  # 特性の数は 826
   for i in range(1, stop):
     if i % 10 == 0: print(i)
 
@@ -124,7 +124,7 @@ with open("tmpJSON/move.json", "w") as f:
     try:
       for a in r['names']:
         if a['language']['name'] == 'ja': move['nameJA'] = a['name']
-        if a['language']['name'] == 'en': move['nameEN'] = a['name']
+        if a['language']['name'] == 'en': move['nameEN'] = toCapital(a['name'])
     except:
       pass
 

@@ -10,26 +10,83 @@ function endProcess() {
     // ねがいごと
     endProcessEventBlock1st(); // イベントブロック (その1)
     // ききかいひ/にげごしによる交代先の選択・繰り出し (2)
-    endProcessAquaRing(); // アクアリング
-    endProcessIngrain(); // ねをはる
-    endProcessLeechSeed(); // やどりぎのタネ
-    endProcessPoisoned(); // どく/もうどく/ポイズンヒール
-    endProcessBurned(); // やけど
-    endProcessNightmare(); // あくむ
-    endProcessCurse(); // のろい
-    endProcessBind(); // バインド
-    endProcessOctolock(); // たこがため
-    endProcessSaltCure(); // しおづけ
-    endProcessTaunt(); // ちょうはつの終了
-    endProcessTorment(); // いちゃもんの終了: キョダイユウゲキによるいちゃもん状態のみターン経過で解除される
-    endProcessEncore(); // アンコールの終了
-    endProcessDisable(); // かなしばりの終了
-    endProcessMagnetRise(); // でんじふゆうの終了
-    endProcessTelekinesis(); // テレキネシスの終了
-    endProcessHealBlock(); // かいふくふうじの終了
-    endProcessEmbargo(); // さしおさえの終了
+    // アクアリング
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.aquaRing.onEffective(pokemon);
+    }
+    // ねをはる
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.ingrain.onEffective(pokemon);
+    }
+    // やどりぎのタネ
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.leechSeed.onEffective(pokemon);
+    }
+    // どく/もうどく/ポイズンヒール
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.statusAilment.onEffectivePoisoned(pokemon);
+    }
+    // やけど
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.statusAilment.onEffectiveBurned(pokemon);
+    }
+    // あくむ
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.nightmare.onEffective(pokemon);
+    }
+    // のろい
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.curse.onEffective(pokemon);
+    }
+    // バインド
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.bind.onEffective(pokemon);
+    }
+    // たこがため
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.octolock.onEffective(pokemon);
+    }
+    // しおづけ
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.saltCure.onEffective(pokemon);
+    }
+    // ちょうはつの終了
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.taunt.onElapse(pokemon);
+    }
+    // いちゃもんの終了: キョダイユウゲキによるいちゃもん状態のみターン経過で解除される
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.torment.onElapse(pokemon);
+    }
+    // アンコールの終了
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.encore.onElapse(pokemon);
+    }
+    // かなしばりの終了
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.disable.onElapse(pokemon);
+    }
+    // でんじふゆうの終了
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.magnetRise.onElapse(pokemon);
+    }
+    // テレキネシスの終了
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.telekinesis.onElapse(pokemon);
+    }
+    // かいふくふうじの終了
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.healBlock.onElapse(pokemon);
+    }
+    // さしおさえの終了
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.embargo.onElapse(pokemon);
+    }
     // ねむけ
-    endProcessPerishSong(); // ほろびのうた
+    // ほろびのうた
+    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
+        pokemon.stateChange.perishSong.onEffective(pokemon);
+    }
     // はねやすめを使用していたひこうタイプは地面から離れる
     // ききかいひ/にげごしによる交代先の選択・繰り出し (3)
     endProcessElapseSideField(); // 片側の場の状態の継続/終了
@@ -140,101 +197,6 @@ function endProcessEventBlock1st() {
         item(pokemon); // b. たべのこし/くろいヘドロ
     }
 }
-function endProcessAquaRing() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.aquaRing.onEffective(pokemon);
-    }
-}
-function endProcessIngrain() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.ingrain.onEffective(pokemon);
-    }
-}
-function endProcessLeechSeed() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.leechSeed.onEffective(pokemon);
-    }
-}
-function endProcessPoisoned() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.statusAilment.onEffectivePoisoned(pokemon);
-    }
-}
-function endProcessBurned() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.statusAilment.onEffectiveBurned(pokemon);
-    }
-}
-function endProcessNightmare() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.nightmare.onEffective(pokemon);
-    }
-}
-function endProcessCurse() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.curse.onEffective(pokemon);
-    }
-}
-function endProcessBind() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.bind.onEffective(pokemon);
-    }
-}
-function endProcessOctolock() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.octolock.onEffective(pokemon);
-    }
-}
-function endProcessSaltCure() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.saltCure.onEffective(pokemon);
-    }
-}
-function endProcessTaunt() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.taunt.onElapse(pokemon);
-    }
-}
-function endProcessTorment() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.torment.onElapse(pokemon);
-    }
-}
-function endProcessEncore() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.encore.onElapse(pokemon);
-    }
-}
-function endProcessDisable() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.disable.onElapse(pokemon);
-    }
-}
-function endProcessMagnetRise() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.magnetRise.onElapse(pokemon);
-    }
-}
-function endProcessTelekinesis() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.telekinesis.onElapse(pokemon);
-    }
-}
-function endProcessHealBlock() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.healBlock.onElapse(pokemon);
-    }
-}
-function endProcessEmbargo() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.embargo.onElapse(pokemon);
-    }
-}
-function endProcessPerishSong() {
-    for (const pokemon of getPokemonInBattlefield('actionOrder')) {
-        pokemon.stateChange.perishSong.onEffective(pokemon);
-    }
-}
 function endProcessElapseSideField() {
     // ホスト側の状態が先にすべて解除された後に、ホストでない側の状態が解除される。
     // コートチェンジされていても関係なくホスト側から消える。
@@ -307,7 +269,7 @@ function endProcessEventBlock2nd() {
         if (pokemon.isItem('くっつきバリ')) {
             const damage = Math.floor(pokemon.getOrgHP() / 8);
             pokemon.status.hp.value.sub(Math.max(1, damage));
-            battleLog.write(`${pokemon.getArticle()}は くっつきバリで dダメージを 受けた!`);
+            battleLog.write(`${pokemon.getArticle()}は くっつきバリで ダメージを 受けた!`);
         }
         if (pokemon.isItem('どくどくだま') && pokemon.statusAilment.isHealth()) {
             pokemon.statusAilment.getBadPoisoned('どくどくだま');

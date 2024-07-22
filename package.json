@@ -14,7 +14,8 @@
     "copy:img": "node -e \"require('fs-extra').copySync('src/public/image', 'dist/public/image')\"",
     "build": "npm-run-all clean tsc copy:html copy:css copy:img",
     "connect": "node .",
-    "start": "npm-run-all clean1 clean2 clean3 tsc connect"
+    "test": "npm-run-all clean1 clean2 clean3 tsc connect",
+    "start": "node ."
   },
   "keywords": [],
   "author": "",

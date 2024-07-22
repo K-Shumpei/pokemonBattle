@@ -15,6 +15,8 @@ for (const nature of natureMaster) {
 // ポケモンの名前候補
 document.write('<datalist id="registerPokemonNameList">');
 for (const pokemon of pokemonMaster) {
+    if (!pokemonSelectableMaster.filter(poke => poke.nameEN === pokemon.nameEN)[0].selectable)
+        continue;
     document.write('<option value="' + pokemon.nameJA + '">');
 }
 document.write('</datalist>');

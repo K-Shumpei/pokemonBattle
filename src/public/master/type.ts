@@ -1,6 +1,7 @@
 type PokemonData = {
   id: number;
   order: number;
+  apiNo: number;
   nameEN: string;
   nameJA: string;
   gender: Gender;
@@ -18,6 +19,15 @@ type PokemonData = {
   weight: number;
   isEvolve: boolean;
   text: string;
+}
+
+type PokemonSelectableData = {
+  id: number;
+  order: number;
+  apiNo: number;
+  nameEN: string;
+  nameJA: string;
+  selectable: boolean;
 }
 
 type MoveData = {

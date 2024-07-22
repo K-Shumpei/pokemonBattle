@@ -52,6 +52,7 @@ with open("../src/public/master/pokemon.ts", "w") as o:
       "  {",
       "id: {},".format(poke["id"]),
       "order: {},".format(poke["order"]),
+      "apiNo: {},".format(poke["apiNo"]),
       "nameEN: '{}',".format(poke["nameEN"]),
       "nameJA: '{}',".format(poke["nameJA"]),
       "gender: '{}',".format(poke["gender"]),

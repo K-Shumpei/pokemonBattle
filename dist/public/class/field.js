@@ -128,6 +128,7 @@ class Weather {
             fieldStatus.weather.extend = true;
         }
         battleLog.write('日差しが 強くなった!');
+        this.onActivateWeatherEffect();
     }
     getRainy(pokemon) {
         if (!this.isGetRainy())
@@ -272,6 +273,10 @@ class Weather {
         for (const poke of getPokemonInBattlefield('actionOrder')) {
             this.onActivateForecast(poke);
         }
+        // 特性「フラワーギフト」
+        for (const pokemon of getPokemonInBattlefield('speed')) {
+            this.onActivateFlowerGift(pokemon);
+        }
         // 特性「アイスフェイス」
         for (const poke of getPokemonInBattlefield('originalSpeed')) {
             this.onActivateIceFace(poke);
@@ -313,6 +318,12 @@ class Weather {
         if (!pokemon.ability.isName('Forecast'))
             return;
         pokemon.formChange();
+    }
+    onActivateFlowerGift(pokemon) {
+        if (!pokemon.ability.isName('Flower Gift'))
+            return;
+        if (!this.isSunny(pokemon))
+            return;
     }
 }
 class Terrain {

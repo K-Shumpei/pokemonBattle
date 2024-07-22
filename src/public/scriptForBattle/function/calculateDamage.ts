@@ -33,7 +33,7 @@ function getFixedDamage( pokemon: Pokemon, target: Pokemon ): number {
       return Math.max( Math.floor( pokemon.level * rate ), 1 );
 
     case 'Super Fang':       // 技「いかりのまえば」
-    case 'Nature’s Madness': // 技「しぜんのいかり」
+    case 'Nature’S Madness': // 技「しぜんのいかり」
     case 'Ruination':        // 技「カタストロフィ」
       return Math.floor( target.getOrgHP() / 2 );
 
@@ -60,7 +60,7 @@ function getFixedDamage( pokemon: Pokemon, target: Pokemon ): number {
     case 'Sheer Cold': // 技「ぜったいれいど」
       return target.getOrgHP();
 
-    case 'Guardian of Alola': // 技「ガーディアン・デ・アローラ」
+    case 'Guardian Of Alola': // 技「ガーディアン・デ・アローラ」
       return Math.floor( target.getOrgHP() * 3 / 4 );
 
     default:
@@ -169,7 +169,7 @@ function getPower( pokemon: Pokemon, target: Pokemon ): number {
       }
     }
 
-    if ( move.name === 'Wake-Up Slap' ) { // 技「めさましビンタ」
+    if ( move.name === 'Wake Up Slap' ) { // 技「めさましビンタ」
       if ( target.statusAilment.isAsleep() ) {
         return 140;
       }

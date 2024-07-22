@@ -1441,7 +1441,7 @@ function activateMoveEffect(pokemon) {
         target.statusAilment.getHealth();
     };
     const wakeUpSlap = (pokemon, target, attack) => {
-        if (pokemon.move.selected.name !== 'Wake-Up Slap')
+        if (pokemon.move.selected.name !== 'Wake Up Slap')
             return; // 技「めざましビンタ」
         if (attack.substitute)
             return;
@@ -2043,7 +2043,7 @@ function toHandByAttack(pokemon) {
     if (!main.getPlayer(pokemon.isMine()).isExcangable())
         return;
     switch (pokemon.move.selected.name) {
-        case 'U-turn': // 技「とんぼがえり」
+        case 'U Turn': // 技「とんぼがえり」
         case 'Volt Switch': // 技「ボルトチェンジ」
         case 'Flip Turn': // 技「クイックターン」
             pokemon.toHand();

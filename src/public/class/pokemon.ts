@@ -119,7 +119,7 @@ class Attack {
       if ( rate === 0.0 && target.isItem( 'ねらいのまと' ) ) {
         return 1.0;
       }
-      if ( move.name === 'Freeze-Dry' && defType === 'Water' ) { // 技「フリーズドライ」
+      if ( move.name === 'Freeze Dry' && defType === 'Water' ) { // 技「フリーズドライ」
         return 2.0;
       }
 
@@ -448,6 +448,7 @@ class Type {
 class Pokemon {
   id: number = 0;
   order = new Order( true, 0 );
+  apiNo: number = 0;
 
   name: PokemonText = null; // 名前
   level: number = 50; // レベル
@@ -482,6 +483,7 @@ class Pokemon {
     imageHTML.src = '';
 
     this.order = new Order( isMe, partyOrder );
+    this.apiNo = 0;
 
     this.name = null;
     this.level = 50;
@@ -505,6 +507,7 @@ class Pokemon {
 
   register( reg: Register ): void {
     this.id = reg.id;
+    this.apiNo = reg.apiNo;
     this.name = reg.name;
     this.level = reg.level;
     this.type.list = reg.type;
@@ -556,7 +559,7 @@ class Pokemon {
     const partyOrder: number = this.order.party;
     const imageHTML = getHTMLInputElement( 'myParty_image' + partyOrder );
 
-    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.id + '.png';
+    imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.apiNo + '.png';
   }
 
   translateName( name: string ): string {
@@ -1613,9 +1616,9 @@ class Pokemon {
     this.order.hand = 0;
 
     if ( this.isMine() ) {
-      getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().id + '.png';
+      getHTMLInputElement( 'battleMyImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().apiNo + '.png';
     } else {
-      getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().id + '.png';
+      getHTMLInputElement( 'battleOpponentImage_' + battle ).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().apiNo + '.png';
     }
 
     this.msgToBattleField();

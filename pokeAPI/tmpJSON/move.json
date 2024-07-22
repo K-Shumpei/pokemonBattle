@@ -1307,7 +1307,7 @@
 "No38": 
 {
   "id": 38,
-  "nameEN": "Double-Edge",
+  "nameEN": "Double Edge",
   "nameJA": "すてみタックル",
   "type": "Normal",
   "class": "physical",
@@ -4276,7 +4276,7 @@
 "No120": 
 {
   "id": 120,
-  "nameEN": "Self-Destruct",
+  "nameEN": "Self Destruct",
   "nameJA": "じばく",
   "type": "Normal",
   "class": "physical",
@@ -4816,7 +4816,7 @@
 "No135": 
 {
   "id": 135,
-  "nameEN": "Soft-Boiled",
+  "nameEN": "Soft Boiled",
   "nameJA": "タマゴうみ",
   "type": "Normal",
   "class": "status",
@@ -6736,7 +6736,7 @@
 "No189": 
 {
   "id": 189,
-  "nameEN": "Mud-Slap",
+  "nameEN": "Mud Slap",
   "nameJA": "どろかけ",
   "type": "Ground",
   "class": "special",
@@ -7101,7 +7101,7 @@
 "No199": 
 {
   "id": 199,
-  "nameEN": "Lock-On",
+  "nameEN": "Lock On",
   "nameJA": "ロックオン",
   "type": "Normal",
   "class": "status",
@@ -9356,7 +9356,7 @@
 "No261": 
 {
   "id": 261,
-  "nameEN": "Will-O-Wisp",
+  "nameEN": "Will O Wisp",
   "nameJA": "おにび",
   "type": "Fire",
   "class": "status",
@@ -10958,8 +10958,8 @@
     "min": 0
   },
   "turns": {
-    "max": 15,
-    "min": 15
+    "max": 0,
+    "min": 0
   },
   "ailment": {
     "chance": 50,
@@ -12915,7 +12915,7 @@
 "No358": 
 {
   "id": 358,
-  "nameEN": "Wake-Up Slap",
+  "nameEN": "Wake Up Slap",
   "nameJA": "めざましビンタ",
   "type": "Fighting",
   "class": "physical",
@@ -13305,7 +13305,7 @@
 "No369": 
 {
   "id": 369,
-  "nameEN": "U-turn",
+  "nameEN": "U Turn",
   "nameJA": "とんぼがえり",
   "type": "Bug",
   "class": "physical",
@@ -14544,7 +14544,7 @@
 "No404": 
 {
   "id": 404,
-  "nameEN": "X-Scissor",
+  "nameEN": "X Scissor",
   "nameJA": "シザークロス",
   "type": "Bug",
   "class": "physical",
@@ -16543,7 +16543,7 @@
 "No459": 
 {
   "id": 459,
-  "nameEN": "Roar of Time",
+  "nameEN": "Roar Of Time",
   "nameJA": "ときのほうこう",
   "type": "Dragon",
   "class": "special",
@@ -20143,7 +20143,7 @@
 "No557": 
 {
   "id": 557,
-  "nameEN": "V-create",
+  "nameEN": "V Create",
   "nameJA": "Ｖジェネレート",
   "type": "Fire",
   "class": "physical",
@@ -20515,7 +20515,7 @@
 "No567": 
 {
   "id": 567,
-  "nameEN": "Trick-or-Treat",
+  "nameEN": "Trick Or Treat",
   "nameJA": "ハロウィン",
   "type": "Ghost",
   "class": "status",
@@ -20664,7 +20664,7 @@
 "No571": 
 {
   "id": 571,
-  "nameEN": "Forest’s Curse",
+  "nameEN": "Forest’S Curse",
   "nameJA": "もりののろい",
   "type": "Grass",
   "class": "status",
@@ -20734,7 +20734,7 @@
 "No573": 
 {
   "id": 573,
-  "nameEN": "Freeze-Dry",
+  "nameEN": "Freeze Dry",
   "nameJA": "フリーズドライ",
   "type": "Ice",
   "class": "special",
@@ -20848,7 +20848,7 @@
 "No576": 
 {
   "id": 576,
-  "nameEN": "Topsy-Turvy",
+  "nameEN": "Topsy Turvy",
   "nameJA": "ひっくりかえす",
   "type": "Dark",
   "class": "status",
@@ -21283,7 +21283,7 @@
 "No588": 
 {
   "id": 588,
-  "nameEN": "King’s Shield",
+  "nameEN": "King’S Shield",
   "nameJA": "キングシールド",
   "type": "Steel",
   "class": "status",
@@ -22048,7 +22048,7 @@
 "No608": 
 {
   "id": 608,
-  "nameEN": "Baby-Doll Eyes",
+  "nameEN": "Baby Doll Eyes",
   "nameJA": "つぶらなひとみ",
   "type": "Fairy",
   "class": "status",
@@ -22193,7 +22193,7 @@
 "No612": 
 {
   "id": 612,
-  "nameEN": "Power-Up Punch",
+  "nameEN": "Power Up Punch",
   "nameJA": "グロウパンチ",
   "type": "Fighting",
   "class": "physical",
@@ -22338,7 +22338,7 @@
 "No616": 
 {
   "id": 616,
-  "nameEN": "Land’s Wrath",
+  "nameEN": "Land’S Wrath",
   "nameJA": "グランドフォース",
   "type": "Ground",
   "class": "physical",
@@ -22373,7 +22373,7 @@
 "No617": 
 {
   "id": 617,
-  "nameEN": "Light of Ruin",
+  "nameEN": "Light Of Ruin",
   "nameJA": "はめつのひかり",
   "type": "Fairy",
   "class": "special",
@@ -22632,7 +22632,7 @@
 "No624": 
 {
   "id": 624,
-  "nameEN": "All-Out Pummeling",
+  "nameEN": "All Out Pummeling",
   "nameJA": "ぜんりょくむそうげきれつけん",
   "type": "Fighting",
   "class": "physical",
@@ -22667,7 +22667,7 @@
 "No625": 
 {
   "id": 625,
-  "nameEN": "All-Out Pummeling",
+  "nameEN": "All Out Pummeling",
   "nameJA": "ぜんりょくむそうげきれつけん",
   "type": "Fighting",
   "class": "special",
@@ -22982,7 +22982,7 @@
 "No634": 
 {
   "id": 634,
-  "nameEN": "Savage Spin-Out",
+  "nameEN": "Savage Spin Out",
   "nameJA": "ぜったいほしょくかいてんざん",
   "type": "Bug",
   "class": "physical",
@@ -23017,7 +23017,7 @@
 "No635": 
 {
   "id": 635,
-  "nameEN": "Savage Spin-Out",
+  "nameEN": "Savage Spin Out",
   "nameJA": "ぜったいほしょくかいてんざん",
   "type": "Bug",
   "class": "special",
@@ -23052,7 +23052,7 @@
 "No636": 
 {
   "id": 636,
-  "nameEN": "Never-Ending Nightmare",
+  "nameEN": "Never Ending Nightmare",
   "nameJA": "むげんあんやへのいざない",
   "type": "Ghost",
   "class": "physical",
@@ -23087,7 +23087,7 @@
 "No637": 
 {
   "id": 637,
-  "nameEN": "Never-Ending Nightmare",
+  "nameEN": "Never Ending Nightmare",
   "nameJA": "むげんあんやへのいざない",
   "type": "Ghost",
   "class": "special",
@@ -25266,7 +25266,7 @@
 "No698": 
 {
   "id": 698,
-  "nameEN": "Guardian of Alola",
+  "nameEN": "Guardian Of Alola",
   "nameJA": "ガーディアン・デ・アローラ",
   "type": "Fairy",
   "class": "special",
@@ -25301,7 +25301,7 @@
 "No699": 
 {
   "id": 699,
-  "nameEN": "Soul-Stealing 7-Star Strike",
+  "nameEN": "Soul Stealing 7 Star Strike",
   "nameJA": "しちせいだっこんたい",
   "type": "Ghost",
   "class": "physical",
@@ -25976,7 +25976,7 @@
 "No717": 
 {
   "id": 717,
-  "nameEN": "Nature’s Madness",
+  "nameEN": "Nature’S Madness",
   "nameJA": "しぜんのいかり",
   "type": "Fairy",
   "class": "special",
@@ -26011,7 +26011,7 @@
 "No718": 
 {
   "id": 718,
-  "nameEN": "Multi-Attack",
+  "nameEN": "Multi Attack",
   "nameJA": "マルチアタック",
   "type": "Normal",
   "class": "physical",
@@ -26186,7 +26186,7 @@
 "No723": 
 {
   "id": 723,
-  "nameEN": "Light That Burns the Sky",
+  "nameEN": "Light That Burns The Sky",
   "nameJA": "てんこがすめつぼうのひかり",
   "type": "Psychic",
   "class": "special",
@@ -26291,7 +26291,7 @@
 "No726": 
 {
   "id": 726,
-  "nameEN": "Let’s Snuggle Forever",
+  "nameEN": "Let’S Snuggle Forever",
   "nameJA": "ぽかぼかフレンドタイム",
   "type": "Fairy",
   "class": "physical",
@@ -27499,41 +27499,6 @@
     "changes": []
   },
   "text": "ダイマックスした ポケモンが 繰りだす むしタイプの 攻撃。 相手の 特攻を 下げる。"
-},
-"No759": 
-{
-  "id": 759,
-  "nameEN": "Max Lightning",
-  "nameJA": "ダイサンダー",
-  "type": "Electric",
-  "class": "physical",
-  "target": "selected-pokemon-me-first",
-  "category": "damage",
-  "power": 10,
-  "accuracy": null,
-  "powerPoint": 10,
-  "priority": 0,
-  "critical": 0,
-  "drain": 0,
-  "flinch": 0,
-  "healing": 0,
-  "hits": {
-    "max": 0,
-    "min": 0
-  },
-  "turns": {
-    "max": 0,
-    "min": 0
-  },
-  "ailment": {
-    "chance": 0,
-    "name": "none"
-  },
-  "stat": {
-    "chance": 0,
-    "changes": []
-  },
-  "text": "ダイマックスした ポケモンが 繰りだす でんきタイプの 攻撃。 ５ターンの 間 エレキフィールドにする。"
 },
 "No760": 
 {
@@ -28785,6 +28750,41 @@
   },
   "text": "頭を 下げる ふりを しながら 振りみだした 髪の毛を 突き刺す。 攻撃は 必ず 命中する。"
 },
+"No794": 
+{
+  "id": 794,
+  "nameEN": "Meteor Assault",
+  "nameJA": "スターアサルト",
+  "type": "Fighting",
+  "class": "physical",
+  "target": "selected-pokemon",
+  "category": "damage",
+  "power": 150,
+  "accuracy": 100,
+  "powerPoint": 5,
+  "priority": 0,
+  "critical": 0,
+  "drain": 0,
+  "flinch": 0,
+  "healing": 0,
+  "hits": {
+    "max": 0,
+    "min": 0
+  },
+  "turns": {
+    "max": 0,
+    "min": 0
+  },
+  "ailment": {
+    "chance": 0,
+    "name": "none"
+  },
+  "stat": {
+    "chance": 0,
+    "changes": []
+  },
+  "text": "太い クキを ふりまわして 攻撃。 ただし 自分も よろめいてしまうため 次の ターンは 動けなくなる。"
+},
 "No795": 
 {
   "id": 795,
@@ -29463,6 +29463,41 @@
     "changes": []
   },
   "text": "３回連続で キックを くりだして 攻撃する。 技が 当たるたびに 威力は あがる。"
+},
+"No814": 
+{
+  "id": 814,
+  "nameEN": "Dual Wingbeat",
+  "nameJA": "ダブルウイング",
+  "type": "Flying",
+  "class": "physical",
+  "target": "selected-pokemon",
+  "category": "damage",
+  "power": 40,
+  "accuracy": 90,
+  "powerPoint": 10,
+  "priority": 0,
+  "critical": 0,
+  "drain": 0,
+  "flinch": 0,
+  "healing": 0,
+  "hits": {
+    "max": 2,
+    "min": 2
+  },
+  "turns": {
+    "max": 0,
+    "min": 0
+  },
+  "ailment": {
+    "chance": 0,
+    "name": "none"
+  },
+  "stat": {
+    "chance": 0,
+    "changes": []
+  },
+  "text": "翼を 相手に ぶつけて 攻撃する。 ２回連続で ダメージを 与える。"
 },
 "No815": 
 {
@@ -31235,6 +31270,35 @@
   "power": 90,
   "accuracy": 100,
   "powerPoint": 10,
+  "priority": 0,
+  "critical": "",
+  "drain": "",
+  "flinch": "",
+  "healing": "",
+  "hits": {
+    "max": 0,
+    "min": 0
+  },
+  "turns": {
+    "max": 0,
+    "min": 0
+  },
+  "ailment": "",
+  "stat": "",
+  "text": ""
+},
+"No874": 
+{
+  "id": 874,
+  "nameEN": "Make It Rain",
+  "nameJA": "ゴールドラッシュ",
+  "type": "Steel",
+  "class": "special",
+  "target": "all-opponents",
+  "category": "",
+  "power": 120,
+  "accuracy": 100,
+  "powerPoint": 5,
   "priority": 0,
   "critical": "",
   "drain": "",

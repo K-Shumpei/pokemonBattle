@@ -112,7 +112,6 @@ function statusMoveToEntireField(pokemon) {
     switch (pokemon.move.selected.name) {
         case 'Sunny Day': // 技「にほんばれ」
             main.field.weather.getSunny(pokemon);
-            main.field.weather.onActivateWeatherEffect();
             break;
         case 'Rain Dance': // 技「あまごい」
             main.field.weather.getRainy(pokemon);
@@ -383,7 +382,7 @@ function statusMoveToSelectedPokemon(pokemon) {
                     target.stateChange.cannotEscape.onActivate(pokemon, target);
                     break;
                 case 'Mind Reader': // 技「こころのめ」
-                case 'Lock-On': // 技「ロックオン」
+                case 'Lock On': // 技「ロックオン」
                     pokemon.stateChange.lockOn.onActivate(pokemon, target);
                     break;
                 case 'Conversion 2': // 技「テクスチャー２」
@@ -516,13 +515,13 @@ function statusMoveToSelectedPokemon(pokemon) {
                     break;
                 case 'Bestow': // 技「ギフトパス」
                     break;
-                case 'Trick-or-Treat': // 技「ハロウィン」
+                case 'Trick Or Treat': // 技「ハロウィン」
                     target.type.trickOrTreat.onActivate(target);
                     break;
-                case 'Forest’s Curse': // 技「もりののろい」
+                case 'Forest’S Curse': // 技「もりののろい」
                     target.type.forestCurse.onActivate(target);
                     break;
-                case 'Topsy-Turvy': // 技「ひっくりかえす」
+                case 'Topsy Turvy': // 技「ひっくりかえす」
                     target.status.reverseRank();
                     battleLog.write(`${target.getArticle()}は 能力変化が ひっくりかえった!`);
                     break;
@@ -601,7 +600,7 @@ function statusMoveToUser(pokemon) {
             const weatherL = fiveRoundEntry(target.getOrgHP() * 2732 / 4096);
             switch (pokemon.move.selected.name) {
                 case 'Recover': // 技「じこさいせい」
-                case 'Soft-Boiled': // 技「タマゴうみ」
+                case 'Soft Boiled': // 技「タマゴうみ」
                 case 'Milk Drink': // 技「ミルクのみ」
                 case 'Slack Off': // 技「なまける」
                 case 'Heal Order': // 技「かいふくしれい」
@@ -666,7 +665,7 @@ function statusMoveToUser(pokemon) {
                     break;
                 case 'Protect': // 技「まもる」
                 case 'Detect': // 技「みきり」
-                case 'King’s Shield': // 技「キングシールド」
+                case 'King’S Shield': // 技「キングシールド」
                 case 'Spiky Shield': // 技「ニードルガード」
                 case 'Baneful Bunker': // 技「トーチカ」
                 case 'Max Guard': // 技「ダイウォール」

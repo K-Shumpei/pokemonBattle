@@ -87,7 +87,7 @@ class Attack {
             if (rate === 0.0 && target.isItem('ねらいのまと')) {
                 return 1.0;
             }
-            if (move.name === 'Freeze-Dry' && defType === 'Water') { // 技「フリーズドライ」
+            if (move.name === 'Freeze Dry' && defType === 'Water') { // 技「フリーズドライ」
                 return 2.0;
             }
             return rate;
@@ -380,6 +380,7 @@ class Pokemon {
     constructor(isMe, slot) {
         this.id = 0;
         this.order = new Order(true, 0);
+        this.apiNo = 0;
         this.name = null; // 名前
         this.level = 50; // レベル
         this.gender = 'genderless'; // 性別
@@ -444,6 +445,7 @@ class Pokemon {
         const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
         imageHTML.src = '';
         this.order = new Order(isMe, partyOrder);
+        this.apiNo = 0;
         this.name = null;
         this.level = 50;
         this.type = new Type();
@@ -462,6 +464,7 @@ class Pokemon {
     }
     register(reg) {
         this.id = reg.id;
+        this.apiNo = reg.apiNo;
         this.name = reg.name;
         this.level = reg.level;
         this.type.list = reg.type;
@@ -509,7 +512,7 @@ class Pokemon {
     showPartyImage() {
         const partyOrder = this.order.party;
         const imageHTML = getHTMLInputElement('myParty_image' + partyOrder);
-        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.id + '.png';
+        imageHTML.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.apiNo + '.png';
     }
     translateName(name) {
         for (const data of pokemonMaster) {
@@ -1523,10 +1526,10 @@ class Pokemon {
         }
         this.order.hand = 0;
         if (this.isMine()) {
-            getHTMLInputElement('battleMyImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().id + '.png';
+            getHTMLInputElement('battleMyImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().apiNo + '.png';
         }
         else {
-            getHTMLInputElement('battleOpponentImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().id + '.png';
+            getHTMLInputElement('battleOpponentImage_' + battle).src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + this.getMaster().apiNo + '.png';
         }
         this.msgToBattleField();
     }

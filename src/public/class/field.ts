@@ -290,6 +290,11 @@ class Weather {
       this.onActivateForecast( poke );
     }
 
+    // 特性「フラワーギフト」
+    for ( const pokemon of getPokemonInBattlefield( 'speed' ) ) {
+      this.onActivateFlowerGift( pokemon );
+    }
+
     // 特性「アイスフェイス」
     for ( const poke of getPokemonInBattlefield( 'originalSpeed' ) ) {
       this.onActivateIceFace( poke );
@@ -332,6 +337,11 @@ class Weather {
   onActivateForecast( pokemon: Pokemon ): void {
     if ( !pokemon.ability.isName( 'Forecast' ) ) return;
     pokemon.formChange();
+  }
+
+  onActivateFlowerGift( pokemon: Pokemon ): void {
+    if ( !pokemon.ability.isName( 'Flower Gift' ) ) return;
+    if ( !this.isSunny( pokemon ) ) return;
   }
 }
 

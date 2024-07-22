@@ -157,7 +157,7 @@ function stanceChange( pokemon: Pokemon ): void {
   }
 
   if ( pokemon.name === 'Aegislash Blade' // ギルガルド(剣)
-    && pokemon.move.selected.name === 'King’s Shield' ) { // 技「キングシールド」
+    && pokemon.move.selected.name === 'King’S Shield' ) { // 技「キングシールド」
       pokemon.msgDeclareAbility();
       pokemon.formChange();
       return;
@@ -245,7 +245,7 @@ function changeMoveType( pokemon: Pokemon ): void {
     }
   }
 
-  if ( pokemon.move.selected.name === 'Multi-Attack' ) { // 技「マルチアタック」
+  if ( pokemon.move.selected.name === 'Multi Attack' ) { // 技「マルチアタック」
     for ( const memory of memoryTable ) {
       if ( pokemon.isItem( memory.name ) === true ) {
         pokemon.move.selected.type = memory.type;
@@ -911,7 +911,7 @@ function disableByProtect( pokemon: Pokemon ): boolean {
     if ( !pokemon.move.selected.getMaster().protect ) continue;
     if ( pokemon.ability.isName( 'Unseen Fist' ) // 特性「ふかしのこぶし」
       && pokemon.move.selected.getMaster().contact ) continue;
-    if ( target.stateChange.protect.move === 'King’s Shield' && pokemon.move.selected.isStatus() ) continue; // 技「キングシールド」
+    if ( target.stateChange.protect.move === 'King’S Shield' && pokemon.move.selected.isStatus() ) continue; // 技「キングシールド」
     if ( target.stateChange.protect.move === 'Obstruct' && pokemon.move.selected.isStatus() ) continue; // 技「ブロッキング」
 
     attack.success = false;
@@ -939,7 +939,7 @@ function disableByProtect( pokemon: Pokemon ): boolean {
     }
 
     kingsShield:
-    if ( target.stateChange.protect.move === 'King’s Shield' ) { // 技「キングシールド」
+    if ( target.stateChange.protect.move === 'King’S Shield' ) { // 技「キングシールド」
       if ( !pokemon.move.selected.getMaster().contact ) break kingsShield;
       if ( !pokemon.isChangeRankByOther( 'atk', -1, target ) ) break kingsShield;
 
@@ -1787,7 +1787,7 @@ function disableByMoveSpec3rd( pokemon: Pokemon ): boolean {
       || pokemon.move.selected.name === 'Synthesis' // 技「こうごうせい」
       || pokemon.move.selected.name === 'Recover' // 技「じこさいせい」
       || pokemon.move.selected.name === 'Shore Up' // 技「すなあつめ」
-      || pokemon.move.selected.name === 'Soft-Boiled' // 技「タマゴうみ」
+      || pokemon.move.selected.name === 'Soft Boiled' // 技「タマゴうみ」
       || pokemon.move.selected.name === 'Moonlight' // 技「つきのひかり」
       || pokemon.move.selected.name === 'Slack Off' // 技「なまける」
       || pokemon.move.selected.name === 'Roost' // 技「はねやすめ」
@@ -1821,7 +1821,7 @@ function disableByMoveSpec3rd( pokemon: Pokemon ): boolean {
     if ( pokemon.move.selected.name === 'Flatter' ) { // 技「おだてる」
       if ( target.status.spA.rank.isMax() && target.stateChange.confuse.isTrue ) return true;
     }
-    if ( pokemon.move.selected.name === 'Topsy-Turvy' ) { // 技「ひっくりかえす」
+    if ( pokemon.move.selected.name === 'Topsy Turvy' ) { // 技「ひっくりかえす」
       if ( target.status.atk.rank.isZero()
         && target.status.def.rank.isZero()
         && target.status.spA.rank.isZero()
@@ -1860,10 +1860,10 @@ function disableByMoveSpec3rd( pokemon: Pokemon ): boolean {
       if ( target.name === 'Arceus' ) return true; // アルセウス
       if ( target.name === 'Silvally' ) return true; // シルヴァディ
     }
-    if ( pokemon.move.selected.name === 'Trick-or-Treat' ) { // 技「ハロウィン」
+    if ( pokemon.move.selected.name === 'Trick Or Treat' ) { // 技「ハロウィン」
       if ( target.type.get().includes( 'Ghost' ) ) return true;
     }
-    if ( pokemon.move.selected.name === 'Forest’s Curse' ) { // 技「もりののろい」
+    if ( pokemon.move.selected.name === 'Forest’S Curse' ) { // 技「もりののろい」
       if ( target.type.get().includes( 'Grass' ) ) return true;
     }
 
@@ -1983,7 +1983,7 @@ function disableByMoveSpec3rd( pokemon: Pokemon ): boolean {
     if ( pokemon.move.selected.name === 'Curse' && pokemon.type.has( 'Ghost' ) ) { // 技「のろい」
       if ( target.stateChange.curse.isTrue ) return true;
     }
-    if ( pokemon.move.selected.name === 'Lock-On' // 技「ロックオン」
+    if ( pokemon.move.selected.name === 'Lock On' // 技「ロックオン」
       || pokemon.move.selected.name === 'Mind Reader' ) { // 技「こころのめ」
       if ( pokemon.stateChange.lockOn.isTrue ) return true;
     }

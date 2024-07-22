@@ -270,11 +270,13 @@ class RegisterMoveList {
       blunk.textContent = '';
       moveHTML.appendChild(blunk);
 
+      const moveJA = master.move.map( m => this.translate( m ) ).sort()
+
       // ポケモンが覚える技
-      for ( const move of master.move.sort() ) {
+      for ( const move of moveJA ) {
         const option = document.createElement( 'option' );
-        option.value = this.translate( move );
-        option.textContent = this.translate( move );
+        option.value = move;
+        option.textContent = move;
         moveHTML.appendChild(option);
       }
     }
@@ -440,6 +442,7 @@ class RegisterAbility {
 
 class Register {
   _id: number;
+  _apiNo: number;
   _name: PokemonText;
   _level: number;
   _type: PokemonType[];
@@ -452,6 +455,7 @@ class Register {
 
   constructor() {
     this._id = 0;
+    this._apiNo = 0;
     this._name = null;
     this._level = 0;
     this._type = [];
@@ -465,6 +469,7 @@ class Register {
 
   reset(): void {
     this._id = 0;
+    this._apiNo = 0;
     this._name = null;
     this._level = 50;
     this._type = [];
@@ -483,6 +488,9 @@ class Register {
 
   get id(): number {
     return this._id;
+  }
+  get apiNo(): number {
+    return this._apiNo;
   }
   get name(): PokemonText {
     return this._name;
@@ -563,6 +571,7 @@ class Register {
   setMaster( name: PokemonText ): void {
     const pokemon = this.getPokemonMaster( name );
     this._id = pokemon.id;
+    this._apiNo = pokemon.apiNo;
     this._name = name;
     this._type = pokemon.type;
     this._gender.setMaster( pokemon );

@@ -185,7 +185,7 @@ function stanceChange(pokemon) {
         return;
     }
     if (pokemon.name === 'Aegislash Blade' // ギルガルド(剣)
-        && pokemon.move.selected.name === 'King’s Shield') { // 技「キングシールド」
+        && pokemon.move.selected.name === 'King’S Shield') { // 技「キングシールド」
         pokemon.msgDeclareAbility();
         pokemon.formChange();
         return;
@@ -262,7 +262,7 @@ function changeMoveType(pokemon) {
             }
         }
     }
-    if (pokemon.move.selected.name === 'Multi-Attack') { // 技「マルチアタック」
+    if (pokemon.move.selected.name === 'Multi Attack') { // 技「マルチアタック」
         for (const memory of memoryTable) {
             if (pokemon.isItem(memory.name) === true) {
                 pokemon.move.selected.type = memory.type;
@@ -937,7 +937,7 @@ function disableByProtect(pokemon) {
         if (pokemon.ability.isName('Unseen Fist') // 特性「ふかしのこぶし」
             && pokemon.move.selected.getMaster().contact)
             continue;
-        if (target.stateChange.protect.move === 'King’s Shield' && pokemon.move.selected.isStatus())
+        if (target.stateChange.protect.move === 'King’S Shield' && pokemon.move.selected.isStatus())
             continue; // 技「キングシールド」
         if (target.stateChange.protect.move === 'Obstruct' && pokemon.move.selected.isStatus())
             continue; // 技「ブロッキング」
@@ -965,7 +965,7 @@ function disableByProtect(pokemon) {
                 break banefulBunker;
             pokemon.statusAilment.getPoisoned();
         }
-        kingsShield: if (target.stateChange.protect.move === 'King’s Shield') { // 技「キングシールド」
+        kingsShield: if (target.stateChange.protect.move === 'King’S Shield') { // 技「キングシールド」
             if (!pokemon.move.selected.getMaster().contact)
                 break kingsShield;
             if (!pokemon.isChangeRankByOther('atk', -1, target))
@@ -1783,7 +1783,7 @@ function disableByMoveSpec3rd(pokemon) {
             || pokemon.move.selected.name === 'Synthesis' // 技「こうごうせい」
             || pokemon.move.selected.name === 'Recover' // 技「じこさいせい」
             || pokemon.move.selected.name === 'Shore Up' // 技「すなあつめ」
-            || pokemon.move.selected.name === 'Soft-Boiled' // 技「タマゴうみ」
+            || pokemon.move.selected.name === 'Soft Boiled' // 技「タマゴうみ」
             || pokemon.move.selected.name === 'Moonlight' // 技「つきのひかり」
             || pokemon.move.selected.name === 'Slack Off' // 技「なまける」
             || pokemon.move.selected.name === 'Roost' // 技「はねやすめ」
@@ -1823,7 +1823,7 @@ function disableByMoveSpec3rd(pokemon) {
             if (target.status.spA.rank.isMax() && target.stateChange.confuse.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.name === 'Topsy-Turvy') { // 技「ひっくりかえす」
+        if (pokemon.move.selected.name === 'Topsy Turvy') { // 技「ひっくりかえす」
             if (target.status.atk.rank.isZero()
                 && target.status.def.rank.isZero()
                 && target.status.spA.rank.isZero()
@@ -1874,11 +1874,11 @@ function disableByMoveSpec3rd(pokemon) {
             if (target.name === 'Silvally')
                 return true; // シルヴァディ
         }
-        if (pokemon.move.selected.name === 'Trick-or-Treat') { // 技「ハロウィン」
+        if (pokemon.move.selected.name === 'Trick Or Treat') { // 技「ハロウィン」
             if (target.type.get().includes('Ghost'))
                 return true;
         }
-        if (pokemon.move.selected.name === 'Forest’s Curse') { // 技「もりののろい」
+        if (pokemon.move.selected.name === 'Forest’S Curse') { // 技「もりののろい」
             if (target.type.get().includes('Grass'))
                 return true;
         }
@@ -2027,7 +2027,7 @@ function disableByMoveSpec3rd(pokemon) {
             if (target.stateChange.curse.isTrue)
                 return true;
         }
-        if (pokemon.move.selected.name === 'Lock-On' // 技「ロックオン」
+        if (pokemon.move.selected.name === 'Lock On' // 技「ロックオン」
             || pokemon.move.selected.name === 'Mind Reader') { // 技「こころのめ」
             if (pokemon.stateChange.lockOn.isTrue)
                 return true;

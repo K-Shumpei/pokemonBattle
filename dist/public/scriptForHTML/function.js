@@ -145,7 +145,9 @@ function editParty(number) {
 function registerAllRandom() {
     for (let i = 0; i < 6; i++) {
         // 登録欄
-        const pokemon = pokemonMaster[Math.floor(Math.random() * pokemonMaster.length)];
+        const selectable = pokemonSelectableMaster.filter(poke => poke.selectable);
+        const nameEN = selectable[Math.floor(Math.random() * selectable.length)].nameEN;
+        const pokemon = pokemonMaster.filter(poke => poke.nameEN === nameEN)[0];
         const name = pokemon.nameJA;
         getHTMLInputElement('register_name').value = name;
         registrationPokemon();

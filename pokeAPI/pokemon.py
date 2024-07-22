@@ -62,6 +62,7 @@ class Pokemon:
   def __init__(self):
     self._id = ''
     self._order = ''
+    self._apiNo = ''
     self._nameEN = ''
     self._nameJA = ''
     self._type = []
@@ -79,6 +80,10 @@ class Pokemon:
   @property
   def order(self):
     return self._order
+
+  @property
+  def apiNo(self):
+    return self._apiNo
 
   @property
   def nameEN(self):
@@ -123,6 +128,10 @@ class Pokemon:
   @order.setter
   def order(self, value):
     self._order = value
+
+  @apiNo.setter
+  def apiNo(self, value):
+    self._apiNo = value
 
   @nameEN.setter
   def nameEN(self, value):
@@ -210,6 +219,11 @@ class Pokemon:
       if a['language']['name'] == 'ja':
         self._nameJA = a['name']
 
+  def setNameJAForm(self, form):
+    for f in form:
+      if f['language']['name'] == 'ja':
+        self._nameJA += ' ' + f['name']
+
   def setText(self, text):
     for a in text[::-1]:
       if a['language']['name'] == 'ja':
@@ -254,11 +268,13 @@ def getPokemonData( i, pokemon: Pokemon ):
   r = requests.get(url, timeout=5)
 
   url2 = ''
+  url_form = ''
   try:
     r = r.json()
 
     pokemon.id = r['id']
     pokemon.order = r['order']
+    pokemon.apiNo = i
     pokemon.nameEN = r['name']
     pokemon.height = r['height']
     pokemon.weight = r['weight']
@@ -268,12 +284,14 @@ def getPokemonData( i, pokemon: Pokemon ):
 
     url2 = r['species']['url']
 
+    url_form = r['forms'][0]['url']
+
   except:
       pass
 
-  return pokemon, url2
+  return pokemon, url2, url_form
 
-def getPokemonName( i, pokemon: Pokemon, url2, less, male, female ):
+def getPokemonName( i, pokemon: Pokemon, url2, url_form, less, male, female ):
 
   url3 = ''
 
@@ -290,6 +308,15 @@ def getPokemonName( i, pokemon: Pokemon, url2, less, male, female ):
       pokemon.setText(r2['flavor_text_entries'])
       pokemon.setGender(less, male, female)
       url3 = r2['evolution_chain']['url']
+
+      try:
+        url_form = requests.get(url_form, timeout=5)
+        url_form = url_form.json()
+        pokemon.setNameJAForm(url_form['form_names'])
+      except:
+        pass
+
+
 
     except:
         pass
@@ -331,8 +358,8 @@ def main(value):
       if i % 10 == 0: print(i,pokemon.nameJA)
 
       pokemon = Pokemon()
-      pokemon, url2 = getPokemonData( i, pokemon )
-      pokemon, url3 = getPokemonName( i, pokemon, url2, less, male, female )
+      pokemon, url2, url_form = getPokemonData( i, pokemon )
+      pokemon, url3 = getPokemonName( i, pokemon, url2, url_form, less, male, female )
       pokemon = getPokemonEvolve( pokemon, url3 )
       pokemon.nameEN = toCapital(pokemon.nameEN)
 
@@ -341,6 +368,7 @@ def main(value):
       d = {
         'id': pokemon.id,
         'order': pokemon.order,
+        'apiNo': pokemon.apiNo,
         'nameEN': pokemon.nameEN,
         'nameJA': pokemon.nameJA,
         'gender': pokemon._gender,
@@ -383,6 +411,7 @@ if __name__ == '__main__':
     'except': {
       'start': 10001,
       'stop': 10278,
+      #'stop': 10010,
       'file': 'except.json'
     },
     'test': {

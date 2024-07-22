@@ -64,6 +64,7 @@ function onActivateLandingEffect() {
         main.field.weather.onActivateProtosynthesis(pokemon);
         hospitality();
         main.field.weather.onActivateForecast(pokemon);
+        main.field.weather.onActivateFlowerGift(pokemon);
     };
     for (const pokemon of getPokemonOnLanding('speed')) {
         // テラスシェルの発動
@@ -92,6 +93,10 @@ function onActivateLandingEffect() {
         event3a(pokemon); // a. アイスフェイス/きょうえん/クォークチャージ/こだいかっせい/しれいとう/おもてなし/てんきや/フラワーギフト
         // b. ブーストエナジー
     }
+    // しろいハーブ
+    // びんじょう
+    // ものまねハーブ
+    // だっしゅつパックによる交代、交代先の繰り出し
     main.me.pokemon.map(p => p.extraParameter.onLanded());
     main.opp.pokemon.map(p => p.extraParameter.onLanded());
 }
