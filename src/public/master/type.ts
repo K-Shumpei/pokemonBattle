@@ -104,6 +104,13 @@ type ItemData = {
   flingEffect: string | null;
 }
 
+type ItemDataBerry = {
+  id: number;
+  nameJA: string;
+  nameEN: string;
+  flingPower: number | null;
+}
+
 type AbilityData = {
   id: number;
   nameJA: string;

@@ -20,6 +20,60 @@ class Order {
   }
 }
 
+class ActionOrder {
+  // 行動順を引き上げる - おさきにどうぞ/りんしょう/コンビネーションわざ/トラップシェル
+  // 行動順を最後にする - さきおくり
+  moveEffect: number = 0;
+
+  // 同じ優先度内で最初に行動する - せんせいのツメ/イバンのみ/クイックドロウ
+  // 同じ優先度内で最後に行動する - こうこうのしっぽ/まんぷくおこう/あとだし/きんしのちから
+  itemAbilityEffect: number = 0;
+
+  reset(): void {
+    this.moveEffect = 0;
+    this.itemAbilityEffect = 0;
+  }
+
+  onActivateQuickDraw( pokemon: Pokemon ): void {
+    if ( !pokemon.ability.isName( 'Quick Draw' ) ) return;
+    if ( pokemon.move.selected.isStatus() ) return;
+    if ( getRandom() >= 30 ) return;
+
+    this.itemAbilityEffect = 1;
+    pokemon.msgDeclareAbility();
+    battleLog.write( `${pokemon.getArticle()}は クイックドロウで 行動が はやくなった!` );
+  }
+
+  onActivateQuickClaw( pokemon: Pokemon ): void {
+    if ( !pokemon.isItem( 'せんせいのツメ' ) ) return;
+    if ( getRandom() >= 20 ) return;
+    if ( this.itemAbilityEffect > 0 ) return;
+
+    this.itemAbilityEffect = 1;
+    battleLog.write( `${pokemon.getArticle()}は せんせいのつめで 行動が はやくなった!` );
+  }
+
+  onActivatecustapBerry( pokemon: Pokemon ): void {
+    if ( !pokemon.isItem( 'イバンのみ' ) ) return;
+    if ( !pokemon.isActivateBerryByHP( 4 ) ) return;
+    if ( this.itemAbilityEffect > 0 ) return;
+
+    this.itemAbilityEffect = 1;
+    battleLog.write( `${pokemon.getArticle()}は イバンのみで 行動が はやくなった!` );
+    pokemon.consumeItem();
+  }
+
+  onActivatelater( pokemon: Pokemon ): void {
+    if ( pokemon.item.isName( 'こうこうのしっぽ' ) ) this.itemAbilityEffect = -1;
+    if ( pokemon.item.isName( 'まんぷくのおこう' ) ) this.itemAbilityEffect = -1;
+    if ( pokemon.ability.isName( 'Stall' ) ) this.itemAbilityEffect = -1; // 特性「あとだし」
+    if ( pokemon.ability.isName( 'Mycelium Might' ) && pokemon.move.selected.isStatus() ) { // 特性「きんしのちから」
+      this.itemAbilityEffect = -1;
+    }
+
+  }
+}
+
 
 
 class ParameterSix {
@@ -631,15 +685,6 @@ class Pokemon {
     else return '相手の' + this.translateName( this.name );
   }
 
-  msgQuickDraw(): void {
-    battleLog.write( `${this.getArticle()}は クイックドロウで 行動が はやくなった!` );
-  }
-  msgQuickClaw(): void {
-    battleLog.write( `${this.getArticle()}は せんせいのつめで 行動が はやくなった!` );
-  }
-  msgCustapBerry(): void {
-    battleLog.write( `${this.getArticle()}は イバンのみで 行動が はやくなった!` );
-  }
   msgDeclareMove(): void {
     battleLog.write( `${this.getArticle()}の ${this.move.selected.translate()}!` );
   }

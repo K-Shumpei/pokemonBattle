@@ -4,50 +4,52 @@ function moveEffect(pokemon) {
     const isRange = (pokemon) => {
         return pokemon.attack.list.length > 1;
     };
-    // 対象全員へのダメージ計算
-    calculateDamageForAll(pokemon);
-    if (isRange(pokemon)) {
-        // みがわり状態に攻撃技が防がれたときの効果: 本体がダメージを受けたとき(4)~(10)などより優先して処理される
-    }
-    // じばく/だいばくはつ/ミストバースト/ビックリヘッド/てっていこうせん使用時のダメージ: ひんしになるときは使用者のひんし判定
-    if (isRange(pokemon)) {
+    if (!pokemon.move.selected.isStatus()) {
+        // 対象全員へのダメージ計算
+        calculateDamageForAll(pokemon);
+        if (isRange(pokemon)) {
+            // みがわり状態に攻撃技が防がれたときの効果: 本体がダメージを受けたとき(4)~(10)などより優先して処理される
+        }
+        // じばく/だいばくはつ/ミストバースト/ビックリヘッド/てっていこうせん使用時のダメージ: ひんしになるときは使用者のひんし判定
+        if (isRange(pokemon)) {
+            // ダメージを本体に与える
+            damageToBody(pokemon, pokemon.isMine());
+            // バツグンの相性判定のメッセージ
+            goodCompatibilityMessage(pokemon, pokemon.isMine());
+            // 今ひとつの相性判定のメッセージ
+            badCompatibilityMessage(pokemon, pokemon.isMine());
+            // ダメージの判定に関するメッセージ
+            damageDeterminationMessage(pokemon, pokemon.isMine());
+            // ダメージをHP1で耐える効果のメッセージなど
+            enduringEffectsMessage(pokemon, pokemon.isMine());
+            // 追加効果などの発動
+            activateAdditionalEffects(pokemon, pokemon.isMine(), isRange(pokemon));
+            // ダメージが発生したときの効果
+            effectsWhenDamageOccurs(pokemon, pokemon.isMine());
+            // ひんし判定
+            faintingJudgment(pokemon, pokemon.isMine(), isRange(pokemon));
+            // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
+            activateSealedEffects(pokemon, pokemon.isMine(), isRange(pokemon));
+        }
         // ダメージを本体に与える
-        damageToBody(pokemon, pokemon.isMine());
+        damageToBody(pokemon, !pokemon.isMine());
         // バツグンの相性判定のメッセージ
-        goodCompatibilityMessage(pokemon, pokemon.isMine());
+        goodCompatibilityMessage(pokemon, !pokemon.isMine());
         // 今ひとつの相性判定のメッセージ
-        badCompatibilityMessage(pokemon, pokemon.isMine());
+        badCompatibilityMessage(pokemon, !pokemon.isMine());
         // ダメージの判定に関するメッセージ
-        damageDeterminationMessage(pokemon, pokemon.isMine());
+        damageDeterminationMessage(pokemon, !pokemon.isMine());
         // ダメージをHP1で耐える効果のメッセージなど
-        enduringEffectsMessage(pokemon, pokemon.isMine());
+        enduringEffectsMessage(pokemon, !pokemon.isMine());
         // 追加効果などの発動
-        activateAdditionalEffects(pokemon, pokemon.isMine(), isRange(pokemon));
+        activateAdditionalEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
         // ダメージが発生したときの効果
-        effectsWhenDamageOccurs(pokemon, pokemon.isMine());
+        effectsWhenDamageOccurs(pokemon, !pokemon.isMine());
         // ひんし判定
-        faintingJudgment(pokemon, pokemon.isMine(), isRange(pokemon));
+        faintingJudgment(pokemon, !pokemon.isMine(), isRange(pokemon));
         // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
-        activateSealedEffects(pokemon, pokemon.isMine(), isRange(pokemon));
+        activateSealedEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
     }
-    // ダメージを本体に与える
-    damageToBody(pokemon, !pokemon.isMine());
-    // バツグンの相性判定のメッセージ
-    goodCompatibilityMessage(pokemon, !pokemon.isMine());
-    // 今ひとつの相性判定のメッセージ
-    badCompatibilityMessage(pokemon, !pokemon.isMine());
-    // ダメージの判定に関するメッセージ
-    damageDeterminationMessage(pokemon, !pokemon.isMine());
-    // ダメージをHP1で耐える効果のメッセージなど
-    enduringEffectsMessage(pokemon, !pokemon.isMine());
-    // 追加効果などの発動
-    activateAdditionalEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
-    // ダメージが発生したときの効果
-    effectsWhenDamageOccurs(pokemon, !pokemon.isMine());
-    // ひんし判定
-    faintingJudgment(pokemon, !pokemon.isMine(), isRange(pokemon));
-    // ひんしできんちょうかん/かがくへんかガスが解除されたことによる封じられていた効果の発動
-    activateSealedEffects(pokemon, !pokemon.isMine(), isRange(pokemon));
     // 技の効果
     activateMoveEffect(pokemon);
     // 特性の効果（その1）
@@ -1477,13 +1479,13 @@ function activateMoveEffect(pokemon) {
     for (const attack of pokemon.attack.getTargetToPokemon()) {
         const target = main.getPokemonByBattle(attack);
         if (!pokemon.move.selected.isType('Fire'))
-            return;
+            continue;
         if (pokemon.move.selected.isStatus())
-            return;
+            continue;
         if (target.status.hp.value.isZero())
-            return;
+            continue;
         if (!target.statusAilment.isFrozen())
-            return;
+            continue;
         target.statusAilment.getHealth();
     }
     // 以下の効果は攻撃側が瀕死なら発動しない
@@ -1513,7 +1515,7 @@ function activateMoveEffect(pokemon) {
         eerieSpell(pokemon, target, attack); // ぶきみなじゅもん
     }
     // 変化技の効果
-    if (pokemon.move.selected.getMaster().class === 'status') {
+    if (pokemon.move.selected.isStatus()) {
         statusMoveEffect(pokemon);
     }
 }

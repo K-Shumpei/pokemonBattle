@@ -67,19 +67,14 @@ function sortByCottonDown( pokeList: Pokemon[] ): Pokemon[] {
 function sortByActionOrder( pokeList: Pokemon[] ): Pokemon[] {
   const result = pokeList.sort( (a, b) => {
     // 技の効果
-    //if ( a.raise > b.raise ) return -1;
-    //if ( a.raise < b.raise ) return 1;
-    //if ( a.lower > b.lower ) return -1;
-    //if ( a.lower < b.later ) return 1;
+    if ( a.actionOrder.moveEffect > b.actionOrder.moveEffect ) return -1;
+    if ( a.actionOrder.moveEffect < b.actionOrder.moveEffect ) return 1;
     // 優先度
     if ( a.move.selected.priority > b.move.selected.priority ) return -1;
     if ( a.move.selected.priority < b.move.selected.priority ) return 1;
     // 先攻
-    //if ( a.ahead > b.ahead ) return -1;
-    //if ( a.ahead < b.ahead ) return 1;
-    // 後攻
-    //if ( a.later > b.later ) return -1;
-    //if ( a.later < b.later ) return 1;
+    if ( a.actionOrder.itemAbilityEffect > b.actionOrder.itemAbilityEffect ) return -1;
+    if ( a.actionOrder.itemAbilityEffect < b.actionOrder.itemAbilityEffect ) return 1;
     // 素早さ
     if ( a.status.spe.actionOrder > b.status.spe.actionOrder ) return -1;
     if ( a.status.spe.actionOrder < b.status.spe.actionOrder ) return 1;

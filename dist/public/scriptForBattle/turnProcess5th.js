@@ -1,8 +1,14 @@
 "use strict";
 function endProcess() {
     main.calcRankCorrectionValue();
-    main.me.pokemon.map(poke => poke.attack.reset());
-    main.opp.pokemon.map(poke => poke.attack.reset());
+    main.me.pokemon.map(poke => {
+        poke.attack.reset();
+        poke.actionOrder.reset();
+    });
+    main.opp.pokemon.map(poke => {
+        poke.attack.reset();
+        poke.actionOrder.reset();
+    });
     endProcessWeatherEffect(); // てんきの効果
     // ききかいひ/にげごしによる交代先の選択・繰り出し (1)
     // なかよし度による状態異常の回復

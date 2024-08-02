@@ -520,7 +520,7 @@
 "No38":
 {
   "id": 38,
-  "nameEN": "Double-Edge",
+  "nameEN": "Double Edge",
   "nameJA": "すてみタックル",
   "additional": false,
   "wind": false,
@@ -1668,7 +1668,7 @@
 "No120":
 {
   "id": 120,
-  "nameEN": "Self-Destruct",
+  "nameEN": "Self Destruct",
   "nameJA": "じばく",
   "additional": false,
   "wind": false,
@@ -1878,7 +1878,7 @@
 "No135":
 {
   "id": 135,
-  "nameEN": "Soft-Boiled",
+  "nameEN": "Soft Boiled",
   "nameJA": "タマゴうみ",
   "additional": false,
   "wind": false,
@@ -2634,7 +2634,7 @@
 "No189":
 {
   "id": 189,
-  "nameEN": "Mud-Slap",
+  "nameEN": "Mud Slap",
   "nameJA": "どろかけ",
   "additional": false,
   "wind": false,
@@ -2774,7 +2774,7 @@
 "No199":
 {
   "id": 199,
-  "nameEN": "Lock-On",
+  "nameEN": "Lock On",
   "nameJA": "ロックオン",
   "additional": false,
   "wind": false,
@@ -3642,7 +3642,7 @@
 "No261":
 {
   "id": 261,
-  "nameEN": "Will-O-Wisp",
+  "nameEN": "Will O Wisp",
   "nameJA": "おにび",
   "additional": false,
   "wind": false,
@@ -5000,7 +5000,7 @@
 "No358":
 {
   "id": 358,
-  "nameEN": "Wake-Up Slap",
+  "nameEN": "Wake Up Slap",
   "nameJA": "めざましビンタ",
   "additional": false,
   "wind": false,
@@ -5154,7 +5154,7 @@
 "No369":
 {
   "id": 369,
-  "nameEN": "U-turn",
+  "nameEN": "U Turn",
   "nameJA": "とんぼがえり",
   "additional": false,
   "wind": false,
@@ -5644,7 +5644,7 @@
 "No404":
 {
   "id": 404,
-  "nameEN": "X-Scissor",
+  "nameEN": "X Scissor",
   "nameJA": "シザークロス",
   "additional": false,
   "wind": false,
@@ -7786,7 +7786,7 @@
 "No557":
 {
   "id": 557,
-  "nameEN": "V-create",
+  "nameEN": "V Create",
   "nameJA": "Ｖジェネレート",
   "additional": false,
   "wind": false,
@@ -7926,7 +7926,7 @@
 "No567":
 {
   "id": 567,
-  "nameEN": "Trick-or-Treat",
+  "nameEN": "Trick Or Treat",
   "nameJA": "ハロウィン",
   "additional": false,
   "wind": false,
@@ -7982,7 +7982,7 @@
 "No571":
 {
   "id": 571,
-  "nameEN": "Forest’s Curse",
+  "nameEN": "Forest’S Curse",
   "nameJA": "もりののろい",
   "additional": false,
   "wind": false,
@@ -8010,7 +8010,7 @@
 "No573":
 {
   "id": 573,
-  "nameEN": "Freeze-Dry",
+  "nameEN": "Freeze Dry",
   "nameJA": "フリーズドライ",
   "additional": true,
   "wind": false,
@@ -8052,7 +8052,7 @@
 "No576":
 {
   "id": 576,
-  "nameEN": "Topsy-Turvy",
+  "nameEN": "Topsy Turvy",
   "nameJA": "ひっくりかえす",
   "additional": false,
   "wind": false,
@@ -8220,7 +8220,7 @@
 "No588":
 {
   "id": 588,
-  "nameEN": "King’s Shield",
+  "nameEN": "King’S Shield",
   "nameJA": "キングシールド",
   "additional": false,
   "wind": false,
@@ -8500,7 +8500,7 @@
 "No608":
 {
   "id": 608,
-  "nameEN": "Baby-Doll Eyes",
+  "nameEN": "Baby Doll Eyes",
   "nameJA": "つぶらなひとみ",
   "additional": false,
   "wind": false,
@@ -8556,7 +8556,7 @@
 "No612":
 {
   "id": 612,
-  "nameEN": "Power-Up Punch",
+  "nameEN": "Power Up Punch",
   "nameJA": "グロウパンチ",
   "additional": true,
   "wind": false,
@@ -8612,7 +8612,7 @@
 "No616":
 {
   "id": 616,
-  "nameEN": "Land’s Wrath",
+  "nameEN": "Land’S Wrath",
   "nameJA": "グランドフォース",
   "additional": false,
   "wind": false,
@@ -8724,7 +8724,7 @@
 "No624":
 {
   "id": 624,
-  "nameEN": "All-Out Pummeling",
+  "nameEN": "All Out Pummeling",
   "nameJA": "ぜんりょくむそうげきれつけん",
   "additional": false,
   "wind": false,
@@ -8738,7 +8738,7 @@
 "No625":
 {
   "id": 625,
-  "nameEN": "All-Out Pummeling",
+  "nameEN": "All Out Pummeling",
   "nameJA": "ぜんりょくむそうげきれつけん",
   "additional": false,
   "wind": false,
@@ -8864,7 +8864,7 @@
 "No634":
 {
   "id": 634,
-  "nameEN": "Savage Spin-Out",
+  "nameEN": "Savage Spin Out",
   "nameJA": "ぜったいほしょくかいてんざん",
   "additional": false,
   "wind": false,
@@ -8878,7 +8878,7 @@
 "No635":
 {
   "id": 635,
-  "nameEN": "Savage Spin-Out",
+  "nameEN": "Savage Spin Out",
   "nameJA": "ぜったいほしょくかいてんざん",
   "additional": false,
   "wind": false,
@@ -8892,7 +8892,7 @@
 "No636":
 {
   "id": 636,
-  "nameEN": "Never-Ending Nightmare",
+  "nameEN": "Never Ending Nightmare",
   "nameJA": "むげんあんやへのいざない",
   "additional": false,
   "wind": false,
@@ -8906,7 +8906,7 @@
 "No637":
 {
   "id": 637,
-  "nameEN": "Never-Ending Nightmare",
+  "nameEN": "Never Ending Nightmare",
   "nameJA": "むげんあんやへのいざない",
   "additional": false,
   "wind": false,
@@ -9774,7 +9774,7 @@
 "No699":
 {
   "id": 699,
-  "nameEN": "Soul-Stealing 7-Star Strike",
+  "nameEN": "Soul Stealing 7 Star Strike",
   "nameJA": "しちせいだっこんたい",
   "additional": false,
   "wind": false,
@@ -10026,7 +10026,7 @@
 "No717":
 {
   "id": 717,
-  "nameEN": "Nature’s Madness",
+  "nameEN": "Nature’S Madness",
   "nameJA": "しぜんのいかり",
   "additional": false,
   "wind": false,
@@ -10040,7 +10040,7 @@
 "No718":
 {
   "id": 718,
-  "nameEN": "Multi-Attack",
+  "nameEN": "Multi Attack",
   "nameJA": "マルチアタック",
   "additional": false,
   "wind": false,
@@ -10152,7 +10152,7 @@
 "No726":
 {
   "id": 726,
-  "nameEN": "Let’s Snuggle Forever",
+  "nameEN": "Let’S Snuggle Forever",
   "nameJA": "ぽかぼかフレンドタイム",
   "additional": false,
   "wind": false,
